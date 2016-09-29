@@ -14,21 +14,21 @@ foreach ($event->Widgets as $widget)
 }
 ?>
 
-<div <?=sizeof($widgets) > 1 ? 'id="event-tabs"' : '';?> class="tabs">
-  <?if (sizeof($widgets) > 1):?>
+<div <?=sizeof($widgets) > 1 ? 'id="event-tabs"' : ''?> class="tabs">
+  <?if(sizeof($widgets) > 1):?>
   <ul class="nav content-nav">
-    <?foreach ($widgets as $widget):?>
-        <?if (!$firstTab):?>
+    <?foreach($widgets as $widget):?>
+        <?if(!$firstTab):?>
         <li>/</li>
-        <?endif;?>
-      <li><a href="#<?=$widget->getWidget()->getNameId();?>" class="pseudo-link"><?=$widget->getTitle();?></a></li>
-      <?$firstTab = false;?>
-    <?endforeach;?>
+        <?endif?>
+      <li><a href="#<?=$widget->getWidget()->getNameId()?>" class="pseudo-link"><?=$widget->getTitle()?></a></li>
+      <?$firstTab = false?>
+    <?endforeach?>
   </ul>
-  <?endif;?>
+  <?endif?>
 
-  <?foreach ($widgets as $widget):?>
-    <?$widget->run();?>
-  <?endforeach;?>
+  <?foreach($widgets as $widget):?>
+    <?$widget->run()?>
+  <?endforeach?>
 </div>
 

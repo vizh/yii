@@ -2,7 +2,7 @@
 $regLink = "http://ibcrussia.com/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'xggMpIQINvHqR0QlZgZa'), 0, 16);
 ?>
 
-<p>Здравствуйте, <?=$user->getShortName();?>!</p>
+<p>Здравствуйте, <?=$user->getShortName()?>!</p>
 
 <p>Рады сообщить, что у&nbsp;Вас появилась возможность просмотреть <b>видеозаписи выступлений на&nbsp;конференции &laquo;Интернет и&nbsp;Бизнес. Россия&raquo;</b>, которая состоялась <nobr>27&ndash;28</nobr> ноября в&nbsp;Москве.</p>
 

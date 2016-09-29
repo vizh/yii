@@ -16,10 +16,10 @@
   'billData' => $billData,
   'nds' => $nds,
   'total' => $total
-]);?>
+])?>
 
-<?if ($withSign):?>
+<?if($withSign):?>
   <img src="/img/pay/bill/kommersant/sign.jpg"/>
 <?else:?>
   <img src="/img/pay/bill/kommersant/nosign.jpg"/>
-<?endif;?>
+<?endif?>

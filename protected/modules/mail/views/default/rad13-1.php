@@ -1,8 +1,8 @@
-Здравствуйте, <?=$user->getShortName();?>.
+Здравствуйте, <?=$user->getShortName()?>.
 
 Благодарим Вас, за регистрацию и оплату участия в конференции Russian Affiliate Days 2013!
 
-Статус: <?=$user->Participants[0]->Role->Title;?>
+Статус: <?=$user->Participants[0]->Role->Title?>
 
 
 Мероприятие будет проходить 20 НОЯБРЯ в бизнес-центре ДОМ ПРИЕМОВ по адресу: Проспект мира, 14, стр. 2.
@@ -19,4 +19,4 @@
 С уважением,
 Организационный комитет RAD 2013
 
-Отписаться: <?=$user->getFastauthUrl('/user/setting/subscription/');?>
+Отписаться: <?=$user->getFastauthUrl('/user/setting/subscription/')?>

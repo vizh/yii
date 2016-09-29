@@ -1,4 +1,4 @@
-<?php	
+<?php
 	$regLink = "http://experts.premiaruneta.ru/invite?id=" . $user->RunetId . "&hash=" . substr(md5($user->RunetId . 'сlub2015-=_zhj-TrwcumL?9^mR9?HAzWH9pz6'), 0, 16);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -27,7 +27,7 @@
 			<!-- content -->
 			<div class="content" style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; max-width: 600px; display: block; margin: 0 auto; padding: 0;">
 			<table style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; vertical-align: top; width: 100%; margin: 0; padding: 0;"><tr style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; vertical-align: top; margin: 0; padding: 0;" valign="top">
-						<h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 20px 0 10px; padding: 0;"><?=$user->getShortName();?>, здравствуйте!</h3>
+						<h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 20px 0 10px; padding: 0;"><?=$user->getShortName()?>, здравствуйте!</h3>
 						<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Ранее мы приглашали Вас <b style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">войти в состав Экспертного КЛУБА</b> Премии Рунета и начале первого этапа голосования за номинантов. Основываясь на данных системы RUNET—ID, мы видим что вы обладаете соответствующими компетенциями и Оргкомитет Конкурса будет рад видеть Вас в числе Экспертов.</p>
 						<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Премия Рунета 2015 (<a href="http://www.premiaruneta.ru" style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; color: #000000; margin: 0; padding: 0;">www.PremiaRuneta.ru</a>) – главная интернет-награда России. До конца голосования остается всего несколько дней, поучаствовать в выборе лауретов 2015 года можно <b style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">до 1 ноября</b> (включительно).</p>
 						<div class="frame" style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 25px 0; padding: 15px 25px; border: 1px solid #111111;">
@@ -44,7 +44,7 @@
 					</td>
 				</tr></table></div>
 			<!-- /content -->
-			
+
 		</td>
 		<td style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"></td>
 	</tr></table><!-- /body --></body>

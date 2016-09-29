@@ -8,8 +8,8 @@
 
 <p>Пока основные моменты мероприятия держатся в&nbsp;секрете, известно только, что выбор музыкантов не&nbsp;случаен. У&nbsp;каждого из&nbsp;них есть своя особая история, связанная с&nbsp;развитием их&nbsp;карьеры в&nbsp;интернете и&nbsp;благодаря интернету.</p>
 
-<p><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/20therunet/');?>" style="display: block; text-decoration: none; background: #D85939; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">КУПИТЬ БИЛЕТ<span style="display: block; font-size: 60%;">(стоимость 2000 рублей)</span></a></p>
+<p><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/20therunet/')?>" style="display: block; text-decoration: none; background: #D85939; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">КУПИТЬ БИЛЕТ<span style="display: block; font-size: 60%;">(стоимость 2000 рублей)</span></a></p>
 
 <p style="text-align: center"><strong>ВНИМАНИЕ: Количество мест ограничено!</strong></p>
 
-<p>Билеты на концертное шоу также можно приобрести в&nbsp;кассе <a href="http://www.arenagroup.ru/timetable/443">Arena Moscow</a>, на&nbsp;сайте <a href="http://redkassa.ru/events/70337-bilety_na_koncert_20_let_online/">Redkassa</a>, на&nbsp;сайте <a href="http://www.nashe.ru/">Нашего Радио</a> и&nbsp;на&nbsp;<nobr><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/20therunet/');?>">RUNET&mdash;ID</a></nobr>.</p>
+<p>Билеты на концертное шоу также можно приобрести в&nbsp;кассе <a href="http://www.arenagroup.ru/timetable/443">Arena Moscow</a>, на&nbsp;сайте <a href="http://redkassa.ru/events/70337-bilety_na_koncert_20_let_online/">Redkassa</a>, на&nbsp;сайте <a href="http://www.nashe.ru/">Нашего Радио</a> и&nbsp;на&nbsp;<nobr><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/20therunet/')?>">RUNET&mdash;ID</a></nobr>.</p>

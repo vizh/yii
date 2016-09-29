@@ -6,10 +6,10 @@
 ?>
 <div class="text-center m-bottom_20">
     <hr/>
-    <p><?=$participant->User->getShortName();?>, <?=\Yii::t('app', 'ваш статус');?>: <strong><?=$participant->Role->Title;?></strong></p>
-    <?php if ($this->message):?>
-        <?=$this->message;?>
-    <?php endif;?>
-    <p><?=\CHtml::link(\Yii::t('app', 'Электронный билет'), $participant->getTicketUrl(), ['class' => 'btn btn-small btn-info', 'target' => '_blank']);?></p>
+    <p><?=$participant->User->getShortName()?>, <?=\Yii::t('app', 'ваш статус')?>: <strong><?=$participant->Role->Title?></strong></p>
+    <?if($this->message):?>
+        <?=$this->message?>
+    <?endif?>
+    <p><?=\CHtml::link(\Yii::t('app', 'Электронный билет'), $participant->getTicketUrl(), ['class' => 'btn btn-small btn-info', 'target' => '_blank'])?></p>
     <hr/>
 </div>

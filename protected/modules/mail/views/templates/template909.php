@@ -10,7 +10,7 @@
           <td><table cellpadding="10" cellspacing="10" border="0" width="100%">
               <tr>
                 <td style="font-size: 14px;"><h3 class="p1"><span class="s1">Здравствуйте,
-                    <?=$user->getShortName();?>!</span></h3>
+                    <?=$user->getShortName()?>!</span></h3>
                   <p>В 2011 году мы возобновили традицию проведения конференции&nbsp;DevCon&nbsp;для разработчиков.&nbsp;DevCon&nbsp;2016 возвращает ещё одну давнюю традицию конференций&nbsp;Microsoft: предоставление участникам возможности сдать экзамен на&nbsp;<a href="https://www.microsoft.com/ru-ru/learning/default.aspx" target="_blank">официальную сертификацию&nbsp;Microsoft</a>, причем совершенно бесплатно.</p>
 
 <p>Как счастливому обладателю билета категории&nbsp;DevCon&nbsp;или&nbsp;DevCon&nbsp;Lite, мы предлагаем вам зарегистрироваться на сдачу одного из сертификационных экзаменов, список которых доступен <a href="http://www.msdevcon.ru/certification">на сайте</a>.</p>

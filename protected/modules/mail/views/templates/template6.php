@@ -1,4 +1,4 @@
-<p><?=$user->getShortName();?>, здравствуйте!</p>
+<p><?=$user->getShortName()?>, здравствуйте!</p>
 
 <p>Международный Форум по Кибербезопасности — Cyber Security Forum 2014, Russia – состоится <b>19 февраля 2014 года</b> (вторник) в Москве в Торгово-Промышленной Палате РФ.</p>
 <p>В настоящий момент опубликована <a href="http://runet-id.com/event/csf14/#event_widgets_tabs_Html">предварительная программа</a>, которая активно дорабатывается. Дополнительная информация на официальном сайте <a href="http://cybersecurityforum.ru/">CyberSecurityForum.ru</a>.</p>
@@ -19,7 +19,7 @@
 </ul>
 
 <p>Принять участие в Cyber Security Forum 19 февраля 2014 года – могут <b>только зарегистрированные участники</b>.</p>
-<p><a href="<?=$user->getFastauthUrl('/event/csf14/#event_widgets_Users');?>">Проверить статус участия</a> и произвести регистрацию / дорегистрацию вы можете на официальном сайте мероприятия.</p>
+<p><a href="<?=$user->getFastauthUrl('/event/csf14/#event_widgets_Users')?>">Проверить статус участия</a> и произвести регистрацию / дорегистрацию вы можете на официальном сайте мероприятия.</p>
 
 
 <?
@@ -28,7 +28,7 @@ $role = \event\models\Role::model()->findByPk(24);
 $event = \event\models\Event::model()->findByPk(870);
 $registerLink = $event->getFastRegisterUrl($user, $role, '/event/csf14/#event_widgets_Users');
 ?>
-<a href="<?=$registerLink;?>"><?=$registerLink;?></a>
+<a href="<?=$registerLink?>"><?=$registerLink?></a>
 <?*/?>
 
 
@@ -40,4 +40,4 @@ $registerLink = $event->getFastRegisterUrl($user, $role, '/event/csf14/#event_wi
 Оргкомитет Cyber Security Forum 2014<br/>
 <a href="http://CyberSecurityForum.ru">CyberSecurityForum.ru</a></p>
 
-<p>--<br /><a href="<?=$user->getFastauthUrl('/user/setting/subscription/');?>">Отписаться</a> от рассылок RUNET-ID</p>
+<p>--<br /><a href="<?=$user->getFastauthUrl('/user/setting/subscription/')?>">Отписаться</a> от рассылок RUNET-ID</p>

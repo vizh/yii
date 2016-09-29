@@ -5,6 +5,7 @@ namespace event\models\section;
  * @property int $Id
  * @property int $EventId
  * @property string $Title
+ * @property string $ShortTitle
  * @property string $Info
  * @property string $StartTime
  * @property string $EndTime

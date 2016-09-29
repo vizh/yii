@@ -21,9 +21,9 @@ $hasContacts = !empty($user->LinkSite) || !empty($user->LinkServiceAccounts);
                 color: "#e6e6e6"
             },
             parts: [
-                {color: "#ffd02e", val: <?=isset($participation->count[\event\models\RoleType::Listener]) ? $participation->count[\event\models\RoleType::Listener] : 0;?>, role: "слушателя"},
-                {color: "#6363d2", val: <?=isset($participation->count[\event\models\RoleType::Speaker]) ? $participation->count[\event\models\RoleType::Speaker] : 0;?>, role: "докладчика"},
-                {color: "#7d45a1", val: <?=isset($participation->count[\event\models\RoleType::Master]) ? $participation->count[\event\models\RoleType::Master] : 0;?>, role: "ведущего"}
+                {color: "#ffd02e", val: <?=isset($participation->count[\event\models\RoleType::Listener]) ? $participation->count[\event\models\RoleType::Listener] : 0?>, role: "слушателя"},
+                {color: "#6363d2", val: <?=isset($participation->count[\event\models\RoleType::Speaker]) ? $participation->count[\event\models\RoleType::Speaker] : 0?>, role: "докладчика"},
+                {color: "#7d45a1", val: <?=isset($participation->count[\event\models\RoleType::Master]) ? $participation->count[\event\models\RoleType::Master] : 0?>, role: "ведущего"}
             ],
             charts: [
                 'charts-pie-canvas-1',
@@ -43,7 +43,7 @@ $hasContacts = !empty($user->LinkSite) || !empty($user->LinkServiceAccounts);
     <div class="container">
         <div class="title">
             <span class="backing runet">Runet</span>
-            <span class="backing text"><?=\Yii::t('app', 'Профиль пользователя');?></span>
+            <span class="backing text"><?=\Yii::t('app', 'Профиль пользователя')?></span>
         </div>
     </div>
 </h2>
@@ -58,136 +58,136 @@ $hasContacts = !empty($user->LinkSite) || !empty($user->LinkServiceAccounts);
             </h5>
             <div class="row">
                 <div class="span3">
-                    <?=\CHtml::image($user->getPhoto()->get238px(), $user->getFullName(), array('class' => 'avatar'));?>
+                    <?=\CHtml::image($user->getPhoto()->get238px(), $user->getFullName(), array('class' => 'avatar'))?>
                 </div>
                 <div class="span8">
                     <div class="row">
                         <div class="span4 b-details">
-                            <b class="id"><?=$user->RunetId;?></b>
+                            <b class="id"><?=$user->RunetId?></b>
                             <header>
                                 <h4 class="title">
-                                    <span itemprop="givenName"><?=$user->FirstName;?></span> <span itemprop="additionalName"><?=$user->FatherName;?></span>
-                                    <br><span class="family-name" itemprop="familyName"><?=$user->LastName;?></span>
+                                    <span itemprop="givenName"><?=$user->FirstName?></span> <span itemprop="additionalName"><?=$user->FatherName?></span>
+                                    <br><span class="family-name" itemprop="familyName"><?=$user->LastName?></span>
                                 </h4>
-                                <?php $age = $user->getBirthDate();?>
-                                <?if ($age > 0 || $user->LinkAddress !== null):?>
+                                <?$age = $user->getBirthDate()?>
+                                <?if($age > 0 || $user->LinkAddress !== null):?>
                                     <small class="muted">
-                                        <?if ($age > 0):?><?=\Yii::t('app', 'День рождения');?> <span itemprop="birthDate" datetime="<?= $user->Birthday?>"><?=$age;?></span>,<?endif;?>
-                                        <?if ($user->getContactAddress() !== null && $user->getContactAddress()->City !== null):?><?=$user->getContactAddress()->City->Name;?><?endif;?>
+                                        <?if($age > 0):?><?=\Yii::t('app', 'День рождения')?> <span itemprop="birthDate" datetime="<?=$user->Birthday?>"><?=$age?></span>,<?endif?>
+                                        <?if($user->getContactAddress() !== null && $user->getContactAddress()->City !== null):?><?=$user->getContactAddress()->City->Name?><?endif?>
                                     </small>
-                                <?endif;?>
+                                <?endif?>
                             </header>
-                            <? $primaryEmployment = $user->getEmploymentPrimary();?>
-                            <?if ($primaryEmployment !== null):?>
+                            <?$primaryEmployment = $user->getEmploymentPrimary()?>
+                            <?if($primaryEmployment !== null):?>
                                 <div class="b-job">
                                     <header>
                                         <h6 class="title company">
-                                            <a href="<?=$this->createUrl('/company/view/index', array('companyId' => $primaryEmployment->Company->Id));?>" itemprop="affiliation">
-                                                <?=$primaryEmployment->Company->Name;?>
+                                            <a href="<?=$this->createUrl('/company/view/index', array('companyId' => $primaryEmployment->Company->Id))?>" itemprop="affiliation">
+                                                <?=$primaryEmployment->Company->Name?>
                                             </a>
                                         </h6>
                                     </header>
-                                    <?if (!empty($primaryEmployment->Position)):?>
+                                    <?if(!empty($primaryEmployment->Position)):?>
                                         <article>
-                                            <p class="text post"><?=$primaryEmployment->Position;?></p>
+                                            <p class="text post"><?=$primaryEmployment->Position?></p>
                                         </article>
-                                    <?endif;?>
+                                    <?endif?>
                                 </div>
-                            <?endif;?>
+                            <?endif?>
 
-                            <?if ($_SERVER['REMOTE_ADDR'] == '82.142.129.35'):?>
-                                <?if (!empty($professionalInterests)):?>
+                            <?if($_SERVER['REMOTE_ADDR'] == '82.142.129.35'):?>
+                                <?if(!empty($professionalInterests)):?>
                                     <div class="b-interests">
                                         <header>
-                                            <h6 class="title"><?=\Yii::t('app', 'Профессиональные интересы');?></h6>
+                                            <h6 class="title"><?=\Yii::t('app', 'Профессиональные интересы')?></h6>
                                         </header>
                                         <article>
-                                            <p class="text"><?=implode(', ', $professionalInterests);?></p>
+                                            <p class="text"><?=implode(', ', $professionalInterests)?></p>
                                         </article>
                                     </div>
-                                <?endif;?>
-                            <?endif;?>
+                                <?endif?>
+                            <?endif?>
 
-                            <?if (!empty($user->CommissionsActive)):?>
+                            <?if(!empty($user->CommissionsActive)):?>
                                 <div class="b-raec">
                                     <img src="/images/content/raec-logo_small.jpg" alt="РАЭК" class="logo">
-                                    <?foreach ($user->CommissionsActive as $commission):?>
-                                        <p class="text"><?=$commission->Role->Title;?>, <?=$commission->Commission;?></p>
-                                    <?endforeach;?>
+                                    <?foreach($user->CommissionsActive as $commission):?>
+                                        <p class="text"><?=$commission->Role->Title?>, <?=$commission->Commission?></p>
+                                    <?endforeach?>
                                 </div>
-                            <?endif;?>
+                            <?endif?>
 
-                            <?php if (!empty($user->IRIParticipantsActive)):?>
+                            <?if(!empty($user->IRIParticipantsActive)):?>
                                 <div class="b-iri">
-                                    <?=\CHtml::link(\CHtml::image('/images/content/iri-logo_small.jpg', \Yii::t('app', 'Институт Развития Интернета'), ['class' => 'logo']), 'http://ири.рф', ['target' => '_blank']);?>
-                                    <?php foreach ($user->IRIParticipantsActive as $participant):?>
-                                        <p class="text"><?=$participant;?></p>
-                                    <?php endforeach;?>
+                                    <?=\CHtml::link(\CHtml::image('/images/content/iri-logo_small.jpg', \Yii::t('app', 'Институт Развития Интернета'), ['class' => 'logo']), 'http://ири.рф', ['target' => '_blank'])?>
+                                    <?foreach($user->IRIParticipantsActive as $participant):?>
+                                        <p class="text"><?=$participant?></p>
+                                    <?endforeach?>
                                 </div>
-                            <?php endif;?>
+                            <?endif?>
                         </div>
 
 
                         <div id="user-account-tabs" class="span4 tabs">
                             <ul class="nav">
-                                <?if (!empty($employmentHistory)):?><li><a href="#user-account-tab_career" class="pseudo-link"><?=\Yii::t('app', 'Карьера');?></a></li><?endif;?>
-                                <?php if ($hasContacts):?><li><a href="#user-account-tab_contacts" class="pseudo-link"><?=\Yii::t('app', 'Контакты');?></a></li><?php endif;?>
+                                <?if(!empty($employmentHistory)):?><li><a href="#user-account-tab_career" class="pseudo-link"><?=\Yii::t('app', 'Карьера')?></a></li><?endif?>
+                                <?if($hasContacts):?><li><a href="#user-account-tab_contacts" class="pseudo-link"><?=\Yii::t('app', 'Контакты')?></a></li><?endif?>
                             </ul>
 
-                            <?if (!empty($employmentHistory)):?>
+                            <?if(!empty($employmentHistory)):?>
                                 <div id="user-account-tab_career" class="tab b-career">
-                                    <?foreach ($employmentHistory as $employments):?>
+                                    <?foreach($employmentHistory as $employments):?>
                                         <dl class="dl-horizontal">
                                             <dd>
-                                                <h6 class="b-career_company"><a href="<?=$employments[0]->Company->getUrl();?>" itemprop="memberOf"><?=$employments[0]->Company->Name;?></a></h6>
-                                                <?foreach ($employments as $employment):?>
-                                                    <?if (!empty($employment->Position)):?>
-                                                        <p class="b-career_post"  itemprop="jobTitle"><?=$employment->Position;?></p>
-                                                        <?if (($interval = $employment->getWorkingInterval()) !== null):?>
+                                                <h6 class="b-career_company"><a href="<?=$employments[0]->Company->getUrl()?>" itemprop="memberOf"><?=$employments[0]->Company->Name?></a></h6>
+                                                <?foreach($employments as $employment):?>
+                                                    <?if(!empty($employment->Position)):?>
+                                                        <p class="b-career_post"  itemprop="jobTitle"><?=$employment->Position?></p>
+                                                        <?if(($interval = $employment->getWorkingInterval()) !== null):?>
                                                             <p class="b-career_length muted"><small>
-                                                                    <?if ($interval->Years > 0):?>
-                                                                        <?=\Yii::t('app', '{n} год |{n} года |{n} лет |{n} года ', $interval->Years);?>
-                                                                    <?endif;?>
-                                                                    <?if ($interval->Months > 0):?>
-                                                                        <?=\Yii::t('app', '{n} месяц|{n} месяца|{n} месяцев|{n} месяца', $interval->Months);?>
-                                                                    <?endif;?>
+                                                                    <?if($interval->Years > 0):?>
+                                                                        <?=\Yii::t('app', '{n} год |{n} года |{n} лет |{n} года ', $interval->Years)?>
+                                                                    <?endif?>
+                                                                    <?if($interval->Months > 0):?>
+                                                                        <?=\Yii::t('app', '{n} месяц|{n} месяца|{n} месяцев|{n} месяца', $interval->Months)?>
+                                                                    <?endif?>
                                                                 </small></p>
-                                                        <?endif;?>
-                                                    <?endif;?>
-                                                <?endforeach;?>
+                                                        <?endif?>
+                                                    <?endif?>
+                                                <?endforeach?>
                                             </dd>
                                             <?php
                                             $start = $employments[sizeof($employments)-1]->StartYear;
                                             $end = $employments[0]->EndYear;
-                                            ?>
-                                            <?php if (!empty($start)):?>
-                                                <dt><?=$start;?> &mdash; <?=!empty($end) ? $end : \Yii::t('app', 'н.в.');?></dt>
+                                           ?>
+                                            <?if(!empty($start)):?>
+                                                <dt><?=$start?> &mdash; <?=!empty($end) ? $end : \Yii::t('app', 'н.в.')?></dt>
                                             <?php elseif (!empty($end)):?>
-                                                <dt><?=\Yii::t('app', 'до');?> <?=$end;?></dt>
-                                            <?php endif;?>
+                                                <dt><?=\Yii::t('app', 'до')?> <?=$end?></dt>
+                                            <?endif?>
                                         </dl>
-                                    <?endforeach;?>
+                                    <?endforeach?>
                                 </div>
-                            <?endif;?>
+                            <?endif?>
 
-                            <?php if ($hasContacts):?>
+                            <?if($hasContacts):?>
                                 <div id="user-account-tab_contacts" class="tab b-contacts">
-                                    <?if ($user->LinkSite !== null):?>
+                                    <?if($user->LinkSite !== null):?>
                                         <dl class="dl-horizontal">
-                                            <dt><?=\Yii::t('app', 'Сайт:');?></dt>
-                                            <dd><a href="<?=$user->LinkSite->Site;?>" target="_blank"><?=parse_url($user->LinkSite->Site, PHP_URL_HOST);?></a></dd>
+                                            <dt><?=\Yii::t('app', 'Сайт:')?></dt>
+                                            <dd><a href="<?=$user->LinkSite->Site?>" target="_blank"><?=parse_url($user->LinkSite->Site, PHP_URL_HOST)?></a></dd>
                                         </dl>
-                                    <?endif;?>
-                                    <?foreach ($user->LinkServiceAccounts as $linkServiceAcc):?>
-                                        <?if ($linkServiceAcc->ServiceAccount !== null):?>
+                                    <?endif?>
+                                    <?foreach($user->LinkServiceAccounts as $linkServiceAcc):?>
+                                        <?if($linkServiceAcc->ServiceAccount !== null):?>
                                             <dl class="dl-horizontal">
-                                                <dt><?=$linkServiceAcc->ServiceAccount->Type->Title;?>:</dt>
-                                                <dd><?=$linkServiceAcc->ServiceAccount;?></dd>
+                                                <dt><?=$linkServiceAcc->ServiceAccount->Type->Title?>:</dt>
+                                                <dd><?=$linkServiceAcc->ServiceAccount?></dd>
                                             </dl>
-                                        <?endif;?>
-                                    <?endforeach;?>
+                                        <?endif?>
+                                    <?endforeach?>
                                 </div>
-                            <?php endif;?>
+                            <?endif?>
 
                         </div>
                     </div>
@@ -201,7 +201,7 @@ $hasContacts = !empty($user->LinkSite) || !empty($user->LinkServiceAccounts);
             <div class="line"></div>
             <div class="container">
                 <div class="title">
-                    <span class="backing text"><?=\Yii::t('app','Участие в профильных мероприятиях');?></span>
+                    <span class="backing text"><?=\Yii::t('app','Участие в профильных мероприятиях')?></span>
                 </div>
             </div>
         </h4>
@@ -218,7 +218,7 @@ $hasContacts = !empty($user->LinkSite) || !empty($user->LinkServiceAccounts);
             </div>
         </div>
 
-        <?$this->renderPartial('index-participant', ['participation' => $participation]);?>
+        <?$this->renderPartial('index-participant', ['participation' => $participation])?>
 
     </div>
 </div>
@@ -228,31 +228,31 @@ $hasContacts = !empty($user->LinkSite) || !empty($user->LinkServiceAccounts);
         <div class="line"></div>
         <div class="container">
             <div class="title">
-                <span class="backing text"><?=\Yii::t('app', 'Примите участие');?></span>
+                <span class="backing text"><?=\Yii::t('app', 'Примите участие')?></span>
             </div>
         </div>
     </h4>
     <div id="participate-events" class="container">
         <div class="row">
-            <?foreach ($recommendedEvents as $event):?>
+            <?foreach($recommendedEvents as $event):?>
                 <div class="i span3">
                     <header class="h">
                         <div class="date">
-                            <?$this->widget('\event\widgets\Date', array('event' => $event));?>
+                            <?$this->widget('\event\widgets\Date', array('event' => $event))?>
                         </div>
-                        <p class="tx muted"><?=$event->Type->Title;?></p>
-                        <h5 class="t"><a href="<?=$event->getUrl();?>"><?=$event->Title;?></a></h5>
+                        <p class="tx muted"><?=$event->Type->Title?></p>
+                        <h5 class="t"><a href="<?=$event->getUrl()?>"><?=$event->Title?></a></h5>
                     </header>
                     <article class="cnt">
-                        <p class="tx"><?=\application\components\utility\Texts::cropText($event->Info,200);?></p>
+                        <p class="tx"><?=\application\components\utility\Texts::cropText($event->Info,200)?></p>
                     </article>
                     <footer class="f">
-                        <a href="<?=$event->getUrl();?>" class="a">
-                            <i class="icon-circle-arrow-right"></i><?=\Yii::t('app', 'Посетить мероприятие');?>
+                        <a href="<?=$event->getUrl()?>" class="a">
+                            <i class="icon-circle-arrow-right"></i><?=\Yii::t('app', 'Посетить мероприятие')?>
                         </a>
                     </footer>
                 </div>
-            <?endforeach;?>
+            <?endforeach?>
         </div>
     </div>
 </div>
@@ -261,7 +261,7 @@ $hasContacts = !empty($user->LinkSite) || !empty($user->LinkServiceAccounts);
     <div class="item">
         <div class="info">
             <div class="val"><%= value %></div>
-            <div class="description"><?=\Yii::t('app', 'В качестве');?> <b><%= role%></b></div>
+            <div class="description"><?=\Yii::t('app', 'В качестве')?> <b><%= role%></b></div>
         </div>
     </div>
 </script>

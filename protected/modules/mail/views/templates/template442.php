@@ -1,4 +1,4 @@
-<p><strong>Здравствуйте,&nbsp;<?=$user->getShortName();?>.</strong></p>
+<p><strong>Здравствуйте,&nbsp;<?=$user->getShortName()?>.</strong></p>
 
 <p>Важнейшее интернет-события сегодняшнего дня и&nbsp;всей недели!</p>
 

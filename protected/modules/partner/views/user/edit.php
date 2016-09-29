@@ -2,11 +2,13 @@
 /**
  * @var Controller $this
  * @var Participant $form
+ * @var Visit[] $visits
  * @var user\models\forms\edit\Photo $photoForm
  */
 
 use partner\components\Controller;
 use partner\models\forms\user\Participant;
+use ruvents\models\Visit;
 
 $this->setPageTitle('Редактирование участника мероприятия');
 $clientScript = Yii::app()->getClientScript();
@@ -25,39 +27,66 @@ $clientScript->registerScript('init', '
     <div class="panel panel-warning" ng-if="data">
         <div class="panel-heading">
             <span class="panel-title">
-                <i class="fa fa-list-alt"></i> <?= Yii::t('app', 'Атрибуты пользователей') ?>
+                <i class="fa fa-list-alt"></i>
+                <?= Yii::t('app', 'Атрибуты пользователей') ?>
             </span>
         </div>
 
         <table class="table table-bordered table-striped">
-            <thead>
-            <tr>
-                <th ng-repeat="title in data[0].titles">{{title}}</th>
-                <th></th>
-            </tr>
-            </thead>
             <tbody>
-            <tr ng-repeat="row in data" ng-class="{'editable-data' : row.edit}">
-                <td ng-repeat="attribute in row.attributes">
-                    <span ng-bind-html="attribute.value" ng-show="!row.edit"></span>
-
-                    <div ng-bind-html="attribute.edit" ng-show="row.edit"></div>
+                <tr ng-repeat="(i, attribute) in data[0].attributes">
+                    <th>{{data[0].titles[i]}}</th>
+                    <td ng-class="{'editable-data' : attribute.edit}">
+                        <span ng-bind-html="attribute.value" ng-show="!data[0].edit"></span>
+                        <div ng-bind-html="attribute.edit" ng-show="data[0].edit"></div>
                 </td>
-                <td style="width: 200px;">
+                </tr>
+                <tr>
+                    <td colspan="2">
                     <div class="btn-group btn-group-xs">
                         <button class="btn" ng-class="{'btn btn-success' : row.edit, 'btn' : !row.edit}"
-                                ng-click="updateDataValues(row)" type="button">{{!row.edit ?
+                                    ng-click="updateDataValues(data[0])" type="button">{{!data[0].edit ?
                             '<?= Yii::t('app', 'Редактировать') ?>' : '<?= Yii::t('app', 'Сохранить') ?>'}}
                         </button>
                     </div>
-                    <div class="{{row.class ? 'text-' + row.class : '' }}" ng-if="row.class">
-                        <small>{{row.message}}</small>
+                        <div class="{{data[0].class ? 'text-' + data[0].class : '' }}" ng-if="row.class">
+                            <small>{{data[0].message}}</small>
                     </div>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
+
+    <?if($visits):?>
+        <div class="panel panel-warning" ng-if="data">
+            <div class="panel-heading">
+                <span class="panel-title">
+                    <i class="fa fa-list-alt"></i>
+                    <?= Yii::t('app', 'Отметки интерактивных стендов') ?>
+                </span>
+            </div>
+
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th><?= Yii::t('app', 'Время') ?></th>
+                        <th><?= Yii::t('app', 'Метка') ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?foreach($visits as $visit):?>
+                        <tr>
+                            <td><?=$visit->Id?></td>
+                            <td><?=$visit->CreationTime?></td>
+                            <td><?=$visit->MarkId?></td>
+                        </tr>
+                    <?endforeach?>
+                </tbody>
+            </table>
+        </div>
+    <?endif?>
 
     <div class="panel panel-danger">
         <div class="panel-heading">
@@ -103,10 +132,10 @@ $clientScript->registerScript('init', '
 </div>
 
 
-<?php $this->beginWidget('application\widgets\bootstrap\Modal', [
+<?$this->beginWidget('application\widgets\bootstrap\Modal', [
     'id' => 'participant-message',
     'header' => 'Укажите комментарий',
     'footer' => \CHtml::button(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-primary'])
 ]) ?>
     <textarea class="form-control"></textarea>
-<?php $this->endWidget(); ?>
+<?$this->endWidget()?>

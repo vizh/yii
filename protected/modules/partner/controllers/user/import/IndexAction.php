@@ -1,6 +1,7 @@
 <?php
 namespace partner\controllers\user\import;
 
+use CUploadedFile;
 use partner\models\Import;
 
 class IndexAction extends \partner\components\Action
@@ -10,7 +11,7 @@ class IndexAction extends \partner\components\Action
         ini_set('max_execution_time', 3600);
 
         if (\Yii::app()->getRequest()->isPostRequest) {
-            $file = \CUploadedFile::getInstanceByName('import_file');
+            $file = CUploadedFile::getInstanceByName('import_file');
             if ($file != null) {
                 $import = new Import();
                 $import->EventId = $this->getEvent()->Id;
@@ -23,6 +24,7 @@ class IndexAction extends \partner\components\Action
         $imports = Import::model()->findAll('"t"."EventId" = :EventId', [
             'EventId' => $this->getEvent()->Id
         ]);
+
         $this->getController()->render('import/index', [
             'imports' => $imports
         ]);

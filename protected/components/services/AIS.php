@@ -2,6 +2,7 @@
 namespace application\components\services;
 
 use GuzzleHttp;
+use Yii;
 
 /**
  * AIS API client
@@ -9,8 +10,8 @@ use GuzzleHttp;
 class AIS
 {
     const AIS_SITE = 'https://ais.fadm.gov.ru/';
-    const AIS_LOGIN = 'palenov@ruvents.com';
-    const AIS_PASS = 'Hfj58djw3ap';
+    const AIS_LOGIN = 'star.absorber@gmail.com';
+    const AIS_PASS = 'Ruvents16';
 
     const URL_LOGIN = 'auth/login';
     const URL_EVENTS = 'getMyAdminEvents';
@@ -27,7 +28,7 @@ class AIS
 
     /**
      * Returns shifts names
-     * 
+     *
      * @return string[]
      */
     public static function getShifts()
@@ -43,7 +44,7 @@ class AIS
             'Молодые преподаватели факультетов журналистики, молодые журналисты'
         ];
     }
-    
+
     /**
      * Returns an url for getting the avatar of the user
      *
@@ -110,20 +111,34 @@ class AIS
      * Notifies AIS about coming
      *
      * @param int $registrationId
+     * @return int
      * @throws \CException
      */
     public function notify($registrationId)
     {
         $this->auth();
 
-        $this->guzzle->post(self::AIS_SITE . self::URL_NOTIFY, [
-            'body' => [
-                'action' => 'was',
-                'registration' => $registrationId,
-                'comment' => ''
-            ],
-            'cookies' => true
-        ]);
+        try {
+            $response = $this->guzzle->post(self::AIS_SITE . self::URL_NOTIFY, [
+                'body' => [
+                    'action' => 'was',
+                    'registration' => $registrationId,
+                    'comment' => ''
+                ],
+                'cookies' => true
+            ]);
+
+            Yii::log(sprintf('Успешная отправка отметки о печати бейджа в АИС для АисId:%d c кодом %d ответом: %s',
+                $registrationId,
+                $response->getStatusCode(),
+                $response->getBody()->getContents()
+            ));
+
+            return true;
+        } catch (\Exception $e) {
+            Yii::log(sprintf('Ошибка отправки отметки о печати бейджа в АИС для АисId:%d %s', $registrationId, $e->getMessage()));
+            return false;
+        }
     }
 
     /**

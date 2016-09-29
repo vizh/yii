@@ -1,4 +1,4 @@
-<p><strong><?=$user->getShortName();?>, здравствуйте!</strong></p>
+<p><strong><?=$user->getShortName()?>, здравствуйте!</strong></p>
 
 <p>Сегодня &mdash; 12 февраля 2015 года &mdash;&nbsp;в&nbsp;10:00 стартует Форум по&nbsp;Кибербезопасности (<a href="http://CyberSecurityForum.ru">Cyber Security Forum 2015, Russia</a>).</p>
 

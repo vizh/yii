@@ -33,14 +33,14 @@ $authUrl  = 'http://reg.premiaruneta.ru/cabinet/auth/?id=' . $user->RunetId . '&
 			<!-- content -->
 			<div class="content" style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; max-width: 600px; display: block; margin: 0 auto; padding: 0;">
 			<table style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; width: 100%; margin: 0; padding: 0;"><tr style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">
-			            <h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 0 0 10px; padding: 0;">Здравствуйте, <?=$user->getShortName();?>!</h3>
+			            <h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 0 0 10px; padding: 0;">Здравствуйте, <?=$user->getShortName()?>!</h3>
 			            <p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Продолжается прием заявок на соискание <nobr style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">12-й</nobr> Национальной премии за вклад в развитие российского сегмента сети Интернет — <a href="http://www.PremiaRuneta.ru" style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; color: #000000; margin: 0; padding: 0;">ПРЕМИИ РУНЕТА 2015</a>.</p>
 						<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Подать заявку на участие могут организации и интернет-проекты (представленные юридическими лицами), внесшие особый вклад в развитие Рунета в <nobr style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">2014–2015 годах.</nobr></p>
-						
+
 						<p class="center" style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; text-align: center; font-weight: normal; margin: 15px 0 20px; padding: 0;" align="center"><a href="<?=$authUrl?>" class="btn-primary" style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.2; color: #000; text-decoration: none; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background: #fff; margin: 0 auto; padding: 12px 65px; border: 2px solid #000;">НОМИНИРОВАТЬСЯ</a></p>
 
 						<hr style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; border-top-color: #eaeaea; border-top-style: solid; height: 1px; margin: 25px 0; padding: 0; border-width: 1px 0 0;" /><p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;"><img src="http://files.runet-id.com/2014/premiaru/photo/ceremony/premia14-ceremony_011_480.jpg" style="height: auto; width: 100%; font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" /></p>
-						
+
 						<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 0; padding: 0;">Премия Рунета 2015 вручается вручаться в шести основных, трех специальных номинациях и трех номинациях Народного голосования:</p>
 						<table style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; width: 100%; margin: 0; padding: 0;"><tr style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="vertical-align: top; width: 50%; font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;" valign="top">
 									<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;"><strong style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">Основные номинации:</strong></p>
@@ -71,7 +71,7 @@ $authUrl  = 'http://reg.premiaruneta.ru/cabinet/auth/?id=' . $user->RunetId . '&
 					</td>
 				</tr></table></div>
 			<!-- /content -->
-			
+
 		</td>
 		<td style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"></td>
 	</tr></table><!-- /body --></body>

@@ -14,14 +14,14 @@ $this->setPageTitle(\Yii::t('app', 'Авторизация в партнерск
                 <img src="/images/partner/logo.png" alt="RUNET-ID" title="RUNET-ID" />
             </div>
             <div class="signin-text">
-                <span><?=\Yii::t('app', 'Партнерский интерфейс');?></span>
+                <span><?=\Yii::t('app', 'Партнерский интерфейс')?></span>
             </div> <!-- / .signin-text -->
 
-            <?php if ($this->error):?>
+            <?if($this->error):?>
                 <div class="alert alert-danger">
-                    <?=\Yii::t('app', 'Ошибка авторизации');?>
+                    <?=\Yii::t('app', 'Ошибка авторизации')?>
                 </div>
-            <?endif;?>
+            <?endif?>
 
             <div class="form-group w-icon">
                 <input type="text" placeholder="Введите свой логин" class="form-control input-lg" id="username_id" name="login">

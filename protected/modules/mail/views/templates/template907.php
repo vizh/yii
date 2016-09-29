@@ -1,4 +1,4 @@
-<?php	
+<?php
 	$cabinetLink = "http://2016.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'aihrQ0AcKmaJ'), 0, 16) . '&redirect=http://2016.russianinternetforum.ru/my/competence/';
 ?>
 
@@ -61,11 +61,11 @@ a {
 }
 
 .btn-primary td {
-  background-color: #FE9901; 
-  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-  font-size: 14px; 
+  background-color: #FE9901;
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size: 14px;
   text-align: center;
-  vertical-align: top; 
+  vertical-align: top;
 }
 
 .btn-primary td a {
@@ -86,11 +86,11 @@ a {
 }
 
 .btn-secondary td {
-  background-color: transparent; 
-  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-  font-size: 14px; 
+  background-color: transparent;
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size: 14px;
   text-align: center;
-  vertical-align: top; 
+  vertical-align: top;
 }
 
 .btn-secondary td a {
@@ -111,11 +111,11 @@ a {
 }
 
 .btn-white td {
-  background-color: #FFFFFF; 
-  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-  font-size: 14px; 
+  background-color: #FFFFFF;
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size: 14px;
   text-align: center;
-  vertical-align: top; 
+  vertical-align: top;
 }
 
 .btn-white td a {
@@ -181,13 +181,13 @@ table.body-wrap {
 table.unboxed-wrap {
   clear: both !important;
   padding: 25px 0;
-  width: 100%;  
+  width: 100%;
 }
 
 
 
-h1, 
-h2, 
+h1,
+h2,
 h3 {
   color: #111111;
   font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -213,15 +213,15 @@ h4 {
   padding: 0;
 }
 
-p, 
-ul, 
+p,
+ul,
 ol {
   font-size: 14px;
   font-weight: normal;
   margin-bottom: 10px;
 }
 
-ul li, 
+ul li,
 ol li {
   margin-left: 25px;
   list-style-position: outside;
@@ -318,7 +318,7 @@ small {
 		margin: 15px 0;
 		width: 100%;
 	}
-  
+
   .full {
     display: block !important;
     width: 100%  !important;
@@ -339,26 +339,26 @@ small {
 <body bgcolor="#D2D9DC" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;-webkit-font-smoothing:antialiased;height:100%;-webkit-text-size-adjust:none;width:100% !important;font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;font-size:14px;line-height:1.5em;" >
 
 	<div id="wrapper" style="background-color:#D2D9DC;height:100%;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;width:100%;" >
-		
+
 		<!-- unboxed -->
 		<table class="unboxed-wrap" bgcolor="#D2D9DC" style="margin-bottom:0;margin-right:0;margin-left:0;margin-top:25px;clear:both !important;padding-top:25px;padding-bottom:25px;padding-right:0;padding-left:0;width:100%;" >
 		  <tr style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
 		    <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" ></td>
 		    <td class="container" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;clear:both !important;display:block !important;margin-top:0 !important;margin-bottom:0 !important;margin-right:auto !important;margin-left:auto !important;max-width:600px !important;" >
-		      
+
 		      <!-- content -->
 		      <div class="content" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;display:block;margin-top:0;margin-bottom:0;margin-right:auto;margin-left:auto;max-width:600px;" >
 		        <table style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;width:100%;" >
 		          <tr style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
 		            <td align="center" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" >
-		              	<h2 style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#111111;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;font-weight:200;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;font-size:28px;" >Здравствуйте, <?=$user->getShortName();?>!</h2>
+		              	<h2 style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#111111;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;font-weight:200;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;font-size:28px;" >Здравствуйте, <?=$user->getShortName()?>!</h2>
 		              	<p class="lead" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-weight:normal;font-size:17px;margin-top:8px;margin-bottom:8px;margin-right:5%;margin-left:5%;" >Вы&nbsp;зарегистрировались для дистанционного участия в&nbsp;<nobr style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >20-м</nobr> Российском Интернет Форуме, который пройдет <nobr style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >13–15</nobr> апреля 2016 года в&nbsp;подмосковном пансионате «Лесные Дали».</p>
 		            </td>
 		          </tr>
 		        </table>
 		      </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" ></td>
 		  </tr>
@@ -383,14 +383,14 @@ small {
 		      <table style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;width:100%;" >
 		        <tr style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
 		          <td class="center" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;text-align:center;" >
-					<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" ><span style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#F37D01;font-size:16px;font-weight:bold;text-transform:uppercase;" ><?=$user->getShortName();?>, ваш статус:</span></p>
+					<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" ><span style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#F37D01;font-size:16px;font-weight:bold;text-transform:uppercase;" ><?=$user->getShortName()?>, ваш статус:</span></p>
 					<h2 style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#111111;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;font-weight:200;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;font-size:28px;" ><span style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#F37D01;font-size:34px;font-weight:bold;" >ВИРТУАЛЬНЫЙ УЧАСТНИК</span></h2>
 				  </td>
 		        </tr>
 		      </table>
 		      </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" ></td>
 		  </tr>
@@ -411,20 +411,20 @@ small {
 
 					<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" ><b style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >Этот статус дает Вам право на дистанционное участие в Форуме и позволяет:</b></p>
 					<img src="https://showtime.s3.amazonaws.com/201604120753-technology.png" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;float:right;margin-top:10px;margin-bottom:10px;margin-right:10px;margin-left:10px;height:auto;width:128px;max-width:600px;" >
-					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" > 
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Следить за&nbsp;новостями на<a href="http://2016.russianinternetforum.ru/" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#FE9901;" >&nbsp;официальном сайте</a> и&nbsp;в&nbsp;соцсетях:<a href="http://2016.russianinternetforum.ru/" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#FE9901;" > Фейсбук</a>,<a href="https://twitter.com/ru_rif" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#FE9901;" > Твиттер</a>,<a href="https://vk.com/rif_cib" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#FE9901;" > Вконтакте</a>,<a href="https://www.instagram.com/rif_cib/" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#FE9901;" > Инстраграм</a> и&nbsp;Телеграм.</p>
 						</li>
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Получать информационные рассылки</p>
 						</li>
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Иметь доступ к&nbsp;онлайн-версии <a href="http://2016.russianinternetforum.ru/program/" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#FE9901;" >Программы</a> Форума</p>
 						</li>
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Смотреть онлайн-трансляцию из&nbsp;залов 1&nbsp;и&nbsp;4</p>
 						</li>
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Через 1&nbsp;мес. после окончания Форума&nbsp;— получить доступ к&nbsp;презентациям докладчиков (обращаем Ваше внимание, что презентации сразу по&nbsp;итогам Форума будут доступны только для Участников Форума)</p>
 						</li>
 					</ul>
@@ -434,26 +434,26 @@ small {
 					<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" ><strong style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >Этот статус не&nbsp;дает Вам права на&nbsp;посещение Форума <nobr style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >13–15</nobr> апреля лично</strong>, а&nbsp;также не&nbsp;дает права на&nbsp;доступ к&nbsp;некоторым важным материалам Форума.</p>
 					<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Изменить свой статус и&nbsp;принять участие очно можно в&nbsp;ЛИЧНОМ КАБИНЕТЕ в&nbsp;любой день и&nbsp;в&nbsp;любое время&nbsp;— для получения статуса «Участник Форума» необходимо оплатить регистрационный взнос.</p>
 					<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" ><b style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >Стоимость регистрационного взноса для получения статуса «Участник» составляет 8&nbsp;000&nbsp;рублей, включая налоги и&nbsp;включает пакет услуг:</b></p>
-					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" > 
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Право безлимитного посещения всех 3&nbsp;дней работы Форума </p>
 						</li>
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Возможность воспользоваться официальными автобусами Форума (проезд из&nbsp;Москвы и&nbsp;обратно) </p>
 						</li>
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Получение инидивидуального чипированного бейджа участника в&nbsp;Шатре регистрации </p>
 						</li>
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Посещение всех залов (секций и&nbsp;круглых столов Программы) без ограничения </p>
 						</li>
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Участие в&nbsp;партнерских программах, акциях и&nbsp;спецпроектах</p>
 						</li>
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Участие в&nbsp;культурно-развлекательной программе и&nbsp;вечерних мероприятиях</p>
 						</li>
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Доступ к&nbsp;видеоматериалам и&nbsp;презентациям докладчиков по&nbsp;итогам Форума </p>
 						</li>
 						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
@@ -481,7 +481,7 @@ small {
 		      </table>
 		      </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" ></td>
 		  </tr>
@@ -511,7 +511,7 @@ small {
 			</tr>
 		</table>
 		<!-- /body -->
-		
+
 		<br style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
 
 	</div>

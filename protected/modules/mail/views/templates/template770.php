@@ -1,6 +1,6 @@
 <p><a href="http://conf.optimization.ru/my/"><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/opt15.png" style="width: 100%; height: auto; margin: 0 auto" /></a></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</strong></h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</strong></h3>
 
 <p>Благодарим вас за участие в Optimization 2015! Надеемся, что вы уже прорабатываете планы по применению идей, которые вы почерпнули из докладов на конференции.</p>
 

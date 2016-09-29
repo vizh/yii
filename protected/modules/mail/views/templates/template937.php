@@ -57,11 +57,11 @@ a {
 }
 
 .btn-primary td {
-  background-color: #024688; 
-  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-  font-size: 14px; 
+  background-color: #024688;
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size: 14px;
   text-align: center;
-  vertical-align: top; 
+  vertical-align: top;
 }
 
 .btn-primary td a {
@@ -82,11 +82,11 @@ a {
 }
 
 .btn-secondary td {
-  background-color: transparent; 
-  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-  font-size: 14px; 
+  background-color: transparent;
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size: 14px;
   text-align: center;
-  vertical-align: top; 
+  vertical-align: top;
 }
 
 .btn-secondary td a {
@@ -107,11 +107,11 @@ a {
 }
 
 .btn-white td {
-  background-color: #FFFFFF; 
-  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-  font-size: 14px; 
+  background-color: #FFFFFF;
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size: 14px;
   text-align: center;
-  vertical-align: top; 
+  vertical-align: top;
 }
 
 .btn-white td a {
@@ -177,13 +177,13 @@ table.body-wrap {
 table.unboxed-wrap {
   clear: both !important;
   padding: 25px 0;
-  width: 100%;  
+  width: 100%;
 }
 
 
 
-h1, 
-h2, 
+h1,
+h2,
 h3 {
   color: #111111;
   font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -209,15 +209,15 @@ h4 {
   padding: 0;
 }
 
-p, 
-ul, 
+p,
+ul,
 ol {
   font-size: 14px;
   font-weight: normal;
   margin-bottom: 10px;
 }
 
-ul li, 
+ul li,
 ol li {
   margin-left: 25px;
   list-style-position: outside;
@@ -314,7 +314,7 @@ small {
 		margin: 15px 0;
 		width: 100%;
 	}
-  
+
   .full {
     display: block !important;
     width: 100%  !important;
@@ -335,26 +335,26 @@ small {
 <body bgcolor="#EBE8E1" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;-webkit-font-smoothing:antialiased;height:100%;-webkit-text-size-adjust:none;width:100% !important;font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;font-size:14px;line-height:1.5em;" >
 
 	<div id="wrapper" style="background-color:#EBE8E1;height:100%;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;width:100%;" >
-		
+
 		<!-- unboxed -->
 		<table class="unboxed-wrap" bgcolor="#EBE8E1" style="margin-bottom:0;margin-right:0;margin-left:0;margin-top:25px;clear:both !important;padding-top:25px;padding-bottom:25px;padding-right:0;padding-left:0;width:100%;" >
 		  <tr style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
 		    <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" ></td>
 		    <td class="container" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;clear:both !important;display:block !important;margin-top:0 !important;margin-bottom:0 !important;margin-right:auto !important;margin-left:auto !important;max-width:600px !important;" >
-		      
+
 		      <!-- content -->
 		      <div class="content" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;display:block;margin-top:0;margin-bottom:0;margin-right:auto;margin-left:auto;max-width:600px;" >
 		        <table style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;width:100%;" >
 		          <tr style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
 		            <td align="center" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" >
-		              	<h2 style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#111111;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;font-weight:200;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;font-size:28px;" >Здравствуйте, <?=$user->getShortName();?>!</h2>
+		              	<h2 style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#111111;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;font-weight:200;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;font-size:28px;" >Здравствуйте, <?=$user->getShortName()?>!</h2>
 		              	<p class="lead" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-weight:normal;font-size:17px;margin-top:8px;margin-bottom:8px;margin-right:5%;margin-left:5%;" >Приглашаем Вас посетить Большой Медиа-Коммуникационный Форум 2016, который в этом году пройдет  10–12 мая 2016 года в самом центре Москвы – в Экспоцентре на Красной Пресне.</p>
 		            </td>
 		          </tr>
 		        </table>
 		      </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" ></td>
 		  </tr>
@@ -379,7 +379,7 @@ small {
 		      <table style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;width:100%;" >
 		        <tr style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
 		          <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" >
-					
+
 					<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" ><nobr style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >10–13</nobr> мая в&nbsp;московском Экспоцентре проходит международная выставка «СВЯЗЬ-2016». Возможно, Вы&nbsp;уже зарегистрированы в&nbsp;качестве ее&nbsp;посетителя. </p>
 					<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Если нет – самое время получить свой билет на крупнейшее событие отрасли! Уже более 11 000 специалистов зарегистрировались на выставку. Присоединяйтесь!</p>
 					<table class="btn-primary" cellpadding="0" cellspacing="0" border="0" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-top:15px;margin-bottom:15px;margin-right:auto;margin-left:auto;width:auto;" >
@@ -400,7 +400,7 @@ small {
 		      </table>
 		      </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" ></td>
 		  </tr>
@@ -420,52 +420,52 @@ small {
 		      <table style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;width:100%;" >
 		        <tr style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
 		          <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" >
-					
+
 					<h3 class="center" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#111111;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;font-size:22px;font-weight:bold;text-transform:uppercase;text-align:center;" >ПРОГРАММА БОЛЬШОГО МЕДИА-КОММУНИКАЦИОННОГО ФОРУМА</h3>
 					<hr style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;border-width:0;border-top-width:1px;border-top-style:solid;border-top-color:#eaeaea;height:1px;margin-top:35px;margin-bottom:35px;margin-right:auto;margin-left:auto;" >
 					<h4 style="font-size:18px;margin-top:20px;margin-bottom:5px;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >Среди ключевых тем:</h4>
-					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" > 
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Проблемы распространения и&nbsp;потребления пиратского контента;</p>
 					 	</li>
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Требования к&nbsp;онлайн кинотеатрам;</p>
 					 	</li>
 					 </ul>
 					<h4 style="font-size:18px;margin-top:20px;margin-bottom:5px;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >Конференция Интернет + Медиа:</h4>
-					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" > 
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Законодательные изменения в&nbsp;части не&nbsp;дискриминационного доступа операторов связи к&nbsp;инфраструктуре домохозяйств;</p>
 					 	</li>
 					 </ul>
-					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" > 
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Задачи государственного регулирования отраслей и&nbsp;взаимоотношения государства и&nbsp;бизнес-сообщества;</p>
 					 	</li>
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Меры поддержки отраслей с&nbsp;целью дальнейшего развития в&nbsp;условиях нестабильной экономической ситуации;</p>
 					 	</li>
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Особенности реализации законодательных новаций;</p>
 					 	</li>
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Влияние социальных сетей на&nbsp;медиа-бизнес;</p>
 					 	</li>
 					 </ul>
-					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" > 
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Perfomance Marketing;</p>
 					 	</li>
 					 </ul>
 					<h4 style="font-size:18px;margin-top:20px;margin-bottom:5px;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >Конференция AdTech Russia&nbsp;— 2016:</h4>
-					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" > 
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Programmatic Technologies;</p>
 					 	</li>
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Digital &amp;&nbsp;Research;</p>
 					 	</li>
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Mobile Advertising Technologies.</p>
 					 	</li>
 					 </ul>
@@ -475,7 +475,7 @@ small {
 		      </table>
 		      </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" ></td>
 		  </tr>
@@ -497,11 +497,11 @@ small {
 		          <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" >
 		          	<h3 class="center" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#111111;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;font-size:22px;font-weight:bold;text-transform:uppercase;text-align:center;" >РЕГИСТРАЦИЯ УЧАСТНИКОВ</h3><hr style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;border-width:0;border-top-width:1px;border-top-style:solid;border-top-color:#eaeaea;height:1px;margin-top:35px;margin-bottom:35px;margin-right:auto;margin-left:auto;" >
 					<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Форматы участия в мероприятиях:</p>
-					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" > 
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Профессиональный участник БМКФ 2016&nbsp;/ Профессиональный участник AdTech Russia 2016 (платное участие, по&nbsp;итогам онлайн-регистрации и&nbsp;оплаты) </p>
 					 	</li>
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Бесплатное (льготное) участие&nbsp;— для определенных групп участников (докладчики, партнеры, эксперты, представители СМИ, представители профильных органов госвласти, студенты профильных ВУЗов)</p>
 					 	</li>
 					 </ul>
@@ -518,7 +518,7 @@ small {
 		      </table>
 		      </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" ></td>
 		  </tr>
@@ -548,7 +548,7 @@ small {
 			</tr>
 		</table>
 		<!-- /body -->
-		
+
 		<br style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
 
 	</div>

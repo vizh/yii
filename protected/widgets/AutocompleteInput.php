@@ -11,6 +11,14 @@ class AutocompleteInput extends \CInputWidget
 
     public $targetHtmlOptions = [];
 
+    /**
+     * Имя поля, на который вешается автокомплит.
+     * Можно указать имя поля и тогда его значение
+     * будет попадать в POST
+     * @var null
+     */
+    public $inputFieldName = null;
+
     /** @var string|\Closure */
     public $label = '';
 
@@ -70,6 +78,6 @@ class AutocompleteInput extends \CInputWidget
             $label = $this->label;
             $value = $label instanceof \Closure ? $label($this->value) : $label;
         }
-        echo \CHtml::textField(null, $value, $this->htmlOptions);
+        echo \CHtml::textField($this->inputFieldName, $value, $this->htmlOptions);
     }
 }

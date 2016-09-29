@@ -14,7 +14,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>*|MC:SUBJECT|*</title>
-        
+
     <style type="text/css">
 		p{
 			margin:10px 0;
@@ -612,27 +612,27 @@
     <tbody class="mcnTextBlockOuter">
         <tr>
             <td valign="top" class="mcnTextBlockInner">
-                
+
                 <table align="left" border="0" cellpadding="0" cellspacing="0" width="366" class="mcnTextContentContainer">
                     <tbody><tr>
-                        
+
                         <td valign="top" class="mcnTextContent" style="padding-top:9px; padding-left:18px; padding-bottom:9px; padding-right:0;">
-                        
+
                             <span style="line-height:20.7999992370605px"></span>
                         </td>
                     </tr>
                 </tbody></table>
-                
+
                 <table align="right" border="0" cellpadding="0" cellspacing="0" width="197" class="mcnTextContentContainer">
                     <tbody><tr>
-                        
+
                         <td valign="top" class="mcnTextContent" style="padding-top:9px; padding-right:18px; padding-bottom:9px; padding-left:18px;">
-                        
-                            
+
+
                         </td>
                     </tr>
                 </tbody></table>
-                
+
             </td>
         </tr>
     </tbody>
@@ -643,11 +643,11 @@
                     <table align="left" width="100%" border="0" cellpadding="0" cellspacing="0" class="mcnImageContentContainer" style="min-width:100%;">
                         <tbody><tr>
                             <td class="mcnImageContent" valign="top" style="padding-right: 0px; padding-left: 0px; padding-top: 0; padding-bottom: 0;">
-                                
-                                    
+
+
                                         <img align="left" alt="" src="https://gallery.mailchimp.com/d944f4444a99b56f75ff35453/images/8cfab45e-f6f0-466c-89e8-fb7059a63c9f.png" width="600" style="max-width:794px; padding-bottom: 0; display: inline !important; vertical-align: bottom;" class="mcnImage">
-                                    
-                                
+
+
                             </td>
                         </tr>
                     </tbody></table>
@@ -669,18 +669,18 @@
     <tbody class="mcnTextBlockOuter">
         <tr>
             <td valign="top" class="mcnTextBlockInner">
-                
+
                 <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;" class="mcnTextContentContainer">
                     <tbody><tr>
-                        
+
                         <td valign="top" class="mcnTextContent" style="padding-top:9px; padding-right: 18px; padding-bottom: 9px; padding-left: 18px;">
-                        
+
                             <h2 class="null" style="text-align: center;"><font color="#808080"><strong>"СВЯЗЬ-2016" собирает гостей</strong></font></h2>
 
                         </td>
                     </tr>
                 </tbody></table>
-                
+
             </td>
         </tr>
     </tbody>
@@ -688,20 +688,20 @@
     <tbody class="mcnTextBlockOuter">
         <tr>
             <td valign="top" class="mcnTextBlockInner">
-                
+
                 <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;" class="mcnTextContentContainer">
                     <tbody><tr>
-                        
+
                         <td valign="top" class="mcnTextContent" style="padding-top:9px; padding-right: 18px; padding-bottom: 9px; padding-left: 18px;">
-                        
-                            <div style="text-align: left;"><h3>Здравствуйте <?=$user->getShortName();?>!</h3><br>
+
+                            <div style="text-align: left;"><h3>Здравствуйте <?=$user->getShortName()?>!</h3><br>
 <br>
 Приглашаем Вас посетить&nbsp;28-ю международную выставку&nbsp;«СВЯЗЬ-2016»&nbsp;с 10 по 13 мая в&nbsp;ЦВК&nbsp;«Экспоцентр», Москва.</div>
 
                         </td>
                     </tr>
                 </tbody></table>
-                
+
             </td>
         </tr>
     </tbody>
@@ -725,18 +725,18 @@
     <tbody class="mcnTextBlockOuter">
         <tr>
             <td valign="top" class="mcnTextBlockInner">
-                
+
                 <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;" class="mcnTextContentContainer">
                     <tbody><tr>
-                        
+
                         <td valign="top" class="mcnTextContent" style="padding-top:9px; padding-right: 18px; padding-bottom: 9px; padding-left: 18px;">
-                        
+
                             <div style="text-align: center;"><span style="font-size:16px"><span style="line-height:22.3999996185303px"><em>Регистрируйтесь и посещайте выставку бесплатно!</em></span></span></div>
 
                         </td>
                     </tr>
                 </tbody></table>
-                
+
             </td>
         </tr>
     </tbody>
@@ -744,19 +744,19 @@
     <tbody class="mcnTextBlockOuter">
         <tr>
             <td valign="top" class="mcnTextBlockInner">
-                
+
                 <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;" class="mcnTextContentContainer">
                     <tbody><tr>
-                        
+
                         <td valign="top" class="mcnTextContent" style="padding-top:9px; padding-right: 18px; padding-bottom: 9px; padding-left: 18px;">
-                        
+
                             <div style="text-align: left;">«СВЯЗЬ» – самая крупная&nbsp;выставка в России, на территории стран СНГ и Восточной Европы в области ИТ и телекоммуникаций, на которой ведущие&nbsp;отечественные и мировые производители представляют новинки своего ассортимента.<br>
 <span style="font-size:16px"><em>По данным официального аудита и общероссийского&nbsp;рейтинга выставок<strong>&nbsp;<a href="http://www.exporating.ru/themes/4584/?ID=6435#elid6435" target="_blank">Expo Rating</a></strong></em></span></div>
 
                         </td>
                     </tr>
                 </tbody></table>
-                
+
             </td>
         </tr>
     </tbody>
@@ -764,16 +764,16 @@
     <tbody class="mcnImageCardBlockOuter">
         <tr>
             <td class="mcnImageCardBlockInner" valign="top" style="padding-top:9px; padding-right:18px; padding-bottom:9px; padding-left:18px;">
-                
+
 <table align="right" border="0" cellpadding="0" cellspacing="0" class="mcnImageCardBottomContent" width="100%" style="background-color: #666666;">
     <tbody><tr>
         <td class="mcnImageCardBottomImageContent" align="left" valign="top" style="padding-top:0px; padding-right:0px; padding-bottom:0; padding-left:0px;">
-        
-            
+
+
 
             <img alt="" src="https://gallery.mailchimp.com/d944f4444a99b56f75ff35453/images/ac058ccf-1986-44f0-9004-afd8a447d9fe.jpg" width="564" style="max-width:800px;" class="mcnImage">
-            
-        
+
+
         </td>
     </tr>
     <tr>
@@ -800,18 +800,18 @@
     <tbody class="mcnTextBlockOuter">
         <tr>
             <td valign="top" class="mcnTextBlockInner">
-                
+
                 <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;" class="mcnTextContentContainer">
                     <tbody><tr>
-                        
+
                         <td valign="top" class="mcnTextContent" style="padding-top:9px; padding-right: 18px; padding-bottom: 9px; padding-left: 18px;">
-                        
+
                             <div style="text-align: left;">Выставка «СВЯЗЬ» – это витрина отрасли, демонстрирующая передовые достижения и технологии, задающая направление развития рынка на год вперед, удобная демонстрационная и дискуссионная площадка для обсуждения актуальных вопросов, общения профессионалов отрасли, поставщиков и покупателей.</div>
 
                         </td>
                     </tr>
                 </tbody></table>
-                
+
             </td>
         </tr>
     </tbody>
@@ -819,18 +819,18 @@
     <tbody class="mcnTextBlockOuter">
         <tr>
             <td valign="top" class="mcnTextBlockInner">
-                
+
                 <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;" class="mcnTextContentContainer">
                     <tbody><tr>
-                        
+
                         <td valign="top" class="mcnTextContent" style="padding-top:9px; padding-right: 18px; padding-bottom: 9px; padding-left: 18px;">
-                        
+
                             <h2 class="null" style="text-align: center;"><font color="#808080"><strong>Тематика выставки</strong></font></h2>
 
                         </td>
                     </tr>
                 </tbody></table>
-                
+
             </td>
         </tr>
     </tbody>
@@ -838,12 +838,12 @@
     <tbody class="mcnTextBlockOuter">
         <tr>
             <td valign="top" class="mcnTextBlockInner">
-                
+
                 <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;" class="mcnTextContentContainer">
                     <tbody><tr>
-                        
+
                         <td valign="top" class="mcnTextContent" style="padding-top:9px; padding-right: 18px; padding-bottom: 9px; padding-left: 18px;">
-                        
+
                             <div style="text-align: left;">Основные разделы:</div>
 
 <ul>
@@ -866,7 +866,7 @@
                         </td>
                     </tr>
                 </tbody></table>
-                
+
             </td>
         </tr>
     </tbody>
@@ -874,18 +874,18 @@
     <tbody class="mcnTextBlockOuter">
         <tr>
             <td valign="top" class="mcnTextBlockInner">
-                
+
                 <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;" class="mcnTextContentContainer">
                     <tbody><tr>
-                        
+
                         <td valign="top" class="mcnTextContent" style="padding-top:9px; padding-right: 18px; padding-bottom: 9px; padding-left: 18px;">
-                        
+
                             <h2 class="null" style="text-align: center;"><font color="#808080"><strong>В числе экспонентов:</strong></font></h2>
 
                         </td>
                     </tr>
                 </tbody></table>
-                
+
             </td>
         </tr>
     </tbody>
@@ -896,11 +896,11 @@
                     <table align="left" width="100%" border="0" cellpadding="0" cellspacing="0" class="mcnImageContentContainer" style="min-width:100%;">
                         <tbody><tr>
                             <td class="mcnImageContent" valign="top" style="padding-right: 9px; padding-left: 9px; padding-top: 0; padding-bottom: 0; text-align:center;">
-                                
-                                    
+
+
                                         <img align="center" alt="" src="https://gallery.mailchimp.com/d944f4444a99b56f75ff35453/images/1f255018-240b-416a-95f0-81c3228b2b56.jpg" width="564" style="max-width:710px; padding-bottom: 0; display: inline !important; vertical-align: bottom;" class="mcnImage">
-                                    
-                                
+
+
                             </td>
                         </tr>
                     </tbody></table>
@@ -911,16 +911,16 @@
     <tbody class="mcnImageCardBlockOuter">
         <tr>
             <td class="mcnImageCardBlockInner" valign="top" style="padding-top:9px; padding-right:18px; padding-bottom:9px; padding-left:18px;">
-                
+
 <table align="right" border="0" cellpadding="0" cellspacing="0" class="mcnImageCardBottomContent" width="100%" style="background-color: #666666;">
     <tbody><tr>
         <td class="mcnImageCardBottomImageContent" align="left" valign="top" style="padding-top:0px; padding-right:0px; padding-bottom:0; padding-left:0px;">
-        
-            
+
+
 
             <img alt="" src="https://gallery.mailchimp.com/d944f4444a99b56f75ff35453/images/56c87dc1-f863-4953-881d-28e4090582b0.png" width="564" style="max-width:960px;" class="mcnImage">
-            
-        
+
+
         </td>
     </tr>
     <tr>
@@ -942,18 +942,18 @@
     <tbody class="mcnTextBlockOuter">
         <tr>
             <td valign="top" class="mcnTextBlockInner">
-                
+
                 <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;" class="mcnTextContentContainer">
                     <tbody><tr>
-                        
+
                         <td valign="top" class="mcnTextContent" style="padding-top:9px; padding-right: 18px; padding-bottom: 9px; padding-left: 18px;">
-                        
+
                             <div style="text-align: center;"><span style="font-size:16px"><span style="line-height:22.3999996185303px"><em>Регистрируйтесь и посещайте выставку бесплатно!</em></span></span></div>
 
                         </td>
                     </tr>
                 </tbody></table>
-                
+
             </td>
         </tr>
     </tbody>
@@ -977,18 +977,18 @@
     <tbody class="mcnTextBlockOuter">
         <tr>
             <td valign="top" class="mcnTextBlockInner">
-                
+
                 <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;" class="mcnTextContentContainer">
                     <tbody><tr>
-                        
+
                         <td valign="top" class="mcnTextContent" style="padding-top:9px; padding-right: 18px; padding-bottom: 9px; padding-left: 18px;">
-                        
+
                             <h2 class="null" style="text-align: center;"><font color="#808080"><strong>Обширная деловая программа</strong></font></h2>
 
                         </td>
                     </tr>
                 </tbody></table>
-                
+
             </td>
         </tr>
     </tbody>
@@ -996,12 +996,12 @@
     <tbody class="mcnTextBlockOuter">
         <tr>
             <td valign="top" class="mcnTextBlockInner">
-                
+
                 <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;" class="mcnTextContentContainer">
                     <tbody><tr>
-                        
+
                         <td valign="top" class="mcnTextContent" style="padding-top:9px; padding-right: 18px; padding-bottom: 9px; padding-left: 18px;">
-                        
+
                             <ul>
 	<li style="text-align: left;"><a href="http://www.sviaz-expo.ru/ru/program/" target="_blank">Конференция&nbsp;«Умные технологии»</a></li>
 	<li style="text-align: left;"><a href="http://mcf.moscow/" target="_blank">Большой медиа-коммуникационный Форум</a></li>
@@ -1012,7 +1012,7 @@
                         </td>
                     </tr>
                 </tbody></table>
-                
+
             </td>
         </tr>
     </tbody>
@@ -1020,18 +1020,18 @@
     <tbody class="mcnTextBlockOuter">
         <tr>
             <td valign="top" class="mcnTextBlockInner">
-                
+
                 <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;" class="mcnTextContentContainer">
                     <tbody><tr>
-                        
+
                         <td valign="top" class="mcnTextContent" style="padding-top:9px; padding-right: 18px; padding-bottom: 9px; padding-left: 18px;">
-                        
+
                             <div style="text-align: center;"><span style="font-size:16px"><em>Не забудьте добавить выставку&nbsp;в свой календарь:</em></span></div>
 
                         </td>
                     </tr>
                 </tbody></table>
-                
+
             </td>
         </tr>
     </tbody>
@@ -1055,12 +1055,12 @@
     <tbody class="mcnTextBlockOuter">
         <tr>
             <td valign="top" class="mcnTextBlockInner">
-                
+
                 <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;" class="mcnTextContentContainer">
                     <tbody><tr>
-                        
+
                         <td valign="top" class="mcnTextContent" style="padding-top:9px; padding-right: 18px; padding-bottom: 9px; padding-left: 18px;">
-                        
+
                             <div style="text-align: center;"><span style="color:#696969"><strong>До встречи на "СВЯЗИ" 10-13&nbsp;мая 2016!</strong></span><br>
 <em>ЦВК "Экспоцентр", Москва, Краснопресненская набережная&nbsp;14.<br>
 Метро "Выставочная".</em></div>
@@ -1068,7 +1068,7 @@
                         </td>
                     </tr>
                 </tbody></table>
-                
+
             </td>
         </tr>
     </tbody>
@@ -1079,11 +1079,11 @@
                     <table align="left" width="100%" border="0" cellpadding="0" cellspacing="0" class="mcnImageContentContainer" style="min-width:100%;">
                         <tbody><tr>
                             <td class="mcnImageContent" valign="top" style="padding-right: 9px; padding-left: 9px; padding-top: 0; padding-bottom: 0; text-align:center;">
-                                
-                                    
+
+
                                         <img align="center" alt="" src="https://gallery.mailchimp.com/d944f4444a99b56f75ff35453/images/0c4f727d-64e9-4fc4-9c55-49da8a1f74c2.jpg" width="360" style="max-width:360px; padding-bottom: 0; display: inline !important; vertical-align: bottom;" class="mcnImage">
-                                    
-                                
+
+
                             </td>
                         </tr>
                     </tbody></table>
@@ -1107,7 +1107,7 @@
                                     <table align="center" border="0" cellspacing="0" cellpadding="0">
                                     <tr>
                                     <![endif]-->
-                                    
+
                                         <!--[if mso]>
                                         <td align="center" valign="top">
                                         <![endif]-->
@@ -1136,7 +1136,7 @@
                                         <!--[if mso]>
                                         </td>
                                         <![endif]-->
-                                    
+
                                         <!--[if mso]>
                                         <td align="center" valign="top">
                                         <![endif]-->
@@ -1165,7 +1165,7 @@
                                         <!--[if mso]>
                                         </td>
                                         <![endif]-->
-                                    
+
                                     <!--[if mso]>
                                     </tr>
                                     </table>
@@ -1200,87 +1200,87 @@
                                     <table align="center" border="0" cellspacing="0" cellpadding="0">
                                     <tr>
                                     <![endif]-->
-                                    
+
                                         <!--[if mso]>
                                         <td align="center" valign="top">
                                         <![endif]-->
-                                        
+
                                             <table align="left" border="0" cellpadding="0" cellspacing="0" class="mcnFollowStacked" style="display:inline;">
-                                                 
+
                                                 <tbody><tr>
                                                     <td align="center" valign="top" class="mcnFollowIconContent" style="padding-right:10px; padding-bottom:9px;">
                                                         <a href="https://www.facebook.com/expocentrmsk" target="_blank"><img src="https://cdn-images.mailchimp.com/icons/social-block-v2/outline-color-facebook-96.png" alt="Facebook" class="mcnFollowBlockIcon" width="48" style="width:48px; max-width:48px; display:block;"></a>
                                                     </td>
                                                 </tr>
-                                                
-                                                
+
+
                                             </tbody></table>
-                                        
-                                        
+
+
                                         <!--[if mso]>
                                         </td>
                                         <![endif]-->
-                                    
+
                                         <!--[if mso]>
                                         <td align="center" valign="top">
                                         <![endif]-->
-                                        
+
                                             <table align="left" border="0" cellpadding="0" cellspacing="0" class="mcnFollowStacked" style="display:inline;">
-                                                 
+
                                                 <tbody><tr>
                                                     <td align="center" valign="top" class="mcnFollowIconContent" style="padding-right:10px; padding-bottom:9px;">
                                                         <a href="https://twitter.com/Expocentrmsk" target="_blank"><img src="https://cdn-images.mailchimp.com/icons/social-block-v2/outline-color-twitter-96.png" alt="Twitter" class="mcnFollowBlockIcon" width="48" style="width:48px; max-width:48px; display:block;"></a>
                                                     </td>
                                                 </tr>
-                                                
-                                                
+
+
                                             </tbody></table>
-                                        
-                                        
+
+
                                         <!--[if mso]>
                                         </td>
                                         <![endif]-->
-                                    
+
                                         <!--[if mso]>
                                         <td align="center" valign="top">
                                         <![endif]-->
-                                        
+
                                             <table align="left" border="0" cellpadding="0" cellspacing="0" class="mcnFollowStacked" style="display:inline;">
-                                                 
+
                                                 <tbody><tr>
                                                     <td align="center" valign="top" class="mcnFollowIconContent" style="padding-right:10px; padding-bottom:9px;">
                                                         <a href="http://vk.com/expocentrmsk" target="_blank"><img src="https://cdn-images.mailchimp.com/icons/social-block-v2/outline-color-vk-96.png" alt="VKontakte" class="mcnFollowBlockIcon" width="48" style="width:48px; max-width:48px; display:block;"></a>
                                                     </td>
                                                 </tr>
-                                                
-                                                
+
+
                                             </tbody></table>
-                                        
-                                        
+
+
                                         <!--[if mso]>
                                         </td>
                                         <![endif]-->
-                                    
+
                                         <!--[if mso]>
                                         <td align="center" valign="top">
                                         <![endif]-->
-                                        
+
                                             <table align="left" border="0" cellpadding="0" cellspacing="0" class="mcnFollowStacked" style="display:inline;">
-                                                 
+
                                                 <tbody><tr>
                                                     <td align="center" valign="top" class="mcnFollowIconContent" style="padding-right:0; padding-bottom:9px;">
                                                         <a href="http://www.sviaz-expo.ru/" target="_blank"><img src="https://cdn-images.mailchimp.com/icons/social-block-v2/outline-color-link-96.png" alt="Website" class="mcnFollowBlockIcon" width="48" style="width:48px; max-width:48px; display:block;"></a>
                                                     </td>
                                                 </tr>
-                                                
-                                                
+
+
                                             </tbody></table>
-                                        
-                                        
+
+
                                         <!--[if mso]>
                                         </td>
                                         <![endif]-->
-                                    
+
                                     <!--[if mso]>
                                     </tr>
                                     </table>

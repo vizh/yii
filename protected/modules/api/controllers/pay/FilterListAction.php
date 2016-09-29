@@ -33,9 +33,9 @@ class FilterListAction extends Action
         $filterResult = $product->getManager()->filter($params, $filter);
         $result = [];
         foreach ($filterResult as $value) {
-            $result[] = (object) $value;
+            $result[] = (object)$value;
         }
 
-        $this->getController()->setResult($result);
+        $this->setResult($result);
     }
 }

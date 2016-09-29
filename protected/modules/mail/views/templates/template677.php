@@ -1,6 +1,6 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/pmm15.jpg" style="width: 100%; height: auto; margin: 0 auto" /></a></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</h3>
 
 <p><b>Вы очень хотите попасть 7 октября на конференцию Performance Marketing Moscow бесплатно, но стеснялись просить?</b></p>
 

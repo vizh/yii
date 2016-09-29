@@ -27,43 +27,43 @@ $rows = count($values) + 10;
     </tr>
     </thead>
     <tbody>
-    <?php for ($i = 0; $i < $rows; $i++): ?>
-        <?php $value = isset($values[$i]) ? $values[$i] : new CheckboxValue() ?>
+    <?php for ($i = 0; $i < $rows; $i++):?>
+        <?$value = isset($values[$i]) ? $values[$i] : new CheckboxValue()?>
         <tr>
             <td>
-                <input class="span1" type="text" name="Multiple[<?= $i ?>][key]"
-                       value="<?= CHtml::encode($value->key) ?>"
+                <input class="span1" type="text" name="Multiple[<?=$i?>][key]"
+                       value="<?=CHtml::encode($value->key)?>"
                        autocomplete="off">
             </td>
             <td>
-                <input class="span5" type="text" name="Multiple[<?= $i ?>][title]"
-                       value="<?= CHtml::encode($value->title) ?>">
+                <input class="span5" type="text" name="Multiple[<?=$i?>][title]"
+                       value="<?=CHtml::encode($value->title)?>">
             </td>
             <td>
-                <textarea class="span5" name="Multiple[<?= $i ?>][description]"
-                          rows="3"><?= $value->description ?></textarea>
+                <textarea class="span5" name="Multiple[<?=$i?>][description]"
+                          rows="3"><?=$value->description?></textarea>
             </td>
             <td>
                 <label class="checkbox">
-                    <input type="checkbox" name="Multiple[<?= $i ?>][isOther]" <?= $value->isOther ? 'checked' : '' ?>
+                    <input type="checkbox" name="Multiple[<?=$i?>][isOther]" <?=$value->isOther ? 'checked' : ''?>
                            value="1">
                     да
                 </label>
-                <input type="text" name="Multiple[<?= $i ?>][suffix]" value="<?= $value->suffix ?>"
+                <input type="text" name="Multiple[<?=$i?>][suffix]" value="<?=$value->suffix?>"
                        placeholder="Суффикс">
             </td>
             <td>
-                <input class="span1" type="text" name="Multiple[<?= $i ?>][sort]" value="<?= $value->sort ?>">
+                <input class="span1" type="text" name="Multiple[<?=$i?>][sort]" value="<?=$value->sort?>">
             </td>
             <td>
                 <label class="checkbox">
                     <input type="checkbox"
-                           name="Multiple[<?= $i ?>][isUnchecker]" <?= $value->isUnchecker ? 'checked' : '' ?>
+                           name="Multiple[<?=$i?>][isUnchecker]" <?=$value->isUnchecker ? 'checked' : ''?>
                            value="1">
                     да
                 </label>
             </td>
         </tr>
-    <?php endfor ?>
+    <?php endfor?>
     </tbody>
 </table>

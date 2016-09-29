@@ -1,4 +1,4 @@
-<?php	
+<?php
 	$regLink = "http://riw.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);
 ?>
 
@@ -25,23 +25,23 @@
 </style>
 
 	<div id="wrapper" style="height: 100%; width: 100%; background: #f6f6f6; margin: 0; padding: 0;">
-		
+
 		<!-- unboxed -->
 		<table class="unboxed-wrap" bgcolor="#f6f6f6" style="clear: both !important; width: 100%; margin: 25px 0 0; padding: 25px 0;"><tr style="margin: 0; padding: 0;">
 <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		    <td class="container" style="vertical-align: top; clear: both !important; display: block !important; max-width: 600px !important; margin: 0 auto; padding: 0;" valign="top">
-		      
+
 		      <!-- content -->
 		      <div class="content" style="display: block; max-width: 600px; margin: 0 auto; padding: 0;">
 		        <table style="width: 100%; margin: 0; padding: 0;"><tr style="margin: 0; padding: 0;">
 <td align="center" style="vertical-align: top; margin: 0; padding: 0;" valign="top">
-		              	<h2 style="color: #111111; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-weight: 200; line-height: 1.2em; font-size: 28px; margin: 10px 0; padding: 0;"><?=$user->getShortName();?>, здравствуйте!</h2>
+		              	<h2 style="color: #111111; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-weight: 200; line-height: 1.2em; font-size: 28px; margin: 10px 0; padding: 0;"><?=$user->getShortName()?>, здравствуйте!</h2>
 		              	<p class="lead" style="font-size: 17px; font-weight: normal; margin: 0 0 10px; padding: 0;">Осталось меньше недели до Russian Interactive Week (RIW 2015)</p>
 		            </td>
 		          </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>
@@ -67,7 +67,7 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr>
@@ -83,25 +83,25 @@
 		          	<h2 class="center" style="text-align: center; color: #111111; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-weight: 200; line-height: 1.2em; font-size: 28px; margin: 10px 0; padding: 0;" align="center">УЧАСТНИК ВЫСТАВКИ</h2>
 					<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><b style="margin: 0; padding: 0;">Зарегистрируйтесь сейчас в качестве участника выставки и получите доступ к разнообразным площадкам и сервисам RIW 2015:</b></p>
 					<img src="http://files.runet-id.com/2014/riw/photo/matwee/riw14-matwee_071_640.jpg" class="img-right" style="max-width: 600px; width: 250px; float: right; height: auto; margin: 10px; padding: 0; border: 3px solid #ffffff;" align="right"><ul style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">
-<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><a href="http://riw.moscow/expo/scheme/" style="color: #D85B42; margin: 0; padding: 0;">Выставка</a> «Интернет 2015» и «Softool 2015»</p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Участие в Открытии и главных дискуссионных панелях Форума</p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">3 конференционных зала <a href="http://riw.moscow/program/" style="color: #D85B42; margin: 0; padding: 0;">Общей программы</a> в течение всех 3 дней работы RIW: Presentation Hall, Yota Hall и Softool Hall</p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Залы конференции <a href="http://riw.moscow/special/next/" style="color: #D85B42; margin: 0; padding: 0;">Поколение NEXT</a></p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Площадки <a href="http://riw.moscow/special/alley/" style="color: #D85B42; margin: 0; padding: 0;">UpStartConf и Аллеи Инноваций </a></p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Доступ к онлайн-видео из этих залов, а также к презентациям докладчиков </p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Доступ на открытые площадки в рамках <a href="http://riw.moscow/special/" style="color: #D85B42; margin: 0; padding: 0;">Спецсобытий</a></p>
 						</li>
 					</ul>
@@ -118,7 +118,7 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>
@@ -133,28 +133,28 @@
 		          	<h2 class="center" style="text-align: center; color: #111111; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-weight: 200; line-height: 1.2em; font-size: 28px; margin: 10px 0; padding: 0;" align="center">ПРОФЕССИОНАЛЬНЫЙ УЧАСТНИК</h2>
 					<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><b style="margin: 0; padding: 0;">Зарегистрируйтесь в качестве участника профессиональной программы и используйте полный набор возможностей и сервисов RIW 2015:</b></p>
 					<img src="http://files.runet-id.com/2014/riw/photo/matwee/riw14-matwee_037_640.jpg" class="img-right" style="max-width: 600px; width: 250px; float: right; height: auto; margin: 10px; padding: 0; border: 3px solid #ffffff;" align="right"><ul style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">
-<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">20 блок-конференций в рамках <a href="http://riw.moscow/program/" style="color: #D85B42; margin: 0; padding: 0;">Профессиональной программы</a> Медиа-Коммуникационного Форума (7 цветных залов в течение всех 3 дней работы RIW)</p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Некоторые Блок-конференции: Performance Marketing (лучшие доклады со всей России), Big Data Marketing, Электронная коммерция, Реклама, Digital Marketing...</p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Конференции Russian Affiliate Days и <a href="http://riw.moscow/special/userexperience/" style="color: #D85B42; margin: 0; padding: 0;">User eXperience Russia</a></p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Эксклюзивные секции и панели от партнеров Форума: РАЭК, Медиа-Коммуникационный Союз, ИРИ, РОЦИТ, Координационный Центр доменов RU/РФ, ФРИИ, Mail.ru Group, ВКонтакте, Яндекс, OZON.ru, TVZavr, Лаборатория Касперского, Ростелеком, Спутник, а также от телеканала СТС, Холдинга РБК, Yota и многих других </p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Бизнес-зона — постоянно действующая площадке для бизнес-контактов, профессионального общения, отдыха и кофе-брейков</p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Пакет участника Форума</p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Доступ к видео из 3 залов и к презентациям всех докладчиков по окончании RIW</p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Доступ на открытые площадки в рамках <a href="http://riw.moscow/special/" style="color: #D85B42; margin: 0; padding: 0;">Спецсобытий</a></p>
 						</li>
 					</ul>
@@ -171,7 +171,7 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>
@@ -188,41 +188,41 @@
 					<table style="width: 100%; margin: 0; padding: 0;"><tr style="margin: 0; padding: 0;">
 <td width="50%" style="vertical-align: top; margin: 0; padding: 0;" valign="top">
 								<ul style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">
-<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 										<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Media</p>
 									</li>
-									<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+									<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 										<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Интернет для бизнеса</p>
 									</li>
-									<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+									<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 										<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">e-Commerce</p>
 									</li>
-									<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+									<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 										<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Perfomance Marketing</p>
 									</li>
-									<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+									<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 										<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">User eXperience Russia</p>
 									</li>
-									<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+									<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 										<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Реклама</p>
 									</li>
 								</ul>
 </td>
 							<td width="50%" style="vertical-align: top; margin: 0; padding: 0;" valign="top">
 								<ul style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">
-<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 										<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Mobile</p>
 									</li>
-									<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+									<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 										<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">RAD для рекламодателей и веб-мастеров</p>
 									</li>
-									<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+									<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 										<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Продвижение в сети</p>
 									</li>
-									<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+									<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 										<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Big Data Marketing</p>
 									</li>
-									<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+									<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 										<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Веб-разработка</p>
 									</li>
 								</ul>
@@ -244,7 +244,7 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>

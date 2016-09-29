@@ -9,7 +9,7 @@ $this->setPageTitle('Партнеры');
 ?>
 
 <div class="btn-toolbar clearfix">
-    <?=\CHtml::link('Выставить счет на питание', ['orderfood'], ['class' => 'btn btn-success pull-right']);?></a>
+    <?=\CHtml::link('Выставить счет на питание', ['orderfood'], ['class' => 'btn btn-success pull-right'])?></a>
 </div>
 <div class="well">
     <?$this->widget('\application\widgets\grid\GridView', [
@@ -45,5 +45,5 @@ $this->setPageTitle('Партнеры');
                 }
             ]
         ]
-    ]);?>
+    ])?>
 </div>

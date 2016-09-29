@@ -22,27 +22,27 @@
                 <tr>
                   <td style="padding-top: 10px;">
                     <hr size="1" color="#d2d2d2" />
-                  </td> 
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     <table style="width: 100%" cellpadding="0" cellspacing="0">
                       <tr>
                         <td valign="top" style="width: 270px; padding-right: 20px;">
-                          <span style="color: #000000; font-size: 30px; font-weight: bold;"><?=$user->getFullName();?></span>
+                          <span style="color: #000000; font-size: 30px; font-weight: bold;"><?=$user->getFullName()?></span>
                         </td>
                         <td valign="top" style="padding-right: 20px;">
-                          <span style="margin-top: 15px; display: block; width: 120px; text-align: center; padding-top: 5px; padding-bottom: 5px; background-color: #D52120; color: #ffffff; text-transform: uppercase;"><?=$role->Title;?></span>
+                          <span style="margin-top: 15px; display: block; width: 120px; text-align: center; padding-top: 5px; padding-bottom: 5px; background-color: #D52120; color: #ffffff; text-transform: uppercase;"><?=$role->Title?></span>
                         </td>
                         <td valign="top" style="background: #f6f6f6; padding: 10px; text-align: center; width: 100px;" align="right">
-                          <img src="<?=\ruvents\components\QrCode::getAbsoluteUrl($user);?>"/>
+                          <img src="<?=\ruvents\components\QrCode::getAbsoluteUrl($user)?>"/>
                         </td>
                       </tr>
                     </table>
                   </td>
                 </tr>
                 <tr>
-                  <td align="right" style="padding-top: 5px;">RUNET&mdash;ID <a href="<?=$user->getUrl();?>" style="color: #D14852;"><?=$user->RunetId;?></a></td>
+                  <td align="right" style="padding-top: 5px;">RUNET&mdash;ID <a href="<?=$user->getUrl()?>" style="color: #D14852;"><?=$user->RunetId?></a></td>
                 </tr>
                 <tr>
                   <td style="padding-top: 30px;">
@@ -62,7 +62,7 @@
                 <tr>
                   <td style="padding-top: 10px;">
                     <hr size="1" color="#d2d2d2" />
-                  </td> 
+                  </td>
                 </tr>
                 <tr>
                   <td>
@@ -100,7 +100,7 @@
                 <tr>
                   <td style="padding-top: 10px;">
                     <hr size="1" color="#d2d2d2" />
-                  </td> 
+                  </td>
                 </tr>
                 <tr>
                   <td>
@@ -122,7 +122,7 @@
                 <tr>
                   <td style="padding-top: 10px;">
                     <hr size="1" color="#d2d2d2" />
-                  </td> 
+                  </td>
                 </tr>
                 <tr>
                   <td>

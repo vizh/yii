@@ -13,7 +13,7 @@
 </head>
 <body class="page_registration">
 <script type="text/javascript">
-  <?if ($this->Account->Id !== \api\models\Account::SelfId):?>
+  <?if($this->Account->Id !== \api\models\Account::SelfId):?>
   if (window.top !== window.self) {
     document.write = "";
     setTimeout(function(){document.body.innerHTML='';},1);
@@ -21,16 +21,16 @@
       document.body.innerHTML='';
     };
   }
-  <?endif;?>
+  <?endif?>
 
 function fillOAuthUrls(oauth)
 {
-  oauth.fbUrl  = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Facebook));?>';
-  oauth.vkUrl  = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Vkontakte));?>';
-  oauth.twiUrl = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Twitter));?>';
-  oauth.gUrl   = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Google));?>';
-  oauth.viadeoUrl  = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Viadeo));?>';
-  oauth.ppUrl  = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::PayPal));?>'
+  oauth.fbUrl  = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Facebook))?>';
+  oauth.vkUrl  = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Vkontakte))?>';
+  oauth.twiUrl = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Twitter))?>';
+  oauth.gUrl   = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Google))?>';
+  oauth.viadeoUrl  = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Viadeo))?>';
+  oauth.ppUrl  = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::PayPal))?>'
 }
 </script>
 <section id="section" role="main">
@@ -42,7 +42,7 @@ function fillOAuthUrls(oauth)
           <div class="row">
             <div class="span12">
               <div class="block_cnt">
-                <?=$content;?>
+                <?=$content?>
               </div>
             </div>
           </div>

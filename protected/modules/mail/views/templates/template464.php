@@ -2,7 +2,7 @@
 	$regLink = "http://2015.goldenapp.ru/personal/expert/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'kZhtzhEQnD7y75KriNndzTh8Y'), 0, 16);
 ?>
 
-<p>Привет, <?=$user->getShortName();?>!</p>
+<p>Привет, <?=$user->getShortName()?>!</p>
 
 <p>Вы&nbsp;участвуете в&nbsp;судействе работ, поданных на&nbsp;конкурс &laquo;Золотое приложение&raquo;. Пришло время сделать это! Этап голосования продлится <strong>до&nbsp;17&nbsp;мая включительно</strong>. Пожалуйста, <strong>не&nbsp;откладывайте работу на&nbsp;последний день</strong>&nbsp;&mdash; она может оказаться более трудоёмкой, чем вы&nbsp;планируете.</p>
 

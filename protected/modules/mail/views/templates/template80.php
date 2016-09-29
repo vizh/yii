@@ -1,6 +1,6 @@
-<?$regLink = "http://2014.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);?>
+<?$regLink = "http://2014.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16)?>
 
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p>Вы&nbsp;&mdash; участник <nobr>18-го</nobr> Российского Интернет Форума, РИФ+КИБ 2014, который пройдет <nobr>23&mdash;25 апреля</nobr> 2014 года в&nbsp;подмосковном пансионате &laquo;Поляны&raquo;.</p>
 

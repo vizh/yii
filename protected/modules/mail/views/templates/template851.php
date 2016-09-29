@@ -1,4 +1,4 @@
-<p><strong><?=$user->getShortName();?>,</strong></p>
+<p><strong><?=$user->getShortName()?>,</strong></p>
 
 <p>Напоминаем вам, что вы&nbsp;зарегистрированы на&nbsp;конференцию <nobr><strong>i-CоM</strong></nobr><strong> 2016,</strong> которая стартует уже завтра <nobr>14-15</nobr> марта во&nbsp;ФРИИ Сити Холле (м. Курская, Серебряническая набережная 29).</p>
 

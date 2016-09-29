@@ -1,5 +1,5 @@
 <img alt="Cyber Security Forum / i-SAFETY 2016" src="http://runet-id.com/img/mail/2016/csfff16.png" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" />
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p>Благодарим Вас за участие в CyberSecurityForum\i-SAFETY 2016, прошедшем 9 февраля 2016 года на площадке Digital October! Надеемся, что Форум стал для Вас интересным и полезным, и будем очень рады вновь видеть Вас на наших будущих мероприятиях по безопасному и позитивному онлайн-пространству.</p>
 

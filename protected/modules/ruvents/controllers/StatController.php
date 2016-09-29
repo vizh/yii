@@ -1,5 +1,4 @@
 <?php
-
 use application\components\controllers\PublicMainController;
 
 /**
@@ -16,6 +15,7 @@ class StatController extends PublicMainController
             'food' => 'ruvents\controllers\stat\FoodAction',
             'users-list' => 'ruvents\controllers\stat\UsersListAction',
             'ts-16-participants' => 'ruvents\controllers\stat\ParticipantsTS16Action',
+            'downloadlist' => 'ruvents\controllers\stat\DownloadFoodUsersListAction',
         ];
     }
 }

@@ -1,4 +1,4 @@
-<p>Здравствуйте, <?=$user->getShortName();?>.</p>
+<p>Здравствуйте, <?=$user->getShortName()?>.</p>
 
 <p>Уже в&nbsp;эту субботу, <strong>29&nbsp;ноября в&nbsp;Казани</strong> в&nbsp;IT-парке пройдет специальное мероприятие для представителей веб-студий и&nbsp;агентств&nbsp;&mdash; &laquo;Digital-рейд&raquo;.</p>
 
@@ -24,7 +24,7 @@
 
 <div align="center">
 	<p><strong>До&nbsp;окончания регистрации остается всего 2&nbsp;дня!</strong></p>
-	<p><a style="color: #000; text-decoration: none; display: inline-block; padding: 10px 30px; font-weight: bold; border: 3px solid #000;" href="<?=$user->getFastauthUrl('/event/digitalkazan14/');?>">Быстрая регистрация</a></p></p>
+	<p><a style="color: #000; text-decoration: none; display: inline-block; padding: 10px 30px; font-weight: bold; border: 3px solid #000;" href="<?=$user->getFastauthUrl('/event/digitalkazan14/')?>">Быстрая регистрация</a></p></p>
 </div>
 
 <p>Организаторы Рейда отлично понимают специфику регионального бизнеса агентств и&nbsp;студий, видели много примеров успешного развития (и&nbsp;еще больше&nbsp;&mdash; разного рода неудач), поэтому спланировали программу и&nbsp;доклады так, чтобы полученные знания были максимально применимы на&nbsp;практике.</p>

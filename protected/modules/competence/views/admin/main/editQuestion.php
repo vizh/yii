@@ -10,58 +10,58 @@
 <?=CHtml::form('','POST', ['class' => 'form-horizontal'])?>
 
     <div class="btn-toolbar clearfix">
-        <a class="btn" href="<?=Yii::app()->createUrl('/competence/admin/main/edit', ['id' => $question->TestId]);?>"><i class="icon-arrow-left"></i> Список вопросов</a>
+        <a class="btn" href="<?=Yii::app()->createUrl('/competence/admin/main/edit', ['id' => $question->TestId])?>"><i class="icon-arrow-left"></i> Список вопросов</a>
         <input type="submit" value="Сохранить изменения" name="yt0" class="btn btn-success pull-right">
     </div>
 
     <div class="well">
-        <?=CHtml::errorSummary($question, '<div class="alert alert-error">', '</div>');?>
+        <?=CHtml::errorSummary($question, '<div class="alert alert-error">', '</div>')?>
 
         <div class="control-group">
-            <?=CHtml::activeLabel($question, 'Title', ['class' => 'control-label']);?>
+            <?=CHtml::activeLabel($question, 'Title', ['class' => 'control-label'])?>
             <div class="controls">
-                <?=CHtml::activeTextField($question, 'Title', ['class' => 'span6']);?>
+                <?=CHtml::activeTextField($question, 'Title', ['class' => 'span6'])?>
             </div>
         </div>
 
         <div class="control-group">
-            <?=CHtml::activeLabel($question, 'SubTitle', ['class' => 'control-label']);?>
+            <?=CHtml::activeLabel($question, 'SubTitle', ['class' => 'control-label'])?>
             <div class="controls">
-                <?=CHtml::activeTextArea($question, 'SubTitle', ['rows' => 2, 'class' => 'span6']);?>
+                <?=CHtml::activeTextArea($question, 'SubTitle', ['rows' => 2, 'class' => 'span6'])?>
             </div>
         </div>
 
         <div class="control-group">
-            <?=CHtml::activeLabel($question, 'BeforeTitleText', ['class' => 'control-label']);?>
+            <?=CHtml::activeLabel($question, 'BeforeTitleText', ['class' => 'control-label'])?>
             <div class="controls">
-                <?=CHtml::activeTextField($question, 'BeforeTitleText', ['class' => 'span6']);?>
+                <?=CHtml::activeTextField($question, 'BeforeTitleText', ['class' => 'span6'])?>
             </div>
         </div>
 
         <div class="control-group">
-            <?=CHtml::activeLabel($question, 'AfterTitleText', ['class' => 'control-label']);?>
+            <?=CHtml::activeLabel($question, 'AfterTitleText', ['class' => 'control-label'])?>
             <div class="controls">
-                <?=CHtml::activeTextField($question, 'AfterTitleText', ['class' => 'span6']);?>
+                <?=CHtml::activeTextField($question, 'AfterTitleText', ['class' => 'span6'])?>
             </div>
         </div>
 
         <div class="control-group">
-            <?=CHtml::activeLabel($question, 'AfterQuestionText', ['class' => 'control-label']);?>
+            <?=CHtml::activeLabel($question, 'AfterQuestionText', ['class' => 'control-label'])?>
             <div class="controls">
-                <?=CHtml::activeTextField($question, 'AfterQuestionText', ['class' => 'span6']);?>
+                <?=CHtml::activeTextField($question, 'AfterQuestionText', ['class' => 'span6'])?>
             </div>
         </div>
 
         <div class="control-group">
-            <?=CHtml::activeLabel($question, 'Required', ['class' => 'control-label']);?>
+            <?=CHtml::activeLabel($question, 'Required', ['class' => 'control-label'])?>
             <div class="controls">
-                <?=CHtml::activeCheckBox($question, 'Required');?>
+                <?=CHtml::activeCheckBox($question, 'Required')?>
             </div>
         </div>
 
-        <?php if ($question->getForm()->getAdminView() != null): ?>
+        <?if($question->getForm()->getAdminView() != null):?>
             <?=$this->renderPartial($question->getForm()->getAdminView(), ['question' => $question])?>
-        <?php endif ?>
+        <?endif?>
     </div>
 
 <?=CHtml::endForm()?>

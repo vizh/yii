@@ -18,5 +18,5 @@
 <p>Стоимость билета &mdash; 350 рублей.</p>
 
 <div style="text-align: center; border: 3px dashed #4E226F; margin-top: 20px;">
-    <p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastauthUrl('/event/npdo15');?>" style="font-size: 100%; color: #fff; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #4E226F; margin: 0 10px 0 0; padding: 0; border-color: #4E226F; border-style: solid; border-width: 10px 40px;">Зарегистрироваться</a></p>
+    <p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastauthUrl('/event/npdo15')?>" style="font-size: 100%; color: #fff; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #4E226F; margin: 0 10px 0 0; padding: 0; border-color: #4E226F; border-style: solid; border-width: 10px 40px;">Зарегистрироваться</a></p>
 </div>

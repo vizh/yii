@@ -42,11 +42,36 @@ class AjaxController extends PublicMainController
         $criteria->limit = 10;
         $criteria->with = ['Employments.Company'];
         $model = User::model();
-        if ($eventId !== null) {
-            $model->bySearch($term, null, true, false)->byEventId($eventId);
+
+        if (Yii::app()->partner->role === 'AdminExtended') {
+            if ($eventId !== null) {
+                $event = \event\models\Event::model()->findByPk($eventId);
+                if ($event && $event->UserScope){
+                    $model->bySearch($term, null, true, false)->byEventId($eventId);
+                }
+                else{
+                    $model->bySearch($term, null, true, false);
+                }
+            } else {
+                is_numeric($term) ? $model->byRunetId($term) : $model->bySearch($term);
+            }
         } else {
-            is_numeric($term) ? $model->byRunetId($term) : $model->bySearch($term);
+            $model->bySearch($term, null, true, false);
+
+            if ($eventId !== null) {
+                $event = \event\models\Event::model()->findByPk($eventId);
+                if ($event && $event->UserScope){
+                    $model->byEventId($eventId);
+                }
+
+                $role = Yii::app()->partnerAuthManager->roles[Yii::app()->partner->role];
+                $available_roles = ArrayHelper::getValue($role->data, 'roles', []);
+                if (!empty($available_roles)){
+                    $model->byEventRole($available_roles);
+                }
+            }
         }
+
         /** @var $users \user\models\User[] */
         $users = $model->findAll($criteria);
         foreach ($users as $user) {

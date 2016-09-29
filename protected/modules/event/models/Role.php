@@ -79,4 +79,12 @@ class Role extends ActiveRecord
     {
         return ['Title'];
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function __toString()
+    {
+        return $this->Title;
+    }
 }

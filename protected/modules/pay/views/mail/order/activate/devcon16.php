@@ -7,12 +7,12 @@
  */
 ?>
 
-<p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">Рады сообщить, что в рамках участия в конференции DevCon 2016 вами успешно был оплачен счет <?php if ($order->getIsBankTransfer()):?>№ <?=$order->Number;?><?php endif;?> на сумму <?=$total;?> руб. за следующие услучи:</p>
+<p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">Рады сообщить, что в рамках участия в конференции DevCon 2016 вами успешно был оплачен счет <?if($order->getIsBankTransfer()):?>№ <?=$order->Number?><?endif?> на сумму <?=$total?> руб. за следующие услучи:</p>
 
 <ul>
-<?php foreach ($items as $orderItem): ?>
-    <li style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">"<?=$orderItem->Product->Title;?>" на <?=$orderItem->Owner->getFullName();?></li>
-<? endforeach; ?>
+<?foreach($items as $orderItem):?>
+    <li style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">"<?=$orderItem->Product->Title?>" на <?=$orderItem->Owner->getFullName()?></li>
+<?endforeach?>
 </ul>
 
 <p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">Для вашего комфортного размещения в отеле, пришлите нам, пожалуйста, ваши пожелания по адресу ms@devcon2016.ru до 13 мая 2016 года.</p>

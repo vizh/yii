@@ -1,4 +1,4 @@
-<?=$user->getShortName();?>, добрый день!
+<?=$user->getShortName()?>, добрый день!
 
 
 

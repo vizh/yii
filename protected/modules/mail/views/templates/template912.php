@@ -57,11 +57,11 @@ a {
 }
 
 .btn-primary td {
-  background-color: #FE9901; 
-  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-  font-size: 14px; 
+  background-color: #FE9901;
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size: 14px;
   text-align: center;
-  vertical-align: top; 
+  vertical-align: top;
 }
 
 .btn-primary td a {
@@ -82,11 +82,11 @@ a {
 }
 
 .btn-secondary td {
-  background-color: transparent; 
-  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-  font-size: 14px; 
+  background-color: transparent;
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size: 14px;
   text-align: center;
-  vertical-align: top; 
+  vertical-align: top;
 }
 
 .btn-secondary td a {
@@ -107,11 +107,11 @@ a {
 }
 
 .btn-white td {
-  background-color: #FFFFFF; 
-  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-  font-size: 14px; 
+  background-color: #FFFFFF;
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size: 14px;
   text-align: center;
-  vertical-align: top; 
+  vertical-align: top;
 }
 
 .btn-white td a {
@@ -177,13 +177,13 @@ table.body-wrap {
 table.unboxed-wrap {
   clear: both !important;
   padding: 25px 0;
-  width: 100%;  
+  width: 100%;
 }
 
 
 
-h1, 
-h2, 
+h1,
+h2,
 h3 {
   color: #111111;
   font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -209,15 +209,15 @@ h4 {
   padding: 0;
 }
 
-p, 
-ul, 
+p,
+ul,
 ol {
   font-size: 14px;
   font-weight: normal;
   margin-bottom: 10px;
 }
 
-ul li, 
+ul li,
 ol li {
   margin-left: 25px;
   list-style-position: outside;
@@ -314,7 +314,7 @@ small {
 		margin: 15px 0;
 		width: 100%;
 	}
-  
+
   .full {
     display: block !important;
     width: 100%  !important;
@@ -335,26 +335,26 @@ small {
 <body bgcolor="#D2D9DC" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;-webkit-font-smoothing:antialiased;height:100%;-webkit-text-size-adjust:none;width:100% !important;font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;font-size:14px;line-height:1.5em;" >
 
 	<div id="wrapper" style="background-color:#D2D9DC;height:100%;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;width:100%;" >
-		
+
 		<!-- unboxed -->
 		<table class="unboxed-wrap" bgcolor="#D2D9DC" style="margin-bottom:0;margin-right:0;margin-left:0;margin-top:25px;clear:both !important;padding-top:25px;padding-bottom:25px;padding-right:0;padding-left:0;width:100%;" >
 		  <tr style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
 		    <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" ></td>
 		    <td class="container" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;clear:both !important;display:block !important;margin-top:0 !important;margin-bottom:0 !important;margin-right:auto !important;margin-left:auto !important;max-width:600px !important;" >
-		      
+
 		      <!-- content -->
 		      <div class="content" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;display:block;margin-top:0;margin-bottom:0;margin-right:auto;margin-left:auto;max-width:600px;" >
 		        <table style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;width:100%;" >
 		          <tr style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
 		            <td align="center" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" >
-		              	<h2 style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#111111;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;font-weight:200;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;font-size:28px;" >Здравствуйте, <?=$user->getShortName();?>!</h2>
+		              	<h2 style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#111111;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;font-weight:200;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;font-size:28px;" >Здравствуйте, <?=$user->getShortName()?>!</h2>
 		              	<p class="lead" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-weight:normal;font-size:17px;margin-top:8px;margin-bottom:8px;margin-right:5%;margin-left:5%;" >Завтра – третий, последний день работы РИФ+КИБ 2016</p>
 		            </td>
 		          </tr>
 		        </table>
 		      </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" ></td>
 		  </tr>
@@ -391,29 +391,29 @@ small {
 					</table>
 
 					<hr style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;border-width:0;border-top-width:1px;border-top-style:solid;border-top-color:#eaeaea;height:1px;margin-top:35px;margin-bottom:35px;margin-right:auto;margin-left:auto;" >
-					
+
 					<h3 style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#111111;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;font-size:22px;font-weight:bold;text-transform:uppercase;" >Акценты третьего дня РИФа</h3>
 					<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Завтра, в&nbsp;завершающий день Форума, в&nbsp;пятницу 15&nbsp;апреля, пройдет огромное количество интересных бизнес-ориентированных секций, вот некоторые из&nbsp;них:</p>
 					<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" ><strong style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >Первый поток: 10:00&nbsp;— 12:00</strong></p>
-					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" > 
+					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >
 						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" ><a href="http://2016.russianinternetforum.ru/program/3131" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#FE9901;" >Продвижение в&nbsp;мобильниках: сайты, приложения, трафик</a></li>
 						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" ><a href="http://2016.russianinternetforum.ru/program/3132" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#FE9901;" >Сложная веб-разработка и&nbsp;интеграции</a></li>
 						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" ><a href="http://2016.russianinternetforum.ru/program/3136" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#FE9901;" >Сквозная аналитика: тренд 2016 года</a></li>
 					</ul>
 					<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" ><strong style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >Второй поток: 12:30&nbsp;— 14:30</strong></p>
-					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" > 
+					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >
 						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" ><a href="http://2016.russianinternetforum.ru/program/3138" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#FE9901;" >Поколение Z&nbsp;— вызовы, возможности, угрозы</a></li>
 						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" ><a href="http://2016.russianinternetforum.ru/program/3144" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#FE9901;" >Кейс-секция клуба интернет-магазинщиков&nbsp;— 100% Natual eCommerce Club</a></li>
 						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" ><a href="http://2016.russianinternetforum.ru/program/3143" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#FE9901;" >Digital-кейсы: Мобильные коммуникации</a></li>
 					</ul>
 					<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" ><strong style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >Третий поток: 15:30&nbsp;— 17:30</strong></p>
-					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" > 
+					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >
 						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" ><a href="http://2016.russianinternetforum.ru/program/3146" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#FE9901;" >Веб-аналитика как ключ к&nbsp;эффективной интернет-рекламе</a></li>
 						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" ><a href="http://2016.russianinternetforum.ru/program/3152" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#FE9901;" >Практическая безопасность веб-проектов</a></li>
 						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" ><a href="http://2016.russianinternetforum.ru/program/3148" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#FE9901;" >Enterprise: мобильные приложения для бизнеса</a></li>
 					</ul>
 					<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" ><br style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" />
-						<a href="http://2016.russianinternetforum.ru/program/3148" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#FE9901;" >Подробная программа</a> доступна на&nbsp;официальном сайте. Если вы&nbsp;авторизованы на&nbsp;сайте под своей учетной записью, у&nbsp;вас есть возможность формировать собственную программу&nbsp;— список избранных секций, которые вы&nbsp;хотели&nbsp;бы посетить. 
+						<a href="http://2016.russianinternetforum.ru/program/3148" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#FE9901;" >Подробная программа</a> доступна на&nbsp;официальном сайте. Если вы&nbsp;авторизованы на&nbsp;сайте под своей учетной записью, у&nbsp;вас есть возможность формировать собственную программу&nbsp;— список избранных секций, которые вы&nbsp;хотели&nbsp;бы посетить.
 					</p>
 
 				  </td>
@@ -421,7 +421,7 @@ small {
 		      </table>
 		      </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" ></td>
 		  </tr>
@@ -443,7 +443,7 @@ small {
 					<img src="https://showtime.s3.amazonaws.com/201602241624-exclamation-sign-in-oval-speech-bubble.png" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;float:right;margin-top:10px;margin-bottom:10px;margin-right:10px;margin-left:10px;height:auto;width:128px;max-width:600px;" >
 
 					<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" ><b style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >В&nbsp;третий день 15&nbsp;апреля в&nbsp;17:30&nbsp;в Кинозале (зал—1) пройдет Официальное завершение <nobr style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >20-го</nobr> РИФа:</b></p>
-					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" > 
+					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >
 						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >Подведение итогов конкурса по&nbsp;разработке логотипа РИФ+КИБ</li>
 						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >Демонстрация итогового короткометражного фильма «О&nbsp;<nobr style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >20-м</nobr> РИФе», который снимался в&nbsp;эти дни</li>
 					</ul>
@@ -452,7 +452,7 @@ small {
 				</tr>
 			  </table>
 			  </div>
-		      
+
 		    </td>
 		    <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" ></td>
 		  </tr>
@@ -479,7 +479,7 @@ small {
 				</tr>
 			  </table>
 			  </div>
-		      
+
 		    </td>
 		    <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" ></td>
 		  </tr>
@@ -509,7 +509,7 @@ small {
 			</tr>
 		</table>
 		<!-- /body -->
-		
+
 		<br style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
 
 	</div>

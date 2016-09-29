@@ -1,8 +1,8 @@
 <p><a href="http://runet-id.com/event/ttexpo15" target="_blank"><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/ttexpo15.png" style="width: 100%; height: auto; margin: 0 auto" /></a></p>
 
-<h3><strong>Здравствуйте, </span><?=$user->getShortName();?></strong>.</h3>
+<h3><strong>Здравствуйте, </span><?=$user->getShortName()?></strong>.</h3>
 
-<p><strong>Techtrends expo</strong> - это первая интерактивная выставка новейших технологий.<br/> Посетив <a href="http://techtrendsexpo.com/?utm_source=newsletter&utm_medium=email&utm_campaign=runet_id">TechTrends Expo</a>, вы сможете лично протестировать мировые премьеры электроники в области умного дома, носимых гаджетов, дополненной и виртуальной реальности, 3D-сканирования и 3D-печати.<p> 
+<p><strong>Techtrends expo</strong> - это первая интерактивная выставка новейших технологий.<br/> Посетив <a href="http://techtrendsexpo.com/?utm_source=newsletter&utm_medium=email&utm_campaign=runet_id">TechTrends Expo</a>, вы сможете лично протестировать мировые премьеры электроники в области умного дома, носимых гаджетов, дополненной и виртуальной реальности, 3D-сканирования и 3D-печати.<p>
 
 <p><strong>Профессиональная конференция:</strong></p>
 
@@ -21,8 +21,7 @@
 
 <p><strong>Успейте приобрести билет на TechTrends Expo со значительной выгодой до 27 марта</strong></p>
 
-<div style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/ttexpo15');?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #0A407D; margin: 0 10px 0 0; padding: 10px 20px; border-bottom: 1px solid #307489;
+<div style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/ttexpo15')?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #0A407D; margin: 0 10px 0 0; padding: 10px 20px; border-bottom: 1px solid #307489;
   border-top: 1px solid #56BFD7;"><strong>КУПИТЬ БИЛЕТ</strong> </a></div>
-  
-  
-  
+
+

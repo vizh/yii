@@ -25,7 +25,7 @@
         border-collapse: collapse;
         border-spacing: 0;
       }
-      
+
       /* Styles */
       body {
         padding: 50px 0;
@@ -35,7 +35,7 @@
 
       a {color: #00a8ca;}
       a:hover {text-decoration: none;}
-      
+
       h1 {font-size: 50px;}
       h2 {font-size: 35px;}
       h3 {
@@ -63,7 +63,7 @@
   </head>
   <body>
 
-    
+
     <table border="0" cellpadding="0" cellspacing="0">
       <tr>
         <td>&nbsp;</td>
@@ -71,7 +71,7 @@
         <td>&nbsp;</td>
         <td style="font-size: 25px; font-weight: bold; line-height: 25px; width: 1px; text-align: center; padding: 5px;" rowspan="2">ID</td>
         <td>&nbsp;</td>
-        <td rowspan="2" style="font-size: 25px; font-weight: bold; line-height: 25px; width: 1px; text-align: center; padding: 5px;"><?=$user->RunetId;?></td>
+        <td rowspan="2" style="font-size: 25px; font-weight: bold; line-height: 25px; width: 1px; text-align: center; padding: 5px;"><?=$user->RunetId?></td>
         <td>&nbsp;</td>
       </tr>
       <tr>
@@ -82,7 +82,7 @@
       </tr>
       <tr>
         <td colspan="10" style="border-left: 3px solid #000; border-right: 3px solid #000; border-bottom: 3px solid #000;">
-          
+
           <table border="0" cellpadding="0" cellspacing="0" style="margin-bottom: 50px; border-top: 0;">
             <tbody>
               <tr>
@@ -92,7 +92,7 @@
               <tr>
                 <td></td>
                 <td colspan="3">
-                  <p>Здравствуйте, <?=$user->getShortName();?>!</p>
+                  <p>Здравствуйте, <?=$user->getShortName()?>!</p>
                 </td>
                 <td></td>
               </tr>
@@ -186,11 +186,11 @@
               </tr>
             </tbody>
           </table>
-          
+
         </td>
       </tr>
     </table>
-    <p style="width: 740px; margin: 0 auto; color: #909090;">Вы получили это письмо, так как являетесь <a href="<?=$user->getUrl();?>" target="_blank" style="color: #909090;">пользователем runet-id.ru</a> и подписаны на новостную рассылку. Вы можете <a href="http://runet-id.com/user/setting/subscription/" target="_blank" style="color: #909090;">изменить настройки уведомлений</a>.</p>
+    <p style="width: 740px; margin: 0 auto; color: #909090;">Вы получили это письмо, так как являетесь <a href="<?=$user->getUrl()?>" target="_blank" style="color: #909090;">пользователем runet-id.ru</a> и подписаны на новостную рассылку. Вы можете <a href="http://runet-id.com/user/setting/subscription/" target="_blank" style="color: #909090;">изменить настройки уведомлений</a>.</p>
 
   </body>
 </html>

@@ -8,13 +8,13 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <link rel="icon" href="/favicon.ico">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <title>Авторизация / RUNET-ID</title>
     <script src='//www.google.com/recaptcha/api.js'></script>
 </head>
 <body class="page_registration">
 <script type="text/javascript">
-    <?if ($this->Account->Id !== \api\models\Account::SelfId):?>
+    <?if($this->Account->Id !== \api\models\Account::SelfId):?>
     if (window.top !== window.self) {
         document.write = "";
         setTimeout(function(){document.body.innerHTML='';},1);
@@ -22,17 +22,18 @@
             document.body.innerHTML='';
         };
     }
-    <?endif;?>
+    <?endif?>
 
     function fillOAuthUrls(oauth)
     {
-        oauth.fbUrl  = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Facebook));?>';
-        oauth.vkUrl  = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Vkontakte));?>';
-        oauth.twiUrl = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Twitter));?>';
-        oauth.gUrl   = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Google));?>';
-        oauth.viadeoUrl  = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Viadeo));?>';
-        oauth.ppUrl  = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::PayPal));?>';
-        oauth.linkedinUrl  = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Linkedin));?>';
+        oauth.fbUrl  = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Facebook))?>';
+        oauth.vkUrl  = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Vkontakte))?>';
+        oauth.twiUrl = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Twitter))?>';
+        oauth.gUrl   = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Google))?>';
+        oauth.viadeoUrl  = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Viadeo))?>';
+        oauth.ppUrl  = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::PayPal))?>';
+        oauth.linkedinUrl  = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Linkedin))?>';
+        oauth.okUrl  = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Ok))?>';
     }
 </script>
 <section id="section" role="main">
@@ -41,7 +42,7 @@
             <div class="col-sm-6 col-xs-12 col-sm-offset-3">
                 <div class="block">
                     <div class="block_t">RUNET-ID</div>
-                    <?=$content;?>
+                    <?=$content?>
                 </div>
             </div>
         </div>

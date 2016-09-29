@@ -1,12 +1,12 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/ccs15.png" style="width: 100%; height: auto; margin: 0 auto" /></a></p>
-<p><strong>Здравствуйте <?=$user->getShortName();?>!</strong></p>
+<p><strong>Здравствуйте <?=$user->getShortName()?>!</strong></p>
 
 <p>Напоминаем вам, что конференция ConversionConf 2015: трафик, конверсии, продажи состоится 23 июня в Конгрессном Центре  «ПетроКонгресс» по адресу Санкт-Петербург, ул.Лодейнопольская, д.5.</p>
 
 
 <div style="text-align: center; border: 3px dashed #D94332; margin-top: 20px;">
 	<p>Вы можете распечатать электронный билет, для максимально быстрой регистрации на мероприятии.</p>
-	<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->Participants[0]->getTicketUrl();?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #D94332; margin: 0 10px 0 0; padding: 0; border-color: #D94332; border-style: solid; border-width: 10px 40px;">ЭЛЕКТРОННЫЙ БИЛЕТ</a></p>
+	<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->Participants[0]->getTicketUrl()?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #D94332; margin: 0 10px 0 0; padding: 0; border-color: #D94332; border-style: solid; border-width: 10px 40px;">ЭЛЕКТРОННЫЙ БИЛЕТ</a></p>
 </div>
 
 <p><b>Начало регистрации в 9:00.</b><br/>

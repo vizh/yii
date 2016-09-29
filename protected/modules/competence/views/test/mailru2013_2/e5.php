@@ -4,10 +4,10 @@
  */
 ?>
 <ul class="unstyled">
-  <?foreach ($form->options as $key => $value):?>
+  <?foreach($form->options as $key => $value):?>
     <li>
-      <h4><?=$value;?></h4>
-      <?=CHtml::activeDropDownList($form, 'value['.$key.']', $form->values, ['class' => 'span4']);?>
+      <h4><?=$value?></h4>
+      <?=CHtml::activeDropDownList($form, 'value['.$key.']', $form->values, ['class' => 'span4'])?>
     </li>
-  <?endforeach;?>
+  <?endforeach?>
 </ul>

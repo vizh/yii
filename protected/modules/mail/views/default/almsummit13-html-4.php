@@ -28,7 +28,7 @@
 					    <table width="550" align="center" cellpadding="0" cellspacing="0" style="border-collapse:collapse;" border="0">
 	    					<tr>
                   <td>
-                    <h3>Здравствуйте, <?=$user->getShortName();?>!</h3>
+                    <h3>Здравствуйте, <?=$user->getShortName()?>!</h3>
                     <p>Мы рады пригласить вас совершенно <b>бесплатно</b> на третью ежегодную конференцию по управлению жизненным циклом программного обеспечения, корпоративной разработке и тестированию <a href="http://www.alm-summit.ru/">ALM Summit</a>, которая состоится 6 февраля 2014 года!</p>
                     <p>Для <b>бесплатного участия</b> в мероприятии используйте специальный промокод при <a href="http://events.techdays.ru/ALM-Summit/2014-02/registration">регистрации</a>:</p>
                     <p style="font-size: 20px; text-align: center;">alm14_special</p>

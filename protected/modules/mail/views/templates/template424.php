@@ -2,11 +2,11 @@
 
 <p>&nbsp;<p>
 
-<h3><strong>Здравствуйте, </span><?=$user->getShortName();?></strong>!</h3>
+<h3><strong>Здравствуйте, </span><?=$user->getShortName()?></strong>!</h3>
 
 <p>Вы зарегистрировались на одно из интереснейших событий этой весны!</p>
 
-<p>Мы спешим напомнить Вам, что оно состоится уже в эту пятницу!</p> 
+<p>Мы спешим напомнить Вам, что оно состоится уже в эту пятницу!</p>
 
 <p>&nbsp;</p>
 
@@ -22,5 +22,5 @@
 
 <p>&nbsp;</p>
 
-<div style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->Participants[0]->getTicketUrl();?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #89BF3A; margin: 0 10px 0 0; padding: 10px 20px; border-bottom: 1px solid #307489;
+<div style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->Participants[0]->getTicketUrl()?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #89BF3A; margin: 0 10px 0 0; padding: 10px 20px; border-bottom: 1px solid #307489;
   border-top: 1px solid #67888D;"><strong>Электронный билет</strong> </a></div>

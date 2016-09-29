@@ -39,7 +39,7 @@
                     <table>
                       <tr>
                         <td style="background: #54AB98; text-align: center; width: 250px; padding: 10px 0;">
-                          <span style="font-family:Arial, Helvetica, sans-serif; font-size:18px;"><a style="color:#ffffff; text-decoration: none;" href="<?=$user->Participants[0]->getTicketUrl();?>">Пригласительный билет</a></span>
+                          <span style="font-family:Arial, Helvetica, sans-serif; font-size:18px;"><a style="color:#ffffff; text-decoration: none;" href="<?=$user->Participants[0]->getTicketUrl()?>">Пригласительный билет</a></span>
                         </td>
                       </tr>
                     </table>

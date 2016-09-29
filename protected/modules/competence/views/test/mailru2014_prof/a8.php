@@ -37,32 +37,32 @@ function getAttrs(\competence\models\test\mailru2014_prof\A8 $form, $key)
 <div class="row">
   <div class="span4">
     <ul class="unstyled">
-      <?foreach ($part1 as $key => $value):?>
+      <?foreach($part1 as $key => $value):?>
       <li>
         <label class="checkbox">
-          <?=CHtml::activeCheckBox($form, 'value[]', getAttrs($form, $key));?>
-          <?=$value;?>
+          <?=CHtml::activeCheckBox($form, 'value[]', getAttrs($form, $key))?>
+          <?=$value?>
         </label>
-        <?if ($key == 98):?>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=CHtml::activeTextField($form, 'other', ['class' => 'span4', 'data-group' => $form->getQuestion()->Code, 'id' => $form->getQuestion()->Code.'_'.$key]);?>
-        <?endif;?>
+        <?if($key == 98):?>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=CHtml::activeTextField($form, 'other', ['class' => 'span4', 'data-group' => $form->getQuestion()->Code, 'id' => $form->getQuestion()->Code.'_'.$key])?>
+        <?endif?>
       </li>
-      <?endforeach;?>
+      <?endforeach?>
     </ul>
   </div>
   <div class="span5">
     <ul class="unstyled">
-      <?foreach ($part2 as $key => $value):?>
+      <?foreach($part2 as $key => $value):?>
       <li>
         <label class="checkbox">
-          <?=CHtml::activeCheckBox($form, 'value[]', getAttrs($form, $key));?>
-          <?=$value;?>
+          <?=CHtml::activeCheckBox($form, 'value[]', getAttrs($form, $key))?>
+          <?=$value?>
         </label>
-        <?if ($key == 98):?>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=CHtml::activeTextField($form, 'other', ['class' => 'span4', 'data-group' => $form->getQuestion()->Code, 'id' => $form->getQuestion()->Code.'_'.$key]);?>
-        <?endif;?>
+        <?if($key == 98):?>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=CHtml::activeTextField($form, 'other', ['class' => 'span4', 'data-group' => $form->getQuestion()->Code, 'id' => $form->getQuestion()->Code.'_'.$key])?>
+        <?endif?>
       </li>
-      <?endforeach;?>
+      <?endforeach?>
     </ul>
   </div>
 </div>

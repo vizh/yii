@@ -1,9 +1,9 @@
-<?php	
+<?php
 	$link = "http://mcf.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'v1ea8anfiv'), 0, 16) . '&redirect=http://mcf.moscow/vote/';
 ?>
 
 
-<p><strong><?=$user->getShortName();?></strong>,<br />
+<p><strong><?=$user->getShortName()?></strong>,<br />
 <span style="line-height: 1.6em;">Спасибо за Ваше участие в Большоv Медиа-Коммуникационном Форуме &ndash; БМКФ 2016!</span></p>
 
 <p>Мы высоко ценим мнение каждого участника Форума и будем признательны, если вы уделите 5 минут своего времени, чтобы принять участие в итоговом опросе участников.&nbsp;</p>

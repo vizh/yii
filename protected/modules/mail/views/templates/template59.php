@@ -1,4 +1,4 @@
-<?$regLink = "http://2014.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);?>
+<?$regLink = "http://2014.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16)?>
 <table align="left" border="0" cellpadding="0" cellspacing="0" style="color: rgb(34, 34, 34); line-height: normal; border: 1px solid rgb(239, 239, 239); font-family: Tahoma, Arial, Helvetica, sans-serif;" width="634">
     <tbody>
     <tr>
@@ -10,7 +10,7 @@
                 <tbody>
                 <tr>
                     <td style="margin: 0px;">
-                        <h2>Здравствуйте,&nbsp;<?=$user->getShortName();?>!</h2>
+                        <h2>Здравствуйте,&nbsp;<?=$user->getShortName()?>!</h2>
 
                         <p>До&nbsp;старта <a href="http://rif.ru">РИФ+КИБ</a> осталось 3 недели&nbsp;&mdash; <nobr>18-й</nobr> Российский Интернет Форум пройдет <nobr>23&mdash;25 апреля</nobr> 2014 года в&nbsp;подмосковных пансионатах &laquo;Поляны&raquo; и&nbsp;&laquo;Лесные дали&raquo;.</p>
 

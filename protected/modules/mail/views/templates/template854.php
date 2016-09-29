@@ -1,13 +1,13 @@
 <img alt="" src="http://runet-id.com/img/mail/2016/dirs16.png" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" />
 
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p>Напоминаем вам, что конференция <a href="http://www.advdays.ru/march_2016/?utm_source=reg&amp;utm_medium=email&amp;utm_campaign=advdays_march_2016"><strong>&laquo;</strong><strong>День интернет-рекламы&raquo;</strong></a> состоится <strong>17 марта, в четверг</strong>.<br />
 Ознакомьтесь, пожалуйста, с важной информацией для прохода на мероприятие!</p>
 
 <div style="text-align: center; border: 3px dashed #B6CB1B; margin-top: 20px;">
 <p style="text-align: center;"><strong>Для максимально быстрой регистрации на мероприятии<br/> распечатайте, пожалуйста, ваш электронный билет:</strong></p>
-	<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->Participants[0]->getTicketUrl();?>" style="font-size: 100%; color: #fff; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #B6CB1B; margin: 0 10px 0 0; padding: 0; border-color: #B6CB1B; border-style: solid; border-width: 10px 40px;">ЭЛЕКТРОННЫЙ БИЛЕТ</a></p>
+	<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->Participants[0]->getTicketUrl()?>" style="font-size: 100%; color: #fff; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #B6CB1B; margin: 0 10px 0 0; padding: 0; border-color: #B6CB1B; border-style: solid; border-width: 10px 40px;">ЭЛЕКТРОННЫЙ БИЛЕТ</a></p>
 </div>
 
 <ul>

@@ -85,5 +85,5 @@ $this->setPageTitle('Контакты польльзователей');
             ]
         ],
         'pagerCssClass' => 'pagination text-center'
-    ]);?>
+    ])?>
 </div>

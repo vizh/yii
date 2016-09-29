@@ -1,4 +1,4 @@
-Здравствуйте, <?=$user->getShortName();?>.
+Здравствуйте, <?=$user->getShortName()?>.
 
 Вы являетесь участником конференции IBC Russia 2013.
 
@@ -13,4 +13,4 @@
 С уважением,
 Оргкомитет IBC Russia 2013
 
-Отписаться: <?=$user->getFastauthUrl('/user/setting/subscription/');?>
+Отписаться: <?=$user->getFastauthUrl('/user/setting/subscription/')?>

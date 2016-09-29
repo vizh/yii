@@ -17,7 +17,7 @@ class AuthController extends partner\components\Controller
       {
         Yii::app()->partner->login($identity);
         $backUrl = $request->getParam('backUrl', null);
-        $this->redirect($backUrl == null ? Yii::app()->createUrl('/partner/main/index') : $backUrl);
+        $this->redirect($backUrl == null ? Yii::app()->createUrl('/partner/main/home') : $backUrl);
       }
       else
       {

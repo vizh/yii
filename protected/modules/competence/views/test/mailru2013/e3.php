@@ -12,34 +12,34 @@ $manager = \Yii::app()->getAssetManager();
 
 <h3>Какого рода информацию <strong>об интернет-отрасли</strong> Вы получаете из данных источников?</h3>
 
-<?php $this->widget('competence\components\ErrorsWidget', array('question' => $question));?>
+<?$this->widget('competence\components\ErrorsWidget', array('question' => $question))?>
 
 <ul class="unstyled">
-  <?foreach ($base->getOptions() as $key => $value):
+  <?foreach($base->getOptions() as $key => $value):
     if (!in_array($key, $baseData['value']))
     {
       continue;
     }
-  ?>
+ ?>
   <li>
-    <?if ($key != 12):?>
-    <h4><?=$value;?></h4>
+    <?if($key != 12):?>
+    <h4><?=$value?></h4>
     <?else:?>
-    <h4>Другое<br>(<em>добавлен свой вариант</em>: <strong><?=$baseData['other'];?></strong>)</h4>
-    <?endif;?>
+    <h4>Другое<br>(<em>добавлен свой вариант</em>: <strong><?=$baseData['other']?></strong>)</h4>
+    <?endif?>
     <ul class="unstyled">
-    <?foreach ($question->values as $key_1 => $value_1):?>
+    <?foreach($question->values as $key_1 => $value_1):?>
       <li>
         <label class="checkbox">
-          <?=CHtml::activeCheckBox($question, 'value['.$key.'][]', array('value' => $key_1, 'uncheckValue' => null, 'checked' => !empty($question->value[$key]) && in_array($key_1, $question->value[$key]), 'data-other' => $key_1==6 ? 'checkbox' : '', 'data-other-group' => 'group'.$key));?>
-          <?=$value_1;?>
+          <?=CHtml::activeCheckBox($question, 'value['.$key.'][]', array('value' => $key_1, 'uncheckValue' => null, 'checked' => !empty($question->value[$key]) && in_array($key_1, $question->value[$key]), 'data-other' => $key_1==6 ? 'checkbox' : '', 'data-other-group' => 'group'.$key))?>
+          <?=$value_1?>
         </label>
-        <?if ($key_1 == 6):?>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=CHtml::activeTextField($question, 'other['.$key.']', array('class' => 'span4', 'data-other' => 'input', 'data-other-group' => 'group'.$key, 'disabled' => empty($question->value[$key]) || !in_array($key_1, $question->value[$key])));?>
-        <?endif;?>
+        <?if($key_1 == 6):?>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=CHtml::activeTextField($question, 'other['.$key.']', array('class' => 'span4', 'data-other' => 'input', 'data-other-group' => 'group'.$key, 'disabled' => empty($question->value[$key]) || !in_array($key_1, $question->value[$key])))?>
+        <?endif?>
       </li>
-    <?endforeach;?>
+    <?endforeach?>
     </ul>
   </li>
-  <?endforeach;?>
+  <?endforeach?>
 </ul>

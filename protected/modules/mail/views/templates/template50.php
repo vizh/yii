@@ -1,6 +1,6 @@
 <p><img src="http://runet-id.com/img/mail/2014/20140331-rigf14.jpg" /></p>
 
-<p><?=$user->getShortName();?>, здравствуйте!</p>
+<p><?=$user->getShortName()?>, здравствуйте!</p>
 
 <p><nobr><strong>RIGF-2014</strong></nobr><strong> стартует через неделю!</strong></p>
 
@@ -10,7 +10,7 @@
 
 <p><strong>Приглашаем на&nbsp;форум всех, кому интересна тема управления интернетом и&nbsp;</strong><nobr><strong>интернет-безопасности</strong></nobr><strong>! Не&nbsp;пропустите одно из&nbsp;самых интересных событий весны 2014 года!</strong></p>
 
-<p><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/rigf14/');?>" style="display: block; text-decoration: none; background: #D85939; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">Зарегистрироваться</a></p>
+<p><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/rigf14/')?>" style="display: block; text-decoration: none; background: #D85939; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">Зарегистрироваться</a></p>
 
 <p>Участие в&nbsp;форуме бесплатное, но&nbsp;требуется предварительная регистрация. Регистрация на&nbsp;форум завершится 4 апреля 2014 года в&nbsp;12.00.</p>
 

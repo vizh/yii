@@ -1,6 +1,6 @@
 <p><img src="http://runet-id.com/img/mail/2014/20140408-mblt14.jpg" alt=""/></p>
 
-<h2>Здравствуйте, <?=$user->getShortName();?>.</h2>
+<h2>Здравствуйте, <?=$user->getShortName()?>.</h2>
 
 <h3>Опубликована программа третьей международной мобильной конференции <a href="http://mblt.ru/ru">#MBLT14</a>, которая состоится 23 мая в Москве.&nbsp;</h3>
 
@@ -27,14 +27,14 @@
 	<li>
 	<p>New Technologies;</p>
 	</li>
-	
+
 </ul>
 
 <p>С полным списком спикеров и предварительной программой можно ознакомиться на <a href="http://mblt.ru/ru">сайте мероприятия</a>.</p>
 
 <p><a href="http://mblt.ru/en/timetable" style="display: block; text-decoration: none; background: #DA391D; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">ПРОГРАММА</a></p>
 
-<p><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/mblt14/');?>" style="display: block; text-decoration: none; background: #63C23C; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">ЗАРЕГИСТРИРОВАТЬСЯ</a></p>
+<p><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/mblt14/')?>" style="display: block; text-decoration: none; background: #63C23C; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">ЗАРЕГИСТРИРОВАТЬСЯ</a></p>
 
 <p><strong>Еще есть две недели, чтобы купить билеты на конференцию по цене 8 000 рублей, с 1 мая цена повысится до 11 000 рублей.</strong>.</p>
 

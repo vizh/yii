@@ -8,19 +8,20 @@ use application\components\Image;
 use application\components\socials\facebook\Event as SocialEvent;
 use application\models\attribute\Definition;
 use application\models\translation\ActiveRecord;
+use connect\models\Place;
 use contact\models\Site;
 use event\models\section\Section;
-use mail\components\mailers\MandrillMailer;
 use mail\components\mailers\SESMailer;
+use pay\models\Account as PayAccount;
 use ruvents\models\Setting;
 use search\components\interfaces\ISearch;
 use user\models\User;
-use pay\models\Account as PayAccount;
 
 /**
  * Class Event
  *
  * Fields
+ *
  * @property int $Id
  * @property string $IdName
  * @property string $Title
@@ -40,6 +41,7 @@ use pay\models\Account as PayAccount;
  * @property string $LogoSource
  * @property string $CreationTime
  * @property bool $FullWidth
+ * @property bool $UserScope
  * @property string $FbId Идентификатор мероприятия на Facebook. Если его нет, то мероприятие считает не опубликованным
  * @property bool $Deleted
  * @property string $DeletionTime
@@ -61,6 +63,8 @@ use pay\models\Account as PayAccount;
  * @property Partner[] $Partners
  *
  * @property LinkProfessionalInterest[] $LinkProfessionalInterests
+ *
+ * @property Place[] $MeetingPlaces
  *
  *
  * @method Section[] Sections()
@@ -94,7 +98,7 @@ use pay\models\Account as PayAccount;
 class Event extends ActiveRecord implements ISearch
 {
     const TS16 = 2783; // Территория смыслов 2016
-    
+
     protected $fileDir; // кеш, содержащий путь к файлам мероприятия. использовать только через getPath()
     protected $baseDir; // кеш, содержащий абсолютный путь к wwwroot
 
@@ -111,23 +115,46 @@ class Event extends ActiveRecord implements ISearch
      */
     public function relations()
     {
-        return array(
-            'Parts' => array(self::HAS_MANY, '\event\models\Part', 'EventId'),
-            'Participants' => array(self::HAS_MANY, '\event\models\Participant', 'EventId', 'with' => array('Role')),
-            'Type' => array(self::BELONGS_TO, '\event\models\Type', 'TypeId'),
-            'LinkAddress' => array(self::HAS_ONE, '\event\models\LinkAddress', 'EventId'),
-            'LinkPhones' => array(self::HAS_MANY, '\event\models\LinkPhone', 'EventId'),
-            'LinkEmails' => array(self::HAS_MANY, '\event\models\LinkEmail', 'EventId'),
-            'LinkSite' => array(self::HAS_ONE, '\event\models\LinkSite', 'EventId'),
-            'Sections' => array(self::HAS_MANY, '\event\models\section\Section', 'EventId', 'order' => '"Sections"."StartTime" ASC, "Sections"."EndTime" ASC'),
-            'Halls' => array(self::HAS_MANY, '\event\models\section\Hall', 'EventId', 'order' => '"Halls"."Order" ASC', 'on' => 'NOT "Halls"."Deleted"'),
-            'Widgets' => array(self::HAS_MANY, '\event\models\LinkWidget', 'EventId', 'order' => '"Widgets"."Order" ASC', 'with' => 'Class'),
-            'Attributes' => array(self::HAS_MANY, '\event\models\Attribute', 'EventId'),
-            'Partners' => array(self::HAS_MANY, '\event\models\Partner', 'EventId'),
-            'LinkProfessionalInterests' => array(self::HAS_MANY, '\event\models\LinkProfessionalInterest', 'EventId', 'with' => 'ProfessionalInterest'),
+        return [
+            'Parts' => [self::HAS_MANY, '\event\models\Part', 'EventId'],
+            'Participants' => [self::HAS_MANY, '\event\models\Participant', 'EventId', 'with' => ['Role']],
+            'Type' => [self::BELONGS_TO, '\event\models\Type', 'TypeId'],
+            'LinkAddress' => [self::HAS_ONE, '\event\models\LinkAddress', 'EventId'],
+            'LinkPhones' => [self::HAS_MANY, '\event\models\LinkPhone', 'EventId'],
+            'LinkEmails' => [self::HAS_MANY, '\event\models\LinkEmail', 'EventId'],
+            'LinkSite' => [self::HAS_ONE, '\event\models\LinkSite', 'EventId'],
+            'Sections' => [
+                self::HAS_MANY,
+                '\event\models\section\Section',
+                'EventId',
+                'order' => '"Sections"."StartTime" ASC, "Sections"."EndTime" ASC'
+            ],
+            'Halls' => [
+                self::HAS_MANY,
+                '\event\models\section\Hall',
+                'EventId',
+                'order' => '"Halls"."Order" ASC',
+                'on' => 'NOT "Halls"."Deleted"'
+            ],
+            'Widgets' => [
+                self::HAS_MANY,
+                '\event\models\LinkWidget',
+                'EventId',
+                'order' => '"Widgets"."Order" ASC',
+                'with' => 'Class'
+            ],
+            'Attributes' => [self::HAS_MANY, '\event\models\Attribute', 'EventId'],
+            'Partners' => [self::HAS_MANY, '\event\models\Partner', 'EventId'],
+            'LinkProfessionalInterests' => [
+                self::HAS_MANY,
+                '\event\models\LinkProfessionalInterest',
+                'EventId',
+                'with' => 'ProfessionalInterest'
+            ],
             'PayAccount' => [self::HAS_ONE, '\pay\models\Account', 'EventId'],
-            'RuventsSettings' => [self::HAS_ONE, '\ruvents\models\Setting', 'EventId']
-        );
+            'RuventsSettings' => [self::HAS_ONE, '\ruvents\models\Setting', 'EventId'],
+            'MeetingPlaces' => [self::HAS_MANY, '\connect\models\Place', 'EventId']
+        ];
     }
 
     /**
@@ -174,9 +201,9 @@ class Event extends ActiveRecord implements ISearch
         if (in_array($name, $this->getInternalAttributeNames())) {
             $attribute = $this->getAttribute($name);
             if (is_array($attribute)) {
-                throw new Exception('Работа с массивами в компоненте еще не реализована. Обращение к полю ' . $name);
+                throw new Exception('Работа с массивами в компоненте еще не реализована. Обращение к полю '.$name);
             } elseif ($attribute === null) {
-                throw new Exception('У мероприятия не задан аттрибут ' . $name);
+                throw new Exception('У мероприятия не задан аттрибут '.$name);
             } else {
                 return $attribute->Value;
             }
@@ -214,8 +241,10 @@ class Event extends ActiveRecord implements ISearch
     {
         if (in_array($name, $this->getInternalAttributeNames())) {
             $attribute = $this->getAttribute($name);
+
             return $attribute !== null;
         }
+
         return parent::__isset($name);
     }
 
@@ -228,8 +257,9 @@ class Event extends ActiveRecord implements ISearch
     {
         $criteria = new \CDbCriteria();
         $criteria->condition = '"t"."IdName" = :IdName';
-        $criteria->params = array('IdName' => $idName);
+        $criteria->params = ['IdName' => $idName];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -242,8 +272,9 @@ class Event extends ActiveRecord implements ISearch
     {
         $criteria = new \CDbCriteria();
         $criteria->condition = '"t"."TypeId" = :TypeId';
-        $criteria->params = ['TypeId' => intval($typeId)];
+        $criteria->params = ['TypeId' => (int)$typeId];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -261,11 +292,13 @@ class Event extends ActiveRecord implements ISearch
         if (empty($searchTerm)) {
             $criteria->addCondition('0=1');
             $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
             return $this;
         }
         $criteria->addCondition('"t"."Title" ILIKE :SearchTerm OR "t"."IdName" ILIKE :SearchTerm');
-        $criteria->params['SearchTerm'] = '%' . \Utils::PrepareStringForLike($searchTerm) . '%';
+        $criteria->params['SearchTerm'] = '%'.\Utils::PrepareStringForLike($searchTerm).'%';
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -277,8 +310,9 @@ class Event extends ActiveRecord implements ISearch
     public function byVisible($visible = true, $useAnd = true)
     {
         $criteria = new \CDbCriteria();
-        $criteria->condition = ($visible ? '' : 'NOT ') . '"t"."Visible"';
+        $criteria->condition = ($visible ? '' : 'NOT ').'"t"."Visible"';
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -290,8 +324,9 @@ class Event extends ActiveRecord implements ISearch
     public function byShowOnMain($showOnMain = true, $useAnd = true)
     {
         $criteria = new \CDbCriteria();
-        $criteria->condition = ($showOnMain ? '' : 'NOT ') . '"t"."ShowOnMain"';
+        $criteria->condition = ($showOnMain ? '' : 'NOT ').'"t"."ShowOnMain"';
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -307,7 +342,7 @@ class Event extends ActiveRecord implements ISearch
         $criteriaEnd = new \CDbCriteria();
         $criteriaStart->addCondition('"t"."StartYear" = :Year');
         $criteriaEnd->addCondition('"t"."EndYear" = :Year');
-        $params = array('Year' => $year);
+        $params = ['Year' => $year];
         if ($month !== null) {
             $criteriaStart->addCondition('"t"."StartMonth" = :Month');
             $criteriaEnd->addCondition('"t"."EndMonth" = :Month');
@@ -316,6 +351,7 @@ class Event extends ActiveRecord implements ISearch
         $criteriaStart->mergeWith($criteriaEnd, 'OR');
         $criteriaStart->params = $params;
         $this->getDbCriteria()->mergeWith($criteriaStart, $useAnd);
+
         return $this;
     }
 
@@ -330,12 +366,13 @@ class Event extends ActiveRecord implements ISearch
     {
         $criteria = new \CDbCriteria();
         $criteria->condition = '"t"."EndYear" > :FromYear OR ("t"."EndYear" = :FromYear AND "t"."EndMonth" > :FromMonth) OR ("t"."EndYear" = :FromYear AND "t"."EndMonth" = :FromMonth AND "t"."EndDay" >= :FromDay)';
-        $criteria->params = array(
+        $criteria->params = [
             'FromYear' => $year,
             'FromMonth' => $month,
             'FromDay' => $day
-        );
+        ];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -350,12 +387,13 @@ class Event extends ActiveRecord implements ISearch
     {
         $criteria = new \CDbCriteria();
         $criteria->condition = '"t"."StartYear" < :ToYear OR ("t"."StartYear" = :ToYear AND "t"."StartMonth" < :ToMonth) OR ("t"."StartYear" = :ToYear AND "t"."StartMonth" = :ToMonth AND "t"."StartDay" <= :ToDay)';
-        $criteria->params = array(
+        $criteria->params = [
             'ToYear' => $year,
             'ToMonth' => $month,
             'ToDay' => $day
-        );
+        ];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -367,8 +405,9 @@ class Event extends ActiveRecord implements ISearch
     public function byDeleted($deleted = true, $useAnd = true)
     {
         $criteria = new \CDbCriteria();
-        $criteria->condition = ($deleted ? '' : 'NOT ') . '"t"."Deleted"';
+        $criteria->condition = ($deleted ? '' : 'NOT ').'"t"."Deleted"';
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -399,13 +438,12 @@ class Event extends ActiveRecord implements ISearch
             $this->updateRole($participant, $role, $usePriority, $message);
         }
 
-        $data = UserData::model()->find([
-            'condition' => '"EventId" = :eventId AND "UserId" = :userId',
-            'params' => [
-                ':eventId' => $this->Id,
-                ':userId' => $user->Id
-            ]
-        ]);
+        $data = UserData::model()
+            ->byEventId($this->Id)
+            ->byUserId($user->Id)
+            ->byDeleted(false)
+            ->orderBy(['"t"."CreationTime"'])
+            ->find();
 
         if (!$data) {
             UserData::createEmpty($this, $user);
@@ -416,6 +454,7 @@ class Event extends ActiveRecord implements ISearch
 
     /**
      * Assigns custom number for the participant
+     *
      * @param UserData $data
      */
     private function assignCustomNumber(UserData $data)
@@ -440,7 +479,7 @@ class Event extends ActiveRecord implements ISearch
             $customNumber = ++$prevData->getManager()->Custom_Number;
         }
 
-        $data->getManager()->Custom_Number = (string) $customNumber;
+        $data->getManager()->Custom_Number = (string)$customNumber;
         $data->save();
     }
 
@@ -491,7 +530,8 @@ class Event extends ActiveRecord implements ISearch
         $participant->RoleId = $role->Id;
         $participant->save();
 
-        $event = new \CModelEvent($this, ['role' => $role, 'user' => $user, 'participant' => $participant, 'message' => $message]);
+        $event = new \CModelEvent($this,
+            ['role' => $role, 'user' => $user, 'participant' => $participant, 'message' => $message]);
         $this->onRegister($event);
 
         return $participant;
@@ -546,14 +586,16 @@ class Event extends ActiveRecord implements ISearch
     {
         if ($participant->RoleId != $role->Id && (!$usePriority || $participant->Role->Priority <= $role->Priority)) {
             $participant->RoleId = $role->Id;
-            $participant->UpdateTime =  date('Y-m-d H:i:s');
+            $participant->UpdateTime = date('Y-m-d H:i:s');
             $participant->save();
 
-            $event = new \CModelEvent($this, ['role' => $role, 'user' => $participant->User, 'participant' => $participant, 'message' => $message]);
+            $event = new \CModelEvent($this,
+                ['role' => $role, 'user' => $participant->User, 'participant' => $participant, 'message' => $message]);
             $this->onRegister($event);
 
             return true;
         }
+
         return false;
     }
 
@@ -564,7 +606,8 @@ class Event extends ActiveRecord implements ISearch
      */
     public function onRegister($event)
     {
-        $this->saveRegisterLog($event->params['user'], $event->params['role'], $event->params['participant']->Part, $event->params['message']);
+        $this->saveRegisterLog($event->params['user'], $event->params['role'], $event->params['participant']->Part,
+            $event->params['message']);
         if ($this->skipOnRegister) {
             return;
         }
@@ -600,9 +643,9 @@ class Event extends ActiveRecord implements ISearch
     {
         $log = new ParticipantLog();
         $log->EventId = $this->Id;
-        $log->RoleId  = $role !== null ? $role->Id : null;
-        $log->UserId  = $user->Id;
-        $log->PartId  = $part !== null ? $part->Id : null;
+        $log->RoleId = $role !== null ? $role->Id : null;
+        $log->UserId = $user->Id;
+        $log->PartId = $part !== null ? $part->Id : null;
         $log->Message = !empty($message) ? $message : null;
         if (!(\Yii::app() instanceof \CConsoleApplication) && !\Yii::app()->getUser()->getIsGuest()) {
             $log->EditorId = \Yii::app()->getUser()->getId();
@@ -650,14 +693,18 @@ class Event extends ActiveRecord implements ISearch
     {
         $criteria = new \CDbCriteria();
         $criteria->group = 't.RoleId';
-        $criteria->with = array('Role');
+        $criteria->with = ['Role'];
 
         /** @var $participants Participant[] */
-        $participants = Participant::model()->byEventId($this->Id)->findAll($criteria);
-        $result = array();
+        $participants = Participant::model()
+            ->byEventId($this->Id)
+            ->findAll($criteria);
+
+        $result = [];
         foreach ($participants as $participant) {
             $result[] = $participant->Role;
         }
+
         return $result;
     }
 
@@ -669,7 +716,7 @@ class Event extends ActiveRecord implements ISearch
         $criteria = new \CDbCriteria();
         $criteria->addCondition('User.Visible = :Visible');
         $criteria->params['Visible'] = true;
-        $criteria->with = array('User');
+        $criteria->with = ['User'];
         $criteria->group = 't.UserId';
 
         return Participant::model()->byEventId($this->Id)->count($criteria);
@@ -677,6 +724,7 @@ class Event extends ActiveRecord implements ISearch
 
     /** @var Logo */
     private $logo = null;
+
     /**
      * @return Logo
      */
@@ -685,11 +733,13 @@ class Event extends ActiveRecord implements ISearch
         if ($this->logo === null) {
             $this->logo = new Logo($this);
         }
+
         return $this->logo;
     }
 
     /**
      * Возвращает путь к указанному файлу в папке файлов мероприятия.
+     *
      * @param string|\CUploadedFile $fileName Вернуть путь к файлу, а не просто путь к директории.
      * @param bool $absolute Вернуть абсолютный путь.
      * @return string
@@ -706,11 +756,17 @@ class Event extends ActiveRecord implements ISearch
      */
     public function getDir($absolute = false, $customId = false)
     {
-        if (!$this->fileDir) $this->fileDir = sprintf(\Yii::app()->params['EventDir'], $this->IdName);
-        if (!$this->baseDir) $this->baseDir = \Yii::getPathOfAlias('webroot');
+        if (!$this->fileDir) {
+            $this->fileDir = sprintf(\Yii::app()->params['EventDir'], $this->IdName);
+        }
+        if (!$this->baseDir) {
+            $this->baseDir = \Yii::getPathOfAlias('webroot');
+        }
 
-        $fileDir = $this->fileDir; if ($customId)
-        $fileDir = sprintf(\Yii::app()->params['EventDir'], $customId);
+        $fileDir = $this->fileDir;
+        if ($customId) {
+            $fileDir = sprintf(\Yii::app()->params['EventDir'], $customId);
+        }
 
         return implode([
             $absolute ? $this->baseDir : '',
@@ -735,6 +791,7 @@ class Event extends ActiveRecord implements ISearch
     public function getAttribute($name)
     {
         $attributes = $this->getInternalAttributes();
+
         return isset($attributes[$name]) ? $attributes[$name] : null;
     }
 
@@ -746,13 +803,13 @@ class Event extends ActiveRecord implements ISearch
     public function getInternalAttributes()
     {
         if ($this->internalAttributesByName === null) {
-            $this->internalAttributesByName = array();
+            $this->internalAttributesByName = [];
             foreach ($this->Attributes as $attribute) {
                 if (!isset($this->internalAttributesByName[$attribute->Name])) {
                     $this->internalAttributesByName[$attribute->Name] = $attribute;
                 } else {
                     if (!is_array($this->internalAttributesByName[$attribute->Name])) {
-                        $this->internalAttributesByName[$attribute->Name] = array($this->internalAttributesByName[$attribute->Name]);
+                        $this->internalAttributesByName[$attribute->Name] = [$this->internalAttributesByName[$attribute->Name]];
                     }
                     $this->internalAttributesByName[$attribute->Name][] = $attribute;
                 }
@@ -768,6 +825,7 @@ class Event extends ActiveRecord implements ISearch
     public function getTimeStampStartDate()
     {
         $date = $this->StartDay.'.'.$this->StartMonth.'.'.$this->StartYear;
+
         return strtotime($date);
     }
 
@@ -777,6 +835,7 @@ class Event extends ActiveRecord implements ISearch
     public function getTimeStampEndDate()
     {
         $date = $this->EndDay.'.'.$this->EndMonth.'.'.$this->EndYear;
+
         return strtotime($date);
     }
 
@@ -850,6 +909,7 @@ class Event extends ActiveRecord implements ISearch
         $criteria = new \CDbCriteria();
         $criteria->order = '"t"."StartYear" '.$direct.', "t"."StartMonth" '.$direct.', "t"."StartDay" '.$direct.', "t"."EndYear" '.$direct.', "t"."EndMonth" '.$direct.', "t"."EndDay" '.$direct;
         $this->getDbCriteria()->mergeWith($criteria);
+
         return $this;
     }
 
@@ -860,19 +920,22 @@ class Event extends ActiveRecord implements ISearch
      */
     public function save($runValidation = true, $attributes = null)
     {
-        if (!$this->getIsNewRecord() && ($currentData = self::findByPk($this->Id)) && $currentData->IdName != $this->IdName)
+        if (!$this->getIsNewRecord() && ($currentData = self::findByPk($this->Id)) && $currentData->IdName != $this->IdName) {
             $needDirectoryMigration = $currentData->IdName;
+        }
 
-        if (($result = parent::save($runValidation, $attributes)))
-            if (isset($needDirectoryMigration) && file_exists($this->getDir(true, $needDirectoryMigration)))
+        if (($result = parent::save($runValidation, $attributes))) {
+            if (isset($needDirectoryMigration) && file_exists($this->getDir(true, $needDirectoryMigration))) {
                 rename($this->getDir(true, $needDirectoryMigration), $this->getDir(true));
+            }
+        }
 
         return $result;
     }
 
     public function getUrl()
     {
-        return \Yii::app()->createAbsoluteUrl('/event/view/index', array('idName' => $this->IdName));
+        return \Yii::app()->createAbsoluteUrl('/event/view/index', ['idName' => $this->IdName]);
     }
 
     /**
@@ -892,6 +955,7 @@ class Event extends ActiveRecord implements ISearch
         if (!empty($redirectUrl)) {
             $params['redirectUrl'] = $redirectUrl;
         }
+
         return \Yii::app()->createAbsoluteUrl('/event/fastregister/index', $params);
     }
 
@@ -907,17 +971,20 @@ class Event extends ActiveRecord implements ISearch
 
     /**
      * Удаляем мероприятие с Facebook при удалении в базе
-     * @return bool|void
+     *
+     * @throws \CException
      */
     public function delete()
     {
         parent::delete();
-        if ($this->isFbPublish())
+        if ($this->isFbPublish()) {
             $this->fbDelete();
+        }
     }
 
     /**
      * Определяет, опубликовано ли мероприятие на Facebook
+     *
      * @return bool
      */
     public function isFbPublish()
@@ -927,12 +994,14 @@ class Event extends ActiveRecord implements ISearch
 
     /**
      * Опубликовать мероприятрие на Facebook
+     *
      * @throws \CException
      */
     public function fbPublish()
     {
-        if (!empty($this->FbId))
+        if (!empty($this->FbId)) {
             throw new \CException('Мероприятие уже опубликовано!');
+        }
 
         $fbEvent = $this->makeFbEvent();
         $id = $fbEvent->publish();
@@ -946,6 +1015,7 @@ class Event extends ActiveRecord implements ISearch
 
     /**
      * Обновить мероприятие на Facebook
+     *
      * @return bool
      */
     public function fbUpdate()
@@ -953,27 +1023,32 @@ class Event extends ActiveRecord implements ISearch
         $fbEvent = $this->makeFbEvent();
         $result = $fbEvent->update();
         $fbEvent->setPicture($this->getLogo()->getOriginal(true));
+
         return $result;
     }
 
     /**
      * Удаляет мероприятие на Facebook
+     *
      * @return mixed
      * @throws \CException
      */
     public function fbDelete()
     {
-        if (empty($this->FbId))
+        if (empty($this->FbId)) {
             throw new \CException('Невозможно удалить не опубликованное мероприятие!');
+        }
 
         $res = $this->makeFbEvent()->delete();
         $this->FbId = null;
         $this->save();
+
         return $res;
     }
 
     /**
      * Сгенерировать FbEvent
+     *
      * @return \application\components\socials\facebook\Event
      */
     private function makeFbEvent()
@@ -982,19 +1057,23 @@ class Event extends ActiveRecord implements ISearch
         $fbEvent->name = $this->Title;
         $fbEvent->description = $this->Info;
 
-        $fbEvent->setStartTime($this->StartYear . '-' . $this->StartMonth . '-' . $this->StartDay);
-        if ($this->StartYear != $this->EndYear || $this->StartMonth != $this->EndMonth || $this->StartDay != $this->EndDay)
-            $fbEvent->setEndTime($this->EndYear . '-' . $this->EndMonth . '-' . $this->EndDay);
+        $fbEvent->setStartTime($this->StartYear.'-'.$this->StartMonth.'-'.$this->StartDay);
+        if ($this->StartYear != $this->EndYear || $this->StartMonth != $this->EndMonth || $this->StartDay != $this->EndDay) {
+            $fbEvent->setEndTime($this->EndYear.'-'.$this->EndMonth.'-'.$this->EndDay);
+        }
 
         $fbEvent->location = (string)$this->LinkAddress->Address;
 
-        if (\pay\models\Product::model()->byEventId($this->Id)->count())
-            $fbEvent->ticketUri = \Yii::app()->createAbsoluteUrl('/pay/cabinet/register', ['eventIdName' => $this->IdName]);
+        if (\pay\models\Product::model()->byEventId($this->Id)->count()) {
+            $fbEvent->ticketUri = \Yii::app()->createAbsoluteUrl('/pay/cabinet/register',
+                ['eventIdName' => $this->IdName]);
+        }
 
         return $fbEvent;
     }
 
     private $roles = null;
+
     /**
      * @return Role[]
      */
@@ -1008,7 +1087,6 @@ class Event extends ActiveRecord implements ISearch
                 ->leftJoin('EventParticipant', '"EventParticipant"."RoleId" = "EventRole"."Id"')
                 ->where('"EventParticipant"."EventId" = :EventId OR "EventRole"."Base"')
                 ->queryColumn(['EventId' => $this->Id]);
-
 
             $colors = [];
             $linkRoles = LinkRole::model()->byEventId($this->Id)->findAll();
@@ -1030,6 +1108,7 @@ class Event extends ActiveRecord implements ISearch
                 }
             }
         }
+
         return $this->roles;
     }
 
@@ -1053,18 +1132,21 @@ class Event extends ActiveRecord implements ISearch
     /**
      * @return bool
      */
-    public function isRegistrationClosed(){
+    public function isRegistrationClosed()
+    {
         $close = isset($this->CloseRegistrationAfterEnd) && $this->CloseRegistrationAfterEnd == 1;
         $datetime = new \DateTime();
         $datetime->modify('-1 day');
         if ($close && $this->getTimeStampEndDate() <= $datetime->getTimestamp()) {
             return true;
         }
+
         return false;
     }
 
     /**
      * Фоновое изображение для Промо-блока
+     *
      * @return Image
      */
     public function getPromoBackgroundImage()
@@ -1074,6 +1156,7 @@ class Event extends ActiveRecord implements ISearch
 
     /**
      * Фоновое изображение для шапки на странице мероприятия
+     *
      * @return Image
      */
     public function getHeaderBackgroundImage()
@@ -1083,22 +1166,25 @@ class Event extends ActiveRecord implements ISearch
 
     /**
      * Изображение для баннера в шапке
+     *
      * @param bool $checkLocale
      * @return Image
      */
     public function getHeaderBannerImage($checkLocale = true)
     {
-        if ($this->getLocale() === 'en' || \Yii::app()->getLanguage() == 'en') {
+        if ($this->getLocale() === 'en' || \Yii::app()->getLanguage() === 'en') {
             $image = new Image($this, null, 'header-banner_en');
             if (!$checkLocale || $image->exists()) {
                 return $image;
             }
         }
+
         return new Image($this, null, 'header-banner');
     }
 
     /**
      * Возращает дополнительные атрибуты пользователя для мероприятия
+     *
      * @return \application\components\attribute\Definition[]
      */
     public function getAttributeDefinitions()
@@ -1113,6 +1199,7 @@ class Event extends ActiveRecord implements ISearch
                 }
             }
         }
+
         return $definitions;
     }
 
@@ -1121,11 +1208,15 @@ class Event extends ActiveRecord implements ISearch
      */
     public function hasAttributeDefinitions()
     {
-        return Definition::model()->byModelName('EventUserData')->byModelId($this->Id)->exists();
+        return Definition::model()
+            ->byModelName('EventUserData')
+            ->byModelId($this->Id)
+            ->exists();
     }
 
     /**
      * Возвращает true, если для меропрития требуются паспортные данные
+     *
      * @return bool
      */
     public function getIsRequiredDocument()

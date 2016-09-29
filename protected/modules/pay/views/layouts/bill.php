@@ -12,12 +12,12 @@ use application\components\utility\Texts;
 <!doctype html>
 <html>
 <head>
-  <title><?=CHtml::encode($this->pageTitle);?></title>
+  <title><?=CHtml::encode($this->pageTitle)?></title>
   <meta content="text/html; charset=UTF-8" http-equiv=Content-Type>
 </head>
 <body>
 <div class="content">
-  <?php echo $content;?>
+  <?=$content?>
 </div>
 </body>
 </html>

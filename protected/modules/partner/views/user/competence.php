@@ -16,7 +16,7 @@ $this->setPageTitle(\Yii::t('app', 'Опрос участников'));
 ?>
 <div class="panel panel-info">
     <div class="panel-heading">
-        <span class="panel-title"><i class="fa fa-question-circle"></i> <?=\Yii::t('app', 'Опрос участников');?></span>
+        <span class="panel-title"><i class="fa fa-question-circle"></i> <?=\Yii::t('app', 'Опрос участников')?></span>
     </div> <!-- / .panel-heading -->
     <div class="panel-body">
         <div class="table-info">
@@ -84,7 +84,7 @@ $this->setPageTitle(\Yii::t('app', 'Опрос участников'));
                         ]
                     ]
                 ]
-            ]);?>
+            ])?>
         </div>
     </div> <!-- / .panel-body -->
 </div>

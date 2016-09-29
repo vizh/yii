@@ -5,39 +5,39 @@ use user\models\User;
  */
 ?>
 
-<?=$this->renderPartial('parts/title');?>
+<?=$this->renderPartial('parts/title')?>
 <script type="text/javascript">
   var phones = [];
-  <?foreach ($form->Phones as $phone):?>
+  <?foreach($form->Phones as $phone):?>
     var phone = {
-      'Id' : '<?=$phone->Id;?>',
-      'Phone' : '<?=$phone->OriginalPhone;?>',
-      'Type' : '<?=$phone->Type;?>',
-      'Delete' : '<?=$phone->Delete;?>'
+      'Id' : '<?=$phone->Id?>',
+      'Phone' : '<?=$phone->OriginalPhone?>',
+      'Type' : '<?=$phone->Type?>',
+      'Delete' : '<?=$phone->Delete?>'
     };
-    <?if ($phone->hasErrors()):?>
-      phone.Errors = <?=json_encode($phone->getErrors());?>;
-    <?endif;?>
+    <?if($phone->hasErrors()):?>
+      phone.Errors = <?=json_encode($phone->getErrors())?>;
+    <?endif?>
     phones.push(phone);
-  <?endforeach;?>
-  
+  <?endforeach?>
+
   var accounts = [];
-  <?foreach ($form->Accounts as $account):?>
+  <?foreach($form->Accounts as $account):?>
     var account = {
-      'Id' : '<?=$account->Id;?>',
-      'TypeId' : '<?=$account->TypeId;?>',
-      'Account' : '<?=\CHtml::encode($account->Account);?>',
-      'Delete' : '<?=$account->Delete;?>'
+      'Id' : '<?=$account->Id?>',
+      'TypeId' : '<?=$account->TypeId?>',
+      'Account' : '<?=\CHtml::encode($account->Account)?>',
+      'Delete' : '<?=$account->Delete?>'
     };
-    <?if ($account->hasErrors()):?>
-      account.Errors = <?=json_encode($account->getErrors());?>;
-    <?endif;?>
+    <?if($account->hasErrors()):?>
+      account.Errors = <?=json_encode($account->getErrors())?>;
+    <?endif?>
     accounts.push(account);
-  <?endforeach;?>
+  <?endforeach?>
 
     function chPrimaryPhone(value){
         value = value.replace('+', '').replace('(', '').replace(')', '').replace('-', '').replace('-', '').replace('_', '');
-        if (value == <?=$form->PrimaryPhone ?>){
+        if (value == <?=$form->PrimaryPhone?>){
             document.getElementById('primaryphone-verify').style.display = 'block';
         }
         else{
@@ -50,60 +50,60 @@ use user\models\User;
     <div class="container">
       <div class="row">
         <div class="span3">
-          <?=$this->renderPartial('parts/nav', array('current' => $this->getAction()->getId()));?>
+          <?=$this->renderPartial('parts/nav', array('current' => $this->getAction()->getId()))?>
         </div>
         <div class="span9">
-          <?=\CHtml::form('', 'POST', array('class' => 'b-form'));?>
+          <?=\CHtml::form('', 'POST', array('class' => 'b-form'))?>
             <div class="form-header">
-              <h4><?=\Yii::t('app', 'Контактная информация');?></h4>
+              <h4><?=\Yii::t('app', 'Контактная информация')?></h4>
             </div>
 
-            <?=$this->renderPartial('parts/form-alert', array('form' => $form));?>
+            <?=$this->renderPartial('parts/form-alert', array('form' => $form))?>
               <div class="form-row">
-                <?=\CHtml::activeLabel($form, 'Address');?>
-                <?$this->widget('\contact\widgets\AddressControls', array('form' => $form->Address, 'address' => false, 'place' => false));?>
-              </div>
-          
-              <div class="form-row">
-                <?=\CHtml::activeLabel($form, 'Email');?>
-                <?=\CHtml::activeTextField($form, 'Email', array('class' => 'span5'));?>
+                <?=\CHtml::activeLabel($form, 'Address')?>
+                <?$this->widget('\contact\widgets\AddressControls', array('form' => $form->Address, 'address' => false, 'place' => false))?>
               </div>
 
               <div class="form-row">
-                <?=\CHtml::activeLabel($form, 'PrimaryPhone');?>
-                <?=\CHtml::activeTextField($form, 'PrimaryPhone', array('class' => 'span5', 'onkeyup'=>'chPrimaryPhone(this.value)'));?>
+                <?=\CHtml::activeLabel($form, 'Email')?>
+                <?=\CHtml::activeTextField($form, 'Email', array('class' => 'span5'))?>
               </div>
-              <?if (!empty($user->PrimaryPhone) && !$user->PrimaryPhoneVerify):?>
+
+              <div class="form-row">
+                <?=\CHtml::activeLabel($form, 'PrimaryPhone')?>
+                <?=\CHtml::activeTextField($form, 'PrimaryPhone', array('class' => 'span5', 'onkeyup'=>'chPrimaryPhone(this.value)'))?>
+              </div>
+              <?if(!empty($user->PrimaryPhone) && !$user->PrimaryPhoneVerify):?>
                 <div class="alert alert-warning" id="primaryphone-verify">
-                  <p><strong><?=\Yii::t('app', 'Телефон не подтвержден. Пожалуйста подтвердите номер телефона.');?></strong></p>
-                  <button class="btn send"><?=\Yii::t('app', 'Отправить код подтверждения');?></button>
+                  <p><strong><?=\Yii::t('app', 'Телефон не подтвержден. Пожалуйста подтвердите номер телефона.')?></strong></p>
+                  <button class="btn send"><?=\Yii::t('app', 'Отправить код подтверждения')?></button>
                   <p class="text-error hide m-top_5" style="margin-bottom: 0;"></p>
                 </div>
-              <?endif;?>
+              <?endif?>
 
               <div class="user-phone-items">
-                <div class="form-row"><?=\CHtml::activeLabel($form, 'Phones');?></div>
+                <div class="form-row"><?=\CHtml::activeLabel($form, 'Phones')?></div>
                 <div class="form-row form-row-add">
-                  <a href="#" class="pseudo-link iconed-link"><i class="icon-plus-sign"></i> <span><?=\Yii::t('app', 'Добавить номер телефона');?></span></a>
+                  <a href="#" class="pseudo-link iconed-link"><i class="icon-plus-sign"></i> <span><?=\Yii::t('app', 'Добавить номер телефона')?></span></a>
                 </div>
               </div>
 
               <div class="form-row m-top_20">
-                <?=\CHtml::activeLabel($form, 'Site');?>
-                <?=\CHtml::activeTextField($form, 'Site', array('class' => 'span5'));?>
+                <?=\CHtml::activeLabel($form, 'Site')?>
+                <?=\CHtml::activeTextField($form, 'Site', array('class' => 'span5'))?>
               </div>
-              
+
               <div class="user-account-items m-top_20">
-                <div class="form-row"><?=\CHtml::activeLabel($form, 'Accounts');?></div>
+                <div class="form-row"><?=\CHtml::activeLabel($form, 'Accounts')?></div>
                 <div class="form-row form-row-add">
-                  <a href="#" class="pseudo-link iconed-link"><i class="icon-plus-sign"></i> <span><?=\Yii::t('app', 'Добавить аккаунт в социальной сети');?></span></a>
+                  <a href="#" class="pseudo-link iconed-link"><i class="icon-plus-sign"></i> <span><?=\Yii::t('app', 'Добавить аккаунт в социальной сети')?></span></a>
                 </div>
               </div>
 
               <div class="form-footer">
-                <?=\CHtml::submitButton(\Yii::t('app','Сохранить'), array('class' => 'btn btn-info'));?>
+                <?=\CHtml::submitButton(\Yii::t('app','Сохранить'), array('class' => 'btn btn-info'))?>
               </div>
-          <?=\CHtml::endForm();?>
+          <?=\CHtml::endForm()?>
         </div>
       </div>
     </div>
@@ -112,14 +112,14 @@ use user\models\User;
 
 <script type="text/template" id="phone-item-tpl">
   <div class="form-row">
-    <input type="text" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][OriginalPhone]');?>" class="input-xlarge" />
-    <select name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][Type]');?>" class="input-medium">
+    <input type="text" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][OriginalPhone]')?>" class="input-xlarge" />
+    <select name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][Type]')?>" class="input-medium">
       <?foreach($form->getPhoneTypeData() as $type => $title):?>
-        <option value="<?=$type;?>"><?=$title;?></option>
-      <?endforeach;?>
+        <option value="<?=$type?>"><?=$title?></option>
+      <?endforeach?>
     </select>
-    <a href="#" class="pseudo-link delete-phone-link" data-action="remove"><?=\Yii::t('app', 'Удалить');?></a>
-    <input type="hidden" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][Delete]');?>"/>
+    <a href="#" class="pseudo-link delete-phone-link" data-action="remove"><?=\Yii::t('app', 'Удалить')?></a>
+    <input type="hidden" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][Delete]')?>"/>
   </div>
 </script>
 
@@ -128,30 +128,30 @@ use user\models\User;
     <%if(typeof Errors != "undefined"){%>
       <div class="alert alert-error errorSummary"></div>
     <%}%>
-    <input type="text" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][OriginalPhone]');?>" class="input-xlarge" value="<%=Phone%>" />
-    <select name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][Type]');?>" class="input-medium">
+    <input type="text" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][OriginalPhone]')?>" class="input-xlarge" value="<%=Phone%>" />
+    <select name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][Type]')?>" class="input-medium">
       <?foreach($form->getPhoneTypeData() as $type => $title):?>
-        <option value="<?=$type;?>" <%if(Type == '<?=$type;?>'){%>selected="selected"<%}%>><?=$title;?></option>
-      <?endforeach;?>
+        <option value="<?=$type?>" <%if(Type == '<?=$type?>'){%>selected="selected"<%}%>><?=$title?></option>
+      <?endforeach?>
     </select>
-    <a href="#" class="pseudo-link delete-phone-link" data-action="remove"><?=\Yii::t('app', 'Удалить');?></a>
+    <a href="#" class="pseudo-link delete-phone-link" data-action="remove"><?=\Yii::t('app', 'Удалить')?></a>
     <%if(Id != ''){%>
-      <input type="hidden" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][Id]');?>" value="<%=Id%>"/>
+      <input type="hidden" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][Id]')?>" value="<%=Id%>"/>
     <%}%>
-    <input type="hidden" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][Delete]');?>" <%if(Delete == 1){%>value="1"<%}%>/>
+    <input type="hidden" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][Delete]')?>" <%if(Delete == 1){%>value="1"<%}%>/>
   </div>
 </script>
 
 <script type="text/template" id="account-item-tpl">
   <div class="form-row">
-    <input type="text" name="<?=\CHtml::activeName($form, 'Accounts[<%=i%>][Account]');?>" />
-    <select name="<?=\CHtml::activeName($form, 'Accounts[<%=i%>][TypeId]');?>" class="input-medium">
+    <input type="text" name="<?=\CHtml::activeName($form, 'Accounts[<%=i%>][Account]')?>" />
+    <select name="<?=\CHtml::activeName($form, 'Accounts[<%=i%>][TypeId]')?>" class="input-medium">
       <?foreach($form->getAccountTypeData() as $type => $title):?>
-        <option value="<?=$type;?>"><?=$title;?></option>
-      <?endforeach;?>
+        <option value="<?=$type?>"><?=$title?></option>
+      <?endforeach?>
     </select>
-    <a href="#" class="pseudo-link delete-phone-link" data-action="remove"><?=\Yii::t('app', 'Удалить');?></a>
-    <input type="hidden" name="<?=\CHtml::activeName($form, 'Accounts[<%=i%>][Delete]');?>"/>
+    <a href="#" class="pseudo-link delete-phone-link" data-action="remove"><?=\Yii::t('app', 'Удалить')?></a>
+    <input type="hidden" name="<?=\CHtml::activeName($form, 'Accounts[<%=i%>][Delete]')?>"/>
   </div>
 </script>
 
@@ -160,24 +160,24 @@ use user\models\User;
     <%if(typeof Errors != "undefined"){%>
       <div class="alert alert-error errorSummary"></div>
     <%}%>
-    <input type="text" name="<?=\CHtml::activeName($form, 'Accounts[<%=i%>][Account]');?>" value="<%=Account%>"/>
-    <select name="<?=\CHtml::activeName($form, 'Accounts[<%=i%>][TypeId]');?>" class="input-medium">
+    <input type="text" name="<?=\CHtml::activeName($form, 'Accounts[<%=i%>][Account]')?>" value="<%=Account%>"/>
+    <select name="<?=\CHtml::activeName($form, 'Accounts[<%=i%>][TypeId]')?>" class="input-medium">
       <?foreach($form->getAccountTypeData() as $typeId => $title):?>
-        <option value="<?=$typeId;?>" <%if(TypeId == '<?=$typeId;?>'){%>selected="selected"<%}%>><?=$title;?></option>
-      <?endforeach;?>
+        <option value="<?=$typeId?>" <%if(TypeId == '<?=$typeId?>'){%>selected="selected"<%}%>><?=$title?></option>
+      <?endforeach?>
     </select>
-    <a href="#" class="pseudo-link delete-phone-link" data-action="remove"><?=\Yii::t('app', 'Удалить');?></a>
+    <a href="#" class="pseudo-link delete-phone-link" data-action="remove"><?=\Yii::t('app', 'Удалить')?></a>
     <%if(Id != ''){%>
-      <input type="hidden" name="<?=\CHtml::activeName($form, 'Accounts[<%=i%>][Id]');?>" value="<%=Id%>"/>
+      <input type="hidden" name="<?=\CHtml::activeName($form, 'Accounts[<%=i%>][Id]')?>" value="<%=Id%>"/>
     <%}%>
-    <input type="hidden" name="<?=\CHtml::activeName($form, 'Accounts[<%=i%>][Delete]');?>" <%if(Delete == 1){%>value="1"<%}%>/>
+    <input type="hidden" name="<?=\CHtml::activeName($form, 'Accounts[<%=i%>][Delete]')?>" <%if(Delete == 1){%>value="1"<%}%>/>
   </div>
 </script>
 
 <script type="text/template" id="primaryphone-verify-form-tpl">
   <form class="form-inline" style="margin-bottom: 0;">
-    <input type="text" name="" placeholder="<?=\Yii::t('app', 'Код подтверждения');?>" />
-    <button class="btn"><?=\Yii::t('app', 'Подтвердить');?></button>
-    <a href="#" class="send pseudo-link" data-delay="<?=(\user\controllers\ajax\PhoneVerifyAction::VERIFY_SEND_DELAY * 1000);?>" style="margin-left: 20px;"><small><?=\Yii::t('app', 'Отправить код повтоно');?></small></a>
+    <input type="text" name="" placeholder="<?=\Yii::t('app', 'Код подтверждения')?>" />
+    <button class="btn"><?=\Yii::t('app', 'Подтвердить')?></button>
+    <a href="#" class="send pseudo-link" data-delay="<?=(\user\controllers\ajax\PhoneVerifyAction::VERIFY_SEND_DELAY * 1000)?>" style="margin-left: 20px;"><small><?=\Yii::t('app', 'Отправить код повтоно')?></small></a>
   </form>
 </script>

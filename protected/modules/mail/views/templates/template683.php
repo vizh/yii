@@ -1,6 +1,6 @@
 <p><img src="http://runet-id.com/img/mail/2015/ifresh15.jpg" style="height: auto; width: 100%;" /></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</h3>
 
 <p>Вы заинтересовались <a href="http://ifreshconf.ru/?utm_source=notpay&amp;utm_medium=email&amp;utm_campaign=ifreshconf2015"><strong>конференцией </strong><strong>iFresh</strong></a>, которая пройдет <strong>6-7 октября в Санкт-Петербурге</strong>.</p>
 
@@ -53,4 +53,4 @@
 
 <p><b>Организатор конференции:</b> TRINET.Group<br/>
 <b>Видеопартнер:</b> PRO-Stream<br/>
-<b>Партнеры:</b> eLama.ru, Youstrike, Мобиллис, YAGLA, WestCall.</p> 
+<b>Партнеры:</b> eLama.ru, Youstrike, Мобиллис, YAGLA, WestCall.</p>

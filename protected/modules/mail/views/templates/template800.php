@@ -31,23 +31,23 @@
 </style>
 
 	<div id="wrapper" style="height: 100%; width: 100%; background: #F3F1ED; margin: 0; padding: 0;">
-		
+
 		<!-- unboxed -->
 		<table class="unboxed-wrap" bgcolor="#F3F1ED" style="clear: both !important; width: 100%; margin: 25px 0 0; padding: 25px 0;"><tr style="margin: 0; padding: 0;">
 <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		    <td class="container" style="vertical-align: top; clear: both !important; display: block !important; max-width: 600px !important; margin: 0 auto; padding: 0;" valign="top">
-		      
+
 		      <!-- content -->
 		      <div class="content" style="display: block; max-width: 600px; margin: 0 auto; padding: 0;">
 		        <table style="width: 100%; margin: 0; padding: 0;"><tr style="margin: 0; padding: 0;">
 <td align="center" style="vertical-align: top; margin: 0; padding: 0;" valign="top">
-		              	<h2 style="color: #111111; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-weight: 200; line-height: 1.2em; font-size: 30px; margin: 10px 0; padding: 0;">КиберПонедельник, <?=$user->getShortName();?>!</h2>
+		              	<h2 style="color: #111111; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-weight: 200; line-height: 1.2em; font-size: 30px; margin: 10px 0; padding: 0;">КиберПонедельник, <?=$user->getShortName()?>!</h2>
 		              	<p class="lead" style="font-size: 17px; font-weight: normal; margin: 0 0 10px; padding: 0;">Только 25 января 2016 г. до 24:00 - мы дарим невероятные скидки на интересные IT-мероприятия весны 2016 г.</p>
 		            </td>
 		          </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>
@@ -62,7 +62,7 @@
 		      		<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Универсальный промо-код на скидку:</p>
 		      		<span class="promo" style="display: inline-block; font-size: 38px; font-weight: bold; background: #FFDB4C; margin: 0; padding: 0;">RUNET_CYBER</span>
 		      	</div>
-		      	
+
 		      	<div style="margin: 0 0 25px; padding: 0;"><a href="http://runet-id.com/event/csf16/" style="color: #D85B42; margin: 0; padding: 0;"><img src="https://showtime.s3.amazonaws.com/201601250914-cyber-csf16.jpg" alt="CSF 2016" style="max-width: 600px; width: 100%; margin: 0; padding: 0;"></a></div>
 		      	<div style="margin: 0 0 25px; padding: 0;"><a href="http://runet-id.com/event/rif16/" style="color: #D85B42; margin: 0; padding: 0;"><img src="https://showtime.s3.amazonaws.com/201601250914-cyber-rif16.jpg" alt="RIF 2016" style="max-width: 600px; width: 100%; margin: 0; padding: 0;"></a></div>
 		      	<div style="margin: 0 0 25px; padding: 0;"><a href="http://runet-id.com/event/spic2016/" style="color: #D85B42; margin: 0; padding: 0;"><img src="https://showtime.s3.amazonaws.com/201601250914-cyber-spic16.jpg" alt="SPIC 2016" style="max-width: 600px; width: 100%; margin: 0; padding: 0;"></a></div>
@@ -71,7 +71,7 @@
 
 		      </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>

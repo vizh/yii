@@ -3,6 +3,7 @@ namespace ruvents\models;
 
 use application\components\ActiveRecord;
 use event\models\Event;
+use event\models\Participant;
 use event\models\UserData;
 use user\models\User;
 
@@ -10,6 +11,7 @@ use user\models\User;
  * This is the model class for table "RuventsVisit".
  *
  * The followings are the available columns in table 'RuventsVisit':
+ *
  * @property integer $Id
  * @property string $EventId
  * @property integer $UserId RunetId of the user
@@ -20,9 +22,12 @@ use user\models\User;
  * @property User $User
  * @property Event $Event
  * @property UserData $UserData
+ * @property Participant[] $Participants
  *
  * @method Visit[] findAll($condition = '', $params = [])
  * @method Visit byEventId(int $id)
+ * @method Visit byUserId(int $id)
+ * @method Visit orderByCreationTime(int $order)
  */
 class Visit extends ActiveRecord implements \JsonSerializable
 {
@@ -30,6 +35,7 @@ class Visit extends ActiveRecord implements \JsonSerializable
 
     /**
      * Returns the static model of the specified AR class.
+     *
      * @param string $className active record class name.
      * @return Visit the static model class
      */
@@ -54,7 +60,12 @@ class Visit extends ActiveRecord implements \JsonSerializable
         return [
             'User' => [self::BELONGS_TO, 'user\models\User', 'UserId'],
             'Event' => [self::BELONGS_TO, 'event\models\Event', 'EventId'],
-            'UserData' => [self::HAS_ONE, 'event\models\UserData', ['EventId' => 'EventId', 'UserId' => 'UserId']]
+            'UserData' => [self::HAS_ONE, 'event\models\UserData', ['EventId' => 'EventId', 'UserId' => 'UserId']],
+            'Participants' => [
+                self::HAS_MANY,
+                'event\models\Participant',
+                ['EventId' => 'EventId', 'UserId' => 'UserId']
+            ]
         ];
     }
 

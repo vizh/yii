@@ -24,22 +24,22 @@ $this->setPageTitle('Администрирование');
         <button class="btn" type="submit"><i class="icon-search"></i> Искать</button>
     </form>
 </div>
-<?=$this->renderPartial('index/_statistics', ['statistics' => $statistics]);?>
+<?=$this->renderPartial('index/_statistics', ['statistics' => $statistics])?>
 <div class="row-fluid">
-    <div class="span<?if (!empty($waitEvents)):?>6<?else:?>12<?endif;?> block">
-        <?=$this->renderPartial('index/_published-events', ['events' => $publishedEvents]);?>
+    <div class="span<?if(!empty($waitEvents)):?>6<?else:?>12<?endif?> block">
+        <?=$this->renderPartial('index/_published-events', ['events' => $publishedEvents])?>
     </div>
-    <?if (!empty($waitEvents)):?>
+    <?if(!empty($waitEvents)):?>
     <div class="span6 block">
-        <?=$this->renderPartial('index/_wait-events', ['events' => $waitEvents]);?>
+        <?=$this->renderPartial('index/_wait-events', ['events' => $waitEvents])?>
     </div>
-    <?endif;?>
+    <?endif?>
 </div>
 <div class="row-fluid">
     <div class="block span6">
-        <?=$this->renderPartial('index/_users', ['users' => $users]);?>
+        <?=$this->renderPartial('index/_users', ['users' => $users])?>
     </div>
     <div class="block span6">
-        <?=$this->renderPartial('index/_orders', ['orders' => $orders]);?>
+        <?=$this->renderPartial('index/_orders', ['orders' => $orders])?>
     </div>
 </div>

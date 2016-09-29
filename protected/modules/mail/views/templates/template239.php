@@ -68,7 +68,7 @@
                             <tbody>
                             <tr>
                                 <td style="padding:23px 34px 0;" width="600">
-                                    <h4 style="margin-top: 20px; margin-bottom: 10px !important; color:#993333; font-size: 15px; font-weight: bold !important;"><!--?=$user---><?=$user->getShortName();?>, здравствуйте!</h4>
+                                    <h4 style="margin-top: 20px; margin-bottom: 10px !important; color:#993333; font-size: 15px; font-weight: bold !important;"><!--?=$user---><?=$user->getShortName()?>, здравствуйте!</h4>
 
                                     <p style="font-size: 14px;">
                                         Рады сообщить вам, что мы опубликовали <a href="http://events.techdays.ru/appday/2014-11/schedule">программу конференции</a> Russian App Day! От ведущих экспертов индустрии вы узнаете обо всех популярных платформах (iOS, Android и Windows) и развитии экосистемы мобильных приложений в России, о растущих трендах и возможных направлениях развития в будущем.</p>

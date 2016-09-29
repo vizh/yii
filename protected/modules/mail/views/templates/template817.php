@@ -28,31 +28,31 @@
 			<!-- content -->
 			<div class="content" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 600px; display: block; margin: 0 auto; padding: 0;">
 			<table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; width: 100%; margin: 0; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">
-                        <img src="http://runet-id.com/img/mail/2016/RIGFMail16.png" alt="ИРИ - Институт развития интернета" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" /><h2 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 28px; line-height: 1.2; color: #000; font-weight: 200; margin: 40px 0 10px; padding: 0;">Здравствуйте, <?=$user->getShortName();?>!</h2>
+                        <img src="http://runet-id.com/img/mail/2016/RIGFMail16.png" alt="ИРИ - Институт развития интернета" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" /><h2 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 28px; line-height: 1.2; color: #000; font-weight: 200; margin: 40px 0 10px; padding: 0;">Здравствуйте, <?=$user->getShortName()?>!</h2>
 
 
                 <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Координационный центр национального домена сети Интернет приглашает вас принять участие в <strong>Седьмом российском форуме по управлению интернетом (</strong><strong>RIGF-2016</strong><strong>)</strong>, который состоится&nbsp;<strong>в Москве 7 апреля 2016 г.</strong>&nbsp;&nbsp;Организатор форума - Координационный центр национального домена сети Интернет. Форум проводится при поддержке ICANN, APTLD, РОЦИТ, ИРИ и РАЭК.</p>
                                 <p>&nbsp;</p>
                 <div style="text-align: center; background: #F0F0F0; border: 2px dashed #FFF; padding: 20px 10px 10px;">
-<p style="margin-top: 0"><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/rigf16/');?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #CE188C; margin: 0 10px 0 0; padding: 0; border-color: #CE188C; border-style: solid; border-width: 10px 40px;">Подать заявку на участие</a></p>
+<p style="margin-top: 0"><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/rigf16/')?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #CE188C; margin: 0 10px 0 0; padding: 0; border-color: #CE188C; border-style: solid; border-width: 10px 40px;">Подать заявку на участие</a></p>
 </div>
 <p>&nbsp;</p>
                 <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">
                     RIGF-2016 посвящен поиску ответа на вопрос о возможности глобального консенсуса в области управления интернетом.&nbsp; Во время форума пройдут секции, посвященные вопросам безопасности критической инфраструктуры интернета, принципам управления глобальной сетью, международного сотрудничества. Эксперты из России, Китая, США и стран Европы обсудят, какие новые институты нужны для обеспечения работы интернета и кем они должны создаваться, а так же попытаются сблизить позиции по важнейшим вопросам глобальной политики управления сетью. Более подробную информацию можно получить из&nbsp;<strong>предварительной программы форума</strong>,&nbsp;<a href="http://rigf.ru/prog/?p=prog">опубликованной на сайте</a>.</p>
-                    
+
                                     <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">
                     <p>Если вам интересны эти темы, и вы хотите посетить RIGF-2016, приглашаем вас зарегистрироваться для участия в мероприятии. <strong>Участие в форуме бесплатное!</strong></p>
 
 <div style="text-align: center; background: #F0F0F0; border: 2px dashed #FFF; padding: 20px 10px 10px;">
 <p style="text-align: center;"><strong>Мы будем рады видеть вас в числе участников нашего мероприятия!</strong></p>
-<p style="margin-top: 0"><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/rigf16/');?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #CE188C; margin: 0 10px 0 0; padding: 0; border-color: #CE188C; border-style: solid; border-width: 10px 40px;">Подать заявку на участие</a></p>
+<p style="margin-top: 0"><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/rigf16/')?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #CE188C; margin: 0 10px 0 0; padding: 0; border-color: #CE188C; border-style: solid; border-width: 10px 40px;">Подать заявку на участие</a></p>
 </div>
 
                                 </td>
                             </tr></table></td>
 				</tr></table></div>
 			<!-- /content -->
-			
+
 		</td>
 		<td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"></td>
 	</tr></table></body>

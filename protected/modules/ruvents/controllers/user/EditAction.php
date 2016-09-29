@@ -209,6 +209,7 @@ class EditAction extends Action
         $userData = UserData::model()
             ->byEventId($this->getEvent()->Id)
             ->byUserId($user->Id)
+            ->byDeleted(false)
             ->orderBy(['"t"."CreationTime"'])
             ->find();
 

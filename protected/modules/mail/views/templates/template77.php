@@ -1,13 +1,13 @@
-<?$regLink = "http://2014.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);?>
+<?$regLink = "http://2014.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16)?>
 
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p>Вы &ndash; начали процедуру регистрации участия в 18-м Российском Интернет Форуме (РИФ+КИБ 2014),&nbsp;который пройдет 23-25 апреля 2014 года в подмосковном пансионате &ldquo;Поляны&rdquo;.</p>
 
 <p><a href="http://2014.russianinternetforum.ru/program/">Программа</a>&nbsp;полностью сформирована, <a href="http://2014.russianinternetforum.ru/expo/">Выставка</a>&nbsp;представлена более чем 50-ю экспонентами, <a href="http://2014.russianinternetforum.ru/pplus/">Программа+</a> полна множеством активностей от партнеров мероприятия.</p>
 
 <p><strong>Ваш статус:</strong><br />
-<span style="font-size: 24px;"><?=$user->Participants[0]->Role->Title;?></span></p>
+<span style="font-size: 24px;"><?=$user->Participants[0]->Role->Title?></span></p>
 
 <p>Этот статус позволяет Вам следить за новостями Форума, но Вы не можете принять личное или дистанционное участие в Форуме, Вы не имеете доступа к материалам, презентациям и видеоархиву Форума.</p>
 

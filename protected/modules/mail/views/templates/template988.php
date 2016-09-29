@@ -38,7 +38,7 @@
               <table style="margin:0;padding:0;width:100%">
                 <tr style="margin:0;padding:0">
                   <td align="center" style="margin:0;padding:0;vertical-align:top">
-                    <h2 style='margin:0;padding:0;color:#111111;font-family:"Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;font-weight:200;line-height:1.2em;margin:10px 0;font-size:28px;color: #ffffff'>Здравствуйте, <?=$user->getShortName();?>!</h2>
+                    <h2 style='margin:0;padding:0;color:#111111;font-family:"Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;font-weight:200;line-height:1.2em;margin:10px 0;font-size:28px;color: #ffffff'>Здравствуйте, <?=$user->getShortName()?>!</h2>
                     <p class="lead" style="margin:0;padding:0;font-size:14px;font-weight:normal;margin-bottom:10px;font-size:17px;color: #ffffff">Сегодня – в понедельник 23 мая – стартует Форум «ИТ + СУВЕРЕНИТЕТ», в котором Вы принимаете участие.</p>
                   </td>
                 </tr>
@@ -104,7 +104,7 @@
                       <li style="margin:0;padding:0;margin-left:25px;list-style-position:outside">Проверить Ваши данные в&nbsp;Вашем RUNET—ID&nbsp;профиле. В&nbsp;нем необходимо полностью указать ФИО на&nbsp;русском языке для прохождения на&nbsp;территорию МИА «Россия сегодня».</li>
                       <li style="margin:0;padding:0;margin-left:25px;list-style-position:outside">Приехать за&nbsp;<nobr style="margin:0;padding:0">30-40</nobr> минут до&nbsp;начала секции, которая Вас интересует. Изучить <a href="http://forums.iri.center/sovereignty/guide" style="margin:0;padding:0;color:#8B2071">информацию о&nbsp;проезде</a> удобным Вам видом транспорта. Обращаем внимание, что на&nbsp;близлежащей территории МИА «Россия сегодня» действуют правила городской платной парковки.</li>
                       <li style="margin:0;padding:0;margin-left:25px;list-style-position:outside">Изучить <a href="http://forums.iri.center/sovereignty/program" style="margin:0;padding:0;color:#8B2071">программу Форума</a> и&nbsp;выбрать интересные для вас секции.</li>
-                      <li style="margin:0;padding:0;margin-left:25px;list-style-position:outside">Для быстрого прохождения регистрации и&nbsp;получения бейджа на&nbsp;стойке регистрации&nbsp;— распечатайте или сохраните на&nbsp;Ваше мобильное устройство Ваш персональный <a href="<?=$user->Participants[0]->getTicketUrl();?>" style="margin:0;padding:0;color:#8B2071">ПУТЕВОЙ ЛИСТ</a>.</li>
+                      <li style="margin:0;padding:0;margin-left:25px;list-style-position:outside">Для быстрого прохождения регистрации и&nbsp;получения бейджа на&nbsp;стойке регистрации&nbsp;— распечатайте или сохраните на&nbsp;Ваше мобильное устройство Ваш персональный <a href="<?=$user->Participants[0]->getTicketUrl()?>" style="margin:0;padding:0;color:#8B2071">ПУТЕВОЙ ЛИСТ</a>.</li>
                     </ol>
                   </td>
                 </tr>

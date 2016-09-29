@@ -1,5 +1,5 @@
 <img alt="MBLT16" src="http://runet-id.com/img/mail/2016/mblt16.png" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" />
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p>5-ая Международная мобильная конференция <a href="http://mblt.ru/?utm_source=raec&amp;utm_medium=email&amp;utm_campaign=firstearlybird">MBLT16</a> пройдет в Digital October 28 апреля. Компании-организаторы e-Legion и РАЭК вновь соберут топовых зарубежных и российских спикеров, которые расскажут о трендах и инновациях настоящего и будущего, с какими проблемами сталкивались и как их решали, а также обсудят, как преуспеть в быстро меняющемся мире новых технологий.</p>
 

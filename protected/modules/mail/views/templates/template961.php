@@ -1,6 +1,6 @@
 <a href="http://2016.sp-ic.ru/
 "><img alt="СПИК16" src="http://runet-id.com/img/mail/2016/spicc16.png" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" /></a>
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p>Вы следите за программой? Надеемся, что да, ведь мы каждый день работаем над тем, чтобы сделать ее еще интереснее!</p>
 <p>Вот секции, про которые мы еще не рассказывали, но советуем обратить на них внимание:</p>

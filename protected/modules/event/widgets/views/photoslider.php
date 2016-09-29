@@ -3,9 +3,9 @@
   <div id="event-thumbs" class="thumbs">
     <div class="slider">
       <div class="slides">
-      <?foreach ($this->getPhotos() as $photo):?>
-        <img src="<?=$photo->get40px();?>" width="40" alt="" class="thumb" data-240px="<?=$photo->get240px();?>">
-      <?endforeach;?>
+      <?foreach($this->getPhotos() as $photo):?>
+        <img src="<?=$photo->get40px()?>" width="40" alt="" class="thumb" data-240px="<?=$photo->get240px()?>">
+      <?endforeach?>
       </div>
     </div>
     <i id="event-thumbs_prev" class="icon-chevron-left"></i>

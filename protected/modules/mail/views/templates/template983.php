@@ -29,19 +29,19 @@
         <div class="content" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 600px; display: block; margin: 0 auto; padding: 0;">
             <table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; width: 100%; margin: 0; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">
                 <img src="https://showtime.s3.amazonaws.com/201508121146-iri_logo" alt="ИРИ - Институт развития интернета" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" />
-                    
-                    
-      
-                    
-                    
-                    
-                          
-<h3>Здравствуйте <?=$user->getShortName();?>!</h3>
+
+
+
+
+
+
+
+<h3>Здравствуйте <?=$user->getShortName()?>!</h3>
 
 <p>Институт Развития Интернета проводит экспертный опрос, целью которого является определение позиции отрасли по&nbsp;вопросам <b>импортозамещения программного обеспечения</b> в&nbsp;государственных органах власти и&nbsp;государственных компаний.</p>
 <p>Нам очень важно Ваше мнение по&nbsp;данному вопросу. <b>Просим Вас подключиться к&nbsp;участию и&nbsp;ответить на&nbsp;вопросы сегодня до&nbsp;15:00.</b></p>
-<p style="margin-top: 10px 0; text-align: center;"><a href="http://experts.iri.center/vote/sovereignty?runetid=<?=$user->RunetId;?>&hash=<?=substr(md5('10tit9Waey8ffMo1quae7Halichu4e2OoZoo0Ah14d4'.$user->RunetId), 0, 40);
-    ?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #B33689; margin: 0 10px 0 0; padding: 0; border-color: #B33689; border-style: solid; border-width: 10px 40px;">Перейти к опросу</a></p><p>Результаты исследования ИРИ представит 23&nbsp;мая 2016 года на&nbsp;Форуме «ИТ+Суверенитет».</p>
+<p style="margin-top: 10px 0; text-align: center;"><a href="http://experts.iri.center/vote/sovereignty?runetid=<?=$user->RunetId?>&hash=<?=substr(md5('10tit9Waey8ffMo1quae7Halichu4e2OoZoo0Ah14d4'.$user->RunetId), 0, 40);
+   ?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #B33689; margin: 0 10px 0 0; padding: 0; border-color: #B33689; border-style: solid; border-width: 10px 40px;">Перейти к опросу</a></p><p>Результаты исследования ИРИ представит 23&nbsp;мая 2016 года на&nbsp;Форуме «ИТ+Суверенитет».</p>
 <p>Принять участие в&nbsp;Форуме Вы&nbsp;можете бесплатно, <a href="https://runet-id.com/event/iri-forum-suver16/">предварительно зарегистрировавшись.</a></p>
 
 <p>С уважением,<br/>

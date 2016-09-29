@@ -1,48 +1,74 @@
 <?php
 namespace api\controllers\user;
 
+use api\components\builders\Builder;
 use api\components\Exception;
 use api\models\Account;
 use api\models\forms\user\Edit;
 use event\models\Participant;
 use oauth\models\Permission;
 use user\models\User;
+use Yii;
 
 class EditAction extends \api\components\Action
 {
     public function run()
     {
-        $request = \Yii::app()->getRequest();
-        $id = $request->getParam('RunetId');
+        $id = Yii::app()
+            ->getRequest()
+            ->getParam('RunetId');
 
-        $user = User::model()->byRunetId($id)->find();
-        if (empty($user)) {
+        if ($id === null) {
+            throw new Exception(110);
+        }
+
+        $user = User::model()
+            ->byRunetId($id)
+            ->find();
+
+        if ($user === null) {
             throw new Exception(202, [$id]);
         }
 
-        if (!$this->checkPermission($user)) {
+        if ($this->hasEditPermission($user) === false) {
             throw new Exception(230, [$user->RunetId]);
         }
 
         $form = new Edit($user);
         $form->fillFromPost();
         $form->updateActiveRecord();
-        $this->setResult(['Success' => true]);
+
+        $user->refresh();
+
+        // Возвращаем обновлённые данные пользователя
+        $userData = $this
+            ->getDataBuilder()
+            ->createUser($user);
+
+        $this->setResult($userData);
     }
 
     /**
      * @param User $user
      * @return bool
      */
-    private function checkPermission(User $user)
+    private function hasEditPermission(User $user)
     {
+        // Для собственных мероприятий позволяем редактировать любого посетителя
         if ($this->getAccount()->Role === Account::ROLE_OWN) {
             return true;
         }
 
-        $permission = Permission::model()->byUserId($user->Id)->byAccountId($this->getAccount()->Id)->find();
-        $participant = Participant::model()->byEventId($this->getAccount()->EventId)->byUserId($user->Id)->find();
+        $permission = Permission::model()
+            ->byUserId($user->Id)
+            ->byAccountId($this->getAccount()->Id)
+            ->find();
 
-        return !empty($permission) && !empty($participant);
+        $participant = Participant::model()
+            ->byEventId($this->getAccount()->EventId)
+            ->byUserId($user->Id)
+            ->find();
+
+        return $permission !== null && $participant !== null;
     }
-} 
+}

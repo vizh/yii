@@ -8,23 +8,23 @@ $days = (strtotime($orderItem->getItemAttribute('DateOut')) - strtotime($orderIt
 $info = $usersFullData[$orderItem->Owner->RunetId];
 $together = isset($usersTogether[$orderItem->Owner->RunetId]) ? $usersTogether[$orderItem->Owner->RunetId] : [];
 ?>
-<td rowspan="<?=intval($days);?>">
-  <?if ($orderItem->Paid):?>
+<td rowspan="<?=intval($days)?>">
+  <?if($orderItem->Paid):?>
     <span class="label label-success">оплачен</span>
   <?else:?>
     <span class="label label-warning">забронирован</span>
-  <?endif;?>
+  <?endif?>
 </td>
-<td rowspan="<?=intval($days);?>">
-  <?=$info['lastName'];?> <?=$info['firstName'];?> <?=$info['fatherName'];?>, <?=$info['birthDate'];?><br>
-  <?=$info['series'];?> <?=$info['number'];?>, <?=$info['issuedBy'];?> <?=$info['issueDate'];?><br>
-  <?=$info['registrationAddress'];?>
+<td rowspan="<?=intval($days)?>">
+  <?=$info['lastName']?> <?=$info['firstName']?> <?=$info['fatherName']?>, <?=$info['birthDate']?><br>
+  <?=$info['series']?> <?=$info['number']?>, <?=$info['issuedBy']?> <?=$info['issueDate']?><br>
+  <?=$info['registrationAddress']?>
 
-  <?if (!empty($together)):?>
+  <?if(!empty($together)):?>
   <br>
-  <?foreach ($together as $name):?>
-      <br><?=$name;?>
-  <?endforeach;?>
-  <?endif;?>
+  <?foreach($together as $name):?>
+      <br><?=$name?>
+  <?endforeach?>
+  <?endif?>
 
 </td>

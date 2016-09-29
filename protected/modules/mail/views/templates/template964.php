@@ -57,11 +57,11 @@ a {
 }
 
 .btn-primary td {
-  background-color: #8B2071; 
-  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-  font-size: 14px; 
+  background-color: #8B2071;
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size: 14px;
   text-align: center;
-  vertical-align: top; 
+  vertical-align: top;
 }
 
 .btn-primary td a {
@@ -126,13 +126,13 @@ table.body-wrap {
 table.unboxed-wrap {
   clear: both !important;
   padding: 25px 0;
-  width: 100%;  
+  width: 100%;
 }
 
 
 
-h1, 
-h2, 
+h1,
+h2,
 h3 {
   color: #111111;
   font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -159,15 +159,15 @@ h4 {
   padding: 0;
 }
 
-p, 
-ul, 
+p,
+ul,
 ol {
   font-size: 14px;
   font-weight: normal;
   margin-bottom: 10px;
 }
 
-ul li, 
+ul li,
 ol li {
   margin-left: 25px;
   list-style-position: outside;
@@ -264,7 +264,7 @@ small {
 		margin: 15px 0;
 		width: 100%;
 	}
-  
+
   .full {
     display: block !important;
     width: 100%  !important;
@@ -285,25 +285,25 @@ small {
 <body bgcolor="#8B2071" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;-webkit-font-smoothing:antialiased;height:100%;-webkit-text-size-adjust:none;width:100% !important;font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;font-size:14px;line-height:1.5em;" >
 
 	<div id="wrapper" style="background-color:#8B2071;height:100%;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;width:100%;" >
-		
+
 		<!-- unboxed -->
 		<table class="unboxed-wrap" bgcolor="#8B2071" style="margin-bottom:0;margin-right:0;margin-left:0;margin-top:25px;clear:both !important;padding-top:25px;padding-bottom:25px;padding-right:0;padding-left:0;width:100%;" >
 		  <tr style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
 		    <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" ></td>
 		    <td class="container" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;clear:both !important;display:block !important;margin-top:0 !important;margin-bottom:0 !important;margin-right:auto !important;margin-left:auto !important;max-width:600px !important;" >
-		      
+
 		      <!-- content -->
 		      <div class="content" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;display:block;margin-top:0;margin-bottom:0;margin-right:auto;margin-left:auto;max-width:600px;" >
 		        <table style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;width:100%;" >
 		          <tr style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
 		            <td align="center" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" >
-		              	<h2 style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#ffffff;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;font-weight:200;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;font-size:28px;" >Здравствуйте, <?=$user->getShortName();?>!</h2>
+		              	<h2 style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#ffffff;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;font-weight:200;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;font-size:28px;" >Здравствуйте, <?=$user->getShortName()?>!</h2>
 		            </td>
 		          </tr>
 		        </table>
 		      </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" ></td>
 		  </tr>
@@ -328,7 +328,7 @@ small {
 		      <table style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;width:100%;" >
 		        <tr style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
 		          <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" >
-					
+
 					<p class="lead" style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-weight:normal;margin-bottom:10px;font-size:17px;" >23&nbsp;мая 2016&nbsp;г. Институт Развития Интернета проводит Форум «ИТ + Суверенитет», который станет логическим продолжением декабрьского Форума «Интернет Экономика 2015». </p>
 
 				  </td>
@@ -336,7 +336,7 @@ small {
 		      </table>
 		      </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" ></td>
 		  </tr>
@@ -355,7 +355,7 @@ small {
 		      <table style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;width:100%;" >
 		        <tr style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
 		          <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" >
-					
+
 					<h3 style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;color:#8B2071;font-size:22px;font-weight:bold;text-transform:uppercase;" >Как стать участником?</h3>
 					<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Принять участие в&nbsp;Форуме «ИТ+Суверенитет» и&nbsp;получить полный доступ ко&nbsp;всем материалам можно бесплатно, пройдя онлайн-регистрацию.</p>
 
@@ -372,7 +372,7 @@ small {
 		      </table>
 		      </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" ></td>
 		  </tr>
@@ -391,9 +391,9 @@ small {
 		      <table style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;width:100%;" >
 		        <tr style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
 		          <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" >
-					
+
 					<h3 style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;color:#8B2071;font-size:22px;font-weight:bold;text-transform:uppercase;" >В&nbsp;повестке Форума</h3>
-					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" > 
+					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >
 						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >Импортозамещение в&nbsp;области ПО: Законодательное регулирование и&nbsp;Дорожная карта перехода на&nbsp;российский софт</li>
 						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >Проработка ключевых аспектов законопроекта «НДС для зарубежных ИТ-Компаний»</li>
 						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >Практическая реализация программы импортозамещения ПО</li>
@@ -405,7 +405,7 @@ small {
 		      </table>
 		      </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" ></td>
 		  </tr>
@@ -471,7 +471,7 @@ small {
 		      </table>
 		      </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" ></td>
 		  </tr>
@@ -503,7 +503,7 @@ small {
 		      </table>
 		      </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" ></td>
 		  </tr>
@@ -535,7 +535,7 @@ small {
 			</tr>
 		</table>
 		<!-- /body -->
-		
+
 		<br style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
 
 	</div>

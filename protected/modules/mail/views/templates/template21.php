@@ -13,7 +13,7 @@
 							<tbody>
 								<tr>
 									<td>
-									<h2>Здравствуйте, <?=$user->getShortName();?>!</h2>
+									<h2>Здравствуйте, <?=$user->getShortName()?>!</h2>
 
 									<p>Приглашаем вас присоединиться к бесплатной <a href="http://www.alm-summit.ru/">онлайн-трансляции</a> конференции <a href="http://www.alm-summit.ru/">ALM Summit</a>, которая будет проходить 6 февраля 2014 г. с 10:00 (МСК).</p>
 

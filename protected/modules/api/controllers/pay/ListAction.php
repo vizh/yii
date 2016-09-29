@@ -5,7 +5,6 @@ use api\components\Action;
 use api\components\Exception;
 use pay\components\collection\Finder;
 use pay\components\OrderItemCollection;
-use pay\models\OrderItem;
 use user\models\User;
 
 /**
@@ -19,19 +18,9 @@ class ListAction extends Action
      */
     public function run()
     {
-        $request = \Yii::app()->getRequest();
-        $payerRunetId = $request->getParam('PayerRunetId', null);
-        if (!$payerRunetId) {
-            $payerRunetId = $request->getParam('PayerRocId', null);
-        }
-
-        if (!$payer = User::model()->byRunetId($payerRunetId)->find()) {
-            throw new Exception(202, [$payerRunetId]);
-        }
-
         $result = new \stdClass();
 
-        $finder = Finder::create($this->getEvent()->Id, $payer->Id);
+        $finder = Finder::create($this->getEvent()->Id, $this->getRequestedPayer()->Id);
         $collections = array_merge(
             [$finder->getUnpaidFreeCollection()],
             $finder->getPaidOrderCollections(),
@@ -69,7 +58,7 @@ class ListAction extends Action
             $orderObj->Number = $collection->getOrder()->Number;
             $orderObj->Paid = $collection->getOrder()->Paid;
             $orderObj->Url = $collection->getOrder()->getUrl();
-            $orderObj->Items = array();
+            $orderObj->Items = [];
             foreach ($collection as $item) {
                 $orderObj->Items[] = $this->getAccount()->getDataBuilder()->createOrderItem($item);
             }
@@ -77,6 +66,6 @@ class ListAction extends Action
             $result->Orders[] = $orderObj;
         }
 
-        $this->getController()->setResult($result);
+        $this->setResult($result);
     }
 }

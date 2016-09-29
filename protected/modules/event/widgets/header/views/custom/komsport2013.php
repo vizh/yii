@@ -9,7 +9,7 @@ $event = $this->event;
   <div class="container" style="background-image: none;  height: 300px; padding-top: 20px; padding-bottom: 25px;">
     <div class="row">
       <div class="span12">
-        <img src="/img/event/komsport2013/banner.jpg" alt="<?=CHtml::encode($event->Title);?>" >
+        <img src="/img/event/komsport2013/banner.jpg" alt="<?=CHtml::encode($event->Title)?>" >
 
         <nav class="social" style="position: relative; top: -290px; left: -60px;">
           <script type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script>
@@ -17,10 +17,10 @@ $event = $this->event;
         </nav>
       </div>
     </div>
-    <?if ($this->eventPage):?>
+    <?if($this->eventPage):?>
       <span class="all">
-      <a href="<?=Yii::app()->createUrl('/event/list/index');?>"><?=Yii::t('app', 'Все мероприятия');?></a>
+      <a href="<?=Yii::app()->createUrl('/event/list/index')?>"><?=Yii::t('app', 'Все мероприятия')?></a>
     </span>
-    <?endif;?>
+    <?endif?>
   </div>
 </div>

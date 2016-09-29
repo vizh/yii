@@ -65,7 +65,7 @@
 						      	<table>
 						      		<tr>
 						      			<td style="background: #C71C31; text-align: center; width: 150px; height: 40px; padding: 10px 0;">
-						      				<span style="font-family:Arial, Helvetica, sans-serif; font-size:18px;"><a style="color:#ffffff; text-decoration: none;" href="<?=$user->getFastauthUrl('http://runet-id.com/event/conversionconf2013/');?>">Регистрация</a></span>
+						      				<span style="font-family:Arial, Helvetica, sans-serif; font-size:18px;"><a style="color:#ffffff; text-decoration: none;" href="<?=$user->getFastauthUrl('http://runet-id.com/event/conversionconf2013/')?>">Регистрация</a></span>
 						      			</td>
 												<td style="width: 15px;"></td>
 						      			<td style="background: #3F8944; text-align: center; width: 190px; height: 40px; padding: 10px 0;">
@@ -100,7 +100,7 @@
 					<tr><td height="1"><div style="line-height:0;"><img src="http://runet-id.com/images/mailing/common/line.gif" width="100%" height="1"></div></td></tr>
 					<tr><td width="1" height="15"><div style="line-height:0;"><img src="http://runet-id.com/images/mailing/common/blank.gif" width="1" height="15"></div></td></tr>
 
-          <tr><td style="text-align: right;"><a href="<?=$user->getFastauthUrl('/user/setting/subscription/');?>" style="color: #dfdfdf; font-size: 10px;">Отписаться</a></td></tr>
+          <tr><td style="text-align: right;"><a href="<?=$user->getFastauthUrl('/user/setting/subscription/')?>" style="color: #dfdfdf; font-size: 10px;">Отписаться</a></td></tr>
 
 				</table>
 			</td>

@@ -16,9 +16,9 @@
   'billData' => $billData,
   'nds' => $nds,
   'total' => $total
-]);?>
+])?>
 
-<?if ($withSign):?>
+<?if($withSign):?>
   <img src="/img/pay/bill/ap/sign.jpg"/>
 <?else:?>
   <table class="sign">
@@ -33,4 +33,4 @@
       <td>(Морозова Е.В.)</td>
     </tr>
   </table>
-<?endif;?>
+<?endif?>

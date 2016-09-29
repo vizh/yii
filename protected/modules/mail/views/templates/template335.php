@@ -2,7 +2,7 @@
 	$event = \event\models\Event::model()->findByPk(1659);
 ?>
 
-<h3><?=$user->getShortName();?>, здравствуйте!</h3>
+<h3><?=$user->getShortName()?>, здравствуйте!</h3>
 
 <p><strong>12&nbsp;марта 2015 года в&nbsp;</strong><strong>Ростове-на-Дону</strong> в&nbsp;здании Южного IT-парка (ул. Суворова&nbsp;91, 7&nbsp;этаж) ведущие представители крупнейших российских IT-компаний впервые проведут конференцию <strong>&laquo;РИФ.Ростов-на-Дону&raquo;</strong> в&nbsp;рамках большого всероссийского проекта.</p>
 
@@ -29,7 +29,7 @@
 </table>
 
 <div style="text-align: center; border: 3px dashed #E6232E; margin-top: 20px;">
-	<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$event->getFastRegisterUrl($user, \event\models\Role::model()->findByPk(24));?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #E6232E; margin: 0 10px 0 0; padding: 0; border-color: #E6232E; border-style: solid; border-width: 10px 40px;">РЕГИСТРАЦИЯ</a></p>
+	<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$event->getFastRegisterUrl($user, \event\models\Role::model()->findByPk(24))?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #E6232E; margin: 0 10px 0 0; padding: 0; border-color: #E6232E; border-style: solid; border-width: 10px 40px;">РЕГИСТРАЦИЯ</a></p>
 </div>
 
 <p>&laquo;РИФ. Регион 2015&raquo;&nbsp;&mdash; это большой всероссийский проект про интернет, коммуникации, IT-бизнес, стартапы и&nbsp;новые технологии. Это также своеобразное региональное продолжение федерального РИФоКИБа, который ежегодно&nbsp;&mdash; вот уже на&nbsp;протяжении 19&nbsp;лет&nbsp;&mdash; проходит в&nbsp;Подмосковье весной.</p>

@@ -1,5 +1,5 @@
 <p><a href="http://uxpeople.ru/?utm_source=partners&utm_medium=email&utm_campaign=uxpeople" target="_blank"><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/uxpe15.png" style="width: 100%; height: auto; margin: 0 auto" /></a></p>
-<h3>Здравствуйте, <?=$user->getShortName();?>!</h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</h3>
 
 
 <p><b>5 июня в Москве («Инфопространство», Зачатьевский пер., д.4) пройдет конференция UXPeople.</b></p>
@@ -24,4 +24,4 @@
 <p><b>20% скидка!</b> <b>При регистрации используйте код <span style="font-family: Courier; background: #C2D89B; padding: 1px 2px;">RUNET-ID</span></b></p>
 
 <div class="bordered center" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; text-align: center; margin: 15px 0; padding: 25px; border: 1px solid #05afed;" align="center">
-							<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/uxp15');?>" class="btn-primary" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 2; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; background: #05AFED; margin: 0 10px 0 0; padding: 0; border-color: #05afed; border-style: solid; border-width: 10px 40px;">ЗАРЕГИСТРИРОВАТЬСЯ</a></p>
+							<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/uxp15')?>" class="btn-primary" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 2; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; background: #05AFED; margin: 0 10px 0 0; padding: 0; border-color: #05afed; border-style: solid; border-width: 10px 40px;">ЗАРЕГИСТРИРОВАТЬСЯ</a></p>

@@ -7,20 +7,20 @@
 ?>
 
 <div class="well">
-  <h2><?=$test->Title;?></h2>
+  <h2><?=$test->Title?></h2>
 
-    <?php if (Yii::app()->user->hasFlash('success')):?>
+    <?if(Yii::app()->user->hasFlash('success')):?>
         <div class="alert alert-success">
             <h4>Результаты выгружены!</h4>
-            Скачать файл можно с FTP по следующему пути: <?=Yii::app()->user->getFlash('success');?>
+            Скачать файл можно с FTP по следующему пути: <?=Yii::app()->user->getFlash('success')?>
         </div>
-    <?php endif;?>
+    <?endif?>
 
-  <p><strong>Всего:</strong> <?=$countFinished+$countNotFinished;?></p>
-  <p><strong>Завершено:</strong> <?=$countFinished;?></p>
-  <p><strong>Не завершено:</strong> <?=$countNotFinished;?></p>
+  <p><strong>Всего:</strong> <?=$countFinished+$countNotFinished?></p>
+  <p><strong>Завершено:</strong> <?=$countFinished?></p>
+  <p><strong>Не завершено:</strong> <?=$countNotFinished?></p>
 
-  <?=\CHtml::form('','POST');?>
+  <?=\CHtml::form('','POST')?>
 
     <div class="row m-bottom_10">
         <div class="span12">
@@ -36,6 +36,6 @@
         </div>
     </div>
 
-    <?=\CHtml::submitButton('Выгрузить результаты', ['class' =>  'btn btn-info']);?>
-  <?=\CHtml::endForm();?>
+    <?=\CHtml::submitButton('Выгрузить результаты', ['class' =>  'btn btn-info'])?>
+  <?=\CHtml::endForm()?>
 </div>

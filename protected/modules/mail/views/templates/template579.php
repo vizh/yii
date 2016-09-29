@@ -1,6 +1,6 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/iri15.png" style="width: 100%; height: auto; margin: 0 auto" /></a></p>
 
-<p><strong>Здравствуйте, <?=$user->getShortName();?>!</strong></p>
+<p><strong>Здравствуйте, <?=$user->getShortName()?>!</strong></p>
 
 <p>Благодарим вас за участие в опросе <b><a href="http://www.iri.center">Института Развития Интернета (ИРИ)</a></b><br/> и портала <b><a href="http://www.runet-id.com">RUNET-ID</a></b> на IT-смене Всероссийского молодежного форума<br/> <b>«Территория смыслов на Клязьме»</b>.</p>
 
@@ -16,5 +16,5 @@
 
 <p>Также сообщаем, что в сентябре 2015 года состоится дополнительный набор членов Экспертного совета ИРИ. Самые активные участники профильной смены форума «Территория смыслов на Клязьме» будут приглашены в экспертное сообщество ИРИ.</p>
 
-<p><i>Кураторы образовательной смены: <a href="http://www.iri.center">ИРИ</a>, <a href="http://www.raec.ru">РАЭК</a>, <a href="http://rocit.ru">РОЦИТ</a>, <a href="http://www.iidf.ru/">ФРИИ</a><br/> 
+<p><i>Кураторы образовательной смены: <a href="http://www.iri.center">ИРИ</a>, <a href="http://www.raec.ru">РАЭК</a>, <a href="http://rocit.ru">РОЦИТ</a>, <a href="http://www.iidf.ru/">ФРИИ</a><br/>
 Пишите нам, наш адрес <a href="mailto:info@iri.center">info@iri.center</a><i></p>

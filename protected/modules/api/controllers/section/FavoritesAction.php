@@ -8,12 +8,9 @@ class FavoritesAction extends \api\components\Action
     public function run()
     {
         $request = \Yii::app()->getRequest();
-        $runetId = $request->getParam('RunetId');
-        $user = \user\models\User::model()->byRunetId($runetId)->find();
-        if ($user == null)
-            throw new \api\components\Exception(202, [$runetId]);
 
-        $model = Favorite::model()->byUserId($user->Id);
+        $model = Favorite::model()
+            ->byUserId($this->getRequestedUser()->Id);
 
         $fromUpdateTime = $request->getParam('FromUpdateTime');
         if ($fromUpdateTime !== null) {
@@ -38,4 +35,4 @@ class FavoritesAction extends \api\components\Action
         }
         $this->setResult($result);
     }
-} 
+}

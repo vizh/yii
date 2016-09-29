@@ -17,14 +17,14 @@
 			<table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; width: 100%; margin: 0; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">
 						<h1 style="text-align: center; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 36px; line-height: 1.2; color: #000; font-weight: 200; margin: 40px 0 10px; padding: 0;" align="center">Приглашение на Первое заседание Клуба Директоров<br style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;" />
 Института Развития Интернета</h1>
-						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Увжаемый <?=$user->getFullName();?>!</p>
+						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Увжаемый <?=$user->getFullName()?>!</p>
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">
 Рады пригласить Вас на первое заседание <b style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">Клуба Директоров Института Развития Интернета (КД ИРИ)</b>, которое состоится в закрытом формате на форуме «РИФ + КИБ 2015» 23 апреля с 18.30 до 20.30 в зале 9.</p><p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">
 Проведет заседание Клуба Председатель Совета Института Развития Интернета <b style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">Герман Клименко</b>.</p><p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">
 Для того, чтобы обсуждение подходов к <b style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">разработке Стратегии развития Рунета</b>, а именно эта тема станет ключевой темой КД ИРИ, просим Вас при  регистрации на заседание Клуба тезисно сформулировать Ваши предложения и идеи по основным направлениям развития национального сегмента сети Интернет.</p><p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">
 Для подтверждения Вашего участия в первом заседании Клуба пройдите по ссылке:</p>
 <div style="text-align: center; margin-top: 20px;">
-	<p style="margin-top: 10px 0; text-align: center;"><a href="http://xn--h1aax.xn--p1ai/directorsclub/?runetid=<?=$user->RunetId;?>&hash=<?=md5($user->RunetId . '71064386e1731ff1ceb2b4667ce67b8c' . 'director')?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #222222; margin: 0; padding: 0; border-color: #222222; border-style: solid; border-width: 10px 40px; width: 75%;">ПОДТВЕРДИТЬ УЧАСТИЕ</a></p>
+	<p style="margin-top: 10px 0; text-align: center;"><a href="http://xn--h1aax.xn--p1ai/directorsclub/?runetid=<?=$user->RunetId?>&hash=<?=md5($user->RunetId . '71064386e1731ff1ceb2b4667ce67b8c' . 'director')?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #222222; margin: 0; padding: 0; border-color: #222222; border-style: solid; border-width: 10px 40px; width: 75%;">ПОДТВЕРДИТЬ УЧАСТИЕ</a></p>
 </div>
 
 <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Институт Развития Интернета — это единый центр знаний о следующих отраслях: интернет-технологии, медиа, софт.</p>
@@ -42,10 +42,10 @@
 <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">С уважением, <br style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;" />
 Председатель Совета Института Развития Интернета Герман Клименко</p>
 
-						
-			
+
+
 			<!-- /content -->
-			
+
 		</ul></td>
 		<td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"></td>
 	</tr></table><!-- /body --></div></td></tr></table></body>

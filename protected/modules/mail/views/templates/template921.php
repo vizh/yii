@@ -57,11 +57,11 @@ a {
 }
 
 .btn-primary td {
-  background-color: #FE9901; 
-  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-  font-size: 14px; 
+  background-color: #FE9901;
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size: 14px;
   text-align: center;
-  vertical-align: top; 
+  vertical-align: top;
 }
 
 .btn-primary td a {
@@ -82,11 +82,11 @@ a {
 }
 
 .btn-secondary td {
-  background-color: transparent; 
-  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-  font-size: 14px; 
+  background-color: transparent;
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size: 14px;
   text-align: center;
-  vertical-align: top; 
+  vertical-align: top;
 }
 
 .btn-secondary td a {
@@ -107,11 +107,11 @@ a {
 }
 
 .btn-white td {
-  background-color: #FFFFFF; 
-  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-  font-size: 14px; 
+  background-color: #FFFFFF;
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size: 14px;
   text-align: center;
-  vertical-align: top; 
+  vertical-align: top;
 }
 
 .btn-white td a {
@@ -177,13 +177,13 @@ table.body-wrap {
 table.unboxed-wrap {
   clear: both !important;
   padding: 25px 0;
-  width: 100%;  
+  width: 100%;
 }
 
 
 
-h1, 
-h2, 
+h1,
+h2,
 h3 {
   color: #111111;
   font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -209,15 +209,15 @@ h4 {
   padding: 0;
 }
 
-p, 
-ul, 
+p,
+ul,
 ol {
   font-size: 14px;
   font-weight: normal;
   margin-bottom: 10px;
 }
 
-ul li, 
+ul li,
 ol li {
   margin-left: 25px;
   list-style-position: outside;
@@ -314,7 +314,7 @@ small {
 		margin: 15px 0;
 		width: 100%;
 	}
-  
+
   .full {
     display: block !important;
     width: 100%  !important;
@@ -335,25 +335,25 @@ small {
 <body bgcolor="#D2D9DC" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;-webkit-font-smoothing:antialiased;height:100%;-webkit-text-size-adjust:none;width:100% !important;font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;font-size:14px;line-height:1.5em;" >
 
 	<div id="wrapper" style="background-color:#D2D9DC;height:100%;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;width:100%;" >
-		
+
 		<!-- unboxed -->
 		<table class="unboxed-wrap" bgcolor="#D2D9DC" style="margin-bottom:0;margin-right:0;margin-left:0;margin-top:25px;clear:both !important;padding-top:25px;padding-bottom:25px;padding-right:0;padding-left:0;width:100%;" >
 		  <tr style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
 		    <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" ></td>
 		    <td class="container" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;clear:both !important;display:block !important;margin-top:0 !important;margin-bottom:0 !important;margin-right:auto !important;margin-left:auto !important;max-width:600px !important;" >
-		      
+
 		      <!-- content -->
 		      <div class="content" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;display:block;margin-top:0;margin-bottom:0;margin-right:auto;margin-left:auto;max-width:600px;" >
 		        <table style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;width:100%;" >
 		          <tr style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
 		            <td align="center" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" >
-		              	<h2 style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#111111;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;font-weight:200;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;font-size:28px;" >Здравствуйте, <?=$user->getShortName();?>!</h2>
+		              	<h2 style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#111111;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;font-weight:200;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;font-size:28px;" >Здравствуйте, <?=$user->getShortName()?>!</h2>
 		            </td>
 		          </tr>
 		        </table>
 		      </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" ></td>
 		  </tr>
@@ -380,44 +380,44 @@ small {
 		          <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" >
 					<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Мы&nbsp;завершили обработку презентаций за&nbsp;все три дня Форума и&nbsp;выложили их&nbsp;на&nbsp;сайте. Все доклады <a href="http://www.rif.ru" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#FE9901;" >РИФ+КИБ 2016</a>, теперь доступны и&nbsp;вам в&nbsp;виде презентаций, предоставленных докладчиками.</p>
 					<h3 style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#111111;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;font-size:22px;font-weight:bold;text-transform:uppercase;" >Загрузить интересующую вас презентацию:</h3>
-					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" > 
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Авторизуйтесь на&nbsp;сайте (авторизация построена на&nbsp;платформе RUNET—ID)</p>
 						</li>
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Перейдите в&nbsp;раздел «<a href="http://2016.russianinternetforum.ru/program/" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#FE9901;" >Программа</a>» и&nbsp;найдите необходимую секцию, кликните на&nbsp;неё</p>
 						</li>
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >На&nbsp;странице секции загрузите нужную презентацию (под тезисами каждого доклада, у&nbsp;которого есть презентация, будет ссылка на&nbsp;скачивание)</p>
 						</li>
 					</ul>
 					<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >В&nbsp;специальном разделе вы&nbsp;можете найти яркие «<a href="http://2016.russianinternetforum.ru/video/" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#FE9901;" >Видеоматериалы</a>» по&nbsp;итогам Форума, а&nbsp;также записи секций из&nbsp;залов 1&nbsp;и&nbsp;4, которые будут обработаны и&nbsp;опубликованы через <nobr style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >2-3 недели.</nobr></p>
 
 					<hr style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;border-width:0;border-top-width:1px;border-top-style:solid;border-top-color:#eaeaea;height:1px;margin-top:35px;margin-bottom:35px;margin-right:auto;margin-left:auto;" >
-					
+
 					<h3 style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#111111;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;font-size:22px;font-weight:bold;text-transform:uppercase;" >Материалы форума в&nbsp;экологичном формате&nbsp;/ PaperLess by&nbsp;RUVENTS</h3>
 					<a href="http://2016.russianinternetforum.ru/news/1180/" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#FE9901;" ><img src="https://showtime.s3.amazonaws.com/2016040411350-PaperLess-logo.png" align="right" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;height:auto;width:160px;margin-top:10px;margin-bottom:10px;margin-right:10px;margin-left:10px;max-width:600px;" ></a>
 					<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Если Вы&nbsp;использовали технологию <a href="http://2016.russianinternetforum.ru/news/1180/" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#FE9901;" >PaperLess</a> (прикладывали свой бэйдж к&nbsp;специальным круглым коробочкам на&nbsp;стендах с&nbsp;логотипом с&nbsp;зеленым листочком, подтверждая тем самым свой интерес к&nbsp;получению дополнительных материалов), то&nbsp;с&nbsp;сегодняшнего дня в&nbsp;вашем личном кабинете (в&nbsp;разделе «Материалы») Вы&nbsp;сможете найти информацию от&nbsp;партнёров и&nbsp;тех стендов, которыми заинтересовались на&nbsp;выставке.</p>
-					
+
 					<hr style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;border-width:0;border-top-width:1px;border-top-style:solid;border-top-color:#eaeaea;height:1px;margin-top:35px;margin-bottom:35px;margin-right:auto;margin-left:auto;" >
 
 					<h3 style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;color:#111111;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;font-size:22px;font-weight:bold;text-transform:uppercase;" >Главные майские мероприятия!</h3>
 					<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Ближайшее IT-мероприятие&nbsp;— Большой Медиа-Коммуникационный Форум (БМКФ 2016), который пройдет <nobr style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >10-12</nobr> мая в&nbsp;московском Экспоцентре.</p>
 					<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Большой Медиа-Коммуникационный Форума 2016&nbsp;— это глобальное трехдневное мероприятие с&nbsp;насыщенной деловой программой, объединяющее серию отраслевых форумов и&nbsp;конференций, таких как:</p>
-					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" > 
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+					<ul style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Конференция «МЕДИАСПЕКТР 2016»&nbsp;— актуальные вопросы развития отрасли связи, информационных технологий и&nbsp;массовых коммуникаций.</p>
 						</li>
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Форум «ИНТЕРНЕТ + МЕДИА» впервые стартует на&nbsp;БМКФ 2016 и&nbsp;открывает серию из&nbsp;8&nbsp;отраслевых форумов по&nbsp;направлению дорожных карт.</p>
 						</li>
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >AdTechRussia 2016&nbsp;— конференция для профессионалов в&nbsp;сфере маркетинга, медиа и&nbsp;digital, посвященная новым технологиям продвижения в&nbsp;интернет-среде.</p>
 						</li>
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Russian Cybersecurity Competition (RCC-2016)&nbsp;— командные соревнования по&nbsp;информационной безопасности.</p>
 						</li>
-						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" > 
+						<li style="margin-top:0;margin-bottom:0;margin-right:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-left:25px;list-style-position:outside;" >
 							<p style="margin-top:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;font-size:14px;font-weight:normal;margin-bottom:10px;" >Всем участникам, зарегистрированным на&nbsp;БМКФ, доступно посещение выставки СВЯЗЬ 2016, которая проходит в&nbsp;те&nbsp;же дни в&nbsp;Экспоцентре.</p>
 						</li>
 					</ul>
@@ -438,7 +438,7 @@ small {
 		      </table>
 		      </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;" ></td>
 		  </tr>
@@ -468,7 +468,7 @@ small {
 			</tr>
 		</table>
 		<!-- /body -->
-		
+
 		<br style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
 
 	</div>

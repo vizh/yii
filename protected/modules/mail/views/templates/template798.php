@@ -1,5 +1,5 @@
 <img alt="Cyber Security Forum / i-SAFETY 2016" src="http://runet-id.com/img/mail/2016/csf16_1.jpg" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" />
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p dir="ltr" id="docs-internal-guid-cd99caef-63f7-0835-a2c3-3e8d940fc63f">9 февраля 2016 года в Москве на площадке Digital October пройдет ведущее российское мероприятие по безопасности в сфере цифровых технологий &ndash;<br />
 <strong>Cyber Security Forum / i-SAFETY 2016</strong> &ndash; <a href="http://www.cybersecurityforum.ru">www.CyberSecurityForum.ru</a></p>
@@ -34,7 +34,7 @@
 <p><strong>ВНИМАНИЕ!<br />
 Принять участие могут только зарегистрированные участники:</strong></p>
 
-<p><a href="<?=$user->getFastauthUrl('/event/csf16/');?>" style="font-size: 100%; color: #fff; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #C45942; margin: 0 10px 0 0; padding: 0; border-color: #C45942; border-style: solid; border-width: 10px 40px;">Регистрация участия в Cyber Security Forum 2016</a></p>
+<p><a href="<?=$user->getFastauthUrl('/event/csf16/')?>" style="font-size: 100%; color: #fff; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #C45942; margin: 0 10px 0 0; padding: 0; border-color: #C45942; border-style: solid; border-width: 10px 40px;">Регистрация участия в Cyber Security Forum 2016</a></p>
 </div>
 
 <h3 dir="ltr">О проекте:</h3>

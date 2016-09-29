@@ -47,7 +47,7 @@ return [
         'allow',
         'roles' => ['base'],
         'controllers' => ['event'],
-        'actions' => ['roles', 'register', 'list', 'info', 'companies', 'statistics', 'users', 'purposes', 'halls'],
+        'actions' => ['roles', 'register', 'list', 'info', 'companies', 'statistics', 'users', 'purposes', 'halls', 'changerole'],
     ],
     [
         'allow',
@@ -80,6 +80,11 @@ return [
         'roles' => ['base'],
         'controllers' => ['competence'],
         'actions' => ['tests', 'result'],
+    ],
+    [
+        'allow',
+        'roles' => ['base'],
+        'controllers' => ['connect']
     ],
 
     /*** Спецпроект для сбербанка  ***/

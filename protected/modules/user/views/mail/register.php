@@ -4,7 +4,7 @@
  * @var string $password
  */
 ?>
-<h2><?=$user->getFullName();?>,</h2>
+<h2><?=$user->getFullName()?>,</h2>
 <p>Вы создали аккаунт в RUNET—ID, единой системе регистрации на ИТ-мероприятия Рунета.</p>
 <p style="margin-bottom: 20px;">Это не социальная сеть. Это сервис, позволяющий быстро и удобно регистрироваться на большую часть проводимых в России форумов, конференций, семинаров, вебинаров и тренингов связанных с интернет, телеком и медиа.</p>
 
@@ -14,14 +14,14 @@
             <h2 style="padding: 0; margin: 0 0 20px;">Подтвердите аккаунт</h2>
             <p style="padding: 0; margin: 0;">Для того, что бы мы могли отправлять Вам электронные билеты, новости по мероприятиям на которые вы будете регистрироваться и информировать об уникальных событиях, просим подтвердить свой аккаунт.</p>
             <div style="text-align: center; margin: 20px 0 0;">
-                <?=\CHtml::link('ПОДТВЕРДИТЬ АККАУНТ', $user->getVerifyUrl(), ['style' => 'font-size: 14px; line-height: 2; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: block; background: #2F8EDC; margin: 0; padding: 0; border-color: #2f8edc; border-style: solid; border-width: 10px 40px;']);?>
+                <?=\CHtml::link('ПОДТВЕРДИТЬ АККАУНТ', $user->getVerifyUrl(), ['style' => 'font-size: 14px; line-height: 2; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: block; background: #2F8EDC; margin: 0; padding: 0; border-color: #2f8edc; border-style: solid; border-width: 10px 40px;'])?>
             </div>
         </td>
         <td style="width: 50%; vertical-align: top; background-color: #EDEDED; border: 3px solid #EDEDED; padding: 20px;">
             <h2 style="padding: 0; margin: 0 0 20px;">Ваши данные</h2>
-            <div style="margin-bottom: 5px;"><strong>RUNET-ID</strong>: <?=$user->RunetId;?></div>
-            <div style="margin-bottom: 5px;"><strong>Пароль: <span style="text-decoration: underline;"><?=$password;?></span></strong></div>
-            <div style="margin-bottom: 5px;"><strong>Email</strong>: <?=$user->Email;?></div>
+            <div style="margin-bottom: 5px;"><strong>RUNET-ID</strong>: <?=$user->RunetId?></div>
+            <div style="margin-bottom: 5px;"><strong>Пароль: <span style="text-decoration: underline;"><?=$password?></span></strong></div>
+            <div style="margin-bottom: 5px;"><strong>Email</strong>: <?=$user->Email?></div>
         </td>
     </tr>
 </table>

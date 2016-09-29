@@ -1,9 +1,9 @@
-<h3>Здравствуйте, <?=$user->getShortName();?>!</h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</h3>
 <p><strong>TEDxPokrovkaSt «Predicting the FUTURE»</strong>&nbsp;— важное интеллектуальное событие лета&nbsp;— часть всемирного движения <strong>TEDx</strong>.&nbsp;250&nbsp;участников, 10&nbsp;спикеров и&nbsp;особая атмосфера вдохновения TED.</p>
 <p><strong>Цель каждого TEDx&nbsp;— поднять серьезные вопросы, мотивировать и&nbsp;вдохновлять на&nbsp;новые открытия.</strong> Именно для этого 8&nbsp;специалистов из&nbsp;разных областей соберутся 22&nbsp;августа в&nbsp;Москве.</p>
 <p>На&nbsp;выступление у&nbsp;каждого спикера всего 18&nbsp;минут&nbsp;— за&nbsp;это время нужно представить свою идею так, чтобы заинтересовать зрителя, дать почву для размышлений и&nbsp;вдохновить. Выступления в&nbsp;стиле TED больше похожи на&nbsp;моноспектакль, чем на&nbsp;лекцию, и&nbsp;это поистине безграничный поток «идей, достойных распространения»&nbsp;— Ideas Worth Spreading.</p>
 
-<div style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/tedxpokrovkast15');?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #F62B35; margin: 0 10px 0 0; padding: 10px 40px;"><strong>БЫСТРАЯ РЕГИСТРАЦИЯ</strong> </a></div>
+<div style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/tedxpokrovkast15')?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #F62B35; margin: 0 10px 0 0; padding: 10px 40px;"><strong>БЫСТРАЯ РЕГИСТРАЦИЯ</strong> </a></div>
 
 <p><strong>Магия TED объединяет с&nbsp;1984 года миллионы людей</strong> по&nbsp;всему миру, даря им&nbsp;вдохновение и&nbsp;новые великие мысли. В&nbsp;разное время спикерами TED выступали такие люди, как Сергей Брин, Ларри Пейдж, Сэр Ричард Брэнсон, Билл Гейтс, Эл&nbsp;Гор, Боно, Филипп Старк. </p>
 <p>Программа TEDx создана, чтобы помочь локальным сообществам объединить людей под знаком TED. Конференции TEDx появляются благодаря независимой работе энтузиастов, получившим лицензию от&nbsp;TED.</p>
@@ -60,7 +60,7 @@
 </table>
 <hr style="border: none; border-top: 1px solid #eaeaea; margin: 25px 0;" />
 
-<div style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/tedxpokrovkast15');?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #F62B35; margin: 0 10px 0 0; padding: 10px 40px;"><strong>БЫСТРАЯ РЕГИСТРАЦИЯ</strong> </a></div>
+<div style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/tedxpokrovkast15')?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #F62B35; margin: 0 10px 0 0; padding: 10px 40px;"><strong>БЫСТРАЯ РЕГИСТРАЦИЯ</strong> </a></div>
 
 <hr style="border: none; border-top: 1px solid #eaeaea; margin: 25px 0;" />
 

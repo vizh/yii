@@ -100,7 +100,7 @@ CUserEdit.prototype = {
 
             $scope.updateDataValues = function (data) {
                 if (data.edit) {
-                    var params = $('tr.editable-data :input').serialize() + '&action=editData&data=' + data.Id;
+                    var params = $('.editable-data :input').serialize() + '&action=editData&data=' + data.Id;
                     $scope.setSavingState(data);
                     $.ajax({method: 'POST', url: '', data: params})
                         .done(function(response) {

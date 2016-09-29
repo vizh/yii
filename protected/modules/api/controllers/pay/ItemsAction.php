@@ -1,28 +1,33 @@
 <?php
 namespace api\controllers\pay;
 
+use pay\components\OrderItemCollection;
+use pay\models\OrderItem;
+
 class ItemsAction extends \api\components\Action
 {
-  public function run()
-  {
-    $ownerRunetId = \Yii::app()->request->getParam('OwnerRunetId');
-    $owner = \user\models\User::model()->byRunetId($ownerRunetId)->find();
-    if ($owner == null)
+    public function run()
     {
-      throw new \api\components\Exception(202, array($ownerRunetId));
+        $owner = $this->getRequestedOwner();
+
+        $orderItems = OrderItem::model()
+            ->byOwnerId($owner->Id)
+            ->byChangedOwnerId($owner->Id, false)
+            ->byEventId($this->getEvent()->Id)
+            ->byPaid(true)
+            ->findAll();
+
+        $collection = OrderItemCollection::createByOrderItems($orderItems);
+
+        $result = new \stdClass();
+        $result->Items = [];
+        foreach ($collection as $item) {
+            $result->Items[] = $this
+                ->getAccount()
+                ->getDataBuilder()
+                ->createOrderItem($item);
+        }
+
+        $this->setResult($result);
     }
-    
-    $result = new \stdClass();
-    $orderItems = \pay\models\OrderItem::model()
-        ->byOwnerId($owner->Id)->byChangedOwnerId($owner->Id, false)
-        ->byEventId($this->getEvent()->Id)->byPaid(true)
-        ->findAll();
-    $collection = \pay\components\OrderItemCollection::createByOrderItems($orderItems);
-    $result->Items = array();
-    foreach ($collection as $item)
-    {
-      $result->Items[] = $this->getAccount()->getDataBuilder()->createOrderItem($item);
-    }
-    $this->getController()->setResult($result);
-  }
 }

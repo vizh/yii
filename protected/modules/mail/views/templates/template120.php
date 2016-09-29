@@ -155,11 +155,11 @@
     		background-color: #ffecdc;
     		border-color: #E91B10;
 		}
-		.wrap .event.hot .btn-reg, 
+		.wrap .event.hot .btn-reg,
 		.wrap .event.hot .event-time {
     		background-color: #E91B10;
 		}
-		
+
 		.wrap .text.blue {
 			background: #338AD8;
 			color: #ffffff;
@@ -189,7 +189,7 @@
 			<p><a href="http://runet-id.com/events/" class="btn-white" style="color: #ffffff;background-color: transparent;border: 1px solid #ffffff;border-radius: 3px;display: inline-block;padding: 15px 25px;text-decoration: none;text-transform: uppercase;">Календарь мероприятий</a></p>
 		</div>
 		<div class="text" style="background: #ffffff;padding: 15px 25px;">
-			<h3><?=$user->getShortName();?>, здравствуйте!</h3>
+			<h3><?=$user->getShortName()?>, здравствуйте!</h3>
 			<p>Незаметно подкралась осень, а&nbsp;в&nbsp;месте с&nbsp;ней&nbsp;&mdash; и&nbsp;осенние мероприятия.</p>
 			<p>Мы подготовили список самых главных мероприятий <nobr>интернет-отрасли</nobr>, которые просто невозможно пропустить. И&nbsp;конечно&nbsp;же, на&nbsp;которые можно заранее зарегистрироваться &laquo;в&nbsp;один клик&raquo;, будучи пользователем системы регистраций <nobr>RUNET-ID</nobr>.</p>
 			<p>На&nbsp;многие конференции и&nbsp;мероприятия уже открыта регистрация, и&nbsp;уже сейчас можно запланировать свое участие и&nbsp;ознакомиться с&nbsp;планами предстоящих событий.</p>
@@ -202,7 +202,7 @@
     		<tr>
     		    <td colspan="2" style="color: #3C3F48;padding-left: 25px;">
         		    <p style="color: #3C3F48;margin-top: 0;padding-top: 0;margin-bottom: 15px;">Первая в&nbsp;регионе масштабная <nobr>интернет-конференция</nobr>, посвященная вопросам развития интернета. Мероприятие проходит в&nbsp;рамках <a href="http://spectr-forum.com/" target="_blank" style="color: #02397E;">Форума &laquo;СПЕКТР 2014&raquo;</a>.</p>
-                    <p style="color: #3C3F48;margin-top: 0;padding-top: 0;margin-bottom: 15px;"><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/rif-crimea14/');?>" target="_blank" class="btn-reg" style="color: #ffffff;background: #338AD8;border-radius: 3px;display: inline-block;margin-top: 10px;margin-bottom: 15px;padding: 15px 25px;text-decoration: none;">Регистрация</a></p>
+                    <p style="color: #3C3F48;margin-top: 0;padding-top: 0;margin-bottom: 15px;"><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/rif-crimea14/')?>" target="_blank" class="btn-reg" style="color: #ffffff;background: #338AD8;border-radius: 3px;display: inline-block;margin-top: 10px;margin-bottom: 15px;padding: 15px 25px;text-decoration: none;">Регистрация</a></p>
     		    </td>
     		</tr>
 		</table>
@@ -214,7 +214,7 @@
 		    <tr>
 		        <td colspan="2" style="color: #3C3F48;padding-left: 25px;">
     		        <p style="color: #3C3F48;margin-top: 0;padding-top: 0;margin-bottom: 15px;">Конференция посвящена детскому интернету, сервисам, контенту и&nbsp;вопросам их&nbsp;монетизации. Участники обсудят особенности взаимодействия детей с&nbsp;<nobr>интернет-пространством</nobr>, создание современных детских <nobr>интернет-ресурсов</nobr> и&nbsp;особенности детского медиапотребления в&nbsp;Сети.</p>
-                    <p style="color: #3C3F48;margin-top: 0;padding-top: 0;margin-bottom: 15px;"><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/next2014/');?>" target="_blank" class="btn-reg" style="color: #ffffff;background: #338AD8;border-radius: 3px;display: inline-block;margin-top: 10px;margin-bottom: 15px;padding: 15px 25px;text-decoration: none;">Регистрация</a></p>
+                    <p style="color: #3C3F48;margin-top: 0;padding-top: 0;margin-bottom: 15px;"><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/next2014/')?>" target="_blank" class="btn-reg" style="color: #ffffff;background: #338AD8;border-radius: 3px;display: inline-block;margin-top: 10px;margin-bottom: 15px;padding: 15px 25px;text-decoration: none;">Регистрация</a></p>
 		        </td>
 		    </tr>
 		</table>
@@ -226,7 +226,7 @@
 		    <tr>
     		    <td colspan="2" style="color: #3C3F48;padding-left: 25px;">
         		    <p style="color: #3C3F48;margin-top: 0;padding-top: 0;margin-bottom: 15px;">Первая в&nbsp;России профессиональная конференция для обмена международным опытом по&nbsp;применению performance marketing решений. Конференция посвящена стратегии построения эффективного присутствия брендов в&nbsp;интернете, а&nbsp;также инструментам, каналам и&nbsp;технологиям, которые позволяют обеспечить максимальный ROI для бизнеса.</p>
-                    <p style="color: #3C3F48;margin-top: 0;padding-top: 0;margin-bottom: 15px;"><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/pm14/');?>" target="_blank" class="btn-reg" style="color: #ffffff;background: #338AD8;border-radius: 3px;display: inline-block;margin-top: 10px;margin-bottom: 15px;padding: 15px 25px;text-decoration: none;">Регистрация</a></p>
+                    <p style="color: #3C3F48;margin-top: 0;padding-top: 0;margin-bottom: 15px;"><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/pm14/')?>" target="_blank" class="btn-reg" style="color: #ffffff;background: #338AD8;border-radius: 3px;display: inline-block;margin-top: 10px;margin-bottom: 15px;padding: 15px 25px;text-decoration: none;">Регистрация</a></p>
     		    </td>
 		    </tr>
 		</table>
@@ -238,7 +238,7 @@
 		    <tr>
 		        <td colspan="2" style="color: #3C3F48;padding-left: 25px;">
     		        <p style="color: #3C3F48;margin-top: 0;padding-top: 0;margin-bottom: 15px;">Международная профессиональная конференция, посвященная вопросам юзабилити и User Experience.</p>
-                    <p style="color: #3C3F48;margin-top: 0;padding-top: 0;margin-bottom: 15px;"><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/userexp2014/');?>" target="_blank" class="btn-reg" style="color: #ffffff;background: #338AD8;border-radius: 3px;display: inline-block;margin-top: 10px;margin-bottom: 15px;padding: 15px 25px;text-decoration: none;">Регистрация</a>&nbsp;<a href="http://2014.userexperience.ru/" target="_blank" class="btn-transp" style="color: #052E78;background: transparent;display: inline-block;margin-top: 10px;padding: 15px 25px;text-decoration: none;">www.userexperience.ru</a></p>
+                    <p style="color: #3C3F48;margin-top: 0;padding-top: 0;margin-bottom: 15px;"><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/userexp2014/')?>" target="_blank" class="btn-reg" style="color: #ffffff;background: #338AD8;border-radius: 3px;display: inline-block;margin-top: 10px;margin-bottom: 15px;padding: 15px 25px;text-decoration: none;">Регистрация</a>&nbsp;<a href="http://2014.userexperience.ru/" target="_blank" class="btn-transp" style="color: #052E78;background: transparent;display: inline-block;margin-top: 10px;padding: 15px 25px;text-decoration: none;">www.userexperience.ru</a></p>
 		        </td>
 		    </tr>
 		</table>
@@ -262,7 +262,7 @@
 		    <tr>
     		    <td colspan="2" style="color: #3C3F48;padding-left: 25px;">
         		    <p style="color: #3C3F48;margin-top: 0;padding-top: 0;margin-bottom: 15px;">Конференция разработчиков мобильных сервисов и&nbsp;решений #MBLTdev</p>
-                    <p style="color: #3C3F48;margin-top: 0;padding-top: 0;margin-bottom: 15px;"><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/mbltdev14/');?>" target="_blank" class="btn-reg" style="color: #ffffff;background: #338AD8;border-radius: 3px;display: inline-block;margin-top: 10px;margin-bottom: 15px;padding: 15px 25px;text-decoration: none;">Регистрация</a>&nbsp;<a href="http://mbltdev.ru/" target="_blank" class="btn-transp" style="color: #052E78;background: transparent;display: inline-block;margin-top: 10px;padding: 15px 25px;text-decoration: none;">www.mbltdev.ru</a></p>
+                    <p style="color: #3C3F48;margin-top: 0;padding-top: 0;margin-bottom: 15px;"><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/mbltdev14/')?>" target="_blank" class="btn-reg" style="color: #ffffff;background: #338AD8;border-radius: 3px;display: inline-block;margin-top: 10px;margin-bottom: 15px;padding: 15px 25px;text-decoration: none;">Регистрация</a>&nbsp;<a href="http://mbltdev.ru/" target="_blank" class="btn-transp" style="color: #052E78;background: transparent;display: inline-block;margin-top: 10px;padding: 15px 25px;text-decoration: none;">www.mbltdev.ru</a></p>
     		    </td>
 		    </tr>
 		</table>
@@ -274,7 +274,7 @@
 		    <tr>
     		    <td colspan="2" style="color: #3C3F48;padding-left: 25px;">
         		    <p style="color: #3C3F48;margin-top: 0;padding-top: 0;margin-bottom: 15px;">Главное осеннее мероприятие IT-отрасли: Неделя Российского Интернета, Выставка "Интернет 2014” и Медиакоммуникационный Форум</p>
-                    <p style="color: #3C3F48;margin-top: 0;padding-top: 0;margin-bottom: 15px;"><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/riw14/');?>" target="_blank" class="btn-reg" style="color: #ffffff;background: #338AD8;border-radius: 3px;display: inline-block;margin-top: 10px;margin-bottom: 15px;padding: 15px 25px;text-decoration: none;background-color: #E91B10;">Регистрация</a>&nbsp;<a href="http://riw14.com/" target="_blank" class="btn-transp" style="color: #052E78;background: transparent;display: inline-block;margin-top: 10px;padding: 15px 25px;text-decoration: none;">www.riw14.com</a></p>
+                    <p style="color: #3C3F48;margin-top: 0;padding-top: 0;margin-bottom: 15px;"><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/riw14/')?>" target="_blank" class="btn-reg" style="color: #ffffff;background: #338AD8;border-radius: 3px;display: inline-block;margin-top: 10px;margin-bottom: 15px;padding: 15px 25px;text-decoration: none;background-color: #E91B10;">Регистрация</a>&nbsp;<a href="http://riw14.com/" target="_blank" class="btn-transp" style="color: #052E78;background: transparent;display: inline-block;margin-top: 10px;padding: 15px 25px;text-decoration: none;">www.riw14.com</a></p>
     		    </td>
 		    </tr>
 		</table>

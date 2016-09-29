@@ -1,20 +1,21 @@
 <?php
 namespace pay\controllers\cabinet;
 
+use partner\models\PartnerCallback;
 use pay\models\EventUserAdditionalAttribute;
+use pay\models\Failure;
 use \pay\models\forms\AddtionalAttributes as FormAdditionalAttributes;
 
 class IndexAction extends \pay\components\Action
 {
-    public function run($eventIdName)
+    public function run($eventIdName, $iframe = false)
     {
-        $request = \Yii::app()->getRequest();
-        $this->getController()->setPageTitle('Оплата  / ' .$this->getEvent()->Title . ' / RUNET-ID');
+        $this->getController()->setPageTitle(\Yii::t('app', 'Оплата') . ' / ' .$this->getEvent()->Title);
 
-        \partner\models\PartnerCallback::start($this->getEvent());
+        PartnerCallback::start($this->getEvent());
         if ($this->getUser() != null)
         {
-            \partner\models\PartnerCallback::registration($this->getEvent(), $this->getUser());
+            PartnerCallback::registration($this->getEvent(), $this->getUser());
         }
 
         $finder = \pay\components\collection\Finder::create($this->getEvent()->Id, $this->getUser()->Id);
@@ -38,6 +39,8 @@ class IndexAction extends \pay\components\Action
                 $unpaidItems->{$key}[$item->getOrderItem()->ProductId] = [];
             }
             $unpaidItems->{$key}[$item->getOrderItem()->ProductId][] = $item;
+            //добавим в лог попытку оплаты
+            Failure::setAttempt($item->getOrderItem());
         }
 
         $formAdditionalAttributes = $this->getAdditionalAttributesForm($finder);
@@ -63,15 +66,21 @@ class IndexAction extends \pay\components\Action
                 break;
         }
 
-
-
-        $this->getController()->render('index', array(
+        $params = [
             'finder' => $finder,
             'unpaidItems' => $unpaidItems,
             'hasRecentPaidItems' => $hasRecentPaidItems,
             'account' => $this->getAccount(),
             'formAdditionalAttributes' => $formAdditionalAttributes
-        ));
+        ];
+        if (!$iframe){
+            $this->getController()->render('index', $params);
+        }
+        else{
+            $this->getController()->layout = '//layouts/clear';
+            $this->getController()->render('index', $params);
+        }
+
     }
 
     /**

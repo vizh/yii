@@ -12,51 +12,51 @@
   </div>
 </div>
 
-<?if ($form->hasErrors()):?>
+<?if($form->hasErrors()):?>
   <div class="row">
     <div class="span8 offset2">
-      <?=CHtml::errorSummary($form, '<div class="alert alert-error">', '</div>');?>
+      <?=CHtml::errorSummary($form, '<div class="alert alert-error">', '</div>')?>
     </div>
   </div>
-<?endif;?>
+<?endif?>
 
-<?if ($result !== false):?>
+<?if($result !== false):?>
   <div class="row">
     <div class="span8 offset2">
       <div class="alert alert-success">
-        <p>Номер успешно забронирован! OrderItem: <?=$result;?></p>
+        <p>Номер успешно забронирован! OrderItem: <?=$result?></p>
       </div>
     </div>
   </div>
-<?endif;?>
+<?endif?>
 
 <div class="row">
   <div class="span10 offset1">
-    <?=CHtml::beginForm();?>
+    <?=CHtml::beginForm()?>
 
-    <div class="control-group <?=$form->hasErrors('DateIn') ? 'error' : '';?>">
-      <?=CHtml::activeLabel($form, 'DateIn');?>
-      <?=CHtml::activeDropDownList($form, 'DateIn', $datesIn);?>
+    <div class="control-group <?=$form->hasErrors('DateIn') ? 'error' : ''?>">
+      <?=CHtml::activeLabel($form, 'DateIn')?>
+      <?=CHtml::activeDropDownList($form, 'DateIn', $datesIn)?>
     </div>
 
-    <div class="control-group <?=$form->hasErrors('DateOut') ? 'error' : '';?>">
-      <?=CHtml::activeLabel($form, 'DateOut');?>
-      <?=CHtml::activeDropDownList($form, 'DateOut', $datesOut);?>
+    <div class="control-group <?=$form->hasErrors('DateOut') ? 'error' : ''?>">
+      <?=CHtml::activeLabel($form, 'DateOut')?>
+      <?=CHtml::activeDropDownList($form, 'DateOut', $datesOut)?>
     </div>
 
-    <div class="control-group <?=$form->hasErrors('ProductId') ? 'error' : '';?>">
-      <?=CHtml::activeLabel($form, 'ProductId');?>
-      <?=CHtml::activeTextField($form, 'ProductId');?>
+    <div class="control-group <?=$form->hasErrors('ProductId') ? 'error' : ''?>">
+      <?=CHtml::activeLabel($form, 'ProductId')?>
+      <?=CHtml::activeTextField($form, 'ProductId')?>
     </div>
 
-    <div class="control-group <?=$form->hasErrors('RunetId') ? 'error' : '';?>">
-      <?=CHtml::activeLabel($form, 'RunetId');?>
-      <?=CHtml::activeTextField($form, 'RunetId');?>
+    <div class="control-group <?=$form->hasErrors('RunetId') ? 'error' : ''?>">
+      <?=CHtml::activeLabel($form, 'RunetId')?>
+      <?=CHtml::activeTextField($form, 'RunetId')?>
     </div>
 
-    <div class="control-group <?=$form->hasErrors('BookTime') ? 'error' : '';?>">
-      <?=CHtml::activeLabel($form, 'BookTime');?>
-      <?=CHtml::activeTextField($form, 'BookTime');?>
+    <div class="control-group <?=$form->hasErrors('BookTime') ? 'error' : ''?>">
+      <?=CHtml::activeLabel($form, 'BookTime')?>
+      <?=CHtml::activeTextField($form, 'BookTime')?>
     </div>
 
     <div class="control-group">
@@ -64,6 +64,6 @@
     </div>
 
 
-    <?=CHtml::endForm();?>
+    <?=CHtml::endForm()?>
   </div>
 </div>

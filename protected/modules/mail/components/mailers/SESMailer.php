@@ -1,18 +1,18 @@
 <?php
 namespace mail\components\mailers;
 
+use application\components\Exception;
 use Aws\Ses\SesClient;
+use Guzzle\Service\Command\CommandInterface;
+use Guzzle\Service\Exception\CommandTransferException;
+use mail\components\Mailer;
+use Yii;
 
 /**
  * Class SESMailer performs sending by using Amazon SES
  */
-class SESMailer extends \mail\components\Mailer
+class SESMailer extends Mailer
 {
-    const AWS_KEY = 'AKIAIOYXFNZF7QSJNROA';
-    const AWS_SECRET = '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';
-    const AWS_REGION = 'eu-west-1';
-    const MAX_ATTACHMENT_NAME_LEN = 60;
-
     /**
      * Returns param from params array. Checks for requirements of parameters
      *
@@ -24,10 +24,11 @@ class SESMailer extends \mail\components\Mailer
      */
     private static function getParam($params, $param, $required = false)
     {
-        if ($required === true && empty($params[$param]))
+        if ($required === true && empty($params[$param])) {
             throw new \Exception("'$param' parameter is required");
+        }
 
-        return $params[$param];
+        return isset($params[$param]) ? $params[$param] : null;
     }
 
     /**
@@ -82,23 +83,83 @@ class SESMailer extends \mail\components\Mailer
     /**
      * @param \mail\components\Mail[] $mails
      */
+    public function internalSendNew($mails)
+    {
+        $client = $this->getSesClient();
+
+        $commands = [];
+        foreach ($mails as $mail) {
+            try
+            {
+                $attachments = [];
+                foreach ($mail->getAttachments() as $name => $attachment) {
+                    if (!file_exists($attachment[1]))
+                        throw new Exception("Ошибка отправки сообщения: Вложенный файл '{$attachment[1]}' не найден");
+
+                    $attachments[self::cleanFilename($name, 60)]
+                        = $attachment[1];
+                }
+
+                $commands[] = $client->getCommand('SendRawEmail', [
+                    'RawMessage' => [
+                        'Data' => base64_encode(
+                            Mailer::createRawMail(
+                                $mail->getTo(),
+                                [$mail->getFrom() => $mail->getFromName()],
+                                $mail->getSubject(),
+                                $mail->getBody(),
+                                $attachments
+                            )
+                        )
+                    ]
+                ]);
+            }
+
+            catch (\Exception $e) {
+                Yii::log("Error construct email for {$mail->getTo()} because of {$e->getMessage()}: {$e->getTraceAsString()}", \CLogger::LEVEL_ERROR);
+            }
+        }
+
+        try {
+            Yii::log(sprintf('Mailer started sending %d mails...', count($commands)));
+            $client->execute($commands);
+            Yii::log('Mailer done sending');
+        } catch (CommandTransferException $e) {
+            $message = "Failed mails:\n";
+            foreach ($e->getFailedCommands() as $command) {
+                $message .= sprintf("\t%s\n", $e->getExceptionForFailedCommand($command)->getMessage());
+            }
+            Yii::log($message);
+        }
+
+        /** @var CommandInterface $command */
+        foreach ($commands as $command) {
+            Yii::log(print_r($command->getResponse()->getMessage(), true));
+        }
+    }
+
+    /**
+     * @param \mail\components\Mail[] $mails
+     */
     public function internalSend($mails)
     {
-        $client = SesClient::factory([
-            'key' => self::AWS_KEY,
-            'secret' => self::AWS_SECRET,
-            'region' => self::AWS_REGION,
-            'version'=> 'latest',
-        ]);
+        // Пурген для рассылок
+        if (defined('NEW_SES_SENDER')) {
+            $this->internalSendNew($mails);
+            return;
+        }
+
+        $client = $this->getSesClient();
 
         foreach ($mails as $mail) {
             try
             {
                 $args = [
                     'to' => $mail->getTo(),
-                    'subject' => '=?UTF-8?B?' . base64_encode($mail->getSubject()) . '?=',
+                    'subject' => $mail->getSubject(),
                     'message' => $mail->getBody(),
-                    'from' => $mail->getFromName() . ' <' . $mail->getFrom() . '>',
+                    'from' => $mail->getFrom(),
+                    'fromName' => $mail->getFromName()
                 ];
 
                 $attachments = $mail->getAttachments();
@@ -117,14 +178,14 @@ class SESMailer extends \mail\components\Mailer
                 $result = $this->sendMailInternal($client, $args);
 
                 if ($result['success']) {
-                    \Yii::log("Email by Amazon SES to {$mail->getTo()} is sent! Message ID: {$result['message_id']}", \CLogger::LEVEL_INFO);
+                    Yii::log("Email by Amazon SES to {$mail->getTo()} is sent! Message ID: {$result['message_id']}", \CLogger::LEVEL_INFO);
                 } else {
-                    \Yii::log("Email by Amazon SES to {$mail->getTo()} was not sent. Error message: {$result['result_text']}", \CLogger::LEVEL_ERROR);
+                    Yii::log("Email by Amazon SES to {$mail->getTo()} was not sent. Error message: {$result['result_text']}", \CLogger::LEVEL_ERROR);
                 }
             }
 
             catch (\Exception $e) {
-                \Yii::log("Error construct email for {$mail->getTo()} because of {$e->getMessage()}: {$e->getTraceAsString()}", \CLogger::LEVEL_ERROR);
+                Yii::log("Error construct email for {$mail->getTo()} because of {$e->getMessage()}: {$e->getTraceAsString()}", \CLogger::LEVEL_ERROR);
             }
         }
     }
@@ -134,12 +195,16 @@ class SESMailer extends \mail\components\Mailer
      *
      * ```
      * $params = array(
-     *      "to" => "email1@gmail.com",
+     *      "to" => "email1@gmail.com" OR ["email1@gmail.com" => "To Name"] OR [
+     *              "email1@gmail.com" => "To Name 1",
+     *              "email2@gmail.com" => "To Name 2",
+     *              ...
+     *      ],
      *      "subject" => "Some subject",
      *      "message" => "<strong>Some email body</strong>",
-     *      "from" => "sender@verifiedbyaws",
+     *      "from" => "sender@verifiedbyaws" OR ["sender@verifiedbyaws" => "Sender Name"],
      *      //OPTIONAL
-     *      "replyTo" => "reply_to@gmail.com",
+     *      "replyTo" => "reply_to@gmail.com" OR ["reply_to@gmail.com" => "ReplyTo Name"],
      *      //OPTIONAL
      *      "files" => array(
      *          1 => array(
@@ -155,7 +220,7 @@ class SESMailer extends \mail\components\Mailer
      *      )
      * );
      *
-     * $res = SESUtils::sendMail($params);
+     * $res = SESMailer::sendMail($params);
      * ```
      *
      * NOTE: When sending a single file, omit the key (ie. the '1 =>')
@@ -182,6 +247,7 @@ class SESMailer extends \mail\components\Mailer
         $subject = self::getParam($params, 'subject', true);
         $body = self::getParam($params, 'message', true);
         $from = self::getParam($params, 'from', true);
+        $fromName = self::getParam($params, 'fromName', true);
         $replyTo = self::getParam($params, 'replyTo');
         $files = self::getParam($params, 'files');
 
@@ -191,100 +257,64 @@ class SESMailer extends \mail\components\Mailer
             'message_id' => null
         ];
 
-        // build the message
-        if (is_array($to)) {
-            $to_str = rtrim(implode(',', $to), ',');
-        } else {
-            $to_str = $to;
-        }
-
-        $msg = "To: $to_str\n";
-        $msg .= "From: $from\n";
-
-        if ($replyTo) {
-            $msg .= "Reply-To: $replyTo\n";
-        }
-
-        // in case you have funny characters in the subject
-        $subject = $subject;
-        $msg .= "Subject: $subject\n";
-        $msg .= "MIME-Version: 1.0\n";
-        $msg .= "Content-Type: multipart/mixed;\n";
-        $boundary = uniqid("_Part_".time(), true); //random unique string
-        $boundary2 = uniqid("_Part2_".time(), true); //random unique string
-        $msg .= " boundary=\"$boundary\"\n";
-        $msg .= "\n";
-
-        // now the actual body
-        $msg .= "--$boundary\n";
-
-        //since we are sending text and html emails with multiple attachments
-        //we must use a combination of mixed and alternative boundaries
-        //hence the use of boundary and boundary2
-        $msg .= "Content-Type: multipart/alternative;\n";
-        $msg .= " boundary=\"$boundary2\"\n";
-        $msg .= "\n";
-        $msg .= "--$boundary2\n";
-
-        // first, the plain text
-        $msg .= "Content-Type: text/plain; charset=utf-8\n";
-        $msg .= "Content-Transfer-Encoding: 7bit\n";
-        $msg .= "\n";
-        $msg .= strip_tags($body); //remove any HTML tags
-        $msg .= "\n";
-
-        // now, the html text
-        $msg .= "--$boundary2\n";
-        $msg .= "Content-Type: text/html; charset=utf-8\n";
-        $msg .= "Content-Transfer-Encoding: 7bit\n";
-        $msg .= "\n";
-        $msg .= $body;
-        $msg .= "\n";
-        $msg .= "--$boundary2--\n";
-
-        // add attachments
+        $attachments = [];
         if (is_array($files)) {
-            $count = count($files);
             foreach ($files as $file) {
-                $msg .= "\n";
-                $msg .= "--$boundary\n";
-                $msg .= "Content-Transfer-Encoding: base64\n";
-                $clean_filename = self::cleanFilename($file["name"], self::MAX_ATTACHMENT_NAME_LEN);
-                $msg .= "Content-Type: {$file['mime']}; name=$clean_filename;\n";
-                $msg .= "Content-Disposition: attachment; filename=$clean_filename;\n";
-                $msg .= "\n";
-                $msg .= base64_encode(file_get_contents($file['filepath']));
-                $msg .= "\n--$boundary";
+                if (file_exists($file['filepath']) === false) {
+                    throw new Exception("Ошибка отправки сообщения: Вложенный файл '{$file['filepath']}' не найден");
+                }
+                $clean_filename = self::cleanFilename($file["name"], 60);
+                $attachments[$clean_filename] = $file['filepath'];
             }
-            // close email
-            $msg .= "--\n";
         }
 
-        // now send the email out
+        $msg = Mailer::createRawMail(
+            $to,
+            [$from => $fromName],
+            $subject,
+            $body,
+            $attachments,
+            $replyTo
+        );
+
+        // Для AWS обязательно передавать список получателей в виде массива
+        if (!is_array($to))
+            $to = [$to];
+
         try {
-            $ses_result = $client->sendRawEmail(
-                [
-                    'RawMessage' => [
-                        'Data' => base64_encode($msg)
-                    ]
-                ], [
-                    'Source' => $from,
-                    'Destinations' => $to_str
+            $ses_result = $client->sendRawEmail([
+                'RawMessage' => [
+                    'Data' => base64_encode($msg)
                 ]
-            );
+            ]);
 
             if ($ses_result) {
                 $res['message_id'] = $ses_result->get('MessageId');
             } else {
-                $res['success'] = false;
-                $res['result_text'] = "Amazon SES did not return a MessageId";
+                throw new \Exception('Amazon SES did not return a MessageId');
             }
         } catch (\Exception $e) {
             $res['success'] = false;
-            $res['result_text'] = $e->getMessage().
-                " - To: $to_str, Sender: $from, Subject: $subject";
+            $res['result_text'] = sprintf("%s: From: '%s', To: '%s', Subject: '%s'",
+                $e->getMessage(),
+                $from,
+                implode(', ', $to),
+                $subject
+            );
         }
 
         return $res;
+    }
+
+    private function getSesClient()
+    {
+        $prms = Yii::app()->getParams();
+
+        return SesClient::factory([
+            'key' => $prms['AwsKey'],
+            'secret' => $prms['AwsSecret'],
+            'region' => $prms['AwsSesRegion'],
+            'version'=> 'latest',
+        ]);
     }
 }

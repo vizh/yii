@@ -1,4 +1,4 @@
-<p><?=$user->getShortName();?>, приглашаем на&nbsp;конференцию <a href="http://events.techdays.ru/AppSummit/2014-03/">AppSummit</a>!</p>
+<p><?=$user->getShortName()?>, приглашаем на&nbsp;конференцию <a href="http://events.techdays.ru/AppSummit/2014-03/">AppSummit</a>!</p>
 
 <p>Всем членам РАЭК доступен билет на&nbsp;конференцию бесплатно!</p>
 

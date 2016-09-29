@@ -2,11 +2,11 @@
 
 <p>&nbsp;</p>
 
-<h3>Здравствуйте,&nbsp;<?=$user->getShortName();?>!</h3>
+<h3>Здравствуйте,&nbsp;<?=$user->getShortName()?>!</h3>
 
 <p>Напоминаем вам, что вы зарегистрировались на <a href="http://runet-id.com/event/iepress15">пресс-конференцию, посвященную Первому Российскому Форуму &ldquo;Интернет Экономика 2015</a>!</p>
 
-<p><strong><strong>Ваш статус:&nbsp;</strong></strong><?=$user->Participants[0]->Role->Title;?></p>
+<p><strong><strong>Ваш статус:&nbsp;</strong></strong><?=$user->Participants[0]->Role->Title?></p>
 
 <p><strong><strong>Дата проведения:</strong>&nbsp;</strong>14 декабря 2015 года (понедельник), время начала 13:00</p>
 

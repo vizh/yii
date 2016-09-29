@@ -10,24 +10,24 @@
           <td><table cellpadding="10" cellspacing="10" border="0" width="100%">
               <tr>
                 <td style="font-size: 14px;"><p class="p1"><span class="s1">Здравствуйте,
-                    <?=$user->getShortName();?>
+                    <?=$user->getShortName()?>
                     !</span></p>
                   <p class="p1"><span class="s1">Спасибо, что стали участником хакатона <a href="http://events.techdays.ru/msdevtour/tomsk-hackaton">Microsoft Developer Tour</a>. До мероприятия осталось совсем немного времени, поэтому мы спешим напомнить вам о самом главном.</span><span style="line-height: 1.6em;">&nbsp;</span></p>
-                  
+
                   <p class="p1"><span class="s1" style="margin:0 auto;color: #5B9BD5;"><strong>ХАКАТОН СОСТОИТСЯ</strong></span></p>
-                  
+
                   <ul>
             <li style="padding-bottom:10px;">25-26 апреля 2015 года по адресу: Бизнес-инкубатор «Дружба», ул. Красноармейская, 147.</li>
             <li>
              Старт регистрации 25 апреля – в 20:00. Начало хакатона в 20:30, окончание 26 апреля – в 18:00.
             </li>
             </ul>
-            
+
             <p class="p1"><span class="s1" style="margin:0 auto;color: #5B9BD5;"><strong>АНКЕТА УЧАСТНИКА ХАКАТОНА</strong></span></p>
                   <ul>
                   <li>По этой индивидуальной ссылке вы можете заполнить анкету участника хакатона.</li>
                   </ul>
-                  <p style="margin:0 auto; text-align:center"><a href="<?=$user->getFastAuthUrl('http://vote.runet-id.com/mdttomsk_hack15/');?>"style="margin:0 auto;color: #ffffff;text-decoration: none;user-select: none;background: #5B9BD5;padding: .7em 1.5em;">Заполнить анкету</a></p>
+                  <p style="margin:0 auto; text-align:center"><a href="<?=$user->getFastAuthUrl('http://vote.runet-id.com/mdttomsk_hack15/')?>"style="margin:0 auto;color: #ffffff;text-decoration: none;user-select: none;background: #5B9BD5;padding: .7em 1.5em;">Заполнить анкету</a></p>
                   <br/>
                   <br/>
                   <p class="p1"><span class="s1">Делитесь своими впечатлениями о мероприятии в твиттере – #msdevtour</span></p>
@@ -39,8 +39,8 @@
 
 <p class="p1"><span class="s1"></span></p>
 
-                  
-                  <p style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 14px;"> 
+
+                  <p style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 14px;">
                     С уважением,<br/>
                     Команда организаторов конференции Microsoft Developer Tour<br/>
 

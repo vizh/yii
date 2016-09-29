@@ -28,6 +28,6 @@ class ProductAction extends Action
             $result[] = $this->getAccount()->getDataBuilder()->createProduct($product);
         }
 
-        $this->getController()->setResult($result);
+        $this->setResult($result);
     }
 }

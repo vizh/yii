@@ -1,8 +1,8 @@
-<p><strong><?=$user->getShortName();?>,</strong></p>
+<p><strong><?=$user->getShortName()?>,</strong></p>
 
 <p>Напоминаем вам, что вы&nbsp;зарегистрированы на&nbsp;конференцию <strong><nobr>i-CоM</nobr> 2016</strong>, которая стартует уже завтра <nobr>14-15</nobr> марта во&nbsp;ФРИИ Сити Холле (м. Курская, Серебряническая набережная 29).</p>
 
-<p><strong>Ваш статус:&nbsp;<?=$user->Participants[0]->Role->Title;?></strong></p>
+<p><strong>Ваш статус:&nbsp;<?=$user->Participants[0]->Role->Title?></strong></p>
 
 <p>Он позволяет посещать секции 14&nbsp;и&nbsp;15&nbsp;марта, получилось доступ к&nbsp;презентациям докладчиков и&nbsp;фоторепортажу по&nbsp;завершению конференции.</p>
 

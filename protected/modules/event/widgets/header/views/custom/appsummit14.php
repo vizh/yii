@@ -50,9 +50,9 @@ $height = $this->eventPage ? 225 : 180;
       <div class="span12">
         <a target="_blank" href="http://events.techdays.ru/AppSummit/2014-03/" class="appsummit14-title"></a>
         <div class="appsummit14-detail">25 марта, Москва, Digital October</div>
-        <?if ($this->eventPage):?>
+        <?if($this->eventPage):?>
         <a target="_blank" href="http://events.techdays.ru/AppSummit/2014-03/registration" class="appsummit14-topPicture-register">зарегистрироваться</a>
-        <?endif;?>
+        <?endif?>
       </div>
     </div>
   </div>

@@ -1,4 +1,4 @@
-<p dir="ltr">Добрый день, <?=$user->getShortName();?>.</p>
+<p dir="ltr">Добрый день, <?=$user->getShortName()?>.</p>
 
 <p dir="ltr"><span id="docs-internal-guid-d774bcc4-8874-7c22-e57b-56e7e93e8317">Напоминаем, 25 сентября 2015 года в Ялте состоится большое интернет-событие &ndash; конференция РИФ-Крым 2014.</span></p>
 

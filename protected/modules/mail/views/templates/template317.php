@@ -1,4 +1,4 @@
-<h3>Здравствуйте, <?=$user->getShortName();?>.</h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>.</h3>
 
 <p>Вы&nbsp;&mdash; ДОКЛАДЧИК на Форуме&nbsp;по&nbsp;Кибербезопасности (<a href="http://CyberSecurityForum.ru">Cyber Security Forum</a>).</p>
 

@@ -1,4 +1,4 @@
-<?=$user->getShortName();?>, добрый день!
+<?=$user->getShortName()?>, добрый день!
 
 РИФ+КИБ 2013 стартует в среду 17 апреля 2013 года - www.rif.ru
 
@@ -34,7 +34,7 @@ UPSTART CONF
 http://2013.russianinternetforum.ru/p-plus/
 
 Проверка Вашего статуса и оплата - доступны в ЛИЧНОМ КАБИНЕТЕ УЧАСТНИКА:
-<?=$regLink;?>
+<?=$regLink?>
 
 
 

@@ -2,7 +2,7 @@
 $regLink = "http://2015.i-comference.ru/vote/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);
 ?>
 
-<h3><?=$user->getShortName();?>, здравствуйте.</h3>
+<h3><?=$user->getShortName()?>, здравствуйте.</h3>
 
 <p>Спасибо за&nbsp;Ваше участие в&nbsp;<nobr>i-COMference</nobr> 2015, надеемся на&nbsp;встречу через год :-)</p>
 

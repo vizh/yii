@@ -8,24 +8,24 @@
     <?=isset($this->WidgetRegistrationTitle) ?
         $this->WidgetRegistrationTitle :
         CHtml::tag('h5', ['class' => 'title text-center'], Yii::t('app', 'Регистрация'))
-    ?>
+   ?>
 
-    <?php if (isset($this->WidgetRegistrationBeforeInfo)): ?>
+    <?if(isset($this->WidgetRegistrationBeforeInfo)):?>
         <?=$this->WidgetRegistrationBeforeInfo?>
-    <?php endif ?>
+    <?endif?>
 
-    <?=CHtml::beginForm('', 'post', ['enctype' => 'multipart/form-data']);?>
-    <?=CHtml::errorSummary($this->form, '<div class="alert alert-error">', '</div>');?>
+    <?=CHtml::beginForm('', 'post', ['enctype' => 'multipart/form-data'])?>
+    <?=CHtml::errorSummary($this->form, '<div class="alert alert-error">', '</div>')?>
 
-    <?php if (!$this->form->hasErrors('Invite')): ?>
-        <?php $this->render('detailed-registration/appeal') ?>
+    <?if(!$this->form->hasErrors('Invite')):?>
+        <?$this->render('detailed-registration/appeal')?>
 
-        <?php $this->render('detailed-registration/primary-fields') ?>
+        <?$this->render('detailed-registration/primary-fields')?>
 
         <hr>
 
-        <?php $this->render('detailed-registration/extended-user-data') ?>
-        <?php $this->render('detailed-registration/roles') ?>
+        <?$this->render('detailed-registration/extended-user-data')?>
+        <?$this->render('detailed-registration/roles')?>
 
         <!--
         <div class="form-user-register" style="padding: 0;">
@@ -41,7 +41,7 @@
                 Yii::t('app', (isset($this->WidgetRegistrationDetailedSubmitButtonLabel) ? $this->WidgetRegistrationDetailedSubmitButtonLabel : 'Зарегистрироваться')), ['class' => 'btn btn-info']
             )?>
         </div>
-    <?php endif ?>
+    <?endif?>
 
     <?=CHtml::endForm()?>
 </div>

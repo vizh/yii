@@ -8,16 +8,16 @@
 
 <div class="row">
   <div class="span12">
-    <h2>Информация по проживанию (<?=$hotel;?>)</h2>
+    <h2>Информация по проживанию (<?=$hotel?>)</h2>
 
     <ul class="breadcrumb">
-      <?foreach ($counts as $key => $value):?>
-        <?if ($key != $hotel):?>
-          <li><a href="<?=Yii::app()->createUrl('/partner/special/rooms', array('hotel' => $key));?>"><?=$key?> (<?=$value?>)</a><span class="divider"></span></li>
+      <?foreach($counts as $key => $value):?>
+        <?if($key != $hotel):?>
+          <li><a href="<?=Yii::app()->createUrl('/partner/special/rooms', array('hotel' => $key))?>"><?=$key?> (<?=$value?>)</a><span class="divider"></span></li>
         <?else:?>
           <li class="active"><?=$key?> (<?=$value?>)<span class="divider"></span></li>
-        <?endif;?>
-      <?endforeach;?>
+        <?endif?>
+      <?endforeach?>
     </ul>
   </div>
 </div>
@@ -34,52 +34,52 @@
       </tr>
       </thead>
       <tbody>
-      <?foreach ($orderItems as $list):?>
+      <?foreach($orderItems as $list):?>
         <?
         /** @var $list \pay\models\OrderItem[] */
 
         /** @var $manager \pay\components\managers\RoomProductManager */
         $manager = $list['product']->getManager();
         $flag = false;
-        ?>
+       ?>
         <tr>
         <td rowspan="<?=sizeof($list['items'])?>">
-          <strong>Номер: <?=$manager->Number;?></strong> <span class="muted">(Id: <?=$list['product']->Id;?>)</span><br>
-          <?=$manager->Housing;?>, <?=$manager->Category;?><br>
-          Всего мест: <?=$manager->PlaceTotal;?> (основных - <?=$manager->PlaceBasic;?>, доп. - <?=$manager->PlaceMore;?>)<br>
-          <em><?=$manager->DescriptionBasic;?>, <?=$manager->DescriptionMore;?></em><br>
-          <!--<p class="text-error"><strong>Цена за сутки: <?//$manager->Price;?></strong></p>-->
-          <?if ($manager->Visible == 0):?>
+          <strong>Номер: <?=$manager->Number?></strong> <span class="muted">(Id: <?=$list['product']->Id?>)</span><br>
+          <?=$manager->Housing?>, <?=$manager->Category?><br>
+          Всего мест: <?=$manager->PlaceTotal?> (основных - <?=$manager->PlaceBasic?>, доп. - <?=$manager->PlaceMore?>)<br>
+          <em><?=$manager->DescriptionBasic?>, <?=$manager->DescriptionMore?></em><br>
+          <!--<p class="text-error"><strong>Цена за сутки: <?//$manager->Price?></strong></p>-->
+          <?if($manager->Visible == 0):?>
             <span class="label label-inverse">Номер скрыт</span>
-          <?endif;?>
+          <?endif?>
         </td>
-        <?foreach ($list['items'] as $date => $items):?>
+        <?foreach($list['items'] as $date => $items):?>
           <?/** @var $items \pay\models\OrderItem[] */?>
-          <?if ($flag):?><tr><?endif;?>
-            <td><?=$date;?></td>
+          <?if($flag):?><tr><?endif?>
+            <td><?=$date?></td>
 
-            <?if (sizeof($items) !== 0):?>
+            <?if(sizeof($items) !== 0):?>
             <td>
-              <?foreach ($items as $item):?>
-                  <?if ($item->Paid):?>
+              <?foreach($items as $item):?>
+                  <?if($item->Paid):?>
                   <span class="label label-success">Оплачен</span>
                   <?else:?>
                   <span class="label label-warning">Забронирован</span><br>
-                  <em>До: <?=$item->Booked;?></em>
-                  <?endif;?>
-              <?endforeach;?>
-              <?if (sizeof($items) > 1):?>
+                  <em>До: <?=$item->Booked?></em>
+                  <?endif?>
+              <?endforeach?>
+              <?if(sizeof($items) > 1):?>
                 <span class="label label-important">Множественное бронирование номера</span>
-              <?endif;?>
+              <?endif?>
             </td>
             <td>
-              <?foreach ($items as $item):?>
-                <a target="_blank" href="<?=Yii::app()->createUrl('/user/view/index', array('runetId' => $item->Payer->RunetId));?>"><?=$item->Payer->RunetId;?></a> <?=$item->Payer->getFullName();?><br>
-                <em><?=$item->Payer->Email;?></em><br>
-                <?if ($this->action->hasOtherRoom($item->Payer->Id, $item->Id)):?>
+              <?foreach($items as $item):?>
+                <a target="_blank" href="<?=Yii::app()->createUrl('/user/view/index', array('runetId' => $item->Payer->RunetId))?>"><?=$item->Payer->RunetId?></a> <?=$item->Payer->getFullName()?><br>
+                <em><?=$item->Payer->Email?></em><br>
+                <?if($this->action->hasOtherRoom($item->Payer->Id, $item->Id)):?>
                   <span class="label label-important">Возможно повторное бронирование</span>
-                <?endif;?>
-              <?endforeach;?>
+                <?endif?>
+              <?endforeach?>
             </td>
 
 
@@ -88,12 +88,12 @@
               <span class="label">Свободен</span>
         </td>
             <td></td>
-            <?endif;?>
+            <?endif?>
 
           </tr>
           <?$flag = true;
-        endforeach;?>
-      <?endforeach;?>
+        endforeach?>
+      <?endforeach?>
       </tbody>
     </table>
   </div>

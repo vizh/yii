@@ -1,6 +1,6 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/irk15.png" style="width: 100%; height: auto; margin: 0 auto" /></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</strong></h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</strong></h3>
 
 <p>ФРИИ совместно с ОАО &laquo;ОРКК&raquo; приглашают Вас на конференцию &laquo;Инновации и IT-решения в ракетно-космической отрасли&raquo;.</p>
 

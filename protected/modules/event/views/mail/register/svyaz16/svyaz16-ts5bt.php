@@ -8,7 +8,7 @@
 
 				<p>&nbsp;</p>
 
-				<h2>Здравствуйте,&nbsp;<?=$user->getFullName();?>!</h2>
+				<h2>Здравствуйте,&nbsp;<?=$user->getFullName()?>!</h2>
 
 				<p>Благодарим Вас за регистрацию в качестве посетителя выставки/мероприятия&nbsp;&lt;СВЯЗЬ-2016&gt;</p>
 
@@ -19,7 +19,7 @@
 				<p>Вы можете скачать Ваш электронный билет по ссылке:</p>
 
 				<div>
-					<p style="text-align:center; margin-top: 0"><a href="<?=$participant->getTicketUrl();?>?lang=ru" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #4894CA; margin: 0 10px 0 0; padding: 0; border-color: #4894CA; border-style: solid; border-width: 10px 40px;">Электронный билет</a></p>
+					<p style="text-align:center; margin-top: 0"><a href="<?=$participant->getTicketUrl()?>?lang=ru" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #4894CA; margin: 0 10px 0 0; padding: 0; border-color: #4894CA; border-style: solid; border-width: 10px 40px;">Электронный билет</a></p>
 				</div>
 
 				<p>В случае некорректного отображения пригласительного билета, сохраните прилагаемый файл на Ваш компьютер. После этого, откройте сохраненный файл и распечатайте билет.</p>
@@ -38,7 +38,7 @@
 				<hr />
 				<h2>&nbsp;</h2>
 
-				<h2>Dear <?=$user->getFullName();?>!</h2>
+				<h2>Dear <?=$user->getFullName()?>!</h2>
 
 				<p>Thank you for registering as a visitor to the show/event.</p>
 
@@ -49,7 +49,7 @@
 				<p>You can download your electronic ticket at:</p>
 
 				<div>
-					<p style="text-align:center; margin-top: 0"><a href="<?=$participant->getTicketUrl();?>?lang=en" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #4894CA; margin: 0 10px 0 0; padding: 0; border-color: #4894CA; border-style: solid; border-width: 10px 40px;">Electronic ticket</a></p>
+					<p style="text-align:center; margin-top: 0"><a href="<?=$participant->getTicketUrl()?>?lang=en" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #4894CA; margin: 0 10px 0 0; padding: 0; border-color: #4894CA; border-style: solid; border-width: 10px 40px;">Electronic ticket</a></p>
 				</div>
 
 				<p>If your complimentary ticket displays incorrectly, download the file on your computer. Then open the saved file and print out the ticket.</p>

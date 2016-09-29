@@ -2,7 +2,7 @@
 $regLink = "http://riw.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);
 ?>
 
-<p><strong><?=$user->getShortName();?>, здравствуйте!</strong></p>
+<p><strong><?=$user->getShortName()?>, здравствуйте!</strong></p>
 
 <p>Вы зарегистрированы на RIW 2015 со статусом <strong>УЧАСТНИК ВЫСТАВКИ</strong>.</p>
 

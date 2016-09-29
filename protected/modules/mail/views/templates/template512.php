@@ -19,8 +19,8 @@ $regLink = "http://2015.sp-ic.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . subs
 			<!-- content -->
 			<div class="content" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; max-width: 550px; display: block; margin: 0 auto; padding: 0;">
 			<table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 0; border: none;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 0; border: none;" valign="top">
-						<h2 class="centered" style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 28px; line-height: 1.2; color: #000; font-weight: bold; text-align: center; text-transform: uppercase; margin: 10px 0; padding: 0;" align="center">Здравствуйте, <?=$user->getShortName();?>.</h2>
-						
+						<h2 class="centered" style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 28px; line-height: 1.2; color: #000; font-weight: bold; text-align: center; text-transform: uppercase; margin: 10px 0; padding: 0;" align="center">Здравствуйте, <?=$user->getShortName()?>.</h2>
+
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><b style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;">Остается всего неделя</b> до старта юбилейной конференции СПИК 2015 и мы продолжаем рассказывать, что еще ожидает участников 28 и 29 мая на <b style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;">самом крупном мероприятии Северо-Запада</b> по интернет-маркетингу.</p>
 
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Напоминаем, конференция пройдет в Санкт-Петербурге в конгресс-центре гостиницы «Прибалтийская Park Inn» (ул. Кораблестроителей, д.14).</p>
@@ -30,18 +30,18 @@ $regLink = "http://2015.sp-ic.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . subs
 						</div>
 
 						<h2 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 28px; line-height: 1.2; color: #000; font-weight: bold; text-align: center; text-transform: uppercase; margin: 40px 0 10px; padding: 0;" align="center">Еще больше полезного контента</h2>
-						
+
 						<h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 25px 0 10px; padding: 0;"> E-commerce</h3>
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Электронной коммерции мы посвятили две секции: <b style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;">«Электронная коммерция: опыт бывалых»</b> и <b style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;">«Эффективная работа на торговых площадках»</b> от Яндекс.Маркет.</p>
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Владельцы действующих интернет-магазинов соберутся, чтобы поделитьс я с коллегами опытом работы с поставщиками, способами выхода на региональный рынок и приемами эмоционального маркетинга. Затронут вопросы аналитики, рисков, логистики, а также обсудят перспективы рынка Москвы и регионов для магазинов из Санкт-Петербурга.</p>
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Представители Яндекса поделятся советами по снижению стоимости привлечения заказа, правильному подсчету доходов и грамотному управлению товарной матрицей. Много времени будет отведено на общение слушателей и докладчиков, посетители секции смогут задать все наболевшие вопросы руководителям Яндекс.Маркета и услышать честные ответы.</p>
-						
+
 						<h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 25px 0 10px; padding: 0;">Agile-методология: «Играем в серьезные игры: Kanban»</h3>
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><b style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;">Мастер-класс от компании ScrumTrek и Асхата Уразбаева</b> раскрывает участникам суть методологии Kanban. Теория и практика, замешанные в идеальной пропорции, позволят слушателям за полтора часа понять и прочувствовать всю силу и глубину методологии гибкой разработки. В процессе Kanban-игры участники научатся визуализировать процесс, проводить измерения, строить аналитические графики. Полученные знания участники смогут применить в повседневной работе.</p>
-						
+
 						<h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 25px 0 10px; padding: 0;">Таргетированная реклама в социальных сетях</h3>
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><b style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;">Что нужно знать, чтобы обходить своих конкурентов</b> в таргетированной рекламе, и к чему быть готовым digital-менеджеру, отвечающему за этот канал продвижения? На чем, в первую очередь, сконцентрироваться для запуска эффективной рекламной кампании? <b style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;">Как найти свою аудиторию по приемлемой стоимости?</b> Как разобраться в обилии таргетингов и научиться возвращать своих клиентов? Какие типичные ошибки совершают рекламодатели, работающие с автоматизированными инструментами размещения рекламы?</p>
-						
+
 						<h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 25px 0 10px; padding: 0;">Бренд в интернете. Точки контакта, узнаваемость, репутация и лояльность.</h3>
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Секция будет интересна маркетологам и менеджерам веб-сервисов. На ней вы узнаете, <b style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;">как правильно работать с репутацией</b>, как выбирать тональность публикаций и комментариев в зависимости от текущей ситуации, как общаться с пользователем, который понес ущерб из-за наших проблем и недоработок, как корректно отказать пользователю. </p>
 
@@ -68,7 +68,7 @@ $regLink = "http://2015.sp-ic.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . subs
 					</td>
 				</tr></table></div>
 			<!-- /content -->
-			
+
 		</td>
 		<td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 0; border: none;" valign="top"></td>
 	</tr></table><!-- /body --></body>

@@ -44,12 +44,12 @@ $invite->save();
         <div class="content" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 600px; display: block; margin: 0 auto; padding: 0;">
             <table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; width: 100%; margin: 0; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">
                 <img src="https://showtime.s3.amazonaws.com/201508121146-iri_logo" alt="ИРИ - Институт развития интернета" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" />
-                
-                
-                
-                
 
-<h3>Здравствуйте <?=$user->getShortName();?>!</h3>
+
+
+
+
+<h3>Здравствуйте <?=$user->getShortName()?>!</h3>
 
 <p>Благодарим Вас за вклад в развитие Интернета и сообщаем, что по итогам работы отборочной комиссии Института Развития Интернета Вы вошли в состав экспертов 2016 года.</p>
 
@@ -61,7 +61,7 @@ $invite->save();
 
 <p><b>Для аккредитации на мероприятие</b> просим  подтвердить участие до 14:00 2 марта 2016, для этого нужно:</p>
 <ol>
-	<li><p>Перейти на <a href="<?=$user->getFastAuthUrl('/event/irief16/');?>"><b>страницу мероприятия</b></a></p></li>
+	<li><p>Перейти на <a href="<?=$user->getFastAuthUrl('/event/irief16/')?>"><b>страницу мероприятия</b></a></p></li>
 	<li><p>Активировать персональный код приглашения: <span style="background: rgb(255, 231, 141); display: inline-block; padding: 1px 3px;"><b><?=$code?></b></span></p></li>
 </ol>
 

@@ -35,7 +35,10 @@ class PayAction extends Action
         } elseif ($type == 'uniteller' && $account->Uniteller) {
             $system = $this->getSystemUniteller($account);
         } elseif ($type == 'yandexmoney' && $account->PayOnline) {
-            $system = new PayOnline();
+            /**
+             * todo: заменить на $system = $this->getSystemPayonline($account); когда будут подключены Я.Деньги
+             */
+            $system = new PayOnline(); //
             $system->toYandexMoney = true;
         } elseif ($type == 'cloudpayments') {
             $system = new CloudPayments();
@@ -43,7 +46,7 @@ class PayAction extends Action
             $system = new WalletOne();
         } else {
             if ($account->PayOnline) {
-                $system = new PayOnline();
+                $system = $this->getSystemPayonline($account);
             }
             else {
                 $system = new Uniteller();
@@ -64,5 +67,18 @@ class PayAction extends Action
             return new Uniteller(null, '00000524');
         }
         return new Uniteller();
+    }
+
+    /**
+     * @param Account $account
+     * @return PayOnline
+     */
+    private function getSystemPayonline(Account $account)
+    {
+        if ($account->PayOnlineRuvents) {
+            return new PayOnline('ruvents');
+        } else {
+            return new PayOnline();
+        }
     }
 }

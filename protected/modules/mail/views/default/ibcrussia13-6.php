@@ -1,4 +1,4 @@
-Здравствуйте, <?=$user->getShortName();?>.
+Здравствуйте, <?=$user->getShortName()?>.
 
 Вы зарегистрировались на Internet Business Conference Russia (конференция «Интернет и Бизнес»), которая состоится в центре Digital October с 5 по 6 декабря 2013 года.
 
@@ -28,7 +28,7 @@ http://ibcrussia.com/program/
 До окончания регистрации остаётся всего несколько дней. Не пропустите важнейшую зимнюю конференцию о веб-разработке, digtal, интернет-рекламе и поисковом продви-жении!
 
 Регистрация на IBC Russia 2013 и оплата участия – по адресу:
-http://ibcrussia.com/my/?RUNETID=<?=$user->RunetId;?>&KEY=<?=substr(md5($user->RunetId.'xggMpIQINvHqR0QlZgZa'), 0, 16)?>
+http://ibcrussia.com/my/?RUNETID=<?=$user->RunetId?>&KEY=<?=substr(md5($user->RunetId.'xggMpIQINvHqR0QlZgZa'), 0, 16)?>
 
 
 По всем дополнительным вопросам Вы можете связаться с менеджером напрямую:
@@ -40,4 +40,4 @@ REG@IBCRUSSIA.COM
 С уважением,
 Оргкомитет  IBC Russia 2013
 
-Отписаться от рассылок runet-ID: <?=$user->getFastauthUrl('/user/setting/subscription/');?>
+Отписаться от рассылок runet-ID: <?=$user->getFastauthUrl('/user/setting/subscription/')?>

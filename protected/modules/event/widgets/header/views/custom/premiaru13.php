@@ -10,10 +10,10 @@ $event = $this->event;
       <div class="span12">
       </div>
     </div>
-    <?if ($this->eventPage):?>
+    <?if($this->eventPage):?>
       <span class="all" style="bottom: -30px;">
-        <a href="<?=Yii::app()->createUrl('/event/list/index');?>"><?=Yii::t('app', 'Все мероприятия');?></a>
+        <a href="<?=Yii::app()->createUrl('/event/list/index')?>"><?=Yii::t('app', 'Все мероприятия')?></a>
       </span>
-    <?endif;?>
+    <?endif?>
   </div>
 </div>

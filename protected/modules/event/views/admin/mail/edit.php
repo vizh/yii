@@ -30,71 +30,71 @@ $this->setPageTitle(\Yii::t('app', 'Редактирование регистр�
 ?>
 
 <div class="row-fluid">
-    <?php $activeForm = $this->beginWidget('\application\widgets\ActiveForm', ['htmlOptions' => ['class' => 'form-horizontal']]);?>
+    <?$activeForm = $this->beginWidget('\application\widgets\ActiveForm', ['htmlOptions' => ['class' => 'form-horizontal']])?>
     <div class="btn-toolbar">
-        <?=\CHtml::link('&larr; Вернуться к редактору мероприятия', ['edit/index', 'eventId' => $event->Id], ['class' => 'btn']);?>
-        <?=\CHtml::link('&larr; Вернуться к списку писем', ['index', 'eventId' => $event->Id], ['class' => 'btn m-top_5']);?>
+        <?=\CHtml::link('&larr; Вернуться к редактору мероприятия', ['edit/index', 'eventId' => $event->Id], ['class' => 'btn'])?>
+        <?=\CHtml::link('&larr; Вернуться к списку писем', ['index', 'eventId' => $event->Id], ['class' => 'btn m-top_5'])?>
     </div>
     <div class="well">
-        <?=$activeForm->errorSummary($form);?>
-        <?=Flash::html();?>
+        <?=$activeForm->errorSummary($form)?>
+        <?=Flash::html()?>
 
         <div class="control-group">
-            <?=$activeForm->label($form, 'Subject', ['class' => 'control-label']);?>
+            <?=$activeForm->label($form, 'Subject', ['class' => 'control-label'])?>
             <div class="controls">
-                <?=$activeForm->textField($form, 'Subject', ['class' => 'input-block-level']);?>
+                <?=$activeForm->textField($form, 'Subject', ['class' => 'input-block-level'])?>
             </div>
         </div>
         <div class="control-group">
-            <?=$activeForm->label($form, 'Roles', ['class' => 'control-label']);?>
+            <?=$activeForm->label($form, 'Roles', ['class' => 'control-label'])?>
             <div class="controls">
-                <?=\CHtml::textField('RoleSearch', '', ['data-field' => 'Roles']);?>
+                <?=\CHtml::textField('RoleSearch', '', ['data-field' => 'Roles'])?>
                 <p class="help-block roles"></p>
             </div>
         </div>
         <div class="control-group">
-            <?=$activeForm->label($form, 'RolesExcept', ['class' => 'control-label']);?>
+            <?=$activeForm->label($form, 'RolesExcept', ['class' => 'control-label'])?>
             <div class="controls">
-                <?=\CHtml::textField('RoleExceptSearch', '', ['data-field' => 'RolesExcept']);?>
+                <?=\CHtml::textField('RoleExceptSearch', '', ['data-field' => 'RolesExcept'])?>
                 <p class="help-block rolesexcept"></p>
             </div>
         </div>
         <div class="control-group">
-            <?=$activeForm->label($form, 'Body', ['class' => 'control-label']);?>
+            <?=$activeForm->label($form, 'Body', ['class' => 'control-label'])?>
             <div class="controls">
-                <?=$activeForm->textArea($form, 'Body', ['class' => 'input-block-level']);?>
+                <?=$activeForm->textArea($form, 'Body', ['class' => 'input-block-level'])?>
             </div>
         </div>
         <div class="control-group">
-            <?=$activeForm->label($form, 'Layout', ['class' => 'control-label']);?>
+            <?=$activeForm->label($form, 'Layout', ['class' => 'control-label'])?>
             <div class="controls">
-                <?=$activeForm->dropDownList($form, 'Layout', $form->getLayoutData());?>
+                <?=$activeForm->dropDownList($form, 'Layout', $form->getLayoutData())?>
             </div>
         </div>
         <div class="control-group">
-            <?=$activeForm->label($form, 'SendPassbook', ['class' => 'control-label']);?>
+            <?=$activeForm->label($form, 'SendPassbook', ['class' => 'control-label'])?>
             <div class="controls">
-                <?=$activeForm->checkBox($form, 'SendPassbook');?>
+                <?=$activeForm->checkBox($form, 'SendPassbook')?>
             </div>
         </div>
         <div class="control-group">
-            <?=$activeForm->label($form, 'SendTicket', ['class' => 'control-label']);?>
+            <?=$activeForm->label($form, 'SendTicket', ['class' => 'control-label'])?>
             <div class="controls">
-                <?=$activeForm->checkBox($form, 'SendTicket');?>
+                <?=$activeForm->checkBox($form, 'SendTicket')?>
             </div>
         </div>
         <div class="control-group">
             <div class="controls clearfix">
-                <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']);?>
-                <?=$activeForm->submitButton($form, 'Delete', \Yii::t('app', 'Удалить'), ['class' => 'btn btn-danger pull-right', 'value' => 1]);?>
+                <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success'])?>
+                <?=$activeForm->submitButton($form, 'Delete', \Yii::t('app', 'Удалить'), ['class' => 'btn btn-danger pull-right', 'value' => 1])?>
             </div>
         </div>
         <div class="control-group muted">
             <div class="controls">
-                <h4><?= \Yii::t('app', 'Доступные поля'); ?></h4>
-                <?=$form->getBodyFieldsNote();?>
+                <h4><?=\Yii::t('app', 'Доступные поля')?></h4>
+                <?=$form->getBodyFieldsNote()?>
             </div>
         </div>
     </div>
-    <?php $this->endWidget();?>
+    <?$this->endWidget()?>
 </div>

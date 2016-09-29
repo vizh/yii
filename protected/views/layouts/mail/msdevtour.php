@@ -1,4 +1,4 @@
-<? $this->beginContent('/layouts/mail'); ?>
+<?$this->beginContent('/layouts/mail')?>
 
     <table style="width: 100%;">
         <tr>
@@ -19,7 +19,7 @@
                                 <tr>
                                     <td style="font-size: 14px;">
 
-                                        <?= $content; ?>
+                                        <?=$content?>
 
                                         <br/><br/>
 
@@ -46,4 +46,4 @@
         </tr>
     </table>
 
-<?= $this->endContent(); ?>
+<?=$this->endContent()?>

@@ -5,10 +5,10 @@
 ?>
 <div class="alert alert-error">
   <p class="text-error">
-    <?if (!isset($this->WidgetCompetenceErrorKeyMessage)):?>
+    <?if(!isset($this->WidgetCompetenceErrorKeyMessage)):?>
       Не корректная ссылка. Свяжитесь с организаторами мероприятия.
     <?else:?>
-      <?=$this->WidgetCompetenceErrorKeyMessage;?>
-    <?endif;?>
+      <?=$this->WidgetCompetenceErrorKeyMessage?>
+    <?endif?>
   </p>
 </div>

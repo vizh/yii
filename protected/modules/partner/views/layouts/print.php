@@ -15,9 +15,9 @@ use \partner\components\Controller;
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <!-- Open Sans font from Google CDN -->
     <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic" rel="stylesheet" type="text/css">
-    <title><?=\CHtml::encode($this->pageTitle); ?></title>
+    <title><?=\CHtml::encode($this->pageTitle)?></title>
 </head>
 <body style="width: 700px;">
-    <?=$content;?>
+    <?=$content?>
 </body>
 </html>

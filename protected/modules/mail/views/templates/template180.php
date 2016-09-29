@@ -1,6 +1,6 @@
 <p align="center"><img alt="" src="http://runet-id.com/img/mail/2014/201401015-mbltdev.png" style="width: 100%; height: auto;" /></p>
 
-<h3><?=$user->getShortName();?>, здравствуйте!</h3>
+<h3><?=$user->getShortName()?>, здравствуйте!</h3>
 
 <p style="font-size: 120%">До конференции мобильных разработчиков #MBLTDev осталось 4 дня.</p>
 

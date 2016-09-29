@@ -12,10 +12,10 @@ $event = $this->event;
         <img src="/img/event/demo2013/logo.png" alt="" class="logo" style="background: none; width: auto; height: auto;">
       </div>
     </div>
-    <?if ($this->eventPage):?>
+    <?if($this->eventPage):?>
     <span class="all">
-      <a href="<?=Yii::app()->createUrl('/event/list/index');?>"><?=Yii::t('app', 'Все мероприятия');?></a>
+      <a href="<?=Yii::app()->createUrl('/event/list/index')?>"><?=Yii::t('app', 'Все мероприятия')?></a>
     </span>
-    <?endif;?>
+    <?endif?>
   </div>
 </div>

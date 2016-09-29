@@ -7,7 +7,7 @@ $productAccess->ProductId = 3114;
 $productAccess->UserId = $user->Id;
 $productAccess->save();
 ?>
-<h3><?=$user->getFullName();?>, здравствуйте!</h3>
+<h3><?=$user->getFullName()?>, здравствуйте!</h3>
 
 <h3>
 	Каким должен быть высококвалифицированных разработчик PostgreSQL?
@@ -28,7 +28,7 @@ $productAccess->save();
 				<p>
 					Таких людей в России много, но они требуют, чтобы их «воспитали», ввели в курс дела, вживили в сообщество, чтобы национальная группа разработчиков могла бы при необходимости продолжить работу над PostgreSQL сама».
 				</p>
-			</i>				
+			</i>
 			</td>
 		</tr>
 	</tbody>
@@ -127,5 +127,5 @@ $productAccess->save();
 <p><b>Специально для вас мы подготовили пакет "Участие + проживание" по специальной цене 12000 рублей. Он станет доступен при переходе по ссылке регистрации ниже.</b></p>
 
 <p style="margin-top: 20px 0; text-align: center;">
-    <a href="<?=$user->getFastauthUrl('http://runet-id.com/event/pgcr15/');?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #348eda; margin: 0 10px 0 0; padding: 0; border-color: #348eda; border-style: solid; border-width: 10px 40px;">Зарегистрироваться</a>
+    <a href="<?=$user->getFastauthUrl('http://runet-id.com/event/pgcr15/')?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #348eda; margin: 0 10px 0 0; padding: 0; border-color: #348eda; border-style: solid; border-width: 10px 40px;">Зарегистрироваться</a>
 </p>

@@ -31,13 +31,13 @@
                     <tbody>
                     <tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">
                         <td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><img alt="Интернет Экономика" src="http://ie.iri.center/bitrix/templates/neweco/assets/images/logo.png" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" />
-	                        
-	                        
-	                        
-	                        
-	                        
-	                        
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+
+
+
+
+
+
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p><nobr>21-22</nobr> декабря состоялся <strong>Первый Российский форум &laquo;Интернет экономика&raquo;</strong>, организованный Институтом Развития Интернета при поддержке Координационного центра доменов RU&nbsp;/ РФ, при организационной поддержке РАЭК.</p>
 

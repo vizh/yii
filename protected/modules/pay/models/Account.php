@@ -15,6 +15,7 @@ use application\models\translation\ActiveRecord;
  * @property bool $Uniteller
  * @property bool $UnitellerRuvents
  * @property bool $PayOnline
+ * @property bool $PayOnlineRuvents
  * @property bool $CloudPayments
  * @property bool $WalletOne
  * @property bool $MailRuMoney

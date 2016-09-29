@@ -30,12 +30,12 @@ $apiExtUser = ExternalUser::model()->byUserId($user->Id)->find();
                                 <td valign="middle">
                                     <h3 class="p1" style="font-size: 26px; margin: 0;">
                                         <span class="s1">Здравствуйте,
-                                            <?= $user->getShortName(); ?>!
+                                            <?=$user->getShortName()?>!
                                         </span>
                                     </h3>
                                 </td>
                                 <td valign="middle" align="center">
-                                    <?= \CHtml::image(QrCode::getAbsoluteUrl($user, 110)); ?>
+                                    <?=\CHtml::image(QrCode::getAbsoluteUrl($user, 110))?>
                                 </td>
                             </tr>
                             <tr>
@@ -95,9 +95,9 @@ $apiExtUser = ExternalUser::model()->byUserId($user->Id)->find();
 <div style="text-align: center; background: #ffffff; border: 2px dashed #FFFFFF; padding: 10px;">
 
                                         <p style="margin-top: 0">
-                                            <a href="https://events.techdays.ru/Worksheet/Fill/<?= $apiExtUser
+                                            <a href="https://events.techdays.ru/Worksheet/Fill/<?=$apiExtUser
                                                 ? $apiExtUser->ExternalId
-                                                : ''; ?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #348eda; margin: 0 10px 0 0; padding: 0; border-color: #348eda; border-style: solid; border-width: 10px 40px;">Заполнить
+                                                : ''?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #348eda; margin: 0 10px 0 0; padding: 0; border-color: #348eda; border-style: solid; border-width: 10px 40px;">Заполнить
                                                                                                                                                                                                                                                                                                                                                                                      анкету</a>
                                         </p>
                                     </div>

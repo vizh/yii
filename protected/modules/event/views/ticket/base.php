@@ -43,19 +43,19 @@ if (!empty($event->LinkEmails)) {
         <tr>
             <td style="vertical-align: top; height: 40mm; color: #556a7d;">
                 <h3 style="text-transform: uppercase; padding-bottom: 20px;">ЭЛЕКТРОННЫЙ БИЛЕТ</h3>
-                <?=Html::limitedTag('h3', $event->Title, 19, 291, 115, ['style' => 'font-weight: bold;']);?>
+                <?=Html::limitedTag('h3', $event->Title, 19, 291, 115, ['style' => 'font-weight: bold;'])?>
             </td>
         </tr>
         <tr>
             <td style="vertical-align: middle; height: 17mm; color: #556a7d;">
-                <h3 style="padding: 12mm 0; font-weight: bold; text-transform: uppercase;"><?$this->widget('\event\widgets\Date', ['event' => $event]);?></h3>
+                <h3 style="padding: 12mm 0; font-weight: bold; text-transform: uppercase;"><?$this->widget('\event\widgets\Date', ['event' => $event])?></h3>
             </td>
         </tr>
         <tr>
             <td style="vertical-align: bottom; height: 20mm; color: #556a7d;">
-                <?php if ($event->getContactAddress() != null):?>
-                    <?=Html::limitedTag('span', $event->getContactAddress()->Place . '<br/>' . $event->getContactAddress()->getShort(), 11, 291, 75);?>
-                <?php endif;?>
+                <?if($event->getContactAddress() != null):?>
+                    <?=Html::limitedTag('span', $event->getContactAddress()->Place . '<br/>' . $event->getContactAddress()->getShort(), 11, 291, 75)?>
+                <?endif?>
             </td>
         </tr>
     </table>
@@ -66,26 +66,26 @@ if (!empty($event->LinkEmails)) {
                     <table style="width: 100%;" cellpadding="0" cellspacing="0">
                         <tr>
                             <td style="font-size: 5mm; font-weight: 100; padding: 0; margin: 0;">
-                                <?=$user->LastName?><br/><?=$user->getShortName();?>
+                                <?=$user->LastName?><br/><?=$user->getShortName()?>
                             </td>
                         </tr>
-                        <?php if ($user->getEmploymentPrimary() !== null):?>
+                        <?if($user->getEmploymentPrimary() !== null):?>
                             <tr>
-                                <?=Html::limitedTag('td', $user->getEmploymentPrimary()->Company->Name, 15, 291, 60, ['style' => 'padding-top: 5mm']);?>
+                                <?=Html::limitedTag('td', $user->getEmploymentPrimary()->Company->Name, 15, 291, 60, ['style' => 'padding-top: 5mm'])?>
                             </tr>
-                        <?php endif;?>
+                        <?endif?>
                     </table>
                 </td>
             </tr>
             <tr>
                 <td style="height: 20mm; vertical-align: bottom; font-size: 3mm;">
-                    <?if (is_array($participant)):?>
-                        <?foreach ($participant as $item):?>
-                            <span style="text-transform: uppercase;"><?=$item->Part->Title?>:</span> <?=$item->Role->Title;?><br/>
-                        <?endforeach;?>
+                    <?if(is_array($participant)):?>
+                        <?foreach($participant as $item):?>
+                            <span style="text-transform: uppercase;"><?=$item->Part->Title?>:</span> <?=$item->Role->Title?><br/>
+                        <?endforeach?>
                     <?else:?>
-                        <span style="text-transform: uppercase;"><?=$participant->Role->Title;?></span>
-                    <?endif;?>
+                        <span style="text-transform: uppercase;"><?=$participant->Role->Title?></span>
+                    <?endif?>
                 </td>
             </tr>
         </tbody>
@@ -94,8 +94,8 @@ if (!empty($event->LinkEmails)) {
         <table style="font-size: 3mm; font-family: 'Roboto', 'Helvetica Neue', Helvetica,Arial, sans-serif; width: 100%;" cellpadding="0" cellspacing="0">
             <tbody>
             <tr>
-                <td style="font-size: 13mm;"><?=$user->RunetId;?></td>
-                <td style="text-align: right;"><?=\CHtml::image(QrCode::getAbsoluteUrl($user, 70));?></td>
+                <td style="font-size: 13mm;"><?=$user->RunetId?></td>
+                <td style="text-align: right;"><?=\CHtml::image(QrCode::getAbsoluteUrl($user, 70))?></td>
             </tr>
             </tbody>
         </table>
@@ -112,11 +112,11 @@ if (!empty($event->LinkEmails)) {
     <tbody>
         <tr>
             <td style="text-align: center; vertical-align: middle; height: 60mm;">
-                <?if ($event->getTicketImage()->exists()):?>
-                    <img src="<?=$event->getTicketImage()->resize(900, 250);?>" style="image-resolution: 130dpi;">
-                <?else:;?>
-                    <img src="<?=$event->getLogo()->get150px();?>">
-                <?endif;?>
+                <?if($event->getTicketImage()->exists()):?>
+                    <img src="<?=$event->getTicketImage()->resize(900, 250)?>" style="image-resolution: 130dpi;">
+                <?else:?>
+                    <img src="<?=$event->getLogo()->get150px()?>">
+                <?endif?>
 
             </td>
         </tr>
@@ -124,9 +124,9 @@ if (!empty($event->LinkEmails)) {
 </table>
 <div style="margin: 0 5mm; padding: 5mm 0; background-color: #ededed; font-family: 'Roboto', 'Helvetica Neue', Helvetica,Arial, sans-serif; font-size: 3mm; color: #556a7d;">
     <h3 style="font-size: 5mm; font-weight: 100; text-transform: uppercase; text-align: center; margin: 0; padding: 0 0 4mm;">Контакты</h3>
-    <p style="text-align: center;"><?=implode(' | ', $contacts);?></p>
+    <p style="text-align: center;"><?=implode(' | ', $contacts)?></p>
 </div>
 <div style="background: url('/img/ticket/pdf/base/cutting-line.png') center center; height: 1mm; background-image-resolution: 100dpi; margin: 5mm 0;"></div>
 <div style="text-align: center; margin: 0 5mm; overflow: hidden;">
-    <img src="http://maps.googleapis.com/maps/api/staticmap?zoom=12&size=900x260&scale=2&maptype=roadmap&markers=color:blue%7C<?=$event->getContactAddress()->getLatitude();?>,<?=$event->getContactAddress()->getLongitude();?>&sensor=false&language=ru" />
+    <img src="http://maps.googleapis.com/maps/api/staticmap?zoom=12&size=900x260&scale=2&maptype=roadmap&markers=color:blue%7C<?=$event->getContactAddress()->getLatitude()?>,<?=$event->getContactAddress()->getLongitude()?>&sensor=false&language=ru" />
 </div>

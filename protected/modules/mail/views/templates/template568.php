@@ -44,7 +44,7 @@
 						<td class="displayWidth" style="font-family:arial, helvetica, sans-serif; font-size:14px; line-height:20px; " width="590">
 						<div class="mktEditable" id="main-content-01">
 						<p><br />
-						<span style="font-family: arial,helvetica,sans-serif; font-size: 14px;">Здравствуйте <?=$user->getShortName();?>,</span></p>
+						<span style="font-family: arial,helvetica,sans-serif; font-size: 14px;">Здравствуйте <?=$user->getShortName()?>,</span></p>
 
 						<p><span style="font-family: arial,helvetica,sans-serif; font-size: 14px;">У Вас есть последняя возможность зарегистрироваться на День AWS в Москве, 2-го июля. Проводится только один раз в 2015, не пропустите этот бесплатный однодневный технический и бизнес тренинг по облачным решениям.</span></p>
 

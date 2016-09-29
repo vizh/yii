@@ -2,7 +2,7 @@
 $regLink = "http://2015.sp-ic.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'xggMpIQINvHqR0QlZgZa'), 0, 16);
 ?>
 
-<h3><?=$user->getShortName();?>, здравствуйте!</h3>
+<h3><?=$user->getShortName()?>, здравствуйте!</h3>
 
 <p>До&nbsp;конца марта у&nbsp;вас есть возможность стать участником ключевого ИТ-мероприятия северо-западного региона&nbsp;&mdash; Санкт-Петербургской Интернет Конференции (СПИК 2015) на&nbsp;<strong>специальных условиях</strong>.</p>
 

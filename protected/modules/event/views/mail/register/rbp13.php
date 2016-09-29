@@ -2,14 +2,14 @@
 /**
  * @var \user\models\User $user
  * @var \event\models\Role $role
- * 
+ *
  */
 ?>
 
-Здравствуйте, <?=$user->getShortName();?>!
+Здравствуйте, <?=$user->getShortName()?>!
 
 Благодарим Вас, за регистрацию и оплату участия в: RUSSIAN BUSINESS PARTY - Вечеринка в стиле Bond Party
-Статус: <?=$role->Title;?>
+Статус: <?=$role->Title?>
 
 
 Время и место проведения

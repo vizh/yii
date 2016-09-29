@@ -1,6 +1,6 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2016/FBI16.jpg" style="text-align: center; width: 100%; height: auto; margin: 0 auto" /></a></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</strong></h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</strong></h3>
 
 <p>Приглашаем Вас на VII Международный Форум безопасного интернета (ФБИ-2016) &ndash; главную ежегодную отраслевую конференция, посвященную вопросам безопасности в интернете. Организатор &ndash; Лига безопасного интернета.</p>
 

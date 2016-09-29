@@ -75,6 +75,7 @@ class Definition extends CreateUpdateForm
             ['Required, Public, UseCustomTextField', 'boolean'],
             ['Order', 'numerical', 'integerOnly' => true],
         ];
+
         if ($this->isFullyEditable()) {
             $rules[] = ['ClassName,Name,Delete', 'filter', 'filter' => 'application\components\utility\Texts::clear'];
             $rules[] = ['ClassName,Name', 'required'];
@@ -156,7 +157,8 @@ class Definition extends CreateUpdateForm
             'BooleanDefinition' => \Yii::t('app', 'Выбор Да/Нет'),
             'FileDefinition' => \Yii::t('app', 'Загрузка файла'),
             'UrlDefinition' => \Yii::t('app', 'Ссылка'),
-            'MultiSelectDefinition' => \Yii::t('app', 'Множественное значение')
+            'MultiSelectDefinition' => \Yii::t('app', 'Множественное значение'),
+            'CounterDefinition' => \Yii::t('app', 'Счётчик')
         ];
     }
 

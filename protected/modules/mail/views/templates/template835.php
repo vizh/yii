@@ -28,9 +28,9 @@
 			<!-- content -->
 			<div class="content" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 600px; display: block; margin: 0 auto; padding: 0;">
 			<table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; width: 100%; margin: 0; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">
-                        <img src="http://runet-id.com/img/mail/2016/riggf16.png" alt="ИРИ - Институт развития интернета" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" /><h2 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 28px; line-height: 1.2; color: #000; font-weight: 200; margin: 40px 0 10px; padding: 0;">Здравствуйте, <?=$user->getShortName();?>!</h2>
-                        
-                        
+                        <img src="http://runet-id.com/img/mail/2016/riggf16.png" alt="ИРИ - Институт развития интернета" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" /><h2 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 28px; line-height: 1.2; color: #000; font-weight: 200; margin: 40px 0 10px; padding: 0;">Здравствуйте, <?=$user->getShortName()?>!</h2>
+
+
                         <p>Рады сообщить вам о том, что на сайте Седьмого российского форума по управлению интернетом (<a href="http://rigf.ru/"><strong>RIGF-2016</strong></a>) опубликована <a href="http://rigf.ru/prog/?p=prog">программа мероприятия</a>. В этом году участники форума обсудят следующие вопросы:</p>
 
 <ul>
@@ -47,7 +47,7 @@
 
 <div style="text-align: center; background: #F0F0F0; border: 2px dashed #FFF; padding: 20px 10px 10px;">
 <p style="text-align: center;"><strong>Для того, чтобы принять участие, необходимо заполнить регистрационную форму.<br/>Участие в форуме бесплатное.</strong></p>
-<p style="margin-top: 0"><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/rigf16/');?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #CE188C; margin: 0 10px 0 0; padding: 0; border-color: #CE188C; border-style: solid; border-width: 10px 40px;">Подать заявку на участие</a></p>
+<p style="margin-top: 0"><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/rigf16/')?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #CE188C; margin: 0 10px 0 0; padding: 0; border-color: #CE188C; border-style: solid; border-width: 10px 40px;">Подать заявку на участие</a></p>
 </div>
 
 <p>Оплата проживания и транспортных расходов осуществляется участниками самостоятельно.</p>
@@ -69,12 +69,12 @@
 <p>Вконтакте: <a href="https://vk.com/cctldru">https://vk.com/cctldru</a></p>
 
 <p>Twitter: <a href="https://twitter.com/cctldruandrf">https://twitter.com/cctldruandrf</a></p>
-         
+
                                 </td>
                             </tr></table></td>
 				</tr></table></div>
 			<!-- /content -->
-			
+
 		</td>
 		<td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"></td>
 	</tr></table></body>

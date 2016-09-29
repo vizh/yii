@@ -29,8 +29,8 @@
         <div class="content" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 600px; display: block; margin: 0 auto; padding: 0;">
             <table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; width: 100%; margin: 0; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">
                 <img src="https://showtime.s3.amazonaws.com/201508121146-iri_logo" alt="ИРИ - Институт развития интернета" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" />
-                          
-<h3>Здравствуйте <?=$user->getShortName();?>!</h3>
+
+<h3>Здравствуйте <?=$user->getShortName()?>!</h3>
 
 
 
@@ -74,8 +74,8 @@
 
 <p>Подключиться к участию и ответить на вопросы анкеты можно до 27 апреля 2016 года.</p>
 
-<p style="margin-top: 10px 0; text-align: center;"><a href="http://experts.iri.center/vote/legacy?runetid=<?=$user->RunetId;?>&hash=<?=substr(md5('10tit9Waey8ffMo1quae7Halichu4e2OoZoo0Ah14d4'.$user->RunetId), 0, 40);
-    ?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #B33689; margin: 0 10px 0 0; padding: 0; border-color: #B33689; border-style: solid; border-width: 10px 40px;">Перейти к опросу</a></p>
+<p style="margin-top: 10px 0; text-align: center;"><a href="http://experts.iri.center/vote/legacy?runetid=<?=$user->RunetId?>&hash=<?=substr(md5('10tit9Waey8ffMo1quae7Halichu4e2OoZoo0Ah14d4'.$user->RunetId), 0, 40);
+   ?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #B33689; margin: 0 10px 0 0; padding: 0; border-color: #B33689; border-style: solid; border-width: 10px 40px;">Перейти к опросу</a></p>
 
 <p>&nbsp;</p>
 

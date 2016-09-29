@@ -1,4 +1,4 @@
-<?php	
+<?php
 	$regLink = "http://2016.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'aihrQ0AcKmaJ'), 0, 16);
 ?>
 
@@ -26,23 +26,23 @@
 </style>
 
 	<div id="wrapper" style="height: 100%; width: 100%; background: #D2D9DC; margin: 0; padding: 0;">
-		
+
 		<!-- unboxed -->
 		<table class="unboxed-wrap" bgcolor="#D2D9DC" style="clear: both !important; width: 100%; margin: 25px 0 0; padding: 25px 0;"><tr style="margin: 0; padding: 0;">
 <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		    <td class="container" style="vertical-align: top; clear: both !important; display: block !important; max-width: 600px !important; margin: 0 auto; padding: 0;" valign="top">
-		      
+
 		      <!-- content -->
 		      <div class="content" style="display: block; max-width: 600px; margin: 0 auto; padding: 0;">
 		        <table style="width: 100%; margin: 0; padding: 0;"><tr style="margin: 0; padding: 0;">
 <td align="center" style="vertical-align: top; margin: 0; padding: 0;" valign="top">
-		              	<h2 style="color: #111111; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-weight: 200; line-height: 1.2em; font-size: 28px; margin: 10px 0; padding: 0;">Здравствуйте, <?=$user->getShortName();?>!</h2>
+		              	<h2 style="color: #111111; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-weight: 200; line-height: 1.2em; font-size: 28px; margin: 10px 0; padding: 0;">Здравствуйте, <?=$user->getShortName()?>!</h2>
 		              	<p class="lead" style="font-size: 17px; font-weight: normal; margin: auto 5%; padding: 0;">Российский Интернет Форум (РИФ+КИБ) отмечает юбилей: главному весеннему мероприятию Рунета исполняется 20 лет!</p>
 		            </td>
 		          </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>
@@ -68,7 +68,7 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr>
@@ -128,37 +128,37 @@
 
 				<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Зарегистрировавшись в качестве <strong style="margin: 0; padding: 0;">«Виртуального участника» (бесплатно)</strong> уже сейчас, Вы получаете:</p>
 				<ul style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">
-<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 						<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Рассылку актуальных новостей Форума</p>
 					</li>
-					<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+					<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 						<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Возможность участвовать в специальных онлайн-проектах юбилейного Форума и получить призы от организаторов и партнеров</p>
 					</li>
-					<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+					<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 						<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Доступ к онлайн-видео из некоторых залов в дни проведения Форума</p>
 					</li>
-					<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+					<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 						<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Доступ к программе Форума и презентациям докладчиков по его итогам</p>
 					</li>
 				</ul>
 <p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Если Вы хотите посетить Форум лично, у Вас есть уникальная возможность получить статус <strong style="margin: 0; padding: 0;">«Участник форума»</strong>, оплатив до 31 марта участие в Форуме по специальной цене — 7 000 рублей, включая налоги. В этом статусе для Вас откроются дополнительные возможности:</p>
 				<ul style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">
-<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 						<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Участие в Программе 2.0 (заявлять темы, влиять на формирование народных секций ТОП-10)</p>
 					</li>
-					<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+					<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 						<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Забронировать гостиничный номер на все три дня проведения Форума и насладится полным погружением в формат РИФа, включая вечернюю программу</p>
 					</li>
-					<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+					<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 						<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Интерактивный бейдж участника Форума, который откроет Вам двери во все 8 залов РИФа в течение всех 3 дней его работы (неограниченное посещение)</p>
 					</li>
-					<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+					<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 						<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Посещение выставки — более 50 стендов и множество промо-акций от партнеров Форума</p>
 					</li>
-					<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+					<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 						<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Бесплатный трансфер из Москвы (от ст.метро «Молодежная» до Пансионата «Лесные дали» и обратно)</p>
 					</li>
-					<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+					<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 						<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Памятные подарки от организаторов и партнеров и т.д.</p>
 					</li>
 					<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">И многое другое...</li>
@@ -168,7 +168,7 @@
 
 		      </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>

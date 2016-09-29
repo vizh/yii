@@ -60,36 +60,36 @@ if (!function_exists('getPartnerBookingByDate')) {
 
 $first = true;
 ?>
-<?foreach ($dates as $date):?>
+<?foreach($dates as $date):?>
   <tr>
-    <?if ($first): $first = false;?>
+    <?if($first): $first = false?>
       <td rowspan="3">
-        <strong>Номер: <?=$manager->Number;?></strong> <span class="muted">(Id: <?=$product->Id;?>)</span><br>
-        <?=$manager->Housing;?>, <?=$manager->Category;?><br>
-        Всего мест: <?=$manager->PlaceTotal;?> (основных - <?=$manager->PlaceBasic;?>, доп. - <?=$manager->PlaceMore;?>)<br>
-        <em><?=$manager->DescriptionBasic;?>, <?=$manager->DescriptionMore;?></em>
+        <strong>Номер: <?=$manager->Number?></strong> <span class="muted">(Id: <?=$product->Id?>)</span><br>
+        <?=$manager->Housing?>, <?=$manager->Category?><br>
+        Всего мест: <?=$manager->PlaceTotal?> (основных - <?=$manager->PlaceBasic?>, доп. - <?=$manager->PlaceMore?>)<br>
+        <em><?=$manager->DescriptionBasic?>, <?=$manager->DescriptionMore?></em>
       </td>
-    <?endif;?>
+    <?endif?>
 
-    <td><?=date('d.m', strtotime($date['dateIn']));?> - <?=date('d.m', strtotime($date['dateOut']));?></td>
+    <td><?=date('d.m', strtotime($date['dateIn']))?> - <?=date('d.m', strtotime($date['dateOut']))?></td>
 
     <?
     $orderItem = getOrderItemByDate($orderItems, $date['dateIn']);
     $partnerBooking = getPartnerBookingByDate($partnerBookings, $date['dateIn']);
-    ?>
-    <?if ($orderItem == null && $partnerBooking == null):?>
+   ?>
+    <?if($orderItem == null && $partnerBooking == null):?>
       <td><span class="label">свободен</span></td>
       <td>&nbsp;</td>
-    <?elseif ($orderItem != null && !in_array($orderItem->Id, $usedItems)): $usedItems[] = $orderItem->Id;?>
+    <?elseif ($orderItem != null && !in_array($orderItem->Id, $usedItems)): $usedItems[] = $orderItem->Id?>
       <?$this->renderPartial('statistics/info', [
         'orderItem' => $orderItem,
         'usersFullData' => $usersFullData,
         'usersTogether' => $usersTogether
-      ]);?>
-    <?elseif ($partnerBooking != null && !in_array($partnerBooking->Id, $usedBookings)): $usedBookings[] = $partnerBooking->Id;?>
+      ])?>
+    <?elseif ($partnerBooking != null && !in_array($partnerBooking->Id, $usedBookings)): $usedBookings[] = $partnerBooking->Id?>
       <?$this->renderPartial('statistics/infoBooking', [
         'partnerBooking' => $partnerBooking
-      ]);?>
-    <?endif;?>
+      ])?>
+    <?endif?>
   </tr>
-<?endforeach;?>
+<?endforeach?>

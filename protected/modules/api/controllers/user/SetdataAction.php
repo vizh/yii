@@ -4,30 +4,46 @@ namespace api\controllers\user;
 use api\components\Action;
 use api\components\Exception;
 use event\models\UserData;
+use Yii;
 
 class SetdataAction extends Action
 {
     public function run()
     {
-        $runetId = \Yii::app()->getRequest()->getParam('RunetId', null);
-        $user = \user\models\User::model()->byRunetId($runetId)->find();
-        if ($user === null)
-            throw new Exception(202, [$runetId]);
+        $userData = UserData::model()
+            ->byEventId($this->getEvent()->Id)
+            ->byUserId($this->getRequestedUser()->Id)
+            ->byDeleted(false)
+            ->orderBy(['"t"."CreationTime"'])
+            ->find();
 
-        $userData = new UserData();
-        $userData->EventId = $this->getEvent()->Id;
-        $userData->UserId = $user->Id;
 
-        $attributes = \Yii::app()->getRequest()->getParam('Attributes', []);
+        if ($userData === null)
+            $userData = UserData::createEmpty(
+                $this->getEvent(),
+                $this->getRequestedUser()
+            );
+
+        $manager = $userData->getManager();
+
+        if (!$manager->getDefinitions())
+            throw new Exception(251, ['На данном мероприятии отсутствуют определения пользовательских атрибутов']);
+
         try {
-            foreach ($attributes as $key => $value) {
-                $userData->getManager()->$key = $value;
+            foreach (Yii::app()->getRequest()->getParam('Attributes', []) as $param => $value) {
+                if (!isset($manager->$param) || $manager->$param !== $value)
+                    $manager->$param = $value;
             }
-            $userData->save();
-        } catch (\application\components\Exception $e) {
+        } catch (Exception $e) {
             throw new Exception(251, [$e->getMessage()]);
         }
 
-        $this->setResult(['Success' => true]);
+        if (!$manager->validate())
+            foreach ($manager->getErrors() as $attribute => $errors)
+                throw new Exception(252, [$attribute, $errors[0]]);
+
+        $userData->save();
+
+        $this->setSuccessResult();
     }
-} 
+}

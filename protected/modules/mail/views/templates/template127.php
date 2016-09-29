@@ -1,4 +1,4 @@
-<p><strong>Здравствуйте,&nbsp;<?=$user->getShortName();?>! &nbsp;</strong></p>
+<p><strong>Здравствуйте,&nbsp;<?=$user->getShortName()?>! &nbsp;</strong></p>
 
 <p>Напоминаем вам, что <strong>конференция </strong><strong>iFresh</strong> состоится 16 и 17 сентября по адресу Санкт-Петербург,&nbsp;отель &quot;Введенский&quot;, Большой проспект П.С. д.37 (<a href="http://ifreshconf.ru/place/?utm_source=runet-id_org&amp;utm_medium=email&amp;utm_campaign=ifreshconf_2014">карта проезда</a>).&nbsp;</p>
 

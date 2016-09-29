@@ -16,21 +16,28 @@ class GetAction extends Action
 
         $documentType = DocumentType::model()->findByPk($documentTypeId);
         if ($documentType === null) {
-            throw new Exception(1001, array($documentTypeId));
+            throw new Exception(1001, [$documentTypeId]);
         }
 
         $user = User::model()->byRunetId($runetId)->find();
         if ($user === null) {
-            throw new Exception(202, array($runetId));
+            throw new Exception(202, [$runetId]);
         }
 
-        $document = Document::model()->byUserId($user->Id)->byTypeId($documentTypeId)->byActual(true)->find();
+        $document = Document::model()
+            ->byUserId($user->Id)
+            ->byTypeId($documentTypeId)
+            ->byActual(true)
+            ->find();
+
+        if ($document === null) {
+            throw new Exception(1000);
+        }
+
         if ($document !== null) {
-            $this->getDataBuilder()->createUser($user);
+            $this->getDataBuilder()->createUser($user, []);
             $result = $this->getDataBuilder()->buildUserDocument($document);
             $this->setResult($result);
-        } else {
-            throw new Exception(1000);
         }
     }
 }

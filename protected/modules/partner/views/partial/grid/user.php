@@ -59,38 +59,38 @@ $photo = $user->getPhoto();
         </figure>
     </div>
     <div class="col-md-10">
-        <?= CHtml::link(
+        <?=CHtml::link(
             (!$hideId ? '<span class="text-light-gray">' . $user->RunetId . ',</span> ' : '') . $user->getFullName(),
             ['user/edit', 'id' => $user->RunetId],
             $linkHtmlOptions
-        ) ?>
+        )?>
 
-        <?php if (!$hideEmployment && ($employment = $user->getEmploymentPrimary()) !== null): ?>
-            <p><?= $employment ?></p>
-        <?php endif ?>
+        <?if(!$hideEmployment && ($employment = $user->getEmploymentPrimary()) !== null):?>
+            <p><?=$employment?></p>
+        <?endif?>
 
-        <?php if (!$hideContacts): ?>
-            <p class="m-top_5 text-nowrap"><i class="fa fa-envelope-o"></i>&nbsp;<?= CHtml::mailto($user->Email) ?>
-                <?php if (($phone = $user->getPhone()) !== null): ?>
-                    <br/><i class="fa fa-phone"></i>&nbsp;<?= $phone ?>
-                <?php endif ?>
+        <?if(!$hideContacts):?>
+            <p class="m-top_5 text-nowrap"><i class="fa fa-envelope-o"></i>&nbsp;<?=CHtml::mailto($user->Email)?>
+                <?if(($phone = $user->getPhone()) !== null):?>
+                    <br/><i class="fa fa-phone"></i>&nbsp;<?=$phone?>
+                <?endif?>
             </p>
-        <?php endif ?>
+        <?endif?>
     </div>
 </div>
 
-<?php if (!isset($this->clips[Controller::PAGE_FOOTER_CLIP_ID])): ?>
-    <?php $this->beginClip(Controller::PAGE_FOOTER_CLIP_ID) ?>
-    <?php $this->beginWidget('application\widgets\bootstrap\Modal', [
+<?if(!isset($this->clips[Controller::PAGE_FOOTER_CLIP_ID])):?>
+    <?$this->beginClip(Controller::PAGE_FOOTER_CLIP_ID)?>
+    <?$this->beginWidget('application\widgets\bootstrap\Modal', [
         'header' => 'Редактирование участника мероприятия',
         'htmlOptions' => ['class' => 'modal-fullscreen', 'id' => 'modal-user'],
         'footer' => CHtml::link('<span class="btn-label fa fa-external-link"></span> ' . Yii::t('app', 'Открыть в основном окне'), '', ['class' => 'btn btn-default btn-labeled btn-xs'])
-    ]) ?>
+    ])?>
     <div class="text-center text-muted loader hide">
         <i class="fa fa-refresh fa-spin fa-5x"></i>
 
         <p class="lead">Загрузка...</p>
     </div>
-    <?php $this->endWidget() ?>
-    <?php $this->endClip() ?>
-<?php endif ?>
+    <?$this->endWidget()?>
+    <?$this->endClip()?>
+<?endif?>

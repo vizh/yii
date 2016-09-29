@@ -11,13 +11,13 @@ use raec\models\Brief;
         <tbody>
         <?foreach($brief->getBriefData()->getDefinitions() as $definition):?>
             <tr>
-                <td><?=$brief->getBriefData()->getAttributeLabel($definition->name);?></td>
+                <td><?=$brief->getBriefData()->getAttributeLabel($definition->name)?></td>
                 <td>
-                    <?$value = $definition->getPrintValue($brief->getBriefData());?>
-                    <?=!empty($value) ? $value : '<span class="text-error">Поле не заполнено</span>';?>
+                    <?$value = $definition->getPrintValue($brief->getBriefData())?>
+                    <?=!empty($value) ? $value : '<span class="text-error">Поле не заполнено</span>'?>
                 </td>
             </tr>
-        <?endforeach;?>
+        <?endforeach?>
         </tbody>
     </table>
 </div>

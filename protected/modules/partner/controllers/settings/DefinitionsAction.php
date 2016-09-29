@@ -60,31 +60,44 @@ class DefinitionsAction extends Action
     {
         if ($this->forms === null) {
             $this->forms = [];
-            $groups = Group::model()->byModelName('EventUserData')->byModelId($this->getEvent()->Id)->orderBy('"t"."Order"')->findAll();
+            $groups = Group::model()
+                ->byModelName('EventUserData')
+                ->byModelId($this->getEvent()->Id)
+                ->orderBy('"t"."Order"')
+                ->findAll();
+
             foreach ($groups as $group) {
                 $this->forms[] = new UserAttributeGroup($this->getEvent(), $group);
             }
             $this->forms[] = new UserAttributeGroup($this->getEvent());
         }
+
         return $this->forms;
     }
 
     /**
-     * @return UserAttributeGroup
+     * @return UserAttributeGroup|null
      */
     private function getEditableForm()
     {
-        $id = Yii::app()->getRequest()->getParam('Id');
+        $id = (int)Yii::app()
+            ->getRequest()
+            ->getParam('Id');
+
         foreach ($this->getForms() as $form) {
-            if ($form->isUpdateMode() && $form->getActiveRecord()->Id != $id) {
+            if ($form->isUpdateMode() && $form->getActiveRecord()->Id !== $id) {
                 continue;
             }
+
             return $form;
         }
+
+        return null;
     }
 
     /**
      * Erases data of an attribute
+     *
      * @param string $attribute
      * @return bool
      */
@@ -138,44 +151,51 @@ class DefinitionsAction extends Action
                 ->byUserId($userData->UserId)
                 ->find();
 
-            if ($participant == null)
+            if ($participant == null) {
                 continue;
+            }
 
             $participations[$userData->UserId]
                 = $participant->RoleId;
 
-            if (!isset($dataManager->ean17) || empty($dataManager->ean17))
+            if (!isset($dataManager->ean17) || empty($dataManager->ean17)) {
                 continue;
+            }
 
             $group = $this->participantGroup($event, $participant->RoleId);
 
-            if ($group == null)
+            if ($group == null) {
                 continue;
+            }
 
-            $index = (int) substr($dataManager->ean17, 5);
+            $index = (int)substr($dataManager->ean17, 5);
 
-            if ($groupData[$group] < $index)
+            if ($groupData[$group] < $index) {
                 $groupData[$group] = $index;
+            }
         }
 
         foreach ($usersData as $userData) {
-            if (!isset($participations[$userData->UserId]))
+            if (!isset($participations[$userData->UserId])) {
                 continue;
+            }
 
             $dataManager = $userData->getManager();
 
             /* Не трогаем тех, кому номер уже присвоен */
-            if (isset($dataManager->ean17) && !empty($dataManager->ean17))
+            if (isset($dataManager->ean17) && !empty($dataManager->ean17)) {
                 continue;
+            }
 
             $group = $this->participantGroup($event, $participations[$userData->UserId]);
 
             /* Нет группы, нет номера. Всё просто. */
-            if ($group === null)
+            if ($group === null) {
                 continue;
+            }
 
             $index = $groupData[$group] + 1;
-                     $groupData[$group] = $index;
+            $groupData[$group] = $index;
 
             /* Присваеваем номер */
             $dataManager->ean17
@@ -187,11 +207,13 @@ class DefinitionsAction extends Action
 
     private function participantGroup(Event $event, $RoleId)
     {
-        if (in_array($RoleId, [12, 216, 213, 110, 217, 6]))
+        if (in_array($RoleId, [12, 216, 213, 110, 217, 6])) {
             return $event->Id == 2514 ? 14001 : 14003;
+        }
 
-        if (in_array($RoleId, [38, 215, 2, 14, 3]))
+        if (in_array($RoleId, [38, 215, 2, 14, 3])) {
             return $event->Id == 2514 ? 14002 : 14004;
+        }
 
         return null;
     }

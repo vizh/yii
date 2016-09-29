@@ -7571,6 +7571,9 @@ optgroup {
   margin: 0;
   padding: 20px;
 }
+.panel-body__scrollable {
+  overflow-x: scroll;
+}
 .panel-body > li {
   list-style: none;
   margin: 0;

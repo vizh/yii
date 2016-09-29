@@ -5,11 +5,11 @@
 $errors = $this->form->getErrors();
 ?>
 
-<?if (!empty($errors)):?>
+<?if(!empty($errors)):?>
 <div class="alert alert-error">
   <a class="close" data-dismiss="alert" href="#">×</a>
-  <?foreach ($errors as $error):?>
-  <?=implode('<br>', $error);?><br>
-  <?endforeach;?>
+  <?foreach($errors as $error):?>
+  <?=implode('<br>', $error)?><br>
+  <?endforeach?>
 </div>
-<?endif;?>
+<?endif?>

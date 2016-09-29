@@ -5,21 +5,21 @@
  * @var int $total
  */
 ?>
-<?if (!empty($payer->LastName)):?>
-  Здравствуйте, <?=$payer->getFullName();?>.
+<?if(!empty($payer->LastName)):?>
+  Здравствуйте, <?=$payer->getFullName()?>.
 <?else:?>
   Уважаемый пользователь.
-<?endif;?>
+<?endif?>
 
-<p>В рамках конференции Design Camp Вами была успешно произведена оплата на сумму <?=$total;?> руб. следующих услуг:<br/>
+<p>В рамках конференции Design Camp Вами была успешно произведена оплата на сумму <?=$total?> руб. следующих услуг:<br/>
   <?foreach($items as $orderItem):?>
-    &ndash; "<?=$orderItem->Product->Title;?>" на <?=$orderItem->Owner->getFullName();?><br/>
-  <?endforeach;?>
+    &ndash; "<?=$orderItem->Product->Title?>" на <?=$orderItem->Owner->getFullName()?><br/>
+  <?endforeach?>
 </p>
 
-<?if (!$payer->Temporary):?>
-  <p>Ваш профиль:<br/><a href="<?=$payer->getUrl();?>"><?=$payer->getUrl();?></a></p>
-<?endif;?>
+<?if(!$payer->Temporary):?>
+  <p>Ваш профиль:<br/><a href="<?=$payer->getUrl()?>"><?=$payer->getUrl()?></a></p>
+<?endif?>
 
 <p>---<br>
   <em>С уважением,<br>

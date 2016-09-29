@@ -1,6 +1,6 @@
 <p align="center"><img alt="" src="http://runet-id.com/img/mail/2014/20140924-imetrics14.jpg" style="width: 100%; height: auto;" /></p>
 <br>
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p>Приглашаем посетить iMetrics-2014 – главное профессиональное мероприятие, посвященное веб-аналитике и эффективности интернет-маркетинга.</p>
 

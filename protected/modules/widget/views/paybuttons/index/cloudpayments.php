@@ -43,5 +43,5 @@ $clientScript->registerScript('cloudpayments','
 
 ');
 ?>
-<?=\CHtml::link('&nbsp;', $this->createAbsoluteUrl('/pay/cabinet/pay', ['type' => 'cloudpayments', 'eventIdName' => $this->getEvent()->IdName]), ['class' => 'btn btn-primary cloudpayments']);?>
+<?=\CHtml::link('&nbsp;', $this->createAbsoluteUrl('/pay/cabinet/pay', ['type' => 'cloudpayments', 'eventIdName' => $this->getEvent()->IdName]), ['class' => 'btn btn-primary cloudpayments'])?>
 <span class="cloudpayments"></span>

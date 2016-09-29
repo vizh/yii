@@ -38,10 +38,10 @@ $authUrl  = 'http://reg.premiaruneta.ru/cabinet/auth/?id=' . $user->RunetId . '&
 			<!-- content -->
 			<div class="content" style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; max-width: 600px; display: block; margin: 0 auto; padding: 0;">
 			<table style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; width: 100%; margin: 0; padding: 0;"><tr style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">
-			            <h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 0 0 10px; padding: 0;">Здравствуйте, <?=$user->getShortName();?>!</h3>
+			            <h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 0 0 10px; padding: 0;">Здравствуйте, <?=$user->getShortName()?>!</h3>
 			            <p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Оргкомитет Конкурса «Премии Рунета» <strong style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">открывает прием заявок</strong> на соискание XII Национальной премии за вклад в развитие российского сегмента сети Интернет. Торжественная Церемония вручения «Премии Рунета 2015» состоится в ноябре.</p>
 						<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Подать заявку на участие могут организации и интернет-проекты, внесшие особый вклад в развитие Рунета в <nobr style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">2014-2015 годах:</nobr></p>
-						<p class="center" style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; text-align: center; font-weight: normal; margin: 15px 0 20px; padding: 0;" align="center"><a href="<?=$authUrl;?>" class="btn-primary" style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.2; color: #000; text-decoration: none; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background: #fff; margin: 0 auto; padding: 12px 65px; border: 2px solid #000;">ПОДАТЬ ЗАЯВКУ</a></p>
+						<p class="center" style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; text-align: center; font-weight: normal; margin: 15px 0 20px; padding: 0;" align="center"><a href="<?=$authUrl?>" class="btn-primary" style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.2; color: #000; text-decoration: none; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background: #fff; margin: 0 auto; padding: 12px 65px; border: 2px solid #000;">ПОДАТЬ ЗАЯВКУ</a></p>
 						<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">В этом году заветные статуэтки будут вручаться в шести основных, двух специальных номинациях экспертного голосования и трех номинациях Народного голосования.</p>
 						<h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 0 0 10px; padding: 0;">Основные номинации «Премии Рунета 2015»:</h3>
 						<ul style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;">Инновации и Технологии</li>
@@ -62,7 +62,7 @@ $authUrl  = 'http://reg.premiaruneta.ru/cabinet/auth/?id=' . $user->RunetId . '&
 					</td>
 				</tr></table></div>
 			<!-- /content -->
-			
+
 		</td>
 		<td style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"></td>
 	</tr></table><!-- /body --></body>

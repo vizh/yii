@@ -21,29 +21,29 @@ if (!$userData->getManager()->hasDefinitions(true)) {
 
 $printEditArea = function(Definition $definition, UserDataManager $manager) use ($definedAttributes)
 {
-    ?>
-    <?if ($definition instanceof BooleanDefinition):?>
+   ?>
+    <?if($definition instanceof BooleanDefinition):?>
     <div class="control-group">
-        <?=$definition->activeEdit($manager);?>
+        <?=$definition->activeEdit($manager)?>
     </div>
 <?elseif($definition instanceof ListDefinition && $definition->required):?>
-    <label <?if(in_array($definition->name, $definedAttributes)):?>class="defined-attribute required"<?else:?>class="required"<?endif;?>><?=$definition->title;?></label>
-    <?=$definition->activeEdit($manager);?>
+    <label <?if(in_array($definition->name, $definedAttributes)):?>class="defined-attribute required"<?else:?>class="required"<?endif?>><?=$definition->title?></label>
+    <?=$definition->activeEdit($manager)?>
 <?else:?>
     <div class="control-group">
-        <label <?if(in_array($definition->name, $definedAttributes)):?>class="defined-attribute"<?endif;?>><?=$definition->title;?></label>
-        <?if ($definition->required):?>
-            <div class="required"><?=$definition->activeEdit($manager);?></div>
+        <label <?if(in_array($definition->name, $definedAttributes)):?>class="defined-attribute"<?endif?>><?=$definition->title?></label>
+        <?if($definition->required):?>
+            <div class="required"><?=$definition->activeEdit($manager)?></div>
         <?else:?>
-            <?=$definition->activeEdit($manager);?>
-        <?endif;?>
+            <?=$definition->activeEdit($manager)?>
+        <?endif?>
     </div>
-<?endif;?>
+<?endif?>
 <?
 }
 ?>
 
-<?foreach ($userData->getManager()->getGroups() as $group):?>
+<?foreach($userData->getManager()->getGroups() as $group):?>
     <?php
     $definitions = [];
     foreach ($group->getDefinitions() as $definition) {
@@ -52,15 +52,15 @@ $printEditArea = function(Definition $definition, UserDataManager $manager) use 
         }
         $definitions[] = $definition;
     }
-    ?>
-    <?if (count($definitions) !== 0):?>
+   ?>
+    <?if(count($definitions) !== 0):?>
         <div class="clearfix">
-            <?if (!empty($group->title)):?>
-                <h5 class="title"><?=$group->title;?></h5>
-            <?endif;?>
+            <?if(!empty($group->title)):?>
+                <h5 class="title"><?=$group->title?></h5>
+            <?endif?>
 
-            <?php if (sizeof($definitions) == 1):?>
-                <?=$printEditArea($definitions[0], $userData->getManager());;?>
+            <?if(sizeof($definitions) == 1):?>
+                <?=$printEditArea($definitions[0], $userData->getManager());?>
             <?php else:?>
                 <div class="pull-left">
                     <?
@@ -70,7 +70,7 @@ $printEditArea = function(Definition $definition, UserDataManager $manager) use 
                         if ($i % 2 == 0) continue;
                         $printEditArea($definition, $userData->getManager());
                     }
-                    ?>
+                   ?>
                 </div>
                 <div class="pull-right">
                     <?
@@ -80,14 +80,14 @@ $printEditArea = function(Definition $definition, UserDataManager $manager) use 
                         if ($i % 2 == 1) continue;
                         $printEditArea($definition, $userData->getManager());
                     }
-                    ?>
+                   ?>
                 </div>
-            <?php endif;?>
+            <?endif?>
         </div>
-    <?endif;?>
-<?endforeach;?>
+    <?endif?>
+<?endforeach?>
 
-<?if (!empty($definedAttributes)):?>
+<?if(!empty($definedAttributes)):?>
 <small class="muted required-notice">Поля <span class="text-success">отмеченные зеленым цветом</span> заполнялись ранее и могут быть пропущены</small>
 <small class="muted required-notice"><span class="required-asterisk">*</span> &mdash; поля обязательны для заполнения</small>
-<?endif;?>
+<?endif?>

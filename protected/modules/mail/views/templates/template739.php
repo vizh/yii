@@ -1,6 +1,6 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/afest15.png" style="width: 100%; height: auto; margin: 0 auto" /></a></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</strong></h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</strong></h3>
 
 <p>Приглашаем вас принять участие в акции для мобильных пользователей &ndash; <a href="http://www.russianappfest.com/">Russian AppFest</a>, которая состоится с 10 по 17 ноября.</p>
 

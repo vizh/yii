@@ -1,4 +1,4 @@
-<?php	
+<?php
 	$voteLink = "http://riw.moscow/vote/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);
 ?>
 
@@ -26,24 +26,24 @@
 </style>
 
 	<div id="wrapper" style="height: 100%; width: 100%; background: #f6f6f6; margin: 0; padding: 0;">
-		
+
 		<!-- unboxed -->
 		<table class="unboxed-wrap" bgcolor="#f6f6f6" style="clear: both !important; width: 100%; margin: 25px 0 0; padding: 25px 0;"><tr style="margin: 0; padding: 0;">
 <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		    <td class="container" style="vertical-align: top; clear: both !important; display: block !important; max-width: 600px !important; margin: 0 auto; padding: 0;" valign="top">
-		      
+
 		      <!-- content -->
 		      <div class="content" style="display: block; max-width: 600px; margin: 0 auto; padding: 0;">
 		        <table style="width: 100%; margin: 0; padding: 0;"><tr style="margin: 0; padding: 0;">
 <td align="center" style="vertical-align: top; margin: 0; padding: 0;" valign="top">
-						<h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 0 0 10px; padding: 0;"><?=$user->getShortName();?>, здравствуйте!</h3>
+						<h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 0 0 10px; padding: 0;"><?=$user->getShortName()?>, здравствуйте!</h3>
 		              	<p class="lead" style="font-size: 17px; font-weight: normal; margin: 0 0 10px; padding: 0;">Самое большое IT-событие в стране закончилось, и Вы стали его частью — спасибо Вам за это!</p>
 						<p class="lead" style="font-size: 17px; font-weight: normal; margin: 0 0 10px; padding: 0;">А теперь пришло время подвести окончательные итоги проекта и поделиться ими с Вами.</p>
 		            </td>
 		          </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>
@@ -89,7 +89,7 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr>
@@ -115,19 +115,19 @@
 					<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Следить за текстовыми трансляциями можно было от партнеров RIW: информационного<a href="http://tass.ru/riw2015" style="color: #D85B42; margin: 0; padding: 0;"> агентства «ТАСС»</a>, <a href="http://www.therunet.com/articles/5009-russian-interactive-week" style="color: #D85B42; margin: 0; padding: 0;">theRunet.com</a> и <a href="http://netology.ru/blog/riw-2015" style="color: #D85B42; margin: 0; padding: 0;"> «Нетологии»</a>.</p>
 					<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">А также благодаря специальному сервису СКАН, разработанному в «Интерфакс», мы представляем вам топ-5 самых упоминаемых персон RIW по итогам всех трёх дней:</p>
 					<ol style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">
-<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><strong style="margin: 0; padding: 0;">Жаров Александр</strong> — руководитель Роскомнадзора</p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><strong style="margin: 0; padding: 0;">Никифоров Николай</strong> — министр связи и массовых коммуникаций РФ</p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><strong style="margin: 0; padding: 0;">Воробьёв Андрей</strong> — директор Координационного центра национального домена сети Интернет</p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><strong style="margin: 0; padding: 0;">Плуготаренко Сергей</strong> — директор РАЭК</p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><strong style="margin: 0; padding: 0;">Усманов Альберт</strong> — глава отдела b2b-маркетинга «ВКонтакте»</p>
 						</li>
 					</ol>
@@ -137,7 +137,7 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>
@@ -163,7 +163,7 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>
@@ -184,7 +184,7 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>

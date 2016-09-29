@@ -1,6 +1,6 @@
-<?$regLink = "http://2014.russianinternetweek.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);?>
+<?$regLink = "http://2014.russianinternetweek.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16)?>
 
-<h3>Здравствуйте,&nbsp;<?=$user->getShortName();?>.</h3>
+<h3>Здравствуйте,&nbsp;<?=$user->getShortName()?>.</h3>
 
 <p style="font-size: 120%"><nobr>12&ndash;14</nobr> ноября 2014 года в&nbsp;московском Экспоцентре пройдет RIW 2014 (Russian Interactive Week)&nbsp;&mdash; главное осеннее мероприятие сразу нескольких отраслей: Интернет, Медиа и&nbsp;Телеком&nbsp;&mdash; <a href="http://riw.moscow">www.riw.moscow</a></p>
 

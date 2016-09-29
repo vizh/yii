@@ -1,4 +1,4 @@
-<p><strong><?=$user->getShortName();?>, здравствуйте!</strong></p>
+<p><strong><?=$user->getShortName()?>, здравствуйте!</strong></p>
 
 <p>Напоминаем Вам, что <strong>25&nbsp;ноября (во&nbsp;вторник)</strong>&nbsp;&mdash; в&nbsp;Москве пройдет XI&nbsp;Торжественная Церемония вручения &laquo;Премии Рунета 2014&raquo;&nbsp;&mdash; <a href="http://www.premiaruneta.ru">www.premiaruneta.ru</a></p>
 

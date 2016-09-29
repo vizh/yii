@@ -9,4 +9,4 @@
 <p>Мы будем рады видеть вас среди участников нашего исследования! Ваше мнение крайне важно для нас!</p>
 
 <p>Для начала опроса перейдите по ссылке:</p>
-<h2><a href="<?=$user->getFastauthUrl(Yii::app()->createUrl('/competence/main/index/', ['id' => 6]));?>">Начать опрос</a></h2>
+<h2><a href="<?=$user->getFastauthUrl(Yii::app()->createUrl('/competence/main/index/', ['id' => 6]))?>">Начать опрос</a></h2>

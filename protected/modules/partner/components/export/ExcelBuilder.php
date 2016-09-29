@@ -62,6 +62,7 @@ class ExcelBuilder
         \Yii::app()->setLanguage($language);
 
         $title = \Yii::t('app', 'Участники').' '.$this->export->Event->IdName;
+        if(strlen($title) > 30) $title = substr($title,0,28)."...";
 
         $phpExcel = new \PHPExcel();
         $phpExcel->setActiveSheetIndex(0);
@@ -125,7 +126,7 @@ class ExcelBuilder
 
         if ($participant !== null) {
             $row['Role'] = $participant->Role->Title;
-            $row['DateRegister'] = $formatter->format('dd MMMM yyyy H:m', $participant->CreationTime);
+            $row['DateRegister'] = $formatter->format('dd MMMM yyyy HH:mm', $participant->CreationTime);
             if (!empty($this->getConfig()->PartId)) {
                 $row['Part'] = $participant->Part->Title;
             }
@@ -145,7 +146,7 @@ class ExcelBuilder
         $badge = Badge::model()->byEventId($this->getEvent()->Id)->byUserId($user->Id)->orderBy('"t"."CreationTime"')
             ->find();
         if ($badge !== null) {
-            $row['DateBadge'] = $formatter->format('dd MMMM yyyy H:m', $badge->CreationTime);
+            $row['DateBadge'] = $formatter->format('dd MMMM yyyy HH:mm', $badge->CreationTime);
         }
 
         if ($this->hasExternalId()) {
@@ -253,7 +254,7 @@ class ExcelBuilder
             }
 
             $row['Price'] += $price;
-            $datePay[] = $formatter->format('dd MMMM yyyy H:m', $orderItem->PaidTime);
+            $datePay[] = $formatter->format('dd MMMM yyyy HH:mm', $orderItem->PaidTime);
         }
 
         $row['Products'] = implode(', ', $products);

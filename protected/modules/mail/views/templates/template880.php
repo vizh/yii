@@ -1,6 +1,6 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2016/iplce16.png" style="text-align: center; width: 100%; height: auto; margin: 0 auto" /></a></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</strong></h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</strong></h3>
 
 <p>Напоминаем вам, что форум <a href="http://iplaceconf.ru/?utm_source=reg&amp;utm_medium=email&amp;utm_campaign=iplace7">iPLACE</a> состоится <strong>5 апреля, во вторник</strong>.<br />
 Ознакомьтесь, пожалуйста, с важной информацией для прохода на мероприятие!</p>
@@ -8,7 +8,7 @@
 
 <div style="text-align: center; background: #F0F0F0; border: 2px dashed #FFF; padding: 20px 10px 10px;">
 <p style="text-align: center;"><strong>Для максимально быстрой регистрации на мероприятии распечатайте, пожалуйста, ваш электронный билет:</strong></p>
-<p style="margin-top: 0"><a href="<?=$user->Participants[0]->getTicketUrl();?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #00A3DD; margin: 0 10px 0 0; padding: 0; border-color: #00A3DD; border-style: solid; border-width: 10px 40px;">ЭЛЕКТРОННЫЙ БИЛЕТ</a></p>
+<p style="margin-top: 0"><a href="<?=$user->Participants[0]->getTicketUrl()?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #00A3DD; margin: 0 10px 0 0; padding: 0; border-color: #00A3DD; border-style: solid; border-width: 10px 40px;">ЭЛЕКТРОННЫЙ БИЛЕТ</a></p>
 </div>
 
 

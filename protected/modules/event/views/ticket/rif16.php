@@ -948,24 +948,24 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
                     </div>
                 </div>
                 <!-- Информация о проживании -->
-                <?php if ($roomProductManager !== null): ?>
+                <?if($roomProductManager !== null):?>
                     <div class="col-4">
                         <table class="booking">
                             <tr>
-                                <td class="text-muted">Пансионат <?= $pdf->y; ?></td>
-                                <td><?= $roomProductManager->Hotel; ?></td>
+                                <td class="text-muted">Пансионат <?=$pdf->y?></td>
+                                <td><?=$roomProductManager->Hotel?></td>
                             </tr>
                             <tr>
                                 <td class="text-muted">Корпус</td>
-                                <td><?= $roomProductManager->Housing; ?></td>
+                                <td><?=$roomProductManager->Housing?></td>
                             </tr>
                             <tr>
                                 <td class="text-muted">Комната</td>
-                                <td><?= $roomProductManager->Number; ?></td>
+                                <td><?=$roomProductManager->Number?></td>
                             </tr>
                         </table>
                     </div>
-                <?php endif; ?>
+                <?endif?>
             </div>
         </div>
     </header>
@@ -975,19 +975,19 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
             <section class="row row-userinfo">
                 <!-- Статус, ФИО, компания -->
                 <div class="col-6 col-offset-1">
-                    <div class="userinfo status"><?= $role->Title; ?></div>
-                    <div class="userinfo"><?= $user->GetFullName(); ?></div>
-                    <? if ($user->getEmploymentPrimary() !== null && $user->getEmploymentPrimary()->Company !== null): ?>
-                        <div class="userinfo company"><?= $user->getEmploymentPrimary()->Company->Name; ?></div>
-                    <? endif; ?>
+                    <div class="userinfo status"><?=$role->Title?></div>
+                    <div class="userinfo"><?=$user->GetFullName()?></div>
+                    <?if ($user->getEmploymentPrimary() !== null && $user->getEmploymentPrimary()->Company !== null):?>
+                        <div class="userinfo company"><?=$user->getEmploymentPrimary()->Company->Name?></div>
+                    <?endif?>
                 </div>
 
                 <!-- QR-код -->
 
                 <div class="col-4">
                     <figure class="qrcode text-center">
-                        <img src="<?= QrCode::getAbsoluteUrl($user, 100); ?>"/>
-                        <figcaption>RUNET-ID / <?= $user->RunetId; ?></figcaption>
+                        <img src="<?=QrCode::getAbsoluteUrl($user, 100)?>"/>
+                        <figcaption>RUNET-ID / <?=$user->RunetId?></figcaption>
                     </figure>
                 </div>
             </section>
@@ -1042,9 +1042,9 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
                     15 => ['8:00 до 10:00', '14:30 до 15:30', '19:00 до 20:30'],
                 ],
             ];
-            ?>
+           ?>
 
-            <? if (!empty($userFoodProductIdList)): ?>
+            <?if (!empty($userFoodProductIdList)):?>
             <div class="row row-timeline noborder" style="padding-bottom: 4mm; padding-top: 4mm;">
                 <div class="col-12">
                     <div class="title">Питание</div>
@@ -1058,13 +1058,13 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
                         </tr>
                         </thead>
                         <tbody>
-                        <? for ($d = 13; $d <= 15; $d++): ?>
+                        <?for ($d = 13; $d <= 15; $d++):?>
                             <tr>
-                                <td><?= $d; ?>.04</td>
-                                <? for ($i = 0; $i < 3; $i++): ?><? $hotel = isset($foodHotels[$d][$i])
-                                    ? $foodHotels[$d][$i] : null; ?><? if ($hotel !== null): ?>
-                                    <td><?= mb_convert_case($hotel,
-                                            MB_CASE_TITLE); ?>, <?= $foodTimes[$hotel][$d][$i]; ?></td>
+                                <td><?=$d?>.04</td>
+                                <?for ($i = 0; $i < 3; $i++):?><?$hotel = isset($foodHotels[$d][$i])
+                                    ? $foodHotels[$d][$i] : null?><?if ($hotel !== null):?>
+                                    <td><?=mb_convert_case($hotel,
+                                            MB_CASE_TITLE)?>, <?=$foodTimes[$hotel][$d][$i]?></td>
                                     <td>
                                         <?php
                                         $has = false;
@@ -1078,22 +1078,22 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
                                         } else {
                                             $has = in_array($foodProductMatrix[$d][$i], $userFoodProductIdList);
                                         }
-                                        ?>
-                                        <?= $has ? '+' : '&nbsp;'; ?>
+                                       ?>
+                                        <?=$has ? '+' : '&nbsp;'?>
                                     </td>
-                                <? else: ?>
+                                <?else:?>
                                     <td colspan="2">&mdash;</td>
-                                <? endif; ?><? endfor; ?>
+                                <?endif?><?endfor?>
                             </tr>
-                        <? endfor; ?>
+                        <?endfor?>
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="row row-timeline noborder">
-                <? else: ?>
+                <?else:?>
                 <div class="row row-timeline">
-                    <? endif; ?>
+                    <?endif?>
                     <div class="row">
                         <!-- Расписание работы регистрации -->
                         <div class="col-1 text-right">
@@ -1363,7 +1363,7 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
 </div>
 <sethtmlpagefooter name="main-footer" value="on" show-this-page="1"/>
 
-<?php if (!empty($parking) && $roomProductManager !== null): ?><?php
+<?if(!empty($parking) && $roomProductManager !== null):?><?php
     $showText2 = false;
 
     switch ($roomProductManager->Hotel) {
@@ -1402,20 +1402,20 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
         $image->text($text2, 80, 300, 820);
         $image->save(\Yii::getPathOfAlias('webroot').$path);
     }
-    ?>
+   ?>
     <pagebreak orientation="L"/>
     <div class="text-center">
-        <img src="<?= $path; ?>"/>
+        <img src="<?=$path?>"/>
     </div>
-<?php endif; ?>
+<?endif?>
 
-<?php if (!empty($parking)): ?>
-<?php if (!$parkingReporter): ?>
+<?if(!empty($parking)):?>
+<?if(!$parkingReporter):?>
     <pagebreak orientation="L"/>
     <div class="text-center">
         <img src="/img/event/rif16/ticket/<?=$map?>"/>
     </div>
-<? else: ?>
+<?else:?>
     <pagebreak orientation="L"/>
     <?php
     $image = \Yii::app()->image->load(\Yii::getPathOfAlias('webroot.img.event.rif16.ticket.reporter').'.png');
@@ -1426,13 +1426,13 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
     $image = \Yii::app()->image->load(\Yii::getPathOfAlias('webroot').$path);
     $image->text('13,14,15', 100, 300, 810);
     $image->save(\Yii::getPathOfAlias('webroot').$path)
-    ?>
+   ?>
     <div class="text-center">
-        <img src="<?= $path; ?>"/>
+        <img src="<?=$path?>"/>
     </div>
     <pagebreak orientation="L"/>
     <div class="text-center">
         <img src="/img/event/rif16/ticket/map_reporter.png"/>
     </div>
-<? endif; ?>
-<? endif; ?>
+<?endif?>
+<?endif?>

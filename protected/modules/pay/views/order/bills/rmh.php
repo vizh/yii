@@ -16,14 +16,14 @@
   'billData' => $billData,
   'nds' => $nds,
   'total' => $total
-]);?>
+])?>
 
 <h4>Публичная оферта на оказание услуг</h4>
 <div class="offer">
-  <?=$this->renderPartial('pay.views.order.bills.offer.rmh');?>
+  <?=$this->renderPartial('pay.views.order.bills.offer.rmh')?>
 </div>
 
-<?if ($withSign):?>
+<?if($withSign):?>
   <img src="/img/pay/bill/rmh.jpg"/>
 <?else:?>
   <table class="sign">
@@ -38,4 +38,4 @@
       <td>(Гребенников С. В.)</td>
     </tr>
   </table>
-<?endif;?>
+<?endif?>

@@ -93,7 +93,7 @@ class Address extends ActiveRecord
         $oldAttributes = $this->getOldAttributes();
         if (empty($this->CityId)) {
             $this->GeoPoint = null;
-        } elseif (empty($this->GeoPoint) || $this->CityId != $oldAttributes['CityId'] ||$this->Street != $oldAttributes['Street'] || $this->Place != $oldAttributes['Place']) {
+        } elseif (empty($this->GeoPoint) || $this->CityId != $oldAttributes['CityId'] ||$this->Street != $oldAttributes['Street'] || $this->House != $oldAttributes['House'] || $this->Place != $oldAttributes['Place']) {
             $this->setGeoPointCoordinates();
         }
     }

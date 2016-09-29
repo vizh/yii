@@ -37,7 +37,7 @@
               <table style="margin:0;padding:0;width:100%">
                 <tr style="margin:0;padding:0">
                   <td align="center" style="margin:0;padding:0;vertical-align:top">
-                    <h2 style='margin:0;padding:0;color:#111111;font-family:"Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;font-weight:200;line-height:1.2em;margin:10px 0;font-size:28px;color: #ffffff'>Здравствуйте, <?=$user->getShortName();?>!</h2>
+                    <h2 style='margin:0;padding:0;color:#111111;font-family:"Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;font-weight:200;line-height:1.2em;margin:10px 0;font-size:28px;color: #ffffff'>Здравствуйте, <?=$user->getShortName()?>!</h2>
                   </td>
                 </tr>
               </table>

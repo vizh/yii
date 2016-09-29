@@ -1,21 +1,21 @@
 <p><a href="http://runet-id.com/event/isoc15" target="_blank"><img alt="Регистрация" src="http://runet-id.com/files/event/isoc15/original.png" style="width: 100%; height: auto; margin: 0 auto" /></a></p>
 
-<h3><strong>Здравствуйте, </span><?=$user->getShortName();?></strong>.</h3>
+<h3><strong>Здравствуйте, </span><?=$user->getShortName()?></strong>.</h3>
 
-Приглашаем Вас принять участие в работе круглого стола <strong>«Локализация персональных данных: что ждет глобальный Интернет в перспективе?»</strong>.<br/> Мероприятие пройдет <strong>7 апреля 2015 года</strong> на площадке Российского форума по управлению интернетом (RIGF). В качестве экспертов приглашены представители IETF, ISOC, РАЭК и ПИР-Центра. 
+Приглашаем Вас принять участие в работе круглого стола <strong>«Локализация персональных данных: что ждет глобальный Интернет в перспективе?»</strong>.<br/> Мероприятие пройдет <strong>7 апреля 2015 года</strong> на площадке Российского форума по управлению интернетом (RIGF). В качестве экспертов приглашены представители IETF, ISOC, РАЭК и ПИР-Центра.
 
 <p>Место проведения: Москва, Лотте отель (Новинский бульвар, д. 8)<br/>
 Начало в 17-00.</p>
 
-<p>Участие в круглом столе <strong>бесплатное</strong>, необходима <strong>предварительная регистрация</strong>.</p> 
+<p>Участие в круглом столе <strong>бесплатное</strong>, необходима <strong>предварительная регистрация</strong>.</p>
 
 <p></p>
 
-<p><strong>Актуально:</strong></p> 
+<p><strong>Актуально:</strong></p>
 
-<p>На фоне громких скандалов с утечкой персональных данных и разоблачением деятельности спецслужб в Интернете, призывы к локализации персональных данных пользователей прозвучали по всему миру, в том числе, и в России.</p> 
+<p>На фоне громких скандалов с утечкой персональных данных и разоблачением деятельности спецслужб в Интернете, призывы к локализации персональных данных пользователей прозвучали по всему миру, в том числе, и в России.</p>
 
-<p><strong>Разберемся!</strong></p> 
+<p><strong>Разберемся!</strong></p>
 
 В ходе круглого стола участники и слушатели обсудят <strong>экономические, юридические и технические последствия</strong> локализации персональных данных. Особое внимание планируется уделить рассмотрению российских инициатив в контексте развития глобального Интернета, а также – возможным альтернативам, которые предлагаются в России и других странах.
 
@@ -36,11 +36,11 @@
 
 <p>Участие в круглом столе бесплатное, предварительная регистрация обязательна.</p>
 
-<div style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/isoc15');?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #005BAD; margin: 0 10px 0 0; padding: 10px 20px; border-bottom: 1px solid #307489;
+<div style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/isoc15')?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #005BAD; margin: 0 10px 0 0; padding: 10px 20px; border-bottom: 1px solid #307489;
   border-top: 1px solid #56BFD7;"><strong>Регистрация</strong> </a></div>
 
 <p></p>
-  
+
 <p>Есть вопросы?<br/>
 Контактное лицо: Федор Смирнов<br/>
 Тел.: +7 (495) 987-45-96<br/>

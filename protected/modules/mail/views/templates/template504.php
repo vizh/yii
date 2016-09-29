@@ -1,4 +1,4 @@
-<p style="line-height: 20.7999992370605px;">Здравствуйте,&nbsp;<?=$user->getShortName();?>.</p>
+<p style="line-height: 20.7999992370605px;">Здравствуйте,&nbsp;<?=$user->getShortName()?>.</p>
 
 <p style="line-height: 20.7999992370605px;">Вы начали, но не завершили процесс регистрации на&nbsp;<a href="http://mblt.ru/ru">#MBLT15</a>, который начинает свою работу уже послезавтра&nbsp;и пройдет с 12 по 14 мая в московском Цифровом&nbsp;Октябре.</p>
 

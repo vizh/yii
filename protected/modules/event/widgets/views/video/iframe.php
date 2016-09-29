@@ -29,7 +29,7 @@ elseif($video == '74f08d3c86')
     }
   </style>
 
-  <script src="http://<?=$prefix;?>.tpprf.ru<?=!empty($port)?':'.$port : '';?>/handlers/webrtc.php?key=<?=$video;?>"></script>
+  <script src="http://<?=$prefix?>.tpprf.ru<?=!empty($port)?':'.$port : ''?>/handlers/webrtc.php?key=<?=$video?>"></script>
   <script type="text/javascript">
     $(function () {
       $('#web-rtc').webRTC();

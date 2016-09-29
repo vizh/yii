@@ -12,25 +12,25 @@ use user\models\forms\admin\Merge;
  */
 ?>
 <table class="table table-bordered m-top_30">
-    <?php foreach ($user->Employments as $employment):?>
+    <?foreach($user->Employments as $employment):?>
         <tr>
             <td>
-                <?php if (empty($employment->EndYear)):?>
+                <?if(empty($employment->EndYear)):?>
                     <label class="radio">
-                        <?=$activeForm->radioButton($form, 'PrimaryEmployment', ['uncheckValue' => null, 'value' => $employment->Id]);?> Основное
+                        <?=$activeForm->radioButton($form, 'PrimaryEmployment', ['uncheckValue' => null, 'value' => $employment->Id])?> Основное
                     </label>
-                <?php endif;?>
+                <?endif?>
             </td>
             <td>
                 <label class="checkbox">
-                    <?=$activeForm->checkBox($form, 'Employments[' . $employment->Id . ']');?> Добавить
+                    <?=$activeForm->checkBox($form, 'Employments[' . $employment->Id . ']')?> Добавить
                 </label>
             </td>
             <td>
-                <strong><?=$employment->Company->Name;?></strong><br>
-                <?=$employment->Position;?>
+                <strong><?=$employment->Company->Name?></strong><br>
+                <?=$employment->Position?>
             </td>
         </tr>
-    <?endforeach;?>
+    <?endforeach?>
 </table>
 

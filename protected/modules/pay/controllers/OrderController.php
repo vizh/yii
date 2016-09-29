@@ -1,13 +1,17 @@
 <?php
 
+use pay\models\Order;
+
 class OrderController extends \application\components\controllers\MainController
 {
     public $layout = '/layouts/bill';
 
     public function actionIndex($orderId, $hash = null, $clear = null)
     {
-        /** @var $order \pay\models\Order */
-        $order = \pay\models\Order::model()->findByPk($orderId);
+        /** @var $order Order */
+        $order = Order::model()
+            ->findByPk($orderId);
+
         if ($order === null || (!\pay\models\OrderType::getIsBank($order->Type)))
             throw new \CHttpException(404);
 

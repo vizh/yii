@@ -1,6 +1,6 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/mbl15.png" style="width: 100%; height: auto; margin: 0 auto" /></a></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</strong></h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</strong></h3>
 
 <p>Ждем тебя завтра на <a href="http://mbltdev.ru/#schedule">конференции MBLTdev</a> по адресу Берсеневская наб. 6, строение 3, Digital October Center.<br />
 &nbsp;</p>
@@ -12,7 +12,7 @@
 	<li style="padding-bottom:5px;">
 	<p>Регистрация открывается в 9:30. Программа в Главном зале начнется в 10:00 с приветствия и круглого стола о мобильных экосистемах. Пожалуйста, не забудьте распечатать или сохранить на мобильном устройстве Ваш персональный электронный билет и предъявить его при входе на площадку:
 	<div style="text-align: center;">
-	<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->Participants[0]->getTicketUrl();?>" style="font-size: 100%; color: #fff; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #25A8E0; margin: 0 10px 0 0; padding: 0; border-color: #25A8E0; border-style: solid; border-width: 10px 40px;">ЭЛЕКТРОННЫЙ БИЛЕТ</a></p>
+	<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->Participants[0]->getTicketUrl()?>" style="font-size: 100%; color: #fff; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #25A8E0; margin: 0 10px 0 0; padding: 0; border-color: #25A8E0; border-style: solid; border-width: 10px 40px;">ЭЛЕКТРОННЫЙ БИЛЕТ</a></p>
 </div>
 	</p>
 	</li style="padding-bottom:5px;">

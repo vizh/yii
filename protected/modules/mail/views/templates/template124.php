@@ -1,4 +1,4 @@
-<?$regLink = "http://2014.russianinternetweek.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);?>
+<?$regLink = "http://2014.russianinternetweek.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16)?>
 
 <html lang="en" style="background: #EEEFF3;font-family: 'Helvetica Neue Light',Helvetica,Arial,sans-serif;color: #66757f;font-size: 14px;font-weight: 300;margin: 0;padding: 15px;">
 <head>
@@ -120,7 +120,7 @@
             </tr>
             <tr>
                 <td style="font-family: 'Helvetica Neue Light',Helvetica,Arial,sans-serif;font-size: 14px;font-weight: 300;line-height: 20px;background: #ffffff;padding: 25px;">
-                    <h2>Здравствуйте,&nbsp;<?=$user->getShortName();?>!</h2>
+                    <h2>Здравствуйте,&nbsp;<?=$user->getShortName()?>!</h2>
                     <p><big style="font-size: 18px;line-height: 22px;">RIW 2014 – главное осеннее мероприятие медиа-коммуникационной отрасли и интернета – пройдет 12–13–14 ноября 2014 года в московском Экспоцентре на Красной Пресне: <a href="http://www.riw.moscow">www.riw.moscow</a></big></p>
                 </td>
             </tr>

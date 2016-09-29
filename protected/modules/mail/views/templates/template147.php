@@ -1,6 +1,6 @@
 <p align="center"><img alt="" src="http://runet-id.com/img/mail/2014/20141002-kadry14.jpg" style="width: 100%; height: auto;" /></p>
 
-<h3><?=$user->getShortName();?>, здравствуйте!</h3>
+<h3><?=$user->getShortName()?>, здравствуйте!</h3>
 
 <p style="font-size: 120%"><strong>ЗАО «Экспо-Телеком» и ФГОБУ ВПО «Московский технический университет связи и информатики» приглашают Вас принять участие в работе Всероссийской конференции «Кадры и карьера в Инфокоммуникационной отрасли –2014»</strong>.</p>
 
@@ -21,5 +21,5 @@
 
 <p align="center"><a href="http://runet-id.com/event/radr14" style="display: block; text-decoration: none; background: #728EDE; color: #ffffff; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 250px;">РЕГИСТРАЦИЯ</a></p>
 
-<p style="font-size: 80%; color: #AAAAAA;">За презентацией, предварительной программой конференции, а также по вопросам  регистрации обращайтесь к Светлане Вахотиной 
+<p style="font-size: 80%; color: #AAAAAA;">За презентацией, предварительной программой конференции, а также по вопросам  регистрации обращайтесь к Светлане Вахотиной
 <br/>Моб.:+7(929) 6913302; Тел.: +7(495) 6921011, доб. 108; Vakhotina@expo-telecom.ru</p>

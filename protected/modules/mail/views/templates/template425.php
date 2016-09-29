@@ -1,7 +1,7 @@
 <p><a href="http://2015.goldenapp.ru/" target="_blank"><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/gap15.png" style="width: 100%; height: auto; margin: 0 auto"></a></p>
 
 
-<h3><strong>Здравствуйте, </span><?=$user->getShortName();?></strong>!</h3>
+<h3><strong>Здравствуйте, </span><?=$user->getShortName()?></strong>!</h3>
 
 <p>Привет участникам (и зрителям) Золотого Сайта и Russian Digital Games!</p>
 
@@ -9,7 +9,7 @@
 
 <p>Конкурс пройдет в лучших традициях возрожденного Золотого Сайта – экспертное и авторитетное жюри, открытые оценочные листы по каждой работе и, конечно, зажигательная вечеринка на Церемонии. Организаторами Золотого Приложения в 2015 году выступают <a href="http://raec.ru">РАЭК</a>, <a href="http://ruward.ru">Ruward</a> и <a href="http://apps4all.ru">Apps4All</a>.</p>
 
-<p><strong>Этапы прохождения Золотого Приложения:</strong></p> 
+<p><strong>Этапы прохождения Золотого Приложения:</strong></p>
 <ol>
 <li>Прием лучших приложений на конкурс – до 27 апреля</li>
 <li>Голосование жюри – до 15 мая</li>

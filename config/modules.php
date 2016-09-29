@@ -29,6 +29,7 @@ $modules = [
     'sms',
     'competence',
     'iri',
+    'connect',
 
     /** Технические модули */
     'mytest',

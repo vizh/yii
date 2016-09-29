@@ -1,6 +1,6 @@
 <p><a href="http://runet-id.com/event/20therunet/" style="color: rgb(17, 85, 204);" target="_blank"><img src="http://runet-id.com/img/mail/2014/20140331-20therunet.jpg" /></a></p>
 
-<p>Уважаемый <?=$user->getShortName();?>!</p>
+<p>Уважаемый <?=$user->getShortName()?>!</p>
 
 <p>Ранее Вы оставляли заявку на посещение концерта &quot;Рунету 20 лет&quot;.</p>
 

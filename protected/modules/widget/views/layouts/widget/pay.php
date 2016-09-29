@@ -1,3 +1,3 @@
-<?$this->beginContent('/layouts/widget');?>
-<?=$content;?>
-<?$this->endContent();?>
+<?$this->beginContent('/layouts/widget')?>
+<?=$content?>
+<?$this->endContent()?>

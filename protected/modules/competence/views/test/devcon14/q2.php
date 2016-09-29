@@ -6,33 +6,33 @@
 
 
 <ul class="unstyled">
-    <?foreach ($form->getValues() as $value):?>
+    <?foreach($form->getValues() as $value):?>
         <li>
             <label class="radio">
-                <?=CHtml::activeRadioButton($form, 'value', ['value' => $value->key, 'uncheckValue' => null, 'data-group' => $form->getQuestion()->Code, 'data-target' => '#'.$form->getQuestion()->Code.'_'.$value->key]);?>
-                <?=$value->title;?>
+                <?=CHtml::activeRadioButton($form, 'value', ['value' => $value->key, 'uncheckValue' => null, 'data-group' => $form->getQuestion()->Code, 'data-target' => '#'.$form->getQuestion()->Code.'_'.$value->key])?>
+                <?=$value->title?>
             </label>
-            <?if ($value->isOther):?>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=CHtml::activeTextField($form, 'other', ['class' => 'span4', 'data-group' => $form->getQuestion()->Code, 'id' => $form->getQuestion()->Code.'_'.$value->key]);?>
-            <?endif;?>
+            <?if($value->isOther):?>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=CHtml::activeTextField($form, 'other', ['class' => 'span4', 'data-group' => $form->getQuestion()->Code, 'id' => $form->getQuestion()->Code.'_'.$value->key])?>
+            <?endif?>
         </li>
-    <?endforeach;?>
+    <?endforeach?>
 </ul>
 
 <div id="Q2_platforms" class="row" style="display: none;">
     <div class="span8 offset1">
         <ul class="unstyled">
-            <?foreach ($form->getPlatforms() as $value):?>
+            <?foreach($form->getPlatforms() as $value):?>
                 <li>
                     <label class="radio">
-                        <?=CHtml::activeRadioButton($form, 'platform', ['value' => $value->key, 'uncheckValue' => null, 'data-group' => $form->getQuestion()->Code.'_pl', 'data-target' => '#'.$form->getQuestion()->Code.'_'.$value->key]);?>
-                        <?=$value->title;?>
+                        <?=CHtml::activeRadioButton($form, 'platform', ['value' => $value->key, 'uncheckValue' => null, 'data-group' => $form->getQuestion()->Code.'_pl', 'data-target' => '#'.$form->getQuestion()->Code.'_'.$value->key])?>
+                        <?=$value->title?>
                     </label>
-                    <?if ($value->isOther):?>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=CHtml::activeTextField($form, 'other', ['class' => 'span4', 'data-group' => $form->getQuestion()->Code.'_pl', 'id' => $form->getQuestion()->Code.'_'.$value->key]);?>
-                    <?endif;?>
+                    <?if($value->isOther):?>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=CHtml::activeTextField($form, 'other', ['class' => 'span4', 'data-group' => $form->getQuestion()->Code.'_pl', 'id' => $form->getQuestion()->Code.'_'.$value->key])?>
+                    <?endif?>
                 </li>
-            <?endforeach;?>
+            <?endforeach?>
         </ul>
     </div>
 </div>

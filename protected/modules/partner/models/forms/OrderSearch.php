@@ -7,8 +7,8 @@ class OrderSearch extends \CFormModel
     public $Company;
     public $INN;
     public $Payer;
-    public $Paid;
-    public $Deleted = null;
+    public $Paid = true;
+    public $Deleted = true;
 
     public function rules() {
         return [

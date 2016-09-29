@@ -1,6 +1,6 @@
 <p><img src="https://showtime.s3.amazonaws.com/201508190042-riful15.jpg" style="height: auto; width: 100%;" /></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</h3>
 
 <p>Самая важная конференция сезона, РИФ.Ульяновск, стартует уже через несколько дней — <b>4 сентября в 9:00 в шести залах Ленинского Мемориала</b>. О разработке сайтов и мобильных приложений, создании онлайн-игр и трендах рынка digital-коммуникаций расскажут ведущие специалисты Mail.ru, Альфа-Банк, Aviasales, Machine Zone, Спутник, ФРИИ, ТНТ, Связной Трэвэл, NGINX, Parallels, Zend Technologies, Yii Framework, Ecwid, 1С-Битрикс, AGIMA, ITECH.group, AIC+QSOFT, redmadrobot, e-Legion, ГАЛС Софт, Pichesky, JAMI, Digital BBDO и спикеры из многих других компаний. Кроме того, 4 сентября в 16:30 на секции «Рынок digital-коммуникаций» агентство Тэглайн анонсирует <a href="https://regions.rif.ru/events/ulianovsk/lecture/2669">самый провокационный Рейтинг</a>, который, по словам авторов, изменит судьбы десятков компаний.</p>
 
@@ -17,7 +17,7 @@
 	</li>
 	<li>
 	<p><a href="https://regions.rif.ru/events/ulianovsk/additional/">Проезд до Ульяновска</a></p>
-	</li>	
+	</li>
 </ul>
 
 <h3>КАК УЧАСТНИК ВЫ МОЖЕТЕ:</h3>

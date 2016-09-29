@@ -2,7 +2,7 @@
 	$event = \event\models\Event::model()->findByPk(1498);
 ?>
 
-<h3><?=$user->getShortName();?>, здравствуйте!</h3>
+<h3><?=$user->getShortName()?>, здравствуйте!</h3>
 
 <p>Приглашаем Вас принять участие в&nbsp;Форуме по&nbsp;Кибербезопасости.</p>
 
@@ -13,7 +13,7 @@
 <p>Вы&nbsp;можете зарегистрироваться как для виртуального участия (для получения доступа к&nbsp;материалам Форума), так и&nbsp;для посещения Форума в&nbsp;качестве участника.</p>
 
 <div style="text-align: center; border: 3px dashed #D94332; margin: 20px 0;">
-	<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$event->getFastRegisterUrl($user, \event\models\Role::model()->findByPk(24));?>#event_widgets_Registration" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #D94332; margin: 0 10px 0 0; padding: 0; border-color: #D94332; border-style: solid; border-width: 10px 40px;">Быстрая регистрация</a></p>
+	<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$event->getFastRegisterUrl($user, \event\models\Role::model()->findByPk(24))?>#event_widgets_Registration" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #D94332; margin: 0 10px 0 0; padding: 0; border-color: #D94332; border-style: solid; border-width: 10px 40px;">Быстрая регистрация</a></p>
 	<p style="font-size: 80%">Персональная ссылка на сайт в авторизованном виде</p>
 </div>
 

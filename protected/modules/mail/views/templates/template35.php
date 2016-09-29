@@ -1,8 +1,8 @@
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p>Вы &ndash; зарегистрировались для участи в <a href="http://DGconf.com/">конференции Digital Goods 2014</a>.</p>
 
-<p><strong>Ваш статус:&nbsp;<?=$user->Participants[0]->Role->Title;?></strong></p>
+<p><strong>Ваш статус:&nbsp;<?=$user->Participants[0]->Role->Title?></strong></p>
 
 <p>Конференция пройдет во вторник 4 марта в Москве в конференц-центре Digital October.</p>
 
@@ -60,4 +60,4 @@
 	<li>Рекомендуем распечатать и взять с собой (либо сохранить на мобильное устройство) Ваш персональный Путевой Лист, он облегчит Вашу идентификацию и процедуру регистрации на месте.</li>
 </ol>
 
-<p><a href="<?=$user->Participants[0]->getTicketUrl();?>" style="display: block; text-decoration: none; background: #D85939; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">СКАЧАТЬ ВАШ ПУТЕВОЙ ЛИСТ</a></p>
+<p><a href="<?=$user->Participants[0]->getTicketUrl()?>" style="display: block; text-decoration: none; background: #D85939; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">СКАЧАТЬ ВАШ ПУТЕВОЙ ЛИСТ</a></p>

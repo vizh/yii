@@ -13,7 +13,7 @@ use event\models\Participant;
     <table style="width: 100%;">
         <tr>
             <td style="color: #464c9a; font-weight: bold; font-size: 9mm; line-height: 1.2; text-align: center; height: 35mm; vertical-align: middle;">
-                <?=$user->getFullName();?>
+                <?=$user->getFullName()?>
             </td>
         </tr>
     </table>

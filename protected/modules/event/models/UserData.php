@@ -29,6 +29,14 @@ class UserData extends ActiveRecord
 {
     protected $manager;
 
+    public static function model($className = null)
+    {
+        $model = parent::model($className);
+        $model->orderBy(['"t"."CreationTime"']);
+
+        return $model;
+    }
+
     /**
      * Creates an empty user data record
      * @param Event|int $event Event's model or event's identifier
@@ -214,6 +222,39 @@ class UserData extends ActiveRecord
     {
         $criteria = new \CDbCriteria();
         $criteria->condition = (!$deleted ? 'NOT ' : '') . '"t"."Deleted"';
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
+
+    /**
+     * toDo: Требуется обновление до PostgreSQL 9.4 и проверки json_type
+     * Выборка записей, содержащих указанный атрибут
+     *
+     * @param string $attribute
+     * @param bool $useAnd
+     * @return $this
+     */
+    public function byAttributeExists($attribute, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->condition = "(\"Attributes\"->>'$attribute') NOTNULL";
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
+
+    /**
+     * toDo: Требуется обновление до PostgreSQL 9.4 и проверки json_type
+     * Выборка записей, содержащих указанный атрибут c указанным значением
+     *
+     * @param string $attribute
+     * @param string $value
+     * @param bool $useAnd
+     * @return $this
+     */
+    public function byAttribute($attribute, $value, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->condition = "(\"Attributes\"->>'$attribute') = '$value'";
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
         return $this;
     }

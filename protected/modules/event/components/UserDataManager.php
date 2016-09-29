@@ -1,11 +1,7 @@
 <?php
 namespace event\components;
 
-use application\components\attribute\BooleanDefinition;
-use application\components\attribute\Definition;
-use application\components\attribute\IntegerDefinition;
 use application\components\attribute\JsonContainer;
-use application\components\attribute\ListDefinition;
 use application\components\traits\ClassNameTrait;
 use application\models\attribute\Group;
 use event\models\UserData;
@@ -67,19 +63,18 @@ class UserDataManager extends \CModel
 
         $result = [];
         foreach ($definitions as $definition) {
-            $row = [];
-            $row[] = $definition->Name;
-            $row[] = $definition->ClassName;
-            $row[] = $definition->GroupId;
-            $row['title'] = $definition->Title;
-            $row['required'] = $definition->Required;
-            $row['customTextField'] = $definition->UseCustomTextField;
-            $row['secure'] = $definition->Secure;
-            $row['public'] = $definition->Public;
-            foreach ($definition->getParams() as $key => $value) {
-                $row[$key] = $value;
-            }
-            $result[] = $row;
+            $row = [
+                0 => $definition->Name,
+                1 => $definition->ClassName,
+                2 => $definition->GroupId,
+                'title' => $definition->Title,
+                'required' => $definition->Required,
+                'customTextField' => $definition->UseCustomTextField,
+                'secure' => $definition->Secure,
+                'public' => $definition->Public
+            ];
+
+            $result[] = array_merge($row, $definition->getParams());
         }
         return $result;
     }
@@ -87,12 +82,15 @@ class UserDataManager extends \CModel
     public function attributeGroups()
     {
         $groups = Group::model()
-            ->byModelName('EventUserData')->byModelId($this->model()->EventId)
+            ->byModelName('EventUserData')
+            ->byModelId($this->model()->EventId)
             ->findAll(['order' => '"t"."Order"']);
+
         $result = [];
         foreach ($groups as $group) {
             $result[] = [$group->Id, $group->Title, $group->Description];
         }
+
         return $result;
     }
 
@@ -101,7 +99,6 @@ class UserDataManager extends \CModel
      */
     public function rules()
     {
-        $rules = $this->definitionRules();
-        return $rules;
+        return $this->definitionRules();
     }
 }

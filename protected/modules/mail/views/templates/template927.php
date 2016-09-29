@@ -1,6 +1,6 @@
 <a href="http://mblt.ru/ru?utm_source=link&utm_medium=email26_04&utm_campaign=runetid
 "><img alt="MBLT16" src="http://runet-id.com/img/mail/2016/mblt16.png" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" /></a>
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p>Всего два дня остается до начала 5-й Международной мобильной конференции MBLT16. Успейте купить билет, чтобы стать частью насыщенной программы мероприятия, в котором примут участие более 20 представителей всемирно известных компаний, среди которых Facebook, Google, Alibaba Mobile Buisness Group, Poikos, The Economist, EyeEm.</p>
 <p>Успейте купить билет!</p>

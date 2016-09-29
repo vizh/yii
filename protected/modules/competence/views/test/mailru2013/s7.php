@@ -8,15 +8,15 @@
 
 <h3>Скажите, пожалуйста, сколько человек работает у Вас в подчинении?</h3>
 
-<?php $this->widget('competence\components\ErrorsWidget', array('question' => $question));?>
+<?$this->widget('competence\components\ErrorsWidget', array('question' => $question))?>
 
 <ul class="unstyled">
-  <?foreach ($question->values as $key => $value):?>
+  <?foreach($question->values as $key => $value):?>
   <li>
     <label class="radio">
-      <?=CHtml::activeRadioButton($question, 'value', array('value' => $key, 'uncheckValue' => null));?>
-      <?=$value;?>
+      <?=CHtml::activeRadioButton($question, 'value', array('value' => $key, 'uncheckValue' => null))?>
+      <?=$value?>
     </label>
   </li>
-  <?endforeach;?>
+  <?endforeach?>
 </ul>

@@ -2,7 +2,7 @@
 $regLink = "http://2015.i-comference.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);
 ?>
 
-<h3><?=$user->getShortName();?>, доброе утро! </h3>
+<h3><?=$user->getShortName()?>, доброе утро! </h3>
 
 <p>Мы&nbsp;видим, что у&nbsp;Вас<strong> есть выставленные, но&nbsp;неоплаченные счета</strong> за&nbsp;участие в&nbsp;конференции <a href="http://2015.i-comference.ru/"><nobr>i-COMference</nobr> 2015</a>. Мы&nbsp;переживаем, поскольку мероприятие уже в&nbsp;начале следующей недели.</p>
 

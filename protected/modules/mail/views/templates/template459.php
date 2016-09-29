@@ -14,7 +14,7 @@
 			<!-- content -->
 			<div class="content" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; max-width: 550px; display: block; margin: 0 auto; padding: 0;">
 			<table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;">
-						<h3 align="center" style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 10px 0; padding: 0;">Здравствуйте, <?=$user->getShortName();?>.</h3>
+						<h3 align="center" style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 10px 0; padding: 0;">Здравствуйте, <?=$user->getShortName()?>.</h3>
 
 						<h4 align="center" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.6; font-weight: normal; margin: 0 0 25px; padding: 0;"><nobr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;">Последняя неделя до повышения цен на MBLT15!</h4>
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">21 мая компании <a href="http://www.e-legion.ru/">e-Legion</a> и <a href="http://raec.ru/">РАЭК</a> в 4-й раз соберут в Digital October более 600 участников, чтобы вдохновиться новыми идеями из мира мобильных технологий. Путешествия, реклама, медицина, образование, носимые устройства — представители лучших зарубежных и российских компаний из Америки, Азии, Европы и России поделятся своим опытом, представят успешные кейсы и вдохновят участников на новые достижения.</p>
@@ -24,16 +24,16 @@
 							<a href="http://mblt.ru/ru/event" class="btn-secondary" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 2; color: #ffffff; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; background: #000000; margin: 0 10px 0 0; padding: 5px 10px; border: 4px solid #F2CE34;">Outlook</a>
 						</p>
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><strong>На конференции выступят:</strong></p>
-						
-			<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><a href="http://2015.russianinternetforum.ru/nashe2/" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; color: #348eda; margin: 0; padding: 0;"><img src="http://runet-id.com/img/mail/2015/firsrow.png" style="float: right; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; max-width: 100%; margin: 8px 0 10px 10px; padding: 0;" align="right" /></a></p>			
+
+			<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><a href="http://2015.russianinternetforum.ru/nashe2/" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; color: #348eda; margin: 0; padding: 0;"><img src="http://runet-id.com/img/mail/2015/firsrow.png" style="float: right; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; max-width: 100%; margin: 8px 0 10px 10px; padding: 0;" align="right" /></a></p>
 		    <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><a href="http://2015.russianinternetforum.ru/nashe2/" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; color: #348eda; margin: 0; padding: 0;"><img src="http://runet-id.com/img/mail/2015/secondrow.png" style="float: right; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; max-width: 100%; margin: 8px 0 10px 10px; padding: 0;" align="right" /></a></p>
-						
+
 						<p>&nbsp;</p>
-						
+
 			<div align="center"><a href="http://mblt.ru/ru/registration" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 25px; line-height: 2; color: #ffffff; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; background: #000000; margin: 0 10px 0 0; padding: 5px 10px; border: 4px solid #F2CE34;">КУПИТЬ БИЛЕТ</a></p></div>
-									
+
 						<p>&nbsp;</p>
-			
+
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><strong>До 1 мая стоимость билета составляет 7 000 рублей</strong>. После — 11 000 рублей. При покупке 2-х и более билетов действует скидка 30%.</p>
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><a href="http://mblt.ru/?utm_source=RAEC&utm_medium=email&utm_campaign=MBLT15">MBLT15</a> создан для менеджеров компаний, у которых есть свой мобильный продукт, направление или которые только планируют выйти в мобайл. А также для маркетологов, евангелистов, блогеров и всех тех, кому интересна мобильная индустрия.</p>
 <h3 align="center" style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 10px 0; padding: 0;">After-party</h3>
@@ -50,11 +50,11 @@
 							<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"><p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Google</p></li>
 							<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"><p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Digital October</p></li>
 							<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"><p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">DZ Systems</p></li>
-						</ul>					
+						</ul>
 					</td>
 				</tr></table></div>
 			<!-- /content -->
-			
+
 		</td>
 		<td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;"></td>
 	</tr></table><!-- /body --></body>

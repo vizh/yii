@@ -15,17 +15,17 @@ $counter = 0;
 
     <div>
         <ul id="food" class="nav nav-tabs">
-            <?php foreach (array_keys($allStat) as $tab): ?>
+            <?foreach(array_keys($allStat) as $tab):?>
                 <li>
                     <a href="#<?='tab'.$counter++?>" data-toggle="tab"><?=$tab?></a>
                 </li>
-            <?php endforeach ?>
+            <?endforeach?>
         </ul>
 
-        <?php $counter = 0 ?>
+        <?$counter = 0?>
 
         <div class="tab-content">
-            <?php foreach ($allStat as $tab => $data): ?>
+            <?foreach($allStat as $tab => $data):?>
                 <div class="tab-pane fade" id="<?='tab'.$counter++?>">
                     <table class="table table-bordered">
                         <thead>
@@ -37,30 +37,30 @@ $counter = 0;
                         </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($data as $date => $item): ?>
+                            <?foreach($data as $date => $item):?>
                                 <tr>
                                     <td><?=$date?></td>
                                     <td>
-                                        <?php if (isset($item['Завтрак'])): ?>
+                                        <?if(isset($item['Завтрак'])):?>
                                             <?=CHtml::link('<b>'.($item['Завтрак']['total'] ?: 0).'</b> / '.($item['Завтрак']['touched'] ?: 0), $item['Завтрак']['users-list-url'], ['target' => '_blank'])?>
-                                        <?php endif ?>
+                                        <?endif?>
                                     </td>
                                     <td>
-                                        <?php if (isset($item['Обед'])): ?>
+                                        <?if(isset($item['Обед'])):?>
                                             <?=CHtml::link('<b>'.($item['Обед']['total'] ?: 0).'</b> / '.($item['Обед']['touched'] ?: 0), $item['Обед']['users-list-url'], ['target' => '_blank'])?>
-                                        <?php endif ?>
+                                        <?endif?>
                                     </td>
                                     <td>
-                                        <?php if (isset($item['Ужин'])): ?>
+                                        <?if(isset($item['Ужин'])):?>
                                             <?=CHtml::link('<b>'.($item['Ужин']['total'] ?: 0).'</b> / '.($item['Ужин']['touched'] ?: 0), $item['Ужин']['users-list-url'], ['target' => '_blank'])?>
-                                        <?php endif ?>
+                                        <?endif?>
                                     </td>
                                 </tr>
-                            <?php endforeach ?>
+                            <?endforeach?>
                         </tbody>
                     </table>
                 </div>
-            <?php endforeach ?>
+            <?endforeach?>
         </div>
     </div>
 </div>

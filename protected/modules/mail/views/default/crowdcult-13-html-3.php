@@ -25,7 +25,7 @@
         border-collapse: collapse;
         border-spacing: 0;
       }
-      
+
       /* Styles */
       body {
         padding: 50px 0;
@@ -35,7 +35,7 @@
 
       a {color: #00a8ca;}
       a:hover {text-decoration: none;}
-      
+
       h1 {font-size: 50px;}
       h2 {font-size: 35px;}
       h3 {
@@ -66,7 +66,7 @@
   </head>
   <body>
 
-    
+
     <table border="0" cellpadding="0" cellspacing="0">
       <tr>
         <td>&nbsp;</td>
@@ -85,7 +85,7 @@
       </tr>
       <tr>
         <td colspan="10" style="border-left: 3px solid #000; border-right: 3px solid #000; border-bottom: 3px solid #000;">
-          
+
           <table border="0" cellpadding="0" cellspacing="0" style="margin-bottom: 30px; border-top: 0;">
             <tbody>
               <tr>
@@ -157,14 +157,14 @@
                 </td>
                 <td style="background: #6B9BAF;"></td>
                 <td style="background: #6B9BAF; vertical-align: middle;">
-                  <a href="<?=$user->getFastauthUrl('http://runet-id.com/event/crowdcultpro13');?>" target="_blank" class="register-btn" style="display: inline-block; width: 139px; height: 41px; background: url(http://runet-id.com/images/mail/event-main-template/register-btn.png) transparent 0 0 no-repeat; color: #fff; font-size: 13px; line-height: 41px; text-align: center; text-decoration: none;">Регистрация</a>
+                  <a href="<?=$user->getFastauthUrl('http://runet-id.com/event/crowdcultpro13')?>" target="_blank" class="register-btn" style="display: inline-block; width: 139px; height: 41px; background: url(http://runet-id.com/images/mail/event-main-template/register-btn.png) transparent 0 0 no-repeat; color: #fff; font-size: 13px; line-height: 41px; text-align: center; text-decoration: none;">Регистрация</a>
                 </td>
                 <td></td>
               </tr>
 
             </tbody>
           </table>
-          
+
         </td>
       </tr>
     </table>

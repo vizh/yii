@@ -1,4 +1,4 @@
-<p style="line-height: 20.8px;"><strong>Добрый день,&nbsp;<?=$user->getShortName();?>!</strong></p>
+<p style="line-height: 20.8px;"><strong>Добрый день,&nbsp;<?=$user->getShortName()?>!</strong></p>
 
 <p style="line-height: 20.8px;"><span style="line-height: 1.6em;">Вы зарегистрированный участник мероприятия&nbsp;</span><a href="http://runet-id.com/event/blabla15">Как взорвать европейскую стартап-среду? История Blablacar​</a></p>
 

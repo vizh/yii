@@ -6,7 +6,13 @@
 use event\models\UserData;
 
 /** @var UserData $data */
-$data = UserData::model()->byEventId(2319)->byUserId($user->Id)->byDeleted(false)->orderBy('CreationTime DESC')->find();
+$data = UserData::model()
+	->byEventId(2319)
+	->byUserId($user->Id)
+	->byDeleted(false)
+	->orderBy('CreationTime DESC')
+	->find();
+
 if ($data) {
 	$manager = $data->getManager();
 }
@@ -14,14 +20,14 @@ if ($data) {
 <p>Здравствуйте, <?=$user->getShortName()?>&nbsp;!<br />
 Спешим напомнить, что вы зарегистрированы на сертификационный экзамен в рамках DevCon 2016.&nbsp;</p>
 
-<?php if (isset($manager)): ?>
+<?if(isset($manager)):?>
 	<b>
 		<?=$manager->CertificationDate?>
 		<?=$manager->CertificationTime?>,
 		<?=$manager->CertificationExamId?>,
 		><?=$manager->CertificationExamTitle?>
 	</b>
-<?php endif ?>
+<?endif?>
 
 <p>Если ваши планы поменялись, и вы не сможете прийти на экзамен, пожалуйста, срочно сообщите нам: v-devcon@microsoft.com; +7 (926) 37-37-320.&nbsp;<br />
 Ознакомьтесь, пожалуйста, с важной организационной информацией:</p>

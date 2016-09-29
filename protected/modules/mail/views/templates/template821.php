@@ -1,5 +1,5 @@
 <img alt="MBLT16" src="http://runet-id.com/img/mail/2016/mblt16.png" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" />
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 
 <p>Объявляем старт продаж билетов на 5-ую Международную мобильную конференцию <a href="http://mblt.ru/?utm_source=raec&amp;utm_medium=email&amp;utm_campaign=firstearlybird">MBLT16</a>, которая пройдет в Москве 28 апреля.</p>

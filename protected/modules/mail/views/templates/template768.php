@@ -1,6 +1,6 @@
 <p><a href="http://runet-id.com/event/nedopusti15"><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/nedopusti15.png" style="width: 100%; height: auto; margin: 0 auto" /></a></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</strong></h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</strong></h3>
 
 
 <p><strong>7 декабря (в понедельник), &nbsp;состоится международная экспертно-практическая конференция <a href="http://runet-id.com/event/nedopusti15">НеДопусти!</a>, посвященная применению цифровых технологий для повседневной безопасности детей и взрослых.</strong></p>

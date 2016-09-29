@@ -31,7 +31,7 @@
                     <table>
                       <tr>
                         <td style="background: #FA600F; text-align: center; width: 170px; padding: 10px 0;">
-                          <span style="font-family:Arial, Helvetica, sans-serif; font-size:18px;"><a style="color:#ffffff; text-decoration: none;" href="<?=$user->getFastauthUrl('http://runet-id.com/event/userexp2013/');?>">Регистрация</a></span>
+                          <span style="font-family:Arial, Helvetica, sans-serif; font-size:18px;"><a style="color:#ffffff; text-decoration: none;" href="<?=$user->getFastauthUrl('http://runet-id.com/event/userexp2013/')?>">Регистрация</a></span>
                         </td>
                         <td style="padding-left: 15px; font-size: 18px; line-height: 22px;">Участие в международной конференции «User Experience Russia 2013»</td>
                       </tr>
@@ -89,7 +89,7 @@
 			</td>
 		</tr>
 	</table>
-  <p style="font-size: 11px; width: 600px; margin: 5px auto; color: #909090;">Вы получили это письмо, так как являетесь <a href="<?=$user->getUrl();?>" target="_blank" style="color: #909090;">пользователем RUNET&mdash;ID</a> и подписаны на новостную рассылку. Вы можете <a href="http://runet-id.com/user/setting/subscription/" target="_blank" style="color: #909090;">изменить настройки уведомлений</a>.</p>
+  <p style="font-size: 11px; width: 600px; margin: 5px auto; color: #909090;">Вы получили это письмо, так как являетесь <a href="<?=$user->getUrl()?>" target="_blank" style="color: #909090;">пользователем RUNET&mdash;ID</a> и подписаны на новостную рассылку. Вы можете <a href="http://runet-id.com/user/setting/subscription/" target="_blank" style="color: #909090;">изменить настройки уведомлений</a>.</p>
 
 </body>
 </html>

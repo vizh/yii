@@ -10,7 +10,7 @@ $participant = $this->user->Participants[0];
 ?>
 <p align="center"><img alt="" src="http://runet-id.com/img/mail/2014/20141013_groupib.png" style="width: 100%; height: auto;" /></p>
 
-<h3><?=$user->getShortName();?>, здравствуйте!</h3>
+<h3><?=$user->getShortName()?>, здравствуйте!</h3>
 
 <p style="font-size: 120%">Подтверждаем вашу регистрацию и ждем на пресс-конференции «Тенденции развития преступлений в области высоких технологий 2014»!</p>
 
@@ -18,7 +18,7 @@ $participant = $this->user->Participants[0];
 <strong>ДАТА:</strong> 15 октября<br/>
 <strong>НАЧАЛО РЕГИСТРАЦИИ:</strong> 9.00<br/>
 <strong><a href="http://report2014.group-ib.ru/#OKyqThvtz5o0y8SvuokxzHqq3kRhALsW">ПРОГРАММА МЕРОПРИЯТИЯ</a>:</strong> 10.00 – 14.30<br/>
-<strong><a href="http://report2014.group-ib.ru/">ОФИЦИАЛЬНЫЙ САЙТ</a></strong></p> 
+<strong><a href="http://report2014.group-ib.ru/">ОФИЦИАЛЬНЫЙ САЙТ</a></strong></p>
 
 <p>Бейдж участника и информационные материалы вы сможете получить на стойке регистрации после прохождения процедуры регистрации.</p>
 
@@ -31,7 +31,7 @@ $participant = $this->user->Participants[0];
 
 <p></p>
 
-<p align="center"><a href="<?=$participant->getTicketUrl();?>" style="display: block; text-decoration: none; background: #0B4275; color: #ffffff; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 250px;">ЭЛЕКТРОННЫЙ БИЛЕТ</a></p>
+<p align="center"><a href="<?=$participant->getTicketUrl()?>" style="display: block; text-decoration: none; background: #0B4275; color: #ffffff; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 250px;">ЭЛЕКТРОННЫЙ БИЛЕТ</a></p>
 
 <p><strong>ОРГАНИНИЗАТОРЫ:</strong><br/>
 По всем вопросам вы можете обратиться к организаторам мероприятия:<br/>

@@ -33,11 +33,11 @@ if (strpos($test->Code, 'devcon') === 0) {
 <div class="container interview m-top_30 m-bottom_40">
     <div class="row">
         <div class="span8 offset2 m-top_30 text-center">
-            <?php if (!empty($test->AfterEndText)):?>
-                <?=$test->AfterEndText;?>
+            <?if(!empty($test->AfterEndText)):?>
+                <?=$test->AfterEndText?>
             <?php else:?>
                 <p class="lead"><strong>Спасибо, ваш отзыв очень важен для нас!</strong></p>
-            <?php endif;?>
+            <?endif?>
         </div>
     </div>
 </div>

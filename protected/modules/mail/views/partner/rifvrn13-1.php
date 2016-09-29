@@ -1,4 +1,4 @@
-<p>Здравствуйте, <?=$user->getShortName();?>.</p>
+<p>Здравствуйте, <?=$user->getShortName()?>.</p>
 
 <p>Сегодня - последний день регистрации на РИФ-Воронеж 2013!</p>
 
@@ -17,7 +17,7 @@
 <p>Участие - БЕСПЛАТНОЕ - только для зарегистрированных участников (посещение секций, видеотрансляции, доступ ко всем материалам Форума).</p>
 <p><strong>РЕГИСТРАЦИЯ: <a href="http://2013.rifvrn.ru/?register">http://2013.rifvrn.ru/?register</a></strong></p>
 <br/><br/><br/>
---- 
+---
 <p>С уважением,<br/>
 Оргкомитет РИФ-Воронеж 2013 - <a href="http://www.rifvrn.ru">www.rifvrn.ru</a><br/>
 Система регистрации RUNET-ID - <a href="http://www.runet-id.com">www.runet-id.com</a></p>

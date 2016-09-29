@@ -18,6 +18,11 @@ $params = [
     'UserPerPage' => 20, // Количество результатов пользователей на страницу
     'UserPhotoDir' => '/files/photo/', //
 
+    'AwsKey' => 'AKIAIOYXFNZF7QSJNROA',
+    'AwsSecret' => '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',
+    'AwsSesRegion' => 'eu-west-1',
+    'AwsSnsRegion' => 'eu-central-1',
+
     'NewsPhotoDir' => '/files/news/',
     'MaxImageSize' => 4194304, //Максимально допустимый размер загружаемых изображений
 

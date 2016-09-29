@@ -7,28 +7,28 @@
 $groupProduct = isset($groupProduct) ? $groupProduct : false;
 $full = sizeof($product->PricesActive) > 1 || !empty($product->Description);
 ?>
-<?php if ($full && !$groupProduct):?>
+<?if($full && !$groupProduct):?>
     <tr>
         <td colspan="4">
             <article>
-                <h4 class="article-title"><?=$product->Title;?></h4>
-                <?php if (!empty($product->Description)):?>
-                    <p><?=$product->Description;?></p>
-                <?php endif;?>
+                <h4 class="article-title"><?=$product->Title?></h4>
+                <?if(!empty($product->Description)):?>
+                    <p><?=$product->Description?></p>
+                <?endif?>
             </article>
         </td>
     </tr>
-<?php endif;?>
+<?endif?>
 
-<?foreach ($product->PricesActive as $price):?>
+<?foreach($product->PricesActive as $price):?>
     <?
     $curTime = date('Y-m-d H:i:s');
     $isMuted = $curTime < $price->StartTime;
     $mutedClass = $isMuted ? 'muted' : '';
 
-    ?>
-    <tr data-price="<?=$price->Price;?>">
-        <?if ($full || $groupProduct):?>
+   ?>
+    <tr data-price="<?=$price->Price?>">
+        <?if($full || $groupProduct):?>
             <td class="<?=$mutedClass?>">
                 <?
                 $title = $price->Title;
@@ -39,28 +39,28 @@ $full = sizeof($product->PricesActive) > 1 || !empty($product->Description);
                     else
                         $title = \Yii::t('app', 'При регистрации онлайн с').' '.\Yii::app()->dateFormatter->format('d MMMM', $price->StartTime).' '.\Yii::t('app', 'или на входе').' ('.$this->getEvent()->getFormattedStartDate('d MMMM').')';
                 }
-                ?>
-                <?=$title;?>
+               ?>
+                <?=$title?>
             </td>
         <?else:?>
             <td style="padding-top: 20px; padding-bottom: 20px;" class="<?=$mutedClass?>">
-                <strong style="margin-bottom: 15px;"><?=$product->Title;?></strong>
+                <strong style="margin-bottom: 15px;"><?=$product->Title?></strong>
             </td>
-        <?endif;?>
+        <?endif?>
 
         <td class="t-right <?=$mutedClass?>">
-            <?if ($price->Price != 0):?>
-                <span class="number"><?=$price->Price;?></span> <?=Yii::t('app', 'руб.');?>
-                <?if (Yii::app()->getLanguage() == 'en'):?>
-                    <br><span class="muted" style="font-size: 85%;">approx. <?=round($price->Price/60);?> eur</span>
-                <?endif;?>
+            <?if($price->Price != 0):?>
+                <span class="number"><?=$price->Price?></span> <?=Yii::t('app', 'руб.')?>
+                <?if(Yii::app()->getLanguage() == 'en'):?>
+                    <br><span class="muted" style="font-size: 85%;">approx. <?=round($price->Price/60)?> eur</span>
+                <?endif?>
             <?else:?>
-                <?=Yii::t('app', 'бесплатно');?>
-            <?endif;?>
+                <?=Yii::t('app', 'бесплатно')?>
+            <?endif?>
         </td>
         <td class="t-center <?=$mutedClass?>">
-            <?=CHtml::dropDownList('count['.$product->Id.']', 0, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], ['class' => 'input-mini form-element_select', 'disabled' => $isMuted]);?>
+            <?=CHtml::dropDownList('count['.$product->Id.']', 0, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], ['class' => 'input-mini form-element_select', 'disabled' => $isMuted])?>
         </td>
-        <td class="t-right <?=$mutedClass?>"><b class="number mediate-price">0</b> <?=Yii::t('app', 'руб.');?></td>
+        <td class="t-right <?=$mutedClass?>"><b class="number mediate-price">0</b> <?=Yii::t('app', 'руб.')?></td>
     </tr>
-<?endforeach;?>
+<?endforeach?>

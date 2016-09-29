@@ -1,6 +1,6 @@
 <p class="p1" style="text-align:center"><img alt="head" src="http://runet-id.com/img/mail/2015/goanalyticts/head.png" style="margin:0 auto" /></p>
 
-<p class="p1"><span class="s1"><b>Здравствуйте,</b></span><strong> <?=$user->getShortName();?></strong><span class="s1"><b>!</b></span></p>
+<p class="p1"><span class="s1"><b>Здравствуйте,</b></span><strong> <?=$user->getShortName()?></strong><span class="s1"><b>!</b></span></p>
 
 <p class="p1"><span class="s1">Совсем скоро, уже 19 марта состоится вторая конференция по онлайн-аналитике &ldquo;GoAnalytics!&rdquo;. Мероприятие пройдет при поддержке &ldquo;Google&rdquo;, а его организаторами выступают агентства &ldquo;Adventum&rdquo; и &ldquo;OWOX&rdquo;.</span></p>
 
@@ -27,6 +27,6 @@
 
 <p class="p3">&nbsp;</p>
 
-<p class="p1" style="text-align:center"><b><a href="<?=$user->getFastAuthUrl('/event/goa14/');?>" style="color:#000;text-decoration: none;user-select: none;padding: .7em 1.5em;outline: none;background:#ACCD2D">Регистрация </a></b></p>
+<p class="p1" style="text-align:center"><b><a href="<?=$user->getFastAuthUrl('/event/goa14/')?>" style="color:#000;text-decoration: none;user-select: none;padding: .7em 1.5em;outline: none;background:#ACCD2D">Регистрация </a></b></p>
 
 <p class="p1"><span class="s1">До встречи на &ldquo;GoAnalytics!&rdquo;</span></p>

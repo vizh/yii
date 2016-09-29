@@ -1,4 +1,4 @@
-<p>Здравствуйте, <?=$user->getShortName();?>!</p>
+<p>Здравствуйте, <?=$user->getShortName()?>!</p>
 
 <p>Вы проявили интерес к конкурсу <a href="http://goldenapp.ru">&laquo;Золотое приложение&raquo;</a>.</p>
 

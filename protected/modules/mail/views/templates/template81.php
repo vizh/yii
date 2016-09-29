@@ -1,8 +1,8 @@
-<?$regLink = "http://2014.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);?>
+<?$regLink = "http://2014.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16)?>
 
 <p><img src="http://runet-id.com/img/mail/2014/20140421-rif14-expomap.jpg" alt="" /></p>
 
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p>Остается совсем немного времени до&nbsp;самого масштабного мероприятия <nobr>IT-весны</nobr>&nbsp;&mdash; Российского Интерннет Форума&nbsp;&mdash; РИФ+КИБ 2014. Форум пройдет уже на&nbsp;следующей неделе с&nbsp;23 по&nbsp;25 апреля в&nbsp;подмосковном пансионате &laquo;Поляны&raquo;.</p>
 

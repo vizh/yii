@@ -1,24 +1,31 @@
 <?php
 use mail\models\Template;
 use application\components\console\BaseConsoleCommand;
-use mail\components\mailers\MandrillMailer;
-use user\models\User;
 
 class MailCommand extends BaseConsoleCommand
 {
     public function actionIndex($args)
     {
+        define('NEW_SES_SENDER', true);
+
         $startTime = time();
+
         /** @var Template $template */
-        $template = Template::model()->byActive()->bySuccess(false)->find(['order' => '"t"."Id" ASC']);
-        if ($template == null)
+        $template = Template::model()
+            ->byActive()
+            ->bySuccess(false)
+            ->find(['order' => '"t"."Id" ASC']);
+
+        if ($template === null)
             return 0;
 
         while (true) {
             $template->send();
-            if (time() - $startTime >= 180 || $template->Success)
+            if ($template->Success || time() - $startTime >= 350)
                 return 0;
         }
+
+        return 1;
     }
 
     /**
@@ -51,4 +58,4 @@ class MailCommand extends BaseConsoleCommand
         echo $count;
 
     }***/
-} 
+}

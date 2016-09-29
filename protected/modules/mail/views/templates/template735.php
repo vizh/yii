@@ -1,4 +1,4 @@
-<?php	
+<?php
 	$regLink = "http://experts.premiaruneta.ru/invite?id=" . $user->RunetId . "&hash=" . substr(md5($user->RunetId . 'сlub2015-=_zhj-TrwcumL?9^mR9?HAzWH9pz6'), 0, 16);
 ?>
 
@@ -28,7 +28,7 @@
 			<!-- content -->
 			<div class="content" style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; max-width: 600px; display: block; margin: 0 auto; padding: 0;">
 			<table style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; vertical-align: top; width: 100%; margin: 0; padding: 0;"><tr style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; vertical-align: top; margin: 0; padding: 0;" valign="top">
-						<h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 20px 0 10px; padding: 0;"><?=$user->getShortName();?>, здравствуйте!</h3>
+						<h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 20px 0 10px; padding: 0;"><?=$user->getShortName()?>, здравствуйте!</h3>
 			            <p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Главная интернет-награда России — Премия Рунета 2015 (<a href="http://www.premiaruneta.ru" style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; color: #000000; margin: 0; padding: 0;">www.PremiaRuneta.ru</a>) — завершила прием заявлений от номинантов. </p>
 						<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">И мы с радостью сообщаем о старте формирования Экспертного КЛУБА (ЭК) Премии Рунета и начале первого этапа голосования за номинантов, и приглашаем Вам принять участие в его работе! </p>
 						<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Экспертный КЛУБ (ЭК) формируется из экспертов — членов сети RUNET–ID и участников профильных мероприятий Рунета — по принципу добровольного самовыдвижения. Самовыдвижение — это главное отличие ЭК от другого экспертного органа «Премии Рунета»: Экспертного СОВЕТА (ЭС), который впоследствии будет формироваться из числа участников ЭК и экспертов, предложенных Оргкомитетом. </p>
@@ -46,7 +46,7 @@
 					</td>
 				</tr></table></div>
 			<!-- /content -->
-			
+
 		</td>
 		<td style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"></td>
 	</tr></table><!-- /body --><br/><br/><!-- body --><table class="body-wrap" style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; width: 100%; margin: 0; padding: 0;"><tr style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"></td>
@@ -58,45 +58,45 @@
 						<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Премия Рунета является общенациональной наградой в области высоких технологий и интернета, поощряющей выдающиеся заслуги компаний-лидеров в области информационных технологий и электронных коммуникаций, государственных и общественных организаций, бизнес-структур, а также отдельных деятелей, внесших значительный вклад в развитие российского сегмента сети Интернет (Рунета). </p>
 						<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">В 2015 году Премия Рунета вручается в <nobr style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">12-й</nobr> раз, номинирование организаций и интернет-проектов проходит в следующих номинациях:</p>
 						<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;"><strong style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">Основные номинации «Премии Рунета 2015»:</strong></p>
-						<ol style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;"> 
+						<ol style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;">
 								<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Инновации и Технологии</p>
 						 	</li>
-							<li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;"> 
+							<li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;">
 								<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Экономика, Бизнес и Инвестиции</p>
 						 	</li>
-							<li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;"> 
+							<li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;">
 								<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Государство и общество</p>
 						 	</li>
-							<li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;"> 
+							<li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;">
 								<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Культура, СМИ и Массовые коммуникации</p>
 						 	</li>
-							<li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;"> 
+							<li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;">
 								<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Наука и Образование</p>
 						 	</li>
-							<li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;"> 
+							<li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;">
 								<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Здоровье, Развлечения и Отдых</p>
 						 	</li>
 						 </ol><p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;"><strong style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">Специальные номинации «Премии Рунета 2015»:</strong></p>
-						<ol style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;"> 
+						<ol style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;">
 								<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">За развитие региональных интернет-проектов</p>
 						 	</li>
-							<li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;"> 
+							<li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;">
 								<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Интернет без экстремизма</p>
 						 	</li>
-							<li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;"> 
+							<li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;">
 								<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Лучший проект в доменной зоне .SU</p>
 						 	</li>
-							<li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;"> 
+							<li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;">
 								<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Мобильное приложение</p>
 						 	</li>
 						 </ol><p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;"><strong style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">Всероссийская онлайн-акция «Народное голосование»:</strong></p>
-						<ol style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;"> 
+						<ol style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;">
 								<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Интернет-проект</p>
 						 	</li>
-							<li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;"> 
+							<li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;">
 								<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Сообщество Рунета</p>
 						 	</li>
-							<li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;"> 
+							<li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;">
 								<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Игра Рунета</p>
 						 	</li>
 						 </ol><p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Списки всех номинантов Премии Рунета 2015: <a href="http://nom.premiaruneta.ru" style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; color: #000000; margin: 0; padding: 0;">http://NOM.PremiaRuneta.ru</a></p>
@@ -109,7 +109,7 @@
 					</td>
 				</tr></table></div>
 			<!-- /content -->
-			
+
 		</td>
 		<td style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"></td>
 	</tr></table><!-- /body --></body>

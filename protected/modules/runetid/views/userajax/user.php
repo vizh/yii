@@ -1,6 +1,6 @@
-<p><?php echo $user->GetFullName();?>, <span class='muted'>RUNET-ID <?php echo $user->RocId;?></span></p>
-<?php $empoyment = $user->GetPrimaryEmployment();?>
-<?php if ($empoyment !== null):?>
-  <p class='muted'><?php echo $empoyment->Company->Name;?><?php if (!empty($empoyment->Position)):?>, <?php echo $empoyment->Position;?><?php endif;?></p>
-<?php endif;?>
-<img src='<?php echo $user->GetMiniPhoto();?>' alt='<?php echo $user->GetFullName();?>'>
+<p><?=$user->GetFullName()?>, <span class='muted'>RUNET-ID <?=$user->RocId?></span></p>
+<?$empoyment = $user->GetPrimaryEmployment()?>
+<?if($empoyment !== null):?>
+  <p class='muted'><?=$empoyment->Company->Name?><?if(!empty($empoyment->Position)):?>, <?=$empoyment->Position?><?endif?></p>
+<?endif?>
+<img src='<?=$user->GetMiniPhoto()?>' alt='<?=$user->GetFullName()?>'>

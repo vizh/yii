@@ -1,6 +1,19 @@
 <?php
 
 return array(
+    [
+        'allow',
+        'users' => ['@'],
+        'module' => 'partner',
+        'controllers' => ['main'],
+        'actions' => ['home']
+    ],
+    [
+        'allow',
+        'module' => 'partner',
+        'controllers' => ['auth'],
+        'actions' => ['logout']
+    ],
     array(
         'allow',
         'roles' => array('Admin'),
@@ -14,6 +27,13 @@ return array(
         'controllers' => array('auth'),
         'actions' => array('index')
     ),
+    [
+        'allow',
+        'users' => ['@'],
+        'module' => 'partner',
+        'controllers' => ['ajax'],
+        'actions' => ['users']
+    ],
     array(
         'allow',
         'roles' => array('Admin'),
@@ -150,6 +170,75 @@ return array(
         'module' => 'partner',
         'controllers' => array('competence')
     ),
+    [
+        'allow',
+        'roles' => ['Eurasia'],
+        'module' => 'partner',
+        'controllers' => ['user'],
+        'actions' => ['index', 'edit', 'find', 'translate', 'invite', 'competence', 'viewdatafile', 'data']
+    ],
+
+    [
+        'deny',
+        'roles' => ['Statistics'],
+        'module' => 'partner',
+        'controllers' => ['user'],
+        'actions' => ['import']
+    ],
+    [
+        'allow',
+        'roles' => ['Statistics'],
+        'module' => 'partner',
+        'controllers' => ['user', 'main'],
+    ],
+
+    [
+        'allow',
+        'roles' => ['moderator'],
+        'module' => 'partner',
+        'controllers' => ['auth'],
+    ],
+    [
+        'allow',
+        'roles' => ['moderator'],
+        'module' => 'partner',
+        'controllers' => ['user'],
+        'actions' => ['index', 'edit', 'find', 'translate', 'invite', 'competence', 'viewdatafile', 'data']
+    ],
+    [
+        'allow',
+        'roles' => ['moderator'],
+        'module' => 'partner',
+        'controllers' => ['main'],
+        'actions' => ['index']
+    ],
+    [
+        'allow',
+        'roles' => ['Approve'],
+        'module' => 'partner',
+        'controllers' => ['user'],
+        'actions' => ['export']
+    ],
+    [
+        'allow',
+        'roles' => ['Approve'],
+        'module' => 'partner',
+        'controllers' => ['coupon'],
+    ],
+    [
+        'allow',
+        'roles' => ['Program'],
+        'module' => 'partner',
+        'controllers' => ['program']
+    ],
+    [
+        'allow',
+        'roles' => ['Program', 'Approve'],
+        'module' => 'partner',
+        'controllers' => ['coupon', 'generate']
+    ],
+
+
     array(
         'deny',
         'users' => array('*')

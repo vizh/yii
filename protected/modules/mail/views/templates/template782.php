@@ -1,6 +1,6 @@
 <p><a href="http://runet-id.com/event/spic2015"><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/spic16.png" style="width: 100%; height: auto; margin: 0 auto" /></a></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</strong></h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</strong></h3>
 
 <p>Спешим сообщить об открытии регистрации на СПИК 2016! Самая крупная интернет-конференция Северо-Запада состоится 30-31 мая в конгресс-центре гостиницы Park Inn by Radisson Pribaltiyskaya (ул. Кораблестроителей, д.14).</p>
 
@@ -11,7 +11,7 @@
 
 <div style="border:1px dashed #CC052F; padding:0px 25px 15px 25px; margin-top:25px; margin-bottom:25px; text-align:center">
 <h2 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 20px; line-height: 1.2; color: #000; font-weight: 200; margin: 40px 0 10px; padding: 0;">Регистрация на СПИК 2016:</h2>
-<p align="center" style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;"><a href="<?=$user->getFastauthUrl('/event/spic2016');?>" class="btn-primary" style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.2; color: #fff; text-decoration: none; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background: #CC052F; margin: 0 auto; padding: 12px 65px; border: 2px solid #CC052F;">РЕГИСТРАЦИЯ</a></p>
+<p align="center" style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;"><a href="<?=$user->getFastauthUrl('/event/spic2016')?>" class="btn-primary" style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.2; color: #fff; text-decoration: none; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background: #CC052F; margin: 0 auto; padding: 12px 65px; border: 2px solid #CC052F;">РЕГИСТРАЦИЯ</a></p>
 </div>
 
 <h3>СПИК в цифрах</h3>
@@ -57,7 +57,7 @@
 
 <div style="border:1px dashed #CC052F; padding:0px 25px 15px 25px; margin-top:25px; margin-bottom:25px; text-align:center">
 <h2 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 20px; line-height: 1.2; color: #000; font-weight: 200; margin: 40px 0 10px; padding: 0;">Регистрация на СПИК 2016:</h2>
-<p align="center" style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;"><a href="<?=$user->getFastauthUrl('/event/spic2016');?>" class="btn-primary" style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.2; color: #fff; text-decoration: none; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background: #CC052F; margin: 0 auto; padding: 12px 65px; border: 2px solid #CC052F;">РЕГИСТРАЦИЯ</a></p>
+<p align="center" style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;"><a href="<?=$user->getFastauthUrl('/event/spic2016')?>" class="btn-primary" style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.2; color: #fff; text-decoration: none; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background: #CC052F; margin: 0 auto; padding: 12px 65px; border: 2px solid #CC052F;">РЕГИСТРАЦИЯ</a></p>
 </div>
 
 <h3>Вспомним как это было в 2015-м</h3>

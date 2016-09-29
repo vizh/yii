@@ -1,4 +1,4 @@
-<?=$user->getShortName();?>, добрый день!
+<?=$user->getShortName()?>, добрый день!
 
 РИФ+КИБ 2013 стартует в среду 17 апреля 2013 года - www.rif.ru
 Советуем прибыть на площадку заблаговременно, т.к. из-за большого кол-ва участников могут возникнут дорожные затруднения.
@@ -14,7 +14,7 @@
 http://2013.russianinternetforum.ru/support/transit-public/
 
 Проверка Вашего статуса и оплата дополнительных услуг (проживание/питание) - доступны в ЛИЧНОМ КАБИНЕТЕ УЧАСТНИКА:
-<?=$regLink;?>
+<?=$regLink?>
 
 
 
@@ -23,7 +23,7 @@ http://2013.russianinternetforum.ru/support/transit-public/
 
 Издание Sanoma Independent Media: Cosmopolitan, Men's Health, Harper's Bazaar, «Популярная механика», National Geographic или «Ведомости» дарит возможность скачать любое издание.
 Подробности – на РИФ+КИБ и по ссылке www.imedia.ru/rif
-Твой личный код: <?=$promo;?>
+Твой личный код: <?=$promo?>
 
 
 ---

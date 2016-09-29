@@ -19,9 +19,9 @@ class MainController extends Controller
     public function actions()
     {
         return [
+            'home' => 'partner\controllers\main\HomeAction',
             'index' => 'partner\controllers\main\IndexAction',
             'pay' => 'partner\controllers\main\PayAction',
         ];
     }
-
 }

@@ -1,6 +1,6 @@
 <img alt="" src="http://runet-id.com/img/mail/2016/gv16.png" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" />
 
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p><strong>Если вы не успели подать заявку до 28 апреля, не огорчайтесь, мы продлили прием заявок до 26 мая. Ура!</strong></p>
 

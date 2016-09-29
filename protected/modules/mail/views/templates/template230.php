@@ -1,4 +1,4 @@
-<p><strong><?=$user->getShortName();?>, здравствуйте!</strong></p>
+<p><strong><?=$user->getShortName()?>, здравствуйте!</strong></p>
 
 <p>Вы&nbsp;зарегистрированы на&nbsp;RIW 2014&nbsp;&mdash; Russian Interactive Week&nbsp;&mdash; <a href="http://www.riw.moscow">www.RIW.moscow</a></p>
 
@@ -103,4 +103,4 @@
 
 <h3><span>Обязательно распечатайте<br />
 и</span>&nbsp;<span>возьмите с</span>&nbsp;<span>собой персональный ПУТЕВОЙ ЛИСТ:<br />
-<strong>​</strong></span><strong><?=$user->Participants[0]->getTicketUrl();?></strong></h3>
+<strong>​</strong></span><strong><?=$user->Participants[0]->getTicketUrl()?></strong></h3>

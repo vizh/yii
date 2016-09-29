@@ -140,4 +140,96 @@ class PayCommand extends BaseConsoleCommand
 
         echo "Global total: $globalTotal\n";
     }
+
+    /**
+     * команда формирует отчет о последних неудачных попытках оплаты заказов
+     * и отправляет его на почту бухгалтерии, чтобы последние оказали помощь в оплате
+     * клиенту
+     */
+    public function actionNotifyOnFailures()
+    {
+        $report = \pay\models\Failure::getReport([
+            'notSent' => true
+        ]);
+        //если данных нет, то ничего не остылаем
+        if (empty($report)) {
+            return;
+        }
+        $mailer = new \mail\components\mailers\SESMailer();
+        $emailTo = 'fin@runet-id.com';
+        //$emailTo = 'nikitozina@inbox.ru';
+        $mail = new \mail\components\mail\TemplateForController(
+            $mailer,
+            'info@runet-id.com',
+            'RUNET-ID: reporter',
+            $emailTo,
+            'Отчет о неудачных попытках оплаты заказов',
+            $this->_renderBodyForPayFailureReport($report)
+        );
+
+        //если удалось отправить отчет, обновим статус записей отчета
+        if ($mail->send()) {
+            $sqlUpdate = [];
+            $mongoUpdate = [];
+            foreach ($report as $row) {
+                if (!empty($row['OrderId'])) {
+                    //если есть ID заказа - то это ошибка уже в платежной системе, а они хранятся в SQL базе
+                    $sqlUpdate[] = $row['OrderId'];
+                } elseif (!empty($row['OrderItemId'])) {
+                    //если есть OrderItemId - то это значит еще не сформирован заказ, эти ошибки хранятся в Mongo
+                    $mongoUpdate[] = $row['OrderItemId'];
+                }
+            }
+            if (!empty($sqlUpdate)) {
+                Yii::app()->db->createCommand()
+                    ->update(
+                        'PayLog',
+                        ['NotificationSent' => true],
+                        '"OrderId" IN ('.implode(',', $sqlUpdate).')'
+                    )->execute();
+            }
+
+            if (!empty($mongoUpdate)) {
+                $criteria = new \EMongoCriteria();
+                $data = ['$set' => ['NotificationSent' => true]];
+                $criteria->addCondition('OrderItemId', ['$in' => $mongoUpdate]);
+                \pay\models\Failure::model()->updateAll($criteria, $data);
+            }
+
+        }
+
+    }
+
+    /**
+     * Формирует отчет по ошибкам об оплатах в html формате
+     * @param $report
+     * @return string
+     */
+    private function _renderBodyForPayFailureReport($report)
+    {
+        $body = '<html><body><h1>Отчет о неудачных попытках оплаты заказов</h1><table border="1">';
+        $body .= '
+        <tr>
+            <th>Заказ №</th><th>Дата</th><th>Событие</th><th>Сумма</th><th>ФИО</th><th>Телефон</th><th>Email</th><th>Описание ошибки</th>
+        </tr>';
+        foreach ($report as $row) {
+            $body .= '<tr>';
+            $body .= '<td>'.(!empty($row['OrderId'])
+                    ? CHtml::link($row['OrderId'], Yii::app()->createAbsoluteUrl(
+                        '/pay/admin/order/view', ['orderId'=>$row['OrderId']]), ['target'=>'_blank']
+                    ) : null).'</td>';
+            $body .= '<td>'.Yii::app()->getDateFormatter()->format('dd MMMM yyyy, HH:mm', $row['CreationTime']).'</td>';
+            $body .= '<td>'. CHtml::link($row['EventName'], Yii::app()->createAbsoluteUrl(
+                    '/event/admin/edit/index', ['eventId'=>$row['EventId']]
+                ), ['target'=>'_blank']).'</td>';
+            $body .= '<td>'.number_format((float)$row['Total'], 2, '.', ' ').'</td>';
+            $body .= '<td>'.$row['FIO'].'</td>';
+            $body .= '<td>'.$row['Phone'].'</td>';
+            $body .= '<td>'.$row['Email'].'</td>';
+            $body .= '<td>'.$row['Message'].'</td>';
+            $body .= '</tr>';
+        }
+        $body .= '</table></body></html>';
+        return $body;
+    }
 }

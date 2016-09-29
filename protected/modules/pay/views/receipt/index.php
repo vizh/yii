@@ -5,16 +5,16 @@
 
 
         <div class="alert alert-error">
-          <p><?=Yii::t('app', 'У вас нет не оплаченных товаров, для создания квитанции на оплату.');?></p>
+          <p><?=Yii::t('app', 'У вас нет не оплаченных товаров, для создания квитанции на оплату.')?></p>
         </div>
 
         <div class="control-group">
           <div class="controls">
             <div class="row">
               <div class="span2">
-                <a class="btn" href="<?=$this->createUrl('/pay/cabinet/index');?>">
+                <a class="btn" href="<?=$this->createUrl('/pay/cabinet/index')?>">
                   <i class="icon-circle-arrow-left"></i>
-                  <?=\Yii::t('app', 'Назад');?>
+                  <?=\Yii::t('app', 'Назад')?>
                 </a>
               </div>
             </div>

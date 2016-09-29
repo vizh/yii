@@ -1,4 +1,4 @@
-<? $regLink = "http://2014.goldensite.ru/personal/introduce/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'AFWf4BwXVXpMUblVQDICoUz0'), 0, 16); ?>
+<?$regLink = "http://2014.goldensite.ru/personal/introduce/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'AFWf4BwXVXpMUblVQDICoUz0'), 0, 16)?>
 
 <p align="center"><img alt="" src="http://runet-id.com/img/mail/2014/20141001-zolsite14.jpg" style="width: 100%; height: auto;" /></p>
 

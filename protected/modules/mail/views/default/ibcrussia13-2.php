@@ -1,4 +1,4 @@
-Здравствуйте, <?=$user->getShortName();?>.
+Здравствуйте, <?=$user->getShortName()?>.
 
 До начала конференции IBC Russia 2013 остались считанные недели, программа выступлений стремительно заполняется.
 http://ibcrussia.com/program/?utm_source=academypromo

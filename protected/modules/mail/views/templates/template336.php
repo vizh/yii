@@ -4,7 +4,7 @@ $regLink = "http://2015.i-comference.ru/my/?RUNETID=" . $user->RunetId . "&KEY="
 
 <p><img src="http://showtime.s3.amazonaws.com/201503041245-icomf15-mail_header.jpg" style="height: auto; width: 100%;" /></p>
 
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p>Это&nbsp;&mdash; Ваше персональное приглашение к&nbsp;участию в&nbsp;конференции <a href="http://www.i-comf.ru"><nobr>i-СOMference</nobr></a>.</p>
 

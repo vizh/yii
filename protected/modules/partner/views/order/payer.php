@@ -9,11 +9,11 @@ $this->setPageTitle(\Yii::t('app', 'Создание счета'));
 
 <div class="panel panel-info">
     <div class="panel-heading">
-        <span class="panel-title"><i class="fa fa-user"></i> <?=\Yii::t('app', 'Выбор плательщика для формирования счета');?></span>
+        <span class="panel-title"><i class="fa fa-user"></i> <?=\Yii::t('app', 'Выбор плательщика для формирования счета')?></span>
     </div> <!-- / .panel-heading -->
     <div class="panel-body">
         <div class="form-group">
-            <?php $this->widget('zii.widgets.jui.CJuiAutoComplete', [
+            <?$this->widget('zii.widgets.jui.CJuiAutoComplete', [
                 'name' => 'payer',
                 'source' => '/ajax/users',
                 'options'=> [
@@ -27,8 +27,8 @@ $this->setPageTitle(\Yii::t('app', 'Создание счета'));
                 ],
                 'scriptFile' => false,
                 'cssFile' => false
-            ]);?>
-            <span class="help-block"><?=\Yii::t('app','Введите ФИО, RUNET-ID или Email участника, и выберите его из выпадающего списка для продолжения.');?></span>
+            ])?>
+            <span class="help-block"><?=\Yii::t('app','Введите ФИО, RUNET-ID или Email участника, и выберите его из выпадающего списка для продолжения.')?></span>
         </div>
     </div>
 </div>

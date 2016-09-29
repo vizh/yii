@@ -17,6 +17,7 @@ class Account extends \CFormModel
     public $UnitellerRuvents;
     public $CloudPayments;
     public $PayOnline;
+    public $PayOnlineRuvents;
     public $WalletOne;
     public $MailRuMoney;
     public $ReceiptTemplateId;
@@ -45,7 +46,7 @@ class Account extends \CFormModel
             ['OrderLastTime, ReceiptLastTime', 'date', 'format' => 'dd.MM.yyyy', 'allowEmpty' => true],
             ['OfferFile', 'file', 'types' => 'pdf,doc,docx', 'allowEmpty' => true],
             ['EventId', 'filter', 'filter' => [$this, 'filterEventId']],
-            ['Uniteller,UnitellerRuvents,PayOnline,MailRuMoney,CloudPayments,WalletOne', 'numerical', 'max' => 1, 'min' => 1, 'allowEmpty' => true],
+            ['Uniteller,UnitellerRuvents,PayOnline,PayOnlineRuvents,MailRuMoney,CloudPayments,WalletOne', 'numerical', 'max' => 1, 'min' => 1, 'allowEmpty' => true],
             ['OrderMinTotal', 'type', 'type' => 'integer', 'allowEmpty' => true],
             ['OrderMinTotalMessage', 'safe']
         ];
@@ -71,6 +72,7 @@ class Account extends \CFormModel
             'Uniteller' => \Yii::t('app', 'Использовать платежную систему Uniteller'),
             'UnitellerRuvents' => \Yii::t('app', 'Использовать платежную систему Uniteller (ООО РУВЕНТС)'),
             'PayOnline' => \Yii::t('app', 'Использовать платежную систему PayOnline'),
+            'PayOnlineRuvents' => \Yii::t('app', 'Использовать платежную систему PayOnline (ООО РУВЕНТС)'),
             'MailRuMoney' => \Yii::t('app', 'Использовать платежную систему MailRuMoney'),
             'PaySystem' => \Yii::t('app', 'Платежная система'),
             'ReceiptTemplateId' => \Yii::t('app', 'Шаблон для квитанций'),

@@ -7,33 +7,35 @@ $(function(){
 
 var OAuthModule = function()
 {
-  this.fbUrl  = '';
-  this.vkUrl  = '';
-  this.twiUrl = '';
-  this.gUrl   = '';
-  this.ppUrl  = '';
-  this.viadeoUrl = '';
-  this.LinkedinUrl = '/oauth/social/request/22/';
+    this.fbUrl  = '';
+    this.vkUrl  = '';
+    this.twiUrl = '';
+    this.gUrl   = '';
+    this.ppUrl  = '';
+    this.viadeoUrl = '';
+    this.LinkedinUrl = '/oauth/social/request/22/';
+    this.okUrl = '';
  
-  this.popUpWindow = null;
+    this.popUpWindow = null;
 
-  fillOAuthUrls(this);
+    fillOAuthUrls(this);
 
-  this.init();
+    this.init();
 };
+
 OAuthModule.prototype.init = function()
 {
-  var self = this;
+    var self = this;
 
-  /*$('#fb_login').on('click', function(e){
-      if (isFrame() || isUserEditAction())
-      {
-          e.preventDefault();
-          self.twiLogin($(e.currentTarget).attr('href'));
-      }
-  });*/
+    $('#fb_login').on('click', function(e){
+        if (isFrame() || isUserEditAction())
+        {
+            e.preventDefault();
+            self.twiLogin($(e.currentTarget).attr('href'));
+        }
+    });
 
-  $('#twi_login').on('click', function(e){
+    $('#twi_login').on('click', function(e){
       if (isFrame() || isUserEditAction() )
       {
           e.preventDefault();
@@ -41,7 +43,7 @@ OAuthModule.prototype.init = function()
       }
   });
 
-  $('#vk_login').on('click', function(e){
+    $('#vk_login').on('click', function(e){
       if (isFrame() || isUserEditAction())
       {
           //console.log('infar');
@@ -50,7 +52,7 @@ OAuthModule.prototype.init = function()
       }
   });
 
-  $('#pp_login').on('click', function(e){
+    $('#pp_login').on('click', function(e){
       if (isFrame() || isUserEditAction())
       {
           e.preventDefault();
@@ -58,7 +60,7 @@ OAuthModule.prototype.init = function()
       }
   });
   
-  $('#g_login').on('click', function (e) {
+    $('#g_login').on('click', function (e) {
       if (isFrame() || isUserEditAction())
       {
           e.preventDefault();
@@ -66,7 +68,7 @@ OAuthModule.prototype.init = function()
       }
   });
 
-  $('#viadeo_login').on('click', function(e){
+    $('#viadeo_login').on('click', function(e){
     e.preventDefault();
     self.viadeoLogin();
   });
@@ -79,7 +81,15 @@ OAuthModule.prototype.init = function()
         }
     });
 
-  $('#btn_cancel').on('click', function(e){
+    $('#ok_login').on('click', function(e){
+        if (isFrame() || isUserEditAction())
+        {
+            e.preventDefault();
+            self.twiLogin($(e.currentTarget).attr('href'));
+        }
+    });
+
+    $('#btn_cancel').on('click', function(e){
     e.preventDefault();
     var warning = $('#cancel_warning');
     if (warning.data('warning') == 1)
@@ -96,19 +106,20 @@ OAuthModule.prototype.init = function()
 
 OAuthModule.prototype.twiLogin = function(url)
 {
-  var self = this;
 
-  if (self.popUpWindow)
-  {
-    self.popUpWindow.close();
-    self.popUpWindow = null;
-  }
+    var self = this;
 
-  var width = 790;
-  var height = 360;
-  var left = ($(window).width() - width) / 2;
-  var top = ($(window).height() - height) / 2;
-  self.PopUpWindow = window.open(url, 'Twitter', 'menubar=no,width='+width+',height='+height+',toolbar=no,left='+left+',top='+top);
+    if (self.popUpWindow)
+    {
+        self.popUpWindow.close();
+        self.popUpWindow = null;
+    }
+    var width = 790;
+    var height = 360;
+    var left = ($(window).width() - width) / 2;
+    var top = ($(window).height() - height) / 2;
+    self.PopUpWindow = window.open(url, 'Twitter', 'menubar=no,width='+width+',height='+height+',toolbar=no,left='+left+',top='+top);
+
 };
 
 OAuthModule.prototype.ppLogin = function(url)
@@ -125,6 +136,7 @@ OAuthModule.prototype.ppLogin = function(url)
   var top = ($(window).height() - height) / 2;
   self.PopUpWindow = window.open(url, 'PayPal', 'menubar=no,width='+width+',height='+height+',toolbar=no,left='+left+',top='+top);
 };
+
 OAuthModule.prototype.twiProcess = function()
 {
   var self = this;
@@ -149,6 +161,12 @@ OAuthModule.prototype.viadeoLogin = function()
   });
 };
 
+OAuthModule.prototype.fbProcess = function()
+{
+    var self = this;
+    window.location.href = self.fbUrl;
+};
+
 OAuthModule.prototype.vkProcess = function()
 {
   var self = this;
@@ -167,12 +185,18 @@ OAuthModule.prototype.gProcess = function ()
   window.location.href = self.gUrl;
 }
 
-
 OAuthModule.prototype.LIProcess = function()
 {
     var self = this;
     window.location.href = self.LinkedinUrl;
 };
+
+OAuthModule.prototype.OkProcess = function()
+{
+    var self = this;
+    window.location.href = self.okUrl;
+};
+
 function loadScript(src, callback)
 {
   var s,

@@ -66,8 +66,8 @@
               <td width="750">
                 <table width="750" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse; margin: 0; padding: 0; border-spacing: 0;">
                   <tr>
-                    <td valign="top" align="right" height="34" style="text-align: right; background: #ffffff; line-height: 34px; font-size: 11px; font-style: italic;"><a href="<?=$user->Participants[0]->getTicketUrl();?>" style="color: #000000 !important; text-decoration: none;">Распечатать</a></td>
-                    <td valign="top" width="66" height="34" style="line-height: 34px;"><a href="<?=$user->Participants[0]->getTicketUrl();?>"><img style="border: 0;" border="0" src="http://runet-id.com/img/event/beesuper13/print-1.png" width="66" height="34"></a></td>
+                    <td valign="top" align="right" height="34" style="text-align: right; background: #ffffff; line-height: 34px; font-size: 11px; font-style: italic;"><a href="<?=$user->Participants[0]->getTicketUrl()?>" style="color: #000000 !important; text-decoration: none;">Распечатать</a></td>
+                    <td valign="top" width="66" height="34" style="line-height: 34px;"><a href="<?=$user->Participants[0]->getTicketUrl()?>"><img style="border: 0;" border="0" src="http://runet-id.com/img/event/beesuper13/print-1.png" width="66" height="34"></a></td>
                   </tr>
                 </table>
               </td>
@@ -147,7 +147,7 @@
                       <table width="106" height="220" cellpadding="0" border="0" cellspacing="0" style="border-collapse:collapse; margin: 0; padding: 0; border-spacing: 0;">
                         <tr>
                           <td valign="top" align="center" width="106" height="137" style="font-family: Verdana; background: #ffffff;">
-                            <img style="border: 0;" border="0" src="<?=\ruvents\components\QrCode::getAbsoluteUrl($user,100);?>" /><br/><?=$user->RunetId;?>
+                            <img style="border: 0;" border="0" src="<?=\ruvents\components\QrCode::getAbsoluteUrl($user,100)?>" /><br/><?=$user->RunetId?>
                           </td>
                         </tr>
                         <tr><td valign="top" width="106" height="83"><img style="border: 0;" border="0" src="http://runet-id.com/img/event/beesuper13/str-7-3.png" width="106" height="83"></td></tr>

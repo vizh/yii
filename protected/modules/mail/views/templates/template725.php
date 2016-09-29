@@ -1,6 +1,6 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/ipl15.jpg" style="width: 100%; height: auto; margin: 0 auto" /></a></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</h3>
 
 <p><span style="line-height: 1.6em;">Форум малого и среднего бизнеса iPLACE состоится уже 27 октября. Программа форума полностью сформирована и выложена </span><a href="http://iplaceconf.ru/shedule/?utm_source=runet-id_newreg&amp;utm_medium=email&amp;utm_campaign=iplace6" style="line-height: 1.6em;">на сайте</a><span style="line-height: 1.6em;">. Рекомендуем вам ознакомиться с расписанием докладов, чтобы спланировать посещение форума максимально эффективно.</span></p>
 

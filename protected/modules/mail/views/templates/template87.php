@@ -1,8 +1,8 @@
-<?$regLink = "http://2014.sp-ic.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'xggMpIQINvHqR0QlZgZa'), 0, 16);?>
+<?$regLink = "http://2014.sp-ic.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'xggMpIQINvHqR0QlZgZa'), 0, 16)?>
 
 <p><img src="http://runet-id.com/img/mail/2014/20140429-spic14.jpg" alt=""/></p>
 
-<h3><?=$user->getShortName();?>, здравствуйте!</h3>
+<h3><?=$user->getShortName()?>, здравствуйте!</h3>
 
 <p>Через месяц &ndash; 27 и 28 мая 2014 года состоится 9-я Санкт-Петербургская Интернет Конференция (<a href="http://sp-ic.ru">СПИК 2014</a>), главное конференционно-выставочное событие Рунета в Северо-Западном федеральном округе.</p>
 

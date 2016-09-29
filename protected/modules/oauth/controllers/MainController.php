@@ -41,6 +41,7 @@ class MainController extends \oauth\components\Controller
     public function actionDialog()
     {
         if ($this->Account->Id === Account::SelfId) {
+
             /* Происходит мобильная авторизация? */
             $isMobile = \Yii::app()->getRequest()->getParam('mobile') === 'true';
 
@@ -55,7 +56,12 @@ class MainController extends \oauth\components\Controller
             if (empty($this->url)) {
                 echo '
                     <script>
-                        window.top.modalAuthObj.success();
+                        if(typeof window.top.modalAuthObj=="undefined"){
+                            window.opener.top.modalAuthObj.success();
+                            window.close();
+                        }
+                        else
+                            window.top.modalAuthObj.success();
                     </script>';
                 return;
             } else {

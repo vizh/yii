@@ -29,45 +29,45 @@ if ($account->MailRuMoney) {
 
 <div class="pay-buttons row-fluid">
   <div class="span3 offset3">
-    <h5><?=\Yii::t('app', 'Для юридических лиц');?></h5>
-    <?if (!$account->OrderEnable):?>
-      <p class="text-error"><?=\Yii::t('app', 'Оплата недоступна. Оплата возможна только банковскими картами и электронными деньгами');?></p>
+    <h5><?=\Yii::t('app', 'Для юридических лиц')?></h5>
+    <?if(!$account->OrderEnable):?>
+      <p class="text-error"><?=\Yii::t('app', 'Оплата недоступна. Оплата возможна только банковскими картами и электронными деньгами')?></p>
     <?elseif ($hideJuridical && $account->OrderEnable):?>
       <p class="text-error">Окончен период выставления счетов юридическими лицами. Оплата возможна только банковскими картами и электронными деньгами.</p>
     <?elseif(!$hideJuridical):?>
-      <?$this->renderPartial('cabinet/buttons/juridical', ['account' => $account]);?>
-    <?endif;?>
+      <?$this->renderPartial('cabinet/buttons/juridical', ['account' => $account])?>
+    <?endif?>
   </div>
   <div class="span6">
-    <h5><?=\Yii::t('app', 'Для физических лиц');?></h5>
+    <h5><?=\Yii::t('app', 'Для физических лиц')?></h5>
     <ul class="clearfix actions pay-systems">
-      <?foreach ($systembuttons as $button):?>
+      <?foreach($systembuttons as $button):?>
         <li>
-          <?$this->renderPartial('cabinet/buttons/'. $button, ['account' => $account, 'system' => $button]);?>
+          <?$this->renderPartial('cabinet/buttons/'. $button, ['account' => $account, 'system' => $button])?>
         </li>
-      <?endforeach;?>
+      <?endforeach?>
     </ul>
 
-    <h5><?=\Yii::t('app', 'Электронные деньги');?></h5>
+    <h5><?=\Yii::t('app', 'Электронные деньги')?></h5>
     <ul class="clearfix actions">
-      <?foreach ($paybuttons as $button):?>
+      <?foreach($paybuttons as $button):?>
         <li>
-          <?$this->renderPartial('cabinet/buttons/'.(in_array($button, $paysystems) ? 'onlinemoney' : $button), ['account' => $account, 'system' => $button]);?>
+          <?$this->renderPartial('cabinet/buttons/'.(in_array($button, $paysystems) ? 'onlinemoney' : $button), ['account' => $account, 'system' => $button])?>
         </li>
-      <?endforeach;?>
+      <?endforeach?>
     </ul>
 
-    <?if (!$hideReceipt):?>
-    <h5><?=\Yii::t('app', 'Квитанцией в банке');?></h5>
+    <?if(!$hideReceipt):?>
+    <h5><?=\Yii::t('app', 'Квитанцией в банке')?></h5>
     <ul class="clearfix actions">
       <li>
-        <?$this->renderPartial('cabinet/buttons/receipt', ['account' => $account, 'system' => $button]);?>
+        <?$this->renderPartial('cabinet/buttons/receipt', ['account' => $account, 'system' => $button])?>
       </li>
     </ul>
-    <?endif;?>
+    <?endif?>
   </div>
 </div>
 
 <div class="nav-buttons">
-  <?$this->renderPartial('cabinet/buttons/back', ['account' => $account]);?>
+  <?$this->renderPartial('cabinet/buttons/back', ['account' => $account])?>
 </div>

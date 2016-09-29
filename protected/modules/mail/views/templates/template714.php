@@ -1,10 +1,10 @@
-<?php	
+<?php
 	$regLink = "http://riw.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);
 ?>
 
 <p><img src="https://showtime.s3.amazonaws.com/201510201156-riw15-logo.jpg" style="height: auto; width: 100%" /></p>
 
-<h3><?=$user->getShortName();?>, здравствуйте!</h3>
+<h3><?=$user->getShortName()?>, здравствуйте!</h3>
 
 <p>Завтра&nbsp;&mdash; <strong>в&nbsp;среду 21&nbsp;октября в&nbsp;10:00 утра</strong>&nbsp;&mdash; в&nbsp;московском Экспоцентре откроется <strong>Выставка &laquo;ИНТЕРНЕТ 2015</strong>&raquo;.</p>
 

@@ -29,7 +29,6 @@
         <div class="content" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 600px; display: block; margin: 0 auto; padding: 0;">
             <table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; width: 100%; margin: 0; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">
                 <img src="https://showtime.s3.amazonaws.com/201508121146-iri_logo" alt="ИРИ - Институт развития интернета" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" />
-                          
 
 
 
@@ -47,15 +46,16 @@
 
 
 
-                
 
-<h3><?=$user->getShortName();?>, уважаемый эксперт!</h3>
+
+
+<h3><?=$user->getShortName()?>, уважаемый эксперт!</h3>
 
 <p><strong>Встречайте первый номер дайджеста «PRO ИРИ»</strong>&nbsp;— официальное ежеквартальное издание Института Развития Интернета, разработанное специально для экспертного сообщества.</p>
 <p>Выпуск приурочен к&nbsp;первой годовщине со&nbsp;дня создания Института. Спасибо за&nbsp;то, что&nbsp;Вы с&nbsp;нами!</p>
 <p>Самые яркие события прошлого года, планы на&nbsp;будущее, новые проекты и&nbsp;мероприятия ИРИ&nbsp;— все это ждет Вас внутри дайджеста.</p>
 <p>Мы&nbsp;ценим Ваше время, поэтому разработали для Вас специализированные информационные продукты:</p>
-<ul> 
+<ul>
 	<li>Новостной дайджест «IT&nbsp;Главное» в&nbsp;<a href="https://telegram.me/it_today">Telegram</a></li>
 	<li>Группа для неформального общения экспертов в&nbsp;<a href="https://www.facebook.com/groups/iriexperts">Facebook</a></li>
  </ul>
@@ -82,7 +82,7 @@
 
 
 
- 
+
 </td>
                 </tr>
                 </table>

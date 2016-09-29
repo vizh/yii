@@ -1,4 +1,4 @@
-<?=$user->getShortName();?>, добрый день!
+<?=$user->getShortName()?>, добрый день!
 
 Вы – зарегистрированный участник Конференции User eXperience 2013 – http://2013.userexperience.ru/
 
@@ -12,7 +12,7 @@
 
 
 Для удобного прибытия на площадку и оперативной регистрации на месте советуем Вам распечатать путевой лист:
-<?=$user->Participants[0]->getTicketUrl();?>
+<?=$user->Participants[0]->getTicketUrl()?>
 
 
 Ваш билет уникален и не подлежит передаче третьим лицам. Пожалуйста, предъявите его при входе на площадку в распечатанном виде или посредством электронного устройства.
@@ -27,4 +27,4 @@
 Оргкомитет конференции User eXperience 2013
 ux2013@userexperience.ru
 
-Отписаться: <?=$user->getFastauthUrl('/user/setting/subscription/');?>
+Отписаться: <?=$user->getFastauthUrl('/user/setting/subscription/')?>

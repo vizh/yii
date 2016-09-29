@@ -2,7 +2,7 @@
 	$hash = md5($user->RunetId . '71064386e1731ff1ceb2b4667ce67b8cinnopolis');
 ?>
 
-<p><strong>Здравствуйте, <?=$user->getShortName();?>!</strong></p>
+<p><strong>Здравствуйте, <?=$user->getShortName()?>!</strong></p>
 
 <p>Вы&nbsp;получили это письмо, так как заполнили форму регистрации на&nbsp;сайте РИФ.Иннополис, который пройдет с&nbsp;9&nbsp;по&nbsp;10&nbsp;июня 2015&nbsp;года.</p>
 

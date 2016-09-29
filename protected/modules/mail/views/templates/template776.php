@@ -29,14 +29,14 @@
 			<div class="content" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 600px; display: block; margin: 0 auto; padding: 0;">
 			<table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; width: 100%; margin: 0; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">
                         <img src="https://ie.iri.center/bitrix/templates/neweco/assets/images/logo.png" alt="Интернет Экономика" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" />
-                <h2 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 28px; line-height: 1.2; color: #000; font-weight: 200; margin: 40px 0 10px; padding: 0;">Здравствуйте, <?=$user->getShortName();?>!</strong></h2>
-                
+                <h2 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 28px; line-height: 1.2; color: #000; font-weight: 200; margin: 40px 0 10px; padding: 0;">Здравствуйте, <?=$user->getShortName()?>!</strong></h2>
+
                 <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">14 декабря в 13:00 в пресс-центре информационного агентства ТАСС (Тверской бульвар, дом 2, 2-й этаж) состоится пресс-конференция, посвященная проведению <strong><a href="http://ie.iri.center">Первого Российского Форума Интернет Экономика 2015</a></strong>, который пройдет в Москве в Центре Международной Торговли &nbsp;21&ndash;22 декабря 2015 года.</p>
-                
+
                 <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">В пресс-конференции примут участие представители руководства Института Развития Интернета и представители организаций-учредителей ИРИ: МКС, РАЭК, РОЦИТ, ФРИИ.</p>
-                
+
                 <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Спикеры расскажут собравшимся о формате Форума, тематиках круглых столов, которые созданы на основе инициатив и предложений ИРИ по развитию интернета в России. &nbsp;Проект разработан Институтом в рамках Поручений Президента РФ от 19 мая 2015 года &ndash; в виде предложений по формированию долгосрочной программы развития российской части информационно-телекоммуникационной сети &laquo;Интернет&raquo; и связанных с ней отраслей экономики.</p>
-                
+
                 <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><b>Участники Пресс-конференции:</b></p>
                 <ul>
                 <li><p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><a href="http://runet-id.com/7451/">Герман КЛИМЕНКО</a>, Председатель Совета ИРИ</p></li>
@@ -46,17 +46,17 @@
                     <li><p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><a href="http://runet-id.com/232919/">Сергей ПЕТРОВ</a>, Президент Медиа-Коммуникационного Союза</p></li>
                 </ul>
                     <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Организатором Форума выступает Институт Развития Интернета (<a href="http://www.iri.center">ИРИ</a>) при поддержке Координационного центра доменов RU/РФ и соучредителей ИРИ (РАЭК, ФРИИ, РОЦИТ, МКС).</p>
-                    
+
                     <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><b>Подробная информация об ИРИ</b>: <a href="http://xn--h1aax.xn--p1ai">http://ири.рф</a> и <a href="http://www.iri.center">www.iri.center</a></p>
-                    
+
                     <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><b>Подробная информация о Форуме Интернет Экономика 2015:</b> <a href="https://ie.iri.center">https://ie.iri.center</a></p>
-                    
+
                     <hr />
-                    
+
                      <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><strong>Адрес проведения:</strong><br/>
                      г.Москва, Тверской бульвар, дом 2<br/>
                      Пресс-центр информационного агентства ТАСС (2 этаж)</p>
-                     
+
                      <div style="border:1px dashed #CC052F; padding:0px 25px 15px 25px; margin-top:25px; margin-bottom:25px; text-align:center">
 <p style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 20px; line-height: 1.2; color: #000; font-weight: 200; margin: 40px 0 10px; padding: 0;">Для аккредитации необходимо подать заявку на сайте мероприятия:</p>
 
@@ -65,5 +65,4 @@
 <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">или написать на почту <a href="mailto:pr@ie.iri.center">pr@ie.iri.center</a> в пресс-службу оргкомитета &ndash; Алене Ватбольской (для оперативной связи тел 8 915362 85 83).</p>
 </div>
 
-                     
-                    
+

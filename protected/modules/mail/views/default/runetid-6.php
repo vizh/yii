@@ -1,4 +1,4 @@
-<?=$user->getShortName();?>, добрый день!
+<?=$user->getShortName()?>, добрый день!
 
 Приглашаем посетить конференцию «Формула Интернет-Торговли», которая пройдет 14 ноября.
 http://www.formula-internet.ru/2013/?utm_source=raec&utm_medium=email&utm_campaign=fint2013

@@ -6,22 +6,22 @@
 use user\models\forms\edit\Educations;
 ?>
 
-<?=$this->renderPartial('parts/title');?>
+<?=$this->renderPartial('parts/title')?>
 
 <div class="user-account-settings">
     <div class="clearfix">
         <div class="container">
             <div class="row">
                 <div class="span3">
-                    <?=$this->renderPartial('parts/nav', ['current' => $this->getAction()->getId()]);?>
+                    <?=$this->renderPartial('parts/nav', ['current' => $this->getAction()->getId()])?>
                 </div>
                 <div class="span9">
-                    <?=\CHtml::form('', 'POST', array('class' => 'b-form'));?>
+                    <?=\CHtml::form('', 'POST', array('class' => 'b-form'))?>
                     <div class="form-header">
-                        <h4><?=\Yii::t('app', 'Образование');?></h4>
+                        <h4><?=\Yii::t('app', 'Образование')?></h4>
                     </div>
 
-                    <?=$this->renderPartial('parts/form-alert', ['form' => $form]);?>
+                    <?=$this->renderPartial('parts/form-alert', ['form' => $form])?>
 
                     <div class="user-career-items"></div>
 
@@ -30,15 +30,15 @@ use user\models\forms\edit\Educations;
                     </div>
 
                     <div class="form-footer">
-                        <?=\CHtml::submitButton(\Yii::t('app','Сохранить'), array('class' => 'btn btn-info'));?>
+                        <?=\CHtml::submitButton(\Yii::t('app','Сохранить'), array('class' => 'btn btn-info'))?>
                     </div>
-                    <?=\CHtml::endForm();?>
+                    <?=\CHtml::endForm()?>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<?=$this->renderPartial('education/data', ['form' => $form]);?>
-<?=$this->renderPartial('education/item-with-data', ['form' => $form]);?>
-<?=$this->renderPartial('education/item', ['form' => $form]);?>
+<?=$this->renderPartial('education/data', ['form' => $form])?>
+<?=$this->renderPartial('education/item-with-data', ['form' => $form])?>
+<?=$this->renderPartial('education/item', ['form' => $form])?>

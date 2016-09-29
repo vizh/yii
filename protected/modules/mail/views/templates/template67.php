@@ -1,6 +1,6 @@
 <p align="center"><img src="http://runet-id.com/img/mail/2014/20140414-fbi14.png" /></p>
 
-<h2>Здравствуйте&nbsp;<?=$user->getShortName();?>.</h2>
+<h2>Здравствуйте&nbsp;<?=$user->getShortName()?>.</h2>
 
 <p>Приглашаем Вас и&nbsp;Ваших коллег принять участие в&nbsp;работе <strong>V&nbsp;ежегодного Форума Безопасного Интернета &laquo;ФБИ 2014&raquo;</strong> (далее&nbsp;&mdash; Форум), который состоится 21 апреля 2014&nbsp;г., 10.30, в&nbsp;Агентстве ФГУП МИА &quot; РОССИЯ СЕГОДНЯ&raquo; в&nbsp;по&nbsp;адресу: г.&nbsp;Москва, Зубовский&nbsp;<nobr>б-р</nobr>, 4.</p>
 

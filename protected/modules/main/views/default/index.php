@@ -21,7 +21,7 @@ use application\components\utility\Texts;
                     <h3>Если есть событие в Рунете &mdash;<br>вы найдете его у нас</h3>
 
                     <p>Создайте свое мероприятие<br>и&nbsp;начните продавать билеты<br>прямо сейчас</p>
-                    <a class="btn btn-large btn-success" href="<?= Yii::app()->createUrl('/page/info/features') ?>"
+                    <a class="btn btn-large btn-success" href="<?=Yii::app()->createUrl('/page/info/features')?>"
                        onclick="yaCounter23089027.reachGoal('BANNER_MAINPAGE_CREATE-EVENT'); return true;"><i
                             class="icon-white icon-ok-sign"></i> Создать мероприятие</a>
                 </div>
@@ -39,7 +39,7 @@ use application\components\utility\Texts;
         </div>
         <div class="row" style="margin-top: 20px;">
             <div class="span12 create-event-banner">
-                <?php $this->widget('\application\widgets\Banner940'); ?>
+                <?$this->widget('\application\widgets\Banner940')?>
             </div>
         </div>
     </div>
@@ -55,44 +55,44 @@ use application\components\utility\Texts;
                     <span class="backing text">Мероприятия</span>
                 </div>
         <span class="backing url">
-          <a href="<?= Yii::app()->createUrl('/event/list/index'); ?>">Все мероприятия</a>
+          <a href="<?=Yii::app()->createUrl('/event/list/index')?>">Все мероприятия</a>
         </span>
             </div>
         </h2>
         <div class="row">
 
-            <?php foreach ($events as $event): ?>
+            <?foreach($events as $event):?>
                 <div class="event span4">
                     <div class="logo-box">
                         <div class="white">
-                            <a href="<?= Yii::app()->createUrl('/event/view/index', ['idName' => $event->IdName]) ?>"
+                            <a href="<?=Yii::app()->createUrl('/event/view/index', ['idName' => $event->IdName])?>"
                                onclick="yaCounter23089027.reachGoal('BANNER_MAINPAGE_EVENTS'); return true;"><img
-                                    src="<?= $event->getLogo()->getSquare70() ?>" width="70" height="70" alt=""
+                                    src="<?=$event->getLogo()->getSquare70()?>" width="70" height="70" alt=""
                                     class="logo"></a>
                         </div>
                     </div>
-                    <?= $this->renderPartial('index/event-dates', ['event' => $event]) ?>
+                    <?=$this->renderPartial('index/event-dates', ['event' => $event])?>
                     <header>
                         <h4 class="title">
-                            <a href="<?= Yii::app()->createUrl('/event/view/index', ['idName' => $event->IdName]) ?>"
-                               onclick="yaCounter23089027.reachGoal('BANNER_MAINPAGE_EVENTS'); return true;"><?= $event->Title; ?></a>
+                            <a href="<?=Yii::app()->createUrl('/event/view/index', ['idName' => $event->IdName])?>"
+                               onclick="yaCounter23089027.reachGoal('BANNER_MAINPAGE_EVENTS'); return true;"><?=$event->Title?></a>
                         </h4>
                     </header>
                     <article>
-                        <p><?= $event->Info; ?></p>
-                        <a href="<?= Yii::app()->createUrl('/event/view/index', ['idName' => $event->IdName]) ?>"
+                        <p><?=$event->Info?></p>
+                        <a href="<?=Yii::app()->createUrl('/event/view/index', ['idName' => $event->IdName])?>"
                            onclick="yaCounter23089027.reachGoal('BANNER_MAINPAGE_EVENTS'); return true;">...</a>
                     </article>
                     <footer>
-                        <img src="/images/blank.gif" alt="" class="i-event_small <?= $event->Type->CssClass ?>">
+                        <img src="/images/blank.gif" alt="" class="i-event_small <?=$event->Type->CssClass?>">
                     </footer>
                 </div>
-            <?php endforeach ?>
+            <?endforeach?>
         </div>
     </div>
 </div>
 
-<?php $this->widget('application\widgets\News', ['limit' => 3]) ?>
+<?$this->widget('application\widgets\News', ['limit' => 3])?>
 
 <div class="b-competences" id="competences">
     <div class="container">
@@ -133,36 +133,36 @@ use application\components\utility\Texts;
                     <span class="backing text">Работа</span>
                 </div>
         <span class="backing url">
-          <a href="<?= $this->createUrl('/job/default/index'); ?>">Все вакансии</a>
+          <a href="<?=$this->createUrl('/job/default/index')?>">Все вакансии</a>
         </span>
             </div>
         </h2>
         <div class="row units">
-            <? foreach ($jobs as $job): ?>
+            <?foreach($jobs as $job):?>
                 <div class="job span3">
                     <div class="details">
                         <span
-                            class="label label-warning"><?= Yii::app()->dateFormatter->format('dd MMMM', $job->CreationTime); ?></span>
-                        <span class="employer"><?= $job->Company->Name; ?></span>
+                            class="label label-warning"><?=Yii::app()->dateFormatter->format('dd MMMM', $job->CreationTime)?></span>
+                        <span class="employer"><?=$job->Company->Name?></span>
                         <span class="fade-rtl"></span>
                     </div>
                     <header>
                         <h4 class="title">
-                            <a target="_blank" href="<?= $job->Url; ?>"><?= $job->Title; ?></a>
+                            <a target="_blank" href="<?=$job->Url?>"><?=$job->Title?></a>
                         </h4>
                     </header>
                     <article>
-                        <p><?= Texts::cropText($job->Text, Yii::app()->params['JobPreviewLength']); ?></p>
-                        <a target="_blank" href="<?= $job->Url; ?>"><?= Yii::t('app', 'Ответить на вакансию'); ?></a>
+                        <p><?=Texts::cropText($job->Text, Yii::app()->params['JobPreviewLength'])?></p>
+                        <a target="_blank" href="<?=$job->Url?>"><?=Yii::t('app', 'Ответить на вакансию')?></a>
                     </article>
                     <footer class="salary">
-                        <?= $this->renderPartial('job.views.default.job-salary', array('job' => $job)); ?>
+                        <?=$this->renderPartial('job.views.default.job-salary', array('job' => $job))?>
                     </footer>
                     <div class="category">
-                        <a href="<?= $this->createUrl('/job/default/index', array('Filter[CategoryId]' => $job->CategoryId)); ?>"><?= $job->Category->Title; ?></a>
+                        <a href="<?=$this->createUrl('/job/default/index', array('Filter[CategoryId]' => $job->CategoryId))?>"><?=$job->Category->Title?></a>
                     </div>
                 </div>
-            <? endforeach; ?>
+            <?endforeach?>
         </div>
     </div>
 </div>
@@ -177,33 +177,33 @@ use application\components\utility\Texts;
                     <span class="backing text">Курсы</span>
                 </div>
         <span class="backing url">
-          <a href="<?= $this->createUrl('/buduguru/course/list'); ?>">Все курсы</a>
+          <a href="<?=$this->createUrl('/buduguru/course/list')?>">Все курсы</a>
         </span>
             </div>
         </h2>
         <div class="row units">
-            <? foreach ($courses as $course): ?>
+            <?foreach($courses as $course):?>
                 <div class="job span3">
                     <div class="details">
-                        <? if ($course->DateStart): ?>
+                        <?if ($course->DateStart):?>
                             <span
-                                class="label label-warning"><?= Yii::app()->dateFormatter->format('dd MMMM', $course->DateStart) ?></span>
-                        <? else: ?>
+                                class="label label-warning"><?=Yii::app()->dateFormatter->format('dd MMMM', $course->DateStart)?></span>
+                        <?else:?>
                             <span class="label" style="visibility:hidden"></span>
-                        <? endif ?>
+                        <?endif?>
                         <span class="fade-rtl"></span>
                     </div>
                     <header>
                         <h4 class="title">
-                            <a target="_blank" href="<?= $course->Url ?>"><?= $course->Name ?></a>
+                            <a target="_blank" href="<?=$course->Url?>"><?=$course->Name?></a>
                         </h4>
                     </header>
                     <article>
-                        <p><?= $course->Announce ?></p>
-                        <a target="_blank" href="<?= $course->Url ?>"><?= Yii::t('app', 'Подробнее'); ?></a>
+                        <p><?=$course->Announce?></p>
+                        <a target="_blank" href="<?=$course->Url?>"><?=Yii::t('app', 'Подробнее')?></a>
                     </article>
                 </div>
-            <? endforeach; ?>
+            <?endforeach?>
         </div>
     </div>
 </div>

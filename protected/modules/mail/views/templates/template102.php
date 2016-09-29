@@ -9,12 +9,12 @@
                 <tbody>
                 <tr>
                     <td style="margin: 0px;">
-                        <p>Здравствуйте, <?=$user->getShortName();?></p>
+                        <p>Здравствуйте, <?=$user->getShortName()?></p>
 
                         <p>Мы очень рады, что Вы стали участником крупнейшей конференции Microsoft для технической аудитории <a href="http://www.msdevcon.ru/ru/">DevCon 2014</a>!</p>
-<p>Помимо участия в основной программе Вы также сможете посетить эксклюзивные мастер-классы, круглые столы и хакатоны. Для участия в дополнительной программе, пожалуйста, отправьте свой запрос до 23 мая на <a href="mailto:ms@devcon2014.ru">ms@devcon2014.ru</a> с темой письма «DevCon 2014: участие в дополнительной программе», а в теле письма укажите ФИО, название компании и что именно Вы хотели бы посетить.</p> 
+<p>Помимо участия в основной программе Вы также сможете посетить эксклюзивные мастер-классы, круглые столы и хакатоны. Для участия в дополнительной программе, пожалуйста, отправьте свой запрос до 23 мая на <a href="mailto:ms@devcon2014.ru">ms@devcon2014.ru</a> с темой письма «DevCon 2014: участие в дополнительной программе», а в теле письма укажите ФИО, название компании и что именно Вы хотели бы посетить.</p>
 
-<p>Расписание дополнительной программы DevCon 2014 на <strong>28 мая:</strong></p> 
+<p>Расписание дополнительной программы DevCon 2014 на <strong>28 мая:</strong></p>
 <table style="width:100%;border-collapse: collapse" border="0" cellpadding="0" cellspacing="0">
 <thead>
 <tr>
@@ -28,7 +28,7 @@
 <td style="padding:5px 7px;border:1px solid #cccccc;">15:50-18:10</td>
 <td style="padding:5px 7px;border:1px solid #cccccc;">Мастер-класс «Из искры возгорится пламя: вдохновляем детей с помощью технологий»</td>
 <td style="padding:5px 7px;border:1px solid #cccccc;">Дмитрий Сошников, Microsoft</td>
-</tr>  
+</tr>
 <tr>
 <td style="padding:5px 7px;border:1px solid #cccccc;">15:50-18:10</td>
 <td style="padding:5px 7px;border:1px solid #cccccc;"><a href="http://www.msdevcon.ru/news/read/16">Мастер-класс «Технологический бизнес в интернете»</a></td>
@@ -56,11 +56,11 @@
 <td style="padding:5px 7px;border:1px solid #cccccc;">22:00-02:00</td>
 <td style="padding:5px 7px;border:1px solid #cccccc;"><a href="http://www.msdevcon.ru/news/read/6035">Хакатон «Ночь кодирования»</a><br/>
 <span style="color:red">Внимание</span>! Вам необходимо зарегистрироваться на хакатон, пройдя по <a href="https://publishwindows.com/register/e81a8fcd6f4946efa44b141c783ba6eb">ссылке</a></td>
-<td style="padding:5px 7px;border:1px solid #cccccc;">Сергей Пугачев, Microsoft<br/> 
+<td style="padding:5px 7px;border:1px solid #cccccc;">Сергей Пугачев, Microsoft<br/>
 Александр Белоцерковский, Microsoft<br/>
 Георгий Могелашвили, КРОК
 </td>
-</tr>  
+</tr>
 </tbody>
 </table>
 
@@ -80,7 +80,7 @@
 <td style="padding:5px 7px;border:1px solid #cccccc;">Александр Белоцерковский, Microsoft<br/>
 Андрей Бешков, Microsoft
 </td>
-</tr>  
+</tr>
 </tbody>
 </table>
 

@@ -5,6 +5,7 @@ use application\components\ActiveRecord;
 use event\models\Event;
 use mail\components\filter\Main;
 use mail\components\mailers\PhpMailer;
+use Yii;
 
 /**
  * Class Template
@@ -37,7 +38,7 @@ use mail\components\mailers\PhpMailer;
  */
 class Template extends ActiveRecord
 {
-    const UsersPerSend = 200;
+    const UsersPerSend = 150;
 
     const MAILER_PHP = 'PhpMailer';
     const MAILER_MANDRILL = 'TrueMandrillMailer';
@@ -138,9 +139,17 @@ class Template extends ActiveRecord
      */
     public function getUsers()
     {
-        $transaction = \Yii::app()->getDb()->beginTransaction();
+        $transaction = Yii::app()
+            ->getDb()
+            ->beginTransaction();
+
         try {
-            \Yii::app()->getDb()->createCommand('LOCK TABLE "MailTemplate" IN ACCESS EXCLUSIVE MODE;')->execute();
+            if (!defined('NEW_SES_SENDER'))
+                Yii::app()
+                    ->getDb()
+                    ->createCommand('LOCK TABLE "MailTemplate" IN ACCESS EXCLUSIVE MODE;')
+                    ->execute();
+
             $this->refresh();
             $criteria = $this->getCriteria();
             $criteria->limit = $this->SendPassbook ? 1 : self::UsersPerSend;
@@ -218,7 +227,7 @@ class Template extends ActiveRecord
     public function getViewPath()
     {
         if ($this->viewPath == null && !$this->getIsNewRecord()){
-            $this->viewPath = \Yii::getPathOfAlias($this->getViewName()).'.php';
+            $this->viewPath = Yii::getPathOfAlias($this->getViewName()).'.php';
         }
         return $this->viewPath;
     }
@@ -309,11 +318,11 @@ class Template extends ActiveRecord
     {
         if (is_null($this->mailer)) {
             $className = 'mail\\components\\mailers\\' . $this->MailerClass;
-            $fileName = \Yii::getPathOfAlias('application.modules') . '/' . strtr($className, ['\\' => '/']) . '.php';
+            $fileName = Yii::getPathOfAlias('application.modules') . '/' . strtr($className, ['\\' => '/']) . '.php';
 
             if (!file_exists($fileName)) {
                 // use fallback option for mailer class
-                \Yii::log("Mailer class $className is not found", \CLogger::LEVEL_ERROR);
+                Yii::log("Mailer class $className is not found", \CLogger::LEVEL_ERROR);
                 $this->mailer = new PhpMailer();
             } else {
                 $this->mailer = new $className();

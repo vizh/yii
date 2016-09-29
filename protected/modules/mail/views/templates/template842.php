@@ -1,8 +1,8 @@
-<?php	
+<?php
 	$regLink = "http://2016.i-comference.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'82skQfNnSRIA'), 0, 16);
 ?>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>.</h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>.</h3>
 
 <p>Недавно мы&nbsp;проводили <b>Исследование профессионального интернет-сообщества</b> и&nbsp;приглашали Вас принять участие. Спасибо, что нашли возможность заполнить анкету.</p>
 

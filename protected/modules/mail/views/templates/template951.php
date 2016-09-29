@@ -38,7 +38,7 @@
               <table style="margin:0;padding:0;width:100%">
                 <tr style="margin:0;padding:0">
                   <td align="center" style="margin:0;padding:0;vertical-align:top">
-                    <h2 style='margin:0;padding:0;color:#111111;font-family:"Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;font-weight:200;line-height:1.2em;margin:10px 0;font-size:28px;color: #ffffff'>Здравствуйте, <?=$user->getShortName();?>!</h2>
+                    <h2 style='margin:0;padding:0;color:#111111;font-family:"Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;font-weight:200;line-height:1.2em;margin:10px 0;font-size:28px;color: #ffffff'>Здравствуйте, <?=$user->getShortName()?>!</h2>
                     <p class="lead" style="margin:0;padding:0;font-size:14px;font-weight:normal;margin-bottom:10px;font-size:17px;margin:8px 5%;color: #ffffff">Вы зарегистрированы на Большой Медиа-Коммуникационный Форум (БМКФ 2016), который пройдет с 10 по 12 мая в московском Экспоцентре.</p>
                   </td>
                 </tr>
@@ -115,7 +115,7 @@
                     <p style="margin:0;padding:0;font-size:14px;font-weight:normal;margin-bottom:10px">Внимательно изучите <a href="http://mcf.moscow/contacts/" style="margin:0;padding:0;color:#024688">схему проезда</a> удобным Вам видом транспорта и&nbsp;схему территории Форума.</p>
                     <p style="margin:0;padding:0;font-size:14px;font-weight:normal;margin-bottom:10px"><strong style="margin:0;padding:0">Заранее рассчитайте и&nbsp;спланируйте время прибытия на&nbsp;площадку</strong>&nbsp;— планируйте прибытие на&nbsp;место за&nbsp;<nobr style="margin:0;padding:0">30-40</nobr> минут до&nbsp;того мероприятия, в&nbsp;котором&nbsp;Вы принимаете участие.</p>
                     <p style="margin:0;padding:0;font-size:14px;font-weight:normal;margin-bottom:10px"><strong style="margin:0;padding:0">Информация для автовладельцев: </strong><br style="margin:0;padding:0">
-                      Если Вы&nbsp;планируете приехать на&nbsp;Форум на&nbsp;личном автотранспорте, советуем воспользоваться <a href="http://afimall.ru/ru/page/address/" style="margin:0;padding:0;color:#024688">подземной парковкой в&nbsp;ТЦ&nbsp;«Афимолл Сити»</a>. 
+                      Если Вы&nbsp;планируете приехать на&nbsp;Форум на&nbsp;личном автотранспорте, советуем воспользоваться <a href="http://afimall.ru/ru/page/address/" style="margin:0;padding:0;color:#024688">подземной парковкой в&nbsp;ТЦ&nbsp;«Афимолл Сити»</a>.
 					</p>
                   </td>
                 </tr>
@@ -201,7 +201,7 @@
                     <h3 style='margin:0;padding:0;color:#111111;font-family:"Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;font-weight:200;line-height:1.2em;margin:10px 0;font-size:22px;font-weight:bold;text-transform:uppercase'>ОРГКОМИТЕТ НАСТОЯТЕЛЬНО РЕКОМЕНДУЕТ</h3>
                     <ul style="margin:0;padding:0;font-size:14px;font-weight:normal;margin-bottom:10px">
                       <li style="margin:0;padding:0;margin-left:25px;list-style-position:outside">
-                        <p style="margin:0;padding:0;font-size:14px;font-weight:normal;margin-bottom:10px">Распечатать и&nbsp;взять с&nbsp;собой Ваш персональный <a href="<?=$user->Participants[0]->getTicketUrl();?>" style="margin:0;padding:0;color:#024688">ПУТЕВОЙ ЛИСТ</a> (либо сохранить его на&nbsp;Ваше мобильное устройство)&nbsp;— это значительно ускорит Вашу регистрацию на&nbsp;месте.</p>
+                        <p style="margin:0;padding:0;font-size:14px;font-weight:normal;margin-bottom:10px">Распечатать и&nbsp;взять с&nbsp;собой Ваш персональный <a href="<?=$user->Participants[0]->getTicketUrl()?>" style="margin:0;padding:0;color:#024688">ПУТЕВОЙ ЛИСТ</a> (либо сохранить его на&nbsp;Ваше мобильное устройство)&nbsp;— это значительно ускорит Вашу регистрацию на&nbsp;месте.</p>
                       </li>
                       <li style="margin:0;padding:0;margin-left:25px;list-style-position:outside">
                         <p style="margin:0;padding:0;font-size:14px;font-weight:normal;margin-bottom:10px">Внимательно изучить схему проезда и&nbsp;удобного прохода на&nbsp;территорию <a href="http://mcf.moscow/contacts/" style="margin:0;padding:0;color:#024688">Экспоцентра</a>.</p>
@@ -241,7 +241,7 @@
                     <table class="btn-primary" cellpadding="0" cellspacing="0" border="0" style="margin:0;padding:0;margin-bottom:10px;width:auto;width:100%;margin: 15px auto; width: auto;">
                       <tr style="margin:0;padding:0">
                         <td style='margin:0;padding:0;background-color:#024688;font-family:"Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;font-size:14px;text-align:center;vertical-align:top'>
-                          <a href="<?=$user->Participants[0]->getTicketUrl();?>" style="margin:0;padding:0;color:#024688;background-color:#024688;border:solid 1px #024688;border-width:10px 20px;display:inline-block;color:#ffffff;cursor:pointer;font-weight:bold;line-height:2;text-decoration:none">СКАЧАТЬ ПУТЕВОЙ ЛИСТ</a>
+                          <a href="<?=$user->Participants[0]->getTicketUrl()?>" style="margin:0;padding:0;color:#024688;background-color:#024688;border:solid 1px #024688;border-width:10px 20px;display:inline-block;color:#ffffff;cursor:pointer;font-weight:bold;line-height:2;text-decoration:none">СКАЧАТЬ ПУТЕВОЙ ЛИСТ</a>
                         </td>
                       </tr>
                     </table>

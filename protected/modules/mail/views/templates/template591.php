@@ -1,6 +1,6 @@
 <p><img src="http://take.ms/g7Y00" style="height: auto; width: 100%;" /></p>
 
-<p><b>Здравствуйте, <?=$user->getShortName();?>!</b></p>
+<p><b>Здравствуйте, <?=$user->getShortName()?>!</b></p>
 
 <p><a href="https://www.facebook.com/runetid">RUNET-ID</a> совместно с&nbsp;<a href="https://www.facebook.com/pages/%D0%A0%D0%90%D0%AD%D0%9A/109549572432729?fref=photo">РАЭК</a> подготовил список главных осенних мероприятий интернет-отрасли, которые просто невозможно пропустить. И, конечно&nbsp;же, на&nbsp;которые можно заранее зарегистрироваться &laquo;в&nbsp;один клик&raquo;, будучи пользователем системы регистраций RUNET-ID.</p>
 

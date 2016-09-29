@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>RUNET-ID <?=CHtml::encode($this->pageTitle);?></title>
+  <title>RUNET-ID <?=CHtml::encode($this->pageTitle)?></title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
   <meta name="author" content="">
@@ -19,7 +19,7 @@
 <div style="margin: 10px;">
   <div class="row-fluid">
     <div class="span12">
-      <?php echo $content; ?>
+      <?=$content?>
     </div>
   </div>
 </div>

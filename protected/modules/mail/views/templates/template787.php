@@ -29,12 +29,12 @@
                         <td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><img alt="Интернет Экономика" src="https://ie.iri.center/bitrix/templates/neweco/assets/images/logo.png" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" />
 
 
-                            <h2><?=$user->getShortName();?>, добрый вечер!</h2>
+                            <h2><?=$user->getShortName()?>, добрый вечер!</h2>
 
 <p>Оргкомитет Форума &laquo;Интернет Экономика 2015&raquo; напоминает о&nbsp;том, что&nbsp;Вы зарегистрированы в&nbsp;качестве участника Форума&nbsp;&mdash; <a href="https://ie.iri.center">ie.iri.center</a></p>
 
 <p><strong>Ваш статус:<br />
-<span style="font-size: 18px"><?=$user->Participants[0]->Role->Title;?></span></strong></p>
+<span style="font-size: 18px"><?=$user->Participants[0]->Role->Title?></span></strong></p>
 
 <p>Форум начнет свою работу с&nbsp;официального <strong>Открытия в&nbsp;понедельник 21&nbsp;декабря в&nbsp;10:00</strong> и&nbsp;продолжит работу в&nbsp;понедельник в&nbsp;формате <strong>8&nbsp;круглых столов</strong>. Подробная программа Форума <a href="https://ie.iri.center/program/">доступна на&nbsp;сайте</a>.</p>
 

@@ -10,17 +10,17 @@ use pay\models\forms\admin\BookingSearch;
 
 ?>
 
-<?php if ($form->hasErrors()): ?>
+<?if($form->hasErrors()):?>
     <div class="alert alert-error">
-        <?= CHtml::errorSummary($form) ?>
+        <?=CHtml::errorSummary($form)?>
     </div>
-<?php endif ?>
+<?endif?>
 
-<?php $activeForm = $this->beginWidget('CActiveForm', [
+<?$activeForm = $this->beginWidget('CActiveForm', [
     'htmlOptions' => [
         'class' => 'form-horizontal'
     ]
-]) ?>
+])?>
 
 <div class="well m-top_30">
     <div class="well well-small">
@@ -28,47 +28,47 @@ use pay\models\forms\admin\BookingSearch;
 
         <div class="row-fluid">
             <div class="span12">
-                <?php foreach (['Hotel', 'Housing'] as $attribute): ?>
+                <?foreach(['Hotel', 'Housing'] as $attribute):?>
                     <div class="control-group">
-                        <?= $activeForm->labelEx($form, $attribute, ['class' => 'control-label']) ?>
+                        <?=$activeForm->labelEx($form, $attribute, ['class' => 'control-label'])?>
                         <div class="controls">
-                            <?php $this->widget('application\widgets\GroupBtnSelect', [
+                            <?$this->widget('application\widgets\GroupBtnSelect', [
                                 'values' => $form->getAttributeValues($attribute),
                                 'model' => $form,
                                 'attribute' => $attribute
-                            ]) ?>
+                            ])?>
                         </div>
                     </div>
-                <?php endforeach ?>
+                <?endforeach?>
             </div>
         </div>
 
         <div class="row-fluid">
             <div class="span12">
                 <div class="control-group">
-                    <?= $activeForm->labelEx($form, $attribute, ['class' => 'control-label']) ?>
+                    <?=$activeForm->labelEx($form, $attribute, ['class' => 'control-label'])?>
                     <div class="controls">
-                        <?= $activeForm->listBox($form, 'Category', $form->getAttributeValues('Category'), ['class' => 'span8', 'multiple' => 'multiple']) ?>
+                        <?=$activeForm->listBox($form, 'Category', $form->getAttributeValues('Category'), ['class' => 'span8', 'multiple' => 'multiple'])?>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="row-fluid">
-            <?php foreach (['RoomCount', 'PlaceTotal'] as $attribute): ?>
+            <?foreach(['RoomCount', 'PlaceTotal'] as $attribute):?>
                 <div class="span5">
                     <div class="control-group">
-                        <?= $activeForm->labelEx($form, $attribute, ['class' => 'control-label']) ?>
+                        <?=$activeForm->labelEx($form, $attribute, ['class' => 'control-label'])?>
                         <div class="controls">
-                            <?php $this->widget('application\widgets\GroupBtnSelect', [
+                            <?$this->widget('application\widgets\GroupBtnSelect', [
                                 'values' => $form->getAttributeValues($attribute),
                                 'model' => $form,
                                 'attribute' => $attribute
-                            ]) ?>
+                            ])?>
                         </div>
                     </div>
                 </div>
-            <?php endforeach ?>
+            <?endforeach?>
         </div>
     </div>
 
@@ -79,23 +79,23 @@ use pay\models\forms\admin\BookingSearch;
             <div class="span4">
 
                 <div class="control-group">
-                    <?= $activeForm->labelEx($form, 'DateIn', ['class' => 'control-label']) ?>
+                    <?=$activeForm->labelEx($form, 'DateIn', ['class' => 'control-label'])?>
                     <div class="controls">
-                        <?= $activeForm->dropDownList($form, 'DateIn', $form->getAttributeValues('DateIn'), ['class' => 'span12', 'prompt' => '']) ?>
+                        <?=$activeForm->dropDownList($form, 'DateIn', $form->getAttributeValues('DateIn'), ['class' => 'span12', 'prompt' => ''])?>
                     </div>
                 </div>
             </div>
             <div class="span4">
                 <div class="control-group">
-                    <?= $activeForm->labelEx($form, 'DateOut', ['class' => 'control-label']) ?>
+                    <?=$activeForm->labelEx($form, 'DateOut', ['class' => 'control-label'])?>
                     <div class="controls">
-                        <?= $activeForm->dropDownList($form, 'DateOut', $form->getAttributeValues('DateOut'), ['class' => 'span12', 'prompt' => '']) ?>
+                        <?=$activeForm->dropDownList($form, 'DateOut', $form->getAttributeValues('DateOut'), ['class' => 'span12', 'prompt' => ''])?>
                     </div>
                 </div>
             </div>
             <div class="span4">
                 <label class="checkbox">
-                    <?= $activeForm->checkbox($form, 'NotFree') ?> <?= $form->getAttributeLabel('NotFree') ?>
+                    <?=$activeForm->checkbox($form, 'NotFree')?> <?=$form->getAttributeLabel('NotFree')?>
                 </label>
             </div>
         </div>
@@ -104,12 +104,12 @@ use pay\models\forms\admin\BookingSearch;
     <div class="row-fluid">
         <div class="span12">
             <div class="btn-toolbar text-center">
-                <?= CHtml::submitButton('Поиск', ['class' => 'btn btn-large']) ?>
+                <?=CHtml::submitButton('Поиск', ['class' => 'btn btn-large'])?>
             </div>
         </div>
     </div>
 </div>
-<?php $this->endWidget() ?>
+<?$this->endWidget()?>
 
 <table id="rooms" class="table table-bordered" style="font-size: 13px;">
     <thead>
@@ -126,70 +126,70 @@ use pay\models\forms\admin\BookingSearch;
         <th rowspan="2">&nbsp;</th>
     </tr>
     <tr>
-        <?php foreach (BookingSearch::getDateRanges() as $startDate => $endDate): ?>
-            <th><?= (new \DateTime($startDate))->format('d') . '-' . (new \DateTime($endDate))->format('d') ?></th>
-        <?php endforeach ?>
+        <?foreach(BookingSearch::getDateRanges() as $startDate => $endDate):?>
+            <th><?=(new \DateTime($startDate))->format('d') . '-' . (new \DateTime($endDate))->format('d')?></th>
+        <?endforeach?>
         <th>Доп.</th>
     </tr>
     </thead>
     <tbody>
-    <?php foreach ($rooms as $room): ?>
-        <?php $dates = $room['Dates'] ?>
-        <tr <?= $room['Visible'] == 0 ? 'class="hidden-room"' : ($room['Visible'] == -1 ? 'class="exclude-room"' : ''); ?>>
-            <td><?= $room['Id']; ?></td>
+    <?foreach($rooms as $room):?>
+        <?$dates = $room['Dates']?>
+        <tr <?=$room['Visible'] == 0 ? 'class="hidden-room"' : ($room['Visible'] == -1 ? 'class="exclude-room"' : '')?>>
+            <td><?=$room['Id']?></td>
             <td style="font-size: 10px;"><a
-                    href="<?= $this->createUrl('/pay/admin/booking/product', ['productId' => $room['Id'], 'backUrl' => \Yii::app()->getRequest()->getUrl()]); ?>"><?= $room['TechnicalNumber'] ?></a>
+                    href="<?=$this->createUrl('/pay/admin/booking/product', ['productId' => $room['Id'], 'backUrl' => \Yii::app()->getRequest()->getUrl()])?>"><?=$room['TechnicalNumber']?></a>
             </td>
-            <td><?= $room['Hotel'] ?></td>
-            <td><?= $room['Housing'] ?></td>
-            <td><span class="label label-info"><?= $room['Number'] ?></span></td>
+            <td><?=$room['Hotel']?></td>
+            <td><?=$room['Housing']?></td>
+            <td><span class="label label-info"><?=$room['Number']?></span></td>
             <td>
-                <span class="label label-error"><?= $room['RoomCount'] ?></span><br/>Категория: <?= $room['Category'] ?>
+                <span class="label label-error"><?=$room['RoomCount']?></span><br/>Категория: <?=$room['Category']?>
             </td>
             <td>
-                Всего: <span class="label label-important"><?= $room['PlaceTotal'] ?></span>;<br/>
-                Основных: <?= $room['DescriptionBasic'] ?>;<br/>
-                Доп.: <?= $room['DescriptionMore'] ?>;
+                Всего: <span class="label label-important"><?=$room['PlaceTotal']?></span>;<br/>
+                Основных: <?=$room['DescriptionBasic']?>;<br/>
+                Доп.: <?=$room['DescriptionMore']?>;
             </td>
-            <?php foreach (BookingSearch::getDateRanges() as $startDate => $endDate):
+            <?foreach(BookingSearch::getDateRanges() as $startDate => $endDate):
                 $key = $startDate . '-' . $endDate;
-                ?>
-                <td <?= isset($dates[$key]) && count($dates[$key]) > 1 ? 'style="background-color: #f2dede;"' : ''; ?>>
-                    <?php if (isset($dates[$key])): ?>
-                        <?php foreach ($dates[$key] as $dateData): ?>
-                            <?php if ($dateData['RunetId'] != null): ?>
-                                <?= $dateData['RunetId'] ?><br>
-                            <?php endif ?>
+               ?>
+                <td <?=isset($dates[$key]) && count($dates[$key]) > 1 ? 'style="background-color: #f2dede;"' : ''?>>
+                    <?if(isset($dates[$key])):?>
+                        <?foreach($dates[$key] as $dateData):?>
+                            <?if($dateData['RunetId'] != null):?>
+                                <?=$dateData['RunetId']?><br>
+                            <?endif?>
 
-                            <?= CHtml::encode($dateData['Name']) ?><br>
-                            <?php if ($dateData['Email'] != null): ?>
-                                <span style="font-size: 10px;"><?= $dateData['Email'] ?></span><br>
-                            <?php endif ?>
+                            <?=CHtml::encode($dateData['Name'])?><br>
+                            <?if($dateData['Email'] != null):?>
+                                <span style="font-size: 10px;"><?=$dateData['Email']?></span><br>
+                            <?endif?>
 
-                            <?php if ($dateData['Paid']): ?>
+                            <?if($dateData['Paid']):?>
                                 <span style="font-weight: normal;" class="label label-success">Оплачен</span>
-                            <?php elseif (!empty($dateData['Booked'])): ?>
+                            <?php elseif (!empty($dateData['Booked'])):?>
                                 <span style="font-weight: normal;"
-                                      class="label label-warning">до <?= Yii::app()->getDateFormatter()->format('dd.MM H:m', $dateData['Booked']) ?></span>
-                            <?php else: ?>
+                                      class="label label-warning">до <?=Yii::app()->getDateFormatter()->format('dd.MM H:m', $dateData['Booked'])?></span>
+                            <?php else:?>
                                 <span style="font-weight: normal;" class="label label-warning">Не оплачен</span>
-                            <?php endif ?><br>
+                            <?endif?><br>
 
-                        <?php endforeach ?>
-                    <?php endif ?>
+                        <?endforeach?>
+                    <?endif?>
                 </td>
-            <?php endforeach ?>
+            <?endforeach?>
             <td>
-                <?php if ($dates['other']): ?>
+                <?if($dates['other']):?>
                     <span style="font-weight: normal;" class="label label-important">Да</span>
-                <?php endif ?>
+                <?endif?>
             </td>
-            <td><span class="label label-success"><?= $room['Price'] ?>&nbsp;р.</span></td>
+            <td><span class="label label-success"><?=$room['Price']?>&nbsp;р.</span></td>
             <td>
-                <a href="<?= Yii::app()->createUrl('/pay/admin/booking/edit', ['productId' => $room['Id']]) ?>"
+                <a href="<?=Yii::app()->createUrl('/pay/admin/booking/edit', ['productId' => $room['Id']])?>"
                    class="btn btn-info"><i class="icon-edit icon-white"></i></a>
             </td>
         </tr>
-    <?php endforeach ?>
+    <?endforeach?>
     </tbody>
 </table>

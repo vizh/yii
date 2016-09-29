@@ -1,12 +1,12 @@
-<?=$user->getShortName();?>, добрый день!
+<?=$user->getShortName()?>, добрый день!
 
-<?=\Yii::app()->dateFormatter->format('dd MMMM yyyy HH:mm', $order->CreationTime);?> вами был забронирован номер в <?=$order->ItemLinks[0]->OrderItem->Product->getManager()->Hotel;?> на срок с <?=\Yii::app()->dateFormatter->format('dd', $order->ItemLinks[0]->OrderItem->getItemAttribute('DateIn'));?> по <?=\Yii::app()->dateFormatter->format('dd MMMM yyyy', $order->ItemLinks[0]->OrderItem->getItemAttribute('DateOut'));?>.
+<?=\Yii::app()->dateFormatter->format('dd MMMM yyyy HH:mm', $order->CreationTime)?> вами был забронирован номер в <?=$order->ItemLinks[0]->OrderItem->Product->getManager()->Hotel?> на срок с <?=\Yii::app()->dateFormatter->format('dd', $order->ItemLinks[0]->OrderItem->getItemAttribute('DateIn'))?> по <?=\Yii::app()->dateFormatter->format('dd MMMM yyyy', $order->ItemLinks[0]->OrderItem->getItemAttribute('DateOut'))?>.
 
-Бронь номера привязана к счету <?=$order->Id;?>:
-<?=$order->getUrl();?>
+Бронь номера привязана к счету <?=$order->Id?>:
+<?=$order->getUrl()?>
 
 
-Срок брони истекает <?=\Yii::app()->dateFormatter->format('dd MMMM yyyy HH:mm', $order->ItemLinks[0]->OrderItem->Booked);?>. На момент отправки этого уведомления мы не получили оплаты по данному счету.
+Срок брони истекает <?=\Yii::app()->dateFormatter->format('dd MMMM yyyy HH:mm', $order->ItemLinks[0]->OrderItem->Booked)?>. На момент отправки этого уведомления мы не получили оплаты по данному счету.
 
 В случае, если номер не будет оплачен до момента истечения брони, он автоматически будет выставлен в открытую продажу.
 
