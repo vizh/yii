@@ -19,6 +19,7 @@ use user\models\User;
  * @property MeetingLinkUser[] $UserLinks
  *
  * @method Meeting byPlaceId(int $id)
+ * @method Meeting byUserId(int $id)
  * @method Meeting byCreatorId(int $id)
  * @method Meeting byType(int $id)
  * @method Meeting byReservationNumber(int $id)
@@ -47,25 +48,6 @@ class Meeting extends ActiveRecord
             'Creator' => [self::BELONGS_TO, '\user\models\User', 'CreatorId'],
             'UserLinks' => [self::HAS_MANY, '\connect\models\MeetingLinkUser', 'MeetingId']
         ];
-    }
-
-    public function byCreator($user, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."CreatorId" = :CreatorId';
-        $criteria->params = array('CreatorId' => $user->Id);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    public function byUser($user, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->with("UserLinks");
-        $criteria->condition = '"UserLinks"."UserId" = :UserId';
-        $criteria->params = array('UserId' => $user->Id);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
     }
 
     public function getFileDir()
