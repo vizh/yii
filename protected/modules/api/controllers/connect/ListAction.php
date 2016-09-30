@@ -3,32 +3,33 @@ namespace api\controllers\connect;
 
 use application\components\helpers\ArrayHelper;
 use connect\models\Meeting;
-use user\models\User;
 
 class ListAction extends \api\components\Action
 {
     public function run()
     {
-        $meetings = Meeting::model()->with('UserLinks');
+        $meetings = Meeting::model()
+            ->with('UserLinks');
 
-        $runetId = \Yii::app()->getRequest()->getParam('RunetId', null);
-        $user = User::model()->byRunetId($runetId)->find();
-        if ($user){
-            $meetings->byCreator($user);
+        if ($this->hasRequestParam('RunetId')) {
+            $meetings->byCreatorId($this->getRequestedUser()->Id);
         }
 
-        $type = \Yii::app()->getRequest()->getParam('Type', null);
-        if ($type){
-            $meetings->byType($type);
+        if ($this->hasRequestParam('Type')){
+            $meetings->byType($this->getRequestParam('Type'));
         }
 
         $meetings = $meetings->findAll();
 
         $result = [];
         foreach ($meetings as $meeting) {
-            $result[] = $this->getAccount()->getDataBuilder()->createMeeting($meeting);
+            $result[] = $this
+                ->getDataBuilder()
+                ->createMeeting($meeting);
         }
+
         ArrayHelper::multisort($result, 'UserCount', SORT_DESC);
+
         $this->setResult(['Success' => true, 'Meetings' => $result]);
     }
 }

@@ -11,13 +11,9 @@ class SignupAction extends \api\components\Action
 {
     public function run()
     {
-        $runetId = \Yii::app()->getRequest()->getParam('RunetId', null);
-        $user = User::model()->byRunetId($runetId)->find();
-        if ($user === null) {
-            throw new Exception(202, [$runetId]);
-        }
+        $user = $this->getRequestedUser();
+        $meetingId = $this->getRequestParam('MeetingId', null);
 
-        $meetingId = \Yii::app()->getRequest()->getParam('MeetingId', null);
         $meeting = Meeting::model()->findByPk($meetingId);
         if (!$meeting){
             throw new Exception(4001, [$meetingId]);
@@ -25,7 +21,7 @@ class SignupAction extends \api\components\Action
 
         try{
             $form = new Signup();
-            $form->UserId = $runetId;
+            $form->UserId = $user->RunetId;
             $form->MeetingId = $meetingId;
             $form->createActiveRecord();
             $this->setSuccessResult();

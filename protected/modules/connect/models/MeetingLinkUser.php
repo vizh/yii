@@ -27,6 +27,7 @@ class MeetingLinkUser extends ActiveRecord
     const STATUS_SENT = 0;
     const STATUS_ACCEPTED = 1;
     const STATUS_DECLINED = 2;
+    const STATUS_CANCELLED = 3;
 
     public function tableName()
     {
@@ -39,14 +40,5 @@ class MeetingLinkUser extends ActiveRecord
             'Meeting' => [self::BELONGS_TO, '\connect\models\Meeting', 'MeetingId'],
             'User' => [self::BELONGS_TO, '\user\models\User', 'UserId'],
         ];
-    }
-
-    public function byUser($user, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."UserId" = :UserId';
-        $criteria->params = array('UserId' => $user->Id);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
     }
 }

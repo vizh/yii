@@ -980,6 +980,8 @@ class Builder
         $this->meeting->File = $meeting->getFileUrl();
         $this->meeting->CreateTime = $meeting->CreateTime;
         $this->meeting->ReservationNumber = $meeting->ReservationNumber;
+        $this->meeting->Status = $meeting->Status;
+        $this->meeting->CancelResponse = $meeting->CancelResponse;
 
         return $this->meeting;
     }

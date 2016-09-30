@@ -5,7 +5,6 @@ use application\components\form\CreateUpdateForm;
 use application\components\utility\Texts;
 use connect\models\MeetingLinkUser;
 use connect\models\Place;
-use connect\models\Reservation;
 use user\models\User;
 use Yii;
 use connect\models\Meeting as MeetingAR;
@@ -105,6 +104,8 @@ class Meeting extends CreateUpdateForm
             $this->model->Date = $date->format('Y-m-d H:i:s');
 
             $this->model->CreatorId = $this->Creator->Id;
+
+            $this->model->Status = MeetingAR::STATUS_OPEN;
 
             if ($this->File){
                 $filepath = $this->model->getFileDir();

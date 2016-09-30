@@ -10,14 +10,12 @@ class DeclineAction extends \api\components\Action
 {
     public function run()
     {
-        $runetId = \Yii::app()->getRequest()->getParam('RunetId', null);
-        $user = User::model()->byRunetId($runetId)->find();
-        if ($user === null) {
-            throw new Exception(202, [$runetId]);
-        }
+        $user = $this->getRequestedUser();
+        $meetingId = $this->getRequestParam('MeetingId', null);
 
-        $meetingId = \Yii::app()->getRequest()->getParam('MeetingId', null);
-        $link = MeetingLinkUser::model()->byUser($user)->findByAttributes(['MeetingId' => $meetingId]);
+        $link = MeetingLinkUser::model()
+            ->byUserId($user->Id)
+            ->findByAttributes(['MeetingId' => $meetingId]);
         if (!$link){
             throw new Exception(4001, [$meetingId]);
         }

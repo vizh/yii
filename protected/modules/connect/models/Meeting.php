@@ -13,6 +13,7 @@ use user\models\User;
  * @property integer $Type
  * @property string $CreateTime
  * @property integer $ReservationNumber
+ * @property integer $Status
  *
  * @property Place $Place
  * @property User $Creator
@@ -35,6 +36,9 @@ class Meeting extends ActiveRecord
     const TYPE_PRIVATE = 1;
     const TYPE_PUBLIC = 2;
 
+    const STATUS_OPEN = 1;
+    const STATUS_CANCELLED = 2;
+
     public function tableName()
     {
         return 'ConnectMeeting';
@@ -49,22 +53,13 @@ class Meeting extends ActiveRecord
         ];
     }
 
-    public function byCreator($user, $useAnd = true)
+    public function byUserId($id)
     {
         $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."CreatorId" = :CreatorId';
-        $criteria->params = array('CreatorId' => $user->Id);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    public function byUser($user, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->with("UserLinks");
-        $criteria->condition = '"UserLinks"."UserId" = :UserId';
-        $criteria->params = array('UserId' => $user->Id);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        $criteria->with[] = 'UserLinks';
+        $criteria->condition = '"UserLinks"."UserId" = :id';
+        $criteria->params = array('id' => $id);
+        $this->getDbCriteria()->mergeWith($criteria);
         return $this;
     }
 
@@ -79,6 +74,6 @@ class Meeting extends ActiveRecord
 
     public function getFileUrl()
     {
-        return '/files/connect/'.$this->File;
+        return $this->File ? '/files/connect/'.$this->File : '';
     }
 }

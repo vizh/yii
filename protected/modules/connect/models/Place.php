@@ -4,6 +4,7 @@ namespace connect\models;
 
 use application\components\ActiveRecord;
 use application\components\helpers\ArrayHelper;
+use event\models\Event;
 
 /**
  * @property integer $Id
@@ -13,6 +14,7 @@ use application\components\helpers\ArrayHelper;
  * @property integer $ReservationTime
  * @property integer $ReservationLimit
  *
+ * @property Event $Event
  * @property Meeting[] $Meetings
  */
 class Place extends ActiveRecord
