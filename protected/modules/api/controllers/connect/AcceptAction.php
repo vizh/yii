@@ -28,7 +28,7 @@ class AcceptAction extends \api\components\Action
             $this->setSuccessResult();
         }
         catch (\Exception $e){
-            $this->setResult(['Success' => false]);
+            $this->setResult(['Success' => false, 'Error' => $e->getMessage()]);
         }
     }
 }

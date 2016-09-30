@@ -3,7 +3,9 @@
 namespace connect\models;
 
 use application\components\ActiveRecord;
+use mail\components\mailers\SESMailer;
 use user\models\User;
+use Yii;
 
 /**
  * @property integer $Id
@@ -65,15 +67,67 @@ class Meeting extends ActiveRecord
 
     public function getFileDir()
     {
-        $dir = \Yii::getPathOfAlias('webroot').'/files/connect';
+        $dir = Yii::getPathOfAlias('webroot').'/files/connect';
         if (!is_dir($dir)){
             mkdir($dir, 0755, true);
         }
         return $dir;
     }
 
-    public function getFileUrl()
+    public function getFileUrl($absolute = false)
     {
-        return $this->File ? '/files/connect/'.$this->File : '';
+        if (!$this->File){
+            return '';
+        }
+        $url = '/files/connect/'.$this->File;
+        return rtrim ($absolute ? Yii::app()->createAbsoluteUrl($url) : Yii::app()->createUrl($url), '/');
+    }
+
+    public function onInvite(\CEvent $event)
+    {
+        /** @var self $sender */
+        $sender = $event->sender;
+        $sender->refresh();
+
+        $event->params['meeting'] = $this;
+
+        $class = Yii::getExistClass('\connect\components\handlers\invite', ucfirst($sender->Place->Event->IdName), 'Base');
+        /** @var $mail \connect\components\handlers\invite\Base */
+        $mail = new $class(new SESMailer(), $event);
+        $mail->send();
+
+        $this->raiseEvent('onInvite', $event);
+    }
+
+    public function onAccept(\CEvent $event)
+    {
+        /** @var self $sender */
+        $sender = $event->sender;
+        $sender->refresh();
+
+        $event->params['meeting'] = $this;
+
+        $class = Yii::getExistClass('\connect\components\handlers\accept', ucfirst($sender->Place->Event->IdName), 'Base');
+        /** @var $mail \connect\components\handlers\accept\Base */
+        $mail = new $class(new SESMailer(), $event);
+        $mail->send();
+
+        $this->raiseEvent('onAccept', $event);
+    }
+
+    public function onDecline(\CEvent $event)
+    {
+        /** @var self $sender */
+        $sender = $event->sender;
+        $sender->refresh();
+
+        $event->params['meeting'] = $this;
+
+        $class = Yii::getExistClass('\connect\components\handlers\decline', ucfirst($sender->Place->Event->IdName), 'Base');
+        /** @var $mail \connect\components\handlers\decline\Base */
+        $mail = new $class(new SESMailer(), $event);
+        $mail->send();
+
+        $this->raiseEvent('onDecline', $event);
     }
 }

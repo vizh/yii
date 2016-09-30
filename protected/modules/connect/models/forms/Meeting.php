@@ -156,6 +156,10 @@ class Meeting extends CreateUpdateForm
                     $link->UserId = $this->User->Id;
                     $link->Status = MeetingLinkUser::STATUS_SENT;
                     $link->save(false);
+
+                    $event = new \CEvent($this->model);
+                    $event->params['user'] = $this->User;
+                    $this->model->onInvite($event);
                 }
 
                 $transaction->commit();
