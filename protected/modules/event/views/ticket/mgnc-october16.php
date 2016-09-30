@@ -14,7 +14,7 @@ use user\models\User;
 
 
     .main{
-        height: 296mm;
+        height: 281mm;
         width: 420mm;
 
         background: url("/img/ticket/mgnc-october16/ticket.jpg") no-repeat;
