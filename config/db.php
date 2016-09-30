@@ -17,7 +17,7 @@ if (YII_DEBUG) {
 
     // Для олдскульщиков оставляем возможность создать рядышком
     // файлик db.dev.php в котором можно задать собственные настройки
-    if (!file_exists('db.dev.php')) {
+    /*if (!file_exists('db.dev.php')) {
         ?>
         <center style="display:block;margin:5em auto;width:60%;font-size:22px">
             <font color="red">ВНИМАНИЕ!</font>
@@ -38,10 +38,10 @@ if (YII_DEBUG) {
         </center>
         <?
         exit;
-    }
+    }*/
 
     /** @noinspection PhpIncludeInspection */
-    return require __DIR__.'db.dev.php';
+    /*return require __DIR__.'db.dev.php';*/
 }
 
 return [ // Настройки подключения к боевой базе.
