@@ -24,6 +24,7 @@ use Yii;
  * @method Meeting byPlaceId(int $id)
  * @method Meeting byCreatorId(int $id)
  * @method Meeting byType(int $id)
+ * @method Meeting byStatus(int $id)
  * @method Meeting byReservationNumber(int $id)
  *
  * @method Meeting with($condition='')

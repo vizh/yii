@@ -19,6 +19,10 @@ class ListAction extends \api\components\Action
             $meetings->byType($this->getRequestParam('Type'));
         }
 
+        if ($this->hasRequestParam('Status')) {
+            $meetings->byStatus($this->getRequestParam('Status'));
+        }
+
         $meetings = $meetings->findAll();
 
         $result = [];
