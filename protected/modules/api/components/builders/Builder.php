@@ -972,7 +972,10 @@ class Builder
             return $user;
         }, $meeting->UserLinks);
         $this->meeting->UserCount = count($meeting->UserLinks);
+        $this->meeting->Start = $meeting->Date;
+        # TODO: deprecated
         $this->meeting->Date = substr($meeting->Date, 0, 10);
+        # TODO: deprecated
         $this->meeting->Time = substr($meeting->Date, 11, 5);
         $this->meeting->Type = $meeting->Type;
         $this->meeting->Purpose = $meeting->Purpose;
