@@ -244,7 +244,7 @@ WHERE poi."Paid"';
         $stats = \Yii::app()->db->createCommand()
             ->select('p."RoleId", count(p."RoleId") "Count"')
             ->from('EventParticipant p')
-            ->where('p."EventId" = :EventId AND p."UserId" IN (' . $this->getOrderItemsQuery($productsId) . ' AND (pc."IsTicket" OR (pc."Discount" != 100 || pc."ManagerName" != \'Percent\') OR pc."Id" IS NULL)' . ')')
+            ->where('p."EventId" = :EventId AND p."UserId" IN (' . $this->getOrderItemsQuery($productsId) . ' AND (pc."IsTicket" OR (pc."Discount" != 100 OR pc."ManagerName" != \'Percent\') OR pc."Id" IS NULL)' . ')')
             ->group('p.RoleId')->query(['EventId' => $this->eventId]);
 
         $dummy = [];
@@ -316,4 +316,4 @@ WHERE poi."Paid"';
         return $result;
     }
 
-} 
+}
