@@ -5,16 +5,9 @@
  */
 ?>
 <p>Здравствуйте!</p>
-<p>
-    <?= $meeting->Creator->getFullName(); ?> (<?= $meeting->Creator->getEmploymentPrimary()->Company->FullName; ?>) приглашает Вас на деловую встречу
-    в рамках форума «Открытые инновации 2016»
-    в <?= $meeting->Date; ?>,
-    место встречи: <?= $meeting->Place->Name?>.
-</p>
-
-<p>Цель встречи: <strong><?= $meeting->Purpose; ?></strong></p>
-
-<p>Тема встречи: <strong><?= $meeting->Subject; ?></strong></p>
+<p><?= $meeting->Creator->getFullName(); ?> (<?= $meeting->Creator->getEmploymentPrimary()->Company->FullName; ?>) приглашает Вас на деловую встречу в рамках форума «Открытые инновации 2016» в <?= $meeting->Date; ?>, предлагаемое место встречи: <?= $meeting->Place->Name?>.</p>
+<p><strong>Тема встречи:</strong><br/><?= $meeting->Subject; ?></p>
+<p><strong>Цель встречи:</strong><br/><?= $meeting->Purpose; ?></p>
 
 <?php if ($meeting->File): ?>
     <p>Приглашающая сторона прикрепила <?= CHtml::link('файл', $meeting->getFileUrl(true)); ?> с дополнительной информацией</a>.</p>
