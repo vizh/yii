@@ -94,13 +94,6 @@ if (YII_DEBUG) {
         'class' => 'ext.yii2-debug.Yii2Debug',
         'allowedIPs' => ['127.0.0.1', '::1', '82.142.129.37 '],
     ];
-
-    if (YII_DEBUG_DISABLE_CHACHE) {
-        unset($config['components']['mongo']);
-        $config['components']['cache'] = [
-            'class' => 'CDummyCache'
-        ];
-    }
 }
 
 return $config;
