@@ -42,7 +42,7 @@ class Base extends MailLayout
      */
     public function getFrom()
     {
-        return 'support@forinnovations.ru';
+        return 'connect@runet-id.com';
     }
 
     /**
@@ -50,15 +50,7 @@ class Base extends MailLayout
      */
     public function getFromName()
     {
-        return 'Open Innovations 2016';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getLayoutName()
-    {
-        return 'oi16';
+        return '—RUNET—ID—';
     }
 
     /**
