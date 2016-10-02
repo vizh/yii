@@ -13,8 +13,10 @@ use event\models\Event;
  * @property boolean $Reservation
  * @property integer $ReservationTime
  * @property integer $ReservationLimit
+ * @property integer $ParentId
  *
  * @property Event $Event
+ * @property Place $Parent
  * @property Meeting[] $Meetings
  */
 class Place extends ActiveRecord
@@ -28,6 +30,7 @@ class Place extends ActiveRecord
     {
         return [
             'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
+            'Parent' => [self::BELONGS_TO, '\event\models\Place', 'ParentId'],
             'Meetings' => [self::HAS_MANY, '\connect\models\Meeting', 'PlaceId'],
         ];
     }

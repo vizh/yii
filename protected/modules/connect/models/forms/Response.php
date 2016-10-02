@@ -63,19 +63,25 @@ class Response extends CreateUpdateForm
         }
 
         $this->fillActiveRecord();
+
+        /** @var MeetingAR $meetingModel */
+        $meetingModel = $this->model->Meeting;
+        //резервируем место встречи
+        $meetingModel->reserveMeetingRoom();
+
         $saved = $this->model->save();
 
         if ($saved){
             if ($this->model->Status == MeetingLinkUser::STATUS_ACCEPTED){
                 $event = new \CEvent($this->model->Meeting);
                 $event->params['user'] = $this->model->User;
-                $this->model->Meeting->onAccept($event);
+                $meetingModel->onAccept($event);
             }
             if ($this->model->Status == MeetingLinkUser::STATUS_DECLINED){
-                $event = new \CEvent($this->model->Meeting);
+                $event = new \CEvent($meetingModel);
                 $event->params['user'] = $this->model->User;
                 $event->params['response'] = $this->Response;
-                $this->model->Meeting->onDecline($event);
+                $meetingModel->onDecline($event);
             }
         }
 

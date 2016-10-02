@@ -145,7 +145,8 @@ class Meeting extends CreateUpdateForm
             $saved = $this->updateActiveRecord();
 
             if ($saved){
-                if ($this->model->Place->Reservation){
+                //если у места встречи нет парента, то сразу делаем резервирование
+                if ($this->model->Place->Reservation && !$this->model->placeReservationOnAcceptRequired){
                     $this->model->ReservationNumber = $this->model->Place->assignReservation($this->model->Date);
                     $this->model->save(false);
                 }

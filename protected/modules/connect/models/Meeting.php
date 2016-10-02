@@ -3,6 +3,7 @@
 namespace connect\models;
 
 use application\components\ActiveRecord;
+use application\components\CDbCriteria;
 use mail\components\mailers\SESMailer;
 use user\models\User;
 use Yii;
@@ -16,6 +17,7 @@ use Yii;
  * @property string $CreateTime
  * @property integer $ReservationNumber
  * @property integer $Status
+ * @property boolean $placeReservationOnAcceptRequired
  *
  * @property Place $Place
  * @property User $Creator
@@ -130,5 +132,41 @@ class Meeting extends ActiveRecord
         $mail->send();
 
         $this->raiseEvent('onDecline', $event);
+    }
+
+    public function getPlaceReservationOnAcceptRequired()
+    {
+        $place = Place::model()->find('"ParentId"=' . $this->Place->Id);
+        return $this->Place->Reservation && !is_null($place);
+    }
+
+    public function pickupMeetingRoom()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->join = 'LEFT JOIN "ConnectMeeting" AS m ON m."PlaceId" = t."Id"
+                        AND m."ReservationNumber" < t."ReservationLimit"
+                        AND m."Date"::timestamp::date = current_date
+                        ';
+        $criteria->condition = 't."ParentId" = :parent_id';
+        $criteria->group = 't."Id"';
+        $criteria->order = 'MIN(m."ReservationNumber")';
+        $criteria->params = [
+            ':parent_id' => $this->Place->Id
+        ];
+        return Place::model()->find($criteria);
+    }
+
+    public function reserveMeetingRoom()
+    {
+        if ($this->placeReservationOnAcceptRequired) {
+            /** @var Place $place */
+            $place = $this->pickupMeetingRoom();
+            if (is_null($place)) {
+                throw new \Exception(4001, ['Не удалось зарезервировать переговорную комнату']);
+            }
+            $this->PlaceId = $place->Id;
+            $this->ReservationNumber = $place->assignReservation($this->Date);
+            $this->save(false);
+        }
     }
 }
