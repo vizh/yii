@@ -946,7 +946,6 @@ class Builder
         $this->meetingPlace->Name = $place->Name;
         $this->meetingPlace->Reservation = $place->Reservation ? 'true' : 'false';
         $this->meetingPlace->ReservationTime = $place->ReservationTime;
-        $this->meetingPlace->ReservationLimit = $place->ReservationLimit;
 
         return $this->meetingPlace;
     }
@@ -982,7 +981,6 @@ class Builder
         $this->meeting->Subject = $meeting->Subject;
         $this->meeting->File = $meeting->getFileUrl();
         $this->meeting->CreateTime = $meeting->CreateTime;
-        $this->meeting->ReservationNumber = $meeting->ReservationNumber;
         $this->meeting->Status = $meeting->Status;
         $this->meeting->CancelResponse = $meeting->CancelResponse;
 

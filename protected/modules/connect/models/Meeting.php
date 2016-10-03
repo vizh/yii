@@ -17,7 +17,6 @@ use Yii;
  * @property string $CreateTime
  * @property integer $ReservationNumber
  * @property integer $Status
- * @property boolean $placeReservationOnAcceptRequired
  *
  * @property Place $Place
  * @property User $Creator
@@ -134,38 +133,15 @@ class Meeting extends ActiveRecord
         $this->raiseEvent('onDecline', $event);
     }
 
-    public function getPlaceReservationOnAcceptRequired()
-    {
-        $place = Place::model()->find('"ParentId"=' . $this->Place->Id);
-        return $this->Place->Reservation && !is_null($place);
-    }
-
-    public function pickupMeetingRoom()
-    {
-        $criteria = new CDbCriteria();
-        $criteria->join = 'LEFT JOIN "ConnectMeeting" AS m ON m."PlaceId" = t."Id"
-                        AND m."ReservationNumber" < t."ReservationLimit"
-                        AND m."Date"::timestamp::date = current_date
-                        ';
-        $criteria->condition = 't."ParentId" = :parent_id';
-        $criteria->group = 't."Id"';
-        $criteria->order = 'MIN(m."ReservationNumber")';
-        $criteria->params = [
-            ':parent_id' => $this->Place->Id
-        ];
-        return Place::model()->find($criteria);
-    }
-
     public function reserveMeetingRoom()
     {
-        if ($this->placeReservationOnAcceptRequired) {
+        if ($this->Place->reservationOnAcceptRequired) {
             /** @var Place $place */
-            $place = $this->pickupMeetingRoom();
-            if (is_null($place)) {
-                throw new \Exception(4001, ['Не удалось зарезервировать переговорную комнату']);
+            $place = $this->Place->assignRoom($this->Date);
+            if (!$place) {
+                throw new \Exception('Не удалось зарезервировать переговорную комнату', 4002);
             }
             $this->PlaceId = $place->Id;
-            $this->ReservationNumber = $place->assignReservation($this->Date);
             $this->save(false);
         }
     }

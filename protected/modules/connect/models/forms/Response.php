@@ -64,24 +64,24 @@ class Response extends CreateUpdateForm
 
         $this->fillActiveRecord();
 
-        /** @var MeetingAR $meetingModel */
-        $meetingModel = $this->model->Meeting;
-        //резервируем место встречи
-        $meetingModel->reserveMeetingRoom();
+        /** @var MeetingAR $meeting */
+        $meeting = $this->model->Meeting;
 
         $saved = $this->model->save();
 
         if ($saved){
+            $meeting->reserveMeetingRoom();
+
             if ($this->model->Status == MeetingLinkUser::STATUS_ACCEPTED){
-                $event = new \CEvent($this->model->Meeting);
+                $event = new \CEvent($meeting);
                 $event->params['user'] = $this->model->User;
-                $meetingModel->onAccept($event);
+                $meeting->onAccept($event);
             }
             if ($this->model->Status == MeetingLinkUser::STATUS_DECLINED){
-                $event = new \CEvent($meetingModel);
+                $event = new \CEvent($meeting);
                 $event->params['user'] = $this->model->User;
                 $event->params['response'] = $this->Response;
-                $meetingModel->onDecline($event);
+                $meeting->onDecline($event);
             }
         }
 
