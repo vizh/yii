@@ -14,7 +14,7 @@ class Response extends CreateUpdateForm
     public function rules()
     {
         return [
-            ['Status', 'in', 'range' => [MeetingLinkUser::STATUS_ACCEPTED, MeetingLinkUser::STATUS_DECLINED]],
+            ['Status', 'in', 'range' => [MeetingLinkUser::STATUS_ACCEPTED, MeetingLinkUser::STATUS_DECLINED, MeetingLinkUser::STATUS_CANCELLED]],
             ['Response', 'length', 'min' => 0, 'max' => 255]
         ];
     }

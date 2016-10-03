@@ -12,7 +12,7 @@ class ListAction extends \api\components\Action
             ->with('UserLinks');
 
         if ($this->hasRequestParam('RunetId')) {
-            $meetings->byCreatorId($this->getRequestedUser()->Id);
+            $meetings->byCreatorId($this->getRequestedUser()->Id, false);
             $meetings->byUserId($this->getRequestedUser()->Id, false);
         }
 
@@ -24,7 +24,7 @@ class ListAction extends \api\components\Action
             $meetings->byUserId($this->getRequestedUser('UserId')->Id);
         }
 
-        if ($this->hasRequestParam('Type')) {
+        if ($this->hasRequestParam('Type')){
             $meetings->byType($this->getRequestParam('Type'));
         }
 

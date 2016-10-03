@@ -25,7 +25,6 @@ use Yii;
  * @method Meeting byCreatorId(int $id, $useAnd = true)
  * @method Meeting byType(int $id, $useAnd = true)
  * @method Meeting byStatus(int $id, $useAnd = true)
- * @method Meeting byReservationNumber(int $id, $useAnd = true)
  *
  * @method Meeting with($condition = '')
  * @method Meeting find($condition = '', $params = [])
