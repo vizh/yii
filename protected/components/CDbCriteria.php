@@ -30,9 +30,30 @@ class CDbCriteria extends \CDbCriteria
         return $this;
     }
 
-    public function setWith(array $with)
+    public function setWith(array $with, $condition = null, array $params = null)
     {
         $this->with = $with;
+
+        if ($condition !== null) {
+            $this->condition = $condition;
+            if ($params !== null) {
+                $this->addParams($params);
+            }
+        }
+
+        return $this;
+    }
+
+    public function setParams(array $params)
+    {
+        $this->params = $params;
+
+        return $this;
+    }
+
+    public function addParams(array $params)
+    {
+        $this->params = array_merge($this->params, $params);
 
         return $this;
     }

@@ -129,42 +129,45 @@ class Action extends \CAction
     }
 
     /**
+     * @param string $param параметр запроса из которого взять Id пользователя
      * @return User
      * @throws Exception
      */
-    protected function getRequestedUser()
+    protected function getRequestedUser($param = 'RunetId')
     {
-        static $user;
+        static $users;
 
-        if ($user !== null) {
-            return $user;
-        }
-
-        try {
-            $id = Yii::app()
-                ->getRequest()
-                ->getParam('RunetId');
-
-            if ($id === null) {
-                throw new Exception(109, ['RunetId']);
+        if (isset($users[$param]) === false) {
+            if ($users !== null) {
+                $users = [];
             }
 
-            $user = User::model()
-                ->byRunetId($id)
-                ->find();
+            try {
+                $id = Yii::app()
+                    ->getRequest()
+                    ->getParam($param);
 
-            if ($user === null) {
-                throw new Exception(202, [$id]);
+                if ($id === null) {
+                    throw new Exception(109, [$param]);
+                }
+
+                $user = User::model()
+                    ->byRunetId($id)
+                    ->find();
+
+                if ($user === null) {
+                    throw new Exception(202, [$id]);
+                }
+
+                $users[$param] = $user;
+            } catch (Exception $e) {
+                throw $e;
+            } catch (Throwable $e) {
+                throw new Exception(100, [$e->getMessage()]);
             }
-        } catch (Exception $e) {
-            $user = null;
-            throw $e;
-        } catch (Throwable $e) {
-            $user = null;
-            throw new Exception(100, [$e->getMessage()]);
         }
 
-        return $user;
+        return $users[$param];
     }
 
     /**

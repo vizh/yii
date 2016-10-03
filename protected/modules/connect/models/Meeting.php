@@ -3,7 +3,6 @@
 namespace connect\models;
 
 use application\components\ActiveRecord;
-use application\components\CDbCriteria;
 use mail\components\mailers\SESMailer;
 use user\models\User;
 use Yii;
@@ -22,18 +21,17 @@ use Yii;
  * @property User $Creator
  * @property MeetingLinkUser[] $UserLinks
  *
- * @method Meeting byPlaceId(int $id)
- * @method Meeting byCreatorId(int $id)
- * @method Meeting byType(int $id)
- * @method Meeting byStatus(int $id)
- * @method Meeting byReservationNumber(int $id)
+ * @method Meeting byPlaceId(int $id, $useAnd = true)
+ * @method Meeting byCreatorId(int $id, $useAnd = true)
+ * @method Meeting byType(int $id, $useAnd = true)
+ * @method Meeting byStatus(int $id, $useAnd = true)
  *
- * @method Meeting with($condition='')
- * @method Meeting find($condition='',$params=array())
- * @method Meeting findByPk($pk,$condition='',$params=array())
- * @method Meeting findByAttributes($attributes,$condition='',$params=array())
- * @method Meeting[] findAll($condition='',$params=array())
- * @method Meeting[] findAllByAttributes($attributes,$condition='',$params=array())
+ * @method Meeting with($condition = '')
+ * @method Meeting find($condition = '', $params = [])
+ * @method Meeting findByPk($pk, $condition = '', $params = [])
+ * @method Meeting findByAttributes($attributes, $condition = '', $params = [])
+ * @method Meeting[] findAll($condition = '', $params = [])
+ * @method Meeting[] findAllByAttributes($attributes, $condition = '', $params = [])
  */
 class Meeting extends ActiveRecord
 {
@@ -57,32 +55,35 @@ class Meeting extends ActiveRecord
         ];
     }
 
-    public function byUserId($id)
+    public function byUserId($id, $useAnd = true)
     {
         $criteria = new \CDbCriteria();
         $criteria->with[] = 'UserLinks';
         $criteria->condition = '"UserLinks"."UserId" = :id';
-        $criteria->params = array('id' => $id);
-        $this->getDbCriteria()->mergeWith($criteria);
+        $criteria->params = ['id' => $id];
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
     public function getFileDir()
     {
         $dir = Yii::getPathOfAlias('webroot').'/files/connect';
-        if (!is_dir($dir)){
+        if (!is_dir($dir)) {
             mkdir($dir, 0755, true);
         }
+
         return $dir;
     }
 
     public function getFileUrl($absolute = false)
     {
-        if (!$this->File){
+        if (!$this->File) {
             return '';
         }
         $url = '/files/connect/'.$this->File;
-        return rtrim ($absolute ? Yii::app()->createAbsoluteUrl($url) : Yii::app()->createUrl($url), '/');
+
+        return rtrim($absolute ? Yii::app()->createAbsoluteUrl($url) : Yii::app()->createUrl($url), '/');
     }
 
     public function onInvite(\CEvent $event)
@@ -93,7 +94,8 @@ class Meeting extends ActiveRecord
 
         $event->params['meeting'] = $this;
 
-        $class = Yii::getExistClass('\connect\components\handlers\invite', ucfirst($sender->Place->Event->IdName), 'Base');
+        $class = Yii::getExistClass('\connect\components\handlers\invite', ucfirst($sender->Place->Event->IdName),
+            'Base');
         /** @var $mail \connect\components\handlers\invite\Base */
         $mail = new $class(new SESMailer(), $event);
         $mail->send();
@@ -109,7 +111,8 @@ class Meeting extends ActiveRecord
 
         $event->params['meeting'] = $this;
 
-        $class = Yii::getExistClass('\connect\components\handlers\accept', ucfirst($sender->Place->Event->IdName), 'Base');
+        $class = Yii::getExistClass('\connect\components\handlers\accept', ucfirst($sender->Place->Event->IdName),
+            'Base');
         /** @var $mail \connect\components\handlers\accept\Base */
         $mail = new $class(new SESMailer(), $event);
         $mail->send();
@@ -125,7 +128,8 @@ class Meeting extends ActiveRecord
 
         $event->params['meeting'] = $this;
 
-        $class = Yii::getExistClass('\connect\components\handlers\decline', ucfirst($sender->Place->Event->IdName), 'Base');
+        $class = Yii::getExistClass('\connect\components\handlers\decline', ucfirst($sender->Place->Event->IdName),
+            'Base');
         /** @var $mail \connect\components\handlers\decline\Base */
         $mail = new $class(new SESMailer(), $event);
         $mail->send();
