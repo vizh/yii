@@ -65,7 +65,7 @@ class Meeting extends CreateUpdateForm
             return;
         }
 
-        if (!$place->hasAvailableReservation($this->Date)){
+        if ($place->Reservation && !$place->hasAvailableReservation($this->Date)){
             $this->addError('Date', 'На выбранное время нет доступных переговорных комнат');
         }
     }
@@ -145,12 +145,7 @@ class Meeting extends CreateUpdateForm
             $saved = $this->updateActiveRecord();
 
             if ($saved){
-                if ($this->model->Place->Reservation){
-                    $this->model->ReservationNumber = $this->model->Place->assignReservation($this->model->Date);
-                    $this->model->save(false);
-                }
-
-                if ($saved && $this->Type == MeetingAR::TYPE_PRIVATE){
+                if ($this->Type == MeetingAR::TYPE_PRIVATE){
                     $link = new MeetingLinkUser();
                     $link->MeetingId = $this->model->Id;
                     $link->UserId = $this->User->Id;

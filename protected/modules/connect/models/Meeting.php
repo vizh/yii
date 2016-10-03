@@ -3,6 +3,7 @@
 namespace connect\models;
 
 use application\components\ActiveRecord;
+use application\components\CDbCriteria;
 use mail\components\mailers\SESMailer;
 use user\models\User;
 use Yii;
@@ -24,6 +25,7 @@ use Yii;
  * @method Meeting byPlaceId(int $id)
  * @method Meeting byCreatorId(int $id)
  * @method Meeting byType(int $id)
+ * @method Meeting byStatus(int $id)
  * @method Meeting byReservationNumber(int $id)
  *
  * @method Meeting with($condition='')
@@ -129,5 +131,18 @@ class Meeting extends ActiveRecord
         $mail->send();
 
         $this->raiseEvent('onDecline', $event);
+    }
+
+    public function reserveMeetingRoom()
+    {
+        if ($this->Place->reservationOnAcceptRequired) {
+            /** @var Place $place */
+            $place = $this->Place->assignRoom($this->Date);
+            if (!$place) {
+                throw new \Exception('Не удалось зарезервировать переговорную комнату', 4002);
+            }
+            $this->PlaceId = $place->Id;
+            $this->save(false);
+        }
     }
 }

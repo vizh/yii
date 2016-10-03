@@ -12,9 +12,13 @@ use event\models\Event;
  * @property string $Name
  * @property boolean $Reservation
  * @property integer $ReservationTime
- * @property integer $ReservationLimit
+ * @property integer $ParentId
+ *
+ * @property boolean reservationOnAcceptRequired
  *
  * @property Event $Event
+ * @property Place $Parent
+ * @property Place[] $Children
  * @property Meeting[] $Meetings
  */
 class Place extends ActiveRecord
@@ -28,61 +32,71 @@ class Place extends ActiveRecord
     {
         return [
             'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
+            'Parent' => [self::BELONGS_TO, '\connect\models\Place', 'ParentId'],
+            'Children' => [self::HAS_MANY, '\connect\models\Place', 'ParentId'],
             'Meetings' => [self::HAS_MANY, '\connect\models\Meeting', 'PlaceId'],
         ];
     }
 
-    public function getReservations($date)
+    public function getReservationOnAcceptRequired()
+    {
+        return $this->Reservation && !empty($this->Children);
+    }
+
+    public function getReservations($datetime)
     {
         $reservations = [];
-        /** @var Meeting $meeting */
-        foreach ($this->Meetings as $meeting) {
+
+        /** @var Meeting[] $meetings */
+        $meetings = Meeting::model()
+            ->byPlaceId(array_map(function($room){
+                return $room->Id;
+            }, $this->Children))
+            ->findAll();
+
+        foreach ($meetings as $meeting) {
             $link = ArrayHelper::getValue($meeting, 'UserLinks.0', null);
             if (!$link){
                 continue;
             }
-            $overlapping = abs(strtotime($date) - strtotime($meeting->Date)) < $this->ReservationTime;
+            $overlapping = abs(strtotime($datetime) - strtotime($meeting->Date)) < $this->ReservationTime;
             $accepted = $link->Status == MeetingLinkUser::STATUS_ACCEPTED;
-            $expired = $link->Status == MeetingLinkUser::STATUS_SENT && strtotime(date('Y-m-d')) - strtotime($meeting->CreateTime) > 24*60*60;
-            if ($overlapping && ($accepted || !$expired)){
+            $expired = strtotime(date('Y-m-d')) - strtotime($meeting->CreateTime) > 24*60*60;
+            if ($overlapping && $accepted && !$expired){
                 $reservations[] = $meeting;
             }
         }
+
         return $reservations;
     }
 
-    public function assignReservation($date)
+    public function assignRoom($datetime)
     {
-        for ($i=1; $i<=$this->ReservationLimit; $i++){
+        $reservations = $this->getReservations($datetime);
+
+        /** @var Place $room */
+        foreach ($this->Children as $room) {
             $taken = false;
             /** @var Meeting $meeting */
-            foreach ($this->getReservations($date) as $meeting) {
-                if ($meeting->ReservationNumber == $i){
+            foreach ($reservations as $meeting) {
+                if ($meeting->PlaceId == $room->Id){
                     $taken = true;
                 }
             }
             if (!$taken){
-                return $i;
+                return $room;
             }
         }
         return null;
     }
 
-    public function countReservations($date)
+    public function countReservations($datetime)
     {
-        return count($this->getReservations($date));
+        return count($this->getReservations($datetime));
     }
 
-    public function hasAvailableReservation($date)
+    public function hasAvailableReservation($datetime)
     {
-        if (!$this->Reservation || !$this->ReservationTime) {
-            return true;
-        }
-
-        if ($this->countReservations($date) >= $this->ReservationLimit){
-            return false;
-        }
-
-        return true;
+        return $this->assignRoom($datetime) ? true : false;
     }
 }

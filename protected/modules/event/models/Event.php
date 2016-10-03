@@ -65,6 +65,7 @@ use user\models\User;
  * @property LinkProfessionalInterest[] $LinkProfessionalInterests
  *
  * @property Place[] $MeetingPlaces
+ * @property Place[] $MeetingPlacesPublic
  *
  *
  * @method Section[] Sections()
@@ -153,7 +154,8 @@ class Event extends ActiveRecord implements ISearch
             ],
             'PayAccount' => [self::HAS_ONE, '\pay\models\Account', 'EventId'],
             'RuventsSettings' => [self::HAS_ONE, '\ruvents\models\Setting', 'EventId'],
-            'MeetingPlaces' => [self::HAS_MANY, '\connect\models\Place', 'EventId']
+            'MeetingPlaces' => [self::HAS_MANY, '\connect\models\Place', 'EventId'],
+            'MeetingPlacesPublic' => [self::HAS_MANY, '\connect\models\Place', 'EventId', 'condition' => '"ParentId" IS NULL']
         ];
     }
 

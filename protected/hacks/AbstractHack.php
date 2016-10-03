@@ -3,6 +3,7 @@
 namespace application\hacks;
 
 use event\models\Event;
+use user\models\User;
 
 class AbstractHack
 {
@@ -39,5 +40,19 @@ class AbstractHack
     public function onPartnerRegisterControllerActions(array $actions)
     {
         return $actions;
+    }
+
+    /**
+     * Вызывается в момент авторизации используя метод user/login. Должна вернуть либо null,
+     * либо новый экземлпяр User. Можно использовать для проверки логина и пароля через внешние
+     * сервисы. Свобода для творчества.
+     *
+     * @param $email string
+     * @param $password string
+     * @return User|null
+     */
+    public function apiCustomLogin(/** @noinspection PhpUnusedParameterInspection */ $email, $password)
+    {
+        return null;
     }
 }

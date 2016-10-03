@@ -946,7 +946,6 @@ class Builder
         $this->meetingPlace->Name = $place->Name;
         $this->meetingPlace->Reservation = $place->Reservation ? 'true' : 'false';
         $this->meetingPlace->ReservationTime = $place->ReservationTime;
-        $this->meetingPlace->ReservationLimit = $place->ReservationLimit;
 
         return $this->meetingPlace;
     }
@@ -972,14 +971,16 @@ class Builder
             return $user;
         }, $meeting->UserLinks);
         $this->meeting->UserCount = count($meeting->UserLinks);
+        $this->meeting->Start = $meeting->Date;
+        # TODO: deprecated
         $this->meeting->Date = substr($meeting->Date, 0, 10);
+        # TODO: deprecated
         $this->meeting->Time = substr($meeting->Date, 11, 5);
         $this->meeting->Type = $meeting->Type;
         $this->meeting->Purpose = $meeting->Purpose;
         $this->meeting->Subject = $meeting->Subject;
         $this->meeting->File = $meeting->getFileUrl();
         $this->meeting->CreateTime = $meeting->CreateTime;
-        $this->meeting->ReservationNumber = $meeting->ReservationNumber;
         $this->meeting->Status = $meeting->Status;
         $this->meeting->CancelResponse = $meeting->CancelResponse;
 
