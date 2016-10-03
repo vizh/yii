@@ -13,9 +13,18 @@ class ListAction extends \api\components\Action
 
         if ($this->hasRequestParam('RunetId')) {
             $meetings->byCreatorId($this->getRequestedUser()->Id);
+            $meetings->byUserId($this->getRequestedUser()->Id, false);
         }
 
-        if ($this->hasRequestParam('Type')){
+        if ($this->hasRequestParam('CreatorId')) {
+            $meetings->byCreatorId($this->getRequestedUser('CreatorId')->Id);
+        }
+
+        if ($this->hasRequestParam('UserId')) {
+            $meetings->byUserId($this->getRequestedUser('UserId')->Id);
+        }
+
+        if ($this->hasRequestParam('Type')) {
             $meetings->byType($this->getRequestParam('Type'));
         }
 
