@@ -30,7 +30,7 @@ $this->setPageTitle(\Yii::t('app', 'Мои заказы'));
                 <div class="span9">
                     <?if(empty($wait) && empty($paid)):?>
                         <div class="alert alert-danger text-center">У вас нет заказов</div>
-                    <?php else:?>
+                    <?else:?>
                         <div class="tabs" id="user-account-settings-tabs">
                             <ul class="nav">
                                 <?if(!empty($wait)):?>

@@ -3,7 +3,6 @@ namespace api\components\callback;
 
 use event\models\Role;
 use event\models\UserData;
-use user\models\Log;
 use user\models\User;
 
 class AccountBu16 extends Base

@@ -138,7 +138,7 @@ use application\components\utility\Texts;
             <?if(!empty($form->getActiveRecord()->PrimaryPhone)):?>
                 <?if($form->getActiveRecord()->PrimaryPhoneVerify):?>
                     <span class="label label-success">Подтвержден</span>
-                <?php else:?>
+                <?else:?>
                     <span class="label label-danger">Не подтвержден</span>
                 <?endif?>
             <?endif?>

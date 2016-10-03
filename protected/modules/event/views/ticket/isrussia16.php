@@ -15,7 +15,6 @@ $data = UserData::model()
     ->byEventId($event->Id)
     ->byUserId($user->Id)
     ->byDeleted(false)
-    ->orderBy(['"t"."CreationTime"'])
     ->find();
 
 $customNumber = null;
@@ -93,7 +92,7 @@ if ($data) {
                         INTERNATIONAL EXHIBITION<br>
                         1-3 November, 2016<br>
                         Moscow, Expocentre, pavilions "Forum", №1<br>
-                    <?php else:?>
+                    <?else:?>
                         МЕЖДУНАРОДНАЯ ВЫСТАВКА<br>
                         1-3 Ноября 2016<br>
                         Москва, Экспоцентр, павильоны «Форум», №1<br>
@@ -108,7 +107,7 @@ if ($data) {
 
         <?if(\Yii::app()->language == 'en'):?>
             <img class="icons" src="/img/ticket/isrussia16/icons-en-red.jpg">
-        <?php else:?>
+        <?else:?>
             <img class="icons" src="/img/ticket/isrussia16/icons-ru-red.jpg">
         <?endif?>
     </div>

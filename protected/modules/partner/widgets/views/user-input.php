@@ -13,7 +13,7 @@
         <span class="input-group-addon">
             <?if(!empty($this->value)):?>
                 RUNET&ndash;ID: <?=$this->value?>
-            <?php else:?>
+            <?else:?>
                 &mdash;
             <?endif?>
         </span>

@@ -78,15 +78,17 @@ use Yii;
  * События
  * @property \CEvent $onRegister
  *
- *
- * Вспомогательные описания методов методы
- * @method User find($condition = '', $params = [])
- * @method User findByPk($pk, $condition = '', $params = [])
- * @method User[] findAll($condition = '', $params = [])
  * @method User byTemporary(bool $temporary)
  * @method User byVerified(bool $verified)
  * @method User byTranslationFields($locale, $fields, $valueSuffix = '%', $useAnd = true)
  *
+ * Описание вспомогательных методов
+ * @method User   with($condition = '')
+ * @method User   find($condition = '', $params = [])
+ * @method User   findByPk($pk, $condition = '', $params = [])
+ * @method User   findByAttributes($attributes, $condition = '', $params = [])
+ * @method User[] findAll($condition = '', $params = [])
+ * @method User[] findAllByAttributes($attributes, $condition = '', $params = [])
  */
 class User extends ActiveRecord implements ISearch, IAutocompleteItem
 {
@@ -970,8 +972,9 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         $model = UserDevice::model()
             ->byUserId($this->Id);
 
-        if ($token !== null)
+        if ($token !== null) {
             $model->byToken($token);
+        }
 
         return $model->exists();
     }

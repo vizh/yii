@@ -1,11 +1,10 @@
 <?php
 namespace event\models\forms;
 
-use application\components\helpers\ArrayHelper;
 use application\models\attribute\forms\Group;
 use application\models\attribute\Group as GroupModel;
 use event\models\Event;
-use event\models\UserData;
+use Yii;
 
 /**
  * Class UserAttributeGroup
@@ -28,7 +27,6 @@ class UserAttributeGroup extends Group
         parent::__construct($model);
     }
 
-
     /**
      * Заполняет модель данными из формы
      * @return bool
@@ -42,20 +40,14 @@ class UserAttributeGroup extends Group
 
     /**
      * @return array
+     * @throws \CException
      */
     protected function getUsedDefinitionNamesInternal()
     {
-        $names = [];
-        $data = UserData::model()->byEventId($this->event->Id)->findAll();
-        foreach ($data as $item) {
-            $data = json_decode($item->Attributes, true);
-            if (!is_array($data)) {
-                continue;
-            }
-
-            $names = array_merge($names, array_keys(json_decode($item->Attributes, true)));
-        }
-
-        return array_unique($names);
+        return Yii::app()->getDb()->createCommand()
+            ->select('DISTINCT json_object_keys("Attributes")')
+            ->from('EventUserData')
+            ->where('"EventId" = :EventId AND json_typeof("Attributes") ~~ \'object\'', ['EventId' => $this->event->Id])
+            ->queryColumn();
     }
 }

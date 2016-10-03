@@ -210,7 +210,6 @@ class EditAction extends Action
             ->byEventId($this->getEvent()->Id)
             ->byUserId($user->Id)
             ->byDeleted(false)
-            ->orderBy(['"t"."CreationTime"'])
             ->find();
 
         if (empty($userData))

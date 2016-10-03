@@ -2,8 +2,12 @@
 namespace event\models;
 
 use application\components\ActiveRecord;
+use application\components\CDbCriteria;
+use application\components\Exception;
+use application\models\attribute\Group;
 use event\components\UserDataManager;
 use user\models\User;
+use Yii;
 
 /**
  * Class UserData
@@ -20,25 +24,37 @@ use user\models\User;
  * @property User $User
  * @property User $Creator
  *
- * @method UserData find($condition='',$params=array())
- * @method UserData findByPk($pk,$condition='',$params=array())
- * @method UserData[] findAll($condition='',$params=array())
+ * @method UserData find($condition = '', $params = [])
+ * @method UserData findByPk($pk, $condition = '', $params = [])
+ * @method UserData[] findAll($condition = '', $params = [])
  */
-
 class UserData extends ActiveRecord
 {
     protected $manager;
 
+    /**
+     * @param null $className
+     * @return UserData
+     */
     public static function model($className = null)
     {
-        $model = parent::model($className);
-        $model->orderBy(['"t"."CreationTime"']);
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
-        return $model;
+    protected function beforeFind()
+    {
+        parent::beforeFind();
+
+        $this->getDbCriteria()->mergeWith(
+            CDbCriteria::create()
+                ->setOrder('"t"."CreationTime" DESC')
+        );
     }
 
     /**
      * Creates an empty user data record
+     *
      * @param Event|int $event Event's model or event's identifier
      * @param User|int $user User's model or user's identifier
      * @return self
@@ -106,13 +122,9 @@ class UserData extends ActiveRecord
      */
     public static function getDefinedAttributes($event, $user)
     {
-        $userDataModels = UserData::model()
-            ->byEventId($event->Id)
-            ->byUserId($user->Id)
-            ->findAll(['order' => 't."CreationTime" DESC']);
-
         $attributeNames = [];
-        foreach ($userDataModels as $userData) {
+
+        foreach ($event->getUserData($user) as $userData) {
             $manager = $userData->getManager();
             foreach ($manager->getDefinitions() as $definition) {
                 $name = $definition->name;
@@ -122,11 +134,8 @@ class UserData extends ActiveRecord
             }
         }
 
-        $attributeNames = array_unique($attributeNames);
-
-        return $attributeNames;
+        return array_unique($attributeNames);
     }
-
 
     /**
      * @param Event $event
@@ -137,20 +146,88 @@ class UserData extends ActiveRecord
     {
         $values = [];
 
-        $userDataModels = $event->getUserData($user);
-        if (!empty($userDataModels)) {
-            foreach ($userDataModels as $userData) {
-                $manager = $userData->getManager();
-                foreach ($manager->getDefinitions() as $definition) {
-                    $name = $definition->name;
-                    if (!isset($values[$name]) && !empty($manager->$name)) {
-                        $values[$name] = $manager->$name;
-                    }
+        foreach ($event->getUserData($user) as $userData) {
+            $manager = $userData->getManager();
+            foreach ($manager->getDefinitions() as $definition) {
+                $name = $definition->name;
+                if (!isset($values[$name]) && !empty($manager->$name)) {
+                    $values[$name] = $manager->$name;
                 }
             }
         }
 
         return $values;
+    }
+
+    /**
+     * @param Event $event
+     * @param User $user
+     * @param array $attributes
+     * @throws \application\components\Exception
+     */
+    public static function set(Event $event, User $user, array $attributes)
+    {
+        $settings = self::getAttributesSettings($event);
+        $language = Yii::app()->getLanguage();
+
+        foreach ($event->getUserData($user) as $userData) {
+            $manager = $userData->getManager();
+            $rawData = $manager->getRawData();
+            foreach ($attributes as $name => $value) {
+                $valueCurrent = $manager->$name;
+                if ($valueCurrent === null || $valueCurrent !== $value) {
+                    /** @noinspection NotOptimalIfConditionsInspection */
+                    if ($settings[$name]['Translatable'] === true && is_array($value) === false) {
+                        $rawValue = $rawData[$name];
+                        if ($rawValue === null || false === is_array($rawValue)) {
+                            $rawValue = [];
+                        }
+                        $rawValue[$language] = (string)$value;
+                        $manager->$name = $rawValue;
+                        continue;
+                    }
+                    $manager->$name = $value;
+                }
+            }
+            if ($manager->validate() === false) {
+                foreach ($manager->getErrors() as $attributeName => $errorMessage) {
+                    throw new Exception("Ошибка валидации атрибута $attributeName: $errorMessage");
+                }
+            }
+            $userData->save();
+        }
+    }
+
+    /**
+     * Переключает режим возвращения RAW данных для переводимых атрибутов. Вместо значения
+     * для текущей локали в рамках хита будут возвращаться данные для всех локалей сразу.
+     */
+    public static function setEnableRawValues()
+    {
+        if (defined('YII_TRANSlATABLE_ATTRIBUTE_FORCE_RAW_VALUES') === false) {
+            define('YII_TRANSlATABLE_ATTRIBUTE_FORCE_RAW_VALUES', true);
+        }
+    }
+
+    private static function getAttributesSettings(Event $event)
+    {
+        static $options;
+
+        if ($options === null) {
+            $groups = Group::model()
+                ->byModelName('EventUserData')
+                ->byModelId($event->Id)
+                ->with('Definitions')
+                ->findAll();
+
+            foreach ($groups as $group) {
+                foreach ($group->Definitions as $definition) {
+                    $options[$definition->Name] = $definition->attributes;
+                }
+            }
+        }
+
+        return $options;
     }
 
     /**
@@ -196,6 +273,7 @@ class UserData extends ActiveRecord
         $criteria->condition = '"t"."EventId" = :EventId';
         $criteria->params = ['EventId' => $eventId];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -210,6 +288,7 @@ class UserData extends ActiveRecord
         $criteria->condition = '"t"."UserId" = :UserId';
         $criteria->params = ['UserId' => $userId];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -221,8 +300,9 @@ class UserData extends ActiveRecord
     public function byDeleted($deleted, $useAnd = true)
     {
         $criteria = new \CDbCriteria();
-        $criteria->condition = (!$deleted ? 'NOT ' : '') . '"t"."Deleted"';
+        $criteria->condition = (!$deleted ? 'NOT ' : '').'"t"."Deleted"';
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -239,6 +319,7 @@ class UserData extends ActiveRecord
         $criteria = new \CDbCriteria();
         $criteria->condition = "(\"Attributes\"->>'$attribute') NOTNULL";
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -256,6 +337,7 @@ class UserData extends ActiveRecord
         $criteria = new \CDbCriteria();
         $criteria->condition = "(\"Attributes\"->>'$attribute') = '$value'";
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 }

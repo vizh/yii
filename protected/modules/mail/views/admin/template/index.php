@@ -31,14 +31,14 @@ $formatter = \Yii::app()->getDateFormatter();
                 <td>
                     <?if($template->Active):?>
                         <span class="label label-success"><?=\Yii::t('app', 'Запущена')?> <?=$formatter->format('dd MMMM yyyy HH:mm', $template->ActivateTime)?></span>
-                    <?php else:?>
+                    <?else:?>
                         <span class="label">В ожидании запуска</span>
                     <?endif?>
                 </td>
                 <td>
                     <?if($template->Success):?>
                         <span class="label label-success">Выполнена <?=$formatter->format('dd MMMM yyyy HH:mm', $template->SuccessTime)?></span>
-                    <?php else:?>
+                    <?else:?>
                         <span class="label">Не выполнена</span>
                     <?endif?>
                 </td>

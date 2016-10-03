@@ -16,6 +16,10 @@ class CDbCriteria extends \CDbCriteria
         return $this;
     }
 
+    /**
+     * @param string $order
+     * @return $this
+     */
     public function setOrder($order)
     {
         $this->order = $order;

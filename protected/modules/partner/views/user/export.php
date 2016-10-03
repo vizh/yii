@@ -43,7 +43,7 @@ $this->setPageTitle(\Yii::t('app', 'Экспорт участников в Excel
                                             <span class="label label-success"><?=\Yii::t('app', 'Экспорт завершен')?></span>
                                         </div>
                                         <?=\CHtml::link('<span class="btn-label icon fa fa-file-excel-o"></span>' . \Yii::t('app', 'Скачать '), ['exportdownload', 'id' => $export->Id], ['class' => 'btn btn-success btn-labeled btn-xs m-top_5'])?>
-                                    <?php else:?>
+                                    <?else:?>
                                         <span class="label label-default">
                                             <?=\Yii::t('app', 'Выполнено на {percent}%', ['{percent}' => $export->getExportedPercent()])?>
                                         </span>

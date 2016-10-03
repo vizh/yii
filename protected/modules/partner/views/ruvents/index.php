@@ -210,7 +210,7 @@ $dateEnd = new DateTime($event->EndYear.'-'.$event->EndMonth.'-'.$event->EndDay)
                                     <?php
                                     $total += $stat->PrintBadges[$dateI->format('d.m.Y')][$opId]->Count;
                                    ?>
-                                <?php else:?>
+                                <?else:?>
                                     &ndash;
                                 <?endif?>
                             </td>

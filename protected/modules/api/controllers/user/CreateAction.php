@@ -3,6 +3,7 @@ namespace api\controllers\user;
 
 use api\components\Action;
 use api\models\forms\user\Register;
+use event\models\UserData;
 use user\models\User;
 
 /**
@@ -20,6 +21,10 @@ class CreateAction extends Action
 
         /** @var User $user */
         $user = $form->createActiveRecord();
+
+        if ($this->hasRequestParam('Attributes')) {
+            UserData::set($this->getEvent(), $user, $this->getRequestParam('Attributes'));
+        }
 
         $userData = $this
             ->getDataBuilder()

@@ -1,7 +1,11 @@
 <?php
 namespace application\components\attribute;
 
-class ModelDefinition extends Definition
+use application\components\AbstractDefinition;
+use CActiveRecord;
+use event\components\UserDataManager;
+
+class ModelDefinition extends AbstractDefinition
 {
     public $className;
     public $valueAttributeName;
@@ -9,15 +13,14 @@ class ModelDefinition extends Definition
     /**
      * @inheritdoc
      */
-    public function getPrintValue($container)
+    public function getPrintValue(UserDataManager $manager, $useHtml = false)
     {
-        $finder = \CActiveRecord::model($this->className);
-        $model = $finder->findByPk($container->{$this->name});
-        if ($model !== null) {
-            return $model->{$this->valueAttributeName};
-        }
-        return null;
+        $model = CActiveRecord::model($this->className)
+            ->findByPk($manager->{$this->name});
+
+        return $model !== null
+            ? $model->{$this->valueAttributeName}
+            : null;
     }
 
-
-} 
+}

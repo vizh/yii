@@ -29,7 +29,7 @@ $titles = $form->RaecUsers[0]->attributeLabels();
                 <?if($user->isUpdateMode()):?>
                     <?=\CHtml::link($user->getActiveRecord()->User, $user->getActiveRecord()->User->getUrl(), ['class' => 'btn btn-link', 'target' => '_blank'])?>
                     <?=$activeForm->hiddenField($form, 'RaecUsers[' . $i . '][UserId]')?>
-                <?php else:?>
+                <?else:?>
                     <?$this->widget('\application\widgets\AutocompleteInput', [
                         'model' => $form,
                         'attribute' => 'RaecUsers[' . $i . '][UserId]',

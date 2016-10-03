@@ -18,10 +18,10 @@
                   <?$dateFormatter = \Yii::app()->dateFormatter?>
                   <?if($event->DateStart == $event->DateEnd):?>
                     <span class="day"><?=$dateFormatter->format('dd', $event->DateEnd)?></span> <span class="month"><?=$dateFormatter->format('MMMM', $event->DateEnd)?></span> <span class="year"><?=$dateFormatter->format('yyyy', $event->DateEnd)?></span>
-                  <?php else:?>
+                  <?else:?>
                     <?if($dateFormatter->format('M', $event->DateStart) == $dateFormatter->format('M', $event->DateEnd)):?>
                       <span class="day"><?=$dateFormatter->format('dd', $event->DateStart)?>-<?=$dateFormatter->format('dd', $event->DateEnd)?></span> <span class="month"><?=$dateFormatter->format('MMMM', $event->DateEnd)?></span> <span class="year"><?=$dateFormatter->format('yyyy', $event->DateEnd)?></span>
-                    <?php else:?>
+                    <?else:?>
 
                     <?endif?>
                   <?endif?>

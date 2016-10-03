@@ -72,7 +72,7 @@ $isHideProduct = function (Product $product) use ($event, $countRows) {
                 <span class="number img-circle">1</span>
                 <?if(!$account->SandBoxUser):?>
                     <?=\Yii::t('app', 'Регистрация')?>
-                <?php else:?>
+                <?else:?>
                     <?=\Yii::t('app', 'Регистрация других участников')?>
                 <?endif?>
             </div>

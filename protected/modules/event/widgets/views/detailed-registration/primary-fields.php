@@ -9,7 +9,7 @@
         <div class="control-group" id="control-group_<?=$attribute?>">
             <?if($attribute === 'Document'):?>
                 <h5 class="title"><?=$this->form->getAttributeLabel('Document')?></h5>
-            <?php else:?>
+            <?else:?>
                 <?=CHtml::label(
                     $this->form->getAttributeLabel($attribute) .
                     ($this->form->isAttributeRequired($attribute) ? ' <span class="required-asterisk">*</span>' : ''),
@@ -41,13 +41,13 @@
                         <?=CHtml::image($this->form->getActiveRecord()->getPhoto()->get50px(), '', [
                             'class'=>'img-polaroid'
                         ])?>
-                    <?php else:?>
+                    <?else:?>
                         <?=CHtml::activeFileField($this->form, $attribute)?>
                         <p class="help-block m-top_5">
                             <?=Yii::t('app', 'Фотографии должны быть предоставлены в цветном исполнении, с четким изображением лица, строго в анфас, без головного убора. Размер изображения овала лица на фотографии должен занимать не менее 80 процентов от размера фотографии. Задний фон светлее изображения лица, ровный, без полос, пятен и посторонних предметов.')?>
                         </p>
                     <?endif?>
-                <?php else:?>
+                <?else:?>
                     <?=CHtml::activeTextField($this->form, $attribute, [
                         'disabled' => $this->form->isDisabled($attribute),
                         'class' => 'span12'

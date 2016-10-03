@@ -89,7 +89,7 @@ if (!empty($event->LinkEmails)) {
                             </span>
                             <?=$item->Role->Title?><br/>
                         <?endforeach?>
-                    <?php else:?>
+                    <?else:?>
                         <span style="text-transform: uppercase; font-size: 4mm;"><?=$participant->Role->Title?></span>
                     <?endif?>
                 </td>
@@ -136,7 +136,7 @@ if (!empty($event->LinkEmails)) {
             <?if(Yii::app()->language === 'ru'):?>
                 <span>30 - 31 марта.............10:00 - 18:00</span><br/>
                 <span>01 апреля..................10:00 - 16:00</span>
-            <?php else:?>
+            <?else:?>
                 <span>Wednesday 30 March: 10:00 - 18:00</span><br/>
                 <span>Thursday 31 March: 10:00 - 18:00</span><br/>
                 <span>Friday 01 April: 10:00 - 16:00</span>
@@ -150,7 +150,7 @@ if (!empty($event->LinkEmails)) {
                 <span>ВДНХ, 75 павильон, зал А</span><br/>
                 <span>сайт мероприятия: <a href="http://www.fi-russia.ru/" style="color: #1179A0;">www.fi-russia.ru</a>
                     </span>
-            <?php else:?>
+            <?else:?>
                 <span>All-Russian Exhibition Centre (VDNH)</span><br/>
                 <span>Pavilion 75</span><br/>
                 <span>Prospect Mira, VDNH</span><br/>

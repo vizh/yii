@@ -8,10 +8,11 @@
 
 namespace application\components\attribute;
 
-
+use application\components\AbstractDefinition;
 use application\components\utility\Texts;
+use event\components\UserDataManager;
 
-class FileDefinition extends Definition
+class FileDefinition extends AbstractDefinition
 {
     public $types;
 
@@ -26,16 +27,6 @@ class FileDefinition extends Definition
     }
 
     /**
-     * @inheritdoc
-     */
-    protected function internalActiveEdit(\CModel $container, $htmlOptions = [])
-    {
-        $htmlOptions['class'] = $this->cssClass . (isset($htmlOptions['class']) ? $htmlOptions['class'] : '');
-        $htmlOptions['style'] = $this->cssStyle . (isset($htmlOptions['style']) ? $htmlOptions['style'] : '');
-        return \CHtml::activeFileField($container, $this->name, $htmlOptions);
-    }
-
-    /**
      * @param \CUploadedFile $value
      * @inheritdoc
      */
@@ -44,29 +35,11 @@ class FileDefinition extends Definition
         if ($value !== null) {
             $path = $this->getSavePath($container, $value);
             $value->saveAs($path);
+
             return $path;
         }
+
         return parent::internalPush($container, $value);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getPrintValue($container)
-    {
-        if (!empty($container->{$this->name})) {
-            return \CHtml::link(\Yii::t('app', 'Скачать'), ['/partner/user/viewdatafile', 'id' => $container->model()->Id, 'attribute' => $this->name]);
-        }
-        return '';
-    }
-
-
-    /**
-     * @inheritdoc
-     */
-    public function internalSetAttribute(\CModel $container)
-    {
-        return \CUploadedFile::getInstance($container, $this->name);
     }
 
     /**
@@ -77,14 +50,47 @@ class FileDefinition extends Definition
     private function getSavePath(\CModel $container, $value)
     {
         $class = get_class($container);
-        $class = substr($class, strrpos($class,'\\')+1);
-        $name  = Texts::GenerateString(10, true) . '.' . $value->getExtensionName();
-        $path  = \Yii::getPathOfAlias('application') . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR;
-        $path .= 'data' . DIRECTORY_SEPARATOR . strtolower($class) . DIRECTORY_SEPARATOR . substr($name, 0, 3);
+        $class = substr($class, strrpos($class, '\\') + 1);
+        $name = Texts::GenerateString(10, true).'.'.$value->getExtensionName();
+        $path = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR;
+        $path .= 'data'.DIRECTORY_SEPARATOR.strtolower($class).DIRECTORY_SEPARATOR.substr($name, 0, 3);
         if (!is_dir($path)) {
             mkdir($path, 0777, true);
         }
-        $path .= DIRECTORY_SEPARATOR . $name;
+        $path .= DIRECTORY_SEPARATOR.$name;
+
         return $path;
     }
-} 
+
+    /**
+     * @inheritdoc
+     */
+    public function getPrintValue(UserDataManager $manager, $useHtml = false)
+    {
+        if (!empty($manager->{$this->name})) {
+            return \CHtml::link(\Yii::t('app', 'Скачать'),
+                ['/partner/user/viewdatafile', 'id' => $manager->model()->Id, 'attribute' => $this->name]);
+        }
+
+        return '';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function internalSetAttribute(\CModel $container)
+    {
+        return \CUploadedFile::getInstance($container, $this->name);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function internalActiveEdit(\CModel $container, $htmlOptions = [])
+    {
+        $htmlOptions['class'] = $this->cssClass.(isset($htmlOptions['class']) ? $htmlOptions['class'] : '');
+        $htmlOptions['style'] = $this->cssStyle.(isset($htmlOptions['style']) ? $htmlOptions['style'] : '');
+
+        return \CHtml::activeFileField($container, $this->name, $htmlOptions);
+    }
+}

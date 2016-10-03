@@ -103,15 +103,10 @@ class Controller extends \application\components\controllers\BaseController
 
     public function filters()
     {
-        $filters = parent::filters();
-
-        return array_merge(
-            $filters,
-            [
-                'accessControl',
-                'setLanguage'
-            ]
-        );
+        return array_merge(parent::filters(), [
+            'accessControl',
+            'setLanguage'
+        ]);
     }
 
     protected function setHeaders()
@@ -186,21 +181,21 @@ class Controller extends \application\components\controllers\BaseController
      */
     public function filterSetLanguage($filterChain)
     {
-        $this->setLanguage();
-        $filterChain->run();
-    }
-
-    protected function setLanguage()
-    {
         $lang = Yii::app()
             ->getRequest()
-            ->getParam('lang');
+            ->getParam('Language');
 
-        if (in_array($lang, Yii::app()->params['Languages']) === false)
-            $lang = null;
-
+        // toDo: Убрать после разрешения задачи http://redmine.ruvents.com/issues/4431
         if ($lang === null) {
+            $lang = Yii::app()
+                ->getRequest()
+                ->getParam('Locale');
+        }
+
+        if ($lang !== null && in_array($lang, Yii::app()->getParams()['Languages'])) {
             Yii::app()->setLanguage($lang);
         }
+
+        $filterChain->run();
     }
 }

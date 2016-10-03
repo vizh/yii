@@ -252,7 +252,6 @@ class Builder
         $data = UserData::model()
             ->byEventId($this->account->EventId)
             ->byUserId($user->Id)
-            ->orderBy(['"t"."CreationTime"'])
             ->byDeleted(false)
             ->find();
 
@@ -897,11 +896,9 @@ class Builder
      */
     protected function applyLocale(\CActiveRecord $activeRecord)
     {
+        // toDo: Разобраться, это вообще надо?
         if ($activeRecord instanceof ActiveRecord) {
-            // берем локаль из параметров запроса, по умолчанию дефолтный язык системы
-            $locale = \Yii::app()->getRequest()->getParam('Locale', \Yii::app()->sourceLanguage);
-
-            $activeRecord->setLocale($locale);
+            $activeRecord->setLocale(\Yii::app()->sourceLanguage);
         }
     }
 

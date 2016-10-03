@@ -1,10 +1,13 @@
 <?php
 namespace application\components\attribute;
 
+use application\components\AbstractDefinition;
+use event\components\UserDataManager;
+
 /**
  * Class ListDefinition Definition for list items
  */
-class ListDefinition extends Definition
+class ListDefinition extends AbstractDefinition
 {
     /**
      * @var int Counter for the scripts
@@ -12,7 +15,7 @@ class ListDefinition extends Definition
     static $customFieldsCounter = 0;
 
     /**
-     * @var Definition
+     * @var AbstractDefinition
      */
     public $valueDefinition;
 
@@ -34,15 +37,14 @@ class ListDefinition extends Definition
         return $rules;
     }
 
-
     /**
      * @param mixed $value
      * @return mixed
      */
     public function typecast($value)
     {
-        if (!empty($this->valueDefinition) && $this->valueDefinition instanceof Definition) {
-            return  $this->valueDefinition->typecast($value);
+        if (!empty($this->valueDefinition) && $this->valueDefinition instanceof AbstractDefinition) {
+            return $this->valueDefinition->typecast($value);
         }
 
         return $value;
@@ -51,10 +53,33 @@ class ListDefinition extends Definition
     /**
      * @inheritdoc
      */
+    public function getPrintValue(UserDataManager $manager, $useHtml = false)
+    {
+        $key = parent::getPrintValue($manager, $useHtml);
+
+        return isset($this->data[$key]) ? $this->data[$key] : ($this->customTextField ? $key : '');
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getExportValue(UserDataManager $manager)
+    {
+        $value = $manager->{$this->name};
+        if (is_array($manager->{$this->name})) {
+            return implode(', ', $value);
+        }
+
+        return (string)$value;
+    }
+
+    /**
+     * @inheritdoc
+     */
     protected function internalActiveEdit(\CModel $container, $htmlOptions = [])
     {
-        $htmlOptions['class'] = $this->cssClass . (isset($htmlOptions['class']) ? $htmlOptions['class'] : '');
-        $htmlOptions['style'] = $this->cssStyle . (isset($htmlOptions['style']) ? $htmlOptions['style'] : '');
+        $htmlOptions['class'] = $this->cssClass.(isset($htmlOptions['class']) ? $htmlOptions['class'] : '');
+        $htmlOptions['style'] = $this->cssStyle.(isset($htmlOptions['style']) ? $htmlOptions['style'] : '');
 
         $emptyValue = '';
 
@@ -62,7 +87,7 @@ class ListDefinition extends Definition
         $data = [$emptyValue => $this->placeholder] + $this->data;
         $valueExists = array_key_exists($emptyValue, $data);
 
-        $customClass = 'custom-field' . self::$customFieldsCounter++;
+        $customClass = 'custom-field'.self::$customFieldsCounter++;
         if ($this->customTextField) {
             $data += ['OTHER' => 'Другое'];
             $htmlOptions['class'] .= ' '.$customClass;
@@ -76,7 +101,7 @@ class ListDefinition extends Definition
         if ($this->customTextField) {
             $result .= \CHtml::activeTextField($container, $this->name, [
                 'style' => $valueExists ? 'display: none;' : '',
-                'class' => 'span12 ' . $customClass.'-custom',
+                'class' => 'span12 '.$customClass.'-custom',
                 'disabled' => $valueExists
             ]);
 
@@ -94,27 +119,5 @@ class ListDefinition extends Definition
         }
 
         return $result;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getPrintValue($container)
-    {
-        $key = parent::getPrintValue($container);
-        return isset($this->data[$key]) ? $this->data[$key] : ($this->customTextField ? $key : '');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getExportValue($container)
-    {
-        $value = $container->{$this->name};
-        if (is_array($container->{$this->name})) {
-            return implode(', ', $value);
-        }
-
-        return (string) $value;
     }
 }

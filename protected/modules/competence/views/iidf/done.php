@@ -10,7 +10,7 @@ use competence\models\Test;
         <div class="col-md-12">
             <?if(!empty($test->AfterEndText)):?>
                 <?=$test->AfterEndText?>
-            <?php else:?>
+            <?else:?>
                 <p class="lead"><strong>Спасибо, ваш отзыв очень важен для нас!</strong></p>
             <?endif?>
         </div>

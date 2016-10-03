@@ -1,7 +1,7 @@
 <?php
 namespace application\modules\partner\models\search;
 
-use application\components\attribute\Definition;
+use application\components\AbstractDefinition;
 use application\components\attribute\ListDefinition;
 use application\components\form\SearchFormModel;
 use event\models\Event;
@@ -13,7 +13,7 @@ class ParticipantData extends SearchFormModel
     public $User;
 
     /**
-     * @var Definition[]
+     * @var AbstractDefinition[]
      */
     private $definitions = [];
 
@@ -91,7 +91,10 @@ class ParticipantData extends SearchFormModel
     private function getCriteria()
     {
         $criteria = UserData::model()
-            ->byEventId($this->event->Id)->byDeleted(false)->with(['User'])->getDbCriteria();
+            ->byEventId($this->event->Id)
+            ->byDeleted(false)
+            ->with(['User'])
+            ->getDbCriteria();
 
         if ($this->validate()) {
             if (!empty($this->User)) {

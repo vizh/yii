@@ -1,6 +1,8 @@
 <?php
 namespace application\components\attribute;
 
+use application\components\AbstractDefinition;
+
 class Group
 {
     public $id;
@@ -8,6 +10,10 @@ class Group
     public $title;
 
     public $description;
+    /**
+     * @var AbstractDefinition[]
+     */
+    private $definitions = [];
 
     public function __construct($id = '', $title = '', $description = '')
     {
@@ -16,21 +22,16 @@ class Group
         $this->description = $description;
     }
 
-    /**
-     * @var Definition[]
-     */
-    private $definitions = [];
-
-    public function addDefinition(Definition $definition)
+    public function addDefinition(AbstractDefinition $definition)
     {
         $this->definitions[] = $definition;
     }
 
     /**
-     * @return Definition[]
+     * @return AbstractDefinition[]
      */
     public function getDefinitions()
     {
         return $this->definitions;
     }
-} 
+}

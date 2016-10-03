@@ -1,6 +1,8 @@
 <?php
 namespace application\components\utility;
 
+use Yii;
+
 class Texts
 {
 
@@ -250,10 +252,16 @@ class Texts
      */
     public static function clear($str)
     {
-        $str = trim($str);
-        $str = self::getClearPurifier()->purify($str);
-        $str = str_replace(["\r\n","\n"], "", $str);
+        $str = self::getClearPurifier()->purify(trim($str));
+        $str = str_replace(["\r\n","\n"], '', $str);
         return $str;
+    }
+
+    public static function clearTranslatable(array $array)
+    {
+//        return array_flip(Yii::app()->getParams()['Languages']);
+        return array_intersect_key($array, array_flip(Yii::app()->getParams()['Languages']));
+//        return array_map('\application\components\utility\Texts::clear', array_intersect_key($array, array_flip(Yii::app()->getParams()['Languages'])));
     }
 
     public static function isHtml($string)

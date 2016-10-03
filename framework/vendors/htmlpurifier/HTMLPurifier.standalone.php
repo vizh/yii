@@ -470,7 +470,7 @@ abstract class HTMLPurifier_AttrDef
     }
 
     /**
-     * Parses a possibly escaped CSS string and returns the "pure" 
+     * Parses a possibly escaped CSS string and returns the "pure"
      * version of it.
      */
     protected function expandCSSEscape($string) {
@@ -3774,7 +3774,7 @@ class HTMLPurifier_ErrorCollector
 
     public function __construct($context) {
         $this->locale    =& $context->get('Locale');
-        $this->context   = $context;
+        $this->context   =  $context;
         $this->_current  =& $this->_stacks[0];
         $this->errors    =& $this->_stacks[0];
     }
@@ -16036,8 +16036,8 @@ class HTMLPurifier_Strategy_MakeWellFormed extends HTMLPurifier_Strategy
                     }
 
                     if ($autoclose && $definition->info[$token->name]->wrap) {
-                        // Check if an element can be wrapped by another 
-                        // element to make it valid in a context (for 
+                        // Check if an element can be wrapped by another
+                        // element to make it valid in a context (for
                         // example, <ul><ul> needs a <li> in between)
                         $wrapname = $definition->info[$token->name]->wrap;
                         $wrapdef = $definition->info[$wrapname];

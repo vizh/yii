@@ -7,7 +7,6 @@ use application\components\services\AIS;
 use event\models\Event;
 use event\models\Role;
 use event\models\UserData;
-use ruvents\models\Badge;
 use user\models\User;
 
 /**

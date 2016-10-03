@@ -1,10 +1,14 @@
 <?php
 namespace application\components\attribute;
 
+use application\components\AbstractDefinition;
+use event\components\UserDataManager;
+use Yii;
+
 /**
  * Class BooleanDefinition Definition for the boolean type
  */
-class BooleanDefinition extends Definition
+class BooleanDefinition extends AbstractDefinition
 {
     /**
      * @inheritdoc
@@ -22,23 +26,25 @@ class BooleanDefinition extends Definition
     /**
      * @inheritdoc
      */
+    public function getPrintValue(UserDataManager $manager, $useHtml = false)
+    {
+        return parent::getPrintValue($manager, $useHtml)
+            ? Yii::t('app', 'Да')
+            : Yii::t('app', 'Нет');
+    }
+
+    /**
+     * @inheritdoc
+     */
     protected function internalActiveEdit(\CModel $container, $htmlOptions = [])
     {
         $htmlOptions['uncheckValue'] = null;
         $checkbox = \CHtml::activeCheckBox($container, $this->name, $htmlOptions);
         $required = $this->required ? '<span class="required-asterisk">*</span>' : '';
 
-        return \CHtml::label($checkbox . ' ' . $this->title . ' ' . $required, false, [
+        return \CHtml::label($checkbox.' '.$this->title.' '.$required, false, [
             'class' => $this->cssClass,
             'style' => $this->cssStyle
-        ]) . ($this->placeholder ? \CHtml::tag('small', ['class' => 'notice'], $this->placeholder) : '');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getPrintValue($container)
-    {
-        return parent::getPrintValue($container) ? \Yii::t('app', 'Да') : \Yii::t('app', 'Нет');
+        ]).($this->placeholder ? \CHtml::tag('small', ['class' => 'notice'], $this->placeholder) : '');
     }
 }

@@ -57,13 +57,13 @@ if ($fullWidth) {
                 </div>
             </div>
         </div>
-    <?php else:?>
+    <?else:?>
         <?foreach($event->Widgets as $widget):?>
             <?if($widget->getIsActive()):?>
                 <?if($widget->getPosition() != WidgetPosition::Tabs && $widget->getPosition() != WidgetPosition::Header):?>
                     <?if($widget->getName() == 'event\widgets\Location'):?>
                         <?$widget->run()?>
-                    <?php else:?>
+                    <?else:?>
                         <div class="container">
                             <?$widget->run()?>
                         </div>

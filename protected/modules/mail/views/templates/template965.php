@@ -10,7 +10,6 @@ $data = UserData::model()
 	->byEventId(2319)
 	->byUserId($user->Id)
 	->byDeleted(false)
-	->orderBy('CreationTime DESC')
 	->find();
 
 if ($data) {

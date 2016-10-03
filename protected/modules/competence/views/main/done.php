@@ -12,7 +12,7 @@ $this->setPageTitle($test->Title);
     <div class="span12 m-top_30 text-center">
         <?if(!empty($test->AfterEndText)):?>
             <?=$test->AfterEndText?>
-        <?php else:?>
+        <?else:?>
             <p class="lead" style="padding: 20px;">
                 <?=Yii::t('app', 'БОЛЬШОЕ СПАСИБО ЗА УЧАСТИЕ В НАШЕМ ИССЛЕДОВАНИИ')?>!
             </p>

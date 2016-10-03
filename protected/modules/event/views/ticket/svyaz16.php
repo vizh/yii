@@ -14,7 +14,6 @@ $data = UserData::model()
     ->byEventId($event->Id)
     ->byUserId($user->Id)
     ->byDeleted(false)
-    ->orderBy(['"t"."CreationTime"'])
     ->find();
 
 $customNumber = null;
@@ -272,7 +271,7 @@ if ($data) {
                             Expocentre Fairgrounds<br/>
                             Kranopresnenskaya nab., 14<br/>
                             Moscow, Russia, 123100
-                        <?php else:?>
+                        <?else:?>
                             <?=$event->getContactAddress()->Place?>,
                             <?=$event->getContactAddress()->Country->Name?>,
                             <?=$event->getContactAddress()->City->Name?>,
@@ -304,7 +303,7 @@ if ($data) {
             <div class="p-a-2">
                 <?if(Yii::app()->language === 'ru'):?>
                     <img src="/img/ticket/svyaz16/expo.png" alt="" width="260">
-                <?php else:?>
+                <?else:?>
                     <img src="/img/ticket/svyaz16/expo_en.png" alt="" width="260">
                 <?endif?>
             </div>

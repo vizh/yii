@@ -1,9 +1,12 @@
 <?php
 namespace application\models\attribute;
+
 use application\components\ActiveRecord;
+use application\components\CDbCriteria;
 
 /**
  * Class Group
+ *
  * @package application\models\attribute
  *
  * @property int $Id
@@ -15,19 +18,26 @@ use application\components\ActiveRecord;
  *
  * @property Definition[] $Definitions
  *
- * @method Group find($condition='',$params=array())
- * @method Group findByPk($pk,$condition='',$params=array())
- * @method Group[] findAll($condition='',$params=array())
+ * @method Group byModelId($condition = '', $useAnd = true)
+ * @method Group byModelName($condition = '', $useAnd = true)
+ *
+ * Описание вспомогательных методов
+ * @method Group   with($condition = '')
+ * @method Group   find($condition = '', $params = [])
+ * @method Group   findByPk($pk, $condition = '', $params = [])
+ * @method Group   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Group[] findAll($condition = '', $params = [])
+ * @method Group[] findAllByAttributes($attributes, $condition = '', $params = [])
  */
-
 class Group extends ActiveRecord
 {
     /**
      * @param string $className
      * @return Group
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -48,26 +58,12 @@ class Group extends ActiveRecord
         ];
     }
 
-    /**
-     * @param $modelName
-     * @param bool $useAnd
-     * @return Group
-     */
-    public function byModelName($modelName, $useAnd = true)
+    protected function beforeFind()
     {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."ModelName" = :ModelName';
-        $criteria->params = ['ModelName' => $modelName];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
+        $this->getDbCriteria()->mergeWith(
+            CDbCriteria::create()
+                ->setOrder('"t"."Order"')
+        );
     }
 
-    public function byModelId($modelId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."ModelId" = :ModelId';
-        $criteria->params = ['ModelId' => $modelId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-} 
+}

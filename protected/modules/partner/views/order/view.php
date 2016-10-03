@@ -23,10 +23,10 @@ $this->setPageTitle('Управление счетом № ' . $order->Number)
         <div class="m-top_10">
             <?if($order->Paid):?>
                 <span class="label label-success">Оплачен <?=$formatter->format('dd MMMM yyyy HH:mm', $order->PaidTime)?></span>
-            <?php else:?>
+            <?else:?>
                 <?if(!$order->Deleted):?>
                     <span class="label label-warning">Не оплачен</span>
-                <?php else:?>
+                <?else:?>
                     <span class="label label-danger">Удален</span>
                 <?endif?>
             <?endif?>

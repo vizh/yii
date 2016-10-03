@@ -37,6 +37,8 @@ class EditAction extends Action
      */
     public function run($id, $layout = true)
     {
+        UserData::setEnableRawValues();
+
         if (!$user = User::model()->byRunetId($id)->find()) {
             throw new \CHttpException(404);
         }
@@ -180,29 +182,31 @@ class EditAction extends Action
 
     /**
      * Изменяет значения пользовательских свойств
+     *
      * @param User $user
      * @return array
+     * @throws \application\components\Exception
      * @throws \CHttpException
      */
     private function actionAjaxEditData(User $user)
     {
         $request = Yii::app()->getRequest();
+
         /** @var UserData $data */
         $data = $this->loadModel(UserData::className(), $request->getParam('data'));
         if ($data->UserId !== $user->Id || $data->EventId !== $this->getEvent()->Id) {
             throw new \CHttpException(404);
         }
 
-        $attributes = $request->getParam(UserDataManager::className());
         $manager = $data->getManager();
+        $manager->setAttributes($request->getParam(UserDataManager::className()));
 
-        $manager->setAttributes($attributes);
         if ($manager->validate()) {
             $data->save();
 
             $result = [];
             foreach ($data->getManager()->getDefinitions() as $definition) {
-                $result[$definition->name] = $definition->getPrintValue($data->getManager());
+                $result[$definition->name] = $definition->getPrintValue($data->getManager(), true);
             }
 
             return $result;

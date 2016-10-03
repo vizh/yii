@@ -12,7 +12,7 @@ use competence\models\Test;
         <div class="span8 offset2 m-top_30 text-center">
             <?if(!empty($test->BeforeText)):?>
                 <?=$test->BeforeText?>
-            <?php else:?>
+            <?else:?>
                 <p class="lead">Здравствуйте!</p>
                 <p class="lead">Вы немного поторопились &mdash; заполнить анкету участника можно будет с <?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy с HH:mm', $test->StartTime)?>.</p>
             <?endif?>

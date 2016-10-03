@@ -2,6 +2,7 @@
 namespace event\models;
 
 use application\components\ActiveRecord;
+use application\components\CDbCriteria;
 use event\components\tickets\Ticket;
 use mail\components\mailers\SESMailer;
 use partner\models\Account;
@@ -21,9 +22,17 @@ use user\models\User;
  * @property Event $Event
  * @property Part $Part
  *
- * @method Participant find()
- * @method Participant[] findAll($criteria)
- * @method Participant findByPk()
+ * @method Participant byEventId(int $id, $useAnd = true)
+ * @method Participant byUserId(int $id, $useAnd = true)
+ * @method Participant byRoleId(int $id, $useAnd = true)
+ *
+ * Описание вспомогательных методов
+ * @method Participant   with($condition = '', $condition = '')
+ * @method Participant   find($condition = '', $params = [])
+ * @method Participant   findByPk($pk, $condition = '', $params = [])
+ * @method Participant   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Participant[] findAll($condition = '', $params = [])
+ * @method Participant[] findAllByAttributes($attributes, $condition = '', $params = [])
  */
 class Participant extends ActiveRecord
 {
@@ -33,6 +42,16 @@ class Participant extends ActiveRecord
     public $CountForCriteria;
 
     private $hashSalt = 'aHQR/agr(pSEt/t.EFS.BT/!';
+
+    /**
+     * @param string $className
+     * @return Participant
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
     /**
      * @inheritdoc
@@ -54,36 +73,6 @@ class Participant extends ActiveRecord
             'Part' => [self::BELONGS_TO, 'event\models\Part', 'PartId'],
             'Data' => [self::HAS_MANY, 'event\models\UserData', ['UserId' => 'UserId'], 'on' => '"Data"."EventId" = "t"."EventId"']
         ];
-    }
-
-    /**
-     * @param int $userId
-     * @param bool $useAnd
-     * @return Participant
-     */
-    public function byUserId($userId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."UserId" = :UserId';
-        $criteria->params = [':UserId' => $userId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
-    }
-
-    /**
-     * @param int $eventId
-     * @param bool $useAnd
-     * @return Participant
-     */
-    public function byEventId($eventId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."EventId" = :EventId';
-        $criteria->params = [':EventId' => $eventId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
     }
 
     /**
@@ -120,22 +109,6 @@ class Participant extends ActiveRecord
     }
 
     /**
-     * @param int $roleId
-     * @param bool $useAnd
-     *
-     * @return Participant
-     */
-    public function byRoleId($roleId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."RoleId" = :RoleId';
-        $criteria->params = [':RoleId' => $roleId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
-    }
-
-    /**
      * @param int|int[]|null $partId
      * @param bool $useAnd
      * @return Participant
@@ -155,6 +128,20 @@ class Participant extends ActiveRecord
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
 
         return $this;
+    }
+
+    public function byAttributeLike($name, $value)
+    {
+        $this->getDbCriteria()->mergeWith(
+            CDbCriteria::create()->addCondition('"Data"."Attributes"->>\''.$name.'\' ilike \'%'.$value.'%\'')
+        );
+    }
+
+    public function byAttribute($name, $value)
+    {
+        $this->getDbCriteria()->mergeWith(
+            CDbCriteria::create()->addCondition('"Data"."Attributes"->>\''.$name.'\' == \''.$value.'\'')
+        );
     }
 
     /**

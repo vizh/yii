@@ -12,7 +12,7 @@
         <article>
             <?=$this->event->FullInfo?>
         </article>
-    <?php else:?>
+    <?else:?>
         <div class="row-fluid">
             <article class="content">
                 <header>

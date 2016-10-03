@@ -65,7 +65,7 @@ if (!function_exists('printCheckBox')) {
         }
        ?>
     </ul>
-<?php else:?>
+<?else:?>
     <div class="row">
         <div class="span4">
             <ul class="unstyled">

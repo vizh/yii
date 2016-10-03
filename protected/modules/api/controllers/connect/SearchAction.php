@@ -2,7 +2,9 @@
 namespace api\controllers\connect;
 
 use application\components\helpers\ArrayHelper;
+use CDbCriteria;
 use event\models\Participant;
+use Yii;
 
 class SearchAction extends \api\components\Action
 {
@@ -11,37 +13,36 @@ class SearchAction extends \api\components\Action
         $participants = Participant::model()
             ->with('Data', 'User')
             ->byEventId($this->getEvent()->Id);
-        $criteria = new \CDbCriteria();
 
-        $roleId = \Yii::app()->request->getParam('RoleId', null);
-        if ($roleId){
-            $participants->byRoleId($roleId);
+
+        if ($this->hasRequestParam('RoleId')){
+            $participants->byRoleId($this->getRequestParam('RoleId'));
         }
 
-        $attributes = \Yii::app()->request->getParam('Attributes', []);
-        foreach ($attributes as $attributeName => $attributeValue) {
-            $criteria->addCondition('"Data"."Attributes"->>\''.$attributeName.'\' ilike \'%'.$attributeValue.'%\'');
+        if ($this->hasRequestParam('Attributes')) {
+            foreach ($this->getRequestParam('Attributes') as $name => $value) {
+                $participants->byAttributeLike($name, $value);
+            }
         }
-
-        $participants->dbCriteria->mergeWith($criteria);
-        $participants = $participants->findAll();
 
         $result = [];
-        foreach ($participants as $participant) {
+        foreach ($participants->findAll() as $participant) {
             $result[] = $this->getDataBuilder()->createUser($participant->User);
         }
 
-        $sort = \Yii::app()->request->getParam('Sort', []);
-        $sort = ArrayHelper::merge(['Attribute' => 'Name', 'Direction' => 'asc'], $sort);
-        $attributes = [
-            'Name' => 'FullName',
-            'RegDate' => 'CreationTime'
-        ];
-        $directions = [
-            'asc' => SORT_ASC,
-            'desc' => SORT_DESC
-        ];
-        ArrayHelper::multisort($result, $attributes[$sort['Attribute']], $directions[strtolower($sort['Direction'])]);
+        $sort = ArrayHelper::merge(
+            ['Attribute' => 'Name', 'Direction' => 'asc'],
+            $this->getRequestParam('Sort', [])
+        );
+
+        $attributes = ['Name' => 'FullName', 'RegDate' => 'CreationTime'];
+        $directions = ['asc' => SORT_ASC, 'desc' => SORT_DESC];
+
+        ArrayHelper::multisort(
+            $result,
+            $attributes[$sort['Attribute']],
+            $directions[strtolower($sort['Direction'])]
+        );
 
         $this->setResult(['Success' => true, 'Users' => $result]);
     }

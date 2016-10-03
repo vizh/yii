@@ -87,7 +87,7 @@ $manager = $product->getManager();
                     <td><a class="btn btn-danger booking-delete"
                            href="<?=Yii::app()->createUrl('/pay/admin/booking/delete', ['type' => 'partner', 'id' => $booking->Id])?>"><i
                                 class="icon-remove icon-white"></i></a></td>
-                <?php else:?>
+                <?else:?>
                     <td><?=$booking->DateIn?></td>
                     <td><?=$booking->DateOut?></td>
                     <td><?=$booking->AdditionalCount?></td>
@@ -152,7 +152,7 @@ $manager = $product->getManager();
                             <i class="icon-remove icon-white"></i>
                         </a>
                     </td>
-                <?php else:?>
+                <?else:?>
                     <td><?=$item->getItemAttribute('DateIn')?></td>
                     <td><?=$item->getItemAttribute('DateOut')?></td>
                     <td><span class="label label-success">Оплачен</span></td>

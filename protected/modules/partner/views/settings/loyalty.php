@@ -60,7 +60,7 @@ $this->setPageTitle(\Yii::t('app', 'Программа лояльности'));
                     </tbody>
                 </table>
             </div>
-        <?php else:?>
+        <?else:?>
             <div class="alert alert-danger m-bottom_0">
                 <?=\Yii::t('app', 'Скидки по программе лояльности отсутствуют.')?>
             </div>

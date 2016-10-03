@@ -171,7 +171,7 @@ use pay\models\forms\admin\BookingSearch;
                             <?php elseif (!empty($dateData['Booked'])):?>
                                 <span style="font-weight: normal;"
                                       class="label label-warning">до <?=Yii::app()->getDateFormatter()->format('dd.MM H:m', $dateData['Booked'])?></span>
-                            <?php else:?>
+                            <?else:?>
                                 <span style="font-weight: normal;" class="label label-warning">Не оплачен</span>
                             <?endif?><br>
 

@@ -341,7 +341,7 @@ foreach ($order->Items as $item) {
 </p>
 <?if(!$clear):?>
     <img src="/img/pay/bill/imh.jpg" style="margin-left: -10px; image-resolution: 150dpi;">
-<?php else:?>
+<?else:?>
     <table class="sign">
         <tr>
             <td>Руководитель предприятия</td>

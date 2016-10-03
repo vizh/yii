@@ -8,8 +8,11 @@
 
 namespace application\components\attribute;
 
+use application\components\AbstractDefinition;
+use CActiveRecord;
+use event\components\UserDataManager;
 
-class ModelListDefinition extends Definition
+class ModelListDefinition extends AbstractDefinition
 {
     public $className;
 
@@ -18,14 +21,14 @@ class ModelListDefinition extends Definition
     public $valueAttributeName;
 
     /**
-     * @param $container
+     * @param $manager
      * @return string
      */
-    public function getPrintValue($container)
+    public function getPrintValue(UserDataManager $manager, $useHtml = false)
     {
         $values = [];
-        foreach ($container->{$this->name} as  $originalValue) {
-            $finder = \CActiveRecord::model($this->className);
+        foreach ($manager->{$this->name} as $originalValue) {
+            $finder = CActiveRecord::model($this->className);
             if ($this->attributeName instanceof \Closure) {
                 $method = $this->attributeName;
                 $model = $method($finder, $originalValue);
@@ -33,8 +36,9 @@ class ModelListDefinition extends Definition
                 $model = $finder->find('"t"."'.$this->attributeName.'" = :value', ['value' => $originalValue]);
             }
 
-            if ($model == null)
+            if ($model === null) {
                 continue;
+            }
 
             if ($this->valueAttributeName instanceof \Closure) {
                 $method = $this->valueAttributeName;
@@ -47,6 +51,7 @@ class ModelListDefinition extends Definition
                 $values[] = $value;
             }
         }
-        return implode('<br/>',$values);
+
+        return implode('<br>', $values);
     }
-} 
+}

@@ -9,7 +9,7 @@
     <a href="http://msdevcon16.runet-id.com/" mc:disable-tracking>http://msdevcon16.runet-id.com/</a>
 </p>
 <p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">Для входа в систему используйте ваш email в качестве логина.</p>
-<p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">Пароль: <strong><?if($user->Visible):?>Ваш пароль в системе RUNET-ID<?php else:?><?=$password?><?endif?></strong></p>
+<p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">Пароль: <strong><?if($user->Visible):?>Ваш пароль в системе RUNET-ID<?else:?><?=$password?><?endif?></strong></p>
 <p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">Если вы считаете, что это сообщение пришло к вам по ошибке, настоятельно просим сообщить нам.</p>
 <p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;"></p>Напоминаем, что DevCon 2016 – это платная конференция, и вам необходимо выбрать <a href="http://www.msdevcon.ru/conditions" mc:disable-tracking>тип билета</a> и оплатить своё участие.</p>
 <p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">Не упустите возможность стать участником DevCon 2016, ведь это:</p>

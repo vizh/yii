@@ -1,7 +1,9 @@
 <?php
 namespace application\components\attribute;
 
-class CounterDefinition extends Definition
+use application\components\AbstractDefinition;
+
+class CounterDefinition extends AbstractDefinition
 {
 
 }

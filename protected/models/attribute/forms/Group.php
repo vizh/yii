@@ -5,7 +5,6 @@ use application\components\form\CreateUpdateForm;
 use application\models\attribute\Definition;
 use application\models\attribute\Group as GroupModel;
 use application\models\attribute\forms\Definition as DefinitionForm;
-use event\models\UserData;
 
 /**
  * Class Group

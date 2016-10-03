@@ -15,17 +15,17 @@ trait LoadModelTrait
      */
     public function loadModel($class, $key, $throwException = true)
     {
-        /** @var ActiveRecord $class */
+        /** @var \application\components\ActiveRecord $class */
         if (method_exists($class, 'model')) {
             $model = null;
             if (!empty($key)) {
                 $model = $class::model()->findByPk($key);
             }
-            if (empty($model) && $throwException) {
+            if ($model === null && $throwException) {
                 throw new \CHttpException(404);
             }
             return $model;
         }
-        throw new Exception("Переданный класс не является экземпляром CActiveRecord");
+        throw new Exception('Переданный класс не является экземпляром CActiveRecord');
     }
 }

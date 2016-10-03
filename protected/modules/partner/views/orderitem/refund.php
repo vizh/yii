@@ -26,7 +26,7 @@ $orderItem = $form->getActiveRecord();
             <p>
             <?if($orderItem->Refund):?>
                 <span class="label label-danger"><?=\Yii::t('app', 'Отменен')?></span>
-            <?php else:?>
+            <?else:?>
                 <span class="label label-success"><?=$orderItem->getPriceDiscount()?> <?=\Yii::t('app', 'руб.')?></span>
             <?endif?>
             </p>

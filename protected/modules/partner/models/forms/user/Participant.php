@@ -50,15 +50,26 @@ class Participant extends EventItemCreateUpdateForm
             $result->participants = ArrayHelper::toArray($this->event->Parts, ['event\models\Part' => [
                 'Title',
                 'role' => function (Part $part) use ($user, $event) {
-                    $participant = ParticipantModel::model()->byPartId($part->Id)->byUserId($user->Id)->find();
-                    return !empty($participant) ? $participant->RoleId : null;
+                    $participant = ParticipantModel::model()
+                        ->byPartId($part->Id)
+                        ->byUserId($user->Id)
+                        ->find();
+                    return $participant !== null
+                        ? $participant->RoleId
+                        : null;
                 },
                 'part' => 'Id'
             ]]);
         } else {
-            $participant = ParticipantModel::model()->byEventId($event->Id)->byUserId($this->model->Id)->find();
+            $participant = ParticipantModel::model()
+                ->byEventId($event->Id)
+                ->byUserId($this->model->Id)
+                ->find();
+
             $result->participants[] = [
-                'role' => (!empty($participant) ? $participant->RoleId : null),
+                'role' => $participant !== null
+                    ? $participant->RoleId
+                    : null,
             ];
         }
 
@@ -74,15 +85,25 @@ class Participant extends EventItemCreateUpdateForm
         $result->products = [];
         $user = $this->model;
 
-        $products = Product::model()->byEventId($this->event->Id)->byManagerName('FoodProductManager')->findAll();
+        $products = Product::model()
+            ->byEventId($this->event->Id)
+            ->byManagerName('FoodProductManager')
+            ->findAll();
+
         $products = array_filter($products, function (Product $product) {
             return $product->getPrice() === 0;
         });
+
         $products = ArrayHelper::toArray($products, ['pay\models\Product' => [
             'Id', 'Title', 'Paid' => function (Product $product) use ($user) {
-                return OrderItem::model()->byAnyOwnerId($user->Id)->byProductId($product->Id)->byPaid(true)->exists();
+                return OrderItem::model()
+                    ->byAnyOwnerId($user->Id)
+                    ->byProductId($product->Id)
+                    ->byPaid(true)
+                    ->exists();
             }
         ]]);
+
         $result->products = array_values($products);
     }
 
@@ -111,7 +132,7 @@ class Participant extends EventItemCreateUpdateForm
                 $attributes = [];
                 foreach ($manager->getDefinitions() as $definition) {
                     $attributes[$definition->name] = [
-                        'value' => $definition->getPrintValue($manager),
+                        'value' => $definition->getPrintValue($manager, true),
                         'edit'  => $definition->activeEdit($manager, ['class' => 'form-control'])
                     ];
                 }

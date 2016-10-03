@@ -13,44 +13,73 @@ use ruvents\models\Visit;
 $this->setPageTitle('Редактирование участника мероприятия');
 $clientScript = Yii::app()->getClientScript();
 $clientScript->registerPackage('angular');
-$clientScript->registerScript('init', '
-    new CUserEdit(' . $form->getParticipantJson() . ');
-', CClientScript::POS_HEAD);
+$clientScript->registerScript('init', 'new CUserEdit('.$form->getParticipantJson().')', CClientScript::POS_HEAD);
+
 ?>
+
+<!--suppress CssUnusedSymbol -->
+<style>
+    .table-attributes th {
+        height: 49px;
+        width: 250px;
+        padding-top: 14px;
+    }
+
+    .table-attributes td label {
+        margin-top: 7px;
+        color: brown;
+    }
+
+    <?/* Встречается в \application\components\AbstractDefinition::getPrintValue */?>
+    .table-attributes-label {
+        font-weight: 600;
+        color: brown;
+    }
+
+    .table-attributes-value {
+        margin-top: 7px;
+    }
+</style>
+
 <div ng-controller="UserEditController">
-    <?= $this->renderPartial('edit/info', [
+    <?=$this->renderPartial('edit/info', [
         'user' => $form->getActiveRecord(),
         'event' => $this->getEvent(),
         'photoForm' => $photoForm
-    ]) ?>
+    ])?>
 
     <div class="panel panel-warning" ng-if="data">
         <div class="panel-heading">
             <span class="panel-title">
                 <i class="fa fa-list-alt"></i>
-                <?= Yii::t('app', 'Атрибуты пользователей') ?>
+                <?=Yii::t('app', 'Атрибуты пользователей')?>
+                <button
+                    class="btn pull-right" style="position:relative;top:-6px;left:16px"
+                    ng-class="{'btn btn-success' : row.edit, 'btn' : !row.edit}"
+                    ng-click="updateDataValues(data[0])" type="button">{{!data[0].edit ? '<?=Yii::t('app', 'Редактировать')?>' : '<?=Yii::t('app', 'Сохранить')?>'}}
+                </button>
             </span>
         </div>
-
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped table-attributes">
             <tbody>
                 <tr ng-repeat="(i, attribute) in data[0].attributes">
-                    <th>{{data[0].titles[i]}}</th>
+                    <th style="width:250px;height:49px;padding-top:14px">{{data[0].titles[i]}}</th>
                     <td ng-class="{'editable-data' : attribute.edit}">
-                        <span ng-bind-html="attribute.value" ng-show="!data[0].edit"></span>
+                        <div class="table-attributes-value" ng-bind-html="attribute.value" ng-show="!data[0].edit"></div>
                         <div ng-bind-html="attribute.edit" ng-show="data[0].edit"></div>
-                </td>
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="2">
                     <div class="btn-group btn-group-xs">
-                        <button class="btn" ng-class="{'btn btn-success' : row.edit, 'btn' : !row.edit}"
-                                    ng-click="updateDataValues(data[0])" type="button">{{!data[0].edit ?
-                            '<?= Yii::t('app', 'Редактировать') ?>' : '<?= Yii::t('app', 'Сохранить') ?>'}}
+                        <button
+                            class="btn"
+                            ng-class="{'btn btn-success' : row.edit, 'btn' : !row.edit}"
+                            ng-click="updateDataValues(data[0])" type="button">{{!data[0].edit ? '<?=Yii::t('app', 'Редактировать')?>' : '<?=Yii::t('app', 'Сохранить')?>'}}
                         </button>
                     </div>
-                        <div class="{{data[0].class ? 'text-' + data[0].class : '' }}" ng-if="row.class">
-                            <small>{{data[0].message}}</small>
+                    <div class="{{data[0].class ? 'text-' + data[0].class : '' }}" ng-if="row.class">
+                        <small>{{data[0].message}}</small>
                     </div>
                 </td>
             </tr>
@@ -63,7 +92,7 @@ $clientScript->registerScript('init', '
             <div class="panel-heading">
                 <span class="panel-title">
                     <i class="fa fa-list-alt"></i>
-                    <?= Yii::t('app', 'Отметки интерактивных стендов') ?>
+                    <?=Yii::t('app', 'Отметки интерактивных стендов')?>
                 </span>
             </div>
 
@@ -71,8 +100,8 @@ $clientScript->registerScript('init', '
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th><?= Yii::t('app', 'Время') ?></th>
-                        <th><?= Yii::t('app', 'Метка') ?></th>
+                        <th><?=Yii::t('app', 'Время')?></th>
+                        <th><?=Yii::t('app', 'Метка')?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -93,25 +122,21 @@ $clientScript->registerScript('init', '
             <span class="panel-title">&nbsp;</span>
             <ul class="nav nav-tabs nav-tabs-xs nav-tabs-left">
                 <li class="active">
-                    <a href="#user-participant" data-toggle="tab"><?= Yii::t('app', 'Роль на мероприятии') ?></a>
+                    <a href="#user-participant" data-toggle="tab"><?=Yii::t('app', 'Роль на мероприятии')?></a>
                 </li>
                 <li ng-if="products.length > 0">
-                    <a href="#user-products" data-toggle="tab"><?= Yii::t('app', 'Опции') ?></a>
+                    <a href="#user-products" data-toggle="tab"><?=Yii::t('app', 'Опции')?></a>
                 </li>
             </ul>
         </div>
         <div class="panel-body">
             <div class="tab-content">
                 <div class="tab-pane active" id="user-participant">
-                    <div class="form-group {{participant.class ? 'has-' + participant.class : '' }}"
-                         ng-repeat="participant in participants">
-                        <label class="control-label"
-                               ng-if="participant.Title != undefined">{{participant.Title}}</label>
-                        <select class="form-control" ng-model="participant.role"
-                                ng-options='role.Id as role.Title for role in <?= $form->getRoleDataJson() ?>'>
+                    <div class="form-group {{participant.class ? 'has-' + participant.class : '' }}" ng-repeat="participant in participants">
+                        <label class="control-label" ng-if="participant.Title != undefined">{{participant.Title}}</label>
+                        <select class="form-control" ng-model="participant.role" ng-options='role.Id as role.Title for role in <?=$form->getRoleDataJson()?>'>
                             <option value="">Роль не задана</option>
                         </select>
-
                         <p class="help-block" ng-if="participant.message">{{participant.message}}</p>
                     </div>
                 </div>
@@ -136,6 +161,6 @@ $clientScript->registerScript('init', '
     'id' => 'participant-message',
     'header' => 'Укажите комментарий',
     'footer' => \CHtml::button(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-primary'])
-]) ?>
+])?>
     <textarea class="form-control"></textarea>
 <?$this->endWidget()?>
