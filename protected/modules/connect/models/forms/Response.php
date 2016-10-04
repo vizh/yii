@@ -77,7 +77,9 @@ class Response extends CreateUpdateForm
                 $event->params['user'] = $this->model->User;
                 $meeting->onAccept($event);
             }
-            if ($this->model->Status == MeetingLinkUser::STATUS_DECLINED){
+            if ($this->model->Status == MeetingLinkUser::STATUS_DECLINED
+                || $this->model->Status == MeetingLinkUser::STATUS_CANCELLED
+            ){
                 $event = new \CEvent($meeting);
                 $event->params['user'] = $this->model->User;
                 $event->params['response'] = $this->Response;
