@@ -2,6 +2,7 @@
 /**
  * @var Participant $search
  * @var Event $event
+ * @var \partner\models\forms\user\RoleBulkChange $bulkRoleChange
  * @var Controller $this
  */
 
@@ -21,6 +22,12 @@ use application\components\utility\Texts;
 
 
 <div class="panel panel-info">
+
+    <?php
+    /** @var CActiveForm $form */
+    $form = $this->beginWidget('CActiveForm');
+    ?>
+
     <div class="panel-heading">
         <span class="panel-title"><i class="fa fa-group"></i> <?=\Yii::t('app', 'Участники')?></span>
     </div> <!-- / .panel-heading -->
@@ -30,7 +37,15 @@ use application\components\utility\Texts;
                 'dataProvider'=> $search->getDataProvider(),
                 'filter' => $search,
                 'summaryText' => 'Пользователи {start}-{end} из {count}.',
+                'selectableRows' => 1000,
                 'columns' => [
+                    [
+                        'class' => 'zii.widgets.grid.CCheckBoxColumn',
+                        'checkBoxHtmlOptions' => [
+                            'name' => CHtml::activeName($bulkRoleChange, 'Ids[]'),
+                            'value' => '$data->Id'
+                        ]
+                    ],
                     [
                         'name' => 'Query',
                         'type' => 'raw',
@@ -177,4 +192,15 @@ use application\components\utility\Texts;
             ])?>
         </div>
     </div> <!-- / .panel-body -->
+    <div class="panel-footer">
+        <div class="form-group">
+            <?= $form->dropDownList($bulkRoleChange, 'RoleId', $search->getRoleData()); ?>
+        </div>
+
+        <div class="form-group">
+            <?= CHtml::submitButton('Сохранить', ['class' => 'btn btn-primary']); ?>
+        </div>
+    </div>
+
+    <?php $this->endWidget(); ?>
 </div>
