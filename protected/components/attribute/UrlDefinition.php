@@ -1,31 +1,31 @@
 <?php
 namespace application\components\attribute;
 
-class UrlDefinition extends Definition
+use application\components\AbstractDefinition;
+use CHtml;
+use event\components\UserDataManager;
+
+class UrlDefinition extends AbstractDefinition
 {
     /**
      * @inheritdoc
      */
-    public function getPrintValue($container)
+    public function getPrintValue(UserDataManager $manager, $useHtml = false)
     {
-        $value = $this->getExportValue($container);
-        if (!empty($value)) {
-            $value = \CHtml::link($value, $value, ['target' => '_blank']);
-        }
-        return $value;
+        $value = $this->getExportValue($manager);
+
+        return $value ?: ($useHtml ? CHtml::link($value, $value, ['target' => '_blank']) : $value);
     }
 
     /**
      * @inheritdoc
      */
-    public function getExportValue($container)
+    public function getExportValue(UserDataManager $manager)
     {
-        $value = parent::getExportValue($container);
-        if (!empty($value)) {
-            if (strpos($value, 'http') !== 0) {
-                $value = 'http://' . $value;
-            }
-        }
-        return $value;
+        $value = parent::getExportValue($manager);
+
+        return $value !== null && strpos($value, 'http') !== 0
+            ? 'http://'.$value
+            : null;
     }
 }

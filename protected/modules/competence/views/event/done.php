@@ -35,7 +35,7 @@ if (strpos($test->Code, 'devcon') === 0) {
         <div class="span8 offset2 m-top_30 text-center">
             <?if(!empty($test->AfterEndText)):?>
                 <?=$test->AfterEndText?>
-            <?php else:?>
+            <?else:?>
                 <p class="lead"><strong>Спасибо, ваш отзыв очень важен для нас!</strong></p>
             <?endif?>
         </div>

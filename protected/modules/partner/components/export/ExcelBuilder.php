@@ -8,7 +8,6 @@ use application\models\attribute\Definition;
 use event\models\Participant;
 use event\models\UserData;
 use pay\components\OrderItemCollection;
-use pay\models\Order;
 use pay\models\OrderItem;
 use pay\models\OrderType;
 use ruvents\models\Badge;
@@ -432,7 +431,12 @@ class ExcelBuilder
     private function fillUsersData()
     {
         $initMap = false;
-        $data = UserData::model()->byEventId($this->getEvent()->Id)->byDeleted(false)->findAll();
+
+        $data = UserData::model()
+            ->byEventId($this->getEvent()->Id)
+            ->byDeleted(false)
+            ->findAll();
+
         foreach ($data as $item) {
             $definitions = $item->getManager()->getDefinitions();
             /** @var Definition $definition */

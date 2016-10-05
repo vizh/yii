@@ -12,6 +12,6 @@ $hideJuridical = $account->OrderLastTime !== null && $account->OrderLastTime < d
     <span class="text-danger"><?=$account->OrderMinTotalMessage?></span>
 <?php elseif ($hideJuridical):?>
     <span class="text-danger"><?=!empty($account->OrderDisableMessage) ? $account->OrderDisableMessage : \Yii::t('app', 'Окончен период выставления счетов юридическими лицами. Оплата возможна только банковскими картами и электронными деньгами.')?></span>
-<?php else:?>
+<?else:?>
     <?=\CHtml::link(\Yii::t('app', 'Выставить счет'), $this->url, $this->htmlOptions)?>
 <?endif?>

@@ -20,12 +20,12 @@ use event\models\RoleType;
                         <?endif?>
                     <?php elseif ($link->Company !== null):?>
                         <?=\CHtml::link($link->Company->Name, $link->Company->getUrl())?>
-                    <?php else:?>
+                    <?else:?>
                         <?=$link->CustomText?>
                     <?endif?>
                 </p>
             <?endforeach?>
-        <?php else:?>
+        <?else:?>
             <h5><?=\Yii::t('app', 'Докладчики')?>:</h5>
             <ul>
                 <?foreach($links as $link):?>
@@ -37,7 +37,7 @@ use event\models\RoleType;
                             <?endif?>
                         <?php elseif ($link->Company !== null):?>
                             <?=\CHtml::link($link->Company->Name, $link->Company->getUrl())?>
-                        <?php else:?>
+                        <?else:?>
                             <?=$link->CustomText?>
                         <?endif?>
                     </li>

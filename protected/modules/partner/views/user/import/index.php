@@ -71,7 +71,7 @@ $this->setPageTitle(Yii::t('app', 'Импорт участников мероп�
                     </tbody>
                 </table>
             </div>
-        <?php else:?>
+        <?else:?>
             <div class="alert alert-warning text-center"><?=Yii::t('app', 'Еще не было ни одного импорта')?></div>
         <?endif?>
     </div>

@@ -3,9 +3,9 @@ namespace event\components;
 
 use application\components\attribute\JsonContainer;
 use application\components\traits\ClassNameTrait;
+use application\models\attribute\Definition;
 use application\models\attribute\Group;
 use event\models\UserData;
-use \application\models\attribute\Definition as DefinitionModel;
 
 /**
  * Class UserDataManager
@@ -21,6 +21,7 @@ class UserDataManager extends \CModel
 
     /**
      * @param UserData $userData
+     * @throws \CException
      */
     public function __construct($userData)
     {
@@ -29,6 +30,7 @@ class UserDataManager extends \CModel
 
     /**
      * Имя json-поля модели, для хранения данных
+     *
      * @return string
      */
     protected function containerName()
@@ -44,12 +46,13 @@ class UserDataManager extends \CModel
      * 2. [['Name', 'DefinitionClass', ...params],...] - каждое хранимое поле определяется тем классом,
      * который был указан после имени поля. Также возможно задать дополнительные параметры,
      * соответствующие DefinitionClass.
+     *
      * @param bool $onlyPublic
      * @return string[]|array
      */
     protected function attributeDefinitions($onlyPublic = false)
     {
-        $model = DefinitionModel::model()
+        $model = Definition::model()
             ->byModelName('EventUserData')
             ->byModelId($this->model()->EventId)
             ->ordered();
@@ -58,11 +61,8 @@ class UserDataManager extends \CModel
             $model->byPublic(true);
         }
 
-        /** @var DefinitionModel[] $definitions */
-        $definitions = $model->findAll();
-
         $result = [];
-        foreach ($definitions as $definition) {
+        foreach ($model->findAll() as $definition) {
             $row = [
                 0 => $definition->Name,
                 1 => $definition->ClassName,
@@ -71,11 +71,13 @@ class UserDataManager extends \CModel
                 'required' => $definition->Required,
                 'customTextField' => $definition->UseCustomTextField,
                 'secure' => $definition->Secure,
-                'public' => $definition->Public
+                'public' => $definition->Public,
+                'translatable' => $definition->Translatable
             ];
 
             $result[] = array_merge($row, $definition->getParams());
         }
+
         return $result;
     }
 

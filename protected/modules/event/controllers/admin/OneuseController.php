@@ -1,6 +1,7 @@
 <?php
 
 use application\components\controllers\AdminMainController;
+use event\models\UserData;
 
 class OneuseController extends AdminMainController
 {
@@ -21,7 +22,7 @@ class OneuseController extends AdminMainController
                 </tr>';
             $orderItems = \pay\models\OrderItem::model()->byProductId($id)->byPaid(true)->findAll();
             foreach ($orderItems as $orderItem) {
-                $definitions = \event\models\UserData::getDefinedAttributeValues($orderItem->Product->Event, $orderItem->getCurrentOwner());
+                $definitions = UserData::getDefinedAttributeValues($orderItem->Product->Event, $orderItem->getCurrentOwner());
                 echo "
                     <tr>
                         <td>{$definitions['CertificationDate']}</td>

@@ -33,14 +33,14 @@ class OneSelectDefinition extends ListDefinition
         $currentValue = $container->{$this->name};
         $valueExists = isset($this->data[$currentValue]);
 
-        $customClass = 'custom-field' . self::$customFieldsCounter++;
-        $htmlOptions['class'] = ' ' .$customClass;
+        $customClass = 'custom-field'.self::$customFieldsCounter++;
+        $htmlOptions['class'] = ' '.$customClass;
         $html = '';
         foreach ($this->data as $key => $value) {
             $htmlOptions['value'] = $key;
 
             $html .= \CHtml::tag('label', ['class' => 'radio'],
-                \CHtml::activeRadioButton($container, $this->name, $htmlOptions) . ' ' . $value
+                \CHtml::activeRadioButton($container, $this->name, $htmlOptions).' '.$value
             );
         }
 
@@ -48,8 +48,9 @@ class OneSelectDefinition extends ListDefinition
             $htmlOptions['value'] = 'OTHER';
             $htmlOptions['class'] .= ' other-'.$customClass;
             $html .= \CHtml::tag('label', ['class' => 'radio'],
-                \CHtml::radioButton(\CHtml::activeName($container, $this->name), $currentValue && !$valueExists, $htmlOptions) . ' Другое'
-            ) . \CHtml::tag('div', [], \CHtml::textField(
+                    \CHtml::radioButton(\CHtml::activeName($container, $this->name), $currentValue && !$valueExists,
+                        $htmlOptions).' Другое'
+                ).\CHtml::tag('div', [], \CHtml::textField(
                     \CHtml::activeName($container, $this->name),
                     !$valueExists ? $currentValue : '', [
                         'class' => 'span12 text-'.$customClass,

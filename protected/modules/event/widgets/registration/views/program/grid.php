@@ -35,7 +35,7 @@ $modals = '';
                             <tr <?if(isset($data->Sections[$hallId][$time]) && $data->Sections[$hallId][$time]->ColSpan == sizeof($data->Halls) && $data->Sections[$hallId][$time]->Section->TypeId == 4):?>class="info"<?endif?>>
                             <td class="time">
                                 <?if($this->getEvent()->IdName == 'next2015' && trim($label) == '12:25 &mdash; 12:30'): //TODO: Костыль для next2015?>
-                                <?php else:?>
+                                <?else:?>
                                     <?=$label?>
                                 <?endif?>
                             </td>

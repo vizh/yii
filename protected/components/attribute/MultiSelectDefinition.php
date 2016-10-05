@@ -1,6 +1,8 @@
 <?php
 namespace application\components\attribute;
 
+use event\components\UserDataManager;
+
 /**
  * Class MultiSelectDefinition
  */
@@ -24,6 +26,21 @@ class MultiSelectDefinition extends ListDefinition
     /**
      * @inheritdoc
      */
+    public function getPrintValue(UserDataManager $manager, $useHtml = false)
+    {
+        $values = [];
+        if (is_array($manager->{$this->name})) {
+            foreach ($manager->{$this->name} as $value) {
+                $values[] = isset($this->data[$value]) ? $this->data[$value] : ($this->customTextField ? $value : '');
+            }
+        }
+
+        return implode(', ', $values);
+    }
+
+    /**
+     * @inheritdoc
+     */
     protected function internalActiveEdit(\CModel $container, $htmlOptions = [])
     {
         unset($htmlOptions['class']);
@@ -34,7 +51,7 @@ class MultiSelectDefinition extends ListDefinition
         foreach ($this->data as $key => $value) {
             $htmlOptions['value'] = $key;
             $html .= \CHtml::tag('label', ['class' => 'checkbox'],
-                \CHtml::activeCheckBox($container, $this->name.'[' . $key . ']', $htmlOptions) . ' ' . $value
+                \CHtml::activeCheckBox($container, $this->name.'['.$key.']', $htmlOptions).' '.$value
             );
         }
 
@@ -44,20 +61,5 @@ class MultiSelectDefinition extends ListDefinition
         }
 
         return $html;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getPrintValue($container)
-    {
-        $values = [];
-        if (is_array($container->{$this->name})) {
-            foreach ($container->{$this->name} as $value) {
-                $values[] = isset($this->data[$value]) ? $this->data[$value] : ($this->customTextField ? $value : '');
-            }
-        }
-
-        return implode(', ', $values);
     }
 }

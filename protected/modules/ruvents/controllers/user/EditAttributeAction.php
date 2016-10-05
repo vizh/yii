@@ -1,9 +1,6 @@
 <?php
 namespace ruvents\controllers\user;
 
-use event\models\Part;
-use event\models\Participant;
-use event\models\Role;
 use event\models\UserData;
 use ruvents\components\Exception;
 use ruvents\models\ChangeMessage;
@@ -50,7 +47,6 @@ class EditAttributeAction extends Action
             ->byEventId($this->getEvent()->Id)
             ->byUserId($user->Id)
             ->byDeleted(false)
-            ->orderBy(['"t"."CreationTime"'])
             ->find();
 
         if ($userData === null)

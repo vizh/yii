@@ -20,7 +20,7 @@ use competence\models\form\event\CodeValidation;
             <p class="lead">Здравствуйте!</p>
             <?if(!empty($test->Info)):?>
                 <?=$test->Info?>
-            <?php else:?>
+            <?else:?>
                 <p class="lead">
                     Спасибо за готовность оставить свое мнение о мероприятии, заполнив анкету участника <?=$event->Title?>.
                     Это займет у вас не более <nobr>5-ти</nobr> минут.
@@ -35,7 +35,7 @@ use competence\models\form\event\CodeValidation;
                     <p class="muted">
                         <?if($event->IdName == 'devcon15'):?>
                             Для заполнения анкеты введите код, который напечатан на вашем бейдже.
-                        <?php else:?>
+                        <?else:?>
                             Ссылка на анкету и код были отправлены в письме накануне мероприятия.<br/>
                             Если вы не получили письмо, узнать свой код для прохождения опроса можно на стойке регистрации.
                         <?endif?>
@@ -44,7 +44,7 @@ use competence\models\form\event\CodeValidation;
                         <?=CHtml::submitButton($test->StartButtonText, ['class' => 'btn btn-success'])?>
                     </div>
                 <?php //$this->endWidget()?>
-            <?php else:?>
+            <?else:?>
                 <div class="text-center m-top_30 m-bottom_30">
                     <?=CHtml::link($test->StartButtonText, ['process', 'eventIdName' => $event->IdName], ['class' => 'btn btn-success'])?>
                 </div>

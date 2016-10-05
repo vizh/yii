@@ -39,7 +39,7 @@ if (!$manager->hasDefinitions(true)) {
                         <div class="checkbox">
                             <?=$definition->activeEdit($manager, ['ng-model' => 'participant.' . $definition->name])?>
                         </div>
-                    <?php else:?>
+                    <?else:?>
                         <div class="form-group">
                             <?=$activeForm->label($manager, $definition->title)?>
                             <?=$definition->activeEdit($manager, ['class' => 'form-control', 'ng-model' => 'participant.' . $definition->name])?>

@@ -33,7 +33,7 @@ if (empty($products))
         <?foreach($productsByGroup as $groupName => $value):?>
             <?if(!is_array($value)):?>
                 <?$this->render('registration/product', ['product' => $value])?>
-            <?php else:?>
+            <?else:?>
                 <tr>
                     <td colspan="4">
                         <article>

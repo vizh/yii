@@ -1,16 +1,18 @@
 <?php
 namespace application\components\attribute;
 
-class IntegerDefinition extends Definition
+use application\components\AbstractDefinition;
+
+class IntegerDefinition extends AbstractDefinition
 {
     /**
      * @return array
      */
     public function rules()
     {
-        $rules = parent::rules();
-        $rules[] = [$this->name, 'numerical', 'integerOnly' => true];
-        return $rules;
+        return array_merge(parent::rules(), [
+            [$this->name, 'numerical', 'integerOnly' => true]
+        ]);
     }
 
     /**
@@ -19,6 +21,6 @@ class IntegerDefinition extends Definition
      */
     public function typecast($value)
     {
-        return (integer) $value;
+        return (integer)$value;
     }
 }

@@ -33,7 +33,7 @@ $this->setPageTitle(\Yii::t('app', 'Выдача промо-кодов'));
                             <td>
                                 <?if(empty($coupon->Recipient)):?>
                                     <span class="label label-success"><?=\Yii::t('app','Свободен')?></span>
-                                <?php else:?>
+                                <?else:?>
                                     <span class="label label-warning"><?=\Yii::t('app','Выдан')?></span>
                                     <p class="small"><?=$coupon->Recipient?></p>
                                 <?endif?>

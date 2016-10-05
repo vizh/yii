@@ -3,14 +3,14 @@
  * @var Invite $this
  */
 
+use application\components\AbstractDefinition;
 use application\components\attribute\BooleanDefinition;
-use application\components\attribute\Definition;
 use event\widgets\Invite;
 
 $userDataManager = $this->userData->getManager();
 $oneColumn = count($userDataManager->getDefinitions()) <= 5;
 
-$printEditArea = function(Definition $definition) use ($userDataManager)
+$printEditArea = function(AbstractDefinition $definition) use ($userDataManager)
 {
    ?>
     <?if($definition instanceof BooleanDefinition):?>
@@ -43,13 +43,13 @@ $printEditArea = function(Definition $definition) use ($userDataManager)
                     <?foreach($group->getDefinitions() as $definition):?>
                         <?$printEditArea($definition)?>
                     <?endforeach?>
-                <?php else:?>
+                <?else:?>
                     <div class="pull-left">
                         <?
                         $i=0;
                         foreach ($group->getDefinitions() as $definition) {
                             $i++;
-                            if ($i % 2 == 0) continue;
+                            if ($i % 2 === 0) continue;
                             $printEditArea($definition);
                         }
                        ?>
@@ -59,7 +59,7 @@ $printEditArea = function(Definition $definition) use ($userDataManager)
                         $i=0;
                         foreach ($group->getDefinitions() as $definition) {
                             $i++;
-                            if ($i % 2 == 1) continue;
+                            if ($i % 2 === 1) continue;
                             $printEditArea($definition);
                         }
                        ?>

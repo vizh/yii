@@ -23,9 +23,9 @@ $titles = $form->Moderators[0]->attributeLabels();
         <tr>
             <td>
                 <?if($moderator->isUpdateMode()):?>
-                    <?=\CHtml::link($moderator->getActiveRecord()->User, $moderator->getActiveRecord()->User->getUrl(), ['class' => 'btn btn-link', 'target' => '_blank'])?>
+                    <?=CHtml::link($moderator->getActiveRecord()->User, $moderator->getActiveRecord()->User->getUrl(), ['class' => 'btn btn-link', 'target' => '_blank'])?>
                     <?=$activeForm->hiddenField($form, 'Moderators[' . $i . '][UserId]')?>
-                <?php else:?>
+                <?else:?>
                     <?$this->widget('\application\widgets\AutocompleteInput', [
                         'model' => $form,
                         'attribute' => 'Moderators[' . $i . '][UserId]',

@@ -16,7 +16,10 @@ class ViewDataFileAction extends Action
 {
     public function run($id, $attribute)
     {
-        $data = UserData::model()->byEventId($this->getEvent()->Id)->findByPk($id);
+        $data = UserData::model()
+            ->byEventId($this->getEvent()->Id)
+            ->findByPk($id);
+
         if ($data === null) {
             throw new \CHttpException(404);
         }
@@ -51,4 +54,4 @@ class ViewDataFileAction extends Action
         return $name;
 
     }
-} 
+}

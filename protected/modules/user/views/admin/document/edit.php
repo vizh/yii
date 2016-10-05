@@ -26,7 +26,7 @@ $this->setPageTitle('Документы удостоверяющие лично�
                     <?=$form->getTitle()?>
                     <?if($form->isUpdateMode()):?>
                         <span class="label label-success pull-right">Задан</span>
-                    <?php else:?>
+                    <?else:?>
                         <span class="label pull-right">Не задан</span>
                     <?endif?>
                 </a>

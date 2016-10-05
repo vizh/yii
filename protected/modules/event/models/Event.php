@@ -3,6 +3,7 @@
 namespace event\models;
 
 use api\components\callback\Base;
+use application\components\AbstractDefinition;
 use application\components\Exception;
 use application\components\Image;
 use application\components\socials\facebook\Event as SocialEvent;
@@ -444,7 +445,6 @@ class Event extends ActiveRecord implements ISearch
             ->byEventId($this->Id)
             ->byUserId($user->Id)
             ->byDeleted(false)
-            ->orderBy(['"t"."CreationTime"'])
             ->find();
 
         if (!$data) {
@@ -556,6 +556,7 @@ class Event extends ActiveRecord implements ISearch
      * @param User $user
      * @param null $message
      * @throws Exception
+     * @throws \CException
      */
     public function unregisterUserOnPart(User $user, $part = null, $message = null)
     {
@@ -574,7 +575,10 @@ class Event extends ActiveRecord implements ISearch
             $participant->delete();
         }
 
-        UserData::model()->byEventId($this->Id)->byUserId($user->Id)->delete();
+        UserData::model()
+            ->byEventId($this->Id)
+            ->byUserId($user->Id)
+            ->delete();
     }
 
     /**
@@ -1120,7 +1124,11 @@ class Event extends ActiveRecord implements ISearch
      */
     public function getUserData(User $user)
     {
-        return UserData::model()->byEventId($this->Id)->byUserId($user->Id)->orderBy(['"t"."CreationTime"' => SORT_DESC])->byDeleted(false)->findAll();
+        return UserData::model()
+            ->byEventId($this->Id)
+            ->byUserId($user->Id)
+            ->byDeleted(false)
+            ->findAll();
     }
 
     /**
@@ -1187,7 +1195,7 @@ class Event extends ActiveRecord implements ISearch
     /**
      * Возращает дополнительные атрибуты пользователя для мероприятия
      *
-     * @return \application\components\attribute\Definition[]
+     * @return AbstractDefinition[]
      */
     public function getAttributeDefinitions()
     {

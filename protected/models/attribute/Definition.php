@@ -18,6 +18,7 @@ use application\models\translation\ActiveRecord;
  * @property boolean $UseCustomTextField Whether use the custom option (text field) for list definitions
  * @property int $Order
  * @property boolean $Public
+ * @property boolean $Translatable
  *
  * @method Definition find($condition='',$params=array())
  * @method Definition findByPk($pk,$condition='',$params=array())

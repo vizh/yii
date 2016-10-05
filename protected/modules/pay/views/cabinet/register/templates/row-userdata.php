@@ -5,10 +5,10 @@
  */
 $definedAttributes = isset($definedAttributes) ? $definedAttributes : [];
 
+use application\components\AbstractDefinition;
 use application\components\attribute\ListDefinition;
 use event\models\UserData;
 use application\components\attribute\BooleanDefinition;
-use application\components\attribute\Definition;
 use event\components\UserDataManager;
 
 $userData = new UserData();
@@ -19,7 +19,7 @@ if (!$userData->getManager()->hasDefinitions(true)) {
 }
 
 
-$printEditArea = function(Definition $definition, UserDataManager $manager) use ($definedAttributes)
+$printEditArea = function(AbstractDefinition $definition, UserDataManager $manager) use ($definedAttributes)
 {
    ?>
     <?if($definition instanceof BooleanDefinition):?>
@@ -59,28 +59,27 @@ $printEditArea = function(Definition $definition, UserDataManager $manager) use 
                 <h5 class="title"><?=$group->title?></h5>
             <?endif?>
 
-            <?if(sizeof($definitions) == 1):?>
+            <?if(count($definitions) === 1):?>
                 <?=$printEditArea($definitions[0], $userData->getManager());?>
-            <?php else:?>
+            <?else:?>
                 <div class="pull-left">
-                    <?
-                    $i=0;
-                    foreach ($definitions as $definition) {
-                        $i++;
-                        if ($i % 2 == 0) continue;
-                        $printEditArea($definition, $userData->getManager());
-                    }
+                    <?php
+
+                        foreach ($definitions as $i => $definition) {
+                            if ($i % 2 === 0) continue;
+                            $printEditArea($definition, $userData->getManager());
+                        }
                    ?>
                 </div>
                 <div class="pull-right">
-                    <?
-                    $i=0;
-                    foreach ($definitions as $definition) {
-                        $i++;
-                        if ($i % 2 == 1) continue;
-                        $printEditArea($definition, $userData->getManager());
-                    }
-                   ?>
+                    <?php
+
+                        foreach ($definitions as $i => $definition) {
+                            if ($i % 2 === 1) continue;
+                            $printEditArea($definition, $userData->getManager());
+                        }
+
+                    ?>
                 </div>
             <?endif?>
         </div>
@@ -88,6 +87,6 @@ $printEditArea = function(Definition $definition, UserDataManager $manager) use 
 <?endforeach?>
 
 <?if(!empty($definedAttributes)):?>
-<small class="muted required-notice">Поля <span class="text-success">отмеченные зеленым цветом</span> заполнялись ранее и могут быть пропущены</small>
-<small class="muted required-notice"><span class="required-asterisk">*</span> &mdash; поля обязательны для заполнения</small>
+    <small class="muted required-notice">Поля <span class="text-success">отмеченные зеленым цветом</span> заполнялись ранее и могут быть пропущены</small>
+    <small class="muted required-notice"><span class="required-asterisk">*</span> &mdash; поля обязательны для заполнения</small>
 <?endif?>

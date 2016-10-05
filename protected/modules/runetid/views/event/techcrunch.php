@@ -51,7 +51,7 @@
                   <td><strong>При регистрации до <?=$dateFormatter->format('dd MMMM', $price->EndTime)?></strong></td>
                 <?php elseif ($price->StartTime >= date('Y-m-d') && $price->EndTime >= date('Y-m-d')):?>
                   <td><strong>При регистрации c <?=$dateFormatter->format('dd MMMM', $price->StartTime)?> до <?=$dateFormatter->format('dd MMMM', $price->EndTime)?></strong></td>
-                <?php else:?>
+                <?else:?>
                   <td><strong>При регистрации до <?=$dateFormatter->format('dd MMMM', $price->StartTime)?> и на входе</strong></td>
                 <?endif?>
                 <td class="t-right price"><strong><?=$price->Price?></strong> руб.</td>

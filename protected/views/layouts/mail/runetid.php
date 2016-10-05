@@ -11,7 +11,7 @@
                             <td>&nbsp;</td>
                             <td rowspan="2" style="font-size: 25px; font-weight: bold; line-height: 25px; width: 1px; text-align: center; padding: 5px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0;"><?=$this->mail->getUser()->RunetId?></td>
                             <td>&nbsp;</td>
-                        <?php else:?>
+                        <?else:?>
                             <td colspan="7">&nbsp;</td>
                         <?endif?>
                     </tr>

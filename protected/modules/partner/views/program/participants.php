@@ -63,7 +63,7 @@ $activeForm = $this->beginWidget('CActiveForm', ['id' => $form->getId()])?>
                         <div class="panel-heading">
                             <a href="#<?=$form->getId()?>_report" data-toggle="collapse" class="accordion-toggle <?if(!$form->hasErrors()):?>collapsed<?endif?>"><?=\Yii::t('app', 'Информация о докладе')?></a>
                         </div>
-                        <div class="panel-collapse <?if(!$form->hasErrors()):?>collapse<?php else:?>collapse in<?endif?>" id="<?=$form->getId()?>_report">
+                        <div class="panel-collapse <?if(!$form->hasErrors()):?>collapse<?else:?>collapse in<?endif?>" id="<?=$form->getId()?>_report">
                             <div class="panel-body">
                                 <div class="form-group">
                                     <?=$activeForm->label($form, 'ReportTitle')?>

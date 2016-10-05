@@ -1,7 +1,6 @@
 <?php
 namespace event\widgets;
 
-use event\components\Widget;
 use event\components\widget\WidgetRegistration;
 use event\components\WidgetPosition;
 use event\models\forms\DetailedRegistration as DetailedRegistrationForm;

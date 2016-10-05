@@ -2,6 +2,7 @@
 namespace application\components\form;
 
 use application\components\traits\ClassNameTrait;
+use Yii;
 
 class FormModel extends \CFormModel
 {
@@ -12,8 +13,9 @@ class FormModel extends \CFormModel
      */
     public function fillFromPost()
     {
-        $request = \Yii::app()->getRequest();
-        $this->setAttributes($request->getParam(get_class($this)));
+        $this->setAttributes(
+            Yii::app()->getRequest()->getParam(get_class($this))
+        );
     }
 
     /**
@@ -31,7 +33,11 @@ class FormModel extends \CFormModel
      */
     public function getAttributeHelpMessage($attribute)
     {
-        return isset($this->attributeHelpMessages()[$attribute]) ? $this->attributeHelpMessages()[$attribute] : null;
+        $messages = $this->attributeHelpMessages();
+
+        return isset($messages[$attribute])
+            ? $messages[$attribute]
+            : null;
     }
 
     /**
@@ -47,4 +53,4 @@ class FormModel extends \CFormModel
         }
         return false;
     }
-} 
+}

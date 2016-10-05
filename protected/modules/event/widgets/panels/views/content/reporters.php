@@ -17,7 +17,7 @@ $controller = \Yii::app()->getController();
                 <div class="controls">
                     <?=$activeForm->dropDownList($form, 'Attributes[' . $attr . '][ru]', ['random()' => 'Случайная', '"t"."LastName"' => 'По фамилии'])?>
                 </div>
-            <?php else:?>
+            <?else:?>
 
             <?endif?>
         </div>

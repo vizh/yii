@@ -18,7 +18,7 @@
         </div>
     <?endif?>
 </div>
-<?php else:?>
+<?else:?>
     <div class="alert alert-danger">
         <?=\Yii::t('app', 'У вас нет товаров для оплаты!')?>
     </div>

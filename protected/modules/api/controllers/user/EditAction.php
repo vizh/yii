@@ -1,11 +1,11 @@
 <?php
 namespace api\controllers\user;
 
-use api\components\builders\Builder;
 use api\components\Exception;
 use api\models\Account;
 use api\models\forms\user\Edit;
 use event\models\Participant;
+use event\models\UserData;
 use oauth\models\Permission;
 use user\models\User;
 use Yii;
@@ -39,6 +39,10 @@ class EditAction extends \api\components\Action
         $form->updateActiveRecord();
 
         $user->refresh();
+
+        if ($this->hasRequestParam('Attributes')) {
+            UserData::set($this->getEvent(), $user, $this->getRequestParam('Attributes'));
+        }
 
         // Возвращаем обновлённые данные пользователя
         $userData = $this

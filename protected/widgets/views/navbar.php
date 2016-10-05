@@ -27,12 +27,12 @@ $device = Yii::app()->mobileDetect;
                             <?=Yii::t('app', 'Войти')?>  / <?=Yii::t('app', 'Зарегистрироваться')?>
                         </a>
                     </li>
-                <?php else:?>
+                <?else:?>
                     <li class="login">
                         <?=CHtml::link(Yii::t('app', 'Войти') . ' / ' . Yii::t('app', 'Зарегистрироваться'), ['/oauth/main/auth', 'url' => $_SERVER['REQUEST_URI']])?>
                     </li>
                 <?endif?>
-            <?php else:?>
+            <?else:?>
                 <li class="account dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <img width="18" height="18" class="avatar" alt=""

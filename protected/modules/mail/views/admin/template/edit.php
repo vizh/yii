@@ -141,7 +141,7 @@ $this->setPageTitle('Рассылка');
                             <?=$field?> &mdash; <?=$label?><br/>
                         <?endforeach?>
                     </p>
-                <?php else:?>
+                <?else:?>
                     <div class="alert alert-info" style="margin: 0;">Шаблон письма притерпел внешние изменения. Отредактируйте его через PHP редактор. Путь к шаблону: <?=$template->getViewPath()?></div>
                 <?endif?>
             </div>

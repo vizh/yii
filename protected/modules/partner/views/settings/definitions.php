@@ -9,17 +9,17 @@
 use application\helpers\Flash;
 use event\models\Event;
 
-$this->setPageTitle(\Yii::t('app', 'Дополнительные атрибуты пользователей'));
+$this->setPageTitle(Yii::t('app', 'Дополнительные атрибуты пользователей'));
 ?>
 <?=Flash::html()?>
 <?foreach($forms as $form):?>
     <?$activeForm = $this->beginWidget('\application\widgets\ActiveForm', ['scrollIfHasErrors' => $form])?>
         <?if($form->getActiveRecord() !== null):?>
-            <?=\CHtml::hiddenField('Id', $form->getActiveRecord()->Id)?>
+            <?=CHtml::hiddenField('Id', $form->getActiveRecord()->Id)?>
         <?endif?>
-        <div class="panel <?if($form->isUpdateMode()):?>panel-info<?php else:?>panel-warning<?endif?>">
+        <div class="panel <?if($form->isUpdateMode()):?>panel-info<?else:?>panel-warning<?endif?>">
             <div class="panel-heading">
-                <span class="panel-title"><i class="fa fa-object-group"></i> <?=\Yii::t('app', $form->isUpdateMode() ? 'Группа атрибутов' : 'Новая группа атрибутов')?></span>
+                <span class="panel-title"><i class="fa fa-object-group"></i> <?=Yii::t('app', $form->isUpdateMode() ? 'Группа атрибутов' : 'Новая группа атрибутов')?></span>
             </div> <!-- / .panel-heading -->
             <div class="panel-body">
                 <?=$activeForm->errorSummary($form)?>
@@ -37,14 +37,17 @@ $this->setPageTitle(\Yii::t('app', 'Дополнительные атрибут�
                 <div class="panel-group panel-group-info m-top_20">
                     <div class="panel">
                         <div class="panel-heading">
-                            <span class="accordion-toggle"><i class="fa fa-list-alt"></i> <?=\Yii::t('app', 'Атрибуты')?></span>
+                            <span class="accordion-toggle"><i class="fa fa-list-alt"></i> <?=Yii::t('app', 'Атрибуты')?></span>
                         </div>
                         <div class="panel-body">
                             <?foreach($form->Definitions as $i => $definition):?>
-                                <div class="definition">
+                                <div class="definition" style="margin-bottom:2em">
                                     <?=$activeForm->hiddenField($form, "Definitions[$i][Delete]", ['disabled' => !$definition->isFullyEditable()])?>
                                     <?if($definition->getActiveRecord() === null):?>
-                                        <p><strong><?=Yii::t('app', 'Новый атрибут')?></strong></p>
+                                        <?if($i !== 0):?>
+                                            <br><br>
+                                        <?endif?>
+                                        <h2><?=Yii::t('app', 'Новый атрибут')?></h2>
                                     <?endif?>
                                     <?=$activeForm->errorSummary($definition)?>
                                     <div class="row">
@@ -68,52 +71,61 @@ $this->setPageTitle(\Yii::t('app', 'Дополнительные атрибут�
                                     <?if($definition->isFullyEditable()):?>
                                         <?=$definition->getParamsHtml($activeForm, $form, "Definitions[$i]")?>
                                     <?endif?>
+                                    <br>
                                     <div class="row m-top_10">
-                                        <div class="col-sm-8">
+                                        <div class="col-sm-1">&nbsp;</div>
+                                        <div class="col-sm-7" style="border-left:1px solid silver;padding-top:8px">
                                             <div class="checkbox">
                                                 <label>
-                                                    <?=$activeForm->checkBox($form, "Definitions[$i][Required]")?> <?=$definition->getAttributeLabel('Required')?>
+                                                    <?=$activeForm->checkBox($form, "Definitions[$i][Required]")?>
+                                                    <?=$definition->getAttributeLabel('Required')?>
                                                 </label>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
-                                                    <?=$activeForm->checkBox($form, "Definitions[$i][UseCustomTextField]")?> <?=$definition->getAttributeLabel('UseCustomTextField')?>
+                                                    <?=$activeForm->checkBox($form, "Definitions[$i][UseCustomTextField]")?>
+                                                    <?=$definition->getAttributeLabel('UseCustomTextField')?>
                                                 </label>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
-                                                    <?=$activeForm->checkBox($form, "Definitions[$i][Public]")?> <?=$definition->getAttributeLabel('Public')?>
+                                                    <?=$activeForm->checkBox($form, "Definitions[$i][Public]")?>
+                                                    <?=$definition->getAttributeLabel('Public')?>
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <?=$activeForm->checkBox($form, "Definitions[$i][Translatable]")?>
+                                                    <?=$definition->getAttributeLabel('Translatable')?>
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4 text-right-sm <?if(!$definition->isFullyEditable()):?>hide<?endif?>">
-                                            <?=\CHtml::link(\Yii::t('app', 'Удалить'), '#', ['class' => 'btn btn-danger btn-delete'])?>
+                                        <div class="col-sm-4 text-right-sm">
+                                            <?if($definition->isFullyEditable()):?>
+                                                <?=CHtml::link(Yii::t('app', 'Удалить'), '#', ['class' => 'btn btn-danger btn-delete'])?>
+                                            <?endif?>
+                                            <?if($definition->Name):?>
+                                                <div class="text-right">
+                                                    <?if($definition->Name === 'ean17' && in_array($event->Id, [2514, 2534])):?>
+                                                        <?=CHtml::tag('button', [
+                                                            'type' => 'submit',
+                                                            'name' => 'GroupData',
+                                                            'value' => 'true',
+                                                            'class' => 'btn btn-danger'
+                                                        ], Yii::t('app', 'Распределить по группам и пронумеровать'))?>
+                                                    <?endif?>
+
+                                                    <?=CHtml::tag('button', [
+                                                        'type' => 'submit',
+                                                        'name' => 'EraseData',
+                                                        'value' => $definition->Name,
+                                                        'class' => 'btn btn-warning'
+                                                    ], Yii::t('app', 'Очистить данные'))?>
+                                                </div>
+                                            <?endif?>
                                         </div>
                                     </div>
-                                    <?if($definition->getActiveRecord() !== null):?>
-                                        <hr/>
-                                    <?endif?>
                                 </div>
-
-                                <?if($definition->Name):?>
-                                    <div class="text-right">
-                                        <?if($definition->Name === 'ean17' && in_array($event->Id, [2514, 2534])):?>
-                                            <?=CHtml::tag('button', [
-                                                'type' => 'submit',
-                                                'name' => 'GroupData',
-                                                'value' => 'true',
-                                                'class' => 'btn btn-danger'
-                                            ], \Yii::t('app', 'Распределить по группам и пронумеровать'))?>
-                                        <?endif?>
-
-                                        <?=CHtml::tag('button', [
-                                            'type' => 'submit',
-                                            'name' => 'EraseData',
-                                            'value' => $definition->Name,
-                                            'class' => 'btn btn-warning'
-                                        ], \Yii::t('app', 'Очистить данные'))?>
-                                    </div>
-                                <?endif?>
                             <?endforeach?>
                         </div>
                     </div>
@@ -121,7 +133,7 @@ $this->setPageTitle(\Yii::t('app', 'Дополнительные атрибут�
                 <?endif?>
             </div>
             <div class="panel-footer">
-                <?=CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-primary'])?>
+                <?=CHtml::submitButton(Yii::t('app', 'Сохранить'), ['class' => 'btn btn-primary'])?>
             </div>
         </div>
     <?$this->endWidget()?>

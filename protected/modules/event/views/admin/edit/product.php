@@ -106,7 +106,7 @@
                                             <?=\CHtml::activeDropDownList($formProduct, 'Attributes['.$name.']', \CHtml::listData($event->Sections, 'Id', 'Title'), ['value' => isset($formProduct->Attributes[$name]) ? $formProduct->Attributes[$name] : ''])?>
                                         <?php elseif($name == 'PartId'):?>
                                             <?=\CHtml::activeDropDownList($formProduct, 'Attributes['.$name.']', \CHtml::listData($event->Parts, 'Id', 'Title'), ['value' => isset($formProduct->Attributes[$name]) ? $formProduct->Attributes[$name] : ''])?>
-                                        <?php else:?>
+                                        <?else:?>
                                             <?=\CHtml::activeTextField($formProduct, 'Attributes['.$name.']', ['value' => isset($formProduct->Attributes[$name]) ? $formProduct->Attributes[$name] : ''])?>
                                         <?endif?>
                                     </div>

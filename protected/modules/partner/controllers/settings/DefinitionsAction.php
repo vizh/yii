@@ -20,6 +20,7 @@ class DefinitionsAction extends Action
 
         if ($request->isPostRequest) {
             $form = $this->getEditableForm();
+
             $form->fillFromPost();
 
             if ($attribute = $request->getParam('EraseData')) {
@@ -60,15 +61,18 @@ class DefinitionsAction extends Action
     {
         if ($this->forms === null) {
             $this->forms = [];
+
             $groups = Group::model()
                 ->byModelName('EventUserData')
                 ->byModelId($this->getEvent()->Id)
-                ->orderBy('"t"."Order"')
                 ->findAll();
 
+            // Добавляем формы для редактирования существующих атрибутов
             foreach ($groups as $group) {
                 $this->forms[] = new UserAttributeGroup($this->getEvent(), $group);
             }
+
+            // Добавляем форму для заведения нового атрибута
             $this->forms[] = new UserAttributeGroup($this->getEvent());
         }
 

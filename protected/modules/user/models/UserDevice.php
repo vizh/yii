@@ -18,10 +18,11 @@ use Yii;
  * @method UserDevice byToken(string $token)
  * @method UserDevice byType(string $type)
  *
- * @method UserDevice with($condition = '')
- * @method UserDevice find($condition = '', $params = [])
- * @method UserDevice findByPk($pk, $condition = '', $params = [])
- * @method UserDevice findByAttributes($attributes, $condition = '', $params = [])
+ * Описание вспомогательных методов
+ * @method UserDevice   with($condition = '')
+ * @method UserDevice   find($condition = '', $params = [])
+ * @method UserDevice   findByPk($pk, $condition = '', $params = [])
+ * @method UserDevice   findByAttributes($attributes, $condition = '', $params = [])
  * @method UserDevice[] findAll($condition = '', $params = [])
  * @method UserDevice[] findAllByAttributes($attributes, $condition = '', $params = [])
  */
