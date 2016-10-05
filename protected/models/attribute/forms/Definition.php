@@ -261,9 +261,13 @@ class Definition extends CreateUpdateForm
                 foreach ($userData as $data) {
                     $value = json_decode($data->Attributes, true);
                     if ($values['Translatable']) {
-                        $value[$this->model->Name] = isset($value[$this->model->Name]) ? $value[$this->model->Name] : ['ru' => $value[$this->model->Name], 'en' => ''];
+                        $value[$this->model->Name] = isset($value[$this->model->Name]['ru'])
+                            ? $value[$this->model->Name]
+                            : ['ru' => $value[$this->model->Name], 'en' => ''];
                     } else {
-                        $value[$this->model->Name] = $value[$this->model->Name]['ru'] ?: $value[$this->model->Name];
+                        $value[$this->model->Name] = isset($value[$this->model->Name]['ru'])
+                            ? $value[$this->model->Name]['ru']
+                            : $value[$this->model->Name];
                     }
                     $data->Attributes = json_encode($value, JSON_UNESCAPED_UNICODE);
                     $data->save();
