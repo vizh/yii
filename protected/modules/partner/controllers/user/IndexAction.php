@@ -14,7 +14,7 @@ class IndexAction extends \partner\components\Action
         $bulkRoleChange = new RoleBulkChange();
         if (\Yii::app()->request->isPostRequest){
             $bulkRoleChange->fillFromPost();
-            if ($bulkRoleChange->save()){
+            if ($bulkRoleChange->validate() && $bulkRoleChange->save()){
                 $this->getController()->redirect(['index']);
             }
         }
