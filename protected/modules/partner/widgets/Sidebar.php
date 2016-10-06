@@ -178,6 +178,14 @@ class Sidebar extends \CWidget
                     ['label' => 'Дополнительные атрибуты пользователей', 'url' => ['settings/definitions']]
                 ]
             ],
+            [
+                'label' => 'Встречи',
+                'icon' => 'group',
+                'url' => false,
+                'items' => [
+                    ['label' => 'Список', 'url' => ['connect/index']],
+                ]
+            ],
         ];
 
         // Применение модификаций меню в зависимости от мероприятия, если они определены

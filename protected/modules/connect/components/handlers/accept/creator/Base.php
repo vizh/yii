@@ -1,6 +1,6 @@
 <?php
 
-namespace connect\components\handlers\decline;
+namespace connect\components\handlers\accept\creator;
 
 use connect\models\Meeting;
 use mail\components\MailLayout;
@@ -14,9 +14,6 @@ class Base extends MailLayout
     /** @var User */
     protected $user;
 
-    /** @var string */
-    protected $response;
-
     /**
      * @param \mail\components\Mailer $mailer
      * @param \CEvent $event
@@ -26,7 +23,6 @@ class Base extends MailLayout
         parent::__construct($mailer);
         $this->meeting = $event->params['meeting'];
         $this->user = $event->params['user'];
-        $this->response = $event->params['response'];
     }
 
     /**
@@ -34,7 +30,7 @@ class Base extends MailLayout
      */
     public function getSubject()
     {
-        return $this->getUser()->getFullName().' не сможет встретится с Вами';
+        return $this->getUser()->getFullName().' подтверждает возможность встречи';
     }
 
     /**
@@ -68,8 +64,7 @@ class Base extends MailLayout
     {
         $params = [
             'meeting' => $this->meeting,
-            'user' => $this->getUser(),
-            'response' => $this->response
+            'user' => $this->getUser()
         ];
 
         return $this->renderBody($this->getViewName(), $params);
@@ -81,7 +76,7 @@ class Base extends MailLayout
      */
     public function getViewName()
     {
-        $dir = 'connect.views.mail.decline';
+        $dir = 'connect.views.mail.accept.creator';
         $view = $this->meeting->Place->Event->IdName;
         if (is_file(\Yii::getPathOfAlias($dir).'/'.$view.'.php')){
             return $dir.'.'.$view;

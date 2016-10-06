@@ -63,6 +63,14 @@ class CancelCreator extends CreateUpdateForm
         }
 
         $this->fillActiveRecord();
-        return $this->model->save();
+        $saved = $this->model->save();
+
+        if ($saved && $this->model->Type == MeetingAR::TYPE_PRIVATE){
+            $event = new \CEvent($this->model);
+            $event->params['response'] = $this->Response;
+            $this->model->onCancelCreator($event);
+        }
+
+        return $saved;
     }
 }

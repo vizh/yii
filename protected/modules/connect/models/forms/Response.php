@@ -83,7 +83,7 @@ class Response extends CreateUpdateForm
                 $event = new \CEvent($meeting);
                 $event->params['user'] = $this->model->User;
                 $event->params['response'] = $this->Response;
-                $meeting->onDecline($event);
+                $meeting->onDeclineOrCancel($event);
             }
         }
 
