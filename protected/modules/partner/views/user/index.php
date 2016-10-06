@@ -42,7 +42,7 @@ use application\components\utility\Texts;
                         'class' => 'zii.widgets.grid.CCheckBoxColumn',
                         'selectableRows' => 1000,
                         'checkBoxHtmlOptions' => [
-                            'name' => CHtml::activeName($bulkRoleChange, 'Ids[]'),
+                            'name' => 'RoleBulkChange[Ids][]',
                             'value' => '$data->Id'
                         ]
                     ],
@@ -194,7 +194,12 @@ use application\components\utility\Texts;
     </div> <!-- / .panel-body -->
     <div class="panel-footer">
         <div class="form-group">
-            <?= $form->dropDownList($bulkRoleChange, 'RoleId', [''=>'УДАЛИТЬ']+$search->getRoleData()); ?>
+            <?= $form->dropDownList(
+                $bulkRoleChange,
+                'RoleId',
+                ['' => 'Выберите статус', '-1' => 'УДАЛИТЬ']+$search->getRoleData(),
+                ['name' => 'RoleBulkChange[RoleId]']
+            ); ?>
         </div>
 
         <div class="form-group">
