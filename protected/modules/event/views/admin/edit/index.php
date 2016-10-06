@@ -196,6 +196,11 @@ foreach ($widgets->All as $widget) {
                 </div>
                 <div class="control-group">
                     <div class="controls">
+                        <?=\CHtml::label($form->getAttributeLabel('NotSendChangeRoleMail') . \CHtml::activeCheckBox($form, 'NotSendChangeRoleMail'), null, array('class' => 'checkbox'))?>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
                         <?=\CHtml::label($form->getAttributeLabel('RegisterHideNotSelectedProduct') . \CHtml::activeCheckBox($form, 'RegisterHideNotSelectedProduct'), null, array('class' => 'checkbox'))?>
                     </div>
                 </div>
