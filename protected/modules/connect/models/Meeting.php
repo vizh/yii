@@ -3,6 +3,8 @@
 namespace connect\models;
 
 use application\components\ActiveRecord;
+use application\components\helpers\ArrayHelper;
+use event\models\UserData;
 use mail\components\mailers\SESMailer;
 use user\models\User;
 use Yii;
@@ -114,8 +116,10 @@ class Meeting extends ActiveRecord
 
         $event->params['meeting'] = $this;
 
-        $class = Yii::getExistClass('\connect\components\handlers\invite', ucfirst($sender->Place->Event->IdName),
-            'Base');
+        $class = $this->getTranslatedMailClass(
+            '\connect\components\handlers\invite',
+            $event->params['user']
+        );
         /** @var $mail \connect\components\handlers\invite\Base */
         $mail = new $class(new SESMailer(), $event);
         $mail->send();
@@ -131,19 +135,17 @@ class Meeting extends ActiveRecord
 
         $event->params['meeting'] = $this;
 
-        $class = Yii::getExistClass(
+        $class = $this->getTranslatedMailClass(
             '\connect\components\handlers\accept\creator',
-            ucfirst($sender->Place->Event->IdName),
-            'Base'
+            $this->Creator
         );
         /** @var $mail \connect\components\handlers\accept\creator\Base */
         $mail = new $class(new SESMailer(), $event);
         $mail->send();
 
-        $class = Yii::getExistClass(
+        $class = $this->getTranslatedMailClass(
             '\connect\components\handlers\accept\user',
-            ucfirst($sender->Place->Event->IdName),
-            'Base'
+            $event->params['user']
         );
         /** @var $mail \connect\components\handlers\accept\user\Base */
         $mail = new $class(new SESMailer(), $event);
@@ -160,19 +162,17 @@ class Meeting extends ActiveRecord
 
         $event->params['meeting'] = $this;
 
-        $class = Yii::getExistClass(
+        $class = $this->getTranslatedMailClass(
             '\connect\components\handlers\decline\creator',
-            ucfirst($sender->Place->Event->IdName),
-            'Base'
+            $this->Creator
         );
         /** @var $mail \connect\components\handlers\decline\creator\Base */
         $mail = new $class(new SESMailer(), $event);
         $mail->send();
 
-        $class = Yii::getExistClass(
+        $class = $this->getTranslatedMailClass(
             '\connect\components\handlers\decline\user',
-            ucfirst($sender->Place->Event->IdName),
-            'Base'
+            $event->params['user']
         );
         /** @var $mail \connect\components\handlers\decline\user\Base */
         $mail = new $class(new SESMailer(), $event);
@@ -190,19 +190,17 @@ class Meeting extends ActiveRecord
         $event->params['meeting'] = $this;
         $event->params['user'] = $this->UserLinks[0]->User;
 
-        $class = Yii::getExistClass(
+        $class = $this->getTranslatedMailClass(
             '\connect\components\handlers\cancelcreator\creator',
-            ucfirst($sender->Place->Event->IdName),
-            'Base'
+            $this->Creator
         );
         /** @var $mail \connect\components\handlers\cancelcreator\creator\Base */
         $mail = new $class(new SESMailer(), $event);
         $mail->send();
 
-        $class = Yii::getExistClass(
+        $class = $this->getTranslatedMailClass(
             '\connect\components\handlers\cancelcreator\user',
-            ucfirst($sender->Place->Event->IdName),
-            'Base'
+            $this->UserLinks[0]->User
         );
         /** @var $mail \connect\components\handlers\cancelcreator\user\Base */
         $mail = new $class(new SESMailer(), $event);
@@ -221,6 +219,40 @@ class Meeting extends ActiveRecord
             }
             $this->PlaceId = $place->Id;
             $this->save(false);
+        }
+    }
+
+    protected function getUserLanguage($user)
+    {
+        $attrs = UserData::getDefinedAttributeValues($this->Place->Event, $user);
+        $languages = ArrayHelper::getValue($attrs, 'languages', null);
+        if (!$languages){
+            return 'ru';
+        }
+        $languages = mb_strtolower($languages);
+
+        if (mb_strpos($languages, 'английский') !== false || mb_strpos($languages, 'english') !== false){
+            if (mb_stripos($languages, 'русский') !== false || mb_stripos($languages, 'russian') !== false){
+                return 'ru';
+            }
+            else{
+                return 'en';
+            }
+        }
+        else{
+            return 'ru';
+        }
+    }
+
+    protected function getTranslatedMailClass($namespace, User $user)
+    {
+        $lang = $this->getUserLanguage($user);
+        $base = ucfirst($this->Place->Event->IdName);
+        if ($lang == 'en'){
+            return Yii::getExistClassArray($namespace, [$base.'En', $base], 'Base');
+        }
+        else{
+            return Yii::getExistClassArray($namespace, [$base], 'Base');
         }
     }
 }

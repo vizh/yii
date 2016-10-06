@@ -6,14 +6,8 @@ use connect\models\Meeting;
 use mail\components\MailLayout;
 use user\models\User;
 
-class Base extends MailLayout
+class Base extends \connect\components\handlers\Base
 {
-    /** @var Meeting */
-    protected $meeting;
-
-    /** @var User */
-    protected $user;
-
     /** @var string */
     protected $response;
 
@@ -23,9 +17,7 @@ class Base extends MailLayout
      */
     public function __construct(\mail\components\Mailer $mailer, \CEvent $event)
     {
-        parent::__construct($mailer);
-        $this->meeting = $event->params['meeting'];
-        $this->user = $event->params['user'];
+        parent::__construct($mailer, $event);
         $this->response = $event->params['response'];
     }
 
@@ -35,22 +27,6 @@ class Base extends MailLayout
     public function getSubject()
     {
         return $this->meeting->Creator->getFullName().' не сможет встретится с Вами';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getFrom()
-    {
-        return 'connect@runet-id.com';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getFromName()
-    {
-        return '—RUNET—ID—';
     }
 
     /**
@@ -75,27 +51,8 @@ class Base extends MailLayout
         return $this->renderBody($this->getViewName(), $params);
     }
 
-    /**
-     * Путь к шаблону письма
-     * @return string
-     */
-    public function getViewName()
+    public function getViewPath()
     {
-        $dir = 'connect.views.mail.cancelcreator.user';
-        $view = $this->meeting->Place->Event->IdName;
-        if (is_file(\Yii::getPathOfAlias($dir).'/'.$view.'.php')){
-            return $dir.'.'.$view;
-        }
-        else{
-            return $dir.'.base';
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getUser()
-    {
-        return $this->user;
+        return 'connect.views.mail.cancelcreator.user';
     }
 }

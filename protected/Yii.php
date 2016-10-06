@@ -46,4 +46,15 @@ class Yii extends YiiBase
     return $default !== null ? $namespace.$default : null;
   }
 
+    public static function getExistClassArray($namespace, $names, $default = null)
+    {
+        foreach ($names as $name) {
+            $class = self::getExistClass($namespace, $name, null);
+            if ($class){
+                return $class;
+            }
+        }
+        return $default !== null ? $namespace.$default : null;
+    }
+
 }
