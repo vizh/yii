@@ -1119,16 +1119,26 @@ class Event extends ActiveRecord implements ISearch
     }
 
     /**
+     * Возвращает пользовательские атрибуты, если они есть. Если определён параметр $createEmpty,
+     * то в случае отсутствия атрибутов, они создаются.
+     *
      * @param User $user
+     * @param bool $createEmpty
      * @return UserData[]
      */
-    public function getUserData(User $user)
+    public function getUserData(User $user, $createEmpty = false)
     {
-        return UserData::model()
+        $data = UserData::model()
             ->byEventId($this->Id)
             ->byUserId($user->Id)
             ->byDeleted(false)
             ->findAll();
+
+        if ($createEmpty === true) {
+            $data[] = UserData::createEmpty($this, $user);
+        }
+
+        return $data;
     }
 
     /**
