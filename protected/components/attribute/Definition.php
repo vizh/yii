@@ -11,7 +11,7 @@ class Definition extends AbstractDefinition
     /**
      * @inheritdoc
      */
-    public function isTranslatableAllowed()
+    public static function isTranslatableAllowed()
     {
         return true;
     }

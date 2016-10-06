@@ -233,7 +233,7 @@ abstract class AbstractDefinition
      *
      * @return bool
      */
-    public function isTranslatableAllowed()
+    public static function isTranslatableAllowed()
     {
         return false;
     }
