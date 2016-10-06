@@ -12,9 +12,11 @@ class IndexAction extends \partner\components\Action
         $search = new Participant($this->getEvent());
 
         $bulkRoleChange = new RoleBulkChange();
+        $bulkRoleChange->Event = $this->getEvent();
         if (\Yii::app()->request->isPostRequest){
             $bulkRoleChange->fillFromPost();
-            if ($bulkRoleChange->validate() && $bulkRoleChange->save()){
+            if ($bulkRoleChange->validate()){
+                $bulkRoleChange->save();
                 $this->getController()->redirect(['index']);
             }
         }
