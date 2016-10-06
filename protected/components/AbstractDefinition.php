@@ -84,6 +84,9 @@ abstract class AbstractDefinition
             ? 'activeTextField'
             : $htmlOptions['generator'];
 
+        // Удаляем кастомные настройки отображения полей
+        unset($htmlOptions['generator']);
+
         if ($this->translatable === false) {
             return CHtml::$generator($container, $this->name, $htmlOptions);
         }
