@@ -1,6 +1,6 @@
 <?php
 
-namespace connect\components\handlers\decline;
+namespace connect\components\handlers\accept\creator;
 
 use connect\models\Meeting;
 use mail\components\MailLayout;
@@ -13,7 +13,7 @@ class Forinnovations16 extends Base
      */
     public function getSubject()
     {
-        return $this->getUser()->getFullName().' не сможет встретится с Вами на форуме';
+        return $this->getUser()->getFullName().' подтверждает возможность встречи на форуме';
     }
 
     /**

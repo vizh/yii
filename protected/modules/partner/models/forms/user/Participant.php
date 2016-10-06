@@ -113,12 +113,7 @@ class Participant extends EventItemCreateUpdateForm
      */
     private function fillParticipantJsonData(\stdClass &$result)
     {
-        $data = $this->event->getUserData($this->model);
-        if (empty($data)) {
-            return;
-        }
-
-        $result->data = ArrayHelper::toArray($data, ['event\models\UserData' => [
+        $result->data = ArrayHelper::toArray($this->event->getUserData($this->model, true), ['event\models\UserData' => [
             'Id',
             'titles' => function (UserData $data) {
                 $titles = [];
@@ -146,7 +141,9 @@ class Participant extends EventItemCreateUpdateForm
      */
     public function getRoleDataJson()
     {
-        $data = ArrayHelper::toArray($this->event->getRoles(), ['event\models\Role' => ['Id', 'Title']]);
-        return json_encode($data, JSON_UNESCAPED_UNICODE);
+        return json_encode(
+            ArrayHelper::toArray($this->event->getRoles(), ['event\models\Role' => ['Id', 'Title']]),
+            JSON_UNESCAPED_UNICODE
+        );
     }
 }

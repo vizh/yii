@@ -55,6 +55,26 @@ class Meeting extends ActiveRecord
         ];
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'Id' => '#',
+            'Creator' => 'Пригласивший',
+            'UserLinks' => 'Приглашенные',
+            'Date' => 'Дата/время',
+            'Status' => 'Статус',
+            'CreateTime' => 'Дата/время создания'
+        ];
+    }
+
+    public static function statusLabels()
+    {
+        return [
+            self::STATUS_OPEN => 'Активна',
+            self::STATUS_CANCELLED => 'Отменена'
+        ];
+    }
+
     public function byUserId($id, $useAnd = true)
     {
         $criteria = new \CDbCriteria();
@@ -111,16 +131,28 @@ class Meeting extends ActiveRecord
 
         $event->params['meeting'] = $this;
 
-        $class = Yii::getExistClass('\connect\components\handlers\accept', ucfirst($sender->Place->Event->IdName),
-            'Base');
-        /** @var $mail \connect\components\handlers\accept\Base */
+        $class = Yii::getExistClass(
+            '\connect\components\handlers\accept\creator',
+            ucfirst($sender->Place->Event->IdName),
+            'Base'
+        );
+        /** @var $mail \connect\components\handlers\accept\creator\Base */
+        $mail = new $class(new SESMailer(), $event);
+        $mail->send();
+
+        $class = Yii::getExistClass(
+            '\connect\components\handlers\accept\user',
+            ucfirst($sender->Place->Event->IdName),
+            'Base'
+        );
+        /** @var $mail \connect\components\handlers\accept\user\Base */
         $mail = new $class(new SESMailer(), $event);
         $mail->send();
 
         $this->raiseEvent('onAccept', $event);
     }
 
-    public function onDecline(\CEvent $event)
+    public function onDeclineOrCancel(\CEvent $event)
     {
         /** @var self $sender */
         $sender = $event->sender;
@@ -128,13 +160,55 @@ class Meeting extends ActiveRecord
 
         $event->params['meeting'] = $this;
 
-        $class = Yii::getExistClass('\connect\components\handlers\decline', ucfirst($sender->Place->Event->IdName),
-            'Base');
-        /** @var $mail \connect\components\handlers\decline\Base */
+        $class = Yii::getExistClass(
+            '\connect\components\handlers\decline\creator',
+            ucfirst($sender->Place->Event->IdName),
+            'Base'
+        );
+        /** @var $mail \connect\components\handlers\decline\creator\Base */
         $mail = new $class(new SESMailer(), $event);
         $mail->send();
 
-        $this->raiseEvent('onDecline', $event);
+        $class = Yii::getExistClass(
+            '\connect\components\handlers\decline\user',
+            ucfirst($sender->Place->Event->IdName),
+            'Base'
+        );
+        /** @var $mail \connect\components\handlers\decline\user\Base */
+        $mail = new $class(new SESMailer(), $event);
+        $mail->send();
+
+        $this->raiseEvent('onDeclineOrCancel', $event);
+    }
+
+    public function onCancelCreator(\CEvent $event)
+    {
+        /** @var self $sender */
+        $sender = $event->sender;
+        $sender->refresh();
+
+        $event->params['meeting'] = $this;
+        $event->params['user'] = $this->UserLinks[0]->User;
+
+        $class = Yii::getExistClass(
+            '\connect\components\handlers\cancelcreator\creator',
+            ucfirst($sender->Place->Event->IdName),
+            'Base'
+        );
+        /** @var $mail \connect\components\handlers\cancelcreator\creator\Base */
+        $mail = new $class(new SESMailer(), $event);
+        $mail->send();
+
+        $class = Yii::getExistClass(
+            '\connect\components\handlers\cancelcreator\user',
+            ucfirst($sender->Place->Event->IdName),
+            'Base'
+        );
+        /** @var $mail \connect\components\handlers\cancelcreator\user\Base */
+        $mail = new $class(new SESMailer(), $event);
+        $mail->send();
+
+        $this->raiseEvent('onCancelCreator', $event);
     }
 
     public function reserveMeetingRoom()

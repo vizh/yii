@@ -44,7 +44,7 @@ class RoleBulkChange extends FormModel
             if ($role){
                 $this->Event->registerUser($user, $role);
             }
-            else{
+            elseif ($this->RoleId == -1){
                 $this->Event->unregisterUser($user);
             }
         }

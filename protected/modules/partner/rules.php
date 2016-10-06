@@ -172,6 +172,12 @@ return array(
     ),
     [
         'allow',
+        'roles' => ['Partner'],
+        'module' => 'partner',
+        'controllers' => ['connect']
+    ],
+    [
+        'allow',
         'roles' => ['Eurasia'],
         'module' => 'partner',
         'controllers' => ['user'],
