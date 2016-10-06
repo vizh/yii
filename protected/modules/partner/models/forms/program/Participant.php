@@ -246,6 +246,12 @@ class Participant extends CreateUpdateForm
         $event = $this->section->Event;
 
         $user = User::model()->byRunetId($this->RunetId)->find();
+
+        // Если пользователь уже зарегистрирован на мероприятие, то ничего не делаем.
+        if ($event->IdName === 'forinnovations16' && $event->hasParticipant($user)) {
+            return;
+        }
+
         $this->model->UserId = $user->Id;
 
         $role = EventRole::model()->findByPk(self::EVENT_ROLE_ID);
