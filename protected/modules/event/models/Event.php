@@ -455,6 +455,25 @@ class Event extends ActiveRecord implements ISearch
     }
 
     /**
+     * Проверяет, зарегистрирован ли посетитель на мероприятие.
+     *
+     * @param User $user
+     * @param Part|null $part
+     * @return bool
+     */
+    public function hasParticipant(User $user, Part $part = null)
+    {
+        $participant = Participant::model()
+            ->byEventId($this->Id)
+            ->byUserId($user->Id);
+
+        if ($part !== null)
+            $participant->byPartId($part->Id);
+
+        return $participant->exists();
+    }
+
+    /**
      * Assigns custom number for the participant
      *
      * @param UserData $data

@@ -246,7 +246,14 @@ class Participant extends CreateUpdateForm
         $event = $this->section->Event;
 
         $user = User::model()->byRunetId($this->RunetId)->find();
+
         $this->model->UserId = $user->Id;
+
+        // Если пользователь уже зарегистрирован на мероприятие, то ничего не делаем.
+        if ($event->IdName === 'forinnovations16' && $event->hasParticipant($user)) {
+            return;
+        }
+
 
         $role = EventRole::model()->findByPk(self::EVENT_ROLE_ID);
         if (!empty($event->Parts)) {
@@ -267,6 +274,12 @@ class Participant extends CreateUpdateForm
         $user = User::model()->byRunetId($this->RunetId)->find();
         $event = $this->section->Event;
         $existLink = LinkUser::model()->byEventId($event->Id)->byUserId($user->Id)->byDeleted(false)->exists();
+
+        // Для Открытых инноваций не разрегистрируем спикеров при удалении из секции
+        if ($event->IdName === 'forinnovations16') {
+            return;
+        }
+
         if (!$existLink) {
             $event->unregisterUser($user, self::UNREGISTER_MESSAGE);
         }
