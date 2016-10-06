@@ -3,6 +3,7 @@ namespace application\components\attribute;
 
 use application\components\AbstractDefinition;
 use application\components\Exception;
+use CActiveRecord;
 use Yii;
 
 /**
@@ -19,7 +20,7 @@ use Yii;
 trait JsonContainer
 {
     /**
-     * @var \CActiveRecord
+     * @var CActiveRecord
      */
     protected $model;
 
@@ -33,7 +34,7 @@ trait JsonContainer
     private $attributes = null;
 
     /**
-     * @return \CActiveRecord
+     * @return CActiveRecord
      */
     public function model()
     {
@@ -77,7 +78,7 @@ trait JsonContainer
     public function pushAttributes()
     {
         foreach ($this->attributes as $name => $value) {
-            if (!isset($this->definitions[$name])) {
+            if (isset($this->definitions[$name]) === false) {
                 continue;
             }
             $value = $this->definitions[$name]->internalPush($this->model(), $value);
@@ -106,12 +107,8 @@ trait JsonContainer
 
     public function __isset($name)
     {
-        try {
-            /** @noinspection ImplicitMagicMethodCallInspection */
-            return $this->__get($name) !== null;
-        } catch (\Exception $e) {
-            return false;
-        }
+        return isset($this->definitions[$name])
+            && isset($this->attributes[$name]);
     }
 
     /**
@@ -142,15 +139,17 @@ trait JsonContainer
             throw new Exception("Атрибут '$name' не определён для данного мероприятия");
         }
 
-        if (isset($this->attributes[$name]) === false) {
+        $value = $this->attributes[$name];
+
+        if (empty($value)) {
             return null;
         }
 
-        $value = $this->attributes[$name];
+        $options = $this->getAttributesSettings();
 
         /** @noinspection NotOptimalIfConditionsInspection */
-        if (isset($value['ru']) === true && false === defined('YII_TRANSlATABLE_ATTRIBUTE_FORCE_RAW_VALUES')) {
-            return $value[Yii::app()->language];
+        if ($options !== false && $options[$name]['Translatable'] === true && false === defined('YII_TRANSlATABLE_ATTRIBUTE_FORCE_RAW_VALUES')) {
+            return $value[Yii::app()->getLanguage()];
         }
 
         return $value;
@@ -160,6 +159,14 @@ trait JsonContainer
     {
         if (!isset($this->definitions[$name])) {
             throw new Exception('Установка неизвестного аттрибута: '.get_class($this).'::'.$name);
+        }
+
+        if (is_array($value) === false) {
+            $options = $this->getAttributesSettings();
+            if ($options !== false && $options[$name]['Translatable'] === true) {
+                $this->attributes[$name][Yii::app()->getLanguage()] = $value;
+                return;
+            }
         }
 
         $this->attributes[$name] = $value;
@@ -202,7 +209,7 @@ trait JsonContainer
      *
      * @throws \CException
      */
-    protected function initJsonContainer(\CActiveRecord $model)
+    protected function initJsonContainer(CActiveRecord $model)
     {
         if (!$this->initialized) {
             $this->model = $model;
@@ -259,16 +266,42 @@ trait JsonContainer
     private function pullAttributes()
     {
         if ($this->attributes === null) {
-            $attributesData = $this->model()->{$this->containerName()};
-            $this->attributes = !empty($attributesData)
-                ? json_decode($attributesData, true)
+            $attributes = $this->model()->{$this->containerName()};
+            $attributes = empty($attributes) === false
+                ? json_decode($attributes, true)
                 : [];
 
             // Если попадутся невалидные данные
-            if (!is_array($this->attributes)) {
-                $this->attributes = [];
+            if (is_array($attributes) === false) {
+                $attributes = [];
+            }
+
+            $this->attributes = $attributes;
+        }
+    }
+
+    private function getAttributesSettings()
+    {
+        static $options;
+
+        if ($options === null) {
+            if ($this->model->tableName() === 'EventUserData') {
+                $groups = \application\models\attribute\Group::model()
+                    ->byModelName('EventUserData')
+                    ->byModelId($this->model->getAttribute('EventId'))
+                    ->with('Definitions')
+                    ->findAll();
+                foreach ($groups as $group) {
+                    foreach ($group->Definitions as $definition) {
+                        $options[$definition->Name] = $definition->attributes;
+                    }
+                }
+            } else {
+                $options = false;
             }
         }
+
+        return $options;
     }
 
     /**

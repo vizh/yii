@@ -45,7 +45,7 @@ $dateEnd = new DateTime($event->EndYear.'-'.$event->EndMonth.'-'.$event->EndDay)
                 <thead>
                     <tr>
                         <th><?=Yii::t('app', 'Всего выдано бэйджей')?></th>
-                        <th><?=Yii::t('app', 'Всего печатей бейджей')?></th>
+                        <th><?=Yii::t('app', 'Кол-во печатей')?></th>
                         <th><?=Yii::t('app', 'Количество регистраторов')?></th>
                     </tr>
                 </thead>

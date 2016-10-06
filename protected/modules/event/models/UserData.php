@@ -24,6 +24,9 @@ use Yii;
  * @property User $User
  * @property User $Creator
  *
+ * @method UserData byUserId($id, $useAnd = true)
+ * @method UserData byEventId($id, $useAnd = true)
+ *
  * @method UserData find($condition = '', $params = [])
  * @method UserData findByPk($pk, $condition = '', $params = [])
  * @method UserData[] findAll($condition = '', $params = [])
@@ -167,25 +170,11 @@ class UserData extends ActiveRecord
      */
     public static function set(Event $event, User $user, array $attributes)
     {
-        $settings = self::getAttributesSettings($event);
-        $language = Yii::app()->getLanguage();
-
         foreach ($event->getUserData($user) as $userData) {
             $manager = $userData->getManager();
-            $rawData = $manager->getRawData();
             foreach ($attributes as $name => $value) {
                 $valueCurrent = $manager->$name;
                 if ($valueCurrent === null || $valueCurrent !== $value) {
-                    /** @noinspection NotOptimalIfConditionsInspection */
-                    if ($settings[$name]['Translatable'] === true && is_array($value) === false) {
-                        $rawValue = $rawData[$name];
-                        if ($rawValue === null || false === is_array($rawValue)) {
-                            $rawValue = [];
-                        }
-                        $rawValue[$language] = (string)$value;
-                        $manager->$name = $rawValue;
-                        continue;
-                    }
                     $manager->$name = $value;
                 }
             }
@@ -207,27 +196,6 @@ class UserData extends ActiveRecord
         if (defined('YII_TRANSlATABLE_ATTRIBUTE_FORCE_RAW_VALUES') === false) {
             define('YII_TRANSlATABLE_ATTRIBUTE_FORCE_RAW_VALUES', true);
         }
-    }
-
-    private static function getAttributesSettings(Event $event)
-    {
-        static $options;
-
-        if ($options === null) {
-            $groups = Group::model()
-                ->byModelName('EventUserData')
-                ->byModelId($event->Id)
-                ->with('Definitions')
-                ->findAll();
-
-            foreach ($groups as $group) {
-                foreach ($group->Definitions as $definition) {
-                    $options[$definition->Name] = $definition->attributes;
-                }
-            }
-        }
-
-        return $options;
     }
 
     /**
@@ -255,41 +223,11 @@ class UserData extends ActiveRecord
      */
     public function getManager()
     {
-        if (!$this->manager) {
+        if ($this->manager === null) {
             $this->manager = new UserDataManager($this);
         }
 
         return $this->manager;
-    }
-
-    /**
-     * @param int $eventId
-     * @param bool $useAnd
-     * @return UserData
-     */
-    public function byEventId($eventId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."EventId" = :EventId';
-        $criteria->params = ['EventId' => $eventId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
-    }
-
-    /**
-     * @param int $userId
-     * @param bool $useAnd
-     * @return UserData
-     */
-    public function byUserId($userId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."UserId" = :UserId';
-        $criteria->params = ['UserId' => $userId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
     }
 
     /**
@@ -324,8 +262,7 @@ class UserData extends ActiveRecord
     }
 
     /**
-     * toDo: Требуется обновление до PostgreSQL 9.4 и проверки json_type
-     * Выборка записей, содержащих указанный атрибут c указанным значением
+     * Выборка записей, содержащих указанный атрибут c указанным значением.
      *
      * @param string $attribute
      * @param string $value
@@ -334,8 +271,9 @@ class UserData extends ActiveRecord
      */
     public function byAttribute($attribute, $value, $useAnd = true)
     {
+        $language = Yii::app()->getLanguage();
         $criteria = new \CDbCriteria();
-        $criteria->condition = "(\"Attributes\"->>'$attribute') = '$value'";
+        $criteria->condition = "(\"Attributes\"->>'$attribute') = '$value' OR (\"Attributes\"->'$attribute'->'$language') = '$value'";
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
 
         return $this;
