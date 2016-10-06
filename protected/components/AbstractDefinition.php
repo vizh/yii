@@ -166,7 +166,7 @@ abstract class AbstractDefinition
         foreach (Yii::app()->getParams()['Languages'] as $language) {
             $html[] = sprintf($useHtml ? '<div class="row"><div class="col-lg-1 table-attributes-label">%s</div><div class="col-lg-11">%s</div></div>' : '%s: %s',
                 $language,
-                $manager->{$this->name}[$language] ?: ($useHtml ? '<font color="silver">...</font>' : '')
+                isset($value[$language]) ? $value[$language] : ($useHtml ? '<font color="silver">...</font>' : '')
             );
         }
 
