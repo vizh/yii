@@ -81,6 +81,7 @@ use user\models\User;
  * @property bool $UnsubscribeNewUser
  * @property bool $RegisterHideNotSelectedProduct
  * @property bool $NotSendRegisterMail
+ * @property bool $NotSendChangeRoleMail
  * @property string $OrganizerInfo
  * @property bool $CloseRegistrationAfterEnd
  * @property bool $DocumentRequired
@@ -187,6 +188,7 @@ class Event extends ActiveRecord implements ISearch
             'UnsubscribeNewUser',
             'RegisterHideNotSelectedProduct',
             'NotSendRegisterMail',
+            'NotSendChangeRoleMail',
             'OrganizerInfo',
             'CloseRegistrationAfterEnd',
             'PromoBlockStyles',
@@ -652,9 +654,11 @@ class Event extends ActiveRecord implements ISearch
             $mail->send();
         }
 
-        $class = \Yii::getExistClass('\event\components\handlers\register\system', ucfirst($sender->IdName), 'Base');
-        $mail = new $class($mailer, $event);
-        $mail->send();
+        if (!isset($this->NotSendChangeRoleMail) || !$this->NotSendChangeRoleMail) {
+            $class = \Yii::getExistClass('\event\components\handlers\register\system', ucfirst($sender->IdName), 'Base');
+            $mail = new $class($mailer, $event);
+            $mail->send();
+        }
     }
 
     /**
