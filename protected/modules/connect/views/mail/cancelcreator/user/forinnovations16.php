@@ -5,12 +5,9 @@
  * @var string $response
  */
 ?>
-<p>Здравствуйте!</p>
+<h2>Здравствуйте!</h2>
 <p>
     К сожалению, <?= $user->getFullName(); ?> (<?= $user->getEmploymentPrimary()->Company->FullName; ?>)
     отменил встречу на <?= $meeting->Date; ?> в рамках форума «Открытые инновации 2016».
 </p>
-
-<p>
-    Причина: <?= $response; ?>.
-</p>
+<p>Причина: <?= $response; ?>.</p>

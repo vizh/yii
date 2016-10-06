@@ -11,6 +11,4 @@
     в рамках <?= $meeting->Place->Event->Title; ?>.
 </p>
 
-<p>
-    Причина: <?= $response; ?>.
-</p>
+<p>Причина: <?= $response; ?>.</p>

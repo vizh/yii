@@ -10,7 +10,4 @@
     К сожалению, Вы отменили встречу с <?= $user->getFullName(); ?> (<?= $user->getEmploymentPrimary()->Company->FullName; ?>)
     на <?= $meeting->Date; ?> в рамках <?= $meeting->Place->Event->Title; ?>.
 </p>
-
-<p>
-    Причина, указанная Вами: <?= $response; ?>.
-</p>
+<p>Причина, указанная Вами: <?= $response; ?>.</p>
