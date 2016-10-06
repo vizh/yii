@@ -36,7 +36,7 @@ class BooleanDefinition extends AbstractDefinition
     /**
      * @inheritdoc
      */
-    protected function internalActiveEdit(\CModel $container, $htmlOptions = [])
+    protected function internalActiveEdit(\CModel $container, array $htmlOptions = [])
     {
         $htmlOptions['uncheckValue'] = null;
         $checkbox = \CHtml::activeCheckBox($container, $this->name, $htmlOptions);

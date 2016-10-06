@@ -64,12 +64,12 @@ abstract class AbstractDefinition
      * @param array $htmlOptions
      * @return string
      */
-    final public function activeEdit(CModel $container, $htmlOptions = [])
+    final public function activeEdit(CModel $container, array $htmlOptions = [])
     {
         return $this->internalActiveEdit($container, $htmlOptions);
     }
 
-    protected function internalActiveEdit(CModel $container, $htmlOptions = [])
+    protected function internalActiveEdit(CModel $container, array $htmlOptions = [])
     {
         $htmlOptions['class'] = $this->cssClass.($htmlOptions['class'] ?: '');
         $htmlOptions['style'] = $this->cssStyle.($htmlOptions['style'] ?: '');
@@ -78,8 +78,14 @@ abstract class AbstractDefinition
             $htmlOptions['placeholder'] = $this->placeholder;
         }
 
+        // Позволяем указывать какой генератор необходимо использовать для визуализации
+        // атрибута в виде элемента формы
+        $generator = empty($htmlOptions['generator'])
+            ? 'activeTextField'
+            : $htmlOptions['generator'];
+
         if ($this->translatable === false) {
-            return CHtml::activeTextField($container, $this->name, $htmlOptions);
+            return CHtml::$generator($container, $this->name, $htmlOptions);
         }
 
         $html = [];
@@ -87,7 +93,7 @@ abstract class AbstractDefinition
         foreach (Yii::app()->getParams()['Languages'] as $language) {
             $html[] = sprintf('<div class="row"><div class="col-lg-1">%s</div><div class="col-lg-11">%s</div></div>',
                 CHtml::activeLabel($container, $this->name, ['label' => $language]),
-                CHtml::activeTextField($container, "{$this->name}[{$language}]", $htmlOptions)
+                CHtml::$generator($container, "{$this->name}[{$language}]", $htmlOptions)
             );
         }
 
@@ -105,7 +111,7 @@ abstract class AbstractDefinition
     {
         if ($this->translatable === true) {
             return [
-//                [$this->name, 'filter', 'filter' => '\application\components\utility\Texts::clearTranslatable'],
+                [$this->name, 'filter', 'filter' => '\application\components\utility\Texts::clearTranslatable'],
                 [$this->name, $this->required ? 'required' : 'safe']
             ];
         } else {
