@@ -14,4 +14,10 @@ class TextDefinition extends AbstractDefinition
             'rows' => 8
         ]));
     }
+
+    public static function isTranslatableAllowed()
+    {
+        return true;
+    }
+
 }

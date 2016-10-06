@@ -6,6 +6,7 @@
  * @var Event $event
  */
 
+use application\components\AbstractDefinition;
 use application\helpers\Flash;
 use event\models\Event;
 
@@ -41,6 +42,13 @@ $this->setPageTitle(Yii::t('app', 'Дополнительные атрибуты
                         </div>
                         <div class="panel-body">
                             <?foreach($form->Definitions as $i => $definition):?>
+                                <?php
+                                    if ($definition->ClassName) {
+                                        $rawDefinition = "application\\components\\attribute\\$definition->ClassName";
+                                        /** @var AbstractDefinition $rawDefinition */
+                                        $rawDefinition = new $rawDefinition();
+                                    }
+                                ?>
                                 <div class="definition" style="margin-bottom:2em">
                                     <?=$activeForm->hiddenField($form, "Definitions[$i][Delete]", ['disabled' => !$definition->isFullyEditable()])?>
                                     <?if($definition->getActiveRecord() === null):?>
@@ -93,12 +101,14 @@ $this->setPageTitle(Yii::t('app', 'Дополнительные атрибуты
                                                     <?=$definition->getAttributeLabel('Public')?>
                                                 </label>
                                             </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <?=$activeForm->checkBox($form, "Definitions[$i][Translatable]")?>
-                                                    <?=$definition->getAttributeLabel('Translatable')?>
-                                                </label>
-                                            </div>
+                                            <?if($rawDefinition && $rawDefinition::isTranslatableAllowed()):?>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <?=$activeForm->checkBox($form, "Definitions[$i][Translatable]")?>
+                                                        <?=$definition->getAttributeLabel('Translatable')?>
+                                                    </label>
+                                                </div>
+                                            <?endif?>
                                         </div>
                                         <div class="col-sm-4 text-right-sm">
                                             <?if($definition->isFullyEditable()):?>
