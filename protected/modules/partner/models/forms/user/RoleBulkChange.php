@@ -2,7 +2,9 @@
 namespace partner\models\forms\user;
 
 use application\components\form\FormModel;
+use event\models\Event;
 use event\models\Participant;
+use event\models\Role;
 use user\models\User;
 
 /**
@@ -11,6 +13,8 @@ use user\models\User;
  */
 class RoleBulkChange extends FormModel
 {
+    /** @var Event */
+    public $Event;
     public $Ids;
     public $RoleId;
 
@@ -27,13 +31,23 @@ class RoleBulkChange extends FormModel
     public function rules()
     {
         return [
-            ['Ids, RoleId', 'required'],
+            ['Ids', 'required'],
+            ['RoleId', 'numerical', 'allowEmpty' => true]
         ];
     }
 
     public function save()
     {
-        $userIds = array_map(function($user){ return $user->Id; }, User::model()->findAllByPk($this->Ids));
-        return Participant::model()->updateAll(['RoleId' => $this->RoleId], '"UserId" in ('.implode(',', $userIds).')') > 0;
+        $role = Role::findOne($this->RoleId);
+        $users = User::model()->findAllByPk($this->Ids);
+        foreach ($users as $user) {
+            if ($role){
+                $this->Event->registerUser($user, $role);
+            }
+            else{
+                $this->Event->unregisterUser($user);
+            }
+        }
+        return true;
     }
 }
