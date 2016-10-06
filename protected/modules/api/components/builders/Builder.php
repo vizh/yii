@@ -15,9 +15,10 @@ use event\models\section\Hall;
 use event\models\UserData;
 use oauth\models\Permission;
 use raec\models\CompanyUser;
-use user\models\DocumentType;
 use user\models\Document;
+use user\models\DocumentType;
 use user\models\User;
+use Yii;
 
 /**
  * Методы делятся на 2 типа:
@@ -402,7 +403,7 @@ class Builder
 
         $this->event->Image = new \stdClass();
 
-        $webRoot = \Yii::getPathOfAlias('webroot');
+        $webRoot = Yii::getPathOfAlias('webroot');
         $logo = $event->getLogo();
         $this->event->Image->Mini = 'http://'.RUNETID_HOST.$logo->getMini();
         $this->event->Image->MiniSize = $this->getImageSize($webRoot.$logo->getMini());
@@ -417,14 +418,14 @@ class Builder
         $size = null;
         if (file_exists($path)) {
             $key = md5($path);
-            $size = \Yii::app()->getCache()->get($key);
+            $size = Yii::app()->getCache()->get($key);
             if ($size === false) {
                 $size = new \stdClass();
                 $image = imagecreatefrompng($path);
                 $size->Width = imagesx($image);
                 $size->Height = imagesy($image);
                 imagedestroy($image);
-                \Yii::app()->getCache()->add($key, $size, 3600 + mt_rand(10, 500));
+                Yii::app()->getCache()->add($key, $size, 3600 + mt_rand(10, 500));
             }
         }
 
@@ -898,7 +899,7 @@ class Builder
     {
         // toDo: Разобраться, это вообще надо?
         if ($activeRecord instanceof ActiveRecord) {
-            $activeRecord->setLocale(\Yii::app()->sourceLanguage);
+            $activeRecord->setLocale(Yii::app()->getLanguage());
         }
     }
 
@@ -960,11 +961,12 @@ class Builder
         $this->meeting->Id = $meeting->Id;
         $this->meeting->Place = $this->createMeetingPlace($meeting->Place);
         $this->meeting->Creator = $this->createUser($meeting->Creator);
-        $this->meeting->Users = array_map(function($link){
+        $this->meeting->Users = array_map(function ($link) {
             $user = new \stdClass();
             $user->Status = $link->Status;
             $user->Response = $link->Response;
             $user->User = $this->createUser($link->User);
+
             return $user;
         }, $meeting->UserLinks);
         $this->meeting->UserCount = count($meeting->UserLinks);

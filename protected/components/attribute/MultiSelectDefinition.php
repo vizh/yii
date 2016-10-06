@@ -41,7 +41,7 @@ class MultiSelectDefinition extends ListDefinition
     /**
      * @inheritdoc
      */
-    protected function internalActiveEdit(\CModel $container, $htmlOptions = [])
+    protected function internalActiveEdit(\CModel $container, array $htmlOptions = [])
     {
         unset($htmlOptions['class']);
         $htmlOptions['style'] = (isset($htmlOptions['style']) ? $htmlOptions['style'] : '');
