@@ -44,9 +44,9 @@ $dateEnd = new DateTime($event->EndYear.'-'.$event->EndMonth.'-'.$event->EndDay)
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>Всего участников</th>
-                        <th>Всего выдано бейджей</th>
-                        <th>Количество регистраторов</th>
+                        <th><?=Yii::t('app', 'Всего выдано бэйджей')?></th>
+                        <th><?=Yii::t('app', 'Всего печатей бейджей')?></th>
+                        <th><?=Yii::t('app', 'Количество регистраторов')?></th>
                     </tr>
                 </thead>
                 <tbody>
