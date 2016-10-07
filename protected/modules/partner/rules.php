@@ -243,6 +243,12 @@ return array(
         'module' => 'partner',
         'controllers' => ['coupon', 'generate']
     ],
+    [
+        'allow',
+        'roles' => ['Meeting'],
+        'module' => 'partner',
+        'controllers' => ['connect']
+    ],
 
 
     array(
