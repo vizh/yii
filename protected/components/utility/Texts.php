@@ -257,13 +257,6 @@ class Texts
         return $str;
     }
 
-    public static function clearTranslatable($array)
-    {
-        return is_array($array)
-            ? array_map('\application\components\utility\Texts::clear', array_intersect_key($array, array_flip(Yii::app()->getParams()['Languages'])))
-            : self::clear($array);
-    }
-
     public static function isHtml($string)
     {
         return preg_match("/<[^<]+>/",$string,$m) != 0;

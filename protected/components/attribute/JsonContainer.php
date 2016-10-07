@@ -149,9 +149,7 @@ trait JsonContainer
 
         /** @noinspection NotOptimalIfConditionsInspection */
         if ($options !== false && $options[$name]['Translatable'] === true && false === defined('YII_TRANSlATABLE_ATTRIBUTE_FORCE_RAW_VALUES')) {
-            return isset($value[Yii::app()->getLanguage()])
-                ? $value[Yii::app()->getLanguage()]
-                : null;
+            return $value[Yii::app()->getLanguage()];
         }
 
         return $value;
@@ -166,8 +164,6 @@ trait JsonContainer
         if (is_array($value) === false) {
             $options = $this->getAttributesSettings();
             if ($options !== false && $options[$name]['Translatable'] === true) {
-                if (is_array($this->attributes[$name]) === false)
-                    $this->attributes[$name] = [];
                 $this->attributes[$name][Yii::app()->getLanguage()] = $value;
                 return;
             }

@@ -12,6 +12,7 @@ use competence\models\Test;
 use connect\models\Meeting;
 use event\models\section\Favorite;
 use event\models\section\Hall;
+use event\models\section\LinkUser;
 use event\models\UserData;
 use oauth\models\Permission;
 use raec\models\CompanyUser;
@@ -984,5 +985,37 @@ class Builder
         $this->meeting->CancelResponse = $meeting->CancelResponse;
 
         return $this->meeting;
+    }
+
+    /**
+     * Формирует данные об участии в секциях мероприятия
+     * @param User $user
+     * @return array
+     */
+    public function createUserSections($user)
+    {
+        $result = [];
+        foreach ($this->account->Event->Sections as $section) {
+            foreach ($user->LinkSections as $link) {
+                /** @var LinkUser $link */
+                if ($link->Section->Id == $section->Id){
+                    $data = new \stdClass();
+                    $data->Section = $this->createSection($section);
+                    $data->Role = $link->Role->Title;
+                    $data->VideoUrl = $link->VideoUrl;
+                    if ($link->Report){
+                        $report = new \stdClass();
+                        $report->Id = $link->Report->Id;
+                        $report->Title = $link->Report->Title;
+                        $report->Thesis = $link->Report->Thesis;
+                        $report->FullInfo = $link->Report->FullInfo;
+                        $report->Url = $link->Report->Url;
+                        $data->Report = $report;
+                    }
+                    $result[] = $data;
+                }
+            }
+        }
+        return $result;
     }
 }
