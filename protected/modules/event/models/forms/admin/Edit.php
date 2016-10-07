@@ -21,7 +21,6 @@ class Edit extends \CFormModel
     public $UnsubscribeNewUser = 0;
     public $RegisterHideNotSelectedProduct = 0;
     public $NotSendRegisterMail = 0;
-    public $NotSendChangeRoleMail = 0;
     public $DocumentRequired = 0;
 
     public $StartDate;
@@ -57,7 +56,7 @@ class Edit extends \CFormModel
     {
         return [
             ['Title, IdName, Info, StartDate, EndDate', 'required'],
-            ['Free, Top, UnsubscribeNewUser, RegisterHideNotSelectedProduct, NotSendRegisterMail, NotSendChangeRoleMail, CloseRegistrationAfterEnd, DocumentRequired', 'boolean', 'allowEmpty' => true],
+            ['Free, Top, UnsubscribeNewUser, RegisterHideNotSelectedProduct, NotSendRegisterMail, CloseRegistrationAfterEnd, DocumentRequired', 'boolean', 'allowEmpty' => true],
             ['Email', 'email', 'allowEmpty' => true],
             ['StartDate', 'date', 'format' => self::DATE_FORMAT, 'timestampAttribute' => 'StartDateTS'],
             ['EndDate', 'date', 'format' => self::DATE_FORMAT, 'timestampAttribute' => 'EndDateTS'],
@@ -92,7 +91,6 @@ class Edit extends \CFormModel
             'UnsubscribeNewUser' => \Yii::t('app', 'Не подписывать новых пользователей на рассылки'),
             'RegisterHideNotSelectedProduct' => \Yii::t('app', 'Скрывать не выбранные товары при регистрации'),
             'NotSendRegisterMail' => \Yii::t('app', 'Не оповещать пользователей о регистрации'),
-            'NotSendChangeRoleMail' => \Yii::t('app', 'Не оповещать пользователей о смене статуса'),
             'OrganizerInfo' => \Yii::t('app', 'Информация об организаторе'),
             'CloseRegistrationAfterEnd' => \Yii::t('app', 'Закрыть регистрацию после окончания'),
             'DocumentRequired' => \Yii::t('app', 'Запрашивать паспортные данные'),

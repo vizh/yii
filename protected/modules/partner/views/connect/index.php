@@ -103,13 +103,35 @@ use application\components\utility\Texts;
                         'name' => 'Status',
                         'type' => 'raw',
                         'value' => function(Meeting $meeting){
-                            if ($meeting->Status == Meeting::STATUS_OPEN){
-                                return Html::tag('span', ['class' => 'label label-success'], 'Активна');
+                            if ($meeting->Type == Meeting::TYPE_PRIVATE){
+                                if ($meeting->Status == Meeting::STATUS_CANCELLED){
+                                    return Html::tag('span', ['class' => 'label label-danger'], 'Отменена') . ' ('.$meeting->CancelResponse.')';
+                                }
+                                else{
+                                    $link = $meeting->UserLinks[0];
+                                    if ($link->Status == MeetingLinkUser::STATUS_SENT){
+                                        return Html::tag('span', ['class' => 'label label-warning'], 'Отправлено');
+                                    }
+                                    if ($link->Status == MeetingLinkUser::STATUS_ACCEPTED){
+                                        return Html::tag('span', ['class' => 'label label-success'], 'Принято');
+                                    }
+                                    if ($link->Status == MeetingLinkUser::STATUS_DECLINED){
+                                        return Html::tag('span', ['class' => 'label label-danger'], 'Отклонено') . ' ('.$link->Response.')';
+                                    }
+                                    if ($link->Status == MeetingLinkUser::STATUS_CANCELLED){
+                                        return Html::tag('span', ['class' => 'label label-danger'], 'Отменено') . ' ('.$link->Response.')';
+                                    }
+                                }
                             }
-                            if ($meeting->Status == Meeting::STATUS_CANCELLED){
-                                return Html::tag('span', ['class' => 'label label-danger'], 'Отменена')
-                                    .' ('.$meeting->CancelResponse.')';
+                            else{
+                                if ($meeting->Status == Meeting::STATUS_OPEN){
+                                    return Html::tag('span', ['class' => 'label label-success'], 'Активна');
+                                }
+                                if ($meeting->Status == Meeting::STATUS_CANCELLED){
+                                    return Html::tag('span', ['class' => 'label label-danger'], 'Отменена') . ' ('.$meeting->CancelResponse.')';
+                                }
                             }
+                            return '';
                         },
                         'filter' => false
                     ],

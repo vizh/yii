@@ -31,7 +31,7 @@ return [
         'allow',
         'roles' => ['base'],
         'controllers' => ['user'],
-        'actions' => ['auth', 'search', 'create', 'get', 'login', 'purposes', 'professionalinterests', 'edit', 'setdata', 'setphoto', 'attributes', 'address'],
+        'actions' => ['auth', 'search', 'create', 'get', 'login', 'purposes', 'professionalinterests', 'edit', 'setdata', 'setphoto', 'attributes', 'address', 'sections'],
     ],
     [
         'allow',

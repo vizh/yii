@@ -4,7 +4,7 @@ namespace event\widgets;
 use event\components\widget\WidgetRegistration;
 use event\components\WidgetPosition;
 use event\models\forms\DetailedRegistration as DetailedRegistrationForm;
-use event\models\Invite as InviteModel;
+use event\models\Invite;
 use event\models\Participant;
 use event\models\Role;
 use event\models\UserData;
@@ -84,7 +84,7 @@ class DetailedRegistration extends WidgetRegistration
     public $userData;
 
     /**
-     * @var InviteModel
+     * @var Invite
      */
     public $invite;
 
@@ -98,7 +98,7 @@ class DetailedRegistration extends WidgetRegistration
         $this->initForm();
         if (isset($this->WidgetRegistrationUseInvites) && $this->WidgetRegistrationUseInvites) {
             $code = \Yii::app()->getRequest()->getParam('invite');
-            $this->invite = InviteModel::model()->byEventId($this->getEvent()->Id)->byCode($code)->find();
+            $this->invite = Invite::model()->byEventId($this->getEvent()->Id)->byCode($code)->find();
             if ($this->invite == null || !empty($this->invite->UserId)) {
                 $this->form->addError('Invite', \Yii::t('app','Для регистрации на мероприятие «{event}» требуется приглашение.', ['{event}' => $this->event->Title]));
             }
