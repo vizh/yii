@@ -115,7 +115,7 @@ class Sidebar extends \CWidget
             [
                 'label' => 'Участники',
                 'icon' => 'group',
-                'url' => false,
+                'url' => ['user/index'],
                 'items' => [
                     ['label' => 'Список участников', 'url' => ['user/index']],
                     ['label' => 'Редактирование', 'url' => ['user/find']],

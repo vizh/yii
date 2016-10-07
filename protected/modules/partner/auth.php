@@ -123,4 +123,13 @@ return [
             'roles' => [310,347,365,366,367,368]
         ]
     ],
+    'Meeting' => [
+        'type' => CAuthItem::TYPE_ROLE,
+        'description' => 'Модератор встреч',
+        'children' => [
+            'guest'
+        ],
+        'bizRule' => null,
+        'data' => null
+    ]
 ];

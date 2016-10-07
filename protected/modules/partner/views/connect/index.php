@@ -96,6 +96,10 @@ use application\components\utility\Texts;
                         'filter' => false
                     ],
                     [
+                        'name' => 'Place.Name',
+                        'filter' => false
+                    ],
+                    [
                         'name' => 'Status',
                         'type' => 'raw',
                         'value' => function(Meeting $meeting){

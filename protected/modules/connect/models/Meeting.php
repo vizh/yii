@@ -65,7 +65,8 @@ class Meeting extends ActiveRecord
             'UserLinks' => 'Приглашенные',
             'Date' => 'Дата/время',
             'Status' => 'Статус',
-            'CreateTime' => 'Дата/время создания'
+            'CreateTime' => 'Дата/время создания',
+            'Place.Name' => 'Место'
         ];
     }
 
