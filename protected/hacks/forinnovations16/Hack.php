@@ -2,12 +2,18 @@
 
 namespace application\hacks\forinnovations16;
 
+use api\models\Account;
 use application\hacks\AbstractHack;
 use GuzzleHttp;
 use user\models\User;
 
 class Hack extends AbstractHack
 {
+    public function getCustomDataBuilder(Account $account)
+    {
+        return new Builder($account);
+    }
+
     /**
      * Проверка корректности логина и пароля средствами forinnovations.ru
      * --

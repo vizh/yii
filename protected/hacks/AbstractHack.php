@@ -2,6 +2,7 @@
 
 namespace application\hacks;
 
+use api\models\Account;
 use event\models\Event;
 use user\models\User;
 
@@ -40,6 +41,11 @@ class AbstractHack
     public function onPartnerRegisterControllerActions(array $actions)
     {
         return $actions;
+    }
+
+    public function getCustomDataBuilder(Account $account)
+    {
+        return null;
     }
 
     /**

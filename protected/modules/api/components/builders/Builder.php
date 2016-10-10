@@ -69,12 +69,12 @@ class Builder
         // Строим полную схему данных посетителя если набор билдеров не определён
         if ($builders === null) {
             $builders = [
+                self::USER_DATA,
+                self::USER_ATTRIBUTES,
                 self::USER_EMPLOYMENT,
                 self::USER_EVENT,
-                self::USER_DATA,
                 self::USER_BADGE,
                 self::USER_CONTACTS,
-                self::USER_ATTRIBUTES,
             ];
         }
 
@@ -90,7 +90,7 @@ class Builder
      * @param \user\models\User|\commission\models\User $user
      * @return \stdClass
      */
-    private function createBaseUser($user)
+    protected function createBaseUser($user)
     {
         $this->applyLocale($user);
 
@@ -105,7 +105,6 @@ class Builder
         $this->user->Visible = $user->Visible;
         $this->user->Verified = $user->Verified;
         $this->user->Gender = $user->Gender;
-        $this->user->FullName = $user->getFullName();
 
         $this->user->Photo = new \stdClass();
         $this->user->Photo->Small = 'http://'.RUNETID_HOST.$user->getPhoto()->get50px();;
@@ -118,7 +117,7 @@ class Builder
     /** @noinspection PhpUnusedPrivateMethodInspection
      * @return \stdClass
      */
-    private function buildAuthData()
+    protected function buildAuthData()
     {
         $this->user->AuthCode = Texts::GenerateString(10);
 
@@ -129,9 +128,10 @@ class Builder
      * @param \user\models\User|\commission\models\User $user
      * @return \stdClass
      */
-    private function buildUserData($user)
+    protected function buildUserData($user)
     {
         $attributes = UserData::getDefinedAttributeValues($this->account->Event, $user);
+
         if (!empty($attributes)) {
             $this->user->Attributes = $attributes;
         }
@@ -143,7 +143,7 @@ class Builder
      * @param \user\models\User|\commission\models\User $user
      * @return \stdClass
      */
-    private function buildUserContacts($user)
+    protected function buildUserContacts($user)
     {
         if ($this->hasContactsPermission($user)) {
             $this->user->Email = $user->Email;
@@ -163,7 +163,7 @@ class Builder
      * @param \user\models\User $user
      * @return \stdClass
      */
-    private function buildUserEmployment($user)
+    protected function buildUserEmployment($user)
     {
         $employment = $user->getEmploymentPrimary();
         if ($employment !== null) {
@@ -183,7 +183,7 @@ class Builder
      * @param \user\models\User|\commission\models\User $user
      * @return \stdClass
      */
-    private function buildUserEvent($user)
+    protected function buildUserEvent($user)
     {
         $isOnePart = $this->account->EventId != null && empty($this->account->Event->Parts);
         foreach ($user->Participants as $participant) {
@@ -230,7 +230,7 @@ class Builder
      * @param \user\models\User|\commission\models\User $user
      * @return
      */
-    private function buildUserBadge($user)
+    protected function buildUserBadge($user)
     {
         $isOnePart = $this->account->EventId != null && empty($this->account->Event->Parts);
         if ($isOnePart && !empty($this->user->Status)) {
@@ -247,7 +247,7 @@ class Builder
      * @param User|\commission\models\User $user
      * @return \stdClass
      */
-    private function buildUserAttributes($user)
+    protected function buildUserAttributes($user)
     {
         $attributes = [];
 
@@ -901,7 +901,6 @@ class Builder
      */
     protected function applyLocale(\CActiveRecord $activeRecord)
     {
-        // toDo: Разобраться, это вообще надо?
         if ($activeRecord instanceof ActiveRecord) {
             $activeRecord->setLocale(Yii::app()->getLanguage());
         }
@@ -969,14 +968,7 @@ class Builder
             $user = new \stdClass();
             $user->Status = $link->Status;
             $user->Response = $link->Response;
-            $user->User = $this->createUser($link->User, [
-//                self::USER_EMPLOYMENT,
-//                self::USER_EVENT,
-                self::USER_DATA,
-//                self::USER_BADGE,
-//                self::USER_CONTACTS,
-                self::USER_ATTRIBUTES,
-            ]);
+            $user->User = $this->createUser($link->User);
 
             return $user;
         }, $meeting->UserLinks);
