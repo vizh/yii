@@ -132,6 +132,7 @@ class Builder
     private function buildUserData($user)
     {
         $attributes = UserData::getDefinedAttributeValues($this->account->Event, $user);
+
         if (!empty($attributes)) {
             $this->user->Attributes = $attributes;
         }
@@ -969,14 +970,7 @@ class Builder
             $user = new \stdClass();
             $user->Status = $link->Status;
             $user->Response = $link->Response;
-            $user->User = $this->createUser($link->User, [
-//                self::USER_EMPLOYMENT,
-//                self::USER_EVENT,
-                self::USER_DATA,
-//                self::USER_BADGE,
-//                self::USER_CONTACTS,
-                self::USER_ATTRIBUTES,
-            ]);
+            $user->User = $this->createUser($link->User);
 
             return $user;
         }, $meeting->UserLinks);
