@@ -20,4 +20,12 @@ class Forinnovations16En extends Forinnovations16
     {
         return $this->getViewPath().'.forinnovations16-en';
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getLayoutName()
+    {
+        return 'oi16-en';
+    }
 }
