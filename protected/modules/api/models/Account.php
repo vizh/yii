@@ -1,6 +1,8 @@
 <?php
 namespace api\models;
 
+use application\hacks\AbstractHack;
+
 /**
  * @property int $Id
  * @property string $Key
@@ -92,28 +94,11 @@ class Account extends \CActiveRecord
     {
         if ($this->_dataBuilder === null)
         {
-            $version = \Yii::app()->getRequest()->getParam('v', null);
-            $timestamp = strtotime($version);
-            if ($timestamp === false)
-            {
-                $this->_dataBuilder = new \api\components\builders\Builder($this);
-            }
-            else
-            {
-                $this->_dataBuilder = $this->getVersioningBuilder($timestamp);
-            }
+            $this->_dataBuilder = AbstractHack::getByEvent($this->Event)->getCustomDataBuilder($this)
+                ?: new \api\components\builders\Builder($this);
         }
 
         return $this->_dataBuilder;
-    }
-
-    /**
-     * @param int $timestamp
-     * @return \api\components\builders\Builder
-     */
-    protected function getVersioningBuilder($timestamp)
-    {
-        return new \api\components\builders\Builder($this);
     }
 
     public function checkIp($ip)
