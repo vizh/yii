@@ -81,6 +81,7 @@ use user\models\User;
  * @property bool $UnsubscribeNewUser
  * @property bool $RegisterHideNotSelectedProduct
  * @property bool $NotSendRegisterMail
+ * @property bool $NotSendChangeRoleMail
  * @property string $OrganizerInfo
  * @property bool $CloseRegistrationAfterEnd
  * @property bool $DocumentRequired
@@ -187,6 +188,7 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
             'UnsubscribeNewUser',
             'RegisterHideNotSelectedProduct',
             'NotSendRegisterMail',
+            'NotSendChangeRoleMail',
             'OrganizerInfo',
             'CloseRegistrationAfterEnd',
             'PromoBlockStyles',
@@ -452,6 +454,25 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
         }
 
         return $participant;
+    }
+
+    /**
+     * Проверяет, зарегистрирован ли посетитель на мероприятие.
+     *
+     * @param User $user
+     * @param Part|null $part
+     * @return bool
+     */
+    public function hasParticipant(User $user, Part $part = null)
+    {
+        $participant = Participant::model()
+            ->byEventId($this->Id)
+            ->byUserId($user->Id);
+
+        if ($part !== null)
+            $participant->byPartId($part->Id);
+
+        return $participant->exists();
     }
 
     /**
