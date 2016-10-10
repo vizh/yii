@@ -97,7 +97,7 @@ use user\models\User;
  * @method Event byApproved(int $approved)
  * @method Event byExternal(boolean $external)
  */
-class Event extends ActiveRecord implements ISearch
+class Event extends ActiveRecord implements ISearch, \JsonSerializable
 {
     const TS16 = 2783; // Территория смыслов 2016
 
@@ -1242,5 +1242,29 @@ class Event extends ActiveRecord implements ISearch
     public function getIsRequiredDocument()
     {
         return isset($this->DocumentRequired) && $this->DocumentRequired == 1;
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     *
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'Id' => $this->Id,
+            'IdName' => $this->IdName,
+            'Title' => $this->Title,
+            'Description' => $this->Info,
+            'Parts' => $this->Parts,
+            'Roles' => $this->getRoles(),
+            // toDo: Данные поля временны, для обратной совместимости. После того как убедимся, что обновился Trinet, можно убрать.
+            'EventId' => $this->Id,
+            'Info' => $this->Info,
+            'Settings' => $this->RuventsSettings
+        ];
     }
 }

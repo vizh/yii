@@ -4,6 +4,9 @@ namespace ruvents\controllers\event;
 use ruvents\models\Setting;
 use Yii;
 
+/**
+ * @deprecated
+ */
 class BadgeAction extends \ruvents\components\Action
 {
     public function run()
@@ -16,7 +19,7 @@ class BadgeAction extends \ruvents\components\Action
         $viewPath = $setting === null
             ? '/badge/default'
             : $setting->Value;
-        
+
         echo json_encode([
             'Badge' => Yii::app()->controller->renderPartial($viewPath, null, true)
         ]);

@@ -12,7 +12,7 @@ namespace ruvents\models;
  * @method \ruvents\models\Operator find()
  * @method \ruvents\models\Operator findByAttributes()
  */
-class Operator extends \CActiveRecord
+class Operator extends \CActiveRecord implements \JsonSerializable
 {
     const RoleOperator = 'Operator';
     const RoleAdmin = 'Admin';
@@ -50,5 +50,22 @@ class Operator extends \CActiveRecord
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
 
         return $this;
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     *
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'Id' => $this->Id,
+            'Login' => $this->Login,
+            'Password' => $this->Password
+        ];
     }
 }

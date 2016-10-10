@@ -17,7 +17,7 @@ use application\models\translation\ActiveRecord;
  * @method Role findByPk($pk,$condition = '', $params = [])
  * @method Role[] findAll($condition = '', $params = [])
  */
-class Role extends ActiveRecord
+class Role extends ActiveRecord implements \JsonSerializable
 {
     const PARTICIPANT = 1;
     const VISITOR = 38;
@@ -86,5 +86,22 @@ class Role extends ActiveRecord
     public function __toString()
     {
         return $this->Title;
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     *
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'Id' => $this->Id,
+            'Name' => $this->Title,
+            'Color' => $this->Color
+        ];
     }
 }
