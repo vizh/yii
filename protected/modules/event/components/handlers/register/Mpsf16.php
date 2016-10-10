@@ -27,7 +27,7 @@ class Mpsf16 extends Base
 
     public function getLayoutName()
     {
-        return Layout::OneColumn;
+        return Layout::None;
     }
 
     public function getFromName()
