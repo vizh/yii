@@ -1,6 +1,9 @@
 <?php
 namespace ruvents\controllers\event;
 
+/**
+ * @deprecated
+ */
 class RolesAction extends \ruvents\components\Action
 {
     public function run()

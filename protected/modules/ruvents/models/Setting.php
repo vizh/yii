@@ -2,6 +2,9 @@
 namespace ruvents\models;
 
 use application\components\ActiveRecord;
+use application\components\helpers\ArrayHelper;
+use application\models\attribute\Definition;
+use JsonSerializable;
 
 /**
  * @property int $Id
@@ -14,7 +17,7 @@ use application\components\ActiveRecord;
  * @method Setting find()
  * @method Setting byEventId(int $eventId)
  */
-class Setting extends ActiveRecord
+class Setting extends ActiveRecord implements JsonSerializable
 {
     /**
      * @param string $className
@@ -75,5 +78,71 @@ class Setting extends ActiveRecord
         }
 
         return $this->settings;
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     *
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    public function jsonSerialize()
+    {
+        $settings = $this->getSettings();
+
+        if ($settings === null)
+            return null;
+
+        // Если определены редактируемые атрибуты, то получим их настройки. Данный код будет отрабатывать
+        // в случае если для данного мероприятия будет проходить оффлайн регистрация. Задача кода - передать
+        // Клиенту настройки редактирования полей пользовательских атрибутов
+        if (isset($settings->EditableUserData) || isset($settings->AvailableUserData)) {
+            $settingsEditableAttributes = array_merge(
+                $settings->EditableUserData ?: [],
+                $settings->AvailableUserData ?: []
+            );
+
+            if (!empty($settingsEditableAttributes)) {
+                $definitions = Definition::model()
+                    ->byModelId($this->EventId)
+                    ->byModelName('EventUserData')
+                    ->orderBy('"t"."Order"')
+                    ->findAllByAttributes([
+                        'Name' => array_merge(
+                            $settings->EditableUserData ?: [],
+                            $settings->AvailableUserData ?: []
+                        )
+                    ]);
+
+                if (!empty($definitions)) {
+                    $settings->PersonAttributes = [];
+                    foreach ($definitions as $definition) {
+                        $settings->PersonAttributes[$definition->Name] = array_filter(ArrayHelper::toArray($definition, [
+                                'application\models\attribute\Definition' => [
+                                    'Type' => 'ClassName',
+                                    'Title',
+                                    'Variants' => function (Definition $model) {
+                                        $params = $model->getParams();
+
+                                        return isset($params['data'])
+                                            ? $params['data']
+                                            : [];
+                                    },
+                                    'Editable' => function (Definition $model) use ($settings) {
+                                        return isset($settings->EditableUserData) && in_array($model->Name, $settings->EditableUserData);
+                                    }
+                                ]
+                            ]
+                        ));
+                    }
+                }
+            }
+
+            unset($settings->EditableUserData, $settings->AvailableUserData);
+        }
+
+        return $settings;
     }
 }

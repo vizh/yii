@@ -3,6 +3,9 @@ namespace ruvents\controllers\event;
 
 use user\models\User;
 
+/**
+ * @deprecated
+ */
 class UsersAction extends \ruvents\components\Action
 {
     public function run()
