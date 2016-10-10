@@ -1,7 +1,6 @@
 <?php
 namespace ruvents\controllers\user;
 
-use api\components\ms\DevconEventRoleConverter;
 use api\models\ExternalUser;
 use application\components\utility\Texts;
 use CText;
@@ -39,8 +38,9 @@ class CreateAction extends Action
             }
         }
 
-        if (!$form->Visible && empty($form->Email))
+        if (!$form->Visible && empty($form->Email)) {
             $form->Email = CText::generateFakeEmail($this->getEvent()->Id);
+        }
 
         if ($form->validate()) {
             $user = $form->register();
@@ -83,32 +83,33 @@ class CreateAction extends Action
     private function updateRoles(User $user)
     {
         $event = $this->getEvent();
-        $statuses = (array) json_decode(\Yii::app()->getRequest()->getParam('Statuses'));
-        if (!$statuses)
+        $statuses = (array)json_decode(\Yii::app()->getRequest()->getParam('Statuses'));
+        if (!$statuses) {
             throw new Exception(310);
+        }
 
         foreach ($statuses as $part_id => $role_id) {
             $role = Role::model()->findByPk($role_id);
-            if (!$role)
+            if (!$role) {
                 throw new Exception(302, [$role_id]);
+            }
 
             // Обработка однопартийных мероприятий
             if (!$part_id && count($statuses) === 1) {
-                if ($event->Id === DevconEventRoleConverter::EVENT_ID) {
-                    $role = DevconEventRoleConverter::restore($role);
-                }
                 $event->registerUser($user, $role);
                 $this->getDetailLog()->addChangeMessage(new ChangeMessage('Role', '', $role->Id));
                 continue;
             }
 
             $part = Part::model()->findByPk($part_id);
-            if (!$part || $part->EventId !== $event->Id)
+            if (!$part || $part->EventId !== $event->Id) {
                 throw new Exception(306);
+            }
 
             $event->registerUserOnPart($part, $user, $role);
-            if ($part)
+            if ($part) {
                 $this->getDetailLog()->addChangeMessage(new ChangeMessage('Role', $part->Id, $role->Id));
+            }
         }
     }
 }

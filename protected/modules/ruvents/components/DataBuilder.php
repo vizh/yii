@@ -1,9 +1,6 @@
 <?php
 namespace ruvents\components;
 
-use api\components\ms\DevconEventRoleConverter;
-use application\components\helpers\ArrayHelper;
-use application\models\attribute\Definition;
 use event\models\UserData;
 use ruvents\models\Visit;
 use user\models\User;
@@ -25,8 +22,9 @@ class DataBuilder
      */
     public function getEvent()
     {
-        if ($this->activeEvent == null)
+        if ($this->activeEvent == null) {
             $this->activeEvent = \event\models\Event::model()->findByPk($this->eventId);
+        }
 
         return $this->activeEvent;
     }
@@ -58,7 +56,7 @@ class DataBuilder
     public function createUser($user)
     {
 
-        $this->user = (object) [
+        $this->user = (object)[
             'RunetId' => $user->RunetId,
             'LastName' => $user->LastName,
             'FirstName' => $user->FirstName,
@@ -92,13 +90,12 @@ class DataBuilder
         } else {
             $phone = $user->getContactPhone(\contact\models\PhoneType::Mobile);
             if ($phone !== null) {
-                $this->user->Phone = (string) $phone;
+                $this->user->Phone = (string)$phone;
             }
         }
 
         return $this->user;
     }
-
 
     /**
      * @param \user\models\User $user
@@ -132,11 +129,6 @@ class DataBuilder
         $this->user->Statuses = [];
 
         foreach ($user->Participants as $participant) {
-            if ($participant->EventId === DevconEventRoleConverter::EVENT_ID) {
-                $this->user->Statuses[0] = DevconEventRoleConverter::convert($participant->User, $participant->Role)->Id;
-                break;
-            }
-
             if ($participant->EventId == $this->eventId) {
                 $this->user->Statuses[$participant->PartId ? $participant->PartId : 0] = $participant->RoleId;
             }
@@ -145,7 +137,7 @@ class DataBuilder
          * Данное преобразование важно для корректной передачи роли безпартийного мероприятия
          * виде ассоциативного масива с индексом 0. То есть "Statuses":{"0":1}
          */
-        $this->user->Statuses = (object) $this->user->Statuses;
+        $this->user->Statuses = (object)$this->user->Statuses;
 
         return $this->user;
     }
@@ -207,7 +199,7 @@ class DataBuilder
      */
     public function createBadge($badge)
     {
-        return (object) [
+        return (object)[
             'RunetId' => $badge->User->RunetId,
             'RoleId' => $badge->RoleId,
             'RoleName' => $badge->Role->Title,
@@ -226,7 +218,7 @@ class DataBuilder
      */
     public function createRole($role)
     {
-        return (object) [
+        return (object)[
             'RoleId' => $role->Id,
             'Name' => $role->Title,
             'Color' => $role->Color
@@ -386,6 +378,7 @@ class DataBuilder
         $this->visit->MarkId = $visit->MarkId;
         $this->visit->User = $this->createUser($visit->User);
         $this->visit->CreationTime = $visit->CreationTime;
+
         return $this->visit;
     }
 }
