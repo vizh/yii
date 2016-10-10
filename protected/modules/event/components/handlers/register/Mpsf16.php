@@ -15,16 +15,6 @@ class Mpsf16 extends Base
 {
 
 
-    protected function getRepeat()
-    {
-        return false;
-    }
-
-    public function getAttachments()
-    {
-        return [];
-    }
-
     public function getLayoutName()
     {
         return Layout::None;
