@@ -1,16 +1,14 @@
 <?php
 namespace ruvents\controllers\user;
 
-use api\components\ms\DevconEventRoleConverter;
 use event\models\Part;
 use event\models\Participant;
 use event\models\Role;
 use event\models\UserData;
+use ruvents\components\Action;
 use ruvents\components\Exception;
 use ruvents\models\ChangeMessage;
-use ruvents\models\Setting;
 use user\models\User;
-use ruvents\components\Action;
 use Yii;
 
 class EditAction extends Action
@@ -23,8 +21,9 @@ class EditAction extends Action
         $email = $request->getParam('Email', null);
 
         $user = User::model()->byRunetId($runetId)->find();
-        if (!$user)
+        if (!$user) {
             throw new Exception(202, $runetId);
+        }
 
         $event = $this->getEvent();
 
@@ -33,8 +32,9 @@ class EditAction extends Action
             ->byUserId($user->Id)
             ->find();
 
-        if (!$participant)
+        if (!$participant) {
             throw new Exception(304);
+        }
 
         $this->updateMainInfo($user);
         $this->updatePhone($user);
@@ -142,19 +142,22 @@ class EditAction extends Action
 
         if ($employment) {
             // Удаление привязки к компании путём очистки поля "Компания" в клиенте?
-            if (!$company)
+            if (!$company) {
                 $company = 'не указана';
+            }
 
             // Ничего не поменялось?
-            if ($employment->Company->Name == $company && $employment->Position == $position)
+            if ($employment->Company->Name == $company && $employment->Position == $position) {
                 return;
+            }
 
             $currentCompany = $employment->Company->Name;
             $currentPosition = $employment->Position;
         } else {
             // Данных о трудоустройстве не было и не будет?
-            if (!$company && !$position)
+            if (!$company && !$position) {
                 return;
+            }
 
             $currentCompany = '';
             $currentPosition = '';
@@ -168,35 +171,36 @@ class EditAction extends Action
     private function updateRoles(User $user)
     {
         $event = $this->getEvent();
-        $statuses = (array) json_decode(Yii::app()->getRequest()->getParam('Statuses'));
+        $statuses = (array)json_decode(Yii::app()->getRequest()->getParam('Statuses'));
 
         foreach ($statuses as $part_id => $role_id) {
             $role = Role::model()->findByPk($role_id);
-            if (!$role)
+            if (!$role) {
                 throw new Exception(302, $role_id);
+            }
 
             // Обработка однопартийных мероприятий
             if (!$part_id && count($statuses) === 1) {
-                if ($event->Id === DevconEventRoleConverter::EVENT_ID) {
-                    $role = DevconEventRoleConverter::restore($role);
-                }
                 $event->registerUser($user, $role);
                 $this->getDetailLog()->addChangeMessage(new ChangeMessage('Role', '', $role->Id));
                 continue;
             }
 
             $part = Part::model()->findByPk($part_id);
-            if (!$part || $part->EventId !== $event->Id)
+            if (!$part || $part->EventId !== $event->Id) {
                 throw new Exception(306);
+            }
 
             $event->registerUserOnPart($part, $user, $role);
-            if ($part)
+            if ($part) {
                 $this->getDetailLog()->addChangeMessage(new ChangeMessage('Role', $part->Id, $role->Id));
+            }
         }
     }
 
     /**
      * Редактирование дополнительных атрибутов пользователя
+     *
      * @param User $user
      * @throws Exception
      */
@@ -212,13 +216,15 @@ class EditAction extends Action
             ->byDeleted(false)
             ->find();
 
-        if (empty($userData))
+        if (empty($userData)) {
             $userData = UserData::createEmpty($this->getEvent(), $user);
+        }
 
         $manager = $userData->getManager();
 
-        if (!$manager->hasDefinitions())
+        if (!$manager->hasDefinitions()) {
             return;
+        }
 
         $attributesChanged = [];
         $attributesCurrent = $manager->getAttributes();
@@ -227,23 +233,26 @@ class EditAction extends Action
             $settings->EditableUserData ?: []
         );
 
-
         try {
             foreach (Yii::app()->getRequest()->getParam('Attributes', []) as $param => $value) {
                 if (in_array($param, $attributesAllowed)) {
                     $attributesChanged[$param] = $value;
-                    if (!isset($manager->$param) || $manager->$param != $value)
+                    if (!isset($manager->$param) || $manager->$param != $value) {
                         $manager->$param = $value;
+                    }
                 }
             }
         } catch (\Exception $e) {
             throw new Exception(251, $e->getMessage());
         }
 
-        if (!$manager->validate())
-            foreach ($manager->getErrors() as $attribute => $errors)
-                if (in_array($attribute, $attributesAllowed))
+        if (!$manager->validate()) {
+            foreach ($manager->getErrors() as $attribute => $errors) {
+                if (in_array($attribute, $attributesAllowed)) {
                     throw new Exception(252, [$attribute, $errors[0]]);
+                }
+            }
+        }
 
         $userData->save();
 

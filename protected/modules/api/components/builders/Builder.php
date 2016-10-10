@@ -249,7 +249,7 @@ class Builder
      */
     private function buildUserAttributes($user)
     {
-        $this->user->Attributes = [];
+        $attributes = [];
 
         $data = UserData::model()
             ->byEventId($this->account->EventId)
@@ -259,10 +259,13 @@ class Builder
 
         if ($data !== null) {
             foreach ($data->getManager()->getDefinitions() as $definition) {
-                $value = $definition->getExportValue($data->getManager());
-                $this->user->Attributes[$definition->name] = $value;
+                $attributes[$definition->name] = $definition->getExportValue($data->getManager());
             }
         }
+
+        // Необходимо что бы пустой список атрибутов сериализовался как {}, а не как []
+        $this->user->Attributes
+            = (object) $attributes;
 
         return $this->user;
     }
@@ -966,7 +969,14 @@ class Builder
             $user = new \stdClass();
             $user->Status = $link->Status;
             $user->Response = $link->Response;
-            $user->User = $this->createUser($link->User);
+            $user->User = $this->createUser($link->User, [
+//                self::USER_EMPLOYMENT,
+//                self::USER_EVENT,
+                self::USER_DATA,
+//                self::USER_BADGE,
+//                self::USER_CONTACTS,
+                self::USER_ATTRIBUTES,
+            ]);
 
             return $user;
         }, $meeting->UserLinks);
