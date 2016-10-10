@@ -1,6 +1,7 @@
 <?php
 namespace event\models;
 use application\components\ActiveRecord;
+use JsonSerializable;
 
 /**
  * @property int $Id
@@ -15,7 +16,7 @@ use application\components\ActiveRecord;
  */
 
 
-class Part extends ActiveRecord
+class Part extends ActiveRecord implements JsonSerializable
 {
     /**
      * @param string $className
@@ -69,5 +70,21 @@ class Part extends ActiveRecord
             ->select('max("Order") MaxOrder')->from($this->tableName())
             ->where('"EventId" = :EventId', ['EventId' => $eventId]);
         return (int)$command->queryScalar();
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     *
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'Id' => $this->Id,
+            'Name' => $this->Title
+        ];
     }
 }

@@ -64,11 +64,11 @@ class ParticipantsAction extends Action
     {
         $id = \Yii::app()->getRequest()->getParam('ParticipantId');
         if ($id !== null) {
-        foreach ($forms as $form) {
-            if ($form->isUpdateMode() && $form->getActiveRecord()->Id == $id) {
-                return $form;
+            foreach ($forms as $form) {
+                if ($form->isUpdateMode() && $form->getActiveRecord()->Id == $id) {
+                    return $form;
+                }
             }
-        }
             throw new \CHttpException(404);
         } else {
             return $forms[0];

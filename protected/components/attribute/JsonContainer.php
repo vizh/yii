@@ -149,8 +149,9 @@ trait JsonContainer
 
         /** @noinspection NotOptimalIfConditionsInspection */
         if ($options !== false && $options[$name]['Translatable'] === true && false === defined('YII_TRANSlATABLE_ATTRIBUTE_FORCE_RAW_VALUES')) {
-            return isset($value[Yii::app()->getLanguage()])
-                ? $value[Yii::app()->getLanguage()]
+            $language = Yii::app()->getLanguage();
+            return isset($value[$language])
+                ? $value[$language]
                 : null;
         }
 

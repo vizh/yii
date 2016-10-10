@@ -114,12 +114,10 @@ abstract class AbstractDefinition
     {
         if ($this->translatable === true) {
             return [
-                [$this->name, 'filter', 'filter' => '\application\components\utility\Texts::clearTranslatable'],
                 [$this->name, $this->required ? 'required' : 'safe']
             ];
         } else {
             return [
-                [$this->name, 'filter', 'filter' => '\application\components\utility\Texts::clear'],
                 [$this->name, $this->required ? 'required' : 'safe']
             ];
         }

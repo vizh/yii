@@ -245,7 +245,9 @@ class Participant extends CreateUpdateForm
 
         $event = $this->section->Event;
 
-        $user = User::model()->byRunetId($this->RunetId)->find();
+        $user = User::model()
+            ->byRunetId($this->RunetId)
+            ->find();
 
         $this->model->UserId = $user->Id;
 
@@ -253,7 +255,6 @@ class Participant extends CreateUpdateForm
         if ($event->IdName === 'forinnovations16' && $event->hasParticipant($user)) {
             return;
         }
-
 
         $role = EventRole::model()->findByPk(self::EVENT_ROLE_ID);
         if (!empty($event->Parts)) {

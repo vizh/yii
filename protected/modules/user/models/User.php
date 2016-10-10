@@ -14,6 +14,7 @@ use application\widgets\IAutocompleteItem;
 use commission\models\Commission;
 use competence\models\Result;
 use event\models\Participant;
+use event\models\section\LinkUser;
 use iri\models\User as IriUser;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberFormat;
@@ -64,6 +65,7 @@ use Yii;
  * @property Education[] $Educations
  * @property Commission[] $Commissions
  * @property Participant[] $Participants
+ * @property LinkUser[] $LinkSections
  * @property Settings $Settings Настройки аккаунта пользователя
  * @property Result $CompetenceResults
  * @property User $MergeUser
@@ -213,6 +215,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
 
             'Participants' => [self::HAS_MANY, '\event\models\Participant', 'UserId'],
             'ParticipantsForCriteria' => [self::HAS_MANY, '\event\models\Participant', 'UserId'],
+            'LinkSections' => [self::HAS_MANY, '\event\models\section\LinkUser', 'UserId'],
 
             'Badges' => [self::HAS_MANY, '\ruvents\models\Badge', 'UserId'],
 
