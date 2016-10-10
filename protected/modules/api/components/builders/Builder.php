@@ -69,12 +69,12 @@ class Builder
         // Строим полную схему данных посетителя если набор билдеров не определён
         if ($builders === null) {
             $builders = [
+                self::USER_DATA,
+                self::USER_ATTRIBUTES,
                 self::USER_EMPLOYMENT,
                 self::USER_EVENT,
-                self::USER_DATA,
                 self::USER_BADGE,
                 self::USER_CONTACTS,
-                self::USER_ATTRIBUTES,
             ];
         }
 
