@@ -2,11 +2,13 @@
 /**
  * @var \event\models\section\Section $section
  * @var Participant[] $forms
+ * @var Event $event
  * @var \partner\components\Controller $this
  * @var CActiveForm $activeForm
  */
 
 use application\helpers\Flash;
+use event\models\Event;
 use \partner\models\forms\program\Participant;
 
 $this->setPageTitle(\Yii::t('app','Редактирование участников секции'));
@@ -25,7 +27,7 @@ $activeForm = $this->beginWidget('CActiveForm', ['id' => $form->getId()])?>
         <div class="panel-body">
             <?=$activeForm->errorSummary($form, '<div class="alert alert-danger">', '</div>')?>
             <?$this->renderPartial('participants/select', ['form' => $form, 'activeForm' => $activeForm])?>
-            <div class="form-group m-top_20">
+            <div class="form-group m-top_20" <?if($event->IdName === 'forinnovations16'):?>style="display:none"<?endif?>>
                 <?=$activeForm->label($form, 'RoleId')?>
                 <?=$activeForm->dropDownList($form, 'RoleId', $form->getRoleData(), ['class' => 'form-control'])?>
             </div>
@@ -54,7 +56,7 @@ $activeForm = $this->beginWidget('CActiveForm', ['id' => $form->getId()])?>
             <div class="panel-body">
                 <?=$activeForm->errorSummary($form, '<div class="alert alert-danger">', '</div>')?>
                 <?$this->renderPartial('participants/select', ['form' => $form, 'activeForm' => $activeForm])?>
-                <div class="form-group m-top_20">
+                <div class="form-group m-top_20" <?if($event->IdName === 'forinnovations16'):?>style="display:none"<?endif?>>
                     <?=$activeForm->label($form, 'RoleId')?>
                     <?=$activeForm->dropDownList($form, 'RoleId', $form->getRoleData(), ['class' => 'form-control'])?>
                 </div>

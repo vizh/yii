@@ -24,7 +24,9 @@ class ParticipantsAction extends Action
         if ($request->getIsPostRequest()) {
             $form = $this->getEditableForm($section, $forms);
             $form->fillFromPost();
-            $result = $form->isUpdateMode() ? $form->updateActiveRecord() : $form->createActiveRecord();
+            $result = $form->isUpdateMode()
+                ? $form->updateActiveRecord()
+                : $form->createActiveRecord();
             if ($result !== null) {
                 Flash::setSuccess(\Yii::t('app', 'Информация о участнике секции успешно сохранена!'));
                 $this->getController()->redirect(['participants', 'id' => $section->Id]);
@@ -33,7 +35,8 @@ class ParticipantsAction extends Action
 
         $this->getController()->render('participants', [
             'section' => $section,
-            'forms' => $forms
+            'forms' => $forms,
+            'event' => $this->getEvent()
         ]);
     }
 
