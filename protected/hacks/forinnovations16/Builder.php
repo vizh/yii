@@ -36,8 +36,8 @@ class Builder extends \api\components\builders\Builder
         parent::buildUserAttributes($user);
 
         UserData::setEnableRawValues();
-
-        $this->user->AttributesRaw = UserData::getDefinedAttributeValues($this->account->Event, $user);
+        $this->user->AttributesRaw = (object) UserData::getDefinedAttributeValues($this->account->Event, $user);
+        UserData::setDisableRawValues();
 
         // Вот так можно переписать ФИО из атрибутов.
 //        $this->user->LastName = $this->user->Attributes->last_name;
@@ -45,7 +45,7 @@ class Builder extends \api\components\builders\Builder
 //        $this->user->FatherName = $this->user->Attributes->father_name;
 //
 //        foreach (['last_name' => 'LastName', 'first_name' => 'FirstName', 'father_name' => 'FatherName'] as $attribute => $parameter) {
-//            $attributeValue = $this->user->AttributesRaw[$attribute];
+//            $attributeValue = $this->user->AttributesRaw->$attribute;
 //            if (!empty($attributeValue) && is_array($attributeValue)) {
 //                foreach ($attributeValue as $lang => $value) {
 //                    if (isset($this->user->Locales[$lang])) {
@@ -75,7 +75,7 @@ class Builder extends \api\components\builders\Builder
                 $this->getActiveRecordLocales($employment->Company, 'WorkCompany')
             );
 
-            $position = $this->user->AttributesRaw['position'];
+            $position = $this->user->AttributesRaw->position;
             if (!empty($position) && is_array($position)) {
                 foreach ($position as $lang => $value) {
                     if (isset($this->user->Locales[$lang])) {

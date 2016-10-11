@@ -193,9 +193,15 @@ class UserData extends ActiveRecord
      */
     public static function setEnableRawValues()
     {
-        if (defined('YII_TRANSlATABLE_ATTRIBUTE_FORCE_RAW_VALUES') === false) {
-            define('YII_TRANSlATABLE_ATTRIBUTE_FORCE_RAW_VALUES', true);
-        }
+        $GLOBALS['YII_TRANSlATABLE_ATTRIBUTE_FORCE_RAW_VALUES'] = true;
+    }
+
+    /**
+     * Отключает режим возвращения RAW данных для переводимых атрибутов.
+     */
+    public static function setDisableRawValues()
+    {
+        unset($GLOBALS['YII_TRANSlATABLE_ATTRIBUTE_FORCE_RAW_VALUES']);
     }
 
     /**
