@@ -264,8 +264,9 @@ class Builder
         }
 
         // Необходимо что бы пустой список атрибутов сериализовался как {}, а не как []
-        $this->user->Attributes
-            = (object) $attributes;
+        $this->user->Attributes = empty($attributes)
+            ? new \stdClass()
+            : $attributes;
 
         return $this->user;
     }
