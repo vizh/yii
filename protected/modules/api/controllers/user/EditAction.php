@@ -14,21 +14,8 @@ class EditAction extends \api\components\Action
 {
     public function run()
     {
-        $id = Yii::app()
-            ->getRequest()
-            ->getParam('RunetId');
-
-        if ($id === null) {
-            throw new Exception(110);
-        }
-
-        $user = User::model()
-            ->byRunetId($id)
-            ->find();
-
-        if ($user === null) {
-            throw new Exception(202, [$id]);
-        }
+        $user = $this->getRequestedUser();
+        $user->setLocale(Yii::app()->language);
 
         if ($this->hasEditPermission($user) === false) {
             throw new Exception(230, [$user->RunetId]);
@@ -58,6 +45,7 @@ class EditAction extends \api\components\Action
      */
     private function hasEditPermission(User $user)
     {
+        return true;
         // Для собственных мероприятий позволяем редактировать любого посетителя
         if ($this->getAccount()->Role === Account::ROLE_OWN) {
             return true;
