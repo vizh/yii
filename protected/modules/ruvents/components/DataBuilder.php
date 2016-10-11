@@ -158,17 +158,21 @@ class DataBuilder
         $data = $this->getEvent()->getUserData($user);
 
         if (count($data) > 0) {
-            $this->user->Attributes = [];
-            $this->user->Data = [];
+            $userData = [];
+
             /** @var UserData $row */
             $row = array_pop($data);
+
             foreach ($row->getManager()->getDefinitions() as $definition) {
                 if (in_array($definition->name, $attributes)) {
-                    $value = $definition->getExportValue($row->getManager());
-                    $this->user->Attributes[$definition->name] = $value;
-                    $this->user->Data[$definition->title] = $value;
+                    $userData[$definition->name] = $definition->getExportValue($row->getManager());
                 }
             }
+
+            // Пустой массив кодируем как {}, а не []
+            $this->user->Attributes = empty($userData)
+                ? new \stdClass()
+                : $userData;
         }
 
         return $this->user;
