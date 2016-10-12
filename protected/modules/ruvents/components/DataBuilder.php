@@ -55,7 +55,6 @@ class DataBuilder
      */
     public function createUser($user)
     {
-
         $this->user = (object)[
             'RunetId' => $user->RunetId,
             'LastName' => $user->LastName,

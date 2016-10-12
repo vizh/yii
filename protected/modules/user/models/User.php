@@ -130,6 +130,13 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         }
     }
 
+    public function rules()
+    {
+        return [
+            ['FirstName,LastName,FatherName', 'filter', 'filter' => 'trim'],
+        ];
+    }
+
     /**
      * Allows authenticate the user by a hash
      *
