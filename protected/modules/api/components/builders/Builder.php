@@ -671,6 +671,11 @@ class Builder
             $this->section->Attributes[$attribute->Name] = $attribute->Value;
         }
 
+        $this->section->Speakers = [];
+        foreach ($section->LinkUsers as $linkUser) {
+            $this->section->Speakers[] = $this->createUser($linkUser->User, [self::USER_DATA]);
+        }
+
         return $this->section;
     }
 

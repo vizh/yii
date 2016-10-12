@@ -53,7 +53,8 @@ class UsersAction extends \api\components\Action
         // Определим какие данные будут в результате
         $builders = [
             Builder::USER_EVENT,
-            Builder::USER_EMPLOYMENT
+            Builder::USER_EMPLOYMENT,
+            Builder::USER_ATTRIBUTES
         ];
 
         // Не совсем понятно почему, но ок..
