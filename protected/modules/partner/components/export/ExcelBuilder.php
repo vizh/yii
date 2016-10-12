@@ -437,6 +437,7 @@ class ExcelBuilder
             ->byDeleted(false)
             ->findAll();
 
+        UserData::setEnableRawValues();
         foreach ($data as $item) {
             $definitions = $item->getManager()->getDefinitions();
             /** @var Definition $definition */
@@ -445,9 +446,11 @@ class ExcelBuilder
                     $this->rowMap[$definition->name] = $definition->title;
                 }
                 $this->usersData[$item->UserId][$definition->name][] = $definition->getPrintValue($item->getManager());
+
             }
             $initMap = true;
         }
+        UserData::setDisableRawValues();
 
         return $this->usersData;
     }
