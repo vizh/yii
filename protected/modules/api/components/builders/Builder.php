@@ -673,7 +673,7 @@ class Builder
 
         $this->section->Speakers = [];
         foreach ($section->LinkUsers as $linkUser) {
-            $this->section->Speakers[] = $this->createUser($linkUser->User, [self::USER_DATA]);
+            $this->section->Speakers[] = $linkUser->User->RunetId;
         }
 
         return $this->section;
