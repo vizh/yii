@@ -137,6 +137,17 @@ class Participant extends ActiveRecord
         );
     }
 
+    public function bySearchString($search)
+    {
+        $this->getDbCriteria()->mergeWith(
+            CDbCriteria::create()
+                ->addCondition('"Data"."Attributes"->>\'firstName\' ilike \'%'.$search.'%\'', null, 'or')
+                ->addCondition('"Data"."Attributes"->>\'lastName\' ilike \'%'.$search.'%\'', null, 'or')
+                ->addCondition('"Data"."Attributes"->>\'middleName\' ilike \'%'.$search.'%\'', null, 'or')
+                ->addCondition('"Data"."Attributes"->>\'company\' ilike \'%'.$search.'%\'', null, 'or')
+        );
+    }
+
     public function byAttribute($name, $value)
     {
         $this->getDbCriteria()->mergeWith(
