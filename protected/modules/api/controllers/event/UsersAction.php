@@ -69,6 +69,25 @@ class UsersAction extends \api\components\Action
                 ->createUser($user, $builders);
         }
 
+        if ($this->hasRequestParam('ArchivePhotos')){
+            $archive = \Yii::getPathOfAlias('application.runtime').'/'.uniqid().'.tar';
+            $tar = new \PharData($archive);
+            foreach ($users as $user) {
+                $photo = $user->getPhoto()->getOriginal(true);
+                $tar->addFile($photo, basename($photo));
+            }
+            $tar->compress(\Phar::GZ);
+            unset($tar);
+            unlink($archive);
+            $archive .= '.gz';
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="'.basename($archive).'"');
+            header('Content-Length: ' . filesize($archive));
+            readfile($archive);
+            unlink($archive);
+            exit;
+        }
+
         if (count($users) === $maxResults) {
             $result['NextPageToken'] = $this->getController()->getPageToken($criteria->offset + $maxResults);
         }
