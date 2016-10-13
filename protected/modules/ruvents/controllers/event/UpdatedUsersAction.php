@@ -24,7 +24,7 @@ class UpdatedUsersAction extends \ruvents\components\Action
         $fromUpdateTime = $request->getParam('FromUpdateTime');
         $byPage = $request->getParam('Limit', 200);
         $needCustomFormat = $request->getParam('CustomFormat', false) == '1';
-        
+
         if (empty($fromUpdateTime))
             throw new Exception(900, 'FromUpdateTime');
 
@@ -36,16 +36,19 @@ class UpdatedUsersAction extends \ruvents\components\Action
         if ($pageToken) {
             $offset = $this->getController()->parsePageToken($pageToken);
         }
+        $users = User::model()
+            ->findAll($this->makeUserCriteria($fromUpdateTime, $byPage, $offset));
 
-        $users = User::model()->findAll($this->makeUserCriteria($fromUpdateTime, $byPage, $offset));
-        $idList = [];
-        foreach ($users as $user) {
-            $idList[] = $user->Id;
+        if (!empty($users)) {
+            $idList = [];
+            foreach ($users as $user) {
+                $idList[] = $user->Id;
+            }
+
+            $externalList = $this->getExternalIds($idList);
+            $orderItems = $this->getOrderItems($idList);
+            $badgesCount = $this->getBadgesCount($idList);
         }
-
-        $orderItems = $this->getOrderItems($idList);
-        $badgesCount = $this->getBadgesCount($idList);
-        $externalList = $this->getExternalIds($idList);
 
         $result = [];
         $result['Users'] = [];
@@ -98,12 +101,10 @@ class UpdatedUsersAction extends \ruvents\components\Action
 
     private function getBadgesCount($idList)
     {
-        $criteria = new \CDbCriteria();
-        $criteria->addInCondition('"t"."UserId"', $idList);
-        /** @var Badge[] $badges */
         $badges = Badge::model()
             ->byEventId($this->getEvent()->Id)
-            ->findAll($criteria);
+            ->byUserId($idList)
+            ->findAll();
 
         $badgesCount = [];
         foreach ($badges as $badge) {
@@ -130,7 +131,10 @@ class UpdatedUsersAction extends \ruvents\components\Action
 
         $result = [];
         foreach ($orderItems as $item) {
-            $ownerId = $item->ChangedOwnerId === null ? $item->OwnerId : $item->ChangedOwnerId;
+            $ownerId = $item->ChangedOwnerId === null
+                ? $item->OwnerId
+                : $item->ChangedOwnerId;
+
             $result[$ownerId][] = $item;
         }
 
@@ -139,18 +143,14 @@ class UpdatedUsersAction extends \ruvents\components\Action
 
     private function getExternalIds($idList)
     {
+        $externalUsers = ExternalUser::model()
+            ->byAccountId($this->getAccount()->Id)
+            ->byUserId($idList)
+            ->findAll();
+
         $result = [];
-        if ($apiAccount = Account::model()->byEventId($this->getEvent()->Id)->find()) {
-            $criteria = new \CDbCriteria();
-            $criteria->addInCondition('t."UserId"', $idList);
-
-            $externals = ExternalUser::model()
-                ->byAccountId($apiAccount->Id)
-                ->findAll($criteria);
-
-            foreach ($externals as $external) {
-                $result[$external->UserId] = $external->ExternalId;
-            }
+        foreach ($externalUsers as $externalUser) {
+            $result[$externalUser->UserId] = $externalUser->ExternalId;
         }
 
         return $result;
