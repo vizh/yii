@@ -74,7 +74,9 @@ class UsersAction extends \api\components\Action
             $tar = new \PharData($archive);
             foreach ($users as $user) {
                 $photo = $user->getPhoto()->getOriginal(true);
-                $tar->addFile($photo, basename($photo));
+                if (is_file($photo)){
+                    $tar->addFile($photo, basename($photo));
+                }
             }
             $tar->compress(\Phar::GZ);
             unset($tar);
