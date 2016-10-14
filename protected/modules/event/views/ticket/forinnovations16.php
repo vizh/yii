@@ -41,7 +41,7 @@ if (is_array($participant)) {
 <div style="position: fixed; top: 15mm; left: 105mm; rotate: 90; color: #2b2954; font-family: Arial; font-size: 6.8mm">
     <b><?=$user->LastName.'<br >'.$user->FirstName?></b>
 </div>
-<div style="position: fixed; top: 15mm; left: 95mm; rotate: 90; color: #2b2954; font-family: Arial; font-size: 3.8mm">
+<div style="position: fixed; top: 15mm; left: 95mm; width: 60mm; rotate: 90; color: #2b2954; font-family: Arial; font-size: 3.8mm">
     <?=$user->employmentPrimary->Company->Name?>
 </div>
 <div style="position: fixed; top: 15mm; width: 60mm; left: 70mm; rotate: 90; color: #2b2954; font-family: Arial; font-size: 5.8mm; text-transform: uppercase">
