@@ -27,7 +27,7 @@ $activeForm = $this->beginWidget('CActiveForm', ['id' => $form->getId()])?>
         <div class="panel-body">
             <?=$activeForm->errorSummary($form, '<div class="alert alert-danger">', '</div>')?>
             <?$this->renderPartial('participants/select', ['form' => $form, 'activeForm' => $activeForm])?>
-            <div class="form-group m-top_20" <?if($event->IdName === 'forinnovations16'):?>style="display:none"<?endif?>>
+            <div class="form-group m-top_20">
                 <?=$activeForm->label($form, 'RoleId')?>
                 <?=$activeForm->dropDownList($form, 'RoleId', $form->getRoleData(), ['class' => 'form-control'])?>
             </div>
@@ -56,7 +56,7 @@ $activeForm = $this->beginWidget('CActiveForm', ['id' => $form->getId()])?>
             <div class="panel-body">
                 <?=$activeForm->errorSummary($form, '<div class="alert alert-danger">', '</div>')?>
                 <?$this->renderPartial('participants/select', ['form' => $form, 'activeForm' => $activeForm])?>
-                <div class="form-group m-top_20" <?if($event->IdName === 'forinnovations16'):?>style="display:none"<?endif?>>
+                <div class="form-group m-top_20">
                     <?=$activeForm->label($form, 'RoleId')?>
                     <?=$activeForm->dropDownList($form, 'RoleId', $form->getRoleData(), ['class' => 'form-control'])?>
                 </div>

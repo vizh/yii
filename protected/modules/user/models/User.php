@@ -1102,7 +1102,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     /**
      * Обновляет поисковые индексы для пользователя
      */
-    public function updateSearchIndex()
+    public function updateSearchIndex($force = false)
     {
         $locale = $this->getLocale();
 
@@ -1111,7 +1111,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         }
 
         if (!$this->getIsNewRecord()) {
-            if ($this->getOldAttributes()['FirstName'] === $this->FirstName && $this->getOldAttributes()['LastName'] === $this->LastName) {
+            if (!$force && $this->getOldAttributes()['FirstName'] === $this->FirstName && $this->getOldAttributes()['LastName'] === $this->LastName) {
                 return;
             }
         }

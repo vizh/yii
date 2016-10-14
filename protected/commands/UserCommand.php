@@ -11,14 +11,15 @@ class UserCommand extends BaseConsoleCommand
         echo $total;
         $data = new CActiveDataProvider('\user\models\User', [
             'pagination' => [
-                'pageSize'=>100
+                'pageSize'=>1000
             ]
         ]);
         $iterator = new CDataProviderIterator($data, 100);
         foreach ($iterator as $i => $user) {
             echo "\033[2K\r";
             echo ($i+1).'/'.$total;
-            $user->updateSearchIndex();
+            $user->updateSearchIndex(true);
+            $user->save(false);
         }
         echo "\033[2K\r";
     }
