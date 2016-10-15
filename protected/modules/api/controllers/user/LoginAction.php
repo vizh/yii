@@ -33,10 +33,6 @@ class LoginAction extends Action
 
         // Если передан DeviceToken, то подписываем пользователя на уведомления
         if ($this->hasRequestParam('DeviceToken') && !$user->hasDevice($this->getRequestParam('DeviceToken'))) {
-            if ($this->getRequestParam('DeviceType') !== 'iOS') {
-                throw new Exception(100, 'Пока работает только для iOS');
-            }
-
             $device = $user->addDevice(
                 $this->getRequestParam('DeviceType'),
                 $this->getRequestParam('DeviceToken')
