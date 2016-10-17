@@ -93,15 +93,17 @@ class UsersAction extends Action
                     $tar->addFile($photo, basename($photo));
                 }
             }
-            $tar->compress(\Phar::GZ);
-            unset($tar);
-            unlink($archive);
-            $archive .= '.gz';
-            header('Content-Type: application/octet-stream');
-            header('Content-Disposition: attachment; filename="'.basename($archive).'"');
-            header('Content-Length: '.filesize($archive));
-            readfile($archive);
-            unlink($archive);
+            if (is_file($archive)){
+                $tar->compress(\Phar::GZ);
+                unset($tar);
+                unlink($archive);
+                $archive .= '.gz';
+                header('Content-Type: application/octet-stream');
+                header('Content-Disposition: attachment; filename="'.basename($archive).'"');
+                header('Content-Length: '.filesize($archive));
+                readfile($archive);
+                unlink($archive);
+            }
             exit;
         }
 
