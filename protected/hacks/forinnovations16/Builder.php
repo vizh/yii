@@ -3,6 +3,7 @@ namespace application\hacks\forinnovations16;
 
 use application\models\translation\ActiveRecord;
 use event\models\UserData;
+use pay\models\OrderItem;
 use Yii;
 
 class Builder extends \api\components\builders\Builder
@@ -87,5 +88,29 @@ class Builder extends \api\components\builders\Builder
         $model->resetLocale();
 
         return $locales;
+    }
+
+    private function getOrderItems($idList)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->addInCondition('"t"."OwnerId"', $idList);
+        $criteria->addCondition('"t"."ChangedOwnerId" IS NULL');
+        $criteria->addInCondition('"t"."ChangedOwnerId"', $idList, 'OR');
+
+        $orderItems = OrderItem::model()
+            ->byEventId($this->event->EventId)
+            ->byPaid(true)
+            ->findAll($criteria);
+
+        $result = [];
+        foreach ($orderItems as $item) {
+            $ownerId = $item->ChangedOwnerId === null
+                ? $item->OwnerId
+                : $item->ChangedOwnerId;
+
+            $result[$ownerId][] = $item;
+        }
+
+        return $result;
     }
 }
