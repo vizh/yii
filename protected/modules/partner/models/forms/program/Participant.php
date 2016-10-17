@@ -148,7 +148,7 @@ class Participant extends CreateUpdateForm
      */
     public function getRoleData()
     {
-        return \CHtml::listData(Role::model()->findAll(), 'Id', 'Title');
+        return \CHtml::listData(Role::model()->findAll(['order' => '"Priority" desc']), 'Id', 'Title');
     }
 
     /**

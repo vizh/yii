@@ -7,9 +7,13 @@ class UserCommand extends BaseConsoleCommand
 {
     public function actionUpdateSearch()
     {
-        $total = User::model()->count();
-        echo $total;
+        $total = User::model()->with('Participants')->count('"EventId" = 2847');
         $data = new CActiveDataProvider('\user\models\User', [
+            'criteria' => [
+                'with' => 'Participants',
+                'together' => true,
+                'condition' => '"EventId" = 2847'
+            ],
             'pagination' => [
                 'pageSize'=>1000
             ]

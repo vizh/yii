@@ -10,6 +10,7 @@ class ConnectController extends Controller
     {
         return [
             'index' => '\partner\controllers\connect\IndexAction',
+            'stats' => '\partner\controllers\connect\StatsAction',
         ];
     }
 }
