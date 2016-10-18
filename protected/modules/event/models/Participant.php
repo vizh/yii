@@ -139,7 +139,7 @@ class Participant extends ActiveRecord
 
     public function bySearchString($search)
     {
-        $users = User::model()->bySearch($search)->findAll();
+        $users = User::model()->bySearch($search, null, true, true, false)->findAll();
         $ids = \CHtml::listData($users, 'Id', 'Id');
 
         $criteria = new \CDbCriteria();

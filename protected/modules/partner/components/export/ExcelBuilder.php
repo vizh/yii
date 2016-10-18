@@ -1,6 +1,7 @@
 <?php
 namespace partner\components\export;
 
+use application\components\helpers\ArrayHelper;
 use application\models\translation\ActiveRecord;
 use partner\models\Export;
 use api\models\Account;
@@ -450,7 +451,7 @@ class ExcelBuilder
                         if ($initMap === false) {
                             $this->rowMap[$definition->name.'-'.$language] = $definition->title.'-'.$language;
                         }
-                        $this->usersData[$item->UserId][$definition->name.'-'.$language][] = $values[$language];
+                        $this->usersData[$item->UserId][$definition->name.'-'.$language][] = ArrayHelper::getValue($values, $language);
                     }
                     $definition->translatable = true;
                 }

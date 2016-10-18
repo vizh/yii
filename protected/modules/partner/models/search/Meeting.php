@@ -79,12 +79,12 @@ class Meeting extends SearchFormModel
         $criteria->together = true;
 
         if ($this->Creator != '') {
-            $users = User::model()->bySearch($this->Creator, null, true, false)->byEmail($this->Creator, false)->findAll();
+            $users = User::model()->bySearch($this->Creator, null, true, false, false)->byEmail($this->Creator, false)->findAll();
             $criteria->addInCondition('"t"."CreatorId"', \CHtml::listData($users, 'Id', 'Id'));
         }
 
         if ($this->UserLinks != '') {
-            $users = User::model()->bySearch($this->UserLinks, null, true, false)->byEmail($this->UserLinks, false)->findAll();
+            $users = User::model()->bySearch($this->UserLinks, null, true, false, false)->byEmail($this->UserLinks, false)->findAll();
             $criteria->addInCondition('"UserLinks"."UserId"', \CHtml::listData($users, 'Id', 'Id'));
         }
 
