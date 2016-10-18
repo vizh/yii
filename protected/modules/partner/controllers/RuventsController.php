@@ -14,7 +14,8 @@ class RuventsController extends Controller
             'csvinfo' => '\partner\controllers\ruvents\CsvinfoAction',
             'userlog' => '\partner\controllers\ruvents\UserlogAction',
             'print' => '\partner\controllers\ruvents\PrintAction',
-            'settings' => '\partner\controllers\ruvents\SettingsAction'
+            'settings' => '\partner\controllers\ruvents\SettingsAction',
+            'settingsPush' => '\partner\controllers\ruvents\SettingsPushAction'
         ]);
     }
 }

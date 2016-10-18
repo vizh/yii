@@ -60,7 +60,8 @@ class SearchAction extends \api\components\Action
                 ->getDataBuilder()
                 ->createUser($user, [
                     Builder::USER_EMPLOYMENT,
-                    Builder::USER_EVENT
+                    Builder::USER_EVENT,
+                    Builder::USER_ATTRIBUTES
                 ]);
         }
 

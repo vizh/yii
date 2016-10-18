@@ -323,7 +323,9 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
         $company = self::model()->byFullName($name)->byName($name, false)->find();
         if ($company == null) {
             $company = new Company();
-            $company->Name = $company->FullName = $name;
+            $company->setLocale(\Yii::app()->language);
+            $company->Name = $name;
+            $company->FullName = $name;
             $company->save();
         }
         return $company;

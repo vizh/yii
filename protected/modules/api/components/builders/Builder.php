@@ -671,6 +671,11 @@ class Builder
             $this->section->Attributes[$attribute->Name] = $attribute->Value;
         }
 
+        $this->section->Speakers = [];
+        foreach ($section->LinkUsers as $linkUser) {
+            $this->section->Speakers[] = $linkUser->User->RunetId;
+        }
+
         return $this->section;
     }
 
@@ -716,6 +721,7 @@ class Builder
         $this->report->Id = $link->Id;
         if (!empty($link->User)) {
             $this->createBaseUser($link->User);
+            $this->buildUserAttributes($link->User);
             $this->report->User = $this->buildUserEmployment($link->User);
         } elseif (!empty($link->Company)) {
             $this->report->Company = $this->createCompany($link->Company);

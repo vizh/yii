@@ -23,9 +23,6 @@ $this->setPageTitle(\Yii::t('app', 'Редактирование персона�
             <?foreach($forms as $form):?>
                 <?=$activeForm->errorSummary($form, '<div class="alert alert-danger">', '</div>')?>
                 <?foreach($form->getSafeAttributeNames() as $attr):?>
-                    <?if($attr == 'Company' && $user->getEmploymentPrimary() == null)
-                        continue;
-                   ?>
                     <div class="form-group">
                         <?=$activeForm->label($form, $attr)?>
                         <div class="input-group">

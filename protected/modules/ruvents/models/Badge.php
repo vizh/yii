@@ -16,9 +16,15 @@ use application\components\ActiveRecord;
  * @property \user\models\User $User
  * @property \event\models\Part $Part
  *
- * @method Badge find($condition = '', $params = [])
- * @method Badge findByPk($pk, $condition = '', $params = [])
+ * @method Badge byUserId($id, $useAnd = true)
+ *
+ * Описание вспомогательных методов
+ * @method Badge   with($condition = '')
+ * @method Badge   find($condition = '', $params = [])
+ * @method Badge   findByPk($pk, $condition = '', $params = [])
+ * @method Badge   findByAttributes($attributes, $condition = '', $params = [])
  * @method Badge[] findAll($condition = '', $params = [])
+ * @method Badge[] findAllByAttributes($attributes, $condition = '', $params = [])
  *
  */
 class Badge extends ActiveRecord
@@ -54,21 +60,6 @@ class Badge extends ActiveRecord
             'Part' => [self::BELONGS_TO, '\event\models\Part', 'PartId'],
             'Operator' => [self::BELONGS_TO, '\ruvents\models\Operator', 'OperatorId']
         ];
-    }
-
-    /**
-     * @param int $userId
-     * @param bool $useAnd
-     * @return Badge
-     */
-    public function byUserId($userId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."UserId" = :UserId';
-        $criteria->params = [':UserId' => $userId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
     }
 
     /**

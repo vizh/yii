@@ -11,6 +11,11 @@ class Action extends \CAction
         return parent::getController();
     }
 
+    public function getAccount()
+    {
+        return $this->getController()->getAccount();
+    }
+
     /**
      * @return DataBuilder
      */

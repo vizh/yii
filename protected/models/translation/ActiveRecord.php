@@ -252,6 +252,11 @@ abstract class ActiveRecord extends \application\components\ActiveRecord
             }
             $translation->Value = $value;
             $this->_changedTranslations[$this->_locale . $field] = $translation;
+
+            //если локализованное значение пусто - заполнить его локализованным
+            if (parent::__get($field) == null){
+                parent::__set($field, $value);
+            }
         } else {
             parent::__set($field, $value);
         }

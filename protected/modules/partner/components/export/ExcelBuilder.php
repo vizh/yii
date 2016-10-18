@@ -1,10 +1,11 @@
 <?php
 namespace partner\components\export;
 
+use application\models\translation\ActiveRecord;
 use partner\models\Export;
 use api\models\Account;
 use api\models\ExternalUser;
-use application\models\attribute\Definition;
+use application\components\attribute\Definition;
 use event\models\Participant;
 use event\models\UserData;
 use pay\components\OrderItemCollection;
@@ -437,17 +438,32 @@ class ExcelBuilder
             ->byDeleted(false)
             ->findAll();
 
+        UserData::setEnableRawValues();
         foreach ($data as $item) {
             $definitions = $item->getManager()->getDefinitions();
             /** @var Definition $definition */
             foreach ($definitions as $definition) {
-                if ($initMap === false) {
-                    $this->rowMap[$definition->name] = $definition->title;
+                if ($definition->translatable){
+                    $definition->translatable = false;
+                    $values = $definition->getPrintValue($item->getManager());
+                    foreach (\Yii::app()->getParams()['Languages'] as $language) {
+                        if ($initMap === false) {
+                            $this->rowMap[$definition->name.'-'.$language] = $definition->title.'-'.$language;
+                        }
+                        $this->usersData[$item->UserId][$definition->name.'-'.$language][] = $values[$language];
+                    }
+                    $definition->translatable = true;
                 }
-                $this->usersData[$item->UserId][$definition->name][] = $definition->getPrintValue($item->getManager());
+                else{
+                    if ($initMap === false) {
+                        $this->rowMap[$definition->name] = $definition->title;
+                    }
+                    $this->usersData[$item->UserId][$definition->name][] = $definition->getPrintValue($item->getManager());
+                }
             }
             $initMap = true;
         }
+        UserData::setDisableRawValues();
 
         return $this->usersData;
     }

@@ -25,6 +25,10 @@ class SearchAction extends \api\components\Action
             }
         }
 
+        if ($this->hasRequestParam('q')){
+            $participants->bySearchString($this->getRequestParam('q'));
+        }
+
         $result = [];
         foreach ($participants->findAll() as $participant) {
             $result[] = $this->getDataBuilder()->createUser($participant->User);

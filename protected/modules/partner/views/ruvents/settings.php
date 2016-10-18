@@ -5,8 +5,31 @@
  * @var CActiveForm $activeForm
  */
 use application\helpers\Flash;
-$this->setPageTitle(\Yii::t('app', 'Настройки клиента'));
+$this->setPageTitle(Yii::t('app', 'Настройки клиента'));
 ?>
+
+<script>
+    $(function(){
+        $('.btn-push-photos').click(function(event){
+            event.preventDefault()
+            var button = $(this)
+                button.prop('disabled', true)
+            $.get('/ruvents/settingsPush/', function(response){
+                button.prop('disabled', false)
+                alert(response);
+            })
+        })
+    })
+</script>
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <span class="panel-title"><i class="fa fa-cog"></i> Инструменты</span>
+    </div>
+    <div class="panel-body">
+        <button class="btn btn-push-photos">Пропихнуть обновление фотографий</button>
+    </div>
+</div>
 <?$activeForm = $this->beginWidget('CActiveForm')?>
     <div class="panel panel-info">
         <div class="panel-heading">
@@ -37,9 +60,9 @@ $this->setPageTitle(\Yii::t('app', 'Настройки клиента'));
                     </div>
                 </div>
             </div>
-        </div> <!-- / .panel-body -->
+        </div>
         <div class="panel-footer">
-            <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-primary'])?>
+            <?=CHtml::submitButton(Yii::t('app', 'Сохранить'), ['class' => 'btn btn-primary'])?>
         </div>
     </div>
 <?$this->endWidget()?>

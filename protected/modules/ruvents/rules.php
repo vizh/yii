@@ -42,7 +42,7 @@ return [
         'roles' => ['Server'],
         'module' => 'ruvents',
         'controllers' => ['event'],
-        'actions' => ['users', 'roles', 'parts', 'badge', 'updatedusers', 'info']
+        'actions' => ['roles', 'parts', 'badge', 'updatedusers', 'info']
     ],
     [
         'allow',
