@@ -118,6 +118,7 @@ class Translate extends CreateUpdateForm
         $this->fillActiveRecord();
         $this->model->save();
 
+        $this->model->refresh();
         $employment = $this->model->getEmploymentPrimary();
         if ($employment !== null) {
             if ($this->getLocale() === \Yii::app()->sourceLanguage && $employment->Company->Name !== $this->Company) {
@@ -131,6 +132,9 @@ class Translate extends CreateUpdateForm
                 $company->save();
                 $company->resetLocale();
             }
+        }
+        else{
+            $this->model->setEmployment($this->Company);
         }
         $this->model->resetLocale();
         return $this->model;
