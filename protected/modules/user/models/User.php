@@ -471,7 +471,12 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
 
             if ($useSearch){
                 foreach ($names as $i => $value) {
-                    $names[$i] = Texts::prepareStringForTsvector($value);
+                    if ($i !== 2) {
+                        $value = PhoneticSearch::getIndex($value);
+                        $names[$i] = Texts::prepareStringForTsvector($value);
+                    } else {
+                        $names[$i] = Texts::prepareStringForLike($value).'%';
+                    }
                 }
                 switch (count($names)) {
                     case 1:
@@ -1133,10 +1138,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     public function updateSearchIndex($force = false)
     {
         $locale = $this->getLocale();
-
-        if ($locale !== null && $locale !== Yii::app()->getLanguage()) {
-            return;
-        }
+        $this->setLocale(Yii::app()->sourceLanguage);
 
         if (!$this->getIsNewRecord()) {
             if (!$force && $this->getOldAttributes()['FirstName'] === $this->FirstName && $this->getOldAttributes()['LastName'] === $this->LastName) {
@@ -1147,12 +1149,14 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
                 false).'\')');
         $this->SearchLastName = new \CDbExpression('to_tsvector(\''.PhoneticSearch::getIndex($this->LastName).'\')');
         Yii::log('User #'.$this->Id.' search index changed: '
-            .$this->getOldAttributes()['FirstName'].' - '.$this->SearchFirstName.
+            .$this->getOldAttributes()['SearchFirstName'].' - '.$this->SearchFirstName.
             ', '
-            .$this->getOldAttributes()['LastName'].' - '.$this->SearchLastName.
+            .$this->getOldAttributes()['SearchLastName'].' - '.$this->SearchLastName.
             ' at '.PHP_EOL.
             (new Exception())->getTraceAsString(),
         \CLogger::LEVEL_PROFILE, 'user.search');
+
+        $this->setLocale($locale);
     }
 
     /**
