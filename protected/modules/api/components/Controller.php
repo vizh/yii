@@ -1,6 +1,7 @@
 <?php
 namespace api\components;
 
+use api\components\WebUser;
 use Yii;
 
 class Controller extends \application\components\controllers\BaseController
@@ -143,7 +144,7 @@ class Controller extends \application\components\controllers\BaseController
      */
     public function getAccount()
     {
-        return \api\components\WebUser::Instance()->getAccount();
+        return WebUser::Instance()->getAccount();
     }
 
     private $suffixLength = 4;

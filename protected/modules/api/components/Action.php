@@ -177,7 +177,17 @@ class Action extends \CAction
     {
         $users = [];
 
-        $this->getRequestParam('RunetId');
+        foreach (array_filter(explode(',', $this->getRequestParam('RunetId')), 'intval') as $id) {
+            $user = User::model()
+                ->byRunetId($id)
+                ->find();
+
+            if ($user === null) {
+                throw new Exception(202, [$id]);
+            }
+
+            $users[$id] = $user;
+        }
 
         return $users;
     }
@@ -379,6 +389,6 @@ class Action extends \CAction
      */
     protected function getRequestParamBool($param, $defaultValue = false)
     {
-        return (boolean) $this->getRequestParam($param, $defaultValue);
+        return (boolean)$this->getRequestParam($param, $defaultValue);
     }
 }

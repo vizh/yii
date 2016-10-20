@@ -115,11 +115,9 @@ class Account extends \CActiveRecord
     public function checkHash($hash, $timestamp)
     {
         $checkHash = $this->getHash($timestamp);
-        if ($hash === $checkHash || strstr($hash, $checkHash) !== false)
-        {
-            return true;
-        }
-        return false;
+
+        return $hash === $checkHash
+           || strstr($hash, $checkHash) !== false;
     }
 
     public function checkReferer($referer, $hash)
