@@ -122,6 +122,11 @@ $this->setPageTitle(\Yii::t('app', 'Статистика платежей'));
             <span class="label label-success">
                 <?=$statistics->countJuridicalUsers + $statistics->countReceiptUsers - $statistics->countPaidJuridicalUsers - $statistics->countPaidReceiptUsers?>
             </span>
+            <br>
+            <strong>На сумму:</strong>
+            <span class="label label-success">
+                <?= number_format($statistics->totalJuridical + $statistics->totalReceipt - $statistics->totalPaidJuridical - $statistics->totalPaidReceipt, 0, ',', ' ') ?>
+            </span>
         </div>
     </div>
 </div>

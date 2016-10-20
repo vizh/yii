@@ -5,11 +5,11 @@ use application\modules\partner\models\search\Meeting;
 
 class IndexAction extends \partner\components\Action
 {
-    public function run()
+    public function run($export = false)
     {
         $search = new Meeting($this->getEvent());
 
-        $this->getController()->render('index', [
+        $this->getController()->render($export ? 'index_excel' : 'index', [
             'search' => $search,
             'event' => $this->getEvent(),
         ]);
