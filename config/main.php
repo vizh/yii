@@ -87,7 +87,7 @@ $config = CMap::mergeArray($config, require 'ruvents.php');
 $config = CMap::mergeArray($config, require 'ruvents2.php');
 
 $config['components']['urlManager']['rules'] = CMap::mergeArray($config['components']['urlManager']['rules'],
-    require 'url-rules.php');
+    require 'routes.php');
 
 if (YII_DEBUG) {
     $config['components']['debug'] = [
