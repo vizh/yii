@@ -70,9 +70,9 @@ class Response extends CreateUpdateForm
         $saved = $this->model->save();
 
         if ($saved){
-            $meeting->reserveMeetingRoom();
-
             if ($this->model->Status == MeetingLinkUser::STATUS_ACCEPTED){
+                $meeting->reserveMeetingRoom();
+
                 $event = new \CEvent($meeting);
                 $event->params['user'] = $this->model->User;
                 $meeting->onAccept($event);

@@ -9,12 +9,31 @@ class UsersPhotosAction extends Action
 {
     public function run()
     {
+        ini_set('max_execution_time', '1800');
+
         $request = Yii::app()->getRequest();
         $roles = $request->getParam('RoleId');
 
         $command = Yii::app()->getDb()->createCommand()
             ->select('EventParticipant.UserId')->from('EventParticipant')
             ->where('"EventParticipant"."EventId" = '.$this->getEvent()->Id);
+
+        if ($this->hasRequestParam('Start')){
+            $command->andWhere(
+                '"EventParticipant"."CreationTime" >= :Start',
+                [
+                    ':Start' => $this->getRequestParam('Start'),
+                ]
+            );
+            if ($this->hasRequestParam('End')){
+                $command->andWhere(
+                    '"EventParticipant"."CreationTime" <= :End',
+                    [
+                        ':End' => $this->getRequestParam('End')
+                    ]
+                );
+            }
+        }
 
         if (!empty($roles)) {
             $command->andWhere(['in', 'EventParticipant.RoleId', $roles]);
@@ -23,6 +42,7 @@ class UsersPhotosAction extends Action
         $criteria = new CDbCriteria();
         $criteria->order = '"t"."LastName" ASC, "t"."FirstName" ASC';
         $criteria->addCondition('"t"."Id" IN ('.$command->getText().')');
+        $criteria->params = $command->params;
         $dataProvider = new \CActiveDataProvider('user\models\User', ['criteria' => $criteria]);
         $users = new \CDataProviderIterator($dataProvider);
 
