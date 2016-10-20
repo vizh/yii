@@ -171,6 +171,18 @@ class Action extends \CAction
     }
 
     /**
+     * @return User[]
+     */
+    protected function getRequestedUsers()
+    {
+        $users = [];
+
+        $this->getRequestParam('RunetId');
+
+        return $users;
+    }
+
+    /**
      * @return Product
      * @throws Exception
      */
@@ -358,5 +370,15 @@ class Action extends \CAction
         }
 
         return $params[$param];
+    }
+
+    /**
+     * @param string $param
+     * @param bool $defaultValue
+     * @return bool
+     */
+    protected function getRequestParamBool($param, $defaultValue = false)
+    {
+        return (boolean) $this->getRequestParam($param, $defaultValue);
     }
 }

@@ -154,7 +154,7 @@ class UserData extends ActiveRecord
             foreach ($manager->getDefinitions() as $definition) {
                 $name = $definition->name;
                 if (!isset($values[$name]) && !empty($manager->$name)) {
-                    $values[$name] = $manager->$name;
+                    $values[$name] = $definition->getExportValue($manager);
                 }
             }
         }

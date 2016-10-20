@@ -8,38 +8,40 @@ class ReportsAction extends \api\components\Action
 {
     public function run()
     {
-        $request = \Yii::app()->getRequest();
-        $sectionId = $request->getParam('SectionId');
-        $fromUpdateTime = $request->getParam('FromUpdateTime');
-        $withDeleted = $request->getParam('WithDeleted', false);
+        $section = Section::model()
+            ->byEventId($this->getEvent()->Id)
+            ->byDeleted(false)
+            ->findByPk($this->getRequestParam('SectionId'));
 
-        $section = Section::model()->byDeleted(false)->findByPk($sectionId);
-        if ($section === null)
-            throw new \api\components\Exception(310, [$sectionId]);
-        if ($section->EventId != $this->getEvent()->Id)
-            throw new \api\components\Exception(311);
-
-        $criteria = new \CDbCriteria();
-        $criteria->with = [
-            'User',
-            'User.Employments.Company' => ['on' => '"Employments"."Primary"'],
-            'Role',
-            'Report'
-        ];
-        $criteria->order = '"t"."Order" ASC';
-
-        $model = LinkUser::model()->bySectionId($section->Id);
-        if ($fromUpdateTime !== null) {
-            $model->byUpdateTime($fromUpdateTime);
+        if ($section === null) {
+            throw new \api\components\Exception(310, [$this->getRequestParam('SectionId')]);
         }
-        if (!$withDeleted) {
+
+        $model = LinkUser::model()
+            ->bySectionId($section->Id);
+
+        if ($this->hasRequestParam('FromUpdateTime')) {
+            $model->byUpdateTime($this->getRequestParam('FromUpdateTime'));
+        }
+
+        if ($this->getRequestParamBool('WithDeleted', false) !== true) {
             $model->byDeleted(false);
         }
-        $linkUsers = $model->findAll($criteria);
+
+        $linkedUsers = $model
+            ->with([
+                'User',
+                'User.Employments.Company' => ['on' => '"Employments"."Primary"'],
+                'Role',
+                'Report'
+            ])
+            ->orderBy(['"t"."Order"' => SORT_ASC])
+            ->findAll();
 
         $result = [];
-        foreach ($linkUsers as $link) {
-            $result[] = $this->getAccount()->getDataBuilder()->createReport($link);
+        $builder = $this->getDataBuilder();
+        foreach ($linkedUsers as $link) {
+            $result[] = $builder->createReport($link);
         }
 
         $this->setResult($result);

@@ -4,7 +4,6 @@ namespace application\hacks\forinnovations16;
 use api\models\Account;
 use application\models\translation\ActiveRecord;
 use event\models\UserData;
-use pay\models\OrderItem;
 use Yii;
 
 class Builder extends \api\components\builders\Builder

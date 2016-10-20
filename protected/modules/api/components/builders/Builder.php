@@ -258,8 +258,9 @@ class Builder
             ->find();
 
         if ($data !== null) {
-            foreach ($data->getManager()->getDefinitions() as $definition) {
-                $attributes[$definition->name] = $definition->getExportValue($data->getManager());
+            $manager = $data->getManager();
+            foreach ($manager->getDefinitions() as $definition) {
+                $attributes[$definition->name] = $definition->getExportValue($manager);
             }
         }
 
@@ -720,9 +721,10 @@ class Builder
 
         $this->report->Id = $link->Id;
         if (!empty($link->User)) {
-            $this->createBaseUser($link->User);
-            $this->buildUserAttributes($link->User);
-            $this->report->User = $this->buildUserEmployment($link->User);
+            $this->report->User = $this->createUser($link->User, [
+                self::USER_ATTRIBUTES,
+                self::USER_EMPLOYMENT
+            ]);
         } elseif (!empty($link->Company)) {
             $this->report->Company = $this->createCompany($link->Company);
         } else {

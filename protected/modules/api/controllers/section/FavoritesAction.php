@@ -7,32 +7,33 @@ class FavoritesAction extends \api\components\Action
 {
     public function run()
     {
-        $request = \Yii::app()->getRequest();
-
         $model = Favorite::model()
             ->byUserId($this->getRequestedUser()->Id);
 
-        $fromUpdateTime = $request->getParam('FromUpdateTime');
-        if ($fromUpdateTime !== null) {
-            $model->byUpdateTime($fromUpdateTime);
+        if ($this->hasRequestParam('FromUpdateTime')) {
+            $model->byUpdateTime($this->getRequestParam('FromUpdateTime'));
         }
 
-        $withDeleted = $request->getParam('WithDeleted', false);
-        if (!$withDeleted) {
+        if ($this->getRequestParamBool('WithDeleted', false) !== true) {
             $model->byDeleted(false);
         }
 
         $criteria = new \CDbCriteria();
         $criteria->addCondition('"Section"."EventId" = :EventId');
-        $criteria->with = ['Section' => ['together' => true, 'select'=> false]];
+        $criteria->with = ['Section' => ['together' => true, 'select' => false]];
         $criteria->params = ['EventId' => $this->getEvent()->Id];
 
-        $favorites = $model->findAll($criteria);
+        $favorites = $model
+            ->findAll($criteria);
+
         $result = [];
-        foreach ($favorites as $favorite)
-        {
-            $result[] = $this->getDataBuilder()->createFavorite($favorite);
+        $builder = $this->getDataBuilder();
+
+        foreach ($favorites as $favorite) {
+            $result[] = $builder
+                ->createFavorite($favorite);
         }
+
         $this->setResult($result);
     }
 }
