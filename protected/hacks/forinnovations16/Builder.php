@@ -1,8 +1,10 @@
 <?php
 namespace application\hacks\forinnovations16;
 
+use api\models\Account;
 use application\models\translation\ActiveRecord;
 use event\models\UserData;
+use pay\models\OrderItem;
 use Yii;
 
 class Builder extends \api\components\builders\Builder
@@ -33,11 +35,37 @@ class Builder extends \api\components\builders\Builder
 
     protected function buildUserAttributes($user)
     {
-        parent::buildUserAttributes($user);
+        if ($this->account->Role !== Account::ROLE_MOBILE) {
+            parent::buildUserAttributes($user);
+        }
 
         UserData::setEnableRawValues();
-        $this->user->AttributesRaw = (object) UserData::getDefinedAttributeValues($this->account->Event, $user);
+        $this->user->AttributesRaw = (object)UserData::getDefinedAttributeValues($this->account->Event, $user);
         UserData::setDisableRawValues();
+
+        if ($this->account->Role === Account::ROLE_MOBILE) {
+            unset(
+                $this->user->AttributesRaw->passportCountry,
+                $this->user->AttributesRaw->passportSeries,
+                $this->user->AttributesRaw->passportNumber,
+                $this->user->AttributesRaw->needsVisaSupport,
+                $this->user->AttributesRaw->companyRussian,
+                $this->user->AttributesRaw->studak,
+                $this->user->AttributesRaw->activity_sphere,
+                $this->user->AttributesRaw->business_size,
+                $this->user->AttributesRaw->how_learned,
+                $this->user->AttributesRaw->industry,
+                $this->user->AttributesRaw->position_category,
+                $this->user->AttributesRaw->responsibility_area,
+                $this->user->AttributesRaw->staff_number,
+                $this->user->AttributesRaw->previous_forums,
+                $this->user->AttributesRaw->articles,
+                $this->user->AttributesRaw->position_journals,
+                $this->user->AttributesRaw->fsoStatus,
+                $this->user->AttributesRaw->biography,
+                $this->user->AttributesRaw->statusOffline
+            );
+        }
 
         return $this->user;
     }

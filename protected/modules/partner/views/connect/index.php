@@ -10,7 +10,7 @@ use \partner\components\Controller;
 use connect\models\Meeting;
 use connect\models\MeetingLinkUser;
 
-$this->setPageTitle(\Yii::t('app', 'Поиск участников мероприятия'));
+$this->setPageTitle(\Yii::t('app', 'Встречи'));
 $controller = $this;
 
 use \application\modules\partner\models\search\Participant;
@@ -18,6 +18,11 @@ use user\models\User;
 use event\models\Event;
 use application\components\utility\Texts;
 ?>
+
+<?php $this->beginClip(Controller::PAGE_HEADER_CLIP_ID) ?>
+<?=\CHtml::link(\Yii::t('app', 'Экспорт'), ['index', 'export' => true], ['class' => 'btn btn-primary btn-labeled'])?>
+<?php $this->endClip() ?>
+
 <div class="panel panel-info">
 
     <?php
@@ -53,7 +58,6 @@ use application\components\utility\Texts;
                             'class' => 'text-left'
                         ],
                         'width' => '20%',
-                        'filter' => false
                     ],
                     [
                         'name' => 'UserLinks',
@@ -89,11 +93,9 @@ use application\components\utility\Texts;
                             'class' => 'text-left'
                         ],
                         'width' => '20%',
-                        'filter' => false
                     ],
                     [
                         'name' => 'Date',
-                        'filter' => false
                     ],
                     [
                         'name' => 'Place.Name',
@@ -133,7 +135,7 @@ use application\components\utility\Texts;
                             }
                             return '';
                         },
-                        'filter' => false
+                        'filter' => $search->getStatusData()
                     ],
                     [
                         'name' => 'CreateTime',

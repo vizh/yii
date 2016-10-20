@@ -3,6 +3,7 @@ namespace user\models;
 
 use application\components\ActiveRecord;
 use application\components\Exception;
+use Aws\Common\Exception\InvalidArgumentException;
 use Aws\Sns\SnsClient;
 use Yii;
 
@@ -70,7 +71,7 @@ class UserDevice extends ActiveRecord
     {
         return [
             ['Type,Token', 'required'],
-            ['Type', 'in', 'range' => [self::$TYPE_IOS, self::$TYPE_ANDROID], 'message' => 'Указан неверный тип устройства']
+            ['Type', 'in', 'range' => [self::$TYPE_IOS, self::$TYPE_ANDROID], 'message' => 'Указан неверный тип устройства. Доступные типы: '.implode(', ', [self::$TYPE_IOS, self::$TYPE_ANDROID])]
         ];
     }
 
@@ -114,9 +115,18 @@ class UserDevice extends ActiveRecord
      */
     private function createDeviceEndpoint()
     {
+        $appArn = null;
+
+        switch ($this->Type) {
+            case self::$TYPE_IOS: $appArn = 'arn:aws:sns:eu-central-1:431010506613:app/APNS_SANDBOX/forinnovations.ios'; break;
+            case self::$TYPE_ANDROID: $appArn = 'arn:aws:sns:eu-central-1:431010506613:app/GCM/forinnovations.android'; break;
+            default:
+                throw new InvalidArgumentException("Неизвестный DeviceType:{$this->Type}");
+        }
+
         $result = self::getSnsClient()->createPlatformEndpoint([
             'CustomUserData' => "RunetId:{$this->User->RunetId}",
-            'PlatformApplicationArn' => 'arn:aws:sns:eu-central-1:431010506613:app/APNS_SANDBOX/forinnovations.ios',
+            'PlatformApplicationArn' => $appArn,
             'Token' => $this->Token
         ]);
 

@@ -256,4 +256,37 @@ class Meeting extends ActiveRecord
             return Yii::getExistClassArray($namespace, [$base], 'Base');
         }
     }
+
+    public function getStatusText()
+    {
+        if ($this->Type == self::TYPE_PRIVATE){
+            if ($this->Status == self::STATUS_CANCELLED){
+                return 'Отменена ('.$this->CancelResponse.')';
+            }
+            else{
+                $link = $this->UserLinks[0];
+                if ($link->Status == MeetingLinkUser::STATUS_SENT){
+                    return 'Отправлено';
+                }
+                if ($link->Status == MeetingLinkUser::STATUS_ACCEPTED){
+                    return 'Принято';
+                }
+                if ($link->Status == MeetingLinkUser::STATUS_DECLINED){
+                    return 'Отклонено ('.$link->Response.')';
+                }
+                if ($link->Status == MeetingLinkUser::STATUS_CANCELLED){
+                    return 'Отменено ('.$link->Response.')';
+                }
+            }
+        }
+        else{
+            if ($this->Status == self::STATUS_OPEN){
+                return 'Активна';
+            }
+            if ($this->Status == Meeting::STATUS_CANCELLED){
+                return 'Отменена ('.$this->CancelResponse.')';
+            }
+        }
+        return '';
+    }
 }

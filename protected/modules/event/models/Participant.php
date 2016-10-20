@@ -139,13 +139,21 @@ class Participant extends ActiveRecord
 
     public function bySearchString($search)
     {
-        $this->getDbCriteria()->mergeWith(
+        $users = User::model()->bySearch($search)->findAll();
+        $ids = \CHtml::listData($users, 'Id', 'Id');
+
+        $criteria = new \CDbCriteria();
+        $criteria->addInCondition('"t"."UserId"', $ids);
+        $criteria->mergeWith(
             CDbCriteria::create()
                 ->addCondition('"Data"."Attributes"->>\'firstName\' ilike \'%'.$search.'%\'', null, 'or')
                 ->addCondition('"Data"."Attributes"->>\'lastName\' ilike \'%'.$search.'%\'', null, 'or')
                 ->addCondition('"Data"."Attributes"->>\'middleName\' ilike \'%'.$search.'%\'', null, 'or')
-                ->addCondition('"Data"."Attributes"->>\'company\' ilike \'%'.$search.'%\'', null, 'or')
+                ->addCondition('"Data"."Attributes"->>\'company\' ilike \'%'.$search.'%\'', null, 'or'),
+            'or'
         );
+
+        $this->getDbCriteria()->mergeWith($criteria);
     }
 
     public function byAttribute($name, $value)

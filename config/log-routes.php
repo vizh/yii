@@ -33,4 +33,12 @@ if (YII_DEBUG) {
     ];
 }
 
+$routes[] = [
+    'class' => 'CFileLogRoute',
+    'categories' => ['user.*'],
+    'logFile' => 'user.log',
+    'maxFileSize' => 1024,
+    'maxLogFiles' => 10
+];
+
 return $routes;

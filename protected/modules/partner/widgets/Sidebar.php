@@ -184,6 +184,7 @@ class Sidebar extends \CWidget
                 'url' => false,
                 'items' => [
                     ['label' => 'Список', 'url' => ['connect/index']],
+                    ['label' => 'Статистика', 'url' => ['connect/stats']],
                 ]
             ],
         ];

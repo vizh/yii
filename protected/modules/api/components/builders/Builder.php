@@ -721,6 +721,7 @@ class Builder
         $this->report->Id = $link->Id;
         if (!empty($link->User)) {
             $this->createBaseUser($link->User);
+            $this->buildUserAttributes($link->User);
             $this->report->User = $this->buildUserEmployment($link->User);
         } elseif (!empty($link->Company)) {
             $this->report->Company = $this->createCompany($link->Company);
