@@ -41,7 +41,7 @@ $config = [
             'rules' => [],
         ],
         'cache' => [
-            'class' => 'EMongoCache',
+            'class' => 'CXCache'
         ],
         'db' => require 'db.php',
         'image' => [
