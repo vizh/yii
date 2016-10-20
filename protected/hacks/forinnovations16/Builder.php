@@ -63,7 +63,6 @@ class Builder extends \api\components\builders\Builder
                 $this->user->AttributesRaw->position_journals,
                 $this->user->AttributesRaw->fsoStatus,
                 $this->user->AttributesRaw->biography,
-                $this->user->AttributesRaw->plenarySession,
                 $this->user->AttributesRaw->statusOffline
             );
         }
