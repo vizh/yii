@@ -7,18 +7,17 @@ class CourseCommand extends BaseConsoleCommand
 {
     public function run($args)
     {
-        $coursesData = json_decode(
-            file_get_contents(Yii::app()->getParams()['BuduGuru.coursesExportUrl']),
-            true
-        );
+        $coursesData = file_get_contents(Yii::app()->getParams()['BuduGuru.coursesExportUrl']);
+        $coursesData = json_decode($coursesData, true);
 
         foreach ($coursesData as $courseData)
         {
             $course = Course::model()
                 ->findByPk($courseData['id']);
 
-            if ($course === null)
+            if ($course === null) {
                 $course = new Course();
+            }
 
             $course->Id = $courseData['id'];
             $course->Name = $courseData['name'];
