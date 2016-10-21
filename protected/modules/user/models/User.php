@@ -1145,8 +1145,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
                 return;
             }
         }
-        $this->SearchFirstName = new \CDbExpression('to_tsvector(\''.PhoneticSearch::getIndex($this->FirstName,
-                false).'\')');
+        $this->SearchFirstName = new \CDbExpression('to_tsvector(\''.PhoneticSearch::getIndex($this->FirstName).'\')');
         $this->SearchLastName = new \CDbExpression('to_tsvector(\''.PhoneticSearch::getIndex($this->LastName).'\')');
         Yii::log('User #'.$this->Id.' search index changed: '
             .$this->getOldAttributes()['SearchFirstName'].' - '.$this->SearchFirstName.
