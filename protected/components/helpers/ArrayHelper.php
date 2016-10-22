@@ -339,7 +339,7 @@ class ArrayHelper
     }
 
     /**
-     * Превращаем массив в ассоциативный с ключами из указанного поля
+     * Превращаем массив в ассоциативный с ключами из указанного поля.
      *
      * @param $key
      * @param array $array
@@ -352,6 +352,21 @@ class ArrayHelper
             $result[$item[$key]] = $item;
 
         return $result;
+    }
+
+    /**
+     * Выпрямление массива через понижение его размерности путём array_merge всех его элементов.
+     *
+     * @param array $array
+     * @return array
+     */
+    public static function straighten(array $array)
+    {
+        if (empty($array)) {
+            return [];
+        }
+
+        return call_user_func_array('array_merge', $array);
     }
 
     /**
