@@ -7,9 +7,5 @@ return [
             'class' => '\api\components\PhpAuthManager',
             'defaultRoles' => ['guest']
         ],
-        'session' => [
-            'autoStart' => false,
-            'cookieMode' => 'none'
-        ]
     ]
 ];

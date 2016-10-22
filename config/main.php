@@ -84,7 +84,10 @@ $config = [
 // Костыль для выключения поддержки сессий в api.
 // toDo: Вывести api в отдельное приложение с собственным конфигом
 if (preg_match('#^(api|ruvents)\.#', $_SERVER['HTTP_HOST'])) {
-    unset($config['components']['session']);
+    $config['components']['session'] = [
+        'autoStart' => false,
+        'cookieMode' => 'none'
+    ];
 }
 
 $config = CMap::mergeArray($config, require 'api.php');
