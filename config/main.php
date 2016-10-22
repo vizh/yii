@@ -81,6 +81,12 @@ $config = [
     'params' => require 'params.php',
 ];
 
+// Костыль для выключения поддержки сессий в api.
+// toDo: Вывести api в отдельное приложение с собственным конфигом
+if (preg_match('#^(api|ruvents)\.#', $_SERVER['HTTP_HOST'])) {
+    unset($config['components']['session']);
+}
+
 $config = CMap::mergeArray($config, require 'api.php');
 $config = CMap::mergeArray($config, require 'partner.php');
 $config = CMap::mergeArray($config, require 'ruvents.php');

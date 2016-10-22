@@ -5,7 +5,11 @@ return [
     'components' => [
         'apiAuthManager' => [
             'class' => '\api\components\PhpAuthManager',
-            'defaultRoles' => ['guest'],
+            'defaultRoles' => ['guest']
         ],
-    ],
+        'session' => [
+            'autoStart' => false,
+            'cookieMode' => 'none'
+        ]
+    ]
 ];
