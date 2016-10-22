@@ -3,6 +3,8 @@ namespace application\hacks\forinnovations16;
 
 use api\models\Account;
 use application\models\translation\ActiveRecord;
+use connect\models\Meeting;
+use event\models\Event;
 use event\models\UserData;
 use Yii;
 
@@ -109,6 +111,20 @@ class Builder extends \api\components\builders\Builder
         }
 
         return $this->user;
+    }
+
+    public function buildEventStatistics(Event $event)
+    {
+        $event = parent::buildEventStatistics($event);
+
+        $this->event->Statistics['Participants']['MobileCount']
+            = array_sum(array_intersect_key($this->event->Statistics['Participants']['ByRole'], array_flip([349, 368, 347, 355, 354, 352, 363, 338, 362, 344, 357, 358, 340])));
+
+        $this->event->Statistics['Meetings'] = [
+            'TotalCount' => Meeting::model()->count(),
+        ];
+
+        return $event;
     }
 
     protected function getActiveRecordLocales(ActiveRecord $model, $prefix = '')

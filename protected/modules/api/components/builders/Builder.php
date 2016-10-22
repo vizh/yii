@@ -10,6 +10,7 @@ use competence\models\Question;
 use competence\models\Result;
 use competence\models\Test;
 use connect\models\Meeting;
+use event\models\Event;
 use event\models\section\Favorite;
 use event\models\section\Hall;
 use event\models\section\LinkUser;
@@ -489,6 +490,24 @@ class Builder
     public function BuildEventFullInfo($event)
     {
         $this->event->FullInfo = $event->FullInfo;
+
+        return $this->event;
+    }
+
+    public function buildEventStatistics(Event $event)
+    {
+        $this->event->Statistics = [
+            'Participants' => [
+                'ByRole' => ArrayHelper::associate('RoleId', 'Count', Yii::app()->getDb()
+                    ->createCommand('SELECT "RoleId", count("Id") as "Count" FROM "EventParticipant" WHERE "EventId" = :EventId GROUP BY "RoleId"')
+                    ->bindParam(':EventId', $event->Id)
+                    ->queryAll())
+            ]
+        ];
+
+        // Экономим запрос на общее кол-во участников
+        $this->event->Statistics['Participants']['TotalCount']
+            = array_sum($this->event->Statistics['Participants']['ByRole']);
 
         return $this->event;
     }
