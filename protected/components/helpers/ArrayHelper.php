@@ -342,14 +342,19 @@ class ArrayHelper
      * Превращаем массив в ассоциативный с ключами из указанного поля.
      *
      * @param $key
-     * @param array $array
+     * @param mixed $array
+     * @param mixed $value
      * @return array
      */
-    public static function associate($key, array $array)
+    public static function associate($key, $array, $value = null)
     {
         $result = [];
-        foreach ($array as $item)
-            $result[$item[$key]] = $item;
+        if ($value === null)
+            foreach ($array as $item)
+                $result[$item[$key]] = $item;
+        else
+            foreach ($value as $item)
+                $result[$item[$key]] = $item[$array];
 
         return $result;
     }
