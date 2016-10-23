@@ -9,15 +9,13 @@ class ListAction extends \api\components\Action
     public function run()
     {
         $request = Yii::app()->getRequest();
-        $fromUpdateTime = $request->getParam('FromUpdateTime');
         $withDeleted = $request->getParam('WithDeleted', false);
 
         $model = Section::model()
             ->byEventId($this->getEvent()->Id);
 
-        if ($fromUpdateTime !== null) {
-            $model->byUpdateTime($fromUpdateTime);
-        }
+        if ($this->hasRequestParam('FromUpdateTime'))
+            $model->byUpdateTime($this->getRequestedDate());
 
         if (!$withDeleted) {
             $model->byDeleted(false);

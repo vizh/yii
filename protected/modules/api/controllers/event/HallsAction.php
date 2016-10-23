@@ -11,10 +11,8 @@ class HallsAction extends Action
         $request = \Yii::app()->getRequest();
         $model = Hall::model()->byEventId($this->getEvent()->Id);
 
-        $fromUpdateTime = $request->getParam('FromUpdateTime');
-        if ($fromUpdateTime !== null) {
-            $model->byUpdateTime($fromUpdateTime);
-        }
+        if ($this->hasRequestParam('FromUpdateTime'))
+            $model->byUpdateTime($this->getRequestedDate());
 
         $withDeleted = $request->getParam('WithDeleted', false);
         if (!$withDeleted) {
@@ -28,4 +26,4 @@ class HallsAction extends Action
         }
         $this->setResult($result);
     }
-} 
+}

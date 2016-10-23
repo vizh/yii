@@ -1,9 +1,9 @@
 <?php
 namespace api\controllers\event;
 
-use Yii;
-use CDbCriteria;
 use api\components\Action;
+use CDbCriteria;
+use Yii;
 
 class UsersPhotosAction extends Action
 {
@@ -18,20 +18,10 @@ class UsersPhotosAction extends Action
             ->select('EventParticipant.UserId')->from('EventParticipant')
             ->where('"EventParticipant"."EventId" = '.$this->getEvent()->Id);
 
-        if ($this->hasRequestParam('Start')){
-            $command->andWhere(
-                '"EventParticipant"."CreationTime" >= :Start',
-                [
-                    ':Start' => $this->getRequestParam('Start'),
-                ]
-            );
-            if ($this->hasRequestParam('End')){
-                $command->andWhere(
-                    '"EventParticipant"."CreationTime" <= :End',
-                    [
-                        ':End' => $this->getRequestParam('End')
-                    ]
-                );
+        if ($this->hasRequestParam('Start')) {
+            $command->andWhere('"EventParticipant"."CreationTime" >= :Start', [':Start' => $this->getRequestedDate('Start')]);
+            if ($this->hasRequestParam('End')) {
+                $command->andWhere('"EventParticipant"."CreationTime" <= :End', [':End' => $this->getRequestedDate('End')]);
             }
         }
 
@@ -56,7 +46,7 @@ class UsersPhotosAction extends Action
                 $tar->addFile($photo, basename($photo));
             }
         }
-        if (is_file($archive)){
+        if (is_file($archive)) {
             $tar->compress(\Phar::GZ);
             unset($tar);
             unlink($archive);

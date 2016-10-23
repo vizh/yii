@@ -351,6 +351,24 @@ class Action extends \CAction
     }
 
     /**
+     * @param string $param
+     * @return string
+     * @throws Exception
+     */
+    protected function getRequestedDate($param = 'FromUpdateTime')
+    {
+        static $time;
+
+        if ($time === null) {
+            if ($time = strtotime($this->getRequestParam($param)) === false)
+                throw new Exception(112, $param);
+            $time = date('Y-m-d H:i:s', $time);
+        }
+
+        return $time;
+    }
+
+    /**
      * Проверяет наличие указанного параметра запроса и его непустоту
      *
      * @param $param string
