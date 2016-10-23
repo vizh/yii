@@ -3,9 +3,9 @@ namespace application\hacks\forinnovations16;
 
 use api\models\Account;
 use application\models\translation\ActiveRecord;
-use connect\models\Meeting;
 use event\models\Event;
 use event\models\UserData;
+use user\models\User;
 use Yii;
 
 class Builder extends \api\components\builders\Builder
@@ -120,9 +120,24 @@ class Builder extends \api\components\builders\Builder
         $this->event->Statistics['Participants']['MobileCount']
             = array_sum(array_intersect_key($this->event->Statistics['Participants']['ByRole'], array_flip([349, 368, 347, 355, 354, 352, 363, 338, 362, 344, 357, 358, 340])));
 
-        $this->event->Statistics['Meetings'] = [
-            'TotalCount' => Meeting::model()->count(),
-        ];
+        if ($runetid = Yii::app()->getRequest()->getParam('RunetId')) {
+            $user = User::model()
+                ->byRunetId($runetid)
+                ->find();
+
+            if ($user !== null) {
+                $this->event->Statistics['Meetings'] = [
+                    'TotalCount' => Yii::app()->getDb()->createCommand('
+                        SELECT
+                          count(*)
+                        FROM "ConnectMeeting"
+                          LEFT JOIN "ConnectMeetingLinkUser" ON "ConnectMeeting"."Id" = "ConnectMeetingLinkUser"."MeetingId"
+                        WHERE "ConnectMeetingLinkUser"."Status" = 2
+                          AND ("CreatorId" = :UserId OR "ConnectMeetingLinkUser"."UserId" = :UserId);
+                    ')->queryScalar([':UserId' => $user->Id])
+                ];
+            }
+        }
 
         return $event;
     }
