@@ -416,7 +416,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      *
      * @return User
      */
-    public function bySearch($searchTerm, $locale = null, $useAnd = true, $useVisible = true, $useSearch = true)
+    public function bySearch($searchTerm, $locale = null, $useAnd = true, $useVisible = true)
     {
         if ($useVisible) {
             $this->byVisible(true);
@@ -439,7 +439,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         if (is_numeric($parts[0]) && (int)$parts[0] !== 0) {
             return $this->bySearchNumbers($parts, $useAnd);
         } else {
-            return $this->bySearchFullName($parts, $locale, $useAnd, $useSearch);
+            return $this->bySearchFullName($parts, $locale, $useAnd);
         }
     }
 
@@ -464,93 +464,96 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      * @throws \application\components\Exception
      * @return User
      */
-    private function bySearchFullName($names, $locale = null, $useAnd = true, $useSearch = true)
+    private function bySearchFullName($names, $locale = null, $useAnd = true)
     {
-        if ($locale === null || $locale == Yii::app()->sourceLanguage) {
-            $criteria = new \CDbCriteria();
+        $criteria = new \CDbCriteria();
 
-            if ($useSearch){
-                foreach ($names as $i => $value) {
-                    if ($i !== 2) {
-                        $value = PhoneticSearch::getIndex($value);
-                        $names[$i] = Texts::prepareStringForTsvector($value);
-                    } else {
-                        $names[$i] = Texts::prepareStringForLike($value).'%';
-                    }
-                }
-                switch (count($names)) {
-                    case 1:
-                        $criteria->addCondition(
-                            '"t"."SearchLastName" @@ to_tsquery(:Part0)'
-                        );
-                        $criteria->params['Part0'] = $names[0];
-                        break;
-
-                    case 2:
-                        $criteria->addCondition('
-                            ("t"."SearchLastName" @@ to_tsquery(:Part0) AND "t"."SearchFirstName" @@ to_tsquery(:Part1)) OR
-                            ("t"."SearchLastName" @@ to_tsquery(:Part1) AND "t"."SearchFirstName" @@ to_tsquery(:Part0))
-                        ');
-
-                        $criteria->params['Part0'] = $names[0];
-                        $criteria->params['Part1'] = $names[1];
-                        break;
-
-                    default:
-                        $criteria->addCondition('
-                            ("t"."SearchLastName" @@ to_tsquery(:Part0) AND "t"."SearchFirstName" @@ to_tsquery(:Part1) AND "t"."FatherName" ILIKE :Part2)
-                        ');
-                        $criteria->params['Part0'] = $names[0];
-                        $criteria->params['Part1'] = $names[1];
-                        $criteria->params['Part2'] = $names[2].'%';
-                }
+        $fields = [];
+        $keys = ['LastName', 'FirstName', 'FatherName'];
+        foreach ($keys as $key => $field) {
+            if (isset($names[$key])) {
+                $fields[$field] = $names[$key];
             }
-            else{
-                foreach ($names as $i => $value) {
-                    $names[$i] = '%'.$value.'%';
-                }
-                switch (count($names)) {
-                    case 1:
-                        $criteria->addCondition(
-                            '"t"."LastName" ilike :Part0'
-                        );
-                        $criteria->params['Part0'] = $names[0];
-                        break;
+        }
+        $model = new self();
+        foreach (Yii::app()->params['Languages'] as $language) {
+            $model->byTranslationFields($language, $fields, '%', false);
+        }
+        $criteria->mergeWith($model->dbCriteria, 'or');
 
-                    case 2:
-                        $criteria->addCondition('
+        $search_criteria = new \CDbCriteria();
+        $_names = [];
+        foreach ($names as $i => $value) {
+            $_names[$i] = '%'.$value.'%';
+        }
+        switch (count($names)) {
+            case 1:
+                $search_criteria->addCondition(
+                    '"t"."LastName" ilike :Part0'
+                );
+                $search_criteria->params['Part0'] = $_names[0];
+                break;
+
+            case 2:
+                $search_criteria->addCondition('
                             ("t"."LastName" ilike :Part0 AND "t"."FirstName" ilike :Part1) OR
                             ("t"."LastName" ilike :Part1 AND "t"."FirstName" ilike :Part0)
                         ');
 
-                        $criteria->params['Part0'] = $names[0];
-                        $criteria->params['Part1'] = $names[1];
-                        break;
+                $search_criteria->params['Part0'] = $_names[0];
+                $search_criteria->params['Part1'] = $_names[1];
+                break;
 
-                    default:
-                        $criteria->addCondition('
+            default:
+                $criteria->addCondition('
                             ("t"."LastName" ilike :Part0 AND "t"."FirstName" ilike :Part1 AND "t"."FatherName" ilike :Part2)
                         ');
-                        $criteria->params['Part0'] = $names[0];
-                        $criteria->params['Part1'] = $names[1];
-                        $criteria->params['Part2'] = $names[2];
-                }
-            }
-
-            $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-            return $this;
-        } else {
-            $fields = [];
-            $keys = ['LastName', 'FirstName', 'FatherName'];
-            foreach ($keys as $key => $field) {
-                if (isset($names[$key])) {
-                    $fields[$field] = $names[$key];
-                }
-            }
-
-            return $this->byTranslationFields($locale, $fields);
+                $search_criteria->params['Part0'] = $_names[0];
+                $search_criteria->params['Part1'] = $_names[1];
+                $search_criteria->params['Part2'] = $_names[2];
         }
+        $criteria->mergeWith($search_criteria, 'or');
+
+        $search_criteria = new \CDbCriteria();
+        $_names = [];
+        foreach ($names as $i => $value) {
+            if ($i !== 2) {
+                $value = PhoneticSearch::getIndex($value);
+                $_names[$i] = Texts::prepareStringForTsvector($value);
+            } else {
+                $_names[$i] = Texts::prepareStringForLike($value) . '%';
+            }
+        }
+        switch (count($names)) {
+            case 1:
+                $search_criteria->addCondition(
+                    '"t"."SearchLastName" @@ to_tsquery(:SearchPart0)'
+                );
+                $search_criteria->params['SearchPart0'] = $_names[0];
+                break;
+
+            case 2:
+                $search_criteria->addCondition('
+                    ("t"."SearchLastName" @@ to_tsquery(:SearchPart0) AND "t"."SearchFirstName" @@ to_tsquery(:SearchPart1)) OR
+                    ("t"."SearchLastName" @@ to_tsquery(:SearchPart1) AND "t"."SearchFirstName" @@ to_tsquery(:SearchPart0))
+                ');
+
+                $search_criteria->params['SearchPart0'] = $_names[0];
+                $search_criteria->params['SearchPart1'] = $_names[1];
+                break;
+
+            default:
+                $search_criteria->addCondition('
+                    ("t"."SearchLastName" @@ to_tsquery(:SearchPart0) AND "t"."SearchFirstName" @@ to_tsquery(:SearchPart1) AND "t"."FatherName" ILIKE :SearchPart2)
+                ');
+                $search_criteria->params['SearchPart0'] = $_names[0];
+                $search_criteria->params['SearchPart1'] = $_names[1];
+                $search_criteria->params['SearchPart2'] = $_names[2] . '%';
+        }
+        $criteria->mergeWith($search_criteria, 'or');
+
+        $this->dbCriteria->mergeWith($criteria, $useAnd);
+        return $this;
     }
 
     /**

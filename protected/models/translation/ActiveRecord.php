@@ -113,7 +113,7 @@ abstract class ActiveRecord extends \application\components\ActiveRecord
                 throw new \Exception('Попытка поиска по полю, не включенному в список переводимых.');
             }
 
-            $sql .= " OR tr.Field = :mkey{$i} AND tr.Value LIKE :mvalue{$i}";
+            $sql .= " OR tr.\"Field\" = :mkey{$i} AND tr.\"Value\" ilike :mvalue{$i}";
             $params[':mkey' . $i] = $key;
             $params[':mvalue' . $i] = \Utils::PrepareStringForLike($value) . $valueSuffix;
             $i++;
@@ -125,10 +125,10 @@ abstract class ActiveRecord extends \application\components\ActiveRecord
 
         $command = \Yii::app()->getDb()->createCommand();
         $command->select('tr.ResourceId')->from('Translation tr');
-        $command->where("tr.ResourceName = :ResourceName AND tr.Locale = :Locale {$sql}", $params);
+        $command->where('tr."ResourceName" = :ResourceName AND tr."Locale" = :Locale '.$sql, $params);
         $command->group('tr.ResourceId');
 
-        $command->having('count(tr.ResourceId) = :CountAttributes', array(':CountAttributes' => sizeof($fields)));
+        $command->having('count(tr."ResourceId") = :CountAttributes', array(':CountAttributes' => sizeof($fields)));
 
         $result = $command->queryAll();
 
@@ -138,7 +138,7 @@ abstract class ActiveRecord extends \application\components\ActiveRecord
         }
 
         $criteria = new \CDbCriteria();
-        $criteria->addInCondition('t.' . $this->getResourceKey(), $userIdList);
+        $criteria->addInCondition('t."' . $this->getResourceKey().'"', $userIdList);
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
 
         return $this;
