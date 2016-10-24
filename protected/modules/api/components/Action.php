@@ -87,7 +87,7 @@ class Action extends \CAction
      */
     protected function getMaxResults()
     {
-        return \Yii::app()->params['ApiMaxResults'];
+        return \Yii::app()->getParams()['ApiMaxResults'];
     }
 
     /**
@@ -168,6 +168,28 @@ class Action extends \CAction
         }
 
         return $users[$param];
+    }
+
+    /**
+     * @return User[]
+     */
+    protected function getRequestedUsers()
+    {
+        $users = [];
+
+        foreach (array_filter(explode(',', $this->getRequestParam('RunetId')), 'intval') as $id) {
+            $user = User::model()
+                ->byRunetId($id)
+                ->find();
+
+            if ($user === null) {
+                throw new Exception(202, [$id]);
+            }
+
+            $users[$id] = $user;
+        }
+
+        return $users;
     }
 
     /**
@@ -329,6 +351,24 @@ class Action extends \CAction
     }
 
     /**
+     * @param string $param
+     * @return string
+     * @throws Exception
+     */
+    protected function getRequestedDate($param = 'FromUpdateTime')
+    {
+        static $time;
+
+        if ($time === null) {
+            if (($time = strtotime($this->getRequestParam($param))) === false)
+                throw new Exception(112, $param);
+            $time = date('Y-m-d H:i:s', $time);
+        }
+
+        return $time;
+    }
+
+    /**
      * Проверяет наличие указанного параметра запроса и его непустоту
      *
      * @param $param string
@@ -358,5 +398,15 @@ class Action extends \CAction
         }
 
         return $params[$param];
+    }
+
+    /**
+     * @param string $param
+     * @param bool $defaultValue
+     * @return bool
+     */
+    protected function getRequestParamBool($param, $defaultValue = false)
+    {
+        return (boolean)$this->getRequestParam($param, $defaultValue);
     }
 }

@@ -9,14 +9,21 @@ class RunetidsAction extends Action
 {
     public function run()
     {
-        $command = Yii::app()->getDb()->createCommand()
-            ->select('User.RunetId')
-            ->from('User')
-            ->join('EventParticipant', '"EventParticipant"."UserId" = "User"."Id"')
-            ->where('"EventParticipant"."EventId" = :eventId', [':eventId' => $this->getEvent()->Id]);
+        $participationData = Yii::app()->getDb()
+            ->createCommand('
+                SELECT
+                  "User"."RunetId",
+                  "EventParticipant"."RoleId"
+                FROM "EventParticipant"
+                  LEFT JOIN "User" ON "User"."Id" = "EventParticipant"."UserId"
+                WHERE "EventId" = :EventId;
+            ')
+            ->bindParam(':EventId', $this->getEvent()->Id)
+            ->queryAll();
 
         $result = [];
-        $result['RunetIds'] = $command->queryColumn();
+        foreach ($participationData as $row)
+            $result[$row['RunetId']] = $row['RoleId'];
 
         $this->setResult($result);
     }

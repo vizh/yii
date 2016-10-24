@@ -62,7 +62,7 @@ class Place extends ActiveRecord
             $overlapping = abs(strtotime($datetime) - strtotime($meeting->Date)) < $this->ReservationTime;
             $accepted = $link->Status == MeetingLinkUser::STATUS_ACCEPTED;
             $expired = strtotime(date('Y-m-d')) - strtotime($meeting->CreateTime) > 24*60*60;
-            if ($overlapping && $accepted && !$expired){
+            if ($overlapping && ($accepted || !$expired)){
                 $reservations[] = $meeting;
             }
         }

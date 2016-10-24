@@ -339,6 +339,42 @@ class ArrayHelper
     }
 
     /**
+     * Превращаем массив в ассоциативный с ключами из указанного поля.
+     *
+     * @param $key
+     * @param mixed $array
+     * @param mixed $value
+     * @return array
+     */
+    public static function associate($key, $array, $value = null)
+    {
+        $result = [];
+        if ($value === null)
+            foreach ($array as $item)
+                $result[$item[$key]] = $item;
+        else
+            foreach ($value as $item)
+                $result[$item[$key]] = $item[$array];
+
+        return $result;
+    }
+
+    /**
+     * Выпрямление массива через понижение его размерности путём array_merge всех его элементов.
+     *
+     * @param array $array
+     * @return array
+     */
+    public static function straighten(array $array)
+    {
+        if (empty($array)) {
+            return [];
+        }
+
+        return call_user_func_array('array_merge', $array);
+    }
+
+    /**
      * Builds a map (key-value pairs) from a multidimensional array or an array of objects.
      * The `$from` and `$to` parameters specify the key names or property names to set up the map.
      * Optionally, one can further group the map according to a grouping field `$group`.

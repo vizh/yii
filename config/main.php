@@ -41,7 +41,7 @@ $config = [
             'rules' => [],
         ],
         'cache' => [
-            'class' => 'EMongoCache',
+            'class' => 'CXCache'
         ],
         'db' => require 'db.php',
         'image' => [
@@ -81,13 +81,22 @@ $config = [
     'params' => require 'params.php',
 ];
 
+// Костыль для выключения поддержки сессий в api.
+// toDo: Вывести api в отдельное приложение с собственным конфигом
+if (preg_match('#^(api|ruvents)\.#', $_SERVER['HTTP_HOST'])) {
+    $config['components']['session'] = [
+        'autoStart' => false,
+        'cookieMode' => 'none'
+    ];
+}
+
 $config = CMap::mergeArray($config, require 'api.php');
 $config = CMap::mergeArray($config, require 'partner.php');
 $config = CMap::mergeArray($config, require 'ruvents.php');
 $config = CMap::mergeArray($config, require 'ruvents2.php');
 
 $config['components']['urlManager']['rules'] = CMap::mergeArray($config['components']['urlManager']['rules'],
-    require 'url-rules.php');
+    require 'routes.php');
 
 if (YII_DEBUG) {
     $config['components']['debug'] = [

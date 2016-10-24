@@ -10,6 +10,7 @@ use competence\models\Question;
 use competence\models\Result;
 use competence\models\Test;
 use connect\models\Meeting;
+use event\models\Event;
 use event\models\section\Favorite;
 use event\models\section\Hall;
 use event\models\section\LinkUser;
@@ -258,8 +259,9 @@ class Builder
             ->find();
 
         if ($data !== null) {
-            foreach ($data->getManager()->getDefinitions() as $definition) {
-                $attributes[$definition->name] = $definition->getExportValue($data->getManager());
+            $manager = $data->getManager();
+            foreach ($manager->getDefinitions() as $definition) {
+                $attributes[$definition->name] = $definition->getExportValue($manager);
             }
         }
 
@@ -492,6 +494,24 @@ class Builder
         return $this->event;
     }
 
+    public function buildEventStatistics(Event $event)
+    {
+        $this->event->Statistics = [
+            'Participants' => [
+                'ByRole' => ArrayHelper::associate('RoleId', 'Count', Yii::app()->getDb()
+                    ->createCommand('SELECT "RoleId", count("Id") as "Count" FROM "EventParticipant" WHERE "EventId" = :EventId GROUP BY "RoleId"')
+                    ->bindParam(':EventId', $event->Id)
+                    ->queryAll())
+            ]
+        ];
+
+        // Экономим запрос на общее кол-во участников
+        $this->event->Statistics['Participants']['TotalCount']
+            = array_sum($this->event->Statistics['Participants']['ByRole']);
+
+        return $this->event;
+    }
+
     protected $product;
 
     /**
@@ -720,9 +740,10 @@ class Builder
 
         $this->report->Id = $link->Id;
         if (!empty($link->User)) {
-            $this->createBaseUser($link->User);
-            $this->buildUserAttributes($link->User);
-            $this->report->User = $this->buildUserEmployment($link->User);
+            $this->report->User = $this->createUser($link->User, [
+                self::USER_ATTRIBUTES,
+                self::USER_EMPLOYMENT
+            ]);
         } elseif (!empty($link->Company)) {
             $this->report->Company = $this->createCompany($link->Company);
         } else {

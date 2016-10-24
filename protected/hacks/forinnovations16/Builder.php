@@ -3,8 +3,9 @@ namespace application\hacks\forinnovations16;
 
 use api\models\Account;
 use application\models\translation\ActiveRecord;
+use event\models\Event;
 use event\models\UserData;
-use pay\models\OrderItem;
+use user\models\User;
 use Yii;
 
 class Builder extends \api\components\builders\Builder
@@ -70,6 +71,18 @@ class Builder extends \api\components\builders\Builder
         return $this->user;
     }
 
+    protected function buildUserEvent($user)
+    {
+        $user = parent::buildUserEvent($user);
+
+        if ($this->account->Role !== Account::ROLE_MOBILE) {
+            $this->user->Paid = in_array($this->user->Status->RoleId, [347, 355, 354, 352, 363, 338, 362, 357, 340]);
+            $this->user->Confirmed = in_array($this->user->Status->RoleId, [401, 402, 368, 347, 355, 354, 352, 363, 338, 362, 400, 403, 344, 357, 358, 340]);
+        }
+
+        return $user;
+    }
+
     protected function buildUserEmployment($user)
     {
         $employment = $user->getEmploymentPrimary();
@@ -98,6 +111,35 @@ class Builder extends \api\components\builders\Builder
         }
 
         return $this->user;
+    }
+
+    public function buildEventStatistics(Event $event)
+    {
+        $event = parent::buildEventStatistics($event);
+
+        $this->event->Statistics['Participants']['MobileCount']
+            = array_sum(array_intersect_key($this->event->Statistics['Participants']['ByRole'], array_flip([349, 368, 347, 355, 354, 352, 363, 338, 362, 344, 357, 358, 340])));
+
+        if ($runetid = Yii::app()->getRequest()->getParam('RunetId')) {
+            $user = User::model()
+                ->byRunetId($runetid)
+                ->find();
+
+            if ($user !== null) {
+                $this->event->Statistics['Meetings'] = [
+                    'TotalCount' => Yii::app()->getDb()->createCommand('
+                        SELECT
+                          count(*)
+                        FROM "ConnectMeeting"
+                          LEFT JOIN "ConnectMeetingLinkUser" ON "ConnectMeeting"."Id" = "ConnectMeetingLinkUser"."MeetingId"
+                        WHERE "ConnectMeetingLinkUser"."Status" = 2
+                          AND ("CreatorId" = :UserId OR "ConnectMeetingLinkUser"."UserId" = :UserId);
+                    ')->queryScalar([':UserId' => $user->Id])
+                ];
+            }
+        }
+
+        return $event;
     }
 
     protected function getActiveRecordLocales(ActiveRecord $model, $prefix = '')

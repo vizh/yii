@@ -1,6 +1,8 @@
 <?php
 namespace api\components;
 
+use api\models\Account;
+
 class WebUser extends \CWebUser
 {
     private static $instance = null;
@@ -20,35 +22,51 @@ class WebUser extends \CWebUser
     }
 
     private $account = null;
-    private $alreadyTryLoad = false;
 
     /**
-     * @return \api\models\Account
+     * @return Account
+     * @throws Exception
      */
     public function getAccount()
     {
-        if ($this->account === null && !$this->alreadyTryLoad)
+        if ($this->account === null)
         {
             $request = \Yii::app()->getRequest();
-            $apiKey = $request->getParam('ApiKey');
+
+            $key = $request->getParam('ApiKey');
             $hash = $request->getParam('Hash');
             $timestamp = $request->getParam('Timestamp');
-            $ip = $_SERVER['REMOTE_ADDR'];
 
-            /** @var $account \api\models\Account */
-            $account = \api\models\Account::model()->byKey($apiKey)->find();
+            $account = \Yii::app()
+                ->getCache()
+                ->get("$key,$hash,$timestamp");
 
-            if ($account !== null && $account->checkHash($hash, $timestamp) &&
-                ($account->EventId == null || $account->checkIp($ip)))
+            if ($account === false)
             {
-                $this->account = $account;
-                if ($this->account->EventId === null)
-                {
-                    $this->account->EventId = \Yii::app()->getRequest()->getParam('EventId', null);
-                }
+                $account = Account::model()
+                    ->byKey($key)
+                    ->with('Event')
+                    ->find();
+
+                if ($account === null)
+                    throw new Exception(101);
+
+                if ($account->checkHash($hash, $timestamp) === false)
+                    throw new Exception(102);
+
+                // Предоставляем возможность иметь api-аккаунты с динамической привязкой к мероприятию
+                if ($account->EventId === null)
+                    $account->EventId = $request->getParam('EventId');
+
+                if ($account->checkIp($_SERVER['REMOTE_ADDR']) === false)
+                    throw new Exception(103);
+
+                \Yii::app()
+                    ->getCache()
+                    ->set("$key,$hash,$timestamp", $account, 30);
             }
 
-            $this->alreadyTryLoad = true;
+            $this->account = $account;
         }
 
         return $this->account;
@@ -57,7 +75,6 @@ class WebUser extends \CWebUser
     public function resetAccount()
     {
         $this->account = null;
-        $this->alreadyTryLoad = false;
     }
 
     /**

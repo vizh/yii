@@ -21,6 +21,11 @@ class UsersAction extends Action
         $pageToken = $request->getParam('PageToken', null);
         $roles = $request->getParam('RoleId');
 
+        $nextUpdateTime = date('Y-m-d H:i:s');
+        $fromUpdateTime = $this->hasRequestParam('FromUpdateTime')
+            ? $this->getRequestedDate('FromUpdateTime')
+            : null;
+
         $command = Yii::app()->getDb()->createCommand()
             ->select('EventParticipant.UserId')->from('EventParticipant')
             ->where('"EventParticipant"."EventId" = '.$this->getEvent()->Id);
@@ -39,6 +44,12 @@ class UsersAction extends Action
             $criteria->offset = $this->getController()->parsePageToken($pageToken);
         }
 
+        if ($fromUpdateTime !== null) {
+            $criteria->addCondition('"t"."UpdateTime" > :UpdateTime');
+            $criteria->params['UpdateTime'] = $fromUpdateTime;
+        }
+
+
         $criteria->with = [
             'Participants' => [
                 'on' => '"Participants"."EventId" = :EventId',
@@ -53,14 +64,16 @@ class UsersAction extends Action
         $criteria->order = '"t"."LastName" ASC, "t"."FirstName" ASC';
         $criteria->addCondition('"t"."Id" IN ('.$command->getText().')');
         $users = User::model()->findAll($criteria);
-        $totalCount = User::model()->count($criteria);
 
         if ($this->getEvent()->IdName === 'forinnovations16' && $this->getAccount()->Role !== Account::ROLE_MOBILE) {
             $orderItems = $this->getOrderItems(ArrayHelper::columnGet('Id', $users));
         }
 
-        $result = [];
-        $result['Users'] = [];
+        $result = [
+            'Users' => [],
+            'TotalCount' => $this->getTotalCount(),
+            'NextUpdateTime' => $nextUpdateTime
+        ];
 
         // Билдеры по умолчанию
         $defaultBuilders = [
@@ -82,8 +95,6 @@ class UsersAction extends Action
             $builders[] = Builder::USER_CONTACTS;
         }
 
-        $result['TotalCount'] = $totalCount;
-
         foreach ($users as $user) {
             $userData = $this
                 ->getDataBuilder()
@@ -98,6 +109,7 @@ class UsersAction extends Action
                         case 6161: $userData->Products = ['Id' => $item->ProductId, 'Days' => 3]; break;
                         case 6158: $userData->Products = ['Id' => $item->ProductId, 'Days' => 1]; break;
                         case 6159: $userData->Products = ['Id' => $item->ProductId, 'Days' => 3]; break;
+                        case 6182: $userData->Products = ['Id' => $item->ProductId, 'Days' => 2]; break;
                     }
                 }
             }
@@ -134,5 +146,22 @@ class UsersAction extends Action
         }
 
         return $result;
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getTotalCount()
+    {
+        $command = Yii::app()->getDb()->createCommand();
+        $command->select('count("Id")');
+        $command->from('EventParticipant');
+        $command->andWhere('"EventId" = :EventId', [':EventId' => $this->getEvent()->Id]);
+
+        if ($this->hasRequestParam('RoleId')) {
+            $command->andWhere(['in', 'EventParticipant.RoleId', $this->getRequestParam('RoleId')]);
+        }
+
+        return $command->queryScalar();
     }
 }

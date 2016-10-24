@@ -19,9 +19,9 @@ use event\models\Event;
 use application\components\utility\Texts;
 ?>
 
-<?php $this->beginClip(Controller::PAGE_HEADER_CLIP_ID) ?>
-<?=\CHtml::link(\Yii::t('app', 'Экспорт'), ['index', 'export' => true], ['class' => 'btn btn-primary btn-labeled'])?>
-<?php $this->endClip() ?>
+<?$this->beginClip(Controller::PAGE_HEADER_CLIP_ID)?>
+    <?=CHtml::link(\Yii::t('app', 'Экспорт'), ['index', 'export' => true], ['class' => 'btn btn-primary btn-labeled'])?>
+<?$this->endClip()?>
 
 <div class="panel panel-info">
 
@@ -32,7 +32,7 @@ use application\components\utility\Texts;
 
     <div class="panel-heading">
         <span class="panel-title"><i class="fa fa-group"></i> <?=\Yii::t('app', 'Встречи')?></span>
-    </div> <!-- / .panel-heading -->
+    </div>
     <div class="panel-body">
         <div class="table-info">
             <?$this->widget('\application\widgets\grid\GridView', [

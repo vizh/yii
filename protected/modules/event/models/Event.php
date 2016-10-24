@@ -4,6 +4,7 @@ namespace event\models;
 
 use api\components\callback\Base;
 use application\components\AbstractDefinition;
+use application\components\CDbCriteria;
 use application\components\Exception;
 use application\components\Image;
 use application\components\socials\facebook\Event as SocialEvent;
@@ -736,17 +737,15 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
     }
 
     /**
+     * Количество участников мероприятия
+     *
      * @return \CDbDataReader|mixed|string
      */
     public function getParticipantsCount()
     {
-        $criteria = new \CDbCriteria();
-        $criteria->addCondition('User.Visible = :Visible');
-        $criteria->params['Visible'] = true;
-        $criteria->with = ['User'];
-        $criteria->group = 't.UserId';
-
-        return Participant::model()->byEventId($this->Id)->count($criteria);
+        return Participant::model()
+            ->byEventId($this->Id)
+            ->count();
     }
 
     /** @var Logo */

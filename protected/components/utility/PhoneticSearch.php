@@ -28,10 +28,9 @@ class PhoneticSearch
     /**
      * Возвращает фонетический индкс для входной строки
      * @param string $string входная строка
-     * @param bool $compressEnd использовать сжатие окончаний
      * @return string
      */
-    public static function getIndex($string, $compressEnd = false)
+    public static function getIndex($string)
     {
         $result = [];
         $strings = self::prepareString($string);
@@ -39,7 +38,7 @@ class PhoneticSearch
 
         $strings = self::prepareString($string);
         foreach ($strings as $string) {
-            $result[] = ($lang === self::LANG_RU ? self::getRuIndex($string, $compressEnd) : $string);
+            $result[] = ($lang === self::LANG_RU ? self::getRuIndex($string) : $string);
 
         }
         return implode(' ', $result);
@@ -67,40 +66,11 @@ class PhoneticSearch
     /**
      * Возвращает фонетический индкс для входной строки на русском языке
      * @param string $string
-     * @param bool $compressEnd
      * @return string
      */
-    private static function getRuIndex($string, $compressEnd)
+    private static function getRuIndex($string)
     {
         $result = self::clearDuplicateChars($string);
-
-        if ($compressEnd) {
-            $replace = [
-                'евская' => '%',
-                'овская' => '$',
-                'евский' => '#',
-                'овский' => '@',
-                'ова' => '9',
-                'ева' => '9',
-                'ин' => '8',
-                'ий' => '7',
-                'ый' => '7',
-                'ая' => '6',
-                'ых' => '5',
-                'их' => '5',
-                'ов' => '4',
-                'ев' => '4',
-                'нко' => '3',
-                'ик' => '2',
-                'ек' => '2',
-                'ина' => '1',
-                'ук' => '0',
-                'юк' => '0'
-            ];
-            foreach ($replace as $from => $to) {
-                $result = preg_replace('/' . $from . '$/u', $to, $result);
-            }
-        }
 
         $replace = [
             'йо' => 'и',
@@ -171,4 +141,4 @@ class PhoneticSearch
         }
         return $string;
     }
-} 
+}

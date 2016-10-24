@@ -1,6 +1,7 @@
 <?php
 namespace api\components;
 
+use api\components\WebUser;
 use Yii;
 
 class Controller extends \application\components\controllers\BaseController
@@ -69,7 +70,8 @@ class Controller extends \application\components\controllers\BaseController
     public function afterAction($action)
     {
         echo json_encode($this->result, JSON_UNESCAPED_UNICODE);
-        $this->createLog();
+        // toDo: Отключено логирование успешных запросов api
+        // $this->createLog();
     }
 
     /**
@@ -143,7 +145,7 @@ class Controller extends \application\components\controllers\BaseController
      */
     public function getAccount()
     {
-        return \api\components\WebUser::Instance()->getAccount();
+        return WebUser::Instance()->getAccount();
     }
 
     private $suffixLength = 4;

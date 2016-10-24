@@ -8,11 +8,8 @@ class SetdataAction extends Action
 {
     public function run()
     {
-        UserData::set(
-            $this->getEvent(),
-            $this->getRequestedUser(),
-            $this->getRequestParam('Attributes', [])
-        );
+        foreach ($this->getRequestedUsers() as $user)
+            UserData::set($this->getEvent(), $user, $this->getRequestParam('Attributes', []));
 
         $this->setSuccessResult();
     }
