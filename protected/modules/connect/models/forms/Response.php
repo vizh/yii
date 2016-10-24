@@ -15,7 +15,7 @@ class Response extends CreateUpdateForm
     {
         return [
             ['Status', 'in', 'range' => [MeetingLinkUser::STATUS_ACCEPTED, MeetingLinkUser::STATUS_DECLINED, MeetingLinkUser::STATUS_CANCELLED]],
-            ['Response', 'length', 'min' => 0, 'max' => 255]
+            ['Response', 'filter', 'filter' => function($value){ return (new \CHtmlPurifier())->purify($value); }]
         ];
     }
 

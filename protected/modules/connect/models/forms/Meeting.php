@@ -31,7 +31,7 @@ class Meeting extends CreateUpdateForm
             ['CreatorId', 'validateCreator'],
             ['UserId', 'validateUser', 'when' => function(){ return $this->Type == MeetingAR::TYPE_PRIVATE; }],
             ['Date', 'validateDate'],
-            ['Purpose, Subject', 'length', 'min' => 0, 'max' => 255],
+            ['Purpose, Subject', 'filter', 'filter' => function($value){ return (new \CHtmlPurifier())->purify($value); }],
             ['File', 'file', 'maxSize' => 10*1024*1024, 'allowEmpty' => true]
         ];
     }
