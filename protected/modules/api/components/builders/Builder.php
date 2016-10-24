@@ -494,7 +494,7 @@ class Builder
         return $this->event;
     }
 
-    public function buildEventStatistics(Event $event, User $user)
+    public function buildEventStatistics(Event $event)
     {
         $this->event->Statistics = [
             'Participants' => [
