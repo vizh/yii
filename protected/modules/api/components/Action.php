@@ -87,7 +87,7 @@ class Action extends \CAction
      */
     protected function getMaxResults()
     {
-        return \Yii::app()->params['ApiMaxResults'];
+        return \Yii::app()->getParams()['ApiMaxResults'];
     }
 
     /**
@@ -360,7 +360,7 @@ class Action extends \CAction
         static $time;
 
         if ($time === null) {
-            if ($time = strtotime($this->getRequestParam($param)) === false)
+            if (($time = strtotime($this->getRequestParam($param))) === false)
                 throw new Exception(112, $param);
             $time = date('Y-m-d H:i:s', $time);
         }
