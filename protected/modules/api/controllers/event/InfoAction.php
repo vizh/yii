@@ -8,7 +8,11 @@ class InfoAction extends \api\components\Action
         $this->getDataBuilder()->createEvent($this->getEvent());
         $this->getDataBuilder()->buildEventPlace($this->getEvent());
         $this->getDataBuilder()->buildEventMenu($this->getEvent());
-        $this->getDataBuilder()->buildEventStatistics($this->getEvent());
+
+        $this->getDataBuilder()->buildEventStatistics($this->getEvent(), $this->hasRequestParam('RunetId')
+            ? $this->getRequestedUser()
+            : null);
+
         $result = $this->getDataBuilder()->buildEventFullInfo($this->getEvent());
 
         $this->setResult($result);
