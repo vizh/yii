@@ -112,6 +112,10 @@ class UsersAction extends Action
                         case 6182: $userData->Products = ['Id' => $item->ProductId, 'Days' => 2]; break;
                     }
                 }
+            } else {
+                $userData->Products = [
+                    'Days' => 3
+                ];
             }
 
             $result['Users'][] = $userData;
