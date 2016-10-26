@@ -3,10 +3,15 @@ namespace api\controllers\event;
 
 use api\components\Action;
 use CDbCriteria;
+use Phar;
+use PharData;
 use Yii;
 
 class UsersPhotosAction extends Action
 {
+    /**
+     *
+     */
     public function run()
     {
         ini_set('max_execution_time', '1800');
@@ -19,9 +24,9 @@ class UsersPhotosAction extends Action
             ->where('"EventParticipant"."EventId" = '.$this->getEvent()->Id);
 
         if ($this->hasRequestParam('Start')) {
-            $command->andWhere('"EventParticipant"."CreationTime" >= :Start', [':Start' => $this->getRequestedDate('Start')]);
+            $command->andWhere('"EventParticipant"."CreationTime" >= :Start', ['Start' => $this->getRequestedDate('Start')]);
             if ($this->hasRequestParam('End')) {
-                $command->andWhere('"EventParticipant"."CreationTime" <= :End', [':End' => $this->getRequestedDate('End')]);
+                $command->andWhere('"EventParticipant"."CreationTime" <= :End', ['End' => $this->getRequestedDate('End')]);
             }
         }
 
@@ -37,20 +42,21 @@ class UsersPhotosAction extends Action
         $users = new \CDataProviderIterator($dataProvider);
 
         /** @noinspection NonSecureUniqidUsageInspection */
-        $archive = \Yii::getPathOfAlias('application.runtime').'/'.uniqid().'.tar';
-        $tar = new \PharData($archive);
+        $archive = Yii::getPathOfAlias('application.runtime').'/'.uniqid().'.tar';
+        $tar = new PharData($archive);
         foreach ($users as $user) {
             /** @var \user\models\User $user */
-            $photo = $user->getPhoto()->getOriginal(true);
-            if (is_file($photo)) {
+            if ($user->hasPhoto()) {
+                $photo = $user->getPhoto()->getOriginal(true);
                 $tar->addFile($photo, basename($photo));
             }
         }
+
         if (is_file($archive)) {
-            $tar->compress(\Phar::GZ);
+//            $tar->compress(\Phar::NONE);
             unset($tar);
-            unlink($archive);
-            $archive .= '.gz';
+//            unlink($archive);
+//            $archive .= '.gz';
             header('Content-Type: application/octet-stream');
             header('Content-Disposition: attachment; filename="'.basename($archive).'"');
             header('Content-Length: '.filesize($archive));
