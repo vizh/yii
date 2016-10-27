@@ -379,7 +379,7 @@ class Action extends \CAction
         return $this->getRequestParam($param, null) !== null;
     }
 
-    protected function getRequestParam($param, $defaultValue = PHP_INT_MIN)
+    protected function getRequestParam($param, $defaultValue = PHP_INT_SIZE)
     {
         static $params;
 
@@ -390,10 +390,10 @@ class Action extends \CAction
         if (isset($params[$param]) === false) {
             $params[$param] = Yii::app()
                 ->getRequest()
-                ->getParam($param, $defaultValue === PHP_INT_MIN ? null : $defaultValue);
+                ->getParam($param, $defaultValue === PHP_INT_SIZE ? null : $defaultValue);
         }
 
-        if ($defaultValue === PHP_INT_MIN && empty($params[$param]) === true) {
+        if ($defaultValue === PHP_INT_SIZE && empty($params[$param]) === true) {
             throw new Exception(109, [$param]);
         }
 
