@@ -16,7 +16,6 @@ www/stylesheets/partner.css
 www/stylesheets/pixel-admin/custom.css
 www/images/temp/
 data
-config/db.dev.php
+config/db.php
 protected/yiic.php
-config/mongo-db.php
 www/assets/
