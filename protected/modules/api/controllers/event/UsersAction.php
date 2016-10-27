@@ -63,7 +63,13 @@ class UsersAction extends Action
         ];
         $criteria->order = '"t"."LastName" ASC, "t"."FirstName" ASC';
         $criteria->addCondition('"t"."Id" IN ('.$command->getText().')');
-        $users = User::model()->findAll($criteria);
+
+        $users = User::model();
+
+        if ($this->hasRequestParam('RunetId'))
+            $users->byRunetId($this->getRequestParam('RunetId'));
+
+        $users = $users->findAll($criteria);
 
         if ($this->getEvent()->IdName === 'forinnovations16' && $this->getAccount()->Role !== Account::ROLE_MOBILE) {
             $orderItems = $this->getOrderItems(ArrayHelper::columnGet('Id', $users));
