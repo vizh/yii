@@ -113,6 +113,7 @@ class Controller extends \application\components\controllers\BaseController
 
     protected function setHeaders()
     {
+        header('X-Generator: '.gethostname());
         header('Content-type: text/json; charset=utf-8');
     }
 
