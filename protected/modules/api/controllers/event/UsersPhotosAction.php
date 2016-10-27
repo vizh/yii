@@ -2,9 +2,9 @@
 namespace api\controllers\event;
 
 use api\components\Action;
-use CDbCriteria;
-use Phar;
 use PharData;
+use user\models\Photo;
+use user\models\User;
 use Yii;
 
 class UsersPhotosAction extends Action
@@ -17,51 +17,55 @@ class UsersPhotosAction extends Action
         ini_set('max_execution_time', '1800');
 
         $request = Yii::app()->getRequest();
-        $roles = $request->getParam('RoleId');
 
-        $command = Yii::app()->getDb()->createCommand()
-            ->select('EventParticipant.UserId')->from('EventParticipant')
-            ->where('"EventParticipant"."EventId" = '.$this->getEvent()->Id);
-
-        if ($this->hasRequestParam('Start')) {
-            $command->andWhere('"EventParticipant"."CreationTime" >= :Start', ['Start' => $this->getRequestedDate('Start')]);
-            if ($this->hasRequestParam('End')) {
-                $command->andWhere('"EventParticipant"."CreationTime" <= :End', ['End' => $this->getRequestedDate('End')]);
-            }
-        }
-
-        if (!empty($roles)) {
-            $command->andWhere(['in', 'EventParticipant.RoleId', $roles]);
-        }
-
-        $criteria = new CDbCriteria();
-        $criteria->order = '"t"."LastName" ASC, "t"."FirstName" ASC';
-        $criteria->addCondition('"t"."Id" IN ('.$command->getText().')');
-        $criteria->params = $command->params;
-        $dataProvider = new \CActiveDataProvider('user\models\User', ['criteria' => $criteria]);
-        $users = new \CDataProviderIterator($dataProvider);
+        $ids = Yii::app()->getDb()->createCommand('
+            SELECT
+              "User"."RunetId"
+            FROM "EventParticipant"
+              RIGHT JOIN "User" ON "User"."Id" = "EventParticipant"."UserId"
+            WHERE "EventId" = :EventId
+              AND "User"."UpdateTime" >= :UpdateTime
+        ')->queryColumn([
+            'EventId' => $this->getEvent()->Id,
+            'UpdateTime' => $request->getParam('Start', '1111-11-11 11:11:11')
+        ]);
 
         /** @noinspection NonSecureUniqidUsageInspection */
         $archive = Yii::getPathOfAlias('application.runtime').'/'.uniqid().'.tar';
         $tar = new PharData($archive);
-        foreach ($users as $user) {
-            /** @var \user\models\User $user */
-            if ($user->hasPhoto()) {
-                $photo = $user->getPhoto()->getOriginal(true);
-                $tar->addFile($photo, basename($photo));
+        $tar->startBuffering();
+
+        if (empty($ids)) {
+            $tar->addFile(User::model()
+                ->byRunetId(424)
+                ->find()
+                ->getPhoto()
+                ->getOriginal(true)
+            );
+        } else {
+            foreach ($ids as $runetid) {
+                $photo = new Photo($runetid);
+                if ($photo->hasImage()) {
+                    $photo = $photo->getOriginal(true);
+                    $tar->addFile($photo, basename($photo));
+                }
             }
         }
 
+        $tar->stopBuffering();
+
         if (is_file($archive)) {
-//            $tar->compress(\Phar::NONE);
             unset($tar);
-//            unlink($archive);
-//            $archive .= '.gz';
             header('Content-Type: application/octet-stream');
             header('Content-Disposition: attachment; filename="'.basename($archive).'"');
             header('Content-Length: '.filesize($archive));
             readfile($archive);
             unlink($archive);
         }
+
+        Yii::log(sprintf('Сгенерирован архив с %d изображениями c %s',
+            count($ids),
+            $request->getParam('Start', '1111-11-11 11:11:11')
+        ));
     }
 }
