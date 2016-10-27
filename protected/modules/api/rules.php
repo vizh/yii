@@ -84,6 +84,12 @@ return [
     [
         'allow',
         'roles' => ['base'],
+        'controllers' => ['test'],
+        'actions' => ['index']
+    ],
+    [
+        'allow',
+        'roles' => ['base'],
         'controllers' => ['connect']
     ],
 
