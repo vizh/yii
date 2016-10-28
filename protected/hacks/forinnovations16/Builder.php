@@ -50,7 +50,6 @@ class Builder extends \api\components\builders\Builder
                 $this->user->AttributesRaw->passportSeries,
                 $this->user->AttributesRaw->passportNumber,
                 $this->user->AttributesRaw->needsVisaSupport,
-                $this->user->AttributesRaw->companyRussian,
                 $this->user->AttributesRaw->studak,
                 $this->user->AttributesRaw->activity_sphere,
                 $this->user->AttributesRaw->business_size,
