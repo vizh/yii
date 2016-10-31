@@ -72,15 +72,13 @@ class Builder extends \api\components\builders\Builder
 
     protected function buildUserContacts($user)
     {
-        if ($this->account->Key === 'rf4azst879' || $this->hasContactsPermission($user)) {
-            $this->user->Email = $user->Email;
-            $this->user->Phone = $user->getPhone(false);
-            $this->user->PhoneFormatted = $user->getPhone();
+        $this->user->Email = $user->Email;
+        $this->user->Phone = $user->getPhone(false);
+        $this->user->PhoneFormatted = $user->getPhone();
 
-            $this->user->Phones = [];
-            foreach ($user->LinkPhones as $link) {
-                $this->user->Phones[] = (string)$link->Phone;
-            }
+        $this->user->Phones = [];
+        foreach ($user->LinkPhones as $link) {
+            $this->user->Phones[] = (string)$link->Phone;
         }
 
         return $this->user;

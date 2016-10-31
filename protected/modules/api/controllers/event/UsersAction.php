@@ -86,20 +86,11 @@ class UsersAction extends Action
             Builder::USER_EVENT,
             Builder::USER_EMPLOYMENT,
             Builder::USER_ATTRIBUTES,
+            Builder::USER_CONTACTS
         ];
-
-        // Не совсем понятно почему, но ок..
-        if ($this->getAccount()->Role !== 'mobile') {
-            $defaultBuilders[] = Builder::USER_CONTACTS;
-        }
 
         // toDo: Выпилить.
         $builders = $request->getParam('Builders', $defaultBuilders);
-
-        // Не совсем понятно почему, но ок..
-        if ($this->getAccount()->Role !== 'mobile') {
-            $builders[] = Builder::USER_CONTACTS;
-        }
 
         foreach ($users as $user) {
             $userData = $this
