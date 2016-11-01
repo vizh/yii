@@ -116,13 +116,14 @@ $this->setPageTitle(Yii::t('app', 'Дополнительные атрибуты
                                             <?endif?>
                                             <?if($definition->Name):?>
                                                 <div class="text-right">
-                                                    <?if($definition->Name === 'ean17' && in_array($event->Id, [2514, 2534])):?>
+                                                    <?if(in_array(strtolower($definition->Name), ['ean17', 'ean13']) && in_array($event->Id, [2514, 2534, 2997])):?>
                                                         <?=CHtml::tag('button', [
                                                             'type' => 'submit',
                                                             'name' => 'GroupData',
                                                             'value' => 'true',
                                                             'class' => 'btn btn-danger'
                                                         ], Yii::t('app', 'Распределить по группам и пронумеровать'))?>
+                                                        <br><br>
                                                     <?endif?>
 
                                                     <?=CHtml::tag('button', [

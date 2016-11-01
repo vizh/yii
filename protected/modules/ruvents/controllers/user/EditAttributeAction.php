@@ -40,7 +40,7 @@ class EditAttributeAction extends Action
             ->byEventId($this->getEvent()->Id)
             ->find();
 
-        if (!in_array($attrName, $setting->EditableUserData))
+        if (!in_array($attrName, $setting->EditableUserData ?: []))
             throw new Exception(901, $attrName);
 
         $userData = UserData::model()
