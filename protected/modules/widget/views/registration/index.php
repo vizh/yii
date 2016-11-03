@@ -33,10 +33,10 @@ $clientScript->registerScript('init', '
                         {{price.Title}} {{price.Price}} <?=Yii::t('app', 'руб.')?>
                     </p>
                 </td>
-                <td class="text-center col-width hidden-xs">
+                <td class="text-center col-width">
                     <?=\CHtml::tag('select', ['ng-model' => 'product.count', 'ng-options' => 'option for option in [0,1,2,3,4,5,6,7,8,9,10]'])?>
                     <?=$activeForm->hiddenField($form, 'Count[{{product.Id}}]', ['value' => '{{product.count}}'])?>
-                <td class="text-right col-width hidden-xs">
+                <td class="text-right col-width">
                     {{product.Price != 0 ? product.total  + " <?=Yii::t('app', 'руб.')?>" : "<?=\Yii::t('app', 'Бесплатно')?>"}}
                 </td>
             </tr>
