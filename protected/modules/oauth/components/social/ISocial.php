@@ -7,7 +7,6 @@ interface ISocial
     const Twitter = '13';
     const Vkontakte = '15';
     const Google = '16';
-    const Viadeo = '19';
     const PayPal = '21';
     const Linkedin = '22';
     const Ok = '23';
@@ -41,7 +40,7 @@ interface ISocial
     * @return string
     */
     public function getSocialTitle();
-  
+
     /**
     * @return void
     */

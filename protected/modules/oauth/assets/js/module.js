@@ -12,10 +12,9 @@ var OAuthModule = function()
     this.twiUrl = '';
     this.gUrl   = '';
     this.ppUrl  = '';
-    this.viadeoUrl = '';
     this.LinkedinUrl = '/oauth/social/request/22/';
     this.okUrl = '';
- 
+
     this.popUpWindow = null;
 
     fillOAuthUrls(this);
@@ -59,18 +58,13 @@ OAuthModule.prototype.init = function()
           self.twiLogin($(e.currentTarget).attr('href'));
       }
   });
-  
+
     $('#g_login').on('click', function (e) {
       if (isFrame() || isUserEditAction())
       {
           e.preventDefault();
           self.twiLogin($(e.currentTarget).attr('href'));
       }
-  });
-
-    $('#viadeo_login').on('click', function(e){
-    e.preventDefault();
-    self.viadeoLogin();
   });
 
     $('#li_login').on('click', function (e) {
@@ -142,23 +136,6 @@ OAuthModule.prototype.twiProcess = function()
   var self = this;
 
   window.location.href = self.twiUrl;
-};
-
-OAuthModule.prototype.viadeoLogin = function()
-{
-  var self = this;
-
-  VD.getLoginStatus(function(r) {
-    if (!r.session) {
-      VD.login(function(r) {
-        if(r.session){
-          window.location.href = self.viadeoUrl;
-        }
-      });
-    } else {
-      window.location.href = self.viadeoUrl;
-    }
-  });
 };
 
 OAuthModule.prototype.fbProcess = function()
