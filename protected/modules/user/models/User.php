@@ -224,7 +224,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     public function byRunetIdList($runetIdList, $useAnd = true)
     {
         $criteria = new \CDbCriteria();
-        $criteria->addInCondition('"t"."RunetId"', $runetIdList);
+        $criteria->addInCondition('"t"."RunetId"', array_map('intval', $runetIdList));
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
 
         return $this;
@@ -368,24 +368,10 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
 
         $parts = preg_split('/[, .]/', $searchTerm, self::MaxSearchFragments, PREG_SPLIT_NO_EMPTY);
         if (is_numeric($parts[0]) && (int)$parts[0] !== 0) {
-            return $this->bySearchNumbers($parts, $useAnd);
+            return $this->byRunetIdList($parts, $useAnd);
         } else {
             return $this->bySearchFullName($parts, $locale, $useAnd);
         }
-    }
-
-    /**
-     * @param array $numbers
-     * @param bool $useAnd
-     * @return User
-     */
-    private function bySearchNumbers($numbers, $useAnd = true)
-    {
-        foreach ($numbers as $key => $value) {
-            $numbers[$key] = (int)$value;
-        }
-
-        return $this->byRunetIdList($numbers, $useAnd);
     }
 
     /**
