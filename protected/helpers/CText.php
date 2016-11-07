@@ -57,8 +57,8 @@ class CText
 
     /**
      * Генерация поддельного адреса электронной почты
+     *
      * @param string $event
-     * @param array|null $uniques
      * @param string $domain домен почтового сервера
      * @return string
      */
@@ -69,5 +69,17 @@ class CText
             substr(md5(mt_rand().microtime(true)), 24),
             $domain
         );
+    }
+
+    /**
+     * Проверяет, что указанный адрес электронной почты не является поддельным
+     *
+     * @param $email
+     * @param string $domain
+     * @return bool
+     */
+    public static function isRealEmail($email, $domain = 'runet-id.com')
+    {
+        return preg_match("#^nomail.+?@{$domain}$#", $email) === false;
     }
 }

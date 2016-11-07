@@ -1,6 +1,8 @@
 <?php
 namespace mail\components;
 
+use CText;
+use Exception;
 use Yii;
 
 abstract class Mailer
@@ -11,26 +13,38 @@ abstract class Mailer
      */
     protected abstract function internalSend($mails);
 
+    /**
+     * Отправка писем
+     *
+     * @param Mail[] $mails
+     */
     public final function send($mails)
     {
-        if (!is_array($mails)) {
+        if (is_array($mails) === false) {
             $mails = [$mails];
         }
 
-        $error = null;
-        try {
-            $this->internalSend($mails);
-        } catch (\Exception $e) {
-            $error = $e->getMessage();
-        }
+        // Убеждаемся, что письма не будут отправляться на поддельные адреса
+        $mails = array_filter($mails, function (Mail $mail) {
+            return CText::isRealEmail($mail->getTo());
+        });
 
-        /** @var Mail $mail */
-        foreach ($mails as $mail) {
-            $log = $mail->getLog();
-            if ($error !== null) {
-                $log->setError($error);
+        if (empty($mails) === false) {
+            $error = null;
+
+            try {
+                $this->internalSend($mails);
+            } catch (Exception $e) {
+                $error = $e->getMessage();
             }
-            $log->save();
+
+            foreach ($mails as $mail) {
+                $log = $mail->getLog();
+                if ($error !== null) {
+                    $log->setError($error);
+                }
+                $log->save();
+            }
         }
     }
 
