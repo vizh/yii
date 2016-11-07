@@ -17,9 +17,8 @@ $clientScript->registerScript('init', '
     <table class="table table-striped products">
         <thead>
             <th></th>
+            <th class="text-center"><?=\Yii::t('app', 'Кол-во')?></th>
             <th class="text-right"><?=\Yii::t('app', 'Цена')?></th>
-            <th class="text-center hidden-xs"><?=\Yii::t('app', 'Кол-во')?></th>
-            <th class="text-right hidden-xs"><?=\Yii::t('app', 'Сумма')?></th>
         </thead>
         <tbody>
             <tr ng-repeat="product in products | orderBy:'-priority'">
@@ -27,17 +26,15 @@ $clientScript->registerScript('init', '
                     <strong>{{product.Title}}</strong>
                     <div class="text-muted m-top_5" ng-bind-html="product.Description" ng-if="product.Description"></div>
                 </td>
+                <td class="text-center col-width">
+                    <?=\CHtml::tag('select', ['ng-model' => 'product.count', 'ng-options' => 'option for option in [0,1,2,3,4,5,6,7,8,9,10]'])?>
+                    <?=$activeForm->hiddenField($form, 'Count[{{product.Id}}]', ['value' => '{{product.count}}'])?>
+                </td>
                 <td class="text-right col-width">
                     <strong>{{product.Price != 0 ? product.Price  + " <?=Yii::t('app', 'руб.')?>" : "<?=\Yii::t('app', 'Бесплатно')?>"}}</strong>
                     <p ng-repeat="price in product.futurePrices" class="future-price text-muted">
                         {{price.Title}} {{price.Price}} <?=Yii::t('app', 'руб.')?>
                     </p>
-                </td>
-                <td class="text-center col-width">
-                    <?=\CHtml::tag('select', ['ng-model' => 'product.count', 'ng-options' => 'option for option in [0,1,2,3,4,5,6,7,8,9,10]'])?>
-                    <?=$activeForm->hiddenField($form, 'Count[{{product.Id}}]', ['value' => '{{product.count}}'])?>
-                <td class="text-right col-width">
-                    {{product.Price != 0 ? product.total  + " <?=Yii::t('app', 'руб.')?>" : "<?=\Yii::t('app', 'Бесплатно')?>"}}
                 </td>
             </tr>
             <tr>
