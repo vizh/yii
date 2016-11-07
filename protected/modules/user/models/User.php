@@ -108,43 +108,8 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     {
         return [
             ['FirstName,LastName,FatherName', 'filter', 'filter' => 'trim'],
+            ['Email', 'filter', 'filter' => 'strtolower']
         ];
-    }
-
-    /**
-     * Allows authenticate the user by a hash
-     *
-     * @param int $runetId RunetId of the user
-     * @param string $hash Validation hash
-     * @param bool $temporary Is this temporary authorisation
-     * @throws AuthException
-     * @throws \CException
-     */
-    public static function fastAuth($runetId, $hash, $temporary = false)
-    {
-        if (!$user = self::model()->byRunetId($runetId)->find()) {
-            throw new AuthException("User with RunetId = $runetId is not found");
-        }
-
-        if ($user->getHash($temporary) !== $hash) {
-            throw new AuthException('Hash is invalid');
-        }
-
-        $identity = new RunetId($user->RunetId);
-        $identity->authenticate();
-        if ($identity->errorCode !== \CUserIdentity::ERROR_NONE) {
-            throw new AuthException("Error occurs while authentication process code: {$identity->errorCode}");
-        }
-
-        if (!$user->Temporary && !$temporary) {
-            Yii::app()->user->login($identity);
-        } else {
-            if (!Yii::app()->user->isGuest) {
-                Yii::app()->user->logout();
-            }
-
-            Yii::app()->tempUser->login($identity);
-        }
     }
 
     /**
@@ -228,14 +193,6 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         ];
     }
 
-    public function __set($name, $value)
-    {
-        if ($name === 'Email') {
-            $value = mb_strtolower($value);
-        }
-        parent::__set($name, $value);
-    }
-
     /**
      * @return string[]
      */
@@ -282,7 +239,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     {
         $criteria = new \CDbCriteria();
         $criteria->condition = '"t"."Email" = :Email';
-        $criteria->params = [':Email' => mb_strtolower($email)];
+        $criteria->params = [':Email' => strtolower($email)];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
 
         return $this;
