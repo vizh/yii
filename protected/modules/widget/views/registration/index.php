@@ -45,7 +45,7 @@ $clientScript->registerScript('init', '
         </tbody>
     </table>
     <div class="row">
-        <div class="col-sm-6 hidden-xs">
+        <div class="col-sm-6">
             <img src="/img/pay/pay-methods.png" class="pull-left" alt="<?=\Yii::t('app', 'Поддерживаемые способы оплаты')?>"/>
         </div>
         <div class="col-sm-6 text-right"><?=\CHtml::submitButton(\Yii::t('app', 'Зарегистрироваться'), ['class' => 'btn btn-primary'])?></div>
