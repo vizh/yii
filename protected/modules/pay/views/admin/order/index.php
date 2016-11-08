@@ -7,53 +7,42 @@
 ?>
 
 <?=CHtml::beginForm()?>
-
-  <div class="row-fluid">
-
+  <div class="row-fluid" style="margin-top:1em">
     <div class="span8">
-
-      <div class="row-fluid">
-        <div class="span6">
-          <?=CHtml::activeLabel($form, 'Order')?>
-          <?=CHtml::activeTextField($form, 'Order', array('class' => 'span12'))?>
-        </div>
-        <div class="span6">
-          <?=CHtml::activeLabel($form, 'Payer')?>
-          <?=CHtml::activeTextField($form, 'Payer', array('placeholder' => 'RUNET-ID', 'class' => 'span12'))?>
-        </div>
+      <div class="span6">
+        <?=CHtml::activeLabel($form, 'Order')?>
+        <?=CHtml::activeTextField($form, 'Order', ['class' => 'span12'])?>
       </div>
-
-      <div class="row-fluid">
-        <?=CHtml::activeLabel($form, 'Company')?>
-        <?$this->widget('\application\widgets\AutocompleteInput', [
-          'model' => $form,
-          'attribute' => 'Company',
-          'label' => $form->Company,
-          'htmlOptions' => ['class' => 'span12'],
-          'source' => $this->createUrl('autocomplete'),
-        ])?>
+      <div class="span6">
+        <?=CHtml::activeLabel($form, 'Payer')?>
+        <?=CHtml::activeTextField($form, 'Payer', ['placeholder' => 'RUNET-ID', 'class' => 'span12'])?>
       </div>
-
     </div>
-
     <div class="span3 offset1">
-
       <div class="row form-inline">
         <?=CHtml::activeCheckBox($form, 'Deleted')?>
         <?=CHtml::activeLabel($form, 'Deleted')?>
       </div>
-
       <div class="row form-inline">
         <?=CHtml::activeCheckBox($form, 'Paid')?>
         <?=CHtml::activeLabel($form, 'Paid')?>
       </div>
-
-      <div class="row">
-        <button class="btn btn-large" type="submit"><i class="icon-search"></i> Искать</button>
-      </div>
-
     </div>
-
+  </div>
+  <div class="row-fluid">
+    <div class="span8">
+      <?=CHtml::activeLabel($form, 'Company')?>
+      <?$this->widget('\application\widgets\AutocompleteInput', [
+        'model' => $form,
+        'attribute' => 'Company',
+        'label' => $form->Company,
+        'htmlOptions' => ['class' => 'span12'],
+        'source' => $this->createUrl('autocomplete'),
+      ])?>
+    </div>
+    <div class="span3 offset1">
+      <button class="btn btn-large" type="submit" style="margin-top:10px"><i class="icon-search"></i> Искать</button>
+    </div>
   </div>
 <?=CHtml::endForm()?>
 
