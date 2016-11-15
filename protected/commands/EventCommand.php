@@ -211,34 +211,36 @@ class EventCommand extends BaseConsoleCommand
      * Fetches or create the user
      *
      * @param string $email The user email
-     * @param string $firstName First name
-     * @param string $lastName Last name
-     * @param string $fatherName Father name
+     * @param string $firstname First name
+     * @param string $lastname Last name
+     * @param string $fathername Father name
      * @return User|null Created or fetched user
      */
-    private function fetchUser($email, $firstName, $lastName, $fatherName)
+    private function fetchUser($email, $firstname, $lastname, $fathername)
     {
-        if (!$user = User::model()->byTemporary(false)->byEmail($email)->find()) {
-            if (!$user = User::create($email, $firstName, $lastName, $fatherName, false)) {
-                $this->error('#$total: Unable to create a user');
-                return null;
-            } else {
-                if (!$user->LastName) {
-                    $user->LastName = $lastName;
-                }
+        $user = User::model()
+            ->byTemporary(false)
+            ->byEmail($email)
+            ->find();
 
-                if (!$user->FirstName) {
-                    $user->FirstName = $firstName;
-                }
+        if ($user === null) {
+            try {
+                $userData = [
+                    'Email' => $email,
+                    'FirstName' => $firstname,
+                    'LastName' => $lastname,
+                    'FatherName' => $fathername,
+                    'Visible' => false
+                ];
 
-                if (!$user->FatherName) {
-                    $user->FatherName = $fatherName;
-                }
-
-                $user->save();
+                $user = new User();
+                $user->setAttributes($userData, false);
+                $user->register(false);
+            } catch (CDbException $e) {
+                $this->error("Unable to create a user: {$e->getMessage()}");
+                $user = null;
             }
 
-            $user->refresh();
             $user->Settings->UnsubscribeAll = true;
             $user->Settings->save();
 

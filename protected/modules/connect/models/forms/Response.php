@@ -62,31 +62,40 @@ class Response extends CreateUpdateForm
             return null;
         }
 
-        $this->fillActiveRecord();
+        $transaction = Yii::app()->db->beginTransaction();
 
-        /** @var MeetingAR $meeting */
-        $meeting = $this->model->Meeting;
+        try{
+            $this->fillActiveRecord();
 
-        $saved = $this->model->save();
+            /** @var MeetingAR $meeting */
+            $meeting = $this->model->Meeting;
 
-        if ($saved){
-            if ($this->model->Status == MeetingLinkUser::STATUS_ACCEPTED){
-                $meeting->reserveMeetingRoom();
+            $saved = $this->model->save();
 
-                $event = new \CEvent($meeting);
-                $event->params['user'] = $this->model->User;
-                $meeting->onAccept($event);
+            if ($saved){
+                if ($this->model->Status == MeetingLinkUser::STATUS_ACCEPTED){
+                    $meeting->reserveMeetingRoom();
+
+                    $event = new \CEvent($meeting);
+                    $event->params['user'] = $this->model->User;
+                    $meeting->onAccept($event);
+                }
+                if ($this->model->Status == MeetingLinkUser::STATUS_DECLINED
+                    || $this->model->Status == MeetingLinkUser::STATUS_CANCELLED
+                ){
+                    $event = new \CEvent($meeting);
+                    $event->params['user'] = $this->model->User;
+                    $event->params['response'] = $this->Response;
+                    $meeting->onDeclineOrCancel($event);
+                }
             }
-            if ($this->model->Status == MeetingLinkUser::STATUS_DECLINED
-                || $this->model->Status == MeetingLinkUser::STATUS_CANCELLED
-            ){
-                $event = new \CEvent($meeting);
-                $event->params['user'] = $this->model->User;
-                $event->params['response'] = $this->Response;
-                $meeting->onDeclineOrCancel($event);
-            }
+
+            $transaction->commit();
+            return $saved;
         }
-
-        return $saved;
+        catch (\Exception $e){
+            $transaction->rollback();
+            throw $e;
+        }
     }
 }

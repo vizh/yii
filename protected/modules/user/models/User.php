@@ -102,75 +102,14 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     const PasswordLengthMin = 6;
 
     /**
-     * Creates a new one user
-     *
-     * @param string $email An email of the user
-     * @param string $firstName First name
-     * @param string $lastName Last name
-     * @param string $fatherName Father name
-     * @param bool $visible Whether the user should be visible
-     * @param bool $notify Whether the user should be notified after registration
-     * @return null|User
+     * @inheritdoc
      */
-    public static function create($email, $firstName, $lastName, $fatherName, $visible = true, $notify = false)
-    {
-        try {
-            $model = new self();
-            $model->setAttributes([
-                'Email' => $email,
-                'FirstName' => $firstName,
-                'LastName' => $lastName,
-                'FatherName' => $fatherName,
-                'Visible' => $visible
-            ], false);
-
-            return $model->register($notify);
-        } catch (\CDbException $e) {
-            return null;
-        }
-    }
-
     public function rules()
     {
         return [
             ['FirstName,LastName,FatherName', 'filter', 'filter' => 'trim'],
+            ['Email', 'filter', 'filter' => 'strtolower']
         ];
-    }
-
-    /**
-     * Allows authenticate the user by a hash
-     *
-     * @param int $runetId RunetId of the user
-     * @param string $hash Validation hash
-     * @param bool $temporary Is this temporary authorisation
-     * @throws AuthException
-     * @throws \CException
-     */
-    public static function fastAuth($runetId, $hash, $temporary = false)
-    {
-        if (!$user = self::model()->byRunetId($runetId)->find()) {
-            throw new AuthException("User with RunetId = $runetId is not found");
-        }
-
-        if ($user->getHash($temporary) !== $hash) {
-            throw new AuthException('Hash is invalid');
-        }
-
-        $identity = new RunetId($user->RunetId);
-        $identity->authenticate();
-        if ($identity->errorCode !== \CUserIdentity::ERROR_NONE) {
-            throw new AuthException("Error occurs while authentication process code: {$identity->errorCode}");
-        }
-
-        if (!$user->Temporary && !$temporary) {
-            Yii::app()->user->login($identity);
-        } else {
-            if (!Yii::app()->user->isGuest) {
-                Yii::app()->user->logout();
-            }
-
-            Yii::app()->tempUser->login($identity);
-        }
     }
 
     /**
@@ -254,14 +193,6 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         ];
     }
 
-    public function __set($name, $value)
-    {
-        if ($name === 'Email') {
-            $value = mb_strtolower($value);
-        }
-        parent::__set($name, $value);
-    }
-
     /**
      * @return string[]
      */
@@ -293,7 +224,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     public function byRunetIdList($runetIdList, $useAnd = true)
     {
         $criteria = new \CDbCriteria();
-        $criteria->addInCondition('"t"."RunetId"', $runetIdList);
+        $criteria->addInCondition('"t"."RunetId"', array_map('intval', $runetIdList));
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
 
         return $this;
@@ -308,7 +239,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     {
         $criteria = new \CDbCriteria();
         $criteria->condition = '"t"."Email" = :Email';
-        $criteria->params = [':Email' => mb_strtolower($email)];
+        $criteria->params = [':Email' => strtolower($email)];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
 
         return $this;
@@ -418,7 +349,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      */
     public function bySearch($searchTerm, $locale = null, $useAnd = true, $useVisible = true)
     {
-        if ($useVisible) {
+        if ($useVisible === true) {
             $this->byVisible(true);
         }
 
@@ -437,24 +368,10 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
 
         $parts = preg_split('/[, .]/', $searchTerm, self::MaxSearchFragments, PREG_SPLIT_NO_EMPTY);
         if (is_numeric($parts[0]) && (int)$parts[0] !== 0) {
-            return $this->bySearchNumbers($parts, $useAnd);
+            return $this->byRunetIdList($parts, $useAnd);
         } else {
             return $this->bySearchFullName($parts, $locale, $useAnd);
         }
-    }
-
-    /**
-     * @param array $numbers
-     * @param bool $useAnd
-     * @return User
-     */
-    private function bySearchNumbers($numbers, $useAnd = true)
-    {
-        foreach ($numbers as $key => $value) {
-            $numbers[$key] = (int)$value;
-        }
-
-        return $this->byRunetIdList($numbers, $useAnd);
     }
 
     /**

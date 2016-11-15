@@ -3,6 +3,7 @@ namespace event\models;
 
 use application\components\ActiveRecord;
 use application\components\CDbCriteria;
+use application\hacks\AbstractHack;
 use event\components\tickets\Ticket;
 use mail\components\mailers\SESMailer;
 use partner\models\Account;
@@ -73,6 +74,12 @@ class Participant extends ActiveRecord
             'Part' => [self::BELONGS_TO, 'event\models\Part', 'PartId'],
             'Data' => [self::HAS_MANY, 'event\models\UserData', ['UserId' => 'UserId'], 'on' => '"Data"."EventId" = "t"."EventId"']
         ];
+    }
+
+    protected function afterSave()
+    {
+        AbstractHack::getByEvent($this->Event)->onParticipantSaved($this);
+        parent::afterSave();
     }
 
     /**
