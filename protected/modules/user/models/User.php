@@ -349,7 +349,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      */
     public function bySearch($searchTerm, $locale = null, $useAnd = true, $useVisible = true)
     {
-        if ($useVisible) {
+        if ($useVisible === true) {
             $this->byVisible(true);
         }
 
