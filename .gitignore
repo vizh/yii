@@ -19,3 +19,4 @@ data
 config/db.php
 protected/yiic.php
 www/assets/
+config/db.local.php
