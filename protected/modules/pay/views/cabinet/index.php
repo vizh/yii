@@ -17,6 +17,17 @@
     }
   </style>
 <?endif?>
+<?if($this->getEvent()->IdName === 'testEvent'):?>
+<style>
+  header#header,
+  footer#footer {
+    display: none;
+  }
+  #section {
+    padding-bottom: 0 !important;
+  }
+  </style>
+<?endif;?>
 <div class="event-register" data-event-idname="<?=$this->getEvent()->IdName?>">
   <div class="container">
 
