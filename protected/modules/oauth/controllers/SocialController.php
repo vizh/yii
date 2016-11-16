@@ -1,5 +1,6 @@
 <?php
 
+use user\models\User;
 
 class SocialController extends \oauth\components\Controller
 {
@@ -15,8 +16,27 @@ class SocialController extends \oauth\components\Controller
         if ($socialProxy->isHasAccess())
         {
             $data = $socialProxy->getData();
-            $social = $socialProxy->getSocial($data->Hash);
-            if (!empty($social))
+            $social = $socialProxy->getSocial($data->Hash, true);
+
+            /**
+             * Очень временное решение. РЕШИТЬ ПРОБЛЕМУ
+             */
+            // Значит есть дубли в таблице OAuthSocial. Ищем реального пользователя
+            if(count($social) > 1){
+                $uids = [];
+                foreach($social as $s){
+                    $uids[] = $s->UserId;
+                }
+                $criteria = new CDbCriteria();
+                $criteria->addInCondition('"Id"', $uids);
+                $users = User::model()->findAll($criteria);
+                $social = $social[0];
+                $social->User=$users[0];
+            }else{
+                $social = $social[0];
+            }
+
+            if (!empty($social) && !empty($social->User))
             {
                 $identity = new \application\components\auth\identity\RunetId($social->User->RunetId);
                 $identity->authenticate();
@@ -44,7 +64,6 @@ class SocialController extends \oauth\components\Controller
     /**
      * @throws CHttpException
      */
-
     public function actionConnect()
     {
         $socialProxy = new \oauth\components\social\Proxy($this->social);

@@ -72,9 +72,13 @@ class Proxy implements ISocial
    * @param $hash
    * @return \oauth\models\Social|null
    */
-  public function getSocial($hash)
+  public function getSocial($hash, $dublicates = false)
   {
-    return \oauth\models\Social::model()->byHash($hash)->bySocialId($this->getSocialId())->find();
+      if($dublicates){
+          return \oauth\models\Social::model()->byHash($hash)->bySocialId($this->getSocialId())->findAll();
+      }else{
+          return \oauth\models\Social::model()->byHash($hash)->bySocialId($this->getSocialId())->find();
+      }
   }
 
   /**
