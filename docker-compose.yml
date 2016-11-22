@@ -4,8 +4,6 @@ volumes:
 services:
   app:
     image: 'ruvents/php:5.6'
-    volumes:
-      - '.:/var/www/html/'
     links:
       - mongo
       - database
@@ -20,6 +18,10 @@ services:
       DATABASE_DATABASE: runetid
       MONGO_HOSTNAME: mongo
       MONGO_DATABASE: runetid
+    volumes:
+      - '.:/var/www/html/'
+      - './config/docker/bootstrap.sh:/init.sh'
+      - './config/docker/database.php:/var/www/html/config/db.php'
   nginx:
     image: 'nginx'
     ports:
@@ -43,5 +45,5 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - './config/dump.sql:/docker-entrypoint-initdb.d/dump.sql'
       - 'fs_database:/var/lib/postgresql/data'
+      - './config/docker/database.sql:/docker-entrypoint-initdb.d/dump.sql'
