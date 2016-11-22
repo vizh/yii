@@ -3,7 +3,7 @@
 1. Убеждаемся, что на портах 80, 27017, 5432 ничего не висит.
 2. Копируем текущий боевой дамп в /conf/docker/database.sql что бы он развернулся во время инициализации.
 3. `docker-compose up`
-5. /etc/hosts:
+4. /etc/hosts:
    `127.0.0.1           runet-id.dev`
    `127.0.0.1       api.runet-id.dev`
    `127.0.0.1     admin.runet-id.dev`
