@@ -17,6 +17,5 @@ www/stylesheets/pixel-admin/custom.css
 www/images/temp/
 data
 config/db.php
-protected/yiic.php
 www/assets/
 config/db.local.php
