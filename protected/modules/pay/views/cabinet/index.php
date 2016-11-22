@@ -7,6 +7,11 @@
  *
  * @var $this \pay\components\Controller
  */
+
+$eventsWithoutHEader = [
+    'idc17',
+    'testEvent'
+]
 ?>
 <?if($this->getEvent()->IdName === 'forinnovations16'):?>
   <style>
@@ -17,7 +22,7 @@
     }
   </style>
 <?endif?>
-<?if($this->getEvent()->IdName === 'testEvent'):?>
+<?if(in_array($this->getEvent()->IdName,$eventsWithoutHEader)):?>
 <style>
   header#header,
   footer#footer {
