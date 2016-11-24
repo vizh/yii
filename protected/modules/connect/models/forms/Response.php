@@ -15,7 +15,7 @@ class Response extends CreateUpdateForm
     {
         return [
             ['Status', 'in', 'range' => [MeetingLinkUser::STATUS_ACCEPTED, MeetingLinkUser::STATUS_DECLINED, MeetingLinkUser::STATUS_CANCELLED]],
-            ['Response', 'length', 'min' => 0, 'max' => 255]
+            ['Response', 'filter', 'filter' => function($value){ return (new \CHtmlPurifier())->purify($value); }]
         ];
     }
 
@@ -62,31 +62,40 @@ class Response extends CreateUpdateForm
             return null;
         }
 
-        $this->fillActiveRecord();
+        $transaction = Yii::app()->db->beginTransaction();
 
-        /** @var MeetingAR $meeting */
-        $meeting = $this->model->Meeting;
+        try{
+            $this->fillActiveRecord();
 
-        $saved = $this->model->save();
+            /** @var MeetingAR $meeting */
+            $meeting = $this->model->Meeting;
 
-        if ($saved){
-            if ($this->model->Status == MeetingLinkUser::STATUS_ACCEPTED){
-                $meeting->reserveMeetingRoom();
+            $saved = $this->model->save();
 
-                $event = new \CEvent($meeting);
-                $event->params['user'] = $this->model->User;
-                $meeting->onAccept($event);
+            if ($saved){
+                if ($this->model->Status == MeetingLinkUser::STATUS_ACCEPTED){
+                    $meeting->reserveMeetingRoom();
+
+                    $event = new \CEvent($meeting);
+                    $event->params['user'] = $this->model->User;
+                    $meeting->onAccept($event);
+                }
+                if ($this->model->Status == MeetingLinkUser::STATUS_DECLINED
+                    || $this->model->Status == MeetingLinkUser::STATUS_CANCELLED
+                ){
+                    $event = new \CEvent($meeting);
+                    $event->params['user'] = $this->model->User;
+                    $event->params['response'] = $this->Response;
+                    $meeting->onDeclineOrCancel($event);
+                }
             }
-            if ($this->model->Status == MeetingLinkUser::STATUS_DECLINED
-                || $this->model->Status == MeetingLinkUser::STATUS_CANCELLED
-            ){
-                $event = new \CEvent($meeting);
-                $event->params['user'] = $this->model->User;
-                $event->params['response'] = $this->Response;
-                $meeting->onDeclineOrCancel($event);
-            }
+
+            $transaction->commit();
+            return $saved;
         }
-
-        return $saved;
+        catch (\Exception $e){
+            $transaction->rollback();
+            throw $e;
+        }
     }
 }

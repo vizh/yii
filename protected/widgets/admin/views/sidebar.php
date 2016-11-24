@@ -75,6 +75,7 @@
       <li><a href="<?=Yii::app()->createUrl('/pay/admin/order/payers')?>">Плательщики</a></li>
     <li><a href="<?=Yii::app()->createUrl('/pay/admin/import/index')?>">Импорт</a></li>
     <li><a href="<?=Yii::app()->createUrl('/pay/admin/failure/index')?>">Неудачные оплаты</a></li>
+    <li><a href="<?=Yii::app()->createUrl('/pay/admin/stats/index')?>">Сборы по мероприятиям</a></li>
   </ul>
 
 

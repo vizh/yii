@@ -43,7 +43,6 @@ $config = [
         'cache' => [
             'class' => 'CXCache'
         ],
-        'db' => require 'db.php',
         'image' => [
             'class' => 'application.extensions.image.CImageComponent',
             'driver' => 'GD',
@@ -56,7 +55,7 @@ $config = [
             'connectionID' => 'db',
             'autoCreateSessionTable' => true,
             'sessionName' => 'sessid',
-            'timeout' => 180 * 24 * 60 * 60,
+            'timeout' => 15552000,
             'gCProbability' => 1,
             'cookieParams' => ['lifetime' => 0, 'domain' => '.'.RUNETID_HOST, 'httponly' => true],
         ],
@@ -67,7 +66,6 @@ $config = [
         'errorHandler' => [
             'errorAction' => '/main/error/index',
         ],
-        'mongodb' => require 'mongo-db.php',
         'log' => [
             'class' => 'CLogRouter',
             'routes' => require 'log-routes.php',
@@ -90,13 +88,16 @@ if (preg_match('#^(api|ruvents)\.#', $_SERVER['HTTP_HOST'])) {
     ];
 }
 
+$config = CMap::mergeArray($config, require 'db.php');
 $config = CMap::mergeArray($config, require 'api.php');
 $config = CMap::mergeArray($config, require 'partner.php');
 $config = CMap::mergeArray($config, require 'ruvents.php');
 $config = CMap::mergeArray($config, require 'ruvents2.php');
 
-$config['components']['urlManager']['rules'] = CMap::mergeArray($config['components']['urlManager']['rules'],
-    require 'routes.php');
+$config['components']['urlManager']['rules'] = CMap::mergeArray(
+    $config['components']['urlManager']['rules'],
+    require 'routes.php'
+);
 
 if (YII_DEBUG) {
     $config['components']['debug'] = [

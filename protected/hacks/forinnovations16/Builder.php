@@ -1,4 +1,5 @@
 <?php
+
 namespace application\hacks\forinnovations16;
 
 use api\models\Account;
@@ -50,7 +51,6 @@ class Builder extends \api\components\builders\Builder
                 $this->user->AttributesRaw->passportSeries,
                 $this->user->AttributesRaw->passportNumber,
                 $this->user->AttributesRaw->needsVisaSupport,
-                $this->user->AttributesRaw->companyRussian,
                 $this->user->AttributesRaw->studak,
                 $this->user->AttributesRaw->activity_sphere,
                 $this->user->AttributesRaw->business_size,
@@ -66,6 +66,20 @@ class Builder extends \api\components\builders\Builder
                 $this->user->AttributesRaw->biography,
                 $this->user->AttributesRaw->statusOffline
             );
+        }
+
+        return $this->user;
+    }
+
+    protected function buildUserContacts($user)
+    {
+        $this->user->Email = $user->Email;
+        $this->user->Phone = $user->getPhone(false);
+        $this->user->PhoneFormatted = $user->getPhone();
+
+        $this->user->Phones = [];
+        foreach ($user->LinkPhones as $link) {
+            $this->user->Phones[] = (string)$link->Phone;
         }
 
         return $this->user;

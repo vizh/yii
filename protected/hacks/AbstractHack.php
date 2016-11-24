@@ -4,6 +4,7 @@ namespace application\hacks;
 
 use api\models\Account;
 use event\models\Event;
+use event\models\Participant;
 use user\models\User;
 
 class AbstractHack
@@ -30,7 +31,6 @@ class AbstractHack
 
     public function init()
     {
-
     }
 
     public function onPartnerMenuBuild(array $items)
@@ -60,5 +60,9 @@ class AbstractHack
     public function apiCustomLogin(/** @noinspection PhpUnusedParameterInspection */ $email, $password)
     {
         return null;
+    }
+
+    public function onParticipantSaved(Participant $participant)
+    {
     }
 }

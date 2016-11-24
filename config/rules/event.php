@@ -28,6 +28,6 @@ return [
         'roles' => ['admin'],
         'module' => 'event',
         'controllers' => ['admin/default', 'admin/edit', 'admin/list', 'admin/section', 'admin/oneuse', 'admin/mail',
-            'admin/fb', 'admin/demo'],
+            'admin/fb', 'admin/demo', 'admin/stat'],
     ],
 ];

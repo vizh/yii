@@ -231,7 +231,19 @@ class Participant extends CreateUpdateForm
      */
     private function getIsEmptyReportData()
     {
-        return empty($this->ReportTitle) && empty($this->ReportThesis) && empty($this->ReportUrl) && empty($this->ReportFullInfo);
+        $empty = empty($this->ReportTitle)
+            && empty($this->ReportThesis)
+            && empty($this->ReportUrl)
+            && empty($this->ReportFullInfo);
+
+        if ($empty === true && $this->model->Report !== null) {
+            $empty = empty($this->model->Report->Title)
+                && empty($this->model->Report->Thesis)
+                && empty($this->model->Report->Url)
+                && empty($this->model->Report->FullInfo);
+        }
+
+        return $empty;
     }
 
     /**

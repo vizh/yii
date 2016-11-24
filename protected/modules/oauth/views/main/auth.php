@@ -40,14 +40,6 @@ $params = [];
     js.src = "//connect.facebook.net/en_US/all.js";
     ref.parentNode.insertBefore(js, ref);
   }(document));
-
-  (loadScript('//cdn.viadeo.com/javascript/sdk.js', function(){
-    VD.init({
-      apiKey: '<?=\oauth\components\social\Viadeo::AppId?>',
-      status: true,
-      cookie: true
-    });
-  }));
 </script>
 
 <?=CHtml::beginForm([], 'post', ['id'=>'authForm'])?>

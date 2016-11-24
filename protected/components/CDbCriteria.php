@@ -34,6 +34,13 @@ class CDbCriteria extends \CDbCriteria
         return $this;
     }
 
+    public function setOffset($offset)
+    {
+        $this->offset = $offset;
+
+        return $this;
+    }
+
     public function setWith(array $with, $condition = null, array $params = null)
     {
         $this->with = $with;
@@ -85,5 +92,7 @@ class CDbCriteria extends \CDbCriteria
     public function apply(\CActiveRecord $model)
     {
         $model->getDbCriteria()->mergeWith($this);
+
+        return $this;
     }
 }

@@ -56,7 +56,7 @@ class AjaxController extends PublicMainController
                 is_numeric($term) ? $model->byRunetId($term) : $model->bySearch($term);
             }
         } else {
-            $model->bySearch($term, null, true, false);
+            $model->bySearch($term, null, true, true);
 
             if ($eventId !== null) {
                 $event = \event\models\Event::model()->findByPk($eventId);

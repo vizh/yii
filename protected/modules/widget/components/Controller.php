@@ -27,17 +27,27 @@ class Controller extends MainController
         if ($this->apiKey !== null) {
             $this->apiAccount = Account::model()->byKey($this->apiKey)->find();
         }
-        $this->url = $request->getParam('url');
-        if ($this->apiAccount === null) {
-            throw new \CHttpException(400, 'Не найден аккаунт внешнего агента');
-        }
+        try {
+            if ($this->apiAccount === null) {
+                throw new \CHttpException(400, "Некорректный ApiKey: {$this->apiKey}");
+            }
 
-        if (empty($this->url) || !$this->apiAccount->checkUrl($this->url)) {
-            throw new \CHttpException(400, 'Не корректно задан путь возврата' . $this->url);
+            $this->url = $request->getParam('url');
+
+            if (empty($this->url) || !$this->apiAccount->checkUrl($this->url)) {
+                throw new \CHttpException(400, "Адрес {$this->url} не согласован для расположения виджета");
+            }
+        } catch (\CHttpException $e) {
+            // Для проблем с отображением виджета выведем человекопонятное сообщение
+            if ($request->getPathInfo() === 'widget/registration/index') {
+                echo "<script>alert('Ошибка! {$e->getMessage()}')</script>";
+                exit;
+            }
+            // Для всех остальных, - бросаем исключение далее
+            throw $e;
         }
         parent::init();
     }
-
 
     protected function initResources()
     {
@@ -150,4 +160,4 @@ class Controller extends MainController
         }
         return null;
     }
-} 
+}

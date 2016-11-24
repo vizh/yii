@@ -3,6 +3,7 @@
 namespace connect\models;
 
 use application\components\ActiveRecord;
+use user\models\User;
 
 /**
  * @property integer $Id
@@ -10,6 +11,9 @@ use application\components\ActiveRecord;
  * @property integer $UserId
  * @property integer $Status
  * @property string $Response
+ *
+ * @property Meeting $Meeting
+ * @property User $User
  *
  * @method MeetingLinkUser byMeetingId(int $id)
  * @method MeetingLinkUser byUserId(int $id)

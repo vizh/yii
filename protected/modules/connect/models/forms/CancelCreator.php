@@ -14,7 +14,7 @@ class CancelCreator extends CreateUpdateForm
     {
         return [
             ['Status', 'in', 'range' => [MeetingAR::STATUS_CANCELLED]],
-            ['Response', 'length', 'min' => 0, 'max' => 255]
+            ['Response', 'filter', 'filter' => function($value){ return (new \CHtmlPurifier())->purify($value); }]
         ];
     }
 

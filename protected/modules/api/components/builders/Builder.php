@@ -940,7 +940,7 @@ class Builder
      * @param User $user
      * @return bool
      */
-    private function hasContactsPermission(User $user)
+    protected function hasContactsPermission(User $user)
     {
         switch ($this->account->Role) {
             case Account::ROLE_OWN:

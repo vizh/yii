@@ -27,7 +27,7 @@
 <?
 $role = \event\models\Role::model()->findByPk(24);
 $event = \event\models\Event::model()->findByPk(870);
-$registerLink = $event->getFastRegisterUrl($user, $role, '/event/csf14/#event_widgets_Users');
+$registerLink = $event->getFastRegisterUrl($user, \event\models\Role::model()->findByPk(17), '/event/premiaru16/');
 ?>
 
 <h3><a href="<?=$registerLink?>">БЫСТРАЯ РЕГИСТРАЦИЯ &raquo;</a></h3>

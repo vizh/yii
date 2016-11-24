@@ -14,15 +14,18 @@ class Paginator
   public $perPage = 20;
   public $pages   = 13;
 
+  public $pageParam = 'page';
+
   /**
    * @param int $count
    * @param array $params
    */
-  public function __construct($count, $params = [], $showButtonAll = false)
+  public function __construct($count, $params = [], $showButtonAll = false, $pageParam = 'page')
   {
     $this->count = $count;
     $this->params = $params;
-    $this->page = \Yii::app()->request->getParam('page', 1);
+    $this->page = \Yii::app()->request->getParam($pageParam, 1);
+    $this->pageParam = $pageParam;
     $this->showButtonAll = $showButtonAll;
 
     if ($this->page != self::AllPageName || !$this->showButtonAll)
@@ -149,7 +152,7 @@ class Paginator
   public function getUrl($page)
   {
     $route = '/'.\Yii::app()->getController()->getModule()->getId().'/'.\Yii::app()->getController()->getId().'/'.\Yii::app()->getController()->getAction()->getId();
-    $this->params['page'] = $page;
+    $this->params[$this->pageParam] = $page;
     $params = array_merge($_GET, $this->params);
     return \Yii::app()->createUrl($route, $params);
   }

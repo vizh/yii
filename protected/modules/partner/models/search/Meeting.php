@@ -15,6 +15,12 @@ use user\models\User;
 
 class Meeting extends SearchFormModel
 {
+    const STATUS_SENT = 0;
+    const STATUS_ACCEPTED = 1;
+    const STATUS_DECLINED = 2;
+    const STATUS_CANCELLED_USER = 3;
+    const STATUS_CANCELLED_CREATOR = 4;
+
     /** @var Event */
     private $event;
 
@@ -93,7 +99,12 @@ class Meeting extends SearchFormModel
             $criteria->params[':date'] = $this->Date;
         }
         if ($this->Status != null){
-            $criteria->addColumnCondition(['"UserLinks"."Status"' => $this->Status]);
+            if (in_array($this->Status, [self::STATUS_SENT, self::STATUS_ACCEPTED, self::STATUS_DECLINED, self::STATUS_CANCELLED_USER])){
+                $criteria->addColumnCondition(['"UserLinks"."Status"' => $this->Status]);
+            }
+            if ($this->Status == self::STATUS_CANCELLED_CREATOR){
+                $criteria->addColumnCondition(['"t"."Status"' => \connect\models\Meeting::STATUS_CANCELLED]);
+            }
         }
 
         return $criteria;
@@ -109,10 +120,11 @@ class Meeting extends SearchFormModel
     public function getStatusData()
     {
         return [
-            MeetingLinkUser::STATUS_SENT => 'Отправлено',
-            MeetingLinkUser::STATUS_ACCEPTED => 'Принято',
-            MeetingLinkUser::STATUS_DECLINED => 'Отклонено',
-            MeetingLinkUser::STATUS_CANCELLED => 'Отменено',
+            self::STATUS_SENT => 'Отправлено',
+            self::STATUS_ACCEPTED => 'Принято',
+            self::STATUS_DECLINED => 'Отклонено',
+            self::STATUS_CANCELLED_USER => 'Отменено приглашенным',
+            self::STATUS_CANCELLED_CREATOR => 'Отменено пригласившим',
         ];
     }
 }

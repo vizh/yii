@@ -15,7 +15,7 @@ $clientScript->registerScript('init', '
     new CApiSettings(' . json_encode($form->getAttributes()) . ');
 ', \CClientScript::POS_HEAD);
 
-$this->setPageTitle('API');
+$this->setPageTitle('Виджет регистрации');
 ?>
 <?$activeForm = $this->beginWidget('\application\widgets\ActiveForm', ['htmlOptions' => ['class' => 'form-horizontal']])?>
 <div class="panel panel-info">

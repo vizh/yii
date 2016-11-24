@@ -1,5 +1,6 @@
 <?php
 
+use application\components\auth\identity\RunetId;
 use application\components\controllers\PublicMainController;
 use competence\models\Result;
 use competence\models\Test;
@@ -266,7 +267,37 @@ class MainController extends PublicMainController
         }
 
         try {
-            User::fastAuth($runetId, $hash);
+            $user = User::model()
+                ->byRunetId($runetId)
+                ->find();
+
+            if ($user === null) {
+                throw new AuthException("User with RunetId = $runetId is not found");
+            }
+
+            if ($user->getHash(false) !== $hash) {
+                throw new AuthException('Hash is invalid');
+            }
+
+            $identity = new RunetId($user->RunetId);
+            $identity->authenticate();
+
+            if ($identity->errorCode !== \CUserIdentity::ERROR_NONE) {
+                Yii::log("Error occurs while authentication process code: {$identity->errorCode}");
+                return;
+            }
+
+            if ($user->Temporary === false) {
+                Yii::app()->user->login($identity);
+
+                return;
+            }
+
+            if (Yii::app()->user->isGuest === false) {
+                Yii::app()->user->logout();
+            }
+
+            Yii::app()->tempUser->login($identity);
         } catch (AuthException $e) {
         }
     }

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: opcode
- * Date: 24/09/16
- * Time: 01:09
- */
 
 namespace application\hacks\nobel16;
 

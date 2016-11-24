@@ -21,13 +21,14 @@ class UpdatedUsersAction extends \ruvents\components\Action
         ini_set('memory_limit', '512M');
 
         $request = \Yii::app()->getRequest();
+        $fromUpdateTime = $request->getParam('FromUpdateTime');
         $byPage = $request->getParam('Limit', 200);
         $needCustomFormat = $request->getParam('CustomFormat', false) == '1';
 
         if (empty($fromUpdateTime))
             throw new Exception(900, 'FromUpdateTime');
 
-        $fromUpdateTime = date('Y-m-d H:i:s', strtotime($request->getParam('FromUpdateTime')));
+        $fromUpdateTime = date('Y-m-d H:i:s', strtotime($fromUpdateTime));
         $nextUpdateTime = date('Y-m-d H:i:s');
 
         $pageToken = $request->getParam('PageToken', null);

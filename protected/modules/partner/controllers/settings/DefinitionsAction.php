@@ -131,81 +131,145 @@ class DefinitionsAction extends Action
      */
     private function groupUsers(Event $event)
     {
-        $groupData = [
-            14001 => 0,
-            14002 => 0,
-            14003 => 0,
-            14004 => 0
-        ];
+        if ($event->Id === 2997)
+        {
+            $groups = [
+                0 => [771916655953, 771916665535],
+                1 => [771916000000, 771916000416]
+            ];
 
-        $usersData = UserData::model()
-            ->byEventId($this->getEvent()->Id)
-            ->findAll();
-
-        /* Построем кеш участия пользователей дабы
-         * избежать лишней серии запросов к базе */
-        $participations = [];
-
-        /* Ищем максимальные из уже существующих индексы */
-        foreach ($usersData as $userData) {
-            $dataManager = $userData->getManager();
-
-            $participant = Participant::model()
+            $participants = Participant::model()
                 ->byEventId($this->getEvent()->Id)
-                ->byUserId($userData->UserId)
-                ->find();
+                ->findAll();
 
-            if ($participant == null) {
-                continue;
+            // Тут список RunetId которым необходимо выделить новый номер
+            $ungrouped = [];
+
+            // Определим максимальный индекс из назначенных
+            foreach ($participants as $participant)
+            {
+                // Если посетитель не в интересующих нас группах, то пропускаем его
+                if (false === in_array($participant->RoleId, [406, 407]))
+                    continue;
+
+                $userData = UserData::model()
+                    ->byEventId($event->Id)
+                    ->byUserId($participant->UserId)
+                    ->find();
+
+                if ($userData === null)
+                    $userData = UserData::createEmpty($this->getEvent(), $participant->User);
+
+                $dataManager
+                    = $userData->getManager();
+
+                // Если код уже установлен, то запомним его
+                if (isset($dataManager->EAN13) && !empty($dataManager->EAN13))
+                {
+                    $currentCode = (int) $dataManager->EAN13;
+
+                    if ($groups[0][0] < $currentCode)
+                        $groups[0][0] = $currentCode;
+
+                    continue;
+                }
+
+                // Так как код для текущего посетителя ещё не установлен, то запомним его
+                $ungrouped[] = $userData->UserId;
             }
 
-            $participations[$userData->UserId]
-                = $participant->RoleId;
+            // Назначаем новые коды посетителям
+            foreach ($participants as $participant)
+            {
+                if (false === in_array($participant->UserId, $ungrouped))
+                    continue;
 
-            if (!isset($dataManager->ean17) || empty($dataManager->ean17)) {
-                continue;
+                $userData = UserData::model()
+                    ->byEventId($event->Id)
+                    ->byUserId($participant->UserId)
+                    ->find();
+
+                $userData->getManager()->EAN13 = ($groups[0][0]++) + 1;
+                $userData->save();
+            }
+        } else {
+
+            $groupData = [
+                14001 => 0,
+                14002 => 0,
+                14003 => 0,
+                14004 => 0
+            ];
+
+            $usersData = UserData::model()
+                ->byEventId($this->getEvent()->Id)
+                ->findAll();
+
+            /* Построем кеш участия пользователей дабы
+             * избежать лишней серии запросов к базе */
+            $participations = [];
+
+            /* Ищем максимальные из уже существующих индексы */
+            foreach ($usersData as $userData) {
+                $dataManager = $userData->getManager();
+
+                $participant = Participant::model()
+                    ->byEventId($this->getEvent()->Id)
+                    ->byUserId($userData->UserId)
+                    ->find();
+
+                if ($participant == null) {
+                    continue;
+                }
+
+                $participations[$userData->UserId]
+                    = $participant->RoleId;
+
+                if (!isset($dataManager->ean17) || empty($dataManager->ean17)) {
+                    continue;
+                }
+
+                $group = $this->participantGroup($event, $participant->RoleId);
+
+                if ($group == null) {
+                    continue;
+                }
+
+                $index = (int)substr($dataManager->ean17, 5);
+
+                if ($groupData[$group] < $index) {
+                    $groupData[$group] = $index;
+                }
             }
 
-            $group = $this->participantGroup($event, $participant->RoleId);
+            foreach ($usersData as $userData) {
+                if (!isset($participations[$userData->UserId])) {
+                    continue;
+                }
 
-            if ($group == null) {
-                continue;
-            }
+                $dataManager = $userData->getManager();
 
-            $index = (int)substr($dataManager->ean17, 5);
+                /* Не трогаем тех, кому номер уже присвоен */
+                if (isset($dataManager->ean17) && !empty($dataManager->ean17)) {
+                    continue;
+                }
 
-            if ($groupData[$group] < $index) {
+                $group = $this->participantGroup($event, $participations[$userData->UserId]);
+
+                /* Нет группы, нет номера. Всё просто. */
+                if ($group === null) {
+                    continue;
+                }
+
+                $index = $groupData[$group] + 1;
                 $groupData[$group] = $index;
+
+                /* Присваеваем номер */
+                $dataManager->ean17
+                    = sprintf('%d%07d', $group, $index);
+
+                $userData->save(false);
             }
-        }
-
-        foreach ($usersData as $userData) {
-            if (!isset($participations[$userData->UserId])) {
-                continue;
-            }
-
-            $dataManager = $userData->getManager();
-
-            /* Не трогаем тех, кому номер уже присвоен */
-            if (isset($dataManager->ean17) && !empty($dataManager->ean17)) {
-                continue;
-            }
-
-            $group = $this->participantGroup($event, $participations[$userData->UserId]);
-
-            /* Нет группы, нет номера. Всё просто. */
-            if ($group === null) {
-                continue;
-            }
-
-            $index = $groupData[$group] + 1;
-            $groupData[$group] = $index;
-
-            /* Присваеваем номер */
-            $dataManager->ean17
-                = sprintf('%d%07d', $group, $index);
-
-            $userData->save(false);
         }
     }
 

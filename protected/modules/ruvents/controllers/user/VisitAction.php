@@ -23,15 +23,14 @@ class VisitAction extends Action
 
         $id = $request->getParam('RunetId', null);
         $mark = $request->getParam('MarkId', null);
+        $date = $request->getParam('Date', date('Y-m-d H:i:s'));
 
         if (empty($id)) {
             throw new Exception(900, 'RunetId');
-            //throw new \CHttpException(404);
         }
 
         if (empty($mark)) {
             throw new Exception(900, 'MarkId');
-            //throw new \CHttpException(404);
         }
 
         $user = User::model()
@@ -46,6 +45,7 @@ class VisitAction extends Action
             'UserId' => $user->Id,
             'EventId' => $this->getEvent()->Id,
             'MarkId' => $mark,
+            'CreationTime' => $date
         ]);
 
         echo json_encode(['Success' => true]);

@@ -24,9 +24,6 @@ class Proxy implements ISocial
       case ISocial::Google:
         $this->social = new Google($redirectUrl);
         break;
-      case ISocial::Viadeo:
-        $this->social = new Viadeo();
-        break;
       case ISocial::PayPal:
         $this->social = new PayPal($redirectUrl);
         break;
@@ -75,9 +72,13 @@ class Proxy implements ISocial
    * @param $hash
    * @return \oauth\models\Social|null
    */
-  public function getSocial($hash)
+  public function getSocial($hash, $dublicates = false)
   {
-    return \oauth\models\Social::model()->byHash($hash)->bySocialId($this->getSocialId())->find();
+      if($dublicates){
+          return \oauth\models\Social::model()->byHash($hash)->bySocialId($this->getSocialId())->findAll();
+      }else{
+          return \oauth\models\Social::model()->byHash($hash)->bySocialId($this->getSocialId())->find();
+      }
   }
 
   /**
@@ -89,7 +90,7 @@ class Proxy implements ISocial
     if ($this->getData()->UserName !== null)
     {
       $this->saveServiceAccount($user);
-    } 
+    }
     $this->clearAccess();
   }
 
@@ -110,7 +111,7 @@ class Proxy implements ISocial
     $social->Hash = (string)$this->getData()->Hash;
     $social->save();
   }
-  
+
   /**
    * @param \user\models\User $user
    */
@@ -153,7 +154,7 @@ class Proxy implements ISocial
   {
     return $this->social->getSocialTitle();
   }
-  
+
   public function clearAccess()
   {
     $this->social->clearAccess();
