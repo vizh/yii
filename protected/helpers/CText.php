@@ -80,6 +80,6 @@ class CText
      */
     public static function isRealEmail($email, $domain = 'runet-id.com')
     {
-        return preg_match("#^nomail.+?@{$domain}$#", $email) === false;
+        return preg_match("#^nomail.+?@{$domain}$#", $email) === 0;
     }
 }
