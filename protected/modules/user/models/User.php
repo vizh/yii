@@ -94,6 +94,7 @@ use Yii;
  */
 class User extends ActiveRecord implements ISearch, IAutocompleteItem
 {
+    public $EventCount;
     use OldAttributesStorage;
 
     //Защита от перегрузки при поиске
