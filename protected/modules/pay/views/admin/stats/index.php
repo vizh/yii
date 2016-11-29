@@ -18,8 +18,8 @@ $columns = [
         'value' => function ($data) {
             $event = $data['event'];
             return CHtml::link($event->Title, ['/event/admin/edit/index', 'eventId' => $event->Id])
-            . CHtml::tag('br')
-            . CHtml::tag('small', [], Texts::cropText($event->IdName, 50));
+                . CHtml::tag('br')
+                . CHtml::tag('small', [], Texts::cropText($event->IdName, 50));
         },
         'htmlOptions' => ['width' => '50%'],
         'type' => 'raw'
@@ -45,13 +45,13 @@ $columns = [
         'value' => function ($data) {
             if ($data['total'] > 0) {
                 return $data['total'] . '<br/>'
-                . '<small>'
-                . (int)$data['types'][OrderType::Juridical]
-                . ' / '
-                . (int)$data['types'][OrderType::PaySystem]
-                . ' / '
-                . (int)$data['types'][OrderType::Receipt]
-                . '</small>';
+                    . '<small>'
+                    . (int)$data['types'][OrderType::Juridical]
+                    . ' / '
+                    . (int)$data['types'][OrderType::PaySystem]
+                    . ' / '
+                    . (int)$data['types'][OrderType::Receipt]
+                    . '</small>';
             } else {
                 return '0';
             }
@@ -74,7 +74,7 @@ $columns = [
         <?php $this->widget('zii.widgets.grid.CGridView', [
             'dataProvider' => new CArrayDataProvider($active_data),
             'cssFile' => false,
-            'itemsCssClass' => 'table table-bordered',
+            'itemsCssClass' => 'table',
             'template' => '{items}',
             'columns' => $columns
         ]); ?>
@@ -86,7 +86,7 @@ $columns = [
         <?php $this->widget('zii.widgets.grid.CGridView', [
             'dataProvider' => new CArrayDataProvider($past_data),
             'cssFile' => false,
-            'itemsCssClass' => 'table table-bordered',
+            'itemsCssClass' => 'table',
             'template' => '{items}',
             'columns' => $columns
         ]); ?>
