@@ -326,7 +326,7 @@ abstract class BaseProductManager
             }
         }
 
-        if ($_SERVER['REQUEST_URI'] === '/event/updatedusers/') {
+        if ($_SERVER['REQUEST_URI'] === '/event/updatedusers/' || \Yii::app()->controller->route == 'pay/admin/stats/index') {
             return 0;
         }
 

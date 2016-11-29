@@ -47,8 +47,8 @@ class IndexAction extends \pay\components\Action
                 if (!isset($active_data[$i]['types'][$order->Type])){
                     $active_data[$i]['types'][$order->Type] = 0;
                 }
-                $active_data[$i]['types'][$order->Type] += $order->getPrice();
-                $active_data[$i]['total'] += $order->getPrice();
+                $active_data[$i]['types'][$order->Type] += $order->Total;
+                $active_data[$i]['total'] += $order->Total;
             }
 
             $active_data[$i]['participants'] = \Yii::app()->getDb()->createCommand()
@@ -93,8 +93,8 @@ class IndexAction extends \pay\components\Action
                 if (!isset($past_data[$i]['types'][$order->Type])){
                     $past_data[$i]['types'][$order->Type] = 0;
                 }
-                $past_data[$i]['types'][$order->Type] += $order->getPrice();
-                $past_data[$i]['total'] += $order->getPrice();
+                $past_data[$i]['types'][$order->Type] += $order->Total;
+                $past_data[$i]['total'] += $order->Total;
             }
 
             $past_data[$i]['participants'] = \Yii::app()->getDb()->createCommand()
