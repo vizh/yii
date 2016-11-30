@@ -1,6 +1,6 @@
 <?php
 
-ini_set('memory_limit', '1024M');
+ini_set('memory_limit', '2048M');
 
 date_default_timezone_set('Europe/Moscow');
 defined('STDIN') or define('STDIN', fopen('php://stdin', 'r'));
