@@ -26,6 +26,7 @@ class EditController extends \application\components\controllers\PublicMainContr
         $this->company->Name = $form->Name;
         $this->company->FullName = $form->FullName;        
         $this->company->FullInfo = $form->FullInfo;
+        $this->company->OGRN = $form->OGRN;
         $this->company->save();
         if ($form->Logo !== null)
         {

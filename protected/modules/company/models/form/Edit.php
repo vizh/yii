@@ -10,6 +10,7 @@ class Edit extends \CFormModel
   public $Emails = [];
   public $Site;
   public $Logo;
+  public $OGRN;
   
   public function __construct($scenario = '')
   {
@@ -26,7 +27,9 @@ class Edit extends \CFormModel
       ['Phones', 'filter', 'filter' => [$this, 'filterPhones']],
       ['Emails', 'filter', 'filter' => [$this, 'filterEmails']],
       ['FullInfo', 'filter', 'filter' => [$this, 'filterFullInfo']],
-      ['Logo', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true]
+      ['Logo', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true],
+      ['OGRN', 'numerical', 'integerOnly' => true],
+      ['OGRN', 'length', 'is' => 13]
     ];
   }
   
@@ -34,13 +37,14 @@ class Edit extends \CFormModel
   {
     return [
       'Logo' => \Yii::t('app', 'Логотип'),
-      'Name' => \Yii::t('app', 'Название организации'),
-      'FullName' => \Yii::t('app', 'Полное название'),
-      'FullInfo' => \Yii::t('app', 'Описание'),
+      'Name' => \Yii::t('app', 'Коммерческое название компании'),
+      'FullName' => \Yii::t('app', 'Юридическое название компании'),
+      'FullInfo' => \Yii::t('app', 'Информация о компании'),
       'Site' => \Yii::t('app', 'Адрес сайта'),
       'Address' => \Yii::t('app', 'Адрес'),
       'Phones' => \Yii::t('app', 'Номера телефонов'),
-      'Emails' => \Yii::t('app', 'Эл. почта')
+      'Emails' => \Yii::t('app', 'Эл. почта'),
+      'OGRN' => \Yii::t('app', 'ОГРН'),
     ];
   }
   
