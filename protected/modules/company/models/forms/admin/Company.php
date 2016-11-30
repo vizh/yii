@@ -35,6 +35,8 @@ class Company extends CreateUpdateForm
 
     public $Email;
 
+    public $OGRN;
+
     /** @var CompanyUser[] */
     public $RaecUsers = [];
 
@@ -148,7 +150,9 @@ class Company extends CreateUpdateForm
                 return $values;
             }],
             ['Email', 'email'],
-            ['Logo', 'file', 'types' => 'png,jpg', 'allowEmpty' => true]
+            ['Logo', 'file', 'types' => 'png,jpg', 'allowEmpty' => true],
+            ['OGRN', 'numerical', 'integerOnly' => true, 'allowEmpty' => true],
+            ['OGRN', 'length', 'is' => 13, 'allowEmpty' => true]
         ];
     }
 
@@ -170,7 +174,8 @@ class Company extends CreateUpdateForm
             'PrimaryProfessionalInterest' => 'Основная экосистема',
             'ProfessionalInterests' => 'Экосистемы',
             'Info' => 'Информация о компании',
-            'Code' => 'Символьный код'
+            'Code' => 'Символьный код',
+            'OGRN' => 'ОГРН',
         ];
     }
 

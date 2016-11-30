@@ -85,7 +85,7 @@
 
         <div class="form-row">
           <?=\CHtml::activeLabel($form, 'Address')?>
-          <?$this->widget('\contact\widgets\AddressControls', array('form' => $form->Address, 'place' => false))?>
+          <?$this->widget('\contact\widgets\AddressControls', array('form' => $form->Address))?>
         </div>
 
         <div class="form-row phone-items m-bottom_30">

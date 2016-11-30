@@ -79,6 +79,25 @@
                 <dd><?=$company->LinkAddress->Address->getWithSchema()?></dd>
               </dl>
               <?endif?>
+
+                <?php if (!empty($company->RaecClusters)): ?>
+                    <dl class="dl-horizontal">
+                        <dt>Кластер:</dt>
+                        <?php foreach ($company->RaecClusters as $cluster): ?>
+                            <dd><?= $cluster->Title; ?></dd>
+                        <?php endforeach; ?>
+                    </dl>
+                <?php endif; ?>
+
+                <?php if (!empty($company->PrimaryProfessionalInterest)): ?>
+                    <dl class="dl-horizontal">
+                        <dt>Экосистема:</dt>
+                        <dd><?= $company->PrimaryProfessionalInterest->Title; ?></dd>
+                        <?php foreach ($company->ProfessionalInterests as $interest): ?>
+                            <dd><?= $interest->Title; ?></dd>
+                        <?php endforeach; ?>
+                    </dl>
+                <?php endif; ?>
             </div>
           </div>
         </div>
