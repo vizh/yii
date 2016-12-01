@@ -22,12 +22,13 @@ class IndexAction extends \pay\components\Action
             'PayAccount' => ['joinType' => 'inner join']
         ];
 
-        $active_pager = new Paginator(Event::model()->byFromDate(date('Y'), date('m'), date('d'))->count($criteria), [], false, 'page_active');
+        $active_pager = new Paginator(Event::model()->byDeleted(false)->byFromDate(date('Y'), date('m'), date('d'))->count($criteria), [], false, 'page_active');
         $active_pager->perPage = \Yii::app()->params['AdminEventPerPage'];
 
         $criteria->mergeWith($active_pager->getCriteria());
 
         $events = Event::model()
+            ->byDeleted(false)
             ->byFromDate(date('Y'), date('m'), date('d'))
             ->findAll($criteria);
 
@@ -70,11 +71,12 @@ class IndexAction extends \pay\components\Action
         $criteria = new \CDbCriteria();
         $criteria->order = '"t"."StartYear" desc, "t"."StartMonth" desc, "t"."StartMonth" desc';
 
-        $past_pager = new Paginator(Event::model()->byToDate(date('Y'), date('m'), date('d'))->count($criteria), [], false, 'page_past');
+        $past_pager = new Paginator(Event::model()->byDeleted(false)->byToDate(date('Y'), date('m'), date('d'))->count($criteria), [], false, 'page_past');
         $past_pager->perPage = \Yii::app()->params['AdminEventPerPage'];
         $criteria->mergeWith($past_pager->getCriteria());
 
         $events = Event::model()
+            ->byDeleted(false)
             ->byToDate(date('Y'), date('m'), date('d'))
             ->findAll($criteria);
 
