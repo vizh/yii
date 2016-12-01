@@ -45,7 +45,7 @@ class WebUser extends \CWebUser
             {
                 $account = Account::model()
                     ->byKey($key)
-                    ->with('Event')
+                    ->with('Event', 'Ips')
                     ->find();
 
                 if ($account === null)
@@ -58,8 +58,8 @@ class WebUser extends \CWebUser
                 if ($account->EventId === null)
                     $account->EventId = $request->getParam('EventId');
 
-                if ($account->checkIp($_SERVER['REMOTE_ADDR']) === false)
-                    throw new Exception(103);
+                if ($account->checkIp($request->getUserHostAddress()) === false)
+                    throw new Exception(103, [$key, $request->getUserHostAddress()]);
 
                 \Yii::app()
                     ->getCache()

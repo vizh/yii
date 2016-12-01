@@ -35,7 +35,7 @@ $columns = [
     [
         'header' => 'Участников<br/><small>&nbsp;</small>',
         'value' => function ($data) {
-            return $data['participants'];
+            return $data['participants'].' чел.';
         },
         'htmlOptions' => ['width' => '10%'],
         'type' => 'raw'
@@ -44,13 +44,13 @@ $columns = [
         'header' => 'Собрано средств<br/><small>юр.лица / карты / квитанции</small>',
         'value' => function ($data) {
             if ($data['total'] > 0) {
-                return $data['total'] . '<br/>'
+                return number_format($data['total'], 0, '', ' ') . ' руб.<br/>'
                     . '<small>'
-                    . (int)$data['types'][OrderType::Juridical]
+                    . number_format($data['types'][OrderType::Juridical], 0, '', ' ').' руб.'
                     . ' / '
-                    . (int)$data['types'][OrderType::PaySystem]
+                    . number_format($data['types'][OrderType::PaySystem], 0, '', ' ').' руб.'
                     . ' / '
-                    . (int)$data['types'][OrderType::Receipt]
+                    . number_format($data['types'][OrderType::Receipt], 0, '', ' ').' руб.'
                     . '</small>';
             } else {
                 return '0';

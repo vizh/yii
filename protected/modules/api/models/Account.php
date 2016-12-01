@@ -16,9 +16,9 @@ use application\hacks\AbstractHack;
  * @property Domain[] $Domains
  * @property Ip[] $Ips
  *
- * @method \api\models\Account find($condition='',$params=array())
- * @method \api\models\Account findByPk($pk,$condition='',$params=array())
- * @method \api\models\Account[] findAll($condition='',$params=array())
+ * @method Account find($condition='',$params=array())
+ * @method Account findByPk($pk,$condition='',$params=array())
+ * @method Account[] findAll($condition='',$params=array())
  */
 class Account extends \CActiveRecord
 {
@@ -28,6 +28,10 @@ class Account extends \CActiveRecord
     const ROLE_MBLT = 'mblt';
     const ROLE_MOBILE = 'mobile';
     const ROLE_PARTNER_WOC = 'partner_woc';
+
+    /**
+     * @deprecated toDo: Убрать после разрешения проблем с безопасностью
+     */
     const ROLE_IRI = 'iri';
 
     const SelfId = 1;
@@ -103,8 +107,17 @@ class Account extends \CActiveRecord
 
     public function checkIp($ip)
     {
-        //todo: fix it
-        return true;
+        if (empty($this->Ips)) {
+            return true;
+        }
+
+        foreach ($this->Ips as $ipModel) {
+            if ($ip === $ipModel->Ip) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
