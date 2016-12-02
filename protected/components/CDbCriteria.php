@@ -4,11 +4,17 @@ namespace application\components;
 
 class CDbCriteria extends \CDbCriteria
 {
+    /**
+     * @return CDbCriteria
+     */
     public static function create()
     {
         return new static();
     }
 
+    /**
+     * @return CDbCriteria
+     */
     public function setSelect($column)
     {
         $this->select = $column;
@@ -17,8 +23,7 @@ class CDbCriteria extends \CDbCriteria
     }
 
     /**
-     * @param string $order
-     * @return $this
+     * @return CDbCriteria
      */
     public function setOrder($order)
     {
@@ -27,6 +32,9 @@ class CDbCriteria extends \CDbCriteria
         return $this;
     }
 
+    /**
+     * @return CDbCriteria
+     */
     public function setLimit($limit)
     {
         $this->limit = $limit;
@@ -34,6 +42,9 @@ class CDbCriteria extends \CDbCriteria
         return $this;
     }
 
+    /**
+     * @return CDbCriteria
+     */
     public function setOffset($offset)
     {
         $this->offset = $offset;
@@ -41,6 +52,9 @@ class CDbCriteria extends \CDbCriteria
         return $this;
     }
 
+    /**
+     * @return CDbCriteria
+     */
     public function setWith(array $with, $condition = null, array $params = null)
     {
         $this->with = $with;
@@ -55,6 +69,9 @@ class CDbCriteria extends \CDbCriteria
         return $this;
     }
 
+    /**
+     * @return CDbCriteria
+     */
     public function setParams(array $params)
     {
         $this->params = $params;
@@ -62,6 +79,9 @@ class CDbCriteria extends \CDbCriteria
         return $this;
     }
 
+    /**
+     * @return CDbCriteria
+     */
     public function addParams(array $params)
     {
         $this->params = array_merge($this->params, $params);
@@ -69,6 +89,9 @@ class CDbCriteria extends \CDbCriteria
         return $this;
     }
 
+    /**
+     * @return CDbCriteria
+     */
     public function mergeWith($criteria, $operator = 'AND')
     {
         parent::mergeWith($criteria, $operator);
@@ -76,6 +99,9 @@ class CDbCriteria extends \CDbCriteria
         return $this;
     }
 
+    /**
+     * @return CDbCriteria
+     */
     public function addCondition($condition, array $params = null, $operator = 'AND')
     {
         // Добавляем условие обычным способом
@@ -89,6 +115,9 @@ class CDbCriteria extends \CDbCriteria
         return $this;
     }
 
+    /**
+     * @return CDbCriteria
+     */
     public function apply(\CActiveRecord $model)
     {
         $model->getDbCriteria()->mergeWith($this);
