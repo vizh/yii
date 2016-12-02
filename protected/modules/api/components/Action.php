@@ -31,7 +31,13 @@ class Action extends \CAction
      */
     public function getDataBuilder()
     {
-        return $this->getAccount()->getDataBuilder();
+        static $builder;
+
+        if ($builder === null) {
+            $builder = $this->getAccount()->getDataBuilder();
+        }
+
+        return $builder;
     }
 
     /**
@@ -360,8 +366,9 @@ class Action extends \CAction
         static $time;
 
         if ($time === null) {
-            if (($time = strtotime($this->getRequestParam($param))) === false)
+            if (($time = strtotime($this->getRequestParam($param))) === false) {
                 throw new Exception(112, $param);
+            }
             $time = date('Y-m-d H:i:s', $time);
         }
 

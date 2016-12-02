@@ -3,66 +3,55 @@ namespace api\controllers\company;
 
 use api\components\Action;
 use api\components\Exception;
+use api\models\Account;
+use application\components\CDbCriteria;
 use company\models\Company;
 
 class ListAction extends Action
 {
     public function run()
     {
-        $request = \Yii::app()->getRequest();
-
-        $query = $request->getParam('Query');
-        $code  = $request->getParam('Code');
-        $raec  = $request->getParam('Raec');
+        // Данный метод доступен только для собственных мероприятий
+        if ($this->getAccount()->Role !== Account::ROLE_OWN) {
+            throw new Exception(104);
+        }
 
         $model = Company::model();
 
-        $criteria = $this->getCriteria();
-
-        if (!empty($query)) {
-            if (is_numeric($query)) {
-                $model->byId($query);
-            } else {
-                $model->bySearch($query);
-            }
-        } elseif (!empty($code)) {
-            $model->byCode($code);
+        if ($this->hasRequestParam('Query')) {
+            $model->bySearch($this->getRequestParam('Query'));
         }
 
-        if ($raec !== null) {
-            $model->byRaec((bool) $raec);
+        if ($this->hasRequestParam('Code')) {
+            $model->byCode($this->getRequestParam('Code'));
         }
+
+        if ($this->hasRequestParam('Cluster')) {
+            $model->byCluster($this->getRequestParam('Cluster'));
+        }
+
+        $criteria = CDbCriteria::create()
+            ->setWith(['ActiveRaecUsers', 'LinkEmail', 'LinkAddress', 'LinkPhones', 'LinkRaecClusters'])
+            ->setLimit(min($this->getRequestParam('MaxResults', $this->getMaxResults()), $this->getMaxResults()))
+            ->setOffset(0);
+
+        if ($this->hasRequestParam('PageToken')) {
+            $criteria->setOffset($this->getController()->parsePageToken($this->getRequestParam('PageToken')));
+        }
+
+        $companies = $model
+            ->ordered()
+            ->findAll($criteria);
 
         $result = ['Companies' => []];
-
-        $builder = $this->getDataBuilder();
-        $companies = $model->ordered()->findAll($criteria);
         foreach ($companies as $company) {
-            $builder->createCompany($company);
-            $result['Companies'][] = $builder->buildCompanyRaecUser($company);
+            $result['Companies'] = $this->getDataBuilder()->createCompany($company);
         }
 
-        if (count($companies) == $criteria->limit) {
+        if ($criteria->limit === count($companies)) {
             $result['NextPageToken'] = $this->getController()->getPageToken($criteria->offset + $criteria->limit);
         }
+
         $this->setResult($result);
-    }
-
-    /**
-     * @return \CDbCriteria
-     * @throws Exception
-     */
-    private function getCriteria()
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->with = ['ActiveRaecUsers', 'LinkEmail', 'LinkAddress', 'LinkPhones', 'LinkRaecClusters'];
-
-        $request = \Yii::app()->getRequest();
-        $limit = $request->getParam('MaxResults', $this->getMaxResults());
-        $criteria->limit = min($limit, $this->getMaxResults());
-
-        $token = $request->getParam('PageToken');
-        $criteria->offset = $token === null ? 0 : $this->getController()->parsePageToken($token);
-        return $criteria;
     }
 }
