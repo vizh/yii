@@ -43,12 +43,18 @@ use search\components\interfaces\ISearch;
  * @property \user\models\Employment[] $EmploymentsAll
  * @property \user\models\Employment[] $EmploymentsAllWithInvisible
  *
+ * Описание вспомогательных методов
+ * @method Company   with($condition = '')
+ * @method Company   find($condition = '', $params = [])
+ * @method Company   findByPk($pk, $condition = '', $params = [])
+ * @method Company   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Company[] findAll($condition = '', $params = [])
+ * @method Company[] findAllByAttributes($attributes, $condition = '', $params = [])
  *
- * @method \company\models\Company find()
- * @method \company\models\Company findByPk()
- * @method \company\models\Company[] findAll()
- * @method Company byId(int $id)
- * @method Company byCode(string $code)
+ * @method Company byId(int $id, $useAnd = true)
+ * @method Company byCode(string $code, $useAnd = true)
+ * @method Company byName($name, $useAnd = true)
+ * @method Company byFullName($name, $useAnd = true)
  */
 class Company extends ActiveRecord implements ISearch, IAutocompleteItem
 {
@@ -58,6 +64,7 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
      */
     public static function model($className=__CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -94,24 +101,6 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
             'ProfessionalInterests' => [self::HAS_MANY, '\application\models\ProfessionalInterest', ['ProfessionalInterestId' => 'Id'], 'through' => 'LinkProfessionalInterests', 'condition' => 'NOT "LinkProfessionalInterests"."Primary"'],
             'PrimaryProfessionalInterest' => [self::HAS_ONE, '\application\models\ProfessionalInterest', ['ProfessionalInterestId' => 'Id'], 'through' => 'LinkProfessionalInterests', 'condition' => '"LinkProfessionalInterests"."Primary"']
         ];
-    }
-
-    public function byName($name, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."Name" = :Name';
-        $criteria->params['Name'] = $name;
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    public function byFullName($name, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."FullName" = :FullName';
-        $criteria->params['FullName'] = $name;
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
     }
 
     public function bySearch($term, $locale = null, $useAnd = true)
@@ -154,8 +143,7 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
     {
         preg_match("/^([\'\"]*(ООО|ОАО|АО|ЗАО|ФГУП|ПКЦ|НОУ|НПФ|РОО|КБ|ИКЦ)?\s*,?\s+)?([\'\"]*)?([А-яЁёA-z0-9 \.\,\&\-\+\%\$\#\№\!\@\~\(\)]+)\3?([\'\"]*)?$/iu", $fullName, $matches);
 
-        $name = (isset($matches[4])) ? $matches[4] : '';
-        return $name;
+        return (isset($matches[4])) ? $matches[4] : '';
     }
 
     /**
@@ -215,7 +203,7 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
      * @param bool $secure
      * @return \contact\models\Site
      */
-    public function setContactSite($url, $secure = false)
+    public function setContactSite($url)
     {
         $site = $this->getContactSite();
         if ($site === null) {

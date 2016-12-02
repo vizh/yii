@@ -2,19 +2,19 @@
 class EditController extends \application\components\controllers\PublicMainController
 {
   private $company;
-  
+
   public function actionIndex($companyId)
   {
     $this->company = \company\models\Company::model()->findByPk($companyId);
     if ($this->company == null)
       throw new \CHttpException(404);
-    
+
     $giveAccess = \company\models\LinkModerator::model()
       ->byUserId(\Yii::app()->getUser()->getId())->byCompanyId($companyId)->exists();
     if (!$giveAccess)
       throw new \CHttpException(404);
-    
-    
+
+
     $form = new \company\models\form\Edit();
     $request = \Yii::app()->getRequest();
     if ($request->getIsPostRequest())
@@ -24,7 +24,7 @@ class EditController extends \application\components\controllers\PublicMainContr
       if ($form->validate())
       {
         $this->company->Name = $form->Name;
-        $this->company->FullName = $form->FullName;        
+        $this->company->FullName = $form->FullName;
         $this->company->FullInfo = $form->FullInfo;
         $this->company->OGRN = $form->OGRN;
         $this->company->save();
@@ -32,13 +32,12 @@ class EditController extends \application\components\controllers\PublicMainContr
         {
           $this->company->getLogo()->upload($form->Logo);
         }
-        
+
         if (!empty($form->Site))
         {
-          $site = parse_url($form->Site);
-          $this->company->setContactSite($site['host'], ($site['scheme'] == 'https'));
+          $this->company->setContactSite($form->Site);
         }
-        
+
         $this->savePhones($form);
         $this->saveEmails($form);
         $this->saveAddress($form);
@@ -51,12 +50,12 @@ class EditController extends \application\components\controllers\PublicMainContr
       $form->Name = $this->company->Name;
       $form->FullName = $this->company->FullName;
       $form->FullInfo = $this->company->FullInfo;
-      
+
       if ($this->company->getContactSite() !== null)
       {
         $form->Site = (string) $this->company->getContactSite();
       }
-      
+
       foreach ($this->company->LinkPhones as $linkPhone)
       {
         $phone = new \contact\models\forms\Phone(\contact\models\forms\Phone::ScenarioOneFieldRequired);
@@ -77,7 +76,7 @@ class EditController extends \application\components\controllers\PublicMainContr
         );
         $form->Emails[] = $email;
       }
-      
+
       if ($this->company->getContactAddress() !== null)
       {
         $form->Address->attributes = $this->company->getContactAddress()->attributes;
@@ -88,8 +87,8 @@ class EditController extends \application\components\controllers\PublicMainContr
     $this->setPageTitle(\Yii::t('app', 'Редактирование компании'));
     $this->render('index', array('form' => $form, 'company' => $this->company));
   }
-  
-  
+
+
   private function savePhones(\company\models\form\Edit $form)
   {
     foreach ($form->Phones as $formPhone)
@@ -122,8 +121,8 @@ class EditController extends \application\components\controllers\PublicMainContr
       $linkPhone->save();
     }
   }
-  
-  
+
+
   private function saveEmails(\company\models\form\Edit $form)
   {
     foreach ($form->Emails as $formEmail)
@@ -154,8 +153,8 @@ class EditController extends \application\components\controllers\PublicMainContr
       $linkEmail->save();
     }
   }
-  
-  
+
+
   private function saveAddress(\company\models\form\Edit $form)
   {
     $address = $this->company->getContactAddress();
