@@ -71,4 +71,4 @@ class MailRegister
         $criteria->addInCondition('"t"."Id"', $roleIdList);
         return \event\models\Role::model()->findAll($criteria);
     }
-} 
+}
