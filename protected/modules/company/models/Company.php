@@ -11,7 +11,6 @@ use contact\models\Site;
 use raec\models\CompanyUser;
 use search\components\interfaces\ISearch;
 
-
 /**
  * @throws \Exception
  *
@@ -23,6 +22,7 @@ use search\components\interfaces\ISearch;
  * @property string $CreationTime
  * @property string $UpdateTime
  * @property string $Code
+ * @property string $Cluster
  *
  *
  * @property \company\models\LinkEmail $LinkEmail
@@ -43,21 +43,31 @@ use search\components\interfaces\ISearch;
  * @property \user\models\Employment[] $EmploymentsAll
  * @property \user\models\Employment[] $EmploymentsAllWithInvisible
  *
+ * Описание вспомогательных методов
+ * @method Company   with($condition = '')
+ * @method Company   find($condition = '', $params = [])
+ * @method Company   findByPk($pk, $condition = '', $params = [])
+ * @method Company   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Company[] findAll($condition = '', $params = [])
+ * @method Company[] findAllByAttributes($attributes, $condition = '', $params = [])
  *
- * @method \company\models\Company find()
- * @method \company\models\Company findByPk()
- * @method \company\models\Company[] findAll()
- * @method Company byId(int $id)
- * @method Company byCode(string $code)
+ * @method Company byId(int $id, $useAnd = true)
+ * @method Company byCode(string $code, $useAnd = true)
+ * @method Company byName($name, $useAnd = true)
+ * @method Company byFullName($name, $useAnd = true)
+ * @method Company byCluster($name, $useAnd = true)
  */
 class Company extends ActiveRecord implements ISearch, IAutocompleteItem
 {
+    const CLUSTER_RAEC = 'РАЭК';
+
     /**
      * @param string $className
      * @return Company
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -74,12 +84,12 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
     public function relations()
     {
         return [
-            'LinkEmail' => array(self::HAS_ONE, '\company\models\LinkEmail', 'CompanyId'),
-            'LinkEmails' => array(self::HAS_MANY, '\company\models\LinkEmail', 'CompanyId'),
-            'LinkAddress' => array(self::HAS_ONE, '\company\models\LinkAddress', 'CompanyId'),
-            'LinkSite' => array(self::HAS_ONE, '\company\models\LinkSite', 'CompanyId'),
-            'LinkPhones' => array(self::HAS_MANY, '\company\models\LinkPhone', 'CompanyId'),
-            'LinkModerators' => array(self::HAS_MANY, '\company\models\LinkModerator', 'CompanyId'),
+            'LinkEmail' => [self::HAS_ONE, '\company\models\LinkEmail', 'CompanyId'],
+            'LinkEmails' => [self::HAS_MANY, '\company\models\LinkEmail', 'CompanyId'],
+            'LinkAddress' => [self::HAS_ONE, '\company\models\LinkAddress', 'CompanyId'],
+            'LinkSite' => [self::HAS_ONE, '\company\models\LinkSite', 'CompanyId'],
+            'LinkPhones' => [self::HAS_MANY, '\company\models\LinkPhone', 'CompanyId'],
+            'LinkModerators' => [self::HAS_MANY, '\company\models\LinkModerator', 'CompanyId'],
             'LinkRaecClusters' => [self::HAS_MANY, '\company\models\LinkCommission', 'CompanyId'],
             'LinkProfessionalInterests' => [self::HAS_MANY, '\company\models\LinkProfessionalInterest', 'CompanyId'],
 
@@ -96,35 +106,19 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
         ];
     }
 
-    public function byName($name, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."Name" = :Name';
-        $criteria->params['Name'] = $name;
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    public function byFullName($name, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."FullName" = :FullName';
-        $criteria->params['FullName'] = $name;
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
     public function bySearch($term, $locale = null, $useAnd = true)
     {
         $criteria = new \CDbCriteria();
         $criteria->condition = 'to_tsvector("t"."Name") @@ plainto_tsquery(:Term)';
         $criteria->params['Term'] = $term;
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
     /**
      * Отбирает компании, имеющих членство в РАЭК
+     *
      * @param bool|true $raec
      * @param bool|true $useAnd
      */
@@ -134,7 +128,7 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
         $command = \Yii::app()->getDb()->createCommand();
         $command->select('CompanyId')->from('RaecCompanyUser')->where('"ExitTime" IS NULL');
 
-        $criteria->addCondition('"t"."Id" ' . (!$raec ? 'NOT' : '') . ' IN (' . $command->getText() . ')');
+        $criteria->addCondition('"t"."Id" '.(!$raec ? 'NOT' : '').' IN ('.$command->getText().')');
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     }
 
@@ -154,8 +148,7 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
     {
         preg_match("/^([\'\"]*(ООО|ОАО|АО|ЗАО|ФГУП|ПКЦ|НОУ|НПФ|РОО|КБ|ИКЦ)?\s*,?\s+)?([\'\"]*)?([А-яЁёA-z0-9 \.\,\&\-\+\%\$\#\№\!\@\~\(\)]+)\3?([\'\"]*)?$/iu", $fullName, $matches);
 
-        $name = (isset($matches[4])) ? $matches[4] : '';
-        return $name;
+        return (isset($matches[4])) ? $matches[4] : '';
     }
 
     /**
@@ -163,7 +156,7 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
      */
     public function getTranslationFields()
     {
-        return array('Name');
+        return ['Name'];
     }
 
     /**
@@ -182,8 +175,7 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
     public function setContactAddress($address)
     {
         $linkAddress = $this->LinkAddress;
-        if ($linkAddress == null)
-        {
+        if ($linkAddress == null) {
             $linkAddress = new \company\models\LinkAddress();
             $linkAddress->CompanyId = $this->Id;
         }
@@ -211,11 +203,12 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
 
     /**
      * Добавляет адресс сайта
+     *
      * @param string $url
      * @param bool $secure
      * @return \contact\models\Site
      */
-    public function setContactSite($url, $secure = false)
+    public function setContactSite($url)
     {
         $site = $this->getContactSite();
         if ($site === null) {
@@ -240,6 +233,7 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
 
     /**
      * Сохраняет контактный адрес электронной почты
+     *
      * @param string $email
      * @return Email
      */
@@ -281,10 +275,9 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
         return !empty($this->LinkSite) ? $this->LinkSite->Site : null;
     }
 
-
     public function getUrl()
     {
-        return \Yii::app()->getController()->createAbsoluteUrl('/company/view/index', array('companyId' => $this->Id));
+        return \Yii::app()->getController()->createAbsoluteUrl('/company/view/index', ['companyId' => $this->Id]);
     }
 
     /**
@@ -298,6 +291,7 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
         $criteria->condition = '"t"."Id" = :Id';
         $criteria->params = ['Id' => $value];
         $this->getDbCriteria()->mergeWith($criteria);
+
         return $this;
     }
 
@@ -316,8 +310,7 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
      */
     public static function create($name)
     {
-        if (mb_strlen($name) === 0)
-        {
+        if (mb_strlen($name) === 0) {
             throw new \application\components\Exception(\Yii::t('app', 'Название компании не может быть пустым'));
         }
         $company = self::model()->byFullName($name)->byName($name, false)->find();
@@ -328,6 +321,7 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
             $company->FullName = $name;
             $company->save();
         }
+
         return $company;
     }
 }

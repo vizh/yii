@@ -27,6 +27,8 @@ class Company extends CreateUpdateForm
 
     public $Code;
 
+    public $Cluster;
+
     public $Url;
 
     public $Info;
@@ -88,6 +90,7 @@ class Company extends CreateUpdateForm
             $this->Moderators[] = new Moderator($this->model);
             $this->Url = $this->model->getContactSite();
             $this->Email = $this->model->getContactEmail() !== null ? $this->model->getContactEmail()->Email : '';
+            $this->Cluster = $this->model->Cluster;
 
             foreach ($this->model->RaecClusters as $cluster) {
                 $this->RaecClusters[] = $cluster->Id;
@@ -152,7 +155,8 @@ class Company extends CreateUpdateForm
             ['Email', 'email'],
             ['Logo', 'file', 'types' => 'png,jpg', 'allowEmpty' => true],
             ['OGRN', 'numerical', 'integerOnly' => true, 'allowEmpty' => true],
-            ['OGRN', 'length', 'is' => 13, 'allowEmpty' => true]
+            ['OGRN', 'length', 'is' => 13, 'allowEmpty' => true],
+            ['Cluster', 'in', 'range' => [\company\models\Company::CLUSTER_RAEC]]
         ];
     }
 
@@ -176,6 +180,7 @@ class Company extends CreateUpdateForm
             'Info' => 'Информация о компании',
             'Code' => 'Символьный код',
             'OGRN' => 'ОГРН',
+            'Cluster' => 'Кластер'
         ];
     }
 

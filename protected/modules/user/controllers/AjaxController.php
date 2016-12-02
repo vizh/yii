@@ -47,10 +47,10 @@ class AjaxController extends PublicMainController
             if ($eventId !== null) {
                 $event = \event\models\Event::model()->findByPk($eventId);
                 if ($event && $event->UserScope){
-                    $model->bySearch($term, null, true, false)->byEventId($eventId);
+                    $model->bySearch($term, null, true, true)->byEventId($eventId);
                 }
                 else{
-                    $model->bySearch($term, null, true, false);
+                    $model->bySearch($term, null, true, true);
                 }
             } else {
                 is_numeric($term) ? $model->byRunetId($term) : $model->bySearch($term);

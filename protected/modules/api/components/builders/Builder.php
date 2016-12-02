@@ -283,36 +283,33 @@ class Builder
     {
         $this->applyLocale($company);
 
-        $this->company = (object)ArrayHelper::toArray($company, [
-            'company\models\Company' => [
-                'Id',
-                'Name',
-                'FullName',
-                'Info',
-                'Code',
-                'Logo' => function (Company $company) {
-                    return [
-                        'Small' => 'http://'.RUNETID_HOST.$company->getLogo()->get50px(),
-                        'Medium' => 'http://'.RUNETID_HOST.$company->getLogo()->get90px(),
-                        'Large' => 'http://'.RUNETID_HOST.$company->getLogo()->get200px(),
-                    ];
-                },
-                'Url' => function (Company $company) {
-                    return (string)$company->getContactSite();
-                },
-                'Phone' => function (Company $company) {
-                    return !empty($company->LinkPhones[0]) ? (string)$company->LinkPhones[0]->Phone : null;
-                },
-                'Email' => function (Company $company) {
-                    $email = $company->getContactEmail();
+        $this->company = (object)[
+            'Id' => $company->Id,
+            'Name' => $company->Name,
+            'FullName' => $company->FullName,
+            'Info' => $company->Info,
+            'Logo' => [
+                'Small' => 'http://'.RUNETID_HOST.$company->getLogo()->get50px(),
+                'Medium' => 'http://'.RUNETID_HOST.$company->getLogo()->get90px(),
+                'Large' => 'http://'.RUNETID_HOST.$company->getLogo()->get200px(),
+            ],
+            'Url' => (string)$company->getContactSite(),
+            'Phone' => !empty($company->LinkPhones[0]) ? (string)$company->LinkPhones[0]->Phone : null,
+            'Email' => null,
+            'Address' => (string)$company->getContactAddress()
+        ];
 
-                    return $email !== null ? $email->Email : null;
-                },
-                'Address' => function (Company $company) {
-                    return (string)$company->getContactAddress();
-                },
-            ]
-        ]);
+        if (null !== ($email = $company->getContactEmail())) {
+            $this->company->Email = $email->Email;
+        }
+
+        if ($this->account->Role === Account::ROLE_OWN) {
+            $this->company->Cluster = $company->Cluster;
+            $this->company->ClusterGroups = ArrayHelper::columnGet('Id', $company->RaecClusters);
+            $this->company->Additional = (object)[
+                'ОГРН' => $company->OGRN
+            ];
+        }
 
         return $this->company;
     }

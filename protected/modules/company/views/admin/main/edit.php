@@ -1,5 +1,6 @@
 <?php
 use application\helpers\Flash;
+use company\models\Company;
 
 /**
  * @var \application\components\controllers\AdminMainController $this
@@ -19,17 +20,28 @@ $this->setPageTitle('Карточка компании');
         <div class="span12">
             <?=$activeForm->errorSummary($form)?>
             <?=Flash::html()?>
-
-            <div class="control-group">
-                <?=$activeForm->label($form, 'Name', ['class' => 'control-label'])?>
-                <div class="controls">
-                    <?=$activeForm->textField($form, 'Name')?>
+            <div class="row-fluid">
+                <div class="span8">
+                    <div class="control-group">
+                        <?=$activeForm->label($form, 'Name', ['class' => 'control-label'])?>
+                        <div class="controls">
+                            <?=$activeForm->textField($form, 'Name', ['class' => 'input-block-level'])?>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <?=$activeForm->label($form, 'FullName', ['class' => 'control-label'])?>
+                        <div class="controls">
+                            <?=$activeForm->textField($form, 'FullName', ['class' => 'input-block-level'])?>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="control-group">
-                <?=$activeForm->label($form, 'FullName', ['class' => 'control-label'])?>
-                <div class="controls">
-                    <?=$activeForm->textField($form, 'FullName', ['class' => 'input-block-level'])?>
+                <div class="span4">
+                    <div class="control-group">
+                        <?=$activeForm->label($form, 'Cluster', ['class' => 'control-label'])?>
+                        <div class="controls">
+                            <?=$activeForm->dropDownList($form, 'Cluster', ['' => 'Не выбран', 'РАЭК' => 'РАЭК'], ['class' => 'input-block-level'])?>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="control-group">
@@ -91,40 +103,43 @@ $this->setPageTitle('Карточка компании');
                     </div>
                 </div>
             </div>
-            <hr/>
-            <div id="company-clusters">
-                <h4><?=$form->getAttributeLabel('RaecClusters')?></h4>
-                <?foreach($form->RaecClusters as $i => $id):?>
-                    <?=$activeForm->dropDownList($form, "RaecClusters[$i]", $form->getClustersData())?>
-                <?endforeach?>
-                <div class="hide"><?=$activeForm->dropDownList($form, 'RaecClusters[]', $form->getClustersData())?> </div>
-            </div>
-            <?=\CHtml::button('Добавить', ['class' => 'btn btn-default', 'onclick' => "$('#company-clusters').append($('#company-clusters div.hide').html());"])?>
-
-            <hr/>
-            <div id="company-interests">
-                <h4><?=$form->getAttributeLabel('ProfessionalInterests')?></h4>
-                <div class="control-group">
-                    <?=$activeForm->label($form, 'PrimaryProfessionalInterest', ['class' => 'control-label'])?>
-                    <div class="controls">
-                        <?=$activeForm->dropDownList($form, 'PrimaryProfessionalInterest', $form->getProfessionalInterestsData())?>
-                    </div>
+            <?if($form->Cluster === Company::CLUSTER_RAEC):?>
+                <hr/>
+                <h2>Настройки участника кластера РАЭК</h2>
+                <div id="company-clusters">
+                    <h4><?=$form->getAttributeLabel('RaecClusters')?></h4>
+                    <?foreach($form->RaecClusters as $i => $id):?>
+                        <?=$activeForm->dropDownList($form, "RaecClusters[$i]", $form->getClustersData())?>
+                    <?endforeach?>
+                    <div class="hide"><?=$activeForm->dropDownList($form, 'RaecClusters[]', $form->getClustersData())?> </div>
                 </div>
-                <?foreach($form->ProfessionalInterests as $i => $id):?>
-                    <?=$activeForm->dropDownList($form, "ProfessionalInterests[$i]", $form->getProfessionalInterestsData())?>
-                <?endforeach?>
-                <div class="hide"><?=$activeForm->dropDownList($form, 'ProfessionalInterests[]', $form->getProfessionalInterestsData())?> </div>
-            </div>
-            <?=\CHtml::button('Добавить экосистему', ['class' => 'btn btn-default', 'onclick' => "$('#company-interests').append($('#company-interests div.hide').html());"])?>
-            <hr/>
-
-            <?if($form->isUpdateMode()):?>
-                <h4><?=$form->getAttributeLabel('Moderators')?></h4>
-                <?$this->renderPartial('edit/moderators', ['form' => $form, 'activeForm' => $activeForm])?>
+                <?=\CHtml::button('Добавить', ['class' => 'btn btn-default', 'onclick' => "$('#company-clusters').append($('#company-clusters div.hide').html());"])?>
 
                 <hr/>
-                <h4><?=$form->getAttributeLabel('RaecUsers')?></h4>
-                <?$this->renderPartial('edit/raec-users', ['form' => $form, 'activeForm' => $activeForm])?>
+                <div id="company-interests">
+                    <h4><?=$form->getAttributeLabel('ProfessionalInterests')?></h4>
+                    <div class="control-group">
+                        <?=$activeForm->label($form, 'PrimaryProfessionalInterest', ['class' => 'control-label'])?>
+                        <div class="controls">
+                            <?=$activeForm->dropDownList($form, 'PrimaryProfessionalInterest', $form->getProfessionalInterestsData())?>
+                        </div>
+                    </div>
+                    <?foreach($form->ProfessionalInterests as $i => $id):?>
+                        <?=$activeForm->dropDownList($form, "ProfessionalInterests[$i]", $form->getProfessionalInterestsData())?>
+                    <?endforeach?>
+                    <div class="hide"><?=$activeForm->dropDownList($form, 'ProfessionalInterests[]', $form->getProfessionalInterestsData())?> </div>
+                </div>
+                <?=\CHtml::button('Добавить экосистему', ['class' => 'btn btn-default', 'onclick' => "$('#company-interests').append($('#company-interests div.hide').html());"])?>
+                <hr/>
+
+                <?if($form->isUpdateMode()):?>
+                    <h4><?=$form->getAttributeLabel('Moderators')?></h4>
+                    <?$this->renderPartial('edit/moderators', ['form' => $form, 'activeForm' => $activeForm])?>
+
+                    <hr/>
+                    <h4><?=$form->getAttributeLabel('RaecUsers')?></h4>
+                    <?$this->renderPartial('edit/raec-users', ['form' => $form, 'activeForm' => $activeForm])?>
+                <?endif?>
             <?endif?>
         </div>
     </div>

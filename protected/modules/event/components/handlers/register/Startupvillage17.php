@@ -12,4 +12,12 @@ class Startupvillage17 extends Base
     {
         return 'Startup Village 2017';
     }
+
+    public function getSubject()
+    {
+        return \Yii::app()->getLanguage() === 'ru'
+            ? 'Спасибо за регистрацию на Startup Village 2017!'
+            : 'Thank you for registration on Startup Village 2017!';
+    }
+
 }
