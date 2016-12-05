@@ -41,7 +41,7 @@ class Employment extends ActiveRecord
 
     public function primaryKey()
     {
-        return 'EmploymentId';
+        return 'Id';
     }
 
     public function relations()
