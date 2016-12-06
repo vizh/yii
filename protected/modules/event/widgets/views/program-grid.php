@@ -64,7 +64,29 @@ use event\models\section\LinkUser;
                               <?endforeach?>
                           </div>
                       <?endif?>
-                  <?endforeach?>
+                    <?endforeach?>
+                    <br>
+                      <?foreach($data->Sections[$hallId][$time]->Links as $links):?>
+                          <?if ($links[0]->Role->Type == \event\models\RoleType::Speaker):?>
+                              <div class="section-text" data-section="<?=$section->Id?>">
+                                  <b><?=\Yii::t('app', sizeof($links) > 1 ? 'Докладчики' : 'Докладчик')?>:</b><br/>
+                                  <?foreach($links as $link):?>
+                                      <?if ($link->User != null):?>
+                                          <a href="<?=$link->User->getUrl()?>"><?=$link->User->getFullName()?></a>
+                                          <?if ($link->User->getEmploymentPrimary() !== null):?>(<?=$link->User->getEmploymentPrimary()->Company->Name?>)<?endif?>
+                                      <?elseif ($link->Company != null):?>
+                                          <a href="<?=$link->Company->getUrl()?>"><?=$link->Company->Name?></a>
+                                      <?else:?>
+                                          <?=$link->CustomText?>
+                                      <?endif?>
+                                      <?if(!empty($link->Report) && !empty($link->Report->Url)):?>
+                                          <a title="Скачать презентацию" target="_blank" href="<?=$link->Report->Url?>"><img style="vertical-align: bottom;" src="/images/icon-adobe-pdf.png" alt="Скачать презентацию"/></a>
+                                      <?endif?>
+                                      <br/>
+                                  <?endforeach?>
+                              </div>
+                          <?endif?>
+                      <?endforeach?>
                   <div class="details-text" data-section="<?=$section->Id?>" style="display: none">
                   <?else:?>
                   <div class="section-text" data-section="<?=$section->Id?>">
