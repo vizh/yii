@@ -106,4 +106,6 @@ if (YII_DEBUG) {
     ];
 }
 
+CHtml::setModelNameConverter(function($model){return get_class($model); });
+
 return $config;
