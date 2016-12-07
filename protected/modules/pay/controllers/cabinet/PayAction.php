@@ -18,6 +18,10 @@ class PayAction extends Action
     {
         $order = new Order();
         $total = $order->create($this->getUser(), $this->getEvent(), OrderType::PaySystem);
+
+        $order->System = $type;
+        $order->save(false);
+
         $account = Account::model()->byEventId($this->getEvent()->Id)->find();
         $system = $this->getSystem($type, $account);
         $system->processPayment($this->getEvent()->Id, $order->Id, $total);

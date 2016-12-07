@@ -92,7 +92,34 @@ use application\components\utility\Texts;
     </div>
 </div>
 
-<?$this->widget('application\widgets\News', ['limit' => 3])?>
+<div class="b-news">
+    <div class="container">
+        <h2 class="b-header_large light">
+            <div class="line"></div>
+            <div class="container">
+                <div class="title">
+                    <span class="backing runet">Runet</span>
+                    <span class="backing text">Фото</span>
+                </div>
+                <span class="backing url">
+                <a href="https://lefotu.com/">www.lefotu.com</a>
+              </span>
+            </div>
+        </h2>
+        <div class="row clearfix">
+            <section class="cg-content" style="top:0;left:0;right:0;bottom:0;">
+                <div style="margin:0;display: table;height: 325px;width: 100.1%;">
+                    <div class="lefotu_iframe" style="display:table-cell;width:100%;height:100%;"></div>
+                </div>
+                <script>
+                    jQuery(document).ready(function () {
+                        jQuery('.lefotu_iframe').after('<script src="//lefotu.com/js/lefotu_rif.js?r=4"></' + 'script><script>LF_interval = setInterval(function(){if (window.LeFotu) {LeFotu.init({id:37});clearInterval(LF_interval);}},500);</' + 'script>');
+                    })
+                </script>
+            </section>
+        </div>
+    </div>
+</div>
 
 <div class="b-competences" id="competences">
     <div class="container">

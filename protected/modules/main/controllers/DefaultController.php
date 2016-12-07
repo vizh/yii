@@ -10,8 +10,6 @@ class DefaultController extends \application\components\controllers\PublicMainCo
     {
         $this->setPageTitle('RUNET-ID');
 
-        \Yii::app()->getClientScript()->registerPackage('highcharts');
-
         $date = getdate();
         $criteria = new CDbCriteria();
         $criteria->order = '"t"."ShowOnMain" DESC, "t"."StartYear", "t"."StartMonth", "t"."StartDay", "t"."EndYear", "t"."EndMonth", "t"."EndDay"';

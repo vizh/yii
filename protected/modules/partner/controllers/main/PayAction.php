@@ -24,6 +24,7 @@ class PayAction extends \partner\components\Action
         $this->fill('Juridical');
         $this->fill('Receipt');
         $this->fill('PaySystem');
+        $this->fill('Paypal');
         $this->fillTotalUsers();
 
         $productStatistics = $this->getProductStatistics();
@@ -42,15 +43,25 @@ class PayAction extends \partner\components\Action
         $types = [
             'Juridical' => OrderType::Juridical,
             'Receipt' => OrderType::Receipt,
-            'PaySystem' => OrderType::PaySystem
+            'PaySystem' => OrderType::PaySystem,
+            'Paypal' => OrderType::PaySystem
         ];
 
         $orders = \pay\models\Order::model()
             ->byDeleted(false)
             ->byEventId($this->getEvent()->Id)
             ->byType($types[$type], true)
-            ->with('ItemLinks.OrderItem')
-            ->findAll('not "OrderItem"."Deleted"');
+            ->with('ItemLinks.OrderItem');
+
+        $criteria = new \CDbCriteria();
+        $criteria->addCondition('not "OrderItem"."Deleted"');
+        if ($type == 'PayPal'){
+            $criteria->addCondition('"System" = \'paypal\'');
+        }
+        if ($type == 'PaySystem'){
+            $criteria->addCondition('"System" is null or "System" != \'paypal\'');
+        }
+        $orders = $orders->findAll($criteria);
 
         $this->statistics->{'total'.$type} = array_reduce($orders, function($carry, $order){
             return $carry + $order->price;
@@ -186,6 +197,14 @@ class PayStatistics
     public $countPaidPaySystemOrders = 0;
     public $countPaidPaySystemUsers = 0;
 
+    public $totalPaidPaypal = 0;
+    public $countPaidPaypalOrders = 0;
+    public $countPaidPaypalUsers = 0;
+
+    public $totalPaypal = 0;
+    public $countPaypalOrders = 0;
+    public $countPaypalUsers = 0;
+
 
     public $countParticipants = 0;
 
@@ -202,16 +221,16 @@ class PayStatistics
      */
     public function getTotalPaid()
     {
-        return $this->totalPaidJuridical + $this->totalPaidPaySystem + $this->totalPaidReceipt;
+        return $this->totalPaidJuridical + $this->totalPaidPaySystem + $this->totalPaidReceipt + $this->totalPaidPaypal;
     }
 
     public function getTotalOrders()
     {
-        return $this->countJuridicalOrders + $this->countReceiptOrders + $this->countPaySystemOrders;
+        return $this->countJuridicalOrders + $this->countReceiptOrders + $this->countPaySystemOrders + $this->countPaypalOrders;
     }
 
     public function getTotalPaidOrders()
     {
-        return $this->countPaidJuridicalOrders + $this->countPaidReceiptOrders + $this->countPaidPaySystemOrders;
+        return $this->countPaidJuridicalOrders + $this->countPaidReceiptOrders + $this->countPaidPaySystemOrders + $this->countPaidPaypalOrders;
     }
 }

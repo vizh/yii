@@ -1,5 +1,4 @@
 <?php
-require(dirname(__FILE__).'/../framework/YiiBase.php');
 
 YiiBase::$classMap['application\components\WebApplication'] = dirname(__FILE__) . '/components/WebApplication.php';
 

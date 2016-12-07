@@ -306,9 +306,7 @@ class Builder
         if ($this->account->Role === Account::ROLE_OWN) {
             $this->company->Cluster = $company->Cluster;
             $this->company->ClusterGroups = ArrayHelper::columnGet('Id', $company->RaecClusters);
-            $this->company->Additional = (object)[
-                'ОГРН' => $company->OGRN
-            ];
+            $this->company->OGRN = $company->OGRN;
         }
 
         return $this->company;

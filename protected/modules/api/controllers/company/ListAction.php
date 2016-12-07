@@ -16,6 +16,11 @@ class ListAction extends Action
             throw new Exception(104);
         }
 
+        // Сейчас возможна работа только с компаниями кластера РАЭК
+        if ($this->getRequestParam('Cluster') !== Company::CLUSTER_RAEC) {
+            throw new Exception('В данный момент реализована поддержка только кластера РАЭК');
+        }
+
         $model = Company::model();
 
         if ($this->hasRequestParam('Query')) {
@@ -45,7 +50,7 @@ class ListAction extends Action
 
         $result = ['Companies' => []];
         foreach ($companies as $company) {
-            $result['Companies'] = $this->getDataBuilder()->createCompany($company);
+            $result['Companies'][] = $this->getDataBuilder()->createCompany($company);
         }
 
         if ($criteria->limit === count($companies)) {

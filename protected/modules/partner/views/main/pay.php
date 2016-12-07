@@ -23,11 +23,14 @@ $this->setPageTitle(\Yii::t('app', 'Статистика платежей'));
                     <td class="span3">
                         <h4>Юридические лица (счета)</h4>
                     </td>
-                    <td class="span3">
+                    <td class="span2">
                         <h4>Физические лица (квитанции)</h4>
                     </td>
-                    <td class="span3">
+                    <td class="span2">
                         <h4>Физические лица (онлайн)</h4>
+                    </td>
+                    <td class="span2">
+                        <h4>Физические лица (PayPal)</h4>
                     </td>
                     <td class="span1"><h4>Итого</h4></td>
                 </tr>
@@ -38,6 +41,7 @@ $this->setPageTitle(\Yii::t('app', 'Статистика платежей'));
                     <td><?=$statistics->countJuridicalOrders?></td>
                     <td><?=$statistics->countReceiptOrders?></td>
                     <td><?=$statistics->countPaySystemOrders?></td>
+                    <td><?=$statistics->countPaypalOrders?></td>
                     <td><?=$statistics->getTotalOrders()?></td>
                 </tr>
                 <tr>
@@ -59,6 +63,11 @@ $this->setPageTitle(\Yii::t('app', 'Статистика платежей'));
                     </td>
                     <td>
                         <span class="text-warning">
+                            <?=$statistics->countPaypalOrders - $statistics->countPaidPaypalOrders?>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="text-warning">
                             <?=$statistics->getTotalOrders() - $statistics->getTotalPaidOrders()?>
                         </span>
                     </td>
@@ -68,6 +77,7 @@ $this->setPageTitle(\Yii::t('app', 'Статистика платежей'));
                     <td><strong class="text-success"><?=$statistics->countPaidJuridicalOrders?></strong></td>
                     <td><strong class="text-success"><?=$statistics->countPaidReceiptOrders?></strong></td>
                     <td><strong class="text-success"><?=$statistics->countPaidPaySystemOrders?></strong></td>
+                    <td><strong class="text-success"><?=$statistics->countPaidPaypalOrders?></strong></td>
                     <td><strong class="text-success"><?=$statistics->getTotalPaidOrders()?></strong></td>
                 </tr>
                 <tr>
@@ -75,6 +85,7 @@ $this->setPageTitle(\Yii::t('app', 'Статистика платежей'));
                     <td><?=$statistics->countJuridicalUsers?></td>
                     <td><?=$statistics->countReceiptUsers?></td>
                     <td><?=$statistics->countPaySystemUsers?></td>
+                    <td><?=$statistics->countPaypalUsers?></td>
                     <td><?=$statistics->totalUsers?></td>
                 </tr>
                 <tr>
@@ -82,10 +93,11 @@ $this->setPageTitle(\Yii::t('app', 'Статистика платежей'));
                     <td><strong class="text-success"><?=$statistics->countPaidJuridicalUsers?></strong></td>
                     <td><strong class="text-success"><?=$statistics->countPaidReceiptUsers?></strong></td>
                     <td><strong class="text-success"><?=$statistics->countPaidPaySystemUsers?></strong></td>
+                    <td><strong class="text-success"><?=$statistics->countPaidPaypalUsers?></strong></td>
                     <td><strong class="text-success"><?=$statistics->totalPaidUsers?></strong></td>
                 </tr>
                 <tr>
-                    <td colspan="4" class="text-left">Активировано 100% промо-кодов:</td>
+                    <td colspan="5" class="text-left">Активировано 100% промо-кодов:</td>
                     <td><?=$statistics->totalPromoUsers?></td>
                 </tr>
                 <tr>
@@ -105,6 +117,12 @@ $this->setPageTitle(\Yii::t('app', 'Статистика платежей'));
                     <td>
                         <span class="text-success lead">
                             <?=number_format($statistics->totalPaidPaySystem, 0, ',', ' ')?>
+                            руб.
+                        </span>
+                    </td>
+                    <td>
+                        <span class="text-success lead">
+                            <?=number_format($statistics->totalPaidPaypal, 0, ',', ' ')?>
                             руб.
                         </span>
                     </td>
