@@ -70,7 +70,8 @@ class Participant extends SearchFormModel
             'Participants' => [
                 'on' => '"Participants"."EventId" = :EventId',
                 'params' => ['EventId' => $this->event->Id],
-                'together' => false
+                'together' => false,
+                'select' => false
             ],
             'ParticipantsForCriteria' => [
                 'together' => true,
@@ -80,14 +81,17 @@ class Participant extends SearchFormModel
             ],
             'Badges' => [
                 'together' => false,
+                'select' => false,
                 'order' => '"Badges"."CreationTime" ASC',
-                'with' => ['Operator'],
+                'with' => ['Operator' => ['select' => false]],
                 'on' => '"Badges"."EventId" = :EventId',
                 'params' => [
                     'EventId' => $this->event->Id
                 ]
             ],
-            'Documents'
+            'Documents' => [
+                'select' => false
+            ]
         ];
 
         $criteria->addInCondition('"t"."Id"', \CHtml::listData(User::model()->findAll($this->getCriteria()), 'Id', 'Id'));
