@@ -200,8 +200,8 @@ class User extends CreateUpdateForm
 
     public function fillFromPost()
     {
-        $this->Photo = \CUploadedFile::getInstance($this, 'Photo');
         parent::fillFromPost();
+        $this->Photo = \CUploadedFile::getInstance($this, 'Photo');
     }
 
 
