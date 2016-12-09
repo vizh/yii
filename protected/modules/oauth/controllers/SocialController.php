@@ -42,7 +42,7 @@ class SocialController extends \oauth\components\Controller
                 $identity->authenticate();
                 if ($identity->errorCode == \CUserIdentity::ERROR_NONE)
                 {
-                    \Yii::app()->user->login($identity, $identity->GetExpire());
+                    \Yii::app()->user->login($identity, $identity->getExpire());
                 }
                 else
                 {

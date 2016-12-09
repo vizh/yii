@@ -19,7 +19,7 @@ class AuthAction extends \pay\components\Action
             $identity->authenticate();
             if ($identity->errorCode == \application\components\auth\identity\Base::ERROR_NONE) {
                 if (!$user->Temporary) {
-                    Yii::app()->user->login($identity, $identity->GetExpire());
+                    Yii::app()->user->login($identity, $identity->getExpire());
                 } else {
                     Yii::app()->tempUser->login($identity);
                 }
