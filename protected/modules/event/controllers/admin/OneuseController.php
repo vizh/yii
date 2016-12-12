@@ -212,10 +212,10 @@ class OneuseController extends AdminMainController
 
     public function actionInviteGenerator()
     {
-        for ($i= 0; $i <= 30; $i++) {
+        for ($i= 0; $i <= 60; $i++) {
             $invite = new \event\models\Invite();
-            $invite->EventId = 2213;
-            $invite->RoleId  = 1;
+            $invite->EventId = 2826;
+            $invite->RoleId  = 167;
             $invite->Code = \application\components\utility\Texts::GenerateString(12);
             $invite->save();
             echo $invite->Code . '<br/>';
