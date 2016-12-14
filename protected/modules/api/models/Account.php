@@ -11,6 +11,8 @@ use application\hacks\AbstractHack;
  * @property string $IpCheck
  * @property string $Role
  * @property string $RequestPhoneOnRegistration
+ * @property integer $QuotaByUser
+ * @property boolean $Blocked
  *
  * @property \event\models\Event $Event
  * @property Domain[] $Domains
@@ -244,5 +246,11 @@ class Account extends \CActiveRecord
             self::ROLE_MOBILE => 'Мобильное приложение',
             self::ROLE_IRI => 'ИРИ'
         ];
+    }
+
+    public function block()
+    {
+        $this->Blocked = true;
+        $this->save(false);
     }
 }

@@ -51,6 +51,12 @@
         <?=\CHtml::activeDropDownList($form, 'RequestPhoneOnRegistration', $form->getRequestPhoneOnRegistrationStatusData(), ['class' => 'input-xlarge'])?>
       </div>
     </div>
+      <div class="control-group">
+          <?=\CHtml::activeLabel($form, 'QuotaByUser', ['class' => 'control-label'])?>
+          <div class="controls">
+              <?=\CHtml::activeTextField($form, 'QuotaByUser', ['class' => 'input-xlarge'])?>
+          </div>
+      </div>
     <div class="control-group domains">
       <?=\CHtml::activeLabel($form, 'Domains', ['class' => 'control-label'])?>
       <div class="controls">

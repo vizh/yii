@@ -2,6 +2,7 @@
 namespace api\components\builders;
 
 use api\models\Account;
+use api\models\AccoutQuotaByUserLog;
 use application\components\helpers\ArrayHelper;
 use application\components\utility\Texts;
 use application\models\translation\ActiveRecord;
@@ -65,6 +66,18 @@ class Builder
      */
     public function createUser($user, $builders = null)
     {
+        $log = AccoutQuotaByUserLog::model()->findByAttributes([
+            'AccountId' => $this->account->Id,
+            'UserId' => $user->Id
+        ]);
+        if (!$log){
+            $log = new AccoutQuotaByUserLog();
+            $log->AccountId = $this->account->Id;
+            $log->UserId = $user->Id;
+            $log->Time = date('Y-m-d H:i:s');
+            $log->save(false);
+        }
+
         $this->createBaseUser($user);
 
         // Строим полную схему данных посетителя если набор билдеров не определён

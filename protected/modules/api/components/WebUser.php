@@ -54,6 +54,9 @@ class WebUser extends \CWebUser
                 if ($account->checkHash($hash, $timestamp) === false)
                     throw new Exception(102);
 
+                if ($account->Blocked)
+                    throw new Exception(105);
+
                 // Предоставляем возможность иметь api-аккаунты с динамической привязкой к мероприятию
                 if ($account->EventId === null)
                     $account->EventId = $request->getParam('EventId');
