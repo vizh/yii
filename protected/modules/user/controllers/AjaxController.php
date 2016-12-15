@@ -43,32 +43,26 @@ class AjaxController extends PublicMainController
         $criteria->with = ['Employments.Company'];
         $model = User::model();
 
-        if (Yii::app()->partner->role === 'AdminExtended') {
-            if ($eventId !== null) {
-                $event = \event\models\Event::model()->findByPk($eventId);
-                if ($event && $event->UserScope){
-                    $model->bySearch($term, null, true, true)->byEventId($eventId);
-                }
-                else{
-                    $model->bySearch($term, null, true, true);
-                }
-            } else {
-                is_numeric($term) ? $model->byRunetId($term) : $model->bySearch($term);
-            }
-        } else {
-            $model->bySearch($term, null, true, true);
-
-            if ($eventId !== null) {
-                $event = \event\models\Event::model()->findByPk($eventId);
-                if ($event && $event->UserScope){
+        if ($eventId !== null) {
+            $event = \event\models\Event::model()->findByPk($eventId);
+            if ($event){
+                $model->bySearch($term, null, true, !$event->SearchHiddenUsers);
+                if ($event->UserScope){
                     $model->byEventId($eventId);
                 }
+            }
+            else{
+                $model->bySearch($term);
+            }
+        } else {
+            $model->bySearch($term);
+        }
 
-                $role = Yii::app()->partnerAuthManager->roles[Yii::app()->partner->role];
-                $available_roles = ArrayHelper::getValue($role->data, 'roles', []);
-                if (!empty($available_roles)){
-                    $model->byEventRole($available_roles);
-                }
+        if (Yii::app()->partner->role !== 'AdminExtended') {
+            $role = Yii::app()->partnerAuthManager->roles[Yii::app()->partner->role];
+            $available_roles = ArrayHelper::getValue($role->data, 'roles', []);
+            if (!empty($available_roles)){
+                $model->byEventRole($available_roles);
             }
         }
 
