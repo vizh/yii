@@ -16,6 +16,7 @@ class Account extends \CFormModel
     public $Role;
     public $RequestPhoneOnRegistration;
     public $QuotaByUser;
+    public $Blocked;
 
     public function rules()
     {
@@ -26,7 +27,8 @@ class Account extends \CFormModel
             ['Ips', 'filter', 'filter' => [$this, 'filterIps']],
             ['Domains', 'filter', 'filter' => [$this, 'filterDomains']],
             ['Key, Secret', 'safe'],
-            ['QuotaByUser', 'numerical']
+            ['QuotaByUser', 'numerical'],
+            ['Blocked', 'boolean']
         ];
     }
 
@@ -39,7 +41,8 @@ class Account extends \CFormModel
             'Domains'    => \Yii::t('app', 'Домены'),
             'Role' => \Yii::t('app', 'Тип аккаунта'),
             'RequestPhoneOnRegistration' => \Yii::t('app', 'Запрашивать номер телефона при регистрации'),
-            'QuotaByUser' => \Yii::t('app', 'Квота')
+            'QuotaByUser' => \Yii::t('app', 'Квота'),
+            'Blocked' => \Yii::t('app', 'Заблокирован')
         ];
     }
 
