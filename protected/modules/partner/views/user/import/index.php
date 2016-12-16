@@ -38,7 +38,7 @@ $this->setPageTitle(Yii::t('app', 'Импорт участников мероп�
                             <th><?=Yii::t('app', 'Всего')?></th>
                             <th><?=Yii::t('app', 'Импортировано')?></th>
                             <th><?=Yii::t('app', 'Ошибок')?></th>
-                            <th></th>
+                            <th><?=Yii::t('app', 'Операции')?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -64,6 +64,8 @@ $this->setPageTitle(Yii::t('app', 'Импорт участников мероп�
                                         <?=\CHtml::link(Yii::t('app', 'Задать роли'), ['importroles', 'id' => $import->Id], ['class' => 'btn btn-sm'])?>
                                     <?php elseif ($import->Products == null):?>
                                         <?=\CHtml::link(Yii::t('app', 'Задать товары'), ['importproducts', 'id' => $import->Id], ['class' => 'btn btn-sm'])?>
+                                    <?else:?>
+                                        <?=\CHtml::link(Yii::t('app', 'Повторить'), ['importprocess', 'id' => $import->Id], ['class' => 'btn btn-sm'])?>
                                     <?endif?>
                                 </td>
                             </tr>
