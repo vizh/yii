@@ -1,6 +1,8 @@
 <?php
 namespace application\components\auth\identity;
 
+use user\models\User;
+
 class Password extends \application\components\auth\identity\Base
 {
     public function __construct($login, $password)
@@ -11,20 +13,25 @@ class Password extends \application\components\auth\identity\Base
 
     public function authenticate()
     {
-        $user = \user\models\User::model()->byRunetId(intval($this->username))
-            ->byEmail($this->username, false)->byPrimaryPhone($this->username, false)
-            ->byVisible(true)->find();
+        $user = User::model()
+            ->byRunetId($this->username)
+            ->byEmail($this->username, false)
+            ->byPrimaryPhone($this->username, false)
+            ->byVisible()
+            ->find();
 
         if ($user === null) {
-            $this->errorCode = self::ERROR_USERNAME_INVALID;
-        } elseif (!$user->checkLogin($this->password)) {
-            $this->errorCode = self::ERROR_PASSWORD_INVALID;
-        } else {
-            $this->_id = $user->Id;
-            $this->username = $user->RunetId;
-            $this->errorCode = self::ERROR_NONE;
+            return self::ERROR_USERNAME_INVALID;
         }
 
-        return $this->errorCode == self::ERROR_NONE;
+        if ($user->checkLogin($this->password) === false) {
+            return self::ERROR_PASSWORD_INVALID;
+        }
+
+        $this->_id = $user->Id;
+        $this->username = $user->RunetId;
+        $this->errorCode = self::ERROR_NONE;
+
+        return true;
     }
 }

@@ -4,7 +4,7 @@ namespace application\components\auth\identity;
 class Base extends \CUserIdentity
 {
   protected $_id;
-  
+
   /**
    *
    * @return int
@@ -17,7 +17,7 @@ class Base extends \CUserIdentity
   /**
    * @return int
    */
-  public static function GetExpire()
+  public function getExpire()
   {
     //days * hours * minutes * seconds
     return 180 * 24 * 60 * 60;

@@ -193,7 +193,8 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
             'OrganizerInfo',
             'CloseRegistrationAfterEnd',
             'PromoBlockStyles',
-            'MailRegisterAdditionalText'
+            'MailRegisterAdditionalText',
+            'SearchHiddenUsers'
         ];
     }
 

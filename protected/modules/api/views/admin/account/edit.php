@@ -51,6 +51,12 @@
         <?=\CHtml::activeDropDownList($form, 'RequestPhoneOnRegistration', $form->getRequestPhoneOnRegistrationStatusData(), ['class' => 'input-xlarge'])?>
       </div>
     </div>
+      <div class="control-group">
+          <?=\CHtml::activeLabel($form, 'QuotaByUser', ['class' => 'control-label'])?>
+          <div class="controls">
+              <?=\CHtml::activeTextField($form, 'QuotaByUser', ['class' => 'input-xlarge'])?>
+          </div>
+      </div>
     <div class="control-group domains">
       <?=\CHtml::activeLabel($form, 'Domains', ['class' => 'control-label'])?>
       <div class="controls">
@@ -63,6 +69,12 @@
         <button class="btn btn-mini" type="button"><?=\Yii::t('app', 'Добавить IP адрес')?></button>
       </div>
     </div>
+      <div class="control-group">
+          <?=\CHtml::activeLabel($form, 'Blocked', ['class' => 'control-label'])?>
+          <div class="controls">
+              <?=\CHtml::activeCheckBox($form, 'Blocked', ['class' => 'input-xlarge'])?>
+          </div>
+      </div>
   <?else:?>
     <div class="control-group">
       <?=\CHtml::activeLabel($form, 'Role', ['class' => 'control-label'])?>

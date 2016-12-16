@@ -38,6 +38,8 @@ class EditAction extends \CAction
         $this->form->Secret = $this->account->Secret;
         $this->form->Role = $this->account->Role;
         $this->form->RequestPhoneOnRegistration = $this->account->RequestPhoneOnRegistration;
+        $this->form->QuotaByUser = $this->account->QuotaByUser;
+        $this->form->Blocked = $this->account->Blocked;
         if (!empty($this->account->Event))
         {
           $this->form->EventId = $this->account->EventId;
@@ -72,6 +74,8 @@ class EditAction extends \CAction
       }
       $this->account->Role = $this->form->Role;
       $this->account->RequestPhoneOnRegistration = $this->form->RequestPhoneOnRegistration;
+      $this->account->QuotaByUser = $this->form->QuotaByUser;
+      $this->account->Blocked = $this->form->Blocked;
       $this->account->save();
 
       $ips = [];

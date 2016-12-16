@@ -104,8 +104,19 @@ if (YII_DEBUG) {
         'class' => 'ext.yii2-debug.Yii2Debug',
         'allowedIPs' => ['127.0.0.1', '::1', '82.142.129.37 '],
     ];
+    // Большая совместимость с современными версиями php для окружения разработчика
+    if (strpos(phpversion(), '7.') === 0) {
+        // xCache пока не работает в
+        if (strpos(phpversion(), '7.1') === 0) {
+            unset($config['components']['cache']);
+        }
+        // Монга тоже не подходит
+        unset($config['components']['mongodb']);
+    }
 }
 
-CHtml::setModelNameConverter(function($model){return get_class($model); });
+CHtml::setModelNameConverter(function ($model) {
+    return get_class($model);
+});
 
 return $config;

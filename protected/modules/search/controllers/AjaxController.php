@@ -58,6 +58,9 @@ class AjaxController extends \application\components\controllers\PublicMainContr
             case get_class($userModel):
               $item->url = $this->createUrl('/user/view/index', array('runetId' => $record->RunetId));
               $item->value = $record->getFullName();
+              if ($record->employmentPrimary){
+                  $item->value .= ' ('.$record->employmentPrimary.')';
+              }
               $item->runetid = $record->RunetId;
               $item->category = \Yii::t('app', 'Пользователи');
               break;

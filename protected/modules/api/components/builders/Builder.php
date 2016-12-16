@@ -2,6 +2,7 @@
 namespace api\components\builders;
 
 use api\models\Account;
+use api\models\AccoutQuotaByUserLog;
 use application\components\helpers\ArrayHelper;
 use application\components\utility\Texts;
 use application\models\translation\ActiveRecord;
@@ -65,6 +66,18 @@ class Builder
      */
     public function createUser($user, $builders = null)
     {
+        $log = AccoutQuotaByUserLog::model()->findByAttributes([
+            'AccountId' => $this->account->Id,
+            'UserId' => $user->Id
+        ]);
+        if (!$log){
+            $log = new AccoutQuotaByUserLog();
+            $log->AccountId = $this->account->Id;
+            $log->UserId = $user->Id;
+            $log->Time = date('Y-m-d H:i:s');
+            $log->save(false);
+        }
+
         $this->createBaseUser($user);
 
         // Строим полную схему данных посетителя если набор билдеров не определён
@@ -102,10 +115,13 @@ class Builder
         $this->user->LastName = $user->LastName;
         $this->user->FirstName = $user->FirstName;
         $this->user->FatherName = $user->FatherName;
-        $this->user->CreationTime = $user->CreationTime;
-        $this->user->Visible = $user->Visible;
-        $this->user->Verified = $user->Verified;
-        $this->user->Gender = $user->Gender;
+
+        if ($this->hasPrivatePermission($user)) {
+            $this->user->CreationTime = $user->CreationTime;
+            $this->user->Visible = $user->Visible;
+            $this->user->Verified = $user->Verified;
+            $this->user->Gender = $user->Gender;
+        }
 
         $this->user->Photo = new \stdClass();
         $this->user->Photo->Small = 'http://'.RUNETID_HOST.$user->getPhoto()->get50px();;
@@ -131,10 +147,12 @@ class Builder
      */
     protected function buildUserData($user)
     {
-        $attributes = UserData::getDefinedAttributeValues($this->account->Event, $user);
+        if ($this->hasPrivatePermission($user)) {
+            $attributes = UserData::getDefinedAttributeValues($this->account->Event, $user);
 
-        if (!empty($attributes)) {
-            $this->user->Attributes = $attributes;
+            if (!empty($attributes)) {
+                $this->user->Attributes = $attributes;
+            }
         }
 
         return $this->user;
@@ -146,7 +164,7 @@ class Builder
      */
     protected function buildUserContacts($user)
     {
-        if ($this->hasContactsPermission($user)) {
+        if ($this->hasPrivatePermission($user)) {
             $this->user->Email = $user->Email;
             $this->user->Phone = $user->getPhone(false);
             $this->user->PhoneFormatted = $user->getPhone();
@@ -171,10 +189,12 @@ class Builder
             $this->user->Work = new \stdClass();
             $this->user->Work->Position = $employment->Position;
             $this->user->Work->Company = $this->createEmploymentCompany($employment->Company);
-            $this->user->Work->StartYear = $employment->StartYear;
-            $this->user->Work->StartMonth = $employment->StartMonth;
-            $this->user->Work->EndYear = $employment->EndYear;
-            $this->user->Work->EndMonth = $employment->EndMonth;
+            if ($this->hasPrivatePermission($user)) {
+                $this->user->Work->StartYear = $employment->StartYear;
+                $this->user->Work->StartMonth = $employment->StartMonth;
+                $this->user->Work->EndYear = $employment->EndYear;
+                $this->user->Work->EndMonth = $employment->EndMonth;
+            }
         }
 
         return $this->user;
@@ -250,25 +270,27 @@ class Builder
      */
     protected function buildUserAttributes($user)
     {
-        $attributes = [];
+        if ($this->hasPrivatePermission($user)) {
+            $attributes = [];
 
-        $data = UserData::model()
-            ->byEventId($this->account->EventId)
-            ->byUserId($user->Id)
-            ->byDeleted(false)
-            ->find();
+            $data = UserData::model()
+                ->byEventId($this->account->EventId)
+                ->byUserId($user->Id)
+                ->byDeleted(false)
+                ->find();
 
-        if ($data !== null) {
-            $manager = $data->getManager();
-            foreach ($manager->getDefinitions() as $definition) {
-                $attributes[$definition->name] = $definition->getExportValue($manager);
+            if ($data !== null) {
+                $manager = $data->getManager();
+                foreach ($manager->getDefinitions() as $definition) {
+                    $attributes[$definition->name] = $definition->getExportValue($manager);
+                }
             }
-        }
 
-        // Необходимо что бы пустой список атрибутов сериализовался как {}, а не как []
-        $this->user->Attributes = empty($attributes)
-            ? new \stdClass()
-            : $attributes;
+            // Необходимо что бы пустой список атрибутов сериализовался как {}, а не как []
+            $this->user->Attributes = empty($attributes)
+                ? new \stdClass()
+                : $attributes;
+        }
 
         return $this->user;
     }
@@ -494,7 +516,7 @@ class Builder
         $this->event->Statistics = [
             'Participants' => [
                 'ByRole' => ArrayHelper::associate('RoleId', 'Count', Yii::app()->getDb()
-                    ->createCommand('SELECT "RoleId", count("Id") as "Count" FROM "EventParticipant" WHERE "EventId" = :EventId GROUP BY "RoleId"')
+                    ->createCommand('SELECT "RoleId", count("Id") AS "Count" FROM "EventParticipant" WHERE "EventId" = :EventId GROUP BY "RoleId"')
                     ->bindParam(':EventId', $event->Id)
                     ->queryAll())
             ]
@@ -935,29 +957,39 @@ class Builder
      * @param User $user
      * @return bool
      */
-    protected function hasContactsPermission(User $user)
+    protected function hasPrivatePermission(User $user)
     {
-        switch ($this->account->Role) {
-            case Account::ROLE_OWN:
-                return true;
-                break;
+        static $permissions;
 
-            case Account::ROLE_PARTNER_WOC:
-                return false;
-                break;
-
-            case Account::ROLE_MOBILE: // toDo: Не совсем понятна причина такого, но текущая версия api именно так и выбирала данные в списках посетителей, потом я это добавил сюда
-                return false;
-                break;
-
-            default:
-                $permissionModel = Permission::model()
-                    ->byUserId($user->Id)
-                    ->byAccountId($this->account->Id)
-                    ->byDeleted(false);
-
-                return isset($this->user->Status) || $permissionModel->exists();
+        if ($permissions === null) {
+            $permissions = [];
         }
+
+        if (isset($permissions[$user->RunetId]) === false) {
+            switch ($this->account->Role) {
+                case Account::ROLE_OWN:
+                    $permissions[$user->RunetId] = true;
+                    break;
+
+                case Account::ROLE_PARTNER_WOC:
+                    $permissions[$user->RunetId] = $this->account->Event->hasParticipant($user);
+                    break;
+
+                case Account::ROLE_MOBILE: // toDo: Не совсем понятна причина такого, но текущая версия api именно так и выбирала данные в списках посетителей, потом я это добавил сюда
+                    $permissions[$user->RunetId] = false;
+                    break;
+
+                default:
+                    $permissions[$user->RunetId] = isset($this->user->Status)
+                        || Permission::model()
+                            ->byUserId($user->Id)
+                            ->byAccountId($this->account->Id)
+                            ->byDeleted(false)
+                            ->exists();
+            }
+        }
+
+        return $permissions[$user->RunetId];
     }
 
     protected $meetingPlace;
@@ -1014,6 +1046,7 @@ class Builder
 
     /**
      * Формирует данные об участии в секциях мероприятия
+     *
      * @param User $user
      * @return array
      */
@@ -1023,12 +1056,12 @@ class Builder
         foreach ($this->account->Event->Sections as $section) {
             foreach ($user->LinkSections as $link) {
                 /** @var LinkUser $link */
-                if ($link->Section->Id == $section->Id){
+                if ($link->Section->Id == $section->Id) {
                     $data = new \stdClass();
                     $data->Section = $this->createSection($section);
                     $data->Role = $link->Role->Title;
                     $data->VideoUrl = $link->VideoUrl;
-                    if ($link->Report){
+                    if ($link->Report) {
                         $report = new \stdClass();
                         $report->Id = $link->Report->Id;
                         $report->Title = $link->Report->Title;
@@ -1041,6 +1074,7 @@ class Builder
                 }
             }
         }
+
         return $result;
     }
 }

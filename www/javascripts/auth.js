@@ -6,14 +6,22 @@ $(function(){
 var ModalAuth = function() {
     this.modal = $('#ModalAuth');
     this.bootstrapVersion = this.modal.data('bootstrap-version');
-    this.src = this.modal.data('src');
+    this.src = this.modal.data('src-login');
     this.width = this.modal.data('width') - 20;
     this.height = this.modal.data('height');
 
     if (this.bootstrapVersion == 3) {
         this.width-=20;
     }
-    this.init();
+
+    if (window.location.hash == "#register"){
+        this.src = this.modal.data('src-register');
+        this.init();
+        this.login();
+    }
+    else{
+        this.init();
+    }
 };
 ModalAuth.prototype.init = function() {
     var self = this;
@@ -72,6 +80,7 @@ ModalAuth.prototype.getEventName = function (name) {
     return name;
 };
 ModalAuth.prototype.login = function () {
+    console.log('qwe');
     var href = $('.navbar li.login a').attr('href');
     if (href == '#') {
         this.modal.modal('show');

@@ -21,6 +21,6 @@ class CollectionCouponLinkProduct extends \CActiveRecord
 
     public function primaryKey()
     {
-        return ['CouponId', 'ProductId'];
+        return ['CollectionCouponId', 'ProductId'];
     }
 } 

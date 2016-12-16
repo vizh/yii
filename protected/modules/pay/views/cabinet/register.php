@@ -97,7 +97,15 @@ $isHideProduct = function (Product $product) use ($event, $countRows) {
 
 
         <div <?if($hasTickets):?>style="display: none;"<?endif?> data-scenario="<?=\pay\models\forms\OrderForm::ScenarioRegisterUser?>">
-            <?$this->renderPartial('register/help', ['user' => $this->getUser(), 'products' => $products, 'account' => $account, 'event' => $event,'unpaidOwnerCount' => $unpaidOwnerCount, 'unpaidJuridicalOrderCount' => $unpaidJuridicalOrderCount, 'paidEvent' => $paidEvent])?>
+            <?php
+            if (file_exists($this->getViewFile('register/help/'.$event->IdName))){
+                $view = 'register/help/'.$event->IdName;
+            }
+            else{
+                $view = 'register/help';
+            }
+            ?>
+            <?$this->renderPartial($view, ['user' => $this->getUser(), 'products' => $products, 'account' => $account, 'event' => $event,'unpaidOwnerCount' => $unpaidOwnerCount, 'unpaidJuridicalOrderCount' => $unpaidJuridicalOrderCount, 'paidEvent' => $paidEvent])?>
             <table class="table thead-actual">
                 <thead>
                 <tr>

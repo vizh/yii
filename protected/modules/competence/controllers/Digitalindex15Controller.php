@@ -22,7 +22,7 @@ class Digitalindex15Controller extends PublicMainController
                 $identity = new RunetId($user->RunetId);
                 $identity->authenticate();
                 if ($identity->errorCode == \CUserIdentity::ERROR_NONE) {
-                    \Yii::app()->getUser()->login($identity, $identity->GetExpire());
+                    \Yii::app()->getUser()->login($identity, $identity->getExpire());
                 }
                 $this->refresh();
             } else {

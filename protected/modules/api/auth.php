@@ -27,9 +27,20 @@ return [
         'bizRule' => null,
         'data' => null
     ],
+
     'partner' => [
         'type' => CAuthItem::TYPE_ROLE,
         'description' => 'Авторизация с партнерским доступом к api',
+        'children' => [
+            'base',
+        ],
+        'bizRule' => null,
+        'data' => null
+    ],
+
+    'partner_woc' => [
+        'type' => CAuthItem::TYPE_ROLE,
+        'description' => 'Авторизация с партнерским доступом к api без доступа к персональным данным',
         'children' => [
             'base',
         ],
@@ -47,26 +58,27 @@ return [
         'data' => null
     ],
 
-
-
     'sberbank' => [
         'type' => CAuthItem::TYPE_ROLE,
         'description' => 'Роль для сбербанка',
         'bizRule' => null,
         'data' => null
     ],
+
     'mblt' => [
         'type' => CAuthItem::TYPE_ROLE,
         'description' => 'Роль для MBLT',
         'bizRule' => null,
         'data' => null
     ],
+
     'microsoft' => [
         'type' => CAuthItem::TYPE_ROLE,
         'description' => 'Роль для проектов с MicroSoft',
         'bizRule' => null,
         'data' => null
     ],
+
     'iri' => [
         'type' => CAuthItem::TYPE_ROLE,
         'description' => 'Роль для ИРИ',

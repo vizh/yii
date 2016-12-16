@@ -55,7 +55,7 @@ class PayAction extends \partner\components\Action
 
         $criteria = new \CDbCriteria();
         $criteria->addCondition('not "OrderItem"."Deleted"');
-        if ($type == 'PayPal'){
+        if ($type == 'Paypal'){
             $criteria->addCondition('"System" = \'paypal\'');
         }
         if ($type == 'PaySystem'){
