@@ -102,8 +102,8 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
     public function bySearch($term, $locale = null, $useAnd = true)
     {
         $criteria = new \CDbCriteria();
-        $criteria->condition = 'to_tsvector("t"."Name") @@ plainto_tsquery(:Term)';
-        $criteria->params['Term'] = $term;
+        $criteria->condition = '"t"."Name" ilike :Term';
+        $criteria->params['Term'] = '%'.$term.'%';
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
 
         return $this;
