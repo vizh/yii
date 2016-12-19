@@ -981,7 +981,7 @@ class Builder
                     break;
 
                 default:
-                    $permissions[$user->RunetId] = isset($this->user->Status)
+                    $permissions[$user->RunetId] = $this->account->Event->hasParticipant($user)
                         || Permission::model()
                             ->byUserId($user->Id)
                             ->byAccountId($this->account->Id)
