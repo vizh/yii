@@ -66,11 +66,12 @@ class Builder
      */
     public function createUser($user, $builders = null)
     {
-        $log = AccoutQuotaByUserLog::model()->findByAttributes([
-            'AccountId' => $this->account->Id,
-            'UserId' => $user->Id
-        ]);
-        if (!$log){
+        $logExists = AccoutQuotaByUserLog::model()
+            ->byAccountId($this->account->Id)
+            ->byUserId($user->Id)
+            ->exists();
+
+        if ($logExists === false) {
             $log = new AccoutQuotaByUserLog();
             $log->AccountId = $this->account->Id;
             $log->UserId = $user->Id;
