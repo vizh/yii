@@ -30,7 +30,7 @@ class Account extends \CFormModel
             ['Domains', 'filter', 'filter' => [$this, 'filterDomains']],
             ['Key, Secret', 'safe'],
             ['QuotaByUser', 'numerical'],
-            ['Blocked', 'boolean'],
+            ['Blocked', 'boolean']
         ];
     }
 

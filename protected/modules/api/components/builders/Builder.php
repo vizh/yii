@@ -66,7 +66,7 @@ class Builder
      */
     public function createUser($user, $builders = null)
     {
-        if ($this->account->Role == Account::ROLE_PARTNER_WOC){
+        if ($this->account->Role === Account::ROLE_PARTNER_WOC) {
             $logExists = AccoutQuotaByUserLog::model()
                 ->byAccountId($this->account->Id)
                 ->byUserId($user->Id)
