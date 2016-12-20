@@ -13,10 +13,12 @@ use application\hacks\AbstractHack;
  * @property string $RequestPhoneOnRegistration
  * @property integer $QuotaByUser
  * @property boolean $Blocked
+ * @property text $BlockedReason
  *
  * @property \event\models\Event $Event
  * @property Domain[] $Domains
  * @property Ip[] $Ips
+ * @property AccoutQuotaByUserLog[] $QuotaUsers
  *
  * @method Account find($condition='',$params=array())
  * @method Account findByPk($pk,$condition='',$params=array())
@@ -63,7 +65,8 @@ class Account extends \CActiveRecord
         return array(
             'Domains' => array(self::HAS_MANY, '\api\models\Domain', 'AccountId'),
             'Ips' => array(self::HAS_MANY, '\api\models\Ip', 'AccountId'),
-            'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId']
+            'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
+            'QuotaUsers' => [self::HAS_MANY, '\api\models\AccoutQuotaByUserLog', 'AccountId']
         );
     }
 
@@ -240,7 +243,7 @@ class Account extends \CActiveRecord
         return [
             self::ROLE_OWN => 'Собственное мероприятие',
             self::ROLE_PARTNER => 'Партнерское мероприятие',
-            self::ROLE_PARTNER_WOC => 'Партнерское мероприятие без доступа к контактной информации',
+            self::ROLE_PARTNER_WOC => 'Партнёрское мероприятие с ограничениями',
             self::ROLE_MICROSOFT => 'Мероприятие Microsoft',
             self::ROLE_MBLT => 'Мероприятие MBLT',
             self::ROLE_MOBILE => 'Мобильное приложение',

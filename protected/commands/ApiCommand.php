@@ -9,8 +9,10 @@ class ApiCommand extends BaseConsoleCommand
     public function actionQuotas()
     {
         foreach (Account::model()->findAll() as $account) {
-            if (AccoutQuotaByUserLog::model()->countByAttributes(['AccountId' => $account->Id]) > $account->QuotaByUser){
-                $account->block();
+            if (count($account->QuotaUsers) > $account->QuotaByUser){
+                $account->Blocked = true;
+                $account->BlockedReason = 'Заблокирован в '.date('Y-m-d H:i').' по причине исчерпании квоты в '.$account->QuotaByUser.' посетителей';
+                $account->save(false);
             }
         }
     }

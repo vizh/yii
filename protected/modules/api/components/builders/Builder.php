@@ -66,17 +66,19 @@ class Builder
      */
     public function createUser($user, $builders = null)
     {
-        $logExists = AccoutQuotaByUserLog::model()
-            ->byAccountId($this->account->Id)
-            ->byUserId($user->Id)
-            ->exists();
+        if ($this->account->Role == Account::ROLE_PARTNER_WOC){
+            $logExists = AccoutQuotaByUserLog::model()
+                ->byAccountId($this->account->Id)
+                ->byUserId($user->Id)
+                ->exists();
 
-        if ($logExists === false) {
-            $log = new AccoutQuotaByUserLog();
-            $log->AccountId = $this->account->Id;
-            $log->UserId = $user->Id;
-            $log->Time = date('Y-m-d H:i:s');
-            $log->save(false);
+            if ($logExists === false) {
+                $log = new AccoutQuotaByUserLog();
+                $log->AccountId = $this->account->Id;
+                $log->UserId = $user->Id;
+                $log->Time = date('Y-m-d H:i:s');
+                $log->save(false);
+            }
         }
 
         $this->createBaseUser($user);

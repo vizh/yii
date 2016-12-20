@@ -19,6 +19,16 @@
     <div class="alert alert-success"><?=\Yii::app()->getUser()->getFlash('success')?></div>
   <?endif?>
 
+    <?php if(!$account->getIsNewRecord()): ?>
+    <div class="control-group">
+        <?=\CHtml::activeLabel($form, 'Blocked', ['class' => 'control-label'])?>
+        <div class="controls">
+            <?=\CHtml::activeCheckBox($form, 'Blocked', ['class' => 'input-xlarge'])?>
+            <?= $form->Blocked ? $form->BlockedReason : ''; ?>
+        </div>
+    </div>
+    <?php endif; ?>
+
   <div class="control-group">
     <?=\CHtml::activeLabel($form, 'EventTitle', ['class' => 'control-label'])?>
     <div class="controls">
@@ -51,12 +61,15 @@
         <?=\CHtml::activeDropDownList($form, 'RequestPhoneOnRegistration', $form->getRequestPhoneOnRegistrationStatusData(), ['class' => 'input-xlarge'])?>
       </div>
     </div>
+      <?php if ($form->Role == \api\models\Account::ROLE_PARTNER_WOC): ?>
       <div class="control-group">
           <?=\CHtml::activeLabel($form, 'QuotaByUser', ['class' => 'control-label'])?>
           <div class="controls">
               <?=\CHtml::activeTextField($form, 'QuotaByUser', ['class' => 'input-xlarge'])?>
+              <?= $form->QuotaByUserCounter; ?>
           </div>
       </div>
+          <?php endif; ?>
     <div class="control-group domains">
       <?=\CHtml::activeLabel($form, 'Domains', ['class' => 'control-label'])?>
       <div class="controls">
@@ -69,12 +82,6 @@
         <button class="btn btn-mini" type="button"><?=\Yii::t('app', 'Добавить IP адрес')?></button>
       </div>
     </div>
-      <div class="control-group">
-          <?=\CHtml::activeLabel($form, 'Blocked', ['class' => 'control-label'])?>
-          <div class="controls">
-              <?=\CHtml::activeCheckBox($form, 'Blocked', ['class' => 'input-xlarge'])?>
-          </div>
-      </div>
   <?else:?>
     <div class="control-group">
       <?=\CHtml::activeLabel($form, 'Role', ['class' => 'control-label'])?>

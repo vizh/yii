@@ -16,7 +16,9 @@ class Account extends \CFormModel
     public $Role;
     public $RequestPhoneOnRegistration;
     public $QuotaByUser;
+    public $QuotaByUserCounter;
     public $Blocked;
+    public $BlockedReason;
 
     public function rules()
     {
@@ -28,7 +30,7 @@ class Account extends \CFormModel
             ['Domains', 'filter', 'filter' => [$this, 'filterDomains']],
             ['Key, Secret', 'safe'],
             ['QuotaByUser', 'numerical'],
-            ['Blocked', 'boolean']
+            ['Blocked', 'boolean'],
         ];
     }
 
