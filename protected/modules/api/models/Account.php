@@ -1,7 +1,9 @@
 <?php
 namespace api\models;
 
+use application\components\ActiveRecord;
 use application\hacks\AbstractHack;
+use event\models\Event;
 
 /**
  * @property int $Id
@@ -13,18 +15,27 @@ use application\hacks\AbstractHack;
  * @property string $RequestPhoneOnRegistration
  * @property integer $QuotaByUser
  * @property boolean $Blocked
- * @property text $BlockedReason
+ * @property string $BlockedReason
  *
- * @property \event\models\Event $Event
+ * @property Event $Event
  * @property Domain[] $Domains
  * @property Ip[] $Ips
  * @property AccoutQuotaByUserLog[] $QuotaUsers
  *
- * @method Account find($condition='',$params=array())
- * @method Account findByPk($pk,$condition='',$params=array())
- * @method Account[] findAll($condition='',$params=array())
+ * Описание вспомогательных методов
+ * @method Account   with($condition = '')
+ * @method Account   find($condition = '', $params = [])
+ * @method Account   findByPk($pk, $condition = '', $params = [])
+ * @method Account   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Account[] findAll($condition = '', $params = [])
+ * @method Account[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Account byKey(string $key, bool $useAnd = true)
+ * @method Account byEventId(int $id, bool $useAnd = true)
+ * @method Account byRole(string $role, bool $useAnd = true)
+ * @method Account byBlocked(bool $blocked, bool $useAnd = true)
  */
-class Account extends \CActiveRecord
+class Account extends ActiveRecord
 {
     const ROLE_OWN = 'own';
     const ROLE_PARTNER = 'partner';
@@ -47,17 +58,13 @@ class Account extends \CActiveRecord
      */
     public static function model($className=__CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
     public function tableName()
     {
         return 'ApiAccount';
-    }
-
-    public function primaryKey()
-    {
-        return 'Id';
     }
 
     public function relations()
@@ -68,30 +75,6 @@ class Account extends \CActiveRecord
             'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
             'QuotaUsers' => [self::HAS_MANY, '\api\models\AccoutQuotaByUserLog', 'AccountId']
         );
-    }
-
-    /**
-     * @param string $key
-     * @param bool $useAnd
-     *
-     * @return Account
-     */
-    public function byKey($key, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."Key" = :Key';
-        $criteria->params = [':Key' => $key];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    public function byEventId($eventId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."EventId" = :EventId';
-        $criteria->params = ['EventId' => $eventId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
     }
 
     protected $_dataBuilder = null;
