@@ -59,6 +59,12 @@ $columns = [
         'htmlOptions' => ['width' => '20%'],
         'type' => 'raw'
     ],
+    [
+        'header' => 'Paypal',
+        'value' => function($data){
+            return $data['paypal'];
+        }
+    ]
 ];
 ?>
 

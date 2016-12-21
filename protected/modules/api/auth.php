@@ -77,15 +77,5 @@ return [
         'description' => 'Роль для проектов с MicroSoft',
         'bizRule' => null,
         'data' => null
-    ],
-
-    'iri' => [
-        'type' => CAuthItem::TYPE_ROLE,
-        'description' => 'Роль для ИРИ',
-        'bizRule' => null,
-        'data' => null,
-        'children' => [
-            'base',
-        ],
     ]
 ];

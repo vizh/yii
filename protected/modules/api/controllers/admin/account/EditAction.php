@@ -39,7 +39,9 @@ class EditAction extends \CAction
         $this->form->Role = $this->account->Role;
         $this->form->RequestPhoneOnRegistration = $this->account->RequestPhoneOnRegistration;
         $this->form->QuotaByUser = $this->account->QuotaByUser;
+        $this->form->QuotaByUserCounter = count($this->account->QuotaUsers);
         $this->form->Blocked = $this->account->Blocked;
+        $this->form->BlockedReason = $this->account->BlockedReason;
         if (!empty($this->account->Event))
         {
           $this->form->EventId = $this->account->EventId;
@@ -75,6 +77,9 @@ class EditAction extends \CAction
       $this->account->Role = $this->form->Role;
       $this->account->RequestPhoneOnRegistration = $this->form->RequestPhoneOnRegistration;
       $this->account->QuotaByUser = $this->form->QuotaByUser;
+        $this->account->BlockedReason = !$this->account->Blocked && $this->form->Blocked
+            ? 'Заблокировано вручную пользователем RunetId:'.\Yii::app()->user->getCurrentUser()->RunetId.' в '.date('Y-m-d H:i')
+            : $this->account->BlockedReason;
       $this->account->Blocked = $this->form->Blocked;
       $this->account->save();
 

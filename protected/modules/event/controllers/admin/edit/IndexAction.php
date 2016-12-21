@@ -96,6 +96,7 @@ class IndexAction extends \CAction
                 $event->RegisterHideNotSelectedProduct = $form->RegisterHideNotSelectedProduct;
                 $event->NotSendRegisterMail = $form->NotSendRegisterMail;
                 $event->NotSendChangeRoleMail = $form->NotSendChangeRoleMail;
+                $event->UseQuickRegistration = $form->UseQuickRegistration;
                 $event->DocumentRequired = $form->DocumentRequired;
 
                 // Сохранение адреса

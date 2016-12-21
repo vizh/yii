@@ -6,6 +6,7 @@
 4. /etc/hosts:
    `127.0.0.1           runet-id.dev`
    `127.0.0.1       api.runet-id.dev`
+   `127.0.0.1       pay.runet-id.dev`
    `127.0.0.1     admin.runet-id.dev`
    `127.0.0.1   partner.runet-id.dev`
 

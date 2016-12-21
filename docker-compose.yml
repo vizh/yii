@@ -21,7 +21,7 @@ services:
     volumes:
       - '.:/var/www/html/'
       - './config/docker/bootstrap.sh:/init.sh'
-      - './config/docker/database.php:/var/www/html/config/db.php'
+      - './config/docker/database.php:/var/www/html/config/db.local.php'
   nginx:
     image: 'nginx'
     ports:

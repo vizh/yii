@@ -4,7 +4,6 @@ namespace event\models;
 
 use api\components\callback\Base;
 use application\components\AbstractDefinition;
-use application\components\CDbCriteria;
 use application\components\Exception;
 use application\components\Image;
 use application\components\socials\facebook\Event as SocialEvent;
@@ -18,6 +17,7 @@ use pay\models\Account as PayAccount;
 use ruvents\models\Setting;
 use search\components\interfaces\ISearch;
 use user\models\User;
+use Yii;
 
 /**
  * Class Event
@@ -83,6 +83,7 @@ use user\models\User;
  * @property bool $RegisterHideNotSelectedProduct
  * @property bool $NotSendRegisterMail
  * @property bool $NotSendChangeRoleMail
+ * @property bool $UseQuickRegistration
  * @property string $OrganizerInfo
  * @property bool $CloseRegistrationAfterEnd
  * @property bool $DocumentRequired
@@ -190,6 +191,7 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
             'RegisterHideNotSelectedProduct',
             'NotSendRegisterMail',
             'NotSendChangeRoleMail',
+            'UseQuickRegistration',
             'OrganizerInfo',
             'CloseRegistrationAfterEnd',
             'PromoBlockStyles',
@@ -461,15 +463,15 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
     /**
      * Проверяет, зарегистрирован ли посетитель на мероприятие.
      *
-     * @param User $user
+     * @param User|int $user
      * @param Part|null $part
      * @return bool
      */
-    public function hasParticipant(User $user, Part $part = null)
+    public function hasParticipant($user, Part $part = null)
     {
         $participant = Participant::model()
             ->byEventId($this->Id)
-            ->byUserId($user->Id);
+            ->byUserId($user instanceof User ? $user->Id : $user);
 
         if ($part !== null)
             $participant->byPartId($part->Id);
@@ -650,13 +652,13 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
         $sender = $event->sender;
 
         if (!isset($this->NotSendRegisterMail) || !$this->NotSendRegisterMail) {
-            $class = \Yii::getExistClass('\event\components\handlers\register', ucfirst($sender->IdName), 'Base');
+            $class = Yii::getExistClass('\event\components\handlers\register', ucfirst($sender->IdName), 'Base');
             /** @var \mail\components\Mail $mail */
             $mail = new $class($mailer, $event);
             $mail->send();
         }
 
-        $class = \Yii::getExistClass('\event\components\handlers\register\system', ucfirst($sender->IdName), 'Base');
+        $class = Yii::getExistClass('\event\components\handlers\register\system', ucfirst($sender->IdName), 'Base');
         $mail = new $class($mailer, $event);
         $mail->send();
     }
@@ -676,8 +678,8 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
         $log->UserId = $user->Id;
         $log->PartId = $part !== null ? $part->Id : null;
         $log->Message = !empty($message) ? $message : null;
-        if (!(\Yii::app() instanceof \CConsoleApplication) && !\Yii::app()->getUser()->getIsGuest()) {
-            $log->EditorId = \Yii::app()->getUser()->getId();
+        if (!(Yii::app() instanceof \CConsoleApplication) && !Yii::app()->getUser()->getIsGuest()) {
+            $log->EditorId = Yii::app()->getUser()->getId();
         }
         $log->save();
     }
@@ -784,15 +786,15 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
     public function getDir($absolute = false, $customId = false)
     {
         if (!$this->fileDir) {
-            $this->fileDir = sprintf(\Yii::app()->params['EventDir'], $this->IdName);
+            $this->fileDir = sprintf(Yii::app()->params['EventDir'], $this->IdName);
         }
         if (!$this->baseDir) {
-            $this->baseDir = \Yii::getPathOfAlias('webroot');
+            $this->baseDir = Yii::getPathOfAlias('webroot');
         }
 
         $fileDir = $this->fileDir;
         if ($customId) {
-            $fileDir = sprintf(\Yii::app()->params['EventDir'], $customId);
+            $fileDir = sprintf(Yii::app()->params['EventDir'], $customId);
         }
 
         return implode([
@@ -872,7 +874,7 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
      */
     public function getFormattedStartDate($pattern = 'dd MMMM yyyy')
     {
-        return \Yii::app()->dateFormatter->format($pattern, $this->getTimeStampStartDate());
+        return Yii::app()->dateFormatter->format($pattern, $this->getTimeStampStartDate());
     }
 
     /**
@@ -881,7 +883,7 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
      */
     public function getFormattedEndDate($pattern = 'dd MMMM yyyy')
     {
-        return \Yii::app()->dateFormatter->format($pattern, $this->getTimeStampEndDate());
+        return Yii::app()->dateFormatter->format($pattern, $this->getTimeStampEndDate());
     }
 
     /**
@@ -960,9 +962,21 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
         return $result;
     }
 
-    public function getUrl()
+    /**
+     * Возвращает URL публичной страницы мероприятия
+     *
+     * @param bool $quickRegistration вернуть ссылку на
+     * @return string
+     */
+    public function getUrl($quickRegistration = false)
     {
-        return \Yii::app()->createAbsoluteUrl('/event/view/index', ['idName' => $this->IdName]);
+        $url = Yii::app()->createAbsoluteUrl('/event/view/index', ['idName' => $this->IdName]);
+
+        if ($quickRegistration && empty($this->UseQuickRegistration) === true) {
+            $url .= '?quickreg';
+        }
+
+        return $url;
     }
 
     /**
@@ -983,7 +997,7 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
             $params['redirectUrl'] = $redirectUrl;
         }
 
-        return \Yii::app()->createAbsoluteUrl('/event/fastregister/index', $params);
+        return Yii::app()->createAbsoluteUrl('/event/fastregister/index', $params);
     }
 
     /**
@@ -1092,7 +1106,7 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
         $fbEvent->location = (string)$this->LinkAddress->Address;
 
         if (\pay\models\Product::model()->byEventId($this->Id)->count()) {
-            $fbEvent->ticketUri = \Yii::app()->createAbsoluteUrl('/pay/cabinet/register',
+            $fbEvent->ticketUri = Yii::app()->createAbsoluteUrl('/pay/cabinet/register',
                 ['eventIdName' => $this->IdName]);
         }
 
@@ -1107,7 +1121,7 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
     public function getRoles()
     {
         if ($this->roles == null) {
-            $command = \Yii::app()->getDb()->createCommand();
+            $command = Yii::app()->getDb()->createCommand();
             $command->setDistinct(true);
             $roleIdList = $command->select('EventRole.Id')
                 ->from('EventRole')
@@ -1213,7 +1227,7 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
      */
     public function getHeaderBannerImage($checkLocale = true)
     {
-        if ($this->getLocale() === 'en' || \Yii::app()->getLanguage() === 'en') {
+        if ($this->getLocale() === 'en' || Yii::app()->getLanguage() === 'en') {
             $image = new Image($this, null, 'header-banner_en');
             if (!$checkLocale || $image->exists()) {
                 return $image;

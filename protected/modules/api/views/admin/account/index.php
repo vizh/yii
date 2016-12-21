@@ -20,7 +20,7 @@
       </tr>
     </thead>
     <?foreach($accounts as $account):?>
-      <tr>
+      <tr<?=$account->Blocked ? ' style="color:#aaa"' : ''?>>
         <?if(!empty($account->Event)):?>
           <td><?=$account->Event->Id?></td>
           <td><?=$account->Event->Title?></td>

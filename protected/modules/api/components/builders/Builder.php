@@ -66,16 +66,19 @@ class Builder
      */
     public function createUser($user, $builders = null)
     {
-        $log = AccoutQuotaByUserLog::model()->findByAttributes([
-            'AccountId' => $this->account->Id,
-            'UserId' => $user->Id
-        ]);
-        if (!$log){
-            $log = new AccoutQuotaByUserLog();
-            $log->AccountId = $this->account->Id;
-            $log->UserId = $user->Id;
-            $log->Time = date('Y-m-d H:i:s');
-            $log->save(false);
+        if ($this->account->Role === Account::ROLE_PARTNER_WOC) {
+            $logExists = AccoutQuotaByUserLog::model()
+                ->byAccountId($this->account->Id)
+                ->byUserId($user->Id)
+                ->exists();
+
+            if ($logExists === false) {
+                $log = new AccoutQuotaByUserLog();
+                $log->AccountId = $this->account->Id;
+                $log->UserId = $user->Id;
+                $log->Time = date('Y-m-d H:i:s');
+                $log->save(false);
+            }
         }
 
         $this->createBaseUser($user);
@@ -980,7 +983,7 @@ class Builder
                     break;
 
                 default:
-                    $permissions[$user->RunetId] = isset($this->user->Status)
+                    $permissions[$user->RunetId] = $this->account->Event->hasParticipant($user)
                         || Permission::model()
                             ->byUserId($user->Id)
                             ->byAccountId($this->account->Id)

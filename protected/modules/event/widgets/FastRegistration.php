@@ -2,12 +2,12 @@
 namespace event\widgets;
 
 use event\components\WidgetPosition;
-use event\models\Participant;
 use event\models\Role;
-
+use Yii;
 
 /**
  * Class FastRegistration
+ *
  * @package event\widgets
  *
  * @property int $DefaultRoleId
@@ -27,27 +27,21 @@ class FastRegistration extends \event\components\Widget
 
     public function process()
     {
-        $request = \Yii::app()->getRequest();
-        if (!\Yii::app()->user->isGuest && ($request->getIsPostRequest() || \Yii::app()->user->getIsRecentlyLogin()))
-        {
-            $role = Role::model()->findByPk($this->DefaultRoleId);
-            $this->event->registerUser(\Yii::app()->user->getCurrentUser(), $role, true);
-            \Yii::app()->getController()->refresh();
+        $user = Yii::app()->getUser();
+        if ($user->getIsGuest() === false && (Yii::app()->getRequest()->getIsPostRequest() || $user->getIsRecentlyLogin())) {
+            $this->getEvent()->registerUser($user->getCurrentUser(), Role::model()->findByPk($this->getDefaultRoleId()), true);
+            Yii::app()->getController()->refresh();
         }
     }
 
     public function run()
     {
-        if ( !$this->event->isRegistrationClosed()) {
-            $isParticipant = false;
-            if (!\Yii::app()->user->isGuest) {
-                $isParticipant = Participant::model()->byUserId(\Yii::app()->user->getId())->byEventId($this->event->Id)->exists();
-            }
-
+        if ($this->event->isRegistrationClosed() === false) {
             $this->render('registration-fast', [
-                'isParticipant' => $isParticipant,
-                'event' => $this->event,
-                'role' => Role::model()->findByPk($this->DefaultRoleId)
+                'isParticipant' => Yii::app()->getUser()->getIsGuest() === false
+                    && $this->getEvent()->hasParticipant(Yii::app()->getUser()->getId()),
+                'event' => $this->getEvent(),
+                'role' => Role::model()->findByPk($this->getDefaultRoleId())
             ]);
         }
     }
@@ -59,6 +53,13 @@ class FastRegistration extends \event\components\Widget
 
     public function getTitle()
     {
-        return \Yii::t('app', 'Быстрая регистрация на мероприятии');
+        return Yii::t('app', 'Быстрая регистрация на мероприятии');
+    }
+
+    private function getDefaultRoleId()
+    {
+        return isset($this->DefaultRoleId)
+            ? $this->DefaultRoleId
+            : Role::VIRTUAL_ROLE_ID;
     }
 }

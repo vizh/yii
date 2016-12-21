@@ -17,7 +17,7 @@ return [
         'mongodb' => [
             'class' => 'EMongoClient',
             'server' => "mongodb://{$_ENV['MONGO_HOSTNAME']}",
-            'db' => $_ENV['runetid']
+            'db' => $_ENV['MONGO_DATABASE']
         ]
     ]
 ];

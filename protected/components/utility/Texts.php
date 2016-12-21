@@ -252,7 +252,7 @@ class Texts
      */
     public static function clear($str)
     {
-        $str = self::getClearPurifier()->purify(trim($str));
+        $str = self::getClearPurifier()->purify($str);
         $str = str_replace(["\r\n","\n"], '', $str);
         return $str;
     }
