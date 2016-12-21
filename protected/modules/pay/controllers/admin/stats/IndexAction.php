@@ -4,6 +4,7 @@ namespace pay\controllers\admin\stats;
 use application\components\utility\Paginator;
 use event\models\Event;
 use pay\models\Order;
+use pay\models\OrderType;
 
 /**
  * Class IndexAction
@@ -43,6 +44,7 @@ class IndexAction extends \pay\components\Action
                 ->byPaid(true)
                 ->findAll();
             $active_data[$i]['total'] = 0;
+            $active_data[$i]['paypal'] = 0;
             $active_data[$i]['types'] = [];
             foreach ($orders as $order) {
                 if (!isset($active_data[$i]['types'][$order->Type])){
@@ -50,6 +52,9 @@ class IndexAction extends \pay\components\Action
                 }
                 $active_data[$i]['types'][$order->Type] += $order->Total;
                 $active_data[$i]['total'] += $order->Total;
+                if ($order->Type == OrderType::PaySystem && $order->System == 'paypal'){
+                    $active_data[$i]['paypal'] += $order->Total;
+                }
             }
 
             $active_data[$i]['participants'] = \Yii::app()->getDb()->createCommand()
