@@ -44,11 +44,6 @@ class Account extends ActiveRecord
     const ROLE_MOBILE = 'mobile';
     const ROLE_PARTNER_WOC = 'partner_woc';
 
-    /**
-     * @deprecated toDo: Убрать после разрешения проблем с безопасностью
-     */
-    const ROLE_IRI = 'iri';
-
     const SelfId = 1;
 
     /**
@@ -229,8 +224,7 @@ class Account extends ActiveRecord
             self::ROLE_PARTNER_WOC => 'Партнёрское мероприятие с ограничениями',
             self::ROLE_MICROSOFT => 'Мероприятие Microsoft',
             self::ROLE_MBLT => 'Мероприятие MBLT',
-            self::ROLE_MOBILE => 'Мобильное приложение',
-            self::ROLE_IRI => 'ИРИ'
+            self::ROLE_MOBILE => 'Мобильное приложение'
         ];
     }
 
