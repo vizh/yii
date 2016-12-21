@@ -7,6 +7,7 @@ use event\components\IWidget;
 /**
  * @property int $Id
  * @property string $Class
+ * @property bool $Visible
  */
 class WidgetClass extends ActiveRecord
 {

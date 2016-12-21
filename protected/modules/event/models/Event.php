@@ -463,15 +463,15 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
     /**
      * Проверяет, зарегистрирован ли посетитель на мероприятие.
      *
-     * @param User $user
+     * @param User|int $user
      * @param Part|null $part
      * @return bool
      */
-    public function hasParticipant(User $user, Part $part = null)
+    public function hasParticipant($user, Part $part = null)
     {
         $participant = Participant::model()
             ->byEventId($this->Id)
-            ->byUserId($user->Id);
+            ->byUserId($user instanceof User ? $user->Id : $user);
 
         if ($part !== null)
             $participant->byPartId($part->Id);
@@ -972,7 +972,7 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
     {
         $url = Yii::app()->createAbsoluteUrl('/event/view/index', ['idName' => $this->IdName]);
 
-        if ($quickRegistration && $this->UseQuickRegistration) {
+        if ($quickRegistration && empty($this->UseQuickRegistration) === true) {
             $url .= '?quickreg';
         }
 

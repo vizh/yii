@@ -290,7 +290,7 @@ foreach ($widgets->All as $widget) {
                 <div class="control-group">
                     <div class="controls">
                         <?=CHtml::label($form->getAttributeLabel('UseQuickRegistration').CHtml::activeCheckBox($form, 'UseQuickRegistration'), null, ['class' => 'checkbox'])?>
-                        <?if($event->UseQuickRegistration):?>
+                        <?if(empty($event->UseQuickRegistration) === false):?>
                             <div class="alert">Что бы посетитель автоматически регистрировался на мероприятие как "Виртуальный участник", направляйте его по ссылке <?=$event->getUrl(true)?></div>
                         <?endif?>
                     </div>
