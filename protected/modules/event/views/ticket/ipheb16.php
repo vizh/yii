@@ -100,7 +100,9 @@ if (!empty($event->LinkEmails)) {
         <table style="font-size: 3mm; font-family: 'Roboto', 'Helvetica Neue', Helvetica,Arial, sans-serif; width: 100%;" cellpadding="0" cellspacing="0">
             <tbody>
             <tr>
-                <td align="center" style="font-size: 4mm;"><barcode code="<?=$user->RunetId?>" type="C128C" size="1" height="1"/><br><?=$user->RunetId?></td>
+                <td align="center" style="font-size: 4mm;">
+                    <barcode code="<?=$user->RunetId?>" type="C128C" size="1" height="1"/>
+                    <br><?=$user->RunetId?></td>
                 <td style="text-align: right;"><?=\CHtml::image(QrCode::getAbsoluteUrl($user, 70))?></td>
             </tr>
             </tbody>
