@@ -14,7 +14,7 @@
     <?=$activeForm->errorSummary($form)?>
     <?if($form->getSocialProxyIsHasAccess()):?>
         <div class="alert alert-warning">
-            Не найдена связь с аккаунтом социальной сети <strong><?=$form->getSocialProxy()->getSocialTitle()?></strong>. Она будет добавлена после регистрации или <?=\CHtml::link('авторизации', ['auth'])?> в RUNET-ID.
+            Если у вас уже есть аккаунт в RUNET-ID, то вы можете <?=\CHtml::link('связать его', ['auth'])?> с Вашим <strong><?=$form->getSocialProxy()->getSocialTitle()?></strong> аккаунтом.
         </div>
     <?endif?>
     <p><?=Yii::t('app', 'Вы&nbsp;можете одновременно получить RUNET-ID и&nbsp;зарегистрироваться на&nbsp;мероприятие, заполнив форму:')?></p>
