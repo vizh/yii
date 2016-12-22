@@ -7,6 +7,11 @@ use event\components\WidgetPosition;
 class About extends Widget
 {
 
+    public function getAttributeNames()
+    {
+        return ['AboutTitle'];
+    }
+
     public function run()
     {
         $this->render('about', array());
@@ -17,7 +22,7 @@ class About extends Widget
      */
     public function getTitle()
     {
-        return \Yii::t('app', 'О мероприятии');
+        return $this->AboutTitle ? $this->AboutTitle : \Yii::t('app', 'О мероприятии');
     }
 
     /**
