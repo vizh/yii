@@ -972,7 +972,7 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
     {
         $url = Yii::app()->createAbsoluteUrl('/event/view/index', ['idName' => $this->IdName]);
 
-        if ($quickRegistration && empty($this->UseQuickRegistration) === true) {
+        if ($quickRegistration && !empty($this->UseQuickRegistration)) {
             $url .= '?quickreg';
         }
 

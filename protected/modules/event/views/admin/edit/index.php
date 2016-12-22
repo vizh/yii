@@ -10,6 +10,7 @@ use event\components\Widget;
 use event\components\WidgetPosition;
 use event\models\Approved;
 use event\models\Type;
+use event\widgets\Favorite;
 
 /** @var Widget $widget */
 foreach ($widgets->All as $widget) {
@@ -291,7 +292,10 @@ foreach ($widgets->All as $widget) {
                     <div class="controls">
                         <?=CHtml::label($form->getAttributeLabel('UseQuickRegistration').CHtml::activeCheckBox($form, 'UseQuickRegistration'), null, ['class' => 'checkbox'])?>
                         <?if(empty($event->UseQuickRegistration) === false):?>
-                            <div class="alert">Что бы посетитель автоматически регистрировался на мероприятие как "Виртуальный участник", направляйте его по ссылке <?=$event->getUrl(true)?></div>
+                            <div class="alert">
+                                <p><strong>Принцип работы</strong>: Если посетитель авторизован, и переходит на страницу мероприятия по правильной ссылке, то он автоматически регистрируется как "Виртуальный участник". Чтобы подобный механизм заработал для неавторизованных посетителей, необходимо добавить виджет "<?=(new Favorite())->getTitle()?>".</p>
+                                <p>Ссылка: <a href="<?=$event->getUrl(true)?>" target="_blank"><?=$event->getUrl(true)?></a></p>
+                            </div>
                         <?endif?>
                     </div>
                 </div>
