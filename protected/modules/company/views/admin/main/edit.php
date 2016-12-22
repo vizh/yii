@@ -78,7 +78,7 @@ $this->setPageTitle('Карточка компании');
                     <div class="control-group">
                         <?=$activeForm->label($form, 'Address', ['class' => 'control-label'])?>
                         <div class="controls">
-                            <?$this->widget('\contact\widgets\AddressControls', ['form' => $form->Address])?>
+                            <?$this->widget('\contact\widgets\AddressControls', ['form' => $form->Address, 'apartment' => true])?>
                         </div>
                     </div>
                 </div>

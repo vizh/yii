@@ -8,6 +8,7 @@ class AddressControls extends \CWidget
     public $form;
     public $address = true;
     public $place = true;
+    public $apartment = false;
     public $inputClass = '';
     public $inputPlaceholder = null;
     public $disabled = false;
@@ -28,7 +29,8 @@ class AddressControls extends \CWidget
         $this->render('addresscontrols', array(
             'form' => $this->form,
             'address' => $this->address,
-            'place' => $this->place
+            'place' => $this->place,
+            'apartment' => $this->apartment
         ));
     }
 }

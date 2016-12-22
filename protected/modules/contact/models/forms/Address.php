@@ -20,12 +20,13 @@ class Address extends CreateUpdateForm
     public $Building;
     public $Wing;
     public $Place;
+    public $Apartment;
 
     public function rules()
     {
         return [
-            ['Street,House,Building,Wing,Place', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
-            ['Street,House,Building,Wing,Place', 'safe'],
+            ['Street,House,Building,Wing,Place,Apartment', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
+            ['Street,House,Building,Wing,Place,Apartment', 'safe'],
             ['CountryId', 'exist', 'className' => '\geo\models\Country', 'attributeName' => 'Id', 'allowEmpty' => true],
             ['CityId', 'exist', 'className' => '\geo\models\City', 'attributeName' => 'Id', 'allowEmpty' => true],
             ['RegionId', 'exist', 'className' => '\geo\models\Region', 'attributeName' => 'Id', 'allowEmpty' => true],
@@ -82,7 +83,8 @@ class Address extends CreateUpdateForm
             'Building' => \Yii::t('app', 'Строение'),
             'Wing' => \Yii::t('app', 'Корпус'),
             'Street' => \Yii::t('app', 'Улица'),
-            'Place' => \Yii::t('app', 'Место')
+            'Place' => \Yii::t('app', 'Место'),
+            'Apartment' => \Yii::t('app', 'Офис')
         );
     }
 

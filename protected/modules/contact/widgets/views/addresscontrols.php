@@ -29,6 +29,12 @@
         </div>
     <?endif?>
 
+    <?if($apartment):?>
+        <div class="controls m-top_5">
+            <?=\CHtml::activeTextField($form, 'Apartment', ['placeholder' => $form->getAttributeLabel('Apartment'), 'class' => $this->inputClass])?>
+        </div>
+    <?endif?>
+
     <?=\CHtml::activeHiddenField($form, 'CityId')?>
     <?=\CHtml::activeHiddenField($form, 'CountryId')?>
     <?=\CHtml::activeHiddenField($form, 'RegionId')?>
