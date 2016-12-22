@@ -4,12 +4,8 @@ namespace oauth\components\social;
 class Google implements ISocial
 {
     const ClientId = '251189931941-nnrvsbbek09m65om8kahvu2h9jjkedmq.apps.googleusercontent.com';
-    const ClientSecret = 'HKPw-oKWP1RxIgfGVsyIGUP0';
 
-    //const ClientId = '467484783673-m9sim31n4l1f746irq3e7ivfjikt9fi1.apps.googleusercontent.com';
-    //const ClientSecret = 'WoRL8MaNzqAiaa6jXCqwDoyE';
-    //const ClientId = '749375903262-rg9ftbnn2edr5f7g4mgmp546gmu1pinp.apps.googleusercontent.com';
-    //const ClientSecret = 'LbB-dTraHQc-PtPOuoi82q9s';
+    const ClientSecret = 'HKPw-oKWP1RxIgfGVsyIGUP0';
 
     public static $CURL_OPTS = array(
         CURLOPT_CONNECTTIMEOUT => 10,
@@ -30,7 +26,7 @@ class Google implements ISocial
      * @return string
      */
     private function makeRedirectUri(){
-        $url = \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect',['social'=>self::Google, 'frame'=>'true']);
+        $url = \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect',['social'=>self::Google, 'frame'=>\Iframe::isFrame()?'true':'false']);
         return  $url;
     }
 

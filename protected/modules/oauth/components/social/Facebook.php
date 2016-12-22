@@ -17,6 +17,7 @@ use Facebook\HttpClients\FacebookHttpable;
 class Facebook implements ISocial
 {
     const AppId = '529362707269912';
+
     const Secret = 'b345ebde1564caa6f022fcd848fac252';
 
     const SESSION_TOKEN_NAME = 'fb_access_token';
@@ -41,7 +42,11 @@ class Facebook implements ISocial
      */
     private function makeRedirectUri()
     {
-        return $redirectUrl = \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/request')."?frame=true";
+        $url = \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/request');
+        if(\Iframe::isFrame()) {
+            $url .= '?frame=true';
+        }
+        return $url;
     }
 
     /**
@@ -52,8 +57,7 @@ class Facebook implements ISocial
         $url = $this->redirectLoginHelper->getLoginUrl();
         $parts = parse_url($url);
         parse_str($parts['query'], $q);
-        $q['redirect_uri'] = $q['redirect_uri'].'?frame=true';
-        $q['redirect_uri']=$this->makeRedirectUri();
+        $q['redirect_uri'] = $this->makeRedirectUri();
         $url = $parts['scheme']."://".$parts['host'].$parts['path']."?".http_build_query($q);
         return $url;
     }
@@ -101,7 +105,6 @@ class Facebook implements ISocial
     /**
      * @return Data
      */
-
     public function getData()
     {
         $session = new FacebookSession($this->getAccessToken());
@@ -119,7 +122,6 @@ class Facebook implements ISocial
             return $data;
         }
     }
-
 
     /**
      * @return string
