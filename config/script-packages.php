@@ -47,7 +47,7 @@ return [
     ],
     'runetid.auth' => [
         'baseUrl' => '/',
-        'js' => ['javascripts/auth.js'],
+        'js' => ['javascripts/auth.js?1'],
     ],
     'runetid.application' => [
         'baseUrl' => '/',
