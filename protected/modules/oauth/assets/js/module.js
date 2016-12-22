@@ -68,12 +68,24 @@ OAuthModule.prototype.init = function()
   });
 
     $('#li_login').on('click', function (e) {
-        if (isFrame() || isUserEditAction())
-        {
-            e.preventDefault();
-            self.twiLogin($(e.currentTarget).attr('href'));
-        }
+
+        e.preventDefault();
+        return false;
+
+        /*if (isFrame() || isUserEditAction())
+         {
+         e.preventDefault();
+         self.twiLogin($(e.currentTarget).attr('href'));
+         }*/
     });
+
+    $( "#li_login" )
+        .on( "mouseenter", function(e) {
+            $(e.target).removeClass('fa-linkedin-square').html("¯\_(ツ)_/¯");
+        })
+        .on( "mouseleave", function(e) {
+            $(e.target).html('<i class="fa fa-linkedin-square"></i>');
+        });
 
     $('#ok_login').on('click', function(e){
         if (isFrame() || isUserEditAction())

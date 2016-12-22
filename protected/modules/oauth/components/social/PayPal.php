@@ -5,10 +5,15 @@ namespace oauth\components\social;
 class PayPal implements ISocial
 {
     const SessionNameAccessToken = 'pp_access_token';
+
     const SessionNameRedirectUrl = 'pp_redirect_url';
-    const ClientId = 'AeeLE56qLUqdnIgnfydBk5_cy2_m-6WRCTMGX4d1WfY4mCfR6cWzQvKCz80P60816kVMJO8mtEMQqwEj'; //'AcTEGxClf9XPZ7Xsc1WnvMLhQeVQ6SGYV4XygpArCW7QXaFvLWoO3KspYlnf';
-    const ClientSecret = 'EO9rAwFqST8CDlQ0d1eO1ADiE8S3ZymgssZsDCUUn_KyYijVRAnmcqWAuvwW9yKjfcEYAQtpiDBaK-jL'; //'ELeYdBB2Rn582Re_ieZ3qKxueN3fVUgpYVbWc-gLSUv7VlyaRGXkDSOmQ3Cy';
+
+    const ClientId = 'AeeLE56qLUqdnIgnfydBk5_cy2_m-6WRCTMGX4d1WfY4mCfR6cWzQvKCz80P60816kVMJO8mtEMQqwEj';
+
+    const ClientSecret = 'EO9rAwFqST8CDlQ0d1eO1ADiE8S3ZymgssZsDCUUn_KyYijVRAnmcqWAuvwW9yKjfcEYAQtpiDBaK-jL';
+
     private $apicontext;
+
     private $redirectUrl;
 
     public function __construct($redirectUrl = null)
@@ -24,9 +29,17 @@ class PayPal implements ISocial
     public function getOAuthUrl()
     {
         $redirectUrl = $this->redirectUrl == null ? \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect') : $this->redirectUrl;
+
         \Yii::app()->getSession()->add(self::SessionNameRedirectUrl, $redirectUrl);
         $scope = ['email', 'profile'];
-        return \PayPal\Auth\Openid\PPOpenIdSession::getAuthorizationUrl(\Yii::app()->createAbsoluteUrl('/oauth/paypal/redirect'), $scope , self::ClientId,  $this->apicontext);
+
+        if(\Iframe::isFrame()) {
+            $url = \Yii::app()->createAbsoluteUrl('/oauth/paypal/redirect', ['frame' => 'true']);
+        } else {
+            $url = \Yii::app()->createAbsoluteUrl('/oauth/paypal/redirect');
+        }
+
+        return \PayPal\Auth\Openid\PPOpenIdSession::getAuthorizationUrl($url, $scope , self::ClientId,  $this->apicontext);
     }
 
     /**
