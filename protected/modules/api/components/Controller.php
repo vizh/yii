@@ -146,7 +146,11 @@ class Controller extends \application\components\controllers\BaseController
      */
     public function getAccount()
     {
-        return WebUser::Instance()->getAccount();
+        try {
+            return WebUser::Instance()->getAccount();
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     private $suffixLength = 4;
