@@ -27,8 +27,7 @@ if ($fullWidth) {
 
 ?>
 
-<div class="event-page <?=$event->IdName?> <?=$event->FullWidth ? 'event-page-fullwidth' : ''?>" itemscope
-     itemtype="http://schema.org/Event">
+<div class="event-page <?=$event->IdName?> <?=$event->FullWidth ? 'event-page-fullwidth' : ''?>" itemscope itemtype="http://schema.org/Event">
     <meta itemprop="name" content="<?=htmlspecialchars($event->Title)?>"/>
     <meta itemprop="startDate" content="<?=$event->getFormattedStartDate('yyyy-MM-dd')?>"/>
     <meta itemprop="image" content="<?=$event->getLogo()->getNormal()?>"/>
