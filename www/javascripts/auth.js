@@ -80,7 +80,6 @@ ModalAuth.prototype.getEventName = function (name) {
     return name;
 };
 ModalAuth.prototype.login = function () {
-    console.log('qwe');
     var href = $('.navbar li.login a').attr('href');
     if (href == '#') {
         this.modal.modal('show');
