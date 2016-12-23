@@ -640,8 +640,13 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
      */
     public function onRegister($event)
     {
-        $this->saveRegisterLog($event->params['user'], $event->params['role'], $event->params['participant']->Part,
-            $event->params['message']);
+        $this->saveRegisterLog(
+            $event->params['user'],
+            $event->params['role'],
+            $event->params['participant']->Part,
+            $event->params['message']
+        );
+
         if ($this->skipOnRegister) {
             return;
         }
@@ -652,16 +657,16 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
         }
 
         $mailer = new SESMailer();
-        $sender = $event->sender;
+        $sender = ucfirst($event->sender->IdName);
 
+        /** @var \mail\components\Mail $mail */
         if (!isset($this->NotSendRegisterMail) || !$this->NotSendRegisterMail) {
-            $class = Yii::getExistClass('\event\components\handlers\register', ucfirst($sender->IdName), 'Base');
-            /** @var \mail\components\Mail $mail */
+            $class = Yii::getExistClass('\event\components\handlers\register', $sender, 'Base');
             $mail = new $class($mailer, $event);
             $mail->send();
         }
 
-        $class = Yii::getExistClass('\event\components\handlers\register\system', ucfirst($sender->IdName), 'Base');
+        $class = Yii::getExistClass('\event\components\handlers\register\system', $sender, 'Base');
         $mail = new $class($mailer, $event);
         $mail->send();
     }
