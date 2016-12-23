@@ -1,10 +1,14 @@
 <?php
 namespace mail\components\mailers;
 
+use Yii;
+
 class PhpMailer extends \mail\components\Mailer
 {
     protected function internalSend($mails)
     {
+        Yii::log('Mail via PhpMailer');
+
         foreach ($mails as $mail) {
             $mailer = new \ext\mailer\PHPMailer(true);
             $mailer->AddAddress($mail->getTo());

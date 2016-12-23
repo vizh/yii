@@ -1,6 +1,8 @@
 <?php
 namespace mail\components\mailers;
 
+use Yii;
+
 /**
  * Class TrueMandrillMailer performs sending by using Mandrill
  */
@@ -15,6 +17,8 @@ class TrueMandrillMailer extends \mail\components\Mailer
      */
     public function internalSend($mails)
     {
+        Yii::log('Mail via TrueMandrillMailer');
+
         $to = [];
         $vars = [];
         $attachments = [];

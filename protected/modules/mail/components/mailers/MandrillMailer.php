@@ -13,6 +13,7 @@ class MandrillMailer extends \mail\components\Mailer
      */
     public function internalSend($mails)
     {
+        Yii::log('Mail via MandrillMailer');
         /*$to = [];
         $vars = [];
         $attachments = [];
