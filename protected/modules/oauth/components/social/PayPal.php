@@ -9,8 +9,10 @@ class PayPal implements ISocial
     const SessionNameRedirectUrl = 'pp_redirect_url';
 
     const ClientId = 'AeeLE56qLUqdnIgnfydBk5_cy2_m-6WRCTMGX4d1WfY4mCfR6cWzQvKCz80P60816kVMJO8mtEMQqwEj';
-
     const ClientSecret = 'EO9rAwFqST8CDlQ0d1eO1ADiE8S3ZymgssZsDCUUn_KyYijVRAnmcqWAuvwW9yKjfcEYAQtpiDBaK-jL';
+
+    //const ClientId = 'AT51Ha9TzkV_rTvttwNx0TdwmjsTfhWUanW3B4SujVW8kS-59OwvL3stU0OxBZFkbNLbQmMU22VbmeCM';
+    //const ClientSecret = 'EAu0gKHiaoL76C8GNXHNMdbYxBU8OzsPeKatuxWM8S8lUBWDy8lp1IOGOAfg7S1WhSeFbJ65aWH_rB02';
 
     private $apicontext;
 
@@ -19,8 +21,9 @@ class PayPal implements ISocial
     public function __construct($redirectUrl = null)
     {
         $this->redirectUrl = $redirectUrl;
+        //$this->redirectUrl = "http://runet-id.dev/oauth/paypal/redirect/";
         \Yii::setPathOfAlias('PayPal', \Yii::getPathOfAlias('ext.PayPal'));
-        $this->apicontext  = new \PayPal\Common\PPApiContext(['mode' => 'live']);
+        $this->apicontext  = new \PayPal\Common\PPApiContext(['mode' => 'sandbox']);
     }
 
     /**
@@ -39,7 +42,9 @@ class PayPal implements ISocial
             $url = \Yii::app()->createAbsoluteUrl('/oauth/paypal/redirect');
         }
 
-        return \PayPal\Auth\Openid\PPOpenIdSession::getAuthorizationUrl($url, $scope , self::ClientId,  $this->apicontext);
+        //$url = "http://runet-id.dev/oauth/paypal/redirect/";
+        $result =  \PayPal\Auth\Openid\PPOpenIdSession::getAuthorizationUrl($url, $scope , self::ClientId,  $this->apicontext);
+        return $result;
     }
 
     /**
