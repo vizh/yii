@@ -3,6 +3,7 @@ namespace event\widgets;
 
 use event\components\Widget;
 use event\components\WidgetPosition;
+use Yii;
 
 class About extends Widget
 {
@@ -22,7 +23,9 @@ class About extends Widget
      */
     public function getTitle()
     {
-        return $this->AboutTitle ? $this->AboutTitle : \Yii::t('app', 'О мероприятии');
+        return isset($this->AboutTitle)
+            ? $this->AboutTitle
+            : Yii::t('app', 'О мероприятии');
     }
 
     /**
