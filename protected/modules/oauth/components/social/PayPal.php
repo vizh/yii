@@ -5,10 +5,24 @@ namespace oauth\components\social;
 class PayPal implements ISocial
 {
     const SessionNameAccessToken = 'pp_access_token';
+
     const SessionNameRedirectUrl = 'pp_redirect_url';
-    const ClientId = 'AeeLE56qLUqdnIgnfydBk5_cy2_m-6WRCTMGX4d1WfY4mCfR6cWzQvKCz80P60816kVMJO8mtEMQqwEj'; //'AcTEGxClf9XPZ7Xsc1WnvMLhQeVQ6SGYV4XygpArCW7QXaFvLWoO3KspYlnf';
-    const ClientSecret = 'EO9rAwFqST8CDlQ0d1eO1ADiE8S3ZymgssZsDCUUn_KyYijVRAnmcqWAuvwW9yKjfcEYAQtpiDBaK-jL'; //'ELeYdBB2Rn582Re_ieZ3qKxueN3fVUgpYVbWc-gLSUv7VlyaRGXkDSOmQ3Cy';
+
+    /** Sandbox */
+    /*
+    const ClientId = 'AeeLE56qLUqdnIgnfydBk5_cy2_m-6WRCTMGX4d1WfY4mCfR6cWzQvKCz80P60816kVMJO8mtEMQqwEj';
+    const ClientSecret = 'EO9rAwFqST8CDlQ0d1eO1ADiE8S3ZymgssZsDCUUn_KyYijVRAnmcqWAuvwW9yKjfcEYAQtpiDBaK-jL';
+    */
+
+    /** Live */
+    const ClientId = 'AYheeeUHAWWrc7YnWfmeh86glXnNvuGjVu0cpw7daaYLiPIlOCckF6jTKi1ZN5linhA85jQYOI39mI6S';
+    const ClientSecret = 'EAIM9XilaIBoYSNd_DVxjWX1OSrfYOXYVidn2vU4EFAtWmOzg-yMIvxkKQ7SxnHxU_SMbS0RITMl-pud';
+
+    //const ClientId = 'AT51Ha9TzkV_rTvttwNx0TdwmjsTfhWUanW3B4SujVW8kS-59OwvL3stU0OxBZFkbNLbQmMU22VbmeCM';
+    //const ClientSecret = 'EAu0gKHiaoL76C8GNXHNMdbYxBU8OzsPeKatuxWM8S8lUBWDy8lp1IOGOAfg7S1WhSeFbJ65aWH_rB02';
+
     private $apicontext;
+
     private $redirectUrl;
 
     public function __construct($redirectUrl = null)
@@ -24,9 +38,18 @@ class PayPal implements ISocial
     public function getOAuthUrl()
     {
         $redirectUrl = $this->redirectUrl == null ? \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect') : $this->redirectUrl;
+
         \Yii::app()->getSession()->add(self::SessionNameRedirectUrl, $redirectUrl);
-        $scope = ['email', 'profile'];
-        return \PayPal\Auth\Openid\PPOpenIdSession::getAuthorizationUrl(\Yii::app()->createAbsoluteUrl('/oauth/paypal/redirect'), $scope , self::ClientId,  $this->apicontext);
+        $scope = ['openid', 'profile', 'address', 'email', 'phone'];
+
+        if(\Iframe::isFrame()) {
+            $url = \Yii::app()->createAbsoluteUrl('/oauth/paypal/redirect', ['frame' => 'true']);
+        } else {
+            $url = \Yii::app()->createAbsoluteUrl('/oauth/paypal/redirect');
+        }
+
+        $result =  \PayPal\Auth\Openid\PPOpenIdSession::getAuthorizationUrl($url, $scope , self::ClientId,  $this->apicontext);
+        return $result;
     }
 
     /**

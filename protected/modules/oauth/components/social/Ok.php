@@ -3,11 +3,11 @@ namespace oauth\components\social;
 
 class Ok implements ISocial
 {
-    const ClientId = '1248222208';
+    const ClientId = '1249296384';
 
-    const ClientSecret = 'C3D6190EB2330F0F9D66DB8D';
+    const ClientSecret = 'AB88F744E4DE995B073A8B81';
 
-    const PublicKey = 'CBANFHGLEBABABABA';
+    const PublicKey = 'CBABMHHLEBABABABA';
 
     public function __construct($redirectUrl = null)
     {

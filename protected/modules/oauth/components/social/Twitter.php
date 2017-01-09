@@ -5,11 +5,14 @@ use oauth\components\exceptions\TwitterException;
 
 class Twitter implements ISocial
 {
-    const Key = '2cfKI2ZXUhuAPpiTaNDOK97YL';
-    const Secret = 'wuIgCtwVUVvI4USGLnyVLNZPZEWgXZLMSvfrcyqiBS5Ry6yVdX';
+    const Key = 'MJK0PxYYjK6bgQUzg7Ys5fges'; // '2cfKI2ZXUhuAPpiTaNDOK97YL';
+
+    const Secret = 'JgsRdKR0ForVfUU6cLrRnLD0qi7mScckYjMjS8FA5UDixBQY1S'; // 'wuIgCtwVUVvI4USGLnyVLNZPZEWgXZLMSvfrcyqiBS5Ry6yVdX';
 
     const TEMPORARY_NAME = 'twitter_temporary_credentials';
+
     const PERMANENT_NAME = 'twitter_token_credentials';
+
     const VERIFIER_NAME = 'oauth_verifier';
 
     /**
@@ -96,12 +99,11 @@ class Twitter implements ISocial
     public function renderScript()
     {
         echo '<script>
-      if(window.opener != null && !window.opener.closed)
-      {
-        window.opener.oauthModuleObj.twiProcess();
-        window.close();
-      }
-      </script>';
+        if(window.opener != null && !window.opener.closed) {
+            window.opener.oauthModuleObj.twiProcess();
+            window.close();
+        }
+        </script>';
     }
 
     /**

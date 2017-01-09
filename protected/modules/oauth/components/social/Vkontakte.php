@@ -1,12 +1,13 @@
 <?php
+
 namespace oauth\components\social;
 
 class Vkontakte implements ISocial
 {
-    /*const AppId = '3510181';
-    const Secret = 'dfMfN5tBWurKM35eKLAa';*/
-    const AppId = '5612171'; //'3510181';
-    const Secret = 'PUudnl5VWcU5dk2QzLO8'; //'dfMfN5tBWurKM35eKLAa';
+
+    const AppId = '5612171';
+
+    const Secret = 'PUudnl5VWcU5dk2QzLO8';
 
     protected $redirectUrl;
 
@@ -44,7 +45,6 @@ class Vkontakte implements ISocial
         return !empty($code) || !empty($accessToken);
     }
 
-
     public static $CURL_OPTS = array(
         CURLOPT_CONNECTTIMEOUT => 10,
         CURLOPT_RETURNTRANSFER => true,
@@ -76,11 +76,18 @@ class Vkontakte implements ISocial
         return \Yii::app()->getSession()->get('vk_access_token', null);
     }
 
+    /**
+     * Clear access
+     */
     public function clearAccess()
     {
         \Yii::app()->getSession()->remove('vk_access_token');
     }
 
+    /**
+     * @param $code
+     * @return mixed
+     */
     protected function requestAccessToken($code)
     {
         $params = array(
@@ -93,9 +100,9 @@ class Vkontakte implements ISocial
         return $this->makeRequest('https://oauth.vk.com/access_token?' . http_build_query($params));
     }
 
-
     /**
      * @return Data
+     * @throws \CHttpException
      */
     public function getData()
     {
@@ -124,6 +131,9 @@ class Vkontakte implements ISocial
         return $data;
     }
 
+    /**
+     * @return string
+     */
     public function getSocialId()
     {
         return self::Vkontakte;

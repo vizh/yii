@@ -9,6 +9,7 @@ use application\components\Image;
 use application\components\socials\facebook\Event as SocialEvent;
 use application\models\attribute\Definition;
 use application\models\translation\ActiveRecord;
+use CModelEvent;
 use connect\models\Place;
 use contact\models\Site;
 use event\models\section\Section;
@@ -434,14 +435,13 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
             throw new Exception('Данное мероприятие имеет логическую разбивку. Используйте метод регистрации на конкретную часть мероприятия.');
         }
 
-        /** @var $participant Participant */
         $participant = Participant::model()
             ->byEventId($this->Id)
             ->byUserId($user->Id)
             ->byPartId(null)
             ->find();
 
-        if (!$participant) {
+        if ($participant === null) {
             $participant = $this->registerUserUnsafe($user, $role, null, $message);
         } else {
             $this->updateRole($participant, $role, $usePriority, $message);
@@ -453,7 +453,7 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
             ->byDeleted(false)
             ->find();
 
-        if (!$data) {
+        if ($data === null) {
             UserData::createEmpty($this, $user);
         }
 
@@ -552,14 +552,17 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
     {
         $participant = new Participant();
         $participant->EventId = $this->Id;
-        $participant->PartId = ($part != null) ? $part->Id : null;
+        $participant->PartId = ($part !== null) ? $part->Id : null;
         $participant->UserId = $user->Id;
         $participant->RoleId = $role->Id;
         $participant->save();
 
-        $event = new \CModelEvent($this,
-            ['role' => $role, 'user' => $user, 'participant' => $participant, 'message' => $message]);
-        $this->onRegister($event);
+        $this->onRegister(new CModelEvent($this, [
+            'role' => $role,
+            'user' => $user,
+            'participant' => $participant,
+            'message' => $message
+        ]));
 
         return $participant;
     }
@@ -620,7 +623,7 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
             $participant->UpdateTime = date('Y-m-d H:i:s');
             $participant->save();
 
-            $event = new \CModelEvent($this,
+            $event = new CModelEvent($this,
                 ['role' => $role, 'user' => $participant->User, 'participant' => $participant, 'message' => $message]);
             $this->onRegister($event);
 
@@ -633,12 +636,17 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
     public $skipOnRegister = false;
 
     /**
-     * @param \CModelEvent $event
+     * @param CModelEvent $event
      */
     public function onRegister($event)
     {
-        $this->saveRegisterLog($event->params['user'], $event->params['role'], $event->params['participant']->Part,
-            $event->params['message']);
+        $this->saveRegisterLog(
+            $event->params['user'],
+            $event->params['role'],
+            $event->params['participant']->Part,
+            $event->params['message']
+        );
+
         if ($this->skipOnRegister) {
             return;
         }
@@ -649,16 +657,16 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
         }
 
         $mailer = new SESMailer();
-        $sender = $event->sender;
+        $sender = ucfirst($event->sender->IdName);
 
+        /** @var \mail\components\Mail $mail */
         if (!isset($this->NotSendRegisterMail) || !$this->NotSendRegisterMail) {
-            $class = Yii::getExistClass('\event\components\handlers\register', ucfirst($sender->IdName), 'Base');
-            /** @var \mail\components\Mail $mail */
+            $class = Yii::getExistClass('\event\components\handlers\register', $sender, 'Base');
             $mail = new $class($mailer, $event);
             $mail->send();
         }
 
-        $class = Yii::getExistClass('\event\components\handlers\register\system', ucfirst($sender->IdName), 'Base');
+        $class = Yii::getExistClass('\event\components\handlers\register\system', $sender, 'Base');
         $mail = new $class($mailer, $event);
         $mail->send();
     }
@@ -972,7 +980,7 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
     {
         $url = Yii::app()->createAbsoluteUrl('/event/view/index', ['idName' => $this->IdName]);
 
-        if ($quickRegistration && empty($this->UseQuickRegistration) === true) {
+        if ($quickRegistration && !empty($this->UseQuickRegistration)) {
             $url .= '?quickreg';
         }
 

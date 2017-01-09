@@ -3,6 +3,18 @@
  * @var $this \event\widgets\header\Header
  */
 $event = $this->event;
+
+// Вычислим компоненты из которых будет состоять строка адреса проведения мероприятия
+if (null !== $address = $event->getContactAddress()) {
+    $locationComponents = [];
+    // Город проведения, если указан
+    if ($address->City !== null)
+        $locationComponents[] = sprintf('%s %s', Yii::t('app', 'г.'), $address->City->Name);
+    // Место проведения, если указано
+    if (!empty($address->Place))
+        $locationComponents[] = $address->Place;
+}
+
 ?>
 <div class="b-event-promo <?=$event->Type->Code?> <?=$event->IdName?>">
   <div class="container">
@@ -25,10 +37,8 @@ $event = $this->event;
             </span>
           </span>
         </div>
-        <?if($event->getContactAddress() != null):?>
-          <div class="location">
-            <?=\Yii::t('app', 'г.')?> <?=$event->getContactAddress()->City->Name?><?if(!empty($event->getContactAddress()->Place)) echo ', '.$event->getContactAddress()->Place?>
-          </div>
+        <?if(isset($locationComponents)):?>
+          <div class="location"><?=implode(', ', $locationComponents)?></div>
         <?endif?>
       </div>
 
@@ -37,9 +47,9 @@ $event = $this->event;
         <div class="actions img-circle">
           <div class="calendar">
             <div class="calendar">
-              <span><i class="icon-calendar"></i><br/><?=\Yii::t('app', 'В календарь')?></span><br/>
-              <a href="<?=\Yii::app()->createUrl('/event/view/share', ['targetService' => 'Google', 'idName' => $event->IdName])?>" class="pseudo-link">Google Calendar</a>
-              <a href="<?=\Yii::app()->createUrl('/event/view/share', ['targetService' => 'iCal', 'idName' => $event->IdName])?>" class="pseudo-link">iCalendar (.ics)</a>
+              <span><i class="icon-calendar"></i><br/><?=Yii::t('app', 'В календарь')?></span><br/>
+              <a href="<?=Yii::app()->createUrl('/event/view/share', ['targetService' => 'Google', 'idName' => $event->IdName])?>" class="pseudo-link">Google Calendar</a>
+              <a href="<?=Yii::app()->createUrl('/event/view/share', ['targetService' => 'iCal', 'idName' => $event->IdName])?>" class="pseudo-link">iCalendar (.ics)</a>
             </div>
           </div>
           <nav class="social">

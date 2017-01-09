@@ -83,8 +83,16 @@ class Controller extends \application\components\controllers\BaseController
     {
         $executionTime = Yii::getLogger()->getExecutionTime();
 
+        $account = null;
+
+        try {
+            $account = $this->getAccount();
+        } catch (\Exception $ignored) {
+            // ...
+        }
+
         $log = new \api\models\Log();
-        $log->AccountId = $this->getAccount() !== null ? $this->getAccount()->Id : null;
+        $log->AccountId = $account !== null ? $account->Id : null;
         $log->Route = $this->getId().'.'.$this->getAction()->getId();
         $log->Params = json_encode($_REQUEST, JSON_UNESCAPED_UNICODE);
         $log->FullTime = $executionTime;
