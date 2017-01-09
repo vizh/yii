@@ -8,8 +8,15 @@ class PayPal implements ISocial
 
     const SessionNameRedirectUrl = 'pp_redirect_url';
 
+    /** Sandbox */
+    /*
     const ClientId = 'AeeLE56qLUqdnIgnfydBk5_cy2_m-6WRCTMGX4d1WfY4mCfR6cWzQvKCz80P60816kVMJO8mtEMQqwEj';
     const ClientSecret = 'EO9rAwFqST8CDlQ0d1eO1ADiE8S3ZymgssZsDCUUn_KyYijVRAnmcqWAuvwW9yKjfcEYAQtpiDBaK-jL';
+    */
+
+    /** Live */
+    const ClientId = 'AYheeeUHAWWrc7YnWfmeh86glXnNvuGjVu0cpw7daaYLiPIlOCckF6jTKi1ZN5linhA85jQYOI39mI6S';
+    const ClientSecret = 'EAIM9XilaIBoYSNd_DVxjWX1OSrfYOXYVidn2vU4EFAtWmOzg-yMIvxkKQ7SxnHxU_SMbS0RITMl-pud';
 
     //const ClientId = 'AT51Ha9TzkV_rTvttwNx0TdwmjsTfhWUanW3B4SujVW8kS-59OwvL3stU0OxBZFkbNLbQmMU22VbmeCM';
     //const ClientSecret = 'EAu0gKHiaoL76C8GNXHNMdbYxBU8OzsPeKatuxWM8S8lUBWDy8lp1IOGOAfg7S1WhSeFbJ65aWH_rB02';
@@ -21,9 +28,8 @@ class PayPal implements ISocial
     public function __construct($redirectUrl = null)
     {
         $this->redirectUrl = $redirectUrl;
-        //$this->redirectUrl = "http://runet-id.dev/oauth/paypal/redirect/";
         \Yii::setPathOfAlias('PayPal', \Yii::getPathOfAlias('ext.PayPal'));
-        $this->apicontext  = new \PayPal\Common\PPApiContext(['mode' => 'sandbox']);
+        $this->apicontext  = new \PayPal\Common\PPApiContext(['mode' => 'live']);
     }
 
     /**
@@ -34,7 +40,7 @@ class PayPal implements ISocial
         $redirectUrl = $this->redirectUrl == null ? \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect') : $this->redirectUrl;
 
         \Yii::app()->getSession()->add(self::SessionNameRedirectUrl, $redirectUrl);
-        $scope = ['email', 'profile'];
+        $scope = ['openid', 'profile', 'address', 'email', 'phone'];
 
         if(\Iframe::isFrame()) {
             $url = \Yii::app()->createAbsoluteUrl('/oauth/paypal/redirect', ['frame' => 'true']);
@@ -42,7 +48,6 @@ class PayPal implements ISocial
             $url = \Yii::app()->createAbsoluteUrl('/oauth/paypal/redirect');
         }
 
-        //$url = "http://runet-id.dev/oauth/paypal/redirect/";
         $result =  \PayPal\Auth\Openid\PPOpenIdSession::getAuthorizationUrl($url, $scope , self::ClientId,  $this->apicontext);
         return $result;
     }
