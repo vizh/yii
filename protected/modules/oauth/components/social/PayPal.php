@@ -1,6 +1,11 @@
 <?php
 namespace oauth\components\social;
 
+use PayPal\Api\OpenIdSession;
+use PayPal\Rest\ApiContext;
+use PayPal\Auth\OAuthTokenCredential;
+use PayPal\Api\OpenIdTokeninfo;
+use PayPal\Api\OpenIdUserinfo;
 
 class PayPal implements ISocial
 {
@@ -8,28 +13,29 @@ class PayPal implements ISocial
 
     const SessionNameRedirectUrl = 'pp_redirect_url';
 
-    /** Sandbox */
-    /*
-    const ClientId = 'AeeLE56qLUqdnIgnfydBk5_cy2_m-6WRCTMGX4d1WfY4mCfR6cWzQvKCz80P60816kVMJO8mtEMQqwEj';
-    const ClientSecret = 'EO9rAwFqST8CDlQ0d1eO1ADiE8S3ZymgssZsDCUUn_KyYijVRAnmcqWAuvwW9yKjfcEYAQtpiDBaK-jL';
-    */
+    const Scope = ['openid', 'profile', 'address', 'email', 'phone'];
 
     /** Live */
     const ClientId = 'AYheeeUHAWWrc7YnWfmeh86glXnNvuGjVu0cpw7daaYLiPIlOCckF6jTKi1ZN5linhA85jQYOI39mI6S';
+
     const ClientSecret = 'EAIM9XilaIBoYSNd_DVxjWX1OSrfYOXYVidn2vU4EFAtWmOzg-yMIvxkKQ7SxnHxU_SMbS0RITMl-pud';
 
-    //const ClientId = 'AT51Ha9TzkV_rTvttwNx0TdwmjsTfhWUanW3B4SujVW8kS-59OwvL3stU0OxBZFkbNLbQmMU22VbmeCM';
-    //const ClientSecret = 'EAu0gKHiaoL76C8GNXHNMdbYxBU8OzsPeKatuxWM8S8lUBWDy8lp1IOGOAfg7S1WhSeFbJ65aWH_rB02';
-
-    private $apicontext;
+    private $apiContext;
 
     private $redirectUrl;
 
     public function __construct($redirectUrl = null)
     {
         $this->redirectUrl = $redirectUrl;
-        \Yii::setPathOfAlias('PayPal', \Yii::getPathOfAlias('ext.PayPal'));
-        $this->apicontext  = new \PayPal\Common\PPApiContext(['mode' => 'live']);
+
+        $this->apiContext = new ApiContext(
+            new OAuthTokenCredential(
+                self::ClientId,
+                self::ClientSecret
+            )
+        );
+
+        $this->apiContext->setConfig(['mode'=>'live']);
     }
 
     /**
@@ -40,16 +46,23 @@ class PayPal implements ISocial
         $redirectUrl = $this->redirectUrl == null ? \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect') : $this->redirectUrl;
 
         \Yii::app()->getSession()->add(self::SessionNameRedirectUrl, $redirectUrl);
-        $scope = ['openid', 'profile', 'address', 'email', 'phone'];
 
         if(\Iframe::isFrame()) {
-            $url = \Yii::app()->createAbsoluteUrl('/oauth/paypal/redirect', ['frame' => 'true']);
+            $redirectUrl = \Yii::app()->createAbsoluteUrl('/oauth/paypal/redirect', ['frame' => 'true']);
         } else {
-            $url = \Yii::app()->createAbsoluteUrl('/oauth/paypal/redirect');
+            $redirectUrl = \Yii::app()->createAbsoluteUrl('/oauth/paypal/redirect');
         }
 
-        $result =  \PayPal\Auth\Openid\PPOpenIdSession::getAuthorizationUrl($url, $scope , self::ClientId,  $this->apicontext);
-        return $result;
+        $authUrl = OpenIdSession::getAuthorizationUrl(
+            $redirectUrl,
+            self::Scope,
+            null,
+            null,
+            null,
+            $this->apiContext
+        );
+
+        return $authUrl;
     }
 
     /**
@@ -68,7 +81,7 @@ class PayPal implements ISocial
             }
             catch (\Exception $e)
             {
-                throw new \CHttpException(400, 'Сервис авторизации PayPal не отвечает');
+                throw new \CHttpException(400, 'Сервис авторизации PayPal не отвечает'.$e->getMessage());
             }
             \Yii::app()->getSession()->add(self::SessionNameAccessToken, $accessToken);
         }
@@ -95,24 +108,21 @@ class PayPal implements ISocial
      */
     public function getData()
     {
-        $params = [
-            'access_token' => $this->getAccessToken()
-        ];
-        try
-        {
-            $response = \PayPal\Auth\Openid\PPOpenIdUserinfo::getUserinfo($params,$this->apicontext);
+        $params = [ 'access_token' => $this->getAccessToken() ];
+
+        try {
+            $userInfo = OpenIdUserinfo::getUserinfo($params, $this->apiContext);
         }
-        catch(\Exception $e)
-        {
+        catch(\Exception $e) {
             throw new \CHttpException(400, 'Сервис авторизации PayPal не отвечает');
         }
 
         $data = new Data();
-        $data->Hash = $response->getUserId();
-        $data->UserName = null;
-        $data->LastName = $response->getFamilyName();
-        $data->FirstName = $response->getGivenName();
-        $data->Email = $response->getEmail();
+        $data->Hash = $userInfo->getUserId();
+        $data->LastName = $userInfo->getFamilyName();
+        $data->FirstName = $userInfo->getGivenName();
+        $data->Email = $userInfo->getEmail();
+
         return $data;
     }
 
@@ -151,12 +161,7 @@ class PayPal implements ISocial
      */
     public function requestAccessToken($code)
     {
-        $params = [
-            'client_id' => self::ClientId,
-            'client_secret' => self::ClientSecret,
-            'code' => $code
-        ];
-        $token = \PayPal\Auth\Openid\PPOpenIdTokeninfo::createFromAuthorizationCode($params, $this->apicontext);
-        return $token->access_token;
+        $accessToken = OpenIdTokeninfo::createFromAuthorizationCode(['code' => $code], null, null, $this->apiContext);
+        return $accessToken->access_token;
     }
 }
