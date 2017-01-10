@@ -5,7 +5,6 @@ class Data
 {
   public $Hash;
   public $UserName = null;
-
   public $LastName;
   public $FirstName;
   public $Email;
