@@ -13,8 +13,6 @@ class PayPal implements ISocial
 
     const SessionNameRedirectUrl = 'pp_redirect_url';
 
-    const Scope = ['openid', 'profile', 'address', 'email', 'phone'];
-
     /** Live */
     const ClientId = 'AYheeeUHAWWrc7YnWfmeh86glXnNvuGjVu0cpw7daaYLiPIlOCckF6jTKi1ZN5linhA85jQYOI39mI6S';
 
@@ -38,6 +36,11 @@ class PayPal implements ISocial
         $this->apiContext->setConfig(['mode'=>'live']);
     }
 
+    public function scopes()
+    {
+        return ['openid', 'profile', 'address', 'email', 'phone'];
+    }
+
     /**
      * @return string
      */
@@ -55,7 +58,7 @@ class PayPal implements ISocial
 
         $authUrl = OpenIdSession::getAuthorizationUrl(
             $redirectUrl,
-            self::Scope,
+            $this->scopes(),
             null,
             null,
             null,
