@@ -12,6 +12,7 @@
     <li><a href="<?=Yii::app()->createUrl('/user/admin/duplicate/index')?>">Дубликаты</a></li>
     <li><a href="user.html">Видимость</a></li>
     <li><a href="<?=Yii::app()->createUrl('/user/admin/auth/index')?>">Быстрая авторизация</a></li>
+      <li><a href="<?=Yii::app()->createUrl('/user/admin/recovery/index')?>">Изменение пароля</a></li>
     <li><a href="<?=Yii::app()->createUrl('/user/admin/main/contacts')?>">Контакты</a></li>
     <li><a href="">Статистика</a></li>
   </ul>
