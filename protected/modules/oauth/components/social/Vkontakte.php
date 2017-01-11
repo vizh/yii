@@ -9,26 +9,51 @@ class Vkontakte implements ISocial
 
     const Secret = 'PUudnl5VWcU5dk2QzLO8';
 
-    protected $redirectUrl;
+    const OauthBaseUrl = 'https://oauth.vk.com/authorize?';
+
+    protected $redirectUrl = null;
 
     public function __construct($redirectUrl = null)
     {
         $this->redirectUrl = $redirectUrl;
     }
 
+    /**
+     * Генерирует OauthUrl
+     * @return string
+     */
     public function getOAuthUrl()
     {
-        $params = array(
+        $params = [
             'client_id' => self::AppId,
             'display' => 'touch',
-            'scope' => 'offline,email'
-        );
-        $returnUrlParams = [];
-        if (\Iframe::isFrame()) {
-            $returnUrlParams['frame'] = 'true';
+            'scope' => 'offline,email',
+            'redirect_uri' => $this->getRedirectUrl()
+        ];
+
+        return self::OauthBaseUrl . http_build_query($params);
+    }
+
+    /**
+     * Генерирует redirect_uri
+     * @return null|string
+     */
+    public function getRedirectUrl()
+    {
+        if( is_null($this->redirectUrl) ) {
+
+            $redirectUrlParams = [
+                'social'=>self::getSocialId()
+            ];
+
+            if (\Iframe::isFrame()) {
+                $redirectUrlParams['frame'] = true;
+            }
+
+            $this->redirectUrl = \Yii::app()->createAbsoluteUrl('/oauth/social/connect', $redirectUrlParams);
         }
-        $params['redirect_uri'] = $this->redirectUrl == null ? \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect', $returnUrlParams) : $this->redirectUrl;
-        return 'https://oauth.vk.com/authorize?' . http_build_query($params);
+
+        return $this->redirectUrl;
     }
 
     public function isHasAccess()
@@ -96,7 +121,7 @@ class Vkontakte implements ISocial
             'code' => $code
         );
         \Iframe::isFrame() ? $returnUrlParams['frame'] = 'true' : '';
-        $params['redirect_uri'] = $this->redirectUrl == null ? \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect', $returnUrlParams) : $this->redirectUrl;
+        $params['redirect_uri'] = $this->getRedirectUrl();
         return $this->makeRequest('https://oauth.vk.com/access_token?' . http_build_query($params));
     }
 

@@ -24,29 +24,40 @@ class Facebook implements ISocial
 
     private $redirectLoginHelper;
 
+    private $redirectUrl = null;
+
     /** @var \Facebook */
     protected $connection = null;
 
     public function __construct($redirectUrl = null)
     {
-        if ($redirectUrl === null) {
-            $redirectUrl = $this->makeRedirectUri();
+        if( is_null($redirectUrl)) {
+            $redirectUrl = $this->getRedirectUrl();
         }
-
         FacebookSession::setDefaultApplication(static::AppId,static::Secret);
         $this->redirectLoginHelper = new FacebookRedirectLoginHelper($redirectUrl);
     }
 
     /**
-     * @return string
+     * Генерирует redirect_uri
+     * @return null|string
      */
-    private function makeRedirectUri()
+    public function getRedirectUrl()
     {
-        $url = \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/request');
-        if(\Iframe::isFrame()) {
-            $url .= '?frame=true';
+        if( is_null($this->redirectUrl) ) {
+
+            $redirectUrlParams = [
+                'social'=>self::getSocialId()
+            ];
+
+            if (\Iframe::isFrame()) {
+                $redirectUrlParams['frame'] = true;
+            }
+
+            $this->redirectUrl = \Yii::app()->createAbsoluteUrl('/oauth/social/connect', $redirectUrlParams);
         }
-        return $url;
+
+        return $this->redirectUrl;
     }
 
     /**
@@ -57,7 +68,7 @@ class Facebook implements ISocial
         $url = $this->redirectLoginHelper->getLoginUrl();
         $parts = parse_url($url);
         parse_str($parts['query'], $q);
-        $q['redirect_uri'] = $this->makeRedirectUri();
+        $q['redirect_uri'] = $this->getRedirectUrl();
         $url = $parts['scheme']."://".$parts['host'].$parts['path']."?".http_build_query($q);
         return $url;
     }

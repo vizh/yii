@@ -5,9 +5,9 @@ use oauth\components\exceptions\TwitterException;
 
 class Twitter implements ISocial
 {
-    const Key = 'MJK0PxYYjK6bgQUzg7Ys5fges'; // '2cfKI2ZXUhuAPpiTaNDOK97YL';
+    const Key = 'MJK0PxYYjK6bgQUzg7Ys5fges';
 
-    const Secret = 'JgsRdKR0ForVfUU6cLrRnLD0qi7mScckYjMjS8FA5UDixBQY1S'; // 'wuIgCtwVUVvI4USGLnyVLNZPZEWgXZLMSvfrcyqiBS5Ry6yVdX';
+    const Secret = 'JgsRdKR0ForVfUU6cLrRnLD0qi7mScckYjMjS8FA5UDixBQY1S';
 
     const TEMPORARY_NAME = 'twitter_temporary_credentials';
 

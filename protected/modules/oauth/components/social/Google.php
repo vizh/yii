@@ -7,6 +7,10 @@ class Google implements ISocial
 
     const ClientSecret = 'HKPw-oKWP1RxIgfGVsyIGUP0';
 
+    protected $redirectUrl = null;
+
+    const OauthBaseUrl = 'https://accounts.google.com/o/oauth2/auth?';
+
     public static $CURL_OPTS = array(
         CURLOPT_CONNECTTIMEOUT => 10,
         CURLOPT_RETURNTRANSFER => true,
@@ -14,20 +18,31 @@ class Google implements ISocial
         CURLOPT_USERAGENT      => 'runetid-php'
     );
 
-    protected $redirectUrl;
-
     public function __construct($redirectUrl = null)
     {
-        $this->redirectUrl = $this->makeRedirectUri();
+        $this->redirectUrl = $redirectUrl;
     }
 
     /**
      * Делает redirect_uri
      * @return string
      */
-    private function makeRedirectUri(){
-        $url = \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect',['social'=>self::Google, 'frame'=>\Iframe::isFrame()?'true':'false']);
-        return  $url;
+    public function getRedirectUrl()
+    {
+        if( is_null($this->redirectUrl) ) {
+
+            $redirectUrlParams = [
+                'social'=>self::getSocialId()
+            ];
+
+            if (\Iframe::isFrame()) {
+                $redirectUrlParams['frame'] = true;
+            }
+
+            $this->redirectUrl = \Yii::app()->createAbsoluteUrl('/oauth/social/connect', $redirectUrlParams);
+        }
+
+        return $this->redirectUrl;
     }
 
     /**
@@ -37,17 +52,22 @@ class Google implements ISocial
     public function getOAuthUrl()
     {
         $params = [
-            'client_id' => self::ClientId,
+            'client_id'     => self::ClientId,
             'response_type' => 'code',
-            'scope' => 'email profile',
+            'scope'         => 'email profile',
+            'redirect_uri'  => $this->getRedirectUrl()
         ];
-        $returnUrlParams = [
+
+        /*$returnUrlParams = [
             'social' => $this->getSocialId(),
             'url' => ''
         ];
         \Iframe::isFrame() ? $returnUrlParams['frame'] = 'true' : '';
-        $params['redirect_uri'] = $this->makeRedirectUri();
-        return 'https://accounts.google.com/o/oauth2/auth?'.  http_build_query($params);
+        $params['redirect_uri'] = $this->makeRedirectUri();*/
+
+        $oauthUrl = 'https://accounts.google.com/o/oauth2/auth?'.  http_build_query($params);
+
+        return $oauthUrl;
     }
 
     /**
@@ -140,12 +160,8 @@ class Google implements ISocial
             'code' => $code,
             'grant_type' => 'authorization_code'
         );
-        $returnUrlParams = [
-            'social' => $this->getSocialId(),
-            'url' => ''
-        ];
-        \Iframe::isFrame() ? $returnUrlParams['frame'] = 'true' : '';
-        $params['redirect_uri'] = $this->redirectUrl == null ? \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect', $returnUrlParams) : $this->redirectUrl;
+
+        $params['redirect_uri'] = $this->getRedirectUrl();
         return $this->makeRequest('https://accounts.google.com/o/oauth2/token?', $params);
     }
 
