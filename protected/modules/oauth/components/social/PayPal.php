@@ -47,17 +47,10 @@ class PayPal implements ISocial
     public function getOAuthUrl()
     {
         $redirectUrl = $this->redirectUrl == null ? \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect') : $this->redirectUrl;
-
         \Yii::app()->getSession()->add(self::SessionNameRedirectUrl, $redirectUrl);
 
-        if(\Iframe::isFrame()) {
-            $redirectUrl = \Yii::app()->createAbsoluteUrl('/oauth/paypal/redirect', ['frame' => 'true']);
-        } else {
-            $redirectUrl = \Yii::app()->createAbsoluteUrl('/oauth/paypal/redirect');
-        }
-
         $authUrl = OpenIdSession::getAuthorizationUrl(
-            $redirectUrl,
+            $this->getRedirectUrl(),
             $this->scopes(),
             null,
             null,
@@ -66,6 +59,26 @@ class PayPal implements ISocial
         );
 
         return $authUrl;
+    }
+
+    /**
+     * Генерирует redirect_uri
+     * @return null|string
+     */
+    public function getRedirectUrl()
+    {
+        if( is_null($this->redirectUrl) ) {
+
+            $redirectUrlParams = [];
+
+            if (\Iframe::isFrame()) {
+                $redirectUrlParams['frame'] = 'true';
+            }
+
+            $this->redirectUrl = \Yii::app()->createAbsoluteUrl('/oauth/paypal/redirect', $redirectUrlParams);
+        }
+
+        return $this->redirectUrl;
     }
 
     /**

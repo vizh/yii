@@ -9,6 +9,8 @@ class Ok implements ISocial
 
     const PublicKey = 'CBABMHHLEBABABABA';
 
+    const OauthBaseUrl = 'http://www.odnoklassniki.ru/oauth/authorize';
+
     public function __construct($redirectUrl = null)
     {
         $this->redirectUrl = $redirectUrl;
@@ -25,18 +27,35 @@ class Ok implements ISocial
 
     public function getOAuthUrl()
     {
-        $url = 'http://www.odnoklassniki.ru/oauth/authorize';
-        $returnUrlParams = [];
-        if (\Iframe::isFrame()) {
-            $returnUrlParams['frame'] = 'true';
-        }
-        $params = array(
+        $params = [
             'client_id'     => self::ClientId,
             'response_type' => 'code',
-            'redirect_uri'  => $this->redirectUrl == null ? \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect', $returnUrlParams) : $this->redirectUrl
-        );
+            'redirect_uri'  => $this->getRedirectUrl()
+        ];
 
-        return $url."?".http_build_query($params);
+        return self::OauthBaseUrl."?".http_build_query($params);
+    }
+
+    /**
+     * Генерирует redirect_uri
+     * @return null|string
+     */
+    public function getRedirectUrl()
+    {
+        if( is_null($this->redirectUrl) ) {
+
+            $redirectUrlParams = [
+                'social'=>self::getSocialId()
+            ];
+
+            if (\Iframe::isFrame()) {
+                $redirectUrlParams['frame'] = true;
+            }
+
+            $this->redirectUrl = \Yii::app()->createAbsoluteUrl('/oauth/social/connect', $redirectUrlParams);
+        }
+
+        return $this->redirectUrl;
     }
 
     public function isHasAccess()
@@ -63,7 +82,7 @@ class Ok implements ISocial
 
         $params = [
             'code' => $code,
-            'redirect_uri' => $this->redirectUrl == null ? \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect', $returnUrlParams) : $this->redirectUrl,
+            'redirect_uri' => $this->getRedirectUrl(),
             'grant_type' => 'authorization_code',
             'client_id' => self::ClientId,
             'client_secret' => self::ClientSecret
