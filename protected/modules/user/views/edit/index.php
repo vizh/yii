@@ -1,5 +1,23 @@
+<?php
+
+\Yii::app()->getClientScript()->registerPackage('runetid.bootstrap-datepicker');
+
+?>
 <?=$this->renderPartial('parts/title')?>
 
+<style>
+    .user-account-settings{
+        padding-bottom: 70px;
+    }
+</style>
+<script type="text/javascript">
+    $(function () {
+        $('input[name*=Birthday]').datepicker({
+            format : 'dd.mm.yyyy',
+            language : '<?= Yii::app()->language ?>'
+        });
+    });
+</script>
 <div class="user-account-settings">
   <div class="clearfix">
     <div class="container">
