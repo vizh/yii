@@ -39,7 +39,8 @@ class Google implements ISocial
                 $redirectUrlParams['frame'] = true;
             }
 
-            $this->redirectUrl = \Yii::app()->createAbsoluteUrl('/oauth/social/connect', $redirectUrlParams);
+            $this->redirectUrl = \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect', $redirectUrlParams);
+           // $this->redirectUrl = \Yii::app()->createAbsoluteUrl('/oauth/social/connect', $redirectUrlParams);
         }
 
         return $this->redirectUrl;
@@ -57,13 +58,6 @@ class Google implements ISocial
             'scope'         => 'email profile',
             'redirect_uri'  => $this->getRedirectUrl()
         ];
-
-        /*$returnUrlParams = [
-            'social' => $this->getSocialId(),
-            'url' => ''
-        ];
-        \Iframe::isFrame() ? $returnUrlParams['frame'] = 'true' : '';
-        $params['redirect_uri'] = $this->makeRedirectUri();*/
 
         $oauthUrl = 'https://accounts.google.com/o/oauth2/auth?'.  http_build_query($params);
 
