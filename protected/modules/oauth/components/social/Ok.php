@@ -38,10 +38,12 @@ class Ok implements ISocial
 
     /**
      * Генерирует redirect_uri
+     *
      * @return null|string
      */
     public function getRedirectUrl()
     {
+
         if( is_null($this->redirectUrl) ) {
 
             $redirectUrlParams = [
@@ -52,7 +54,8 @@ class Ok implements ISocial
                 $redirectUrlParams['frame'] = true;
             }
 
-            $this->redirectUrl = \Yii::app()->createAbsoluteUrl('/oauth/social/connect', $redirectUrlParams);
+            //$this->redirectUrl = \Yii::app()->createAbsoluteUrl('/oauth/social/connect', $redirectUrlParams);
+            $this->redirectUrl = \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect', $redirectUrlParams);
         }
 
         return $this->redirectUrl;

@@ -54,7 +54,8 @@ class Facebook implements ISocial
                 $redirectUrlParams['frame'] = true;
             }
 
-            $this->redirectUrl = \Yii::app()->createAbsoluteUrl('/oauth/social/connect', $redirectUrlParams);
+            //$this->redirectUrl = \Yii::app()->createAbsoluteUrl('/oauth/social/connect', $redirectUrlParams);
+            $this->redirectUrl = \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect', $redirectUrlParams);
         }
 
         return $this->redirectUrl;
