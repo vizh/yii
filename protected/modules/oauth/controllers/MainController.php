@@ -50,7 +50,7 @@ class MainController extends \oauth\components\Controller
                 Yii::app()->user->setIsRecentlyLogin();
             }
 
-            if (!\Iframe::isFrame() && !$isMobile) {
+            if (!\Iframe::isFrame() && !$isMobile && !Yii::app()->user->getIsRecentlyLogin()) {
                 $this->redirect('/');
             }
 
