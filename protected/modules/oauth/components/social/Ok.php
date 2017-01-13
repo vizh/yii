@@ -30,7 +30,8 @@ class Ok implements ISocial
         $params = [
             'client_id'     => self::ClientId,
             'response_type' => 'code',
-            'redirect_uri'  => $this->getRedirectUrl()
+            'redirect_uri'  => $this->getRedirectUrl(),
+            'scope' => 'GET_EMAIL'
         ];
 
         return self::OauthBaseUrl."?".http_build_query($params);
@@ -142,10 +143,9 @@ class Ok implements ISocial
             $data->UserName = $userInfo->name;
             $data->LastName = $userInfo->last_name;
             $data->FirstName = $userInfo->first_name;
-            if (!empty($accessToken->email)) {
-                $data->Email = $accessToken->email;
-            }else
-                $data->Email = '';
+            $data->Email = $userInfo->email;
+            $data->PhotoUrl = isset($userInfo->pic_3) ? $userInfo->pic_3 : '';
+
             return $data;
         }
 
