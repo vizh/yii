@@ -54,7 +54,7 @@ use application\components\utility\Texts;
     <?if(!empty($backUrl)):?>
         <?=\CHtml::link(\Yii::t('app', '&larr; Вернуться'), $backUrl, ['class' => 'btn'])?>
     <?endif?>
-    <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success'])?>
+    <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить изменения'), ['class' => 'btn btn-success pull-right'])?>
 </div>
 <div class="well">
     <?=Flash::html()?>
