@@ -34,7 +34,7 @@ foreach ($this->event->LinkEmails as $link) {
         <?endif?>
 
         <?if($this->event->LinkSite):?>
-            <span class="site">Официальный сайт проекта: <?=CHtml::link($this->event->LinkSite->Site, $this->event->LinkSite->Site)?></span>
+            <span class="site"><?=\Yii::t('app', 'Официальный сайт проекта')?>: <?=CHtml::link($this->event->LinkSite->Site, $this->event->LinkSite->Site)?></span>
         <?endif?>
     </article>
 </div>

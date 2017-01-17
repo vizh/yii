@@ -272,5 +272,7 @@ return [
     'Пользователь с таким Email уже зарегистрирован на мероприятие' => 'Participant with this e-mail address is already registered for the event',
     'Письмо с электронным билетом было отправлено повторно на адрес, указанный при регистрации' => 'Your e-ticket sent to your e-mail address',
     'Спасибо! Ваша анкета отправлена. Для регистрации нового участника перейдите к шагу 1' => 'Thank you! Your application has sent to the organizers. Please follow to step 1 for new participant registration',
-    'мая' => 'May'
+    'мая' => 'May',
+    'Официальный сайт проекта' => 'The official website of the project',
+    'Экосистемы' => 'Ecosystems'
 ];
