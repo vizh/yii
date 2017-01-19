@@ -26,6 +26,7 @@ $this->setPageTitle(\Yii::t('app', 'Экспорт участников в Excel
             <div class="table-info">
                 <table class="table table-bordered">
                     <thead>
+                        <th><?=\Yii::t('app', 'Id')?></th>
                         <th><?=\Yii::t('app', 'Дата запуска')?></th>
                         <th><?=\Yii::t('app', 'Параметры')?></th>
                         <th><?=\Yii::t('app', 'Количество участников')?></th>
@@ -34,6 +35,7 @@ $this->setPageTitle(\Yii::t('app', 'Экспорт участников в Excel
                     <tbody>
                         <?php foreach($exports as $export):?>
                             <tr>
+                                <td><?=$export->Id?></td>
                                 <td><?=$formatter->format('dd MMMM yyyy HH:mm', $export->CreationTime)?></td>
                                 <td class="text-left"><?=$export->getDescription()?></td>
                                 <td><?=!empty($export->TotalRow) ? $export->TotalRow : \Yii::t('app', 'Идет процесс инициализаци...')?></td>
