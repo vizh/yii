@@ -13,7 +13,7 @@ $eventsWithoutHEader = [
     'testEvent'
 ]
 ?>
-<?if($this->getEvent()->IdName === 'forinnovations16'):?>
+<?if(in_array($this->getEvent()->IdName, ['forinnovations16', 'startupvillage17'])):?>
   <style>
     header#header,
     footer#footer,
@@ -32,7 +32,7 @@ $eventsWithoutHEader = [
     padding-bottom: 0 !important;
   }
   </style>
-<?endif;?>
+<?endif?>
 <div class="event-register" data-event-idname="<?=$this->getEvent()->IdName?>">
   <div class="container">
 
