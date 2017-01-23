@@ -100,17 +100,14 @@ class CDbCriteria extends \CDbCriteria
     }
 
     /**
+     * @inheritdoc
+     *
      * @return CDbCriteria
      */
-    public function addCondition($condition, array $params = null, $operator = 'AND')
+    public function addCondition($condition, $operator = 'AND')
     {
         // Добавляем условие обычным способом
         parent::addCondition($condition, $operator);
-
-        // Добавляем необходимые параметры
-        if ($params !== null) {
-            $this->params = array_merge($this->params, $params);
-        }
 
         return $this;
     }
