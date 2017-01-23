@@ -99,6 +99,14 @@ $config['components']['urlManager']['rules'] = CMap::mergeArray(
     require 'routes.php'
 );
 
+// Совместимость с php 7.0
+if (strpos(phpversion(), '7.') === 0) {
+    $config['components']['cache'] = [
+        'class' => 'CApcCache',
+        'useApcu' => true
+    ];
+}
+
 if (YII_DEBUG) {
     $config['components']['debug'] = [
         'class' => 'ext.yii2-debug.Yii2Debug',
@@ -106,10 +114,6 @@ if (YII_DEBUG) {
     ];
     // Большая совместимость с современными версиями php для окружения разработчика
     if (strpos(phpversion(), '7.') === 0) {
-        // xCache пока не работает в
-        if (strpos(phpversion(), '7.1') === 0) {
-            unset($config['components']['cache']);
-        }
         // Монга тоже не подходит
         unset($config['components']['mongodb']);
     }
