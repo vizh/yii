@@ -18,6 +18,13 @@
   'total' => $total
 ])?>
 
+<?if(!empty($template->OfferText)):?>
+  <h4 class="offer-title">Публичная оферта на оказание услуг</h4>
+  <div class="offer">
+    <?=$template->OfferText?>
+  </div>
+<?endif?>
+
 <?if($withSign):?>
   <img src="/img/pay/bill/conversionconf/sign.jpg"/>
 <?else:?>
