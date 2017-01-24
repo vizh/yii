@@ -46,7 +46,7 @@ class AjaxController extends PublicMainController
         if ($eventId !== null) {
             $event = \event\models\Event::model()->findByPk($eventId);
             if ($event){
-                $model->bySearch($term, null, true, !$event->SearchHiddenUsers);
+                $model->bySearch($term, null, true, !isset($event->SearchHiddenUsers) || !$event->SearchHiddenUsers);
                 if ($event->UserScope){
                     $model->byEventId($eventId);
                 }
