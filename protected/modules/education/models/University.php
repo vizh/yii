@@ -7,6 +7,7 @@ use geo\models\City;
 
 /**
  * Class University
+ *
  * @package education\models
  *
  * @property int $Id
@@ -19,9 +20,17 @@ use geo\models\City;
  *
  * @property City $City
  *
- * @method University find($condition='',$params=array())
- * @method University findByPk($pk,$condition='',$params=array())
- * @method University[] findAll($condition='',$params=array())
+ * Описание вспомогательных методов
+ * @method University   with($condition = '')
+ * @method University   find($condition = '', $params = [])
+ * @method University   findByPk($pk, $condition = '', $params = [])
+ * @method University   findByAttributes($attributes, $condition = '', $params = [])
+ * @method University[] findAll($condition = '', $params = [])
+ * @method University[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method University byId(int $id, bool $useAnd = true)
+ * @method University byExtId(int $id, bool $useAnd = true)
+ * @method University byCityId(int $id, bool $useAnd = true)
  */
 class University extends ActiveRecord
 {
@@ -29,19 +38,15 @@ class University extends ActiveRecord
      * @param string $className
      * @return University
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
     public function tableName()
     {
         return 'EducationUniversity';
-    }
-
-    public function primaryKey()
-    {
-        return 'Id';
     }
 
     public function relations()
@@ -52,45 +57,18 @@ class University extends ActiveRecord
     }
 
     /**
-     * @param int $extId
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byExtId($extId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."ExtId" = :ExtId';
-        $criteria->params = ['ExtId' => $extId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    /**
      * @param string $name
      * @param bool $useAnd
      * @return $this
      */
     public function byName($name, $useAnd = true)
     {
-        $name = '%' . Texts::prepareStringForLike($name) . '%';
+        $name = '%'.Texts::prepareStringForLike($name).'%';
         $criteria = new \CDbCriteria();
         $criteria->condition = '"t"."Name" ILIKE :Name';
         $criteria->params = ['Name' => $name];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
 
-    /**
-     * @param int $cityId
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byCityId($cityId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."CityId" = :CityId';
-        $criteria->params = ['CityId' => $cityId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
         return $this;
     }
 }

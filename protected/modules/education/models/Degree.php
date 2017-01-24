@@ -3,6 +3,7 @@ namespace education\models;
 
 /**
  * Class Degree Инкапсулирует степени высшего образования
+ *
  * @package education\models
  */
 final class Degree
@@ -15,6 +16,7 @@ final class Degree
 
     /**
      * Возвращает массив всех степеней с названиями
+     *
      * @return array
      */
     public static function getAll()
