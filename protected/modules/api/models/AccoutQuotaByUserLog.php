@@ -21,6 +21,17 @@ use application\components\ActiveRecord;
 class AccoutQuotaByUserLog extends ActiveRecord
 {
     /**
+     * @param string $className
+     *
+     * @return Account
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
+
+    /**
      * @inheritDoc
      */
     public function tableName()

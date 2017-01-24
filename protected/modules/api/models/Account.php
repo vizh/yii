@@ -31,6 +31,7 @@ use event\models\Event;
  * @method Account[] findAllByAttributes($attributes, $condition = '', $params = [])
  *
  * @method Account byKey(string $key, bool $useAnd = true)
+ * @method Account bySecret(string $key, bool $useAnd = true)
  * @method Account byEventId(int $id, bool $useAnd = true)
  * @method Account byRole(string $role, bool $useAnd = true)
  * @method Account byBlocked(bool $blocked, bool $useAnd = true)
@@ -51,7 +52,7 @@ class Account extends ActiveRecord
      *
      * @return Account
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
@@ -64,12 +65,12 @@ class Account extends ActiveRecord
 
     public function relations()
     {
-        return array(
-            'Domains' => array(self::HAS_MANY, '\api\models\Domain', 'AccountId'),
-            'Ips' => array(self::HAS_MANY, '\api\models\Ip', 'AccountId'),
+        return [
+            'Domains' => [self::HAS_MANY, '\api\models\Domain', 'AccountId'],
+            'Ips' => [self::HAS_MANY, '\api\models\Ip', 'AccountId'],
             'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
             'QuotaUsers' => [self::HAS_MANY, '\api\models\AccoutQuotaByUserLog', 'AccountId']
-        );
+        ];
     }
 
     protected $_dataBuilder = null;
@@ -79,8 +80,7 @@ class Account extends ActiveRecord
      */
     public function getDataBuilder()
     {
-        if ($this->_dataBuilder === null)
-        {
+        if ($this->_dataBuilder === null) {
             $this->_dataBuilder = AbstractHack::getByEvent($this->Event)->getCustomDataBuilder($this)
                 ?: new \api\components\builders\Builder($this);
         }
@@ -113,37 +113,36 @@ class Account extends ActiveRecord
         $checkHash = $this->getHash($timestamp);
 
         return $hash === $checkHash
-           || strstr($hash, $checkHash) !== false;
+            || strstr($hash, $checkHash) !== false;
     }
 
     public function checkReferer($referer, $hash)
     {
-        if ($hash !== $this->getRefererHash($referer))
-        {
+        if ($hash !== $this->getRefererHash($referer)) {
             return false;
         }
-        foreach ($this->Domains as $domain)
-        {
-            $pattern = '/^' . $domain->Domain . '$/i';
-            if (preg_match($pattern, $referer) === 1)
-            {
+        foreach ($this->Domains as $domain) {
+            $pattern = '/^'.$domain->Domain.'$/i';
+            if (preg_match($pattern, $referer) === 1) {
                 return true;
             }
         }
+
         return false;
     }
 
     /**
      * Домены для внутренего использования
+     *
      * @return array
      */
     private function getInternalDomains()
     {
         return [
             RUNETID_HOST,
-            'partner.' . RUNETID_HOST,
-            'www.' . RUNETID_HOST,
-            'www.partner.' . RUNETID_HOST,
+            'partner.'.RUNETID_HOST,
+            'www.'.RUNETID_HOST,
+            'www.partner.'.RUNETID_HOST,
         ];
     }
 
@@ -160,8 +159,9 @@ class Account extends ActiveRecord
         /* Происходит мобильная OAuth авторизация. В таком случае
          * бэк-ссылка указывается в виде appid://mobile,
          * где appid - протокол обрабатываемый приложением. */
-        if ($path === null && $host === 'mobile')
+        if ($path === null && $host === 'mobile') {
             return true;
+        }
 
         if ($this->Id === self::SELF_ID && (empty($url) || empty($host))) {
             return true;
@@ -182,18 +182,19 @@ class Account extends ActiveRecord
                     return true;
                 }
             } else {
-                $pattern = '/^' . $domain . '$/i';
+                $pattern = '/^'.$domain.'$/i';
                 if (preg_match($pattern, $host) === 1) {
                     return true;
                 }
             }
         }
+
         return false;
     }
 
     public function getRefererHash($referer)
     {
-        return substr(md5($this->Key . $referer . $this->Secret . 'nPOg9ODiyos4HJIYS9FGGJ7qw'), 0, 16);
+        return substr(md5($this->Key.$referer.$this->Secret.'nPOg9ODiyos4HJIYS9FGGJ7qw'), 0, 16);
     }
 
     /**
@@ -202,18 +203,16 @@ class Account extends ActiveRecord
      */
     private function getHash($timestamp)
     {
-        if ($timestamp === null)
-        {
-            return md5($this->Key . $this->Secret);
-        }
-        else
-        {
-            return substr(md5($this->Key . $timestamp . $this->Secret), 0, 16);
+        if ($timestamp === null) {
+            return md5($this->Key.$this->Secret);
+        } else {
+            return substr(md5($this->Key.$timestamp.$this->Secret), 0, 16);
         }
     }
 
     /**
      * Лейблы для типов ролей
+     *
      * @return array
      */
     public static function getRoleLabels()
@@ -226,11 +225,5 @@ class Account extends ActiveRecord
             self::ROLE_MBLT => 'Мероприятие MBLT',
             self::ROLE_MOBILE => 'Мобильное приложение'
         ];
-    }
-
-    public function block()
-    {
-        $this->Blocked = true;
-        $this->save(false);
     }
 }

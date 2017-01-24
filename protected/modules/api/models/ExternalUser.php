@@ -5,9 +5,6 @@ use application\components\ActiveRecord;
 use user\models\User;
 
 /**
- * Class ExternalUser
- *
- * Fields
  * @property int $Id
  * @property string $Partner
  * @property int $AccountId
@@ -16,20 +13,52 @@ use user\models\User;
  *
  * @property User $User
  *
- * @method ExternalUser byUserId($id, $useAnd = true)
- * @method ExternalUser byAccountId($id, $useAnd = true)
- * @method ExternalUser byExternalId($id, $useAnd = true)
- * @method ExternalUser byPartner($partner, $useAnd = true)
+ * Описание вспомогательных методов
+ * @method ExternalUser   with($condition = '')
+ * @method ExternalUser   find($condition = '', $params = [])
+ * @method ExternalUser   findByPk($pk, $condition = '', $params = [])
+ * @method ExternalUser   findByAttributes($attributes, $condition = '', $params = [])
+ * @method ExternalUser[] findAll($condition = '', $params = [])
+ * @method ExternalUser[] findAllByAttributes($attributes, $condition = '', $params = [])
  *
- * Вспомогательные описания методов методы
- * @method ExternalUser find($condition='',$params=array())
- * @method ExternalUser findByPk($pk,$condition='',$params=array())
- * @method ExternalUser[] findAll($condition='',$params=array())
+ * @method ExternalUser byUserId(int $id, $useAnd = true)
+ * @method ExternalUser byAccountId(int $id, $useAnd = true)
+ * @method ExternalUser byExternalId(int $id, $useAnd = true)
+ * @method ExternalUser byPartner(string $partner, $useAnd = true)
  */
 class ExternalUser extends ActiveRecord
 {
     /**
+     * @param string $className
+     * @return Ip
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function tableName()
+    {
+        return 'ApiExternalUser';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function relations()
+    {
+        return [
+            'User' => [self::BELONGS_TO, 'user\models\User', 'UserId']
+        ];
+    }
+
+    /**
      * Creates a new one model
+     *
      * @param User $user The user
      * @param Account $account Api account
      * @param string|int $externalId An external identifier
@@ -51,23 +80,5 @@ class ExternalUser extends ActiveRecord
         } catch (\CDbException $e) {
             return null;
         }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function tableName()
-    {
-        return 'ApiExternalUser';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function relations()
-    {
-        return [
-            'User' => [self::BELONGS_TO, 'user\models\User', 'UserId']
-        ];
     }
 }
