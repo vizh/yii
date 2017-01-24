@@ -1,8 +1,9 @@
 <?php
 namespace competence\models;
 
-use competence\models\form;
+use application\components\ActiveRecord;
 use application\components\Exception;
+use competence\models\form;
 
 /**
  * Class Question
@@ -32,12 +33,26 @@ use application\components\Exception;
  *
  * @property Test $Test
  *
- * @method Question find($condition = '', $params = array())
- * @method Question findByPk($pk, $condition = '', $params = array())
- * @method Question[] findAll($condition = '', $params = array())
+ * Описание вспомогательных методов
+ * @method Question   with($condition = '')
+ * @method Question   find($condition = '', $params = [])
+ * @method Question   findByPk($pk, $condition = '', $params = [])
+ * @method Question   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Question[] findAll($condition = '', $params = [])
+ * @method Question[] findAllByAttributes($attributes, $condition = '', $params = [])
  *
+ * @method Question byId(int $id, bool $useAnd = true)
+ * @method Question byTestId(int $id, bool $useAnd = true)
+ * @method Question byTypeId(int $id, bool $useAnd = true)
+ * @method Question byPrevQuestionId(int $id, bool $useAnd = true)
+ * @method Question byNextQuestionId(int $id, bool $useAnd = true)
+ * @method Question byCode(string $code, bool $useAnd = true)
+ * @method Question byTitle(string $title, bool $useAnd = true)
+ * @method Question byFirst(bool $first, bool $useAnd = true)
+ * @method Question byLast(bool $last, bool $useAnd = true)
+ * @method Question byRequired(bool $required, bool $useAnd = true)
  */
-class Question extends \CActiveRecord
+class Question extends ActiveRecord
 {
     protected $test;
 
@@ -51,6 +66,7 @@ class Question extends \CActiveRecord
      */
     public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -65,14 +81,6 @@ class Question extends \CActiveRecord
     /**
      * @inheritdoc
      */
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function relations()
     {
         return [
@@ -80,50 +88,6 @@ class Question extends \CActiveRecord
             'Prev' => [self::BELONGS_TO, 'competence\models\Question', 'PrevQuestionId'],
             'Next' => [self::BELONGS_TO, 'competence\models\Question', 'NextQuestionId']
         ];
-    }
-
-    /**
-     * @param bool $first
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byFirst($first = true, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = (!$first ? 'NOT ' : '') . '"t"."First"';
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
-    }
-
-    /**
-     * @param int $testId
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byTestId($testId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."TestId" = :TestId';
-        $criteria->params = ['TestId' => $testId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
-    }
-
-    /**
-     * @param string $code
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byCode($code, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."Code" = :Code';
-        $criteria->params = ['Code' => $code];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
     }
 
     /**
@@ -145,6 +109,7 @@ class Question extends \CActiveRecord
     public function getFormData()
     {
         if (is_null($this->formData)) {
+            /** @noinspection UnserializeExploitsInspection */
             $this->formData = $this->Data !== null ? unserialize(base64_decode($this->Data)) : [];
         }
 

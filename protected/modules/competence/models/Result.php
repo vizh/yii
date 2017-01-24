@@ -1,10 +1,10 @@
 <?php
 namespace competence\models;
 
+use application\components\ActiveRecord;
+use user\models\User;
+
 /**
- * Class Result
- * @package competence\models
- *
  * @property int $Id
  * @property int $TestId
  * @property int $UserId
@@ -13,31 +13,37 @@ namespace competence\models;
  * @property string $UpdateTime
  * @property bool $Finished
  * @property string $UserKey
- * @property \user\models\User $User
+ * @property User $User
  *
- * @method Result find($condition='',$params=array())
- * @method Result findByPk($pk,$condition='',$params=array())
- * @method Result[] findAll($condition='',$params=array())
+ * Описание вспомогательных методов
+ * @method Result   with($condition = '')
+ * @method Result   find($condition = '', $params = [])
+ * @method Result   findByPk($pk, $condition = '', $params = [])
+ * @method Result   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Result[] findAll($condition = '', $params = [])
+ * @method Result[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Result byId(int $id, bool $useAnd = true)
+ * @method Result byTestId(int $id, bool $useAnd = true)
+ * @method Result byUserId(int $id, bool $useAnd = true)
+ * @method Result byUserKey(string $key, bool $useAnd = true)
+ * @method Result byFinished(bool $finished = true, bool $useAnd = true)
  */
-class Result extends \CActiveRecord
+class Result extends ActiveRecord
 {
     /**
      * @param string $className
      * @return Result
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
     public function tableName()
     {
         return 'CompetenceResult';
-    }
-
-    public function primaryKey()
-    {
-        return 'Id';
     }
 
     public function relations()
@@ -48,56 +54,6 @@ class Result extends \CActiveRecord
         ];
     }
 
-    /**
-     * @param int $testId
-     * @param bool $useAnd
-     * @return Result
-     */
-    public function byTestId($testId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."TestId" = :TestId';
-        $criteria->params = array('TestId' => $testId);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    /**
-     * @param int $userId
-     * @param bool $useAnd
-     * @return Result
-     */
-    public function byUserId($userId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."UserId" = :UserId';
-        $criteria->params = array('UserId' => $userId);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    /**
-     * @param string $userKey
-     * @param bool $useAnd
-     * @return Result
-     */
-    public function byUserKey($userKey, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."UserKey" = :UserKey';
-        $criteria->params = array('UserKey' => $userKey);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    public function byFinished($finished = true, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = (!$finished ? 'NOT ' : '') . '"t"."Finished"';
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
     public function setDataByResult($result)
     {
         $this->result = $result;
@@ -105,14 +61,17 @@ class Result extends \CActiveRecord
     }
 
     protected $result = null;
+
     /**
      * @return array
      */
     public function getResultByData()
     {
         if ($this->result === null) {
+            /** @noinspection UnserializeExploitsInspection */
             $this->result = unserialize(base64_decode($this->Data));
         }
+
         return $this->result;
     }
 
@@ -140,8 +99,8 @@ class Result extends \CActiveRecord
     protected function beforeSave()
     {
         $this->UpdateTime = date('Y-m-d H:i:s');
+
         return parent::beforeSave();
     }
-
 
 }

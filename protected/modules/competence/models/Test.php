@@ -8,43 +8,53 @@ use event\models\Role;
 use user\models\User;
 
 /**
- * Class Test
+ * @property int $Id
+ * @property string $Code
+ * @property string $Title
+ * @property bool $Enable
+ * @property bool $Test
+ * @property string $Info
+ * @property string $StartButtonText
+ * @property bool $Multiple
+ * @property string $EndTime
+ * @property string $AfterEndText
+ * @property bool $FastAuth
+ * @property string $FastAuthSecret
+ * @property int $EventId         The event identifier that test is related to
+ * @property int $RoleIdAfterPass The role identifier that a user will get after passing the test
+ * @property string $StartTime
+ * @property string $BeforeText
+ * @property string $AfterText
+ * @property bool $ParticipantsOnly
+ * @property bool $UseClearLayout
+ * @property bool $RenderEventHeader
  *
- * @property int      $Id
- * @property string   $Code
- * @property string   $Title
- * @property bool     $Enable
- * @property bool     $Test
- * @property string   $Info
- * @property string   $StartButtonText
- * @property bool     $Multiple
- * @property string   $EndTime
- * @property string   $AfterEndText
- * @property bool     $FastAuth
- * @property string   $FastAuthSecret
- * @property int      $EventId         The event identifier that test is related to
- * @property int      $RoleIdAfterPass The role identifier that a user will get after passing the test
- * @property string   $StartTime
- * @property string   $BeforeText
- * @property string   $AfterText
- * @property bool     $ParticipantsOnly
- * @property bool     $UseClearLayout
- * @property bool     $RenderEventHeader
- *
- * @property Event    $Event
+ * @property Event $Event
  * @property Result[] $ResultsAll
  *
- * @method Test find($condition = '', $params = array())
- * @method Test findByPk($pk, $condition = '', $params = array())
- * @method Test[] findAll($condition = '', $params = array())
- * @method Test byParticipantsOnly(bool $participantsOnly)
+ * Описание вспомогательных методов
+ * @method Test   with($condition = '')
+ * @method Test   find($condition = '', $params = [])
+ * @method Test   findByPk($pk, $condition = '', $params = [])
+ * @method Test   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Test[] findAll($condition = '', $params = [])
+ * @method Test[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Test byId(int $id, bool $useAnd = true)
+ * @method Test byCode(string $code, bool $useAnd = true)
+ * @method Test byEnable(bool $enable, bool $useAnd = true)
+ * @method Test byTest(bool $test, bool $useAnd = true)
+ * @method Test byMultiple(bool $multiple, bool $useAnd = true)
+ * @method Test byFastAuth(bool $fastAuth, bool $useAnd = true)
+ * @method Test byEventId(bool $fastAuth, bool $useAnd = true)
+ * @method Test byParticipantsOnly(bool $participantsOnly, bool $useAnd = true)
  *
  */
 class Test extends ActiveRecord
 {
     // Path for header images
     const HEADER_IMAGES_PATH = '/img/competence/header/';
-    
+
     const DIR_PATH = 'competence.models.test';
 
     /**
@@ -73,6 +83,7 @@ class Test extends ActiveRecord
      */
     public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -82,14 +93,6 @@ class Test extends ActiveRecord
     public function tableName()
     {
         return 'CompetenceTest';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function primaryKey()
-    {
-        return 'Id';
     }
 
     /**
@@ -105,6 +108,7 @@ class Test extends ActiveRecord
 
     /**
      * Whether the header image exists
+     *
      * @return bool
      */
     public function hasHeaderImage()
@@ -116,6 +120,7 @@ class Test extends ActiveRecord
 
     /**
      * Returns url to the header image
+     *
      * @return string
      */
     public function getHeaderImage()
@@ -221,6 +226,7 @@ class Test extends ActiveRecord
 
     /**
      * Saves results
+     *
      * @throws Exception
      */
     public function saveResult()
@@ -233,53 +239,8 @@ class Test extends ActiveRecord
     }
 
     /**
-     *
-     * @param int  $eventId
-     * @param bool $useAnd
-     * @return self
-     */
-    public function byEventId($eventId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."EventId" = :EventId';
-        $criteria->params['EventId'] = $eventId;
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
-    }
-
-    /**
-     * @param string $code
-     * @param bool   $useAnd
-     * @return self
-     */
-    public function byCode($code, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."Code" = :Code';
-        $criteria->params['Code'] = $code;
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
-    }
-
-    /**
-     *
-     * @param bool $enable
-     * @param bool $useAnd
-     * @return self
-     */
-    public function byEnable($enable = true, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = (!$enable ? 'NOT' : '').' "t"."Enable"';
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
-    }
-
-    /**
      * Assigns the specified in RoleIdAfterPass role to the user
+     *
      * @throws Exception
      */
     private function assignRole()
