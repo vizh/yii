@@ -44,7 +44,7 @@ class Account extends ActiveRecord
     const ROLE_MOBILE = 'mobile';
     const ROLE_PARTNER_WOC = 'partner_woc';
 
-    const SelfId = 1;
+    const SELF_ID = 1;
 
     /**
      * @param string $className
@@ -163,9 +163,9 @@ class Account extends ActiveRecord
         if ($path === null && $host === 'mobile')
             return true;
 
-        if ($this->Id === self::SelfId && (empty($url) || empty($host))) {
+        if ($this->Id === self::SELF_ID && (empty($url) || empty($host))) {
             return true;
-        } elseif ($this->Id !== self::SelfId && empty($url)) {
+        } elseif ($this->Id !== self::SELF_ID && empty($url)) {
             return false;
         }
 

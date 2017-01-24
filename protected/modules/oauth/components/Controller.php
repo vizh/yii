@@ -59,7 +59,7 @@ class Controller extends \application\components\controllers\BaseController
         if ($this->apiKey !== null){
             $account = Account::model()->byKey($this->apiKey)->find();
         } else {
-            $account = Account::model()->findByPk(Account::SelfId);
+            $account = Account::model()->findByPk(Account::SELF_ID);
         }
 
         $this->url = $request->getParam('url');

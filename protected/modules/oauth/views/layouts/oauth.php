@@ -14,7 +14,7 @@
 </head>
 <body class="page_registration">
 <script type="text/javascript">
-    <?if($this->Account->Id !== \api\models\Account::SelfId):?>
+    <?if($this->Account->Id !== \api\models\Account::SELF_ID):?>
     if (window.top !== window.self) {
         document.write = "";
         setTimeout(function(){document.body.innerHTML='';},1);

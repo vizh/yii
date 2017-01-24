@@ -41,7 +41,7 @@ class MainController extends \oauth\components\Controller
 
     public function actionDialog()
     {
-        if ($this->Account->Id === Account::SelfId) {
+        if ($this->Account->Id === Account::SELF_ID) {
 
             /* Происходит мобильная авторизация? */
             $isMobile = Yii::app()->getRequest()->getParam('mobile') === 'true';
