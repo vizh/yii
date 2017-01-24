@@ -47,6 +47,7 @@ class IndexAction extends \partner\components\Action
             $criteria->params['CreationTime'] = $time;
             $visits = Visit::model()->findAll($criteria);
             $statistics[$key] = [];
+            $statistics[$key]['Total'] = 0;
             foreach ($visits as $visit) {
                 $statistics[$key][$visit->MarkId] = $visit->CountForCriteria;
                 $statistics[$key]['Total'] += $visit->CountForCriteria;
