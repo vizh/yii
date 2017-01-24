@@ -208,15 +208,15 @@ class IndexAction extends \widget\components\Action
         /** @var \link\models\Link $link */
         foreach ($links as $link)
         {
-            if ($userId == $link->OwnerId && $link->Approved == \event\models\Approved::None)
+            if ($userId == $link->OwnerId && $link->Approved == \event\models\Approved::NONE)
             {
                 $result->all++;
                 $result->new++;
             }
-            elseif ($link->Approved == \event\models\Approved::Yes) {
+            elseif ($link->Approved == \event\models\Approved::YES) {
                 $result->all++;
             }
         }
         return $result;
     }
-} 
+}

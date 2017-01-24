@@ -118,6 +118,9 @@ class IndexAction extends \CAction
                 if (!empty($form->SiteUrl)) {
                     $urlParts = parse_url($form->SiteUrl);
 
+                    if( !isset( $urlParts['path'] ) ){
+                        $urlParts['path'] = '';
+                    }
                     $url = $urlParts['host'] .$urlParts['path'].(empty($urlParts['query']) ? '' : '?'.$urlParts['query']);
 
                     $event->setContactSite($url, $urlParts['scheme'] === 'https');
@@ -156,7 +159,7 @@ class IndexAction extends \CAction
                 // Сохранение проф. интересов
                 foreach (ProfessionalInterest::model()->findAll() as $profInterest) {
                     $linkProfInterest = LinkProfessionalInterest::model()
-                        ->byEventId($eventId)->byInteresId($profInterest->Id)->find();
+                        ->byEventId($eventId)->byProfessionalInterestId($profInterest->Id)->find();
 
                     if (in_array($profInterest->Id, $form->ProfInterest) && $linkProfInterest == null) {
                         $linkProfInterest = new \event\models\LinkProfessionalInterest();

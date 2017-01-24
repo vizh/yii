@@ -31,7 +31,7 @@ class Statistics
     {
         $criteria = new \CDbCriteria();
         $criteria->addCondition('("t"."External" AND "t"."Approved" = :Approved) OR NOT "t"."External"');
-        $criteria->params['Approved'] = Approved::Yes;
+        $criteria->params['Approved'] = Approved::YES;
         $this->events = Event::model()->byDeleted(false)->count($criteria);
     }
 

@@ -1,6 +1,8 @@
 <?php
 namespace event\models\section;
 
+use application\components\ActiveRecord;
+
 /**
  * @property int $Id
  * @property int $SectionId
@@ -8,53 +10,42 @@ namespace event\models\section;
  *
  * @property Section $Section
  * @property Hall $Hall
+ *
+ * Описание вспомогательных методов
+ * @method LinkHall   with($condition = '')
+ * @method LinkHall   find($condition = '', $params = [])
+ * @method LinkHall   findByPk($pk, $condition = '', $params = [])
+ * @method LinkHall   findByAttributes($attributes, $condition = '', $params = [])
+ * @method LinkHall[] findAll($condition = '', $params = [])
+ * @method LinkHall[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method LinkHall byId(int $id, bool $useAnd = true)
+ * @method LinkHall bySectionId(int $id, bool $useAnd = true)
+ * @method LinkHall byHallId(int $id, bool $useAnd = true)
  */
-class LinkHall extends \CActiveRecord
+class LinkHall extends ActiveRecord
 {
-  /**
-   * @param string $className
-   *
-   * @return LinkHall
-   */
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
+    /**
+     * @param string $className
+     *
+     * @return LinkHall
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
-  public function tableName()
-  {
-    return 'EventSectionLinkHall';
-  }
+    public function tableName()
+    {
+        return 'EventSectionLinkHall';
+    }
 
-  public function primaryKey()
-  {
-    return 'Id';
-  }
-
-  public function relations()
-  {
-    return array(
-      'Section' => array(self::BELONGS_TO, '\event\models\section\Section', 'SectionId'),
-      'Hall' => array(self::BELONGS_TO, '\event\models\section\Hall', 'HallId'),
-    );
-  }
-
-  
-  public function byHallId($hallId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."HallId" = :HallId';
-    $criteria->params = array('HallId' => $hallId);
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-  
-  public function bySectionId($sectionId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."SectionId" = :SectionId';
-    $criteria->params = array('SectionId' => $sectionId);
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
+    public function relations()
+    {
+        return [
+            'Section' => [self::BELONGS_TO, '\event\models\section\Section', 'SectionId'],
+            'Hall' => [self::BELONGS_TO, '\event\models\section\Hall', 'HallId'],
+        ];
+    }
 }

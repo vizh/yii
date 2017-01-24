@@ -1,5 +1,6 @@
 <?php
 namespace event\models\section;
+
 use application\components\ActiveRecord;
 use user\models\User;
 
@@ -14,7 +15,18 @@ use user\models\User;
  * @property Hall $Hall
  * @property User $User
  *
- * @method UserVisit byHallId(integer $hallId)
+ * Описание вспомогательных методов
+ * @method UserVisit   with($condition = '')
+ * @method UserVisit   find($condition = '', $params = [])
+ * @method UserVisit   findByPk($pk, $condition = '', $params = [])
+ * @method UserVisit   findByAttributes($attributes, $condition = '', $params = [])
+ * @method UserVisit[] findAll($condition = '', $params = [])
+ * @method UserVisit[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method UserVisit byId(int $id, bool $useAnd = true)
+ * @method UserVisit byHallId(int $id, bool $useAnd = true)
+ * @method UserVisit byUserId(int $id, bool $useAnd = true)
+ * @method UserVisit byOperatorId(int $id, bool $useAnd = true)
  */
 class UserVisit extends ActiveRecord
 {
@@ -22,8 +34,9 @@ class UserVisit extends ActiveRecord
      * @param string $className
      * @return UserVisit
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -32,31 +45,11 @@ class UserVisit extends ActiveRecord
         return 'EventSectionUserVisit';
     }
 
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
     public function relations()
     {
         return [
             'Hall' => [self::BELONGS_TO, 'event\models\section\Hall', 'HallId'],
             'User' => [self::BELONGS_TO, '\user\models\User', 'UserId']
         ];
-    }
-
-    /**
-     * @param int $eventId
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byEventId($eventId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->with = ['Hall'];
-        $criteria->condition = '"Hall"."EventId" = :EventId';
-        $criteria->params = ['EventId' => $eventId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
     }
 }

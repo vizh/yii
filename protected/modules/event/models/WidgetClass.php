@@ -8,9 +8,31 @@ use event\components\IWidget;
  * @property int $Id
  * @property string $Class
  * @property bool $Visible
+ *
+ * Описание вспомогательных методов
+ * @method WidgetClass   with($condition = '')
+ * @method WidgetClass   find($condition = '', $params = [])
+ * @method WidgetClass   findByPk($pk, $condition = '', $params = [])
+ * @method WidgetClass   findByAttributes($attributes, $condition = '', $params = [])
+ * @method WidgetClass[] findAll($condition = '', $params = [])
+ * @method WidgetClass[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method WidgetClass byId(int $id, bool $useAnd = true)
+ * @method WidgetClass byClass(string $class, bool $useAnd = true)
+ * @method WidgetClass byVisible(bool $visible, bool $useAnd = true)
  */
 class WidgetClass extends ActiveRecord
 {
+    /**
+     * @param string $className
+     * @return WidgetClass
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
+
     /**
      * @inheritdoc
      */
@@ -20,35 +42,8 @@ class WidgetClass extends ActiveRecord
     }
 
     /**
-     * @param string $class
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byClass($class, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."Class" = :Class';
-        $criteria->params = array('Class' => $class);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    /**
-     * @param bool $visible
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byVisible($visible = true, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = (!$visible ? 'NOT' : '').' "t"."Visible"';
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-
-    /**
      * Создает виджет
+     *
      * @param Event $event
      * @param bool $skipInit
      * @return IWidget

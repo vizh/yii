@@ -1,38 +1,39 @@
 <?php
 namespace event\models\section;
 
+use application\components\ActiveRecord;
+
 /**
  * @property int $Id
  * @property string $Title
  * @property string $Thesis
  * @property string $Url
  * @property string $FullInfo
+ *
+ * Описание вспомогательных методов
+ * @method Report   with($condition = '')
+ * @method Report   find($condition = '', $params = [])
+ * @method Report   findByPk($pk, $condition = '', $params = [])
+ * @method Report   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Report[] findAll($condition = '', $params = [])
+ * @method Report[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Report byId(int $id, bool $useAnd = true)
  */
-class Report extends \CActiveRecord
+class Report extends ActiveRecord
 {
-  /**
-   * @param string $className
-   *
-   * @return Report
-   */
-  public static function model($className=__CLASS__)
-  {    
-    return parent::model($className);
-  }
-  
-  public function tableName()
-  {
-    return 'EventSectionReport';
-  }
-  
-  public function primaryKey()
-  {
-    return 'Id';
-  }
-  
-  public function relations()
-  {
-    return [];
-  }
+    /**
+     * @param string $className
+     * @return Report
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
+    public function tableName()
+    {
+        return 'EventSectionReport';
+    }
 }

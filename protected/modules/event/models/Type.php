@@ -1,5 +1,6 @@
 <?php
 namespace event\models;
+
 use application\models\translation\ActiveRecord;
 
 /**
@@ -9,27 +10,33 @@ use application\models\translation\ActiveRecord;
  * @property string $CssClass
  * @property int $Priority
  *
+ * Описание вспомогательных методов
+ * @method Type   with($condition = '')
+ * @method Type   find($condition = '', $params = [])
+ * @method Type   findByPk($pk, $condition = '', $params = [])
+ * @method Type   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Type[] findAll($condition = '', $params = [])
+ * @method Type[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Type byId(int $id, bool $useAnd = true)
+ * @method Type byCode(string $code, bool $useAnd = true)
  */
 class Type extends ActiveRecord
 {
-  /**
-   * @param string $className
-   * @return Type
-   */
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
+    /**
+     * @param string $className
+     * @return Type
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
-  public function tableName()
-  {
-    return 'EventType';
-  }
-
-  public function primaryKey()
-  {
-    return 'Id';
-  }
+    public function tableName()
+    {
+        return 'EventType';
+    }
 
     /**
      * @return string[]

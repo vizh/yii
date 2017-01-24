@@ -15,11 +15,11 @@ class InviteAction extends \partner\components\Action
         if (($action = $request->getParam('Action')) !== null) {
             switch ($action) {
                 case 'approved':
-                    $this->processApproved(Approved::Yes);
+                    $this->processApproved(Approved::YES);
                     break;
 
                 case 'disapproved':
-                    $this->processApproved(Approved::No);
+                    $this->processApproved(Approved::NO);
                     break;
             }
         }
@@ -45,7 +45,7 @@ class InviteAction extends \partner\components\Action
         }
 
         $role = null;
-        if ($approved == Approved::Yes) {
+        if ($approved == Approved::YES) {
             $role = Role::model()->findByPk($request->getParam('RoleId'));
         }
         $inviteRequest->changeStatus($approved, $role);

@@ -11,7 +11,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     public function actionIndex()
     {
-        $waitEvents = Event::model()->byExternal(true)->byApproved(Approved::None)->byDeleted(false)->orderBy(['"t"."CreationTime"' => SORT_DESC])
+        $waitEvents = Event::model()->byExternal(true)->byApproved(Approved::NONE)->byDeleted(false)->orderBy(['"t"."CreationTime"' => SORT_DESC])
             ->limit(10)->findAll();
 
         $publishedEvents = Event::model()->byVisible(true)->orderBy(['"t"."CreationTime"' => SORT_DESC])

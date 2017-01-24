@@ -93,13 +93,24 @@ use Yii;
  * @property bool $Free
  * @property bool $Top
  *
- *
- * Вспомогательные описания методов методы
- * @method Event find($condition = '', $params = [])
- * @method Event findByPk($pk, $condition = '', $params = [])
+ * Описание вспомогательных методов
+ * @method Event   with($condition = '')
+ * @method Event   find($condition = '', $params = [])
+ * @method Event   findByPk($pk, $condition = '', $params = [])
+ * @method Event   findByAttributes($attributes, $condition = '', $params = [])
  * @method Event[] findAll($condition = '', $params = [])
- * @method Event byApproved(int $approved)
- * @method Event byExternal(boolean $external)
+ * @method Event[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Event byId(int $id, bool $useAnd = true)
+ * @method Event byIdName(string $idName, bool $useAnd = true)
+ * @method Event byVisible(bool $visible = true, bool $useAnd = true)
+ * @method Event byShowOnMain(bool $showOnMain = true, bool $useAnd = true)
+ * @method Event byExternal(bool $external = true, bool $useAnd = true)
+ * @method Event byApproved(bool $approved = true, bool $useAnd = true)
+ * @method Event byTypeId(int $id, bool $useAnd = true)
+ * @method Event byFullWidth(bool $fullWidth = true, bool $useAnd = true)
+ * @method Event byUserScope(bool $userScope = true, bool $useAnd = true)
+ * @method Event byDeleted(bool $deleted = true, bool $useAnd = true)
  */
 class Event extends ActiveRecord implements ISearch, \JsonSerializable
 {
@@ -107,6 +118,16 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
 
     protected $fileDir; // кеш, содержащий путь к файлам мероприятия. использовать только через getPath()
     protected $baseDir; // кеш, содержащий абсолютный путь к wwwroot
+
+    /**
+     * @param string $className
+     * @return Event
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
     /**
      * @return string
@@ -259,21 +280,6 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
     }
 
     /**
-     * @param string $idName
-     * @param bool $useAnd
-     * @return Event
-     */
-    public function byIdName($idName, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."IdName" = :IdName';
-        $criteria->params = ['IdName' => $idName];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
-    }
-
-    /**
      * @param $typeId
      * @param bool $useAnd
      * @return $this
@@ -307,34 +313,6 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
         }
         $criteria->addCondition('"t"."Title" ILIKE :SearchTerm OR "t"."IdName" ILIKE :SearchTerm');
         $criteria->params['SearchTerm'] = '%'.\Utils::PrepareStringForLike($searchTerm).'%';
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
-    }
-
-    /**
-     * @param bool $visible
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byVisible($visible = true, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = ($visible ? '' : 'NOT ').'"t"."Visible"';
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
-    }
-
-    /**
-     * @param bool $showOnMain
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byShowOnMain($showOnMain = true, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = ($showOnMain ? '' : 'NOT ').'"t"."ShowOnMain"';
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
 
         return $this;
@@ -408,20 +386,6 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
     }
 
     /**
-     * @param bool $deleted
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byDeleted($deleted = true, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = ($deleted ? '' : 'NOT ').'"t"."Deleted"';
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
-    }
-
-    /**
      * @param User $user
      * @param Role $role
      * @param bool $usePriority
@@ -473,8 +437,9 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
             ->byEventId($this->Id)
             ->byUserId($user instanceof User ? $user->Id : $user);
 
-        if ($part !== null)
+        if ($part !== null) {
             $participant->byPartId($part->Id);
+        }
 
         return $participant->exists();
     }

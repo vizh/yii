@@ -45,7 +45,7 @@ use event\models\section\LinkUser;
                 <?endif?>
                   <?if (isset($this->DetailedModal) && $this->DetailedModal == '1'):?>
                     <?foreach($data->Sections[$hallId][$time]->Links as $links):?>
-                      <?if ($links[0]->Role->Type != \event\models\RoleType::Speaker):?>
+                      <?if ($links[0]->Role->Type != \event\models\RoleType::SPEAKER):?>
                           <div class="section-text" data-section="<?=$section->Id?>">
                               <b><?=\Yii::t('app', sizeof($links) > 1 ? 'Ведущие' : 'Ведущий')?>:</b><br/>
                               <?foreach($links as $link):?>
@@ -67,7 +67,7 @@ use event\models\section\LinkUser;
                     <?endforeach?>
                     <br>
                       <?foreach($data->Sections[$hallId][$time]->Links as $links):?>
-                          <?if ($links[0]->Role->Type == \event\models\RoleType::Speaker):?>
+                          <?if ($links[0]->Role->Type == \event\models\RoleType::SPEAKER):?>
                               <div class="section-text" data-section="<?=$section->Id?>">
                                   <b><?=\Yii::t('app', sizeof($links) > 1 ? 'Докладчики' : 'Докладчик')?>:</b><br/>
                                   <?foreach($links as $link):?>
@@ -97,7 +97,7 @@ use event\models\section\LinkUser;
                       <?/** @var LinkUser[] $links */?>
                       <?foreach($data->Sections[$hallId][$time]->Links as $links):?>
                           <div class="m-bottom_10">
-                              <?if ($links[0]->Role->Type != \event\models\RoleType::Speaker):?>
+                              <?if ($links[0]->Role->Type != \event\models\RoleType::SPEAKER):?>
                                   <b><?=\Yii::t('app', sizeof($links) > 1 ? 'Ведущие' : 'Ведущий')?>:</b><br/>
                                   <?foreach($links as $link):?>
                                       <?if ($link->User != null):?>

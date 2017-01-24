@@ -36,9 +36,9 @@ use event\models\Approved;
                 $class = null;
                 if  ($event->Visible)
                     $class = 'success';
-                elseif ($event->External && $event->Approved == Approved::None)
+                elseif ($event->External && $event->Approved == Approved::NONE)
                     $class = 'muted';
-                elseif ($event->External && $event->Approved == Approved::No)
+                elseif ($event->External && $event->Approved == Approved::NO)
                     $class = 'error';
                ?>
 

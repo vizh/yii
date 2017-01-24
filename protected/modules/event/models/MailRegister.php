@@ -1,7 +1,9 @@
 <?php
 namespace event\models;
 
-use \mail\models\Layout;
+use application\components\utility\Texts;
+use mail\models\Layout;
+use Yii;
 
 class MailRegister
 {
@@ -19,10 +21,11 @@ class MailRegister
 
     public function __construct(Event $event)
     {
-        $this->Id = \application\components\utility\Texts::GenerateString(5, true);
+        $this->Id = Texts::GenerateString(5, true);
         $this->eventIdName = mb_strtolower($event->IdName);
-        if (!file_exists($this->getViewDirPath()))
+        if (!file_exists($this->getViewDirPath())) {
             mkdir($this->getViewDirPath());
+        }
     }
 
     protected function getViewDirPathName()
@@ -32,7 +35,7 @@ class MailRegister
 
     public function getViewDirPath()
     {
-        return \Yii::getPathOfAlias($this->getViewDirPathName());
+        return Yii::getPathOfAlias($this->getViewDirPathName());
     }
 
     public function getViewName()
@@ -42,7 +45,7 @@ class MailRegister
 
     public function getViewPath()
     {
-        return \Yii::getPathOfAlias($this->getViewName()).'.php';
+        return Yii::getPathOfAlias($this->getViewName()).'.php';
     }
 
     /**
@@ -69,6 +72,7 @@ class MailRegister
     {
         $criteria = new \CDbCriteria();
         $criteria->addInCondition('"t"."Id"', $roleIdList);
+
         return \event\models\Role::model()->findAll($criteria);
     }
 }

@@ -23,17 +23,18 @@ use user\models\User;
  * @property Event $Event
  * @property Part $Part
  *
- * @method Participant byEventId(int $id, $useAnd = true)
- * @method Participant byUserId(int $id, $useAnd = true)
- * @method Participant byRoleId(int $id, $useAnd = true)
- *
  * Описание вспомогательных методов
- * @method Participant   with($condition = '', $condition = '')
+ * @method Participant   with($condition = '')
  * @method Participant   find($condition = '', $params = [])
  * @method Participant   findByPk($pk, $condition = '', $params = [])
  * @method Participant   findByAttributes($attributes, $condition = '', $params = [])
  * @method Participant[] findAll($condition = '', $params = [])
  * @method Participant[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Participant byId(int $id, $useAnd = true)
+ * @method Participant byEventId(int $id, $useAnd = true)
+ * @method Participant byUserId(int $id, $useAnd = true)
+ * @method Participant byRoleId(int $id, $useAnd = true)
  */
 class Participant extends ActiveRecord
 {
@@ -83,8 +84,8 @@ class Participant extends ActiveRecord
     }
 
     /**
-     * @param string  $idName
-     * @param bool    $useAnd
+     * @param string $idName
+     * @param bool $useAnd
      * @return Participant
      */
     public function byEventIdName($idName, $useAnd = true)
@@ -100,6 +101,7 @@ class Participant extends ActiveRecord
 
     /**
      * Adds condition
+     *
      * @param string $email Email for the search
      * @param bool $useAnd
      * @return self
@@ -197,11 +199,12 @@ class Participant extends ActiveRecord
 
     public function getHash()
     {
-        return substr(md5($this->EventId . $this->hashSalt . $this->UserId), 2, 25);
+        return substr(md5($this->EventId.$this->hashSalt.$this->UserId), 2, 25);
     }
 
     /**
      * Ссылка на билет
+     *
      * @return string
      */
     public function getTicketUrl()
@@ -215,11 +218,13 @@ class Participant extends ActiveRecord
 
     /**
      * Возвращает билет
+     *
      * @return Ticket
      */
     public function getTicket()
     {
         $class = \Yii::getExistClass('event\components\tickets', ucfirst($this->Event->IdName), 'Ticket');
+
         return new $class($this->Event, $this->User);
     }
 
@@ -244,6 +249,7 @@ class Participant extends ActiveRecord
         $class = \Yii::getExistClass('event\components\handlers\register', ucfirst($this->Event->IdName), 'Base');
         /** @var \mail\components\Mail $mail */
         $mail = new $class($mailer, $e);
+
         return $mail->send();
     }
 }

@@ -9,7 +9,7 @@ use event\models\RoleType;
 <?$this->beginWidget('\application\widgets\bootstrap\Modal', ['header' => $section->Title, 'id' => $this->getId().'_modal'.$section->Id])?>
     <?=$section->Info?>
     <?foreach($data->Links as $links):?>
-        <?if($links[0]->Role->Type != RoleType::Speaker):?>
+        <?if($links[0]->Role->Type != RoleType::SPEAKER):?>
             <h5><?=\Yii::t('app', sizeof($links) > 1 ? 'Ведущие' : 'Ведущий')?>:</h5>
             <?foreach($links as $link):?>
                 <p>

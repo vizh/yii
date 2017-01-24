@@ -1,6 +1,9 @@
 <?php
 namespace event\models\section;
 
+use application\models\translation\ActiveRecord;
+use event\models\Event;
+
 /**
  * @property int $Id
  * @property int $EventId
@@ -16,19 +19,28 @@ namespace event\models\section;
  * @property bool $DeletionTIme
  *
  *
- * @property \event\models\Event $Event
+ * @property Event $Event
  * @property Attribute[] $Attributes
  * @property LinkUser[] $LinkUsers
  * @property LinkHall[] $LinkHalls
  * @property LinkTheme $LinkTheme
  * @property Type $Type
  *
- * @method Section find($condition='',$params=array())
- * @method Section findByPk($pk,$condition='',$params=array())
- * @method Section[] findAll($condition='',$params=array())
+ * Описание вспомогательных методов
+ * @method Section   with($condition = '')
+ * @method Section   find($condition = '', $params = [])
+ * @method Section   findByPk($pk, $condition = '', $params = [])
+ * @method Section   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Section[] findAll($condition = '', $params = [])
+ * @method Section[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Section byId(int $id, bool $useAnd = true)
+ * @method Section byEventId(int $id, bool $useAnd = true)
+ * @method Section byTypeId(int $id, bool $useAnd = true)
+ * @method Section byCode(string $code, bool $useAnd = true)
+ * @method Section byDeleted(bool $deleted, bool $useAnd = true)
  */
-
-class Section extends \application\models\translation\ActiveRecord
+class Section extends ActiveRecord
 {
     protected $useSoftDelete = true;
 
@@ -36,8 +48,9 @@ class Section extends \application\models\translation\ActiveRecord
      * @param string $className
      * @return Section
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -46,14 +59,9 @@ class Section extends \application\models\translation\ActiveRecord
         return 'EventSection';
     }
 
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
     public function relations()
     {
-        return array(
+        return [
             'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
             'Attributes' => [self::HAS_MANY, '\event\models\section\Attribute', 'SectionId'],
             'LinkUsers' => [self::HAS_MANY, '\event\models\section\LinkUser', 'SectionId', 'on' => 'NOT "LinkUsers"."Deleted"', 'order' => '"LinkUsers"."Order" ASC'],
@@ -61,21 +69,7 @@ class Section extends \application\models\translation\ActiveRecord
             'LinkTheme' => [self::HAS_ONE, '\event\models\section\LinkTheme', 'SectionId'],
             'Type' => [self::BELONGS_TO, '\event\models\section\Type', 'TypeId'],
             'Favorites' => [self::HAS_MANY, '\event\models\section\Favorite', 'SectionId']
-        );
-    }
-
-    /**
-     * @param integer $eventId
-     * @param boolean $useAnd
-     * @return $this
-     */
-    public function byEventId($eventId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."EventId" = :EventId';
-        $criteria->params = array('EventId' => $eventId);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
+        ];
     }
 
     /**
@@ -90,19 +84,7 @@ class Section extends \application\models\translation\ActiveRecord
         $criteria->params['DateStart'] = $date.' 00:00:00';
         $criteria->params['DateEnd'] = $date.' 23:59:59';
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
 
-    /**
-     * @param boolean $deleted
-     * @param boolean $useAnd
-     * @return $this
-     */
-    public function byDeleted($deleted, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = (!$deleted ? 'NOT ' : '') . 't."Deleted"';
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
         return $this;
     }
 
@@ -117,6 +99,7 @@ class Section extends \application\models\translation\ActiveRecord
         $criteria->condition = '"t"."UpdateTime" > :UpdateTime';
         $criteria->params = ['UpdateTime' => $updateTime];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -162,6 +145,7 @@ class Section extends \application\models\translation\ActiveRecord
         if ($this->url === null && isset($this->Event->UrlSectionMask)) {
             $this->url = str_replace(':SECTION_ID', $this->Id, $this->Event->UrlSectionMask);
         }
+
         return $this->url;
     }
 
@@ -186,6 +170,7 @@ class Section extends \application\models\translation\ActiveRecord
     protected function beforeSave()
     {
         $this->UpdateTime = date('Y-m-d H:i:s');
+
         return parent::beforeSave();
     }
 }

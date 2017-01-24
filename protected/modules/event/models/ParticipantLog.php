@@ -1,6 +1,9 @@
 <?php
 namespace event\models;
 
+use application\components\ActiveRecord;
+use user\models\User;
+
 /**
  * @property int $Id
  * @property int $EventId
@@ -11,17 +14,28 @@ namespace event\models;
  * @property string $Message
  * @property int $EditorId
  *
- * @property \user\models\User $User
+ * @property User $User
  * @property Role $Role
  * @property Event $Event
  * @property Part $Part
- * @property \user\models\User $Editor
+ * @property User $Editor
  *
- * @method \event\models\Participant find()
- * @method \event\models\Participant[] findAll()
- * @method \event\models\Participant findByPk()
+ * Описание вспомогательных методов
+ * @method ParticipantLog   with($condition = '')
+ * @method ParticipantLog   find($condition = '', $params = [])
+ * @method ParticipantLog   findByPk($pk, $condition = '', $params = [])
+ * @method ParticipantLog   findByAttributes($attributes, $condition = '', $params = [])
+ * @method ParticipantLog[] findAll($condition = '', $params = [])
+ * @method ParticipantLog[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method ParticipantLog byId(int $id, bool $useAnd = true)
+ * @method ParticipantLog byEventId(int $id, bool $useAnd = true)
+ * @method ParticipantLog byPartId(int $id, bool $useAnd = true)
+ * @method ParticipantLog byUserId(int $id, bool $useAnd = true)
+ * @method ParticipantLog byRoleId(int $id, bool $useAnd = true)
+ * @method ParticipantLog byEditorId(int $id, bool $useAnd = true)
  */
-class ParticipantLog extends \CActiveRecord
+class ParticipantLog extends ActiveRecord
 {
     /**
      * @param string $className
@@ -29,6 +43,7 @@ class ParticipantLog extends \CActiveRecord
      */
     public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -37,39 +52,14 @@ class ParticipantLog extends \CActiveRecord
         return 'EventParticipantLog';
     }
 
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
     public function relations()
     {
-        return array(
-            'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId'),
-            'Role' => array(self::BELONGS_TO, '\event\models\Role', 'RoleId'),
-            'User' => array(self::BELONGS_TO, '\user\models\User', 'UserId'),
-            'Editor' => array(self::BELONGS_TO, '\user\models\User', 'EditorId'),
-            'Part' => array(self::BELONGS_TO, '\event\models\Part', 'PartId')
-        );
-    }
-
-    /**
-     * @param Participant $participant
-     * @return $this
-     */
-    public function byParticipant(Participant $participant)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->addCondition('"t"."UserId" = :UserId AND "t"."RoleId" = :RoleId AND "t"."EventId" = :EventId');
-        $criteria->params['UserId']  = $participant->UserId;
-        $criteria->params['RoleId']  = $participant->RoleId;
-        $criteria->params['EventId'] = $participant->EventId;
-        if (!empty($participant->PartId)) {
-            $criteria->addCondition('"t"."PartId" = :PartId');
-            $criteria->params['PartId'] = $participant->PartId;
-        }
-        $criteria->order = '"t"."CreationTime" DESC';
-        $this->getDbCriteria()->mergeWith($criteria);
-        return $this;
+        return [
+            'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
+            'Role' => [self::BELONGS_TO, '\event\models\Role', 'RoleId'],
+            'User' => [self::BELONGS_TO, '\user\models\User', 'UserId'],
+            'Editor' => [self::BELONGS_TO, '\user\models\User', 'EditorId'],
+            'Part' => [self::BELONGS_TO, '\event\models\Part', 'PartId']
+        ];
     }
 }

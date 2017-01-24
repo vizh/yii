@@ -271,7 +271,7 @@ class ParticipantDetail
     public $sectionRoleDetails = [];
 
     /** @var string */
-    public $roleType = \event\models\RoleType::None;
+    public $roleType = \event\models\RoleType::NONE;
 
     /**
      * @param \event\models\Participant $participant

@@ -65,19 +65,19 @@ $this->setPageTitle(\Yii::t('app', 'Приглашения'))
                         'header' => $search->getAttributeLabel('Approved'),
                         'name' => 'Approved',
                         'value' => function (InviteRequest $inviteRequest) use ($event) {
-                            if ($inviteRequest->Approved == Approved::Yes) {
-                                return \CHtml::tag('span', ['class' => 'label label-success'], Approved::getLabels()[Approved::Yes]);
+                            if ($inviteRequest->Approved == Approved::YES) {
+                                return \CHtml::tag('span', ['class' => 'label label-success'], Approved::getLabels()[Approved::YES]);
                             } else {
                                 $result = '';
-                                if ($inviteRequest->Approved == Approved::No) {
-                                    $result .= \CHtml::tag('p', [], \CHtml::tag('span', ['class' => 'label label-danger'], Approved::getLabels()[Approved::No]));
+                                if ($inviteRequest->Approved == Approved::NO) {
+                                    $result .= \CHtml::tag('p', [], \CHtml::tag('span', ['class' => 'label label-danger'], Approved::getLabels()[Approved::NO]));
                                 }
                                 $result .= \CHtml::beginForm();
                                 $result .= '<div class="input-group">';
                                 $result .= \CHtml::dropDownList('RoleId', 1, \CHtml::listData($event->getRoles(), 'Id', 'Title'), ['class' => 'form-control']);
                                 $result .= '<div class="input-group-btn">';
                                 $result .= \CHtml::tag('button', ['class' => 'btn btn-outline btn-success', 'name' => 'Action', 'value' => 'approved', 'title' => \Yii::t('app', 'Подтвердить')], '<span class="fa fa-check"></span>');
-                                if ($inviteRequest->Approved != Approved::No) {
+                                if ($inviteRequest->Approved != Approved::NO) {
                                     $result .= \CHtml::tag('button', ['class' => 'btn btn-outline btn-danger', 'name' => 'Action', 'value' => 'disapproved', 'title' => \Yii::t('app', 'Отклонить')], '<span class="fa fa-times"></span>');
                                 }
                                 $result .= '</div>';

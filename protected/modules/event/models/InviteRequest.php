@@ -1,21 +1,37 @@
 <?php
 namespace event\models;
 
+use application\components\ActiveRecord;
 use mail\components\mailers\SESMailer;
+use user\models\User;
 
 /**
  * @property int $Id
- * @property int $OwnerUserId
- * @property string $CreationTime
  * @property int $EventId
+ * @property int $OwnerUserId
+ * @property int $SenderUserId
+ * @property string $CreationTime
  * @property int $Approved
  * @property int $ApprovedTime
- * @property int $SenderUserId
  *
- * @property \user\models\User $Sender
- * @property \user\models\User $Owner
+ * @property User $Sender
+ * @property User $Owner
+ *
+ * Описание вспомогательных методов
+ * @method InviteRequest   with($condition = '')
+ * @method InviteRequest   find($condition = '', $params = [])
+ * @method InviteRequest   findByPk($pk, $condition = '', $params = [])
+ * @method InviteRequest   findByAttributes($attributes, $condition = '', $params = [])
+ * @method InviteRequest[] findAll($condition = '', $params = [])
+ * @method InviteRequest[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method InviteRequest byId(int $id, bool $useAnd = true)
+ * @method InviteRequest byEventId(int $id, bool $useAnd = true)
+ * @method InviteRequest byOwnerUserId(int $id, bool $useAnd = true)
+ * @method InviteRequest bySenderUserId(int $id, bool $useAnd = true)
+ * @method InviteRequest byApproved(bool $approved, bool $useAnd = true)
  */
-class InviteRequest extends \CActiveRecord
+class InviteRequest extends ActiveRecord
 {
     /**
      * @param string $className
@@ -23,6 +39,7 @@ class InviteRequest extends \CActiveRecord
      */
     public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -31,48 +48,13 @@ class InviteRequest extends \CActiveRecord
         return 'EventInviteRequest';
     }
 
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
     public function relations()
     {
-        return array(
-            'Sender' => array(self::BELONGS_TO, '\user\models\User', 'SenderUserId'),
-            'Owner' => array(self::BELONGS_TO, '\user\models\User', 'OwnerUserId'),
-            'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId')
-        );
-    }
-
-    /**
-     *
-     * @param int $eventId
-     * @param bool $useAnd
-     * @return InviteRequest
-     */
-    public function byEventId($eventId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."EventId" = :EventId';
-        $criteria->params = array('EventId' => $eventId);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    /**
-     *
-     * @param int $userId
-     * @param bool $useAnd
-     * @return InviteRequest
-     */
-    public function byOwnerUserId($userId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."OwnerUserId" = :UserId';
-        $criteria->params = array('UserId' => $userId);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
+        return [
+            'Sender' => [self::BELONGS_TO, '\user\models\User', 'SenderUserId'],
+            'Owner' => [self::BELONGS_TO, '\user\models\User', 'OwnerUserId'],
+            'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId']
+        ];
     }
 
     /**
@@ -83,7 +65,7 @@ class InviteRequest extends \CActiveRecord
      */
     public function changeStatus($status, \event\models\Role $role = null)
     {
-        if ($status == \event\models\Approved::Yes && $role == null) {
+        if ($status == \event\models\Approved::YES && $role == null) {
             throw new \Exception("Не передан обязательный параметр Role");
         }
 
@@ -91,13 +73,14 @@ class InviteRequest extends \CActiveRecord
         $this->ApprovedTime = date('Y-m-d H:i:s');
         $this->save();
 
-        if ($status == \event\models\Approved::Yes) {
-            if (empty($this->Event->Parts))
+        if ($status == \event\models\Approved::YES) {
+            if (empty($this->Event->Parts)) {
                 $this->Event->registerUser($this->Owner, $role, true);
-            else
+            } else {
                 $this->Event->registerUserOnAllParts($this->Owner, $role, true);
-        } elseif ($status == \event\models\Approved::No) {
-            $event = new \CModelEvent($this, array('event' => $this->Event, 'user' => $this->Owner));
+            }
+        } elseif ($status == \event\models\Approved::NO) {
+            $event = new \CModelEvent($this, ['event' => $this->Event, 'user' => $this->Owner]);
             $this->onDisapprove($event);
         }
     }
@@ -111,9 +94,9 @@ class InviteRequest extends \CActiveRecord
             $event = new \CModelEvent($this, ['event' => $this->Event, 'user' => $this->Owner]);
             $this->onCreate($event);
         }
+
         return parent::beforeSave();
     }
-
 
     /**
      * @param $event

@@ -4,14 +4,11 @@ namespace event\models;
 use application\components\ActiveRecord;
 use application\components\CDbCriteria;
 use application\components\Exception;
-use application\models\attribute\Group;
 use event\components\UserDataManager;
 use user\models\User;
 use Yii;
 
 /**
- * Class UserData
- *
  * @property int $Id
  * @property int $EventId
  * @property int $UserId
@@ -24,12 +21,19 @@ use Yii;
  * @property User $User
  * @property User $Creator
  *
- * @method UserData byUserId($id, $useAnd = true)
- * @method UserData byEventId($id, $useAnd = true)
- *
- * @method UserData find($condition = '', $params = [])
- * @method UserData findByPk($pk, $condition = '', $params = [])
+ * Описание вспомогательных методов
+ * @method UserData   with($condition = '')
+ * @method UserData   find($condition = '', $params = [])
+ * @method UserData   findByPk($pk, $condition = '', $params = [])
+ * @method UserData   findByAttributes($attributes, $condition = '', $params = [])
  * @method UserData[] findAll($condition = '', $params = [])
+ * @method UserData[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method UserData byId(int $id, bool $useAnd = true)
+ * @method UserData byEventId(int $id, bool $useAnd = true)
+ * @method UserData byUserId(int $id, bool $useAnd = true)
+ * @method UserData byCreatorId(int $id, bool $useAnd = true)
+ * @method UserData byDeleted(bool $deleted, bool $useAnd = true)
  */
 class UserData extends ActiveRecord
 {
@@ -234,20 +238,6 @@ class UserData extends ActiveRecord
         }
 
         return $this->manager;
-    }
-
-    /**
-     * @param bool $deleted
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byDeleted($deleted, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = (!$deleted ? 'NOT ' : '').'"t"."Deleted"';
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
     }
 
     /**

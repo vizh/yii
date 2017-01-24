@@ -1,10 +1,10 @@
 <?php
 namespace event\models\section;
 
+use application\components\ActiveRecord;
+use user\models\User;
+
 /**
- * Class Favorite
- * @package event\models\section
- *
  * @property int $Id
  * @property int $SectionId
  * @property int $UserId
@@ -12,21 +12,30 @@ namespace event\models\section;
  * @property string $UpdateTime
  *
  * @property Section $Section
- * @property \user\models\User $User
+ * @property User $User
  *
- * @method Favorite find($condition='',$params=array())
- * @method Favorite findByPk($pk,$condition='',$params=array())
- * @method Favorite[] findAll($condition='',$params=array())
+ * Описание вспомогательных методов
+ * @method Favorite   with($condition = '')
+ * @method Favorite   find($condition = '', $params = [])
+ * @method Favorite   findByPk($pk, $condition = '', $params = [])
+ * @method Favorite   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Favorite[] findAll($condition = '', $params = [])
+ * @method Favorite[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Favorite byId(int $id, bool $useAnd = true)
+ * @method Favorite bySectionId(int $id, bool $useAnd = true)
+ * @method Favorite byUserId(int $id, bool $useAnd = true)
+ * @method Favorite byDeleted(bool $deleted, bool $useAnd = true)
  */
-
-class Favorite extends \CActiveRecord
+class Favorite extends ActiveRecord
 {
     /**
      * @param string $className
      * @return Favorite
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -35,58 +44,12 @@ class Favorite extends \CActiveRecord
         return 'EventSectionFavorite';
     }
 
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
     public function relations()
     {
-        return array(
+        return [
             'Section' => [self::BELONGS_TO, '\event\models\section\Section', 'SectionId'],
             'User' => [self::BELONGS_TO, '\user\models\User', 'UserId'],
-        );
-    }
-
-    /**
-     * @param int $userId
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byUserId($userId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."UserId" = :UserId';
-        $criteria->params = ['UserId' => $userId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    /**
-     * @param int $sectionId
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function bySectionId($sectionId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."SectionId" = :SectionId';
-        $criteria->params = ['SectionId' => $sectionId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    /**
-     * @param bool $deleted
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byDeleted($deleted, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = (!$deleted ? 'NOT ' : '') . 't."Deleted"';
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
+        ];
     }
 
     /**
@@ -100,12 +63,14 @@ class Favorite extends \CActiveRecord
         $criteria->condition = '"t"."UpdateTime" > :UpdateTime';
         $criteria->params = ['UpdateTime' => $updateTime];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
     protected function beforeSave()
     {
         $this->UpdateTime = date('Y-m-d H:i:s');
+
         return parent::beforeSave();
     }
 }

@@ -1,10 +1,9 @@
 <?php
 namespace event\models\section;
 
+use application\components\ActiveRecord;
+
 /**
- * Class Vote
- * @package event\models\section
- *
  * @property int $Id
  * @property int $SectionId
  * @property int $UserId
@@ -12,18 +11,29 @@ namespace event\models\section;
  * @property int $ReportInteresting
  * @property string $CreationTime
  *
- * @method Vote find($condition='',$params=array())
- * @method Vote findByPk($pk,$condition='',$params=array())
- * @method Vote[] findAll($condition='',$params=array())
+ * Описание вспомогательных методов
+ * @method Vote   with($condition = '')
+ * @method Vote   find($condition = '', $params = [])
+ * @method Vote   findByPk($pk, $condition = '', $params = [])
+ * @method Vote   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Vote[] findAll($condition = '', $params = [])
+ * @method Vote[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Vote byId(int $id, bool $useAnd = true)
+ * @method Vote bySectionId(int $id, bool $useAnd = true)
+ * @method Vote byUserId(int $id, bool $useAnd = true)
+ * @method Vote bySpeakerSkill(int $skill, bool $useAnd = true)
+ * @method Vote byReportInteresting(int $interesting, bool $useAnd = true)
  */
-class Vote extends \CActiveRecord
+class Vote extends ActiveRecord
 {
     /**
      * @param string $className
      * @return Vote
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -32,46 +42,11 @@ class Vote extends \CActiveRecord
         return 'EventSectionVote';
     }
 
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
     public function relations()
     {
-        return array(
+        return [
             'Section' => [self::BELONGS_TO, '\event\models\section\Section', 'SectionId'],
             'User' => [self::BELONGS_TO, '\user\models\User', 'UserId'],
-        );
+        ];
     }
-
-    /**
-     * @param int $userId
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byUserId($userId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."UserId" = :UserId';
-        $criteria->params = ['UserId' => $userId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    /**
-     * @param int|int[] $sectionId
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function bySectionId($sectionId, $useAnd = true)
-    {
-        if (is_numeric($sectionId)) {
-            $sectionId = [$sectionId];
-        }
-        $criteria = new \CDbCriteria();
-        $criteria->addInCondition('t."SectionId"', $sectionId);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-} 
+}

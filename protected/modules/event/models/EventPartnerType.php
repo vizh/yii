@@ -1,35 +1,39 @@
 <?php
 namespace event\models;
 
+use application\components\ActiveRecord;
+
 /**
  * @property int $Id
  * @property int $EventId
  * @property string $Name
  * @property int $Order
+ *
+ * Описание вспомогательных методов
+ * @method EventPartnerType   with($condition = '')
+ * @method EventPartnerType   find($condition = '', $params = [])
+ * @method EventPartnerType   findByPk($pk, $condition = '', $params = [])
+ * @method EventPartnerType   findByAttributes($attributes, $condition = '', $params = [])
+ * @method EventPartnerType[] findAll($condition = '', $params = [])
+ * @method EventPartnerType[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method EventPartnerType byId(int $id, bool $useAnd = true)
+ * @method EventPartnerType byEventId(int $id, bool $useAnd = true)
  */
-class EventPartnerType extends \CActiveRecord
+class EventPartnerType extends ActiveRecord
 {
-  /**
-   * @param string $className
-   * @return EventPartnerType
-   */
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
+    /**
+     * @param string $className
+     * @return EventPartnerType
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
-  public function tableName()
-  {
-    return 'EventPartnerType';
-  }
-
-  public function primaryKey()
-  {
-    return 'Id';
-  }
-
-  public function relations()
-  {
-    return array();
-  }
+    public function tableName()
+    {
+        return 'EventPartnerType';
+    }
 }

@@ -1,6 +1,8 @@
 <?php
 namespace event\models;
 
+use application\models\translation\ActiveRecord;
+
 /**
  * @property int $Id
  * @property int $EventId
@@ -10,16 +12,27 @@ namespace event\models;
  *
  * @property Event $Event
  *
- * @method Attribute find()
+ * Описание вспомогательных методов
+ * @method Attribute   with($condition = '')
+ * @method Attribute   find($condition = '', $params = [])
+ * @method Attribute   findByPk($pk, $condition = '', $params = [])
+ * @method Attribute   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Attribute[] findAll($condition = '', $params = [])
+ * @method Attribute[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Attribute byId(int $id, bool $useAnd = true)
+ * @method Attribute byEventId(int $id, bool $useAnd = true)
+ * @method Attribute byName(int $id, bool $useAnd = true)
  */
-class Attribute extends \application\models\translation\ActiveRecord
+class Attribute extends ActiveRecord
 {
     /**
      * @param string $className
      * @return Attribute
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -28,16 +41,11 @@ class Attribute extends \application\models\translation\ActiveRecord
         return 'EventAttribute';
     }
 
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
     public function relations()
     {
-        return array(
-            'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId'),
-        );
+        return [
+            'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
+        ];
     }
 
     /**
@@ -47,34 +55,5 @@ class Attribute extends \application\models\translation\ActiveRecord
     public function getTranslationFields()
     {
         return ['Value'];
-    }
-
-
-    /**
-     * @param int $eventId
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byEventId($eventId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."EventId" = :EventId';
-        $criteria->params = ['EventId' => $eventId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    /**
-     * @param string $name
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byName($name, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."Name" = :Name';
-        $criteria->params = ['Name' => $name];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
     }
 }

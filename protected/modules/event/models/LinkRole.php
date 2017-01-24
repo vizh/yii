@@ -1,64 +1,48 @@
 <?php
 namespace event\models;
 
+use application\components\ActiveRecord;
+
 /**
- * Class LinkRole
  * @property int $Id
  * @property int $EventId
  * @property int $RoleId
  * @property string $Color
- * @package event\models
+ *
+ * Описание вспомогательных методов
+ * @method LinkRole   with($condition = '')
+ * @method LinkRole   find($condition = '', $params = [])
+ * @method LinkRole   findByPk($pk, $condition = '', $params = [])
+ * @method LinkRole   findByAttributes($attributes, $condition = '', $params = [])
+ * @method LinkRole[] findAll($condition = '', $params = [])
+ * @method LinkRole[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method LinkRole byId(int $id, bool $useAnd = true)
+ * @method LinkRole byEventId(int $id, bool $useAnd = true)
+ * @method LinkRole byRoleId(int $id, bool $useAnd = true)
  */
-class LinkRole extends \CActiveRecord
+class LinkRole extends ActiveRecord
 {
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
+    /**
+     * @param string $className
+     * @return LinkRole
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
-  public function tableName()
-  {
-    return 'EventLinkRole';
-  }
+    public function tableName()
+    {
+        return 'EventLinkRole';
+    }
 
-  public function primaryKey()
-  {
-    return 'Id';
-  }
-
-  public function relations()
-  {
-    return [
-      'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
-      'Role' => [self::BELONGS_TO, '\event\models\Role', 'RoleId']
-    ];
-  }
-
-  /**
-   * @param int $eventId
-   * @param bool $useAnd
-   * @return $this
-   */
-  public function byEventId($eventId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."EventId" = :EventId';
-    $criteria->params = ['EventId' => $eventId];
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-
-  /**
-   * @param int $roleId
-   * @param bool $useAnd
-   * @return $this
-   */
-  public function byRoleId($roleId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."RoleId" = :RoleId';
-    $criteria->params = ['RoleId' => $roleId];
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-} 
+    public function relations()
+    {
+        return [
+            'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
+            'Role' => [self::BELONGS_TO, '\event\models\Role', 'RoleId']
+        ];
+    }
+}

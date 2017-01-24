@@ -1,5 +1,6 @@
 <?php
 namespace event\models;
+
 use application\components\ActiveRecord;
 use JsonSerializable;
 
@@ -10,20 +11,26 @@ use JsonSerializable;
  * @property int $Order
  * @property Event $Event
  *
- * @method Part find($condition='',$params=array())
- * @method Part findByPk($pk,$condition='',$params=array())
- * @method Part[] findAll($condition='',$params=array())
+ * Описание вспомогательных методов
+ * @method Part   with($condition = '')
+ * @method Part   find($condition = '', $params = [])
+ * @method Part   findByPk($pk, $condition = '', $params = [])
+ * @method Part   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Part[] findAll($condition = '', $params = [])
+ * @method Part[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Part byId(int $id, bool $useAnd = true)
+ * @method Part byEventId(int $id, bool $useAnd = true)
  */
-
-
 class Part extends ActiveRecord implements JsonSerializable
 {
     /**
      * @param string $className
      * @return Part
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -32,31 +39,11 @@ class Part extends ActiveRecord implements JsonSerializable
         return 'EventPart';
     }
 
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
     public function relations()
     {
-        return array(
-            'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId'),
-        );
-    }
-
-    /**
-     * @param int $eventId
-     * @param bool $useAnd
-     *
-     * @return $this
-     */
-    public function byEventId($eventId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"EventId" = :EventId';
-        $criteria->params = ['EventId' => $eventId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
+        return [
+            'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
+        ];
     }
 
     /**
@@ -69,6 +56,7 @@ class Part extends ActiveRecord implements JsonSerializable
         $command = $this->getDbConnection()->createCommand()
             ->select('max("Order") MaxOrder')->from($this->tableName())
             ->where('"EventId" = :EventId', ['EventId' => $eventId]);
+
         return (int)$command->queryScalar();
     }
 

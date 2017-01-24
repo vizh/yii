@@ -1,25 +1,26 @@
 <?php
 namespace event\models;
-final class RoleType 
+
+final class RoleType
 {
-  const None     = 'none'; 
-  const Listener = 'listener';
-  const Speaker  = 'speaker';
-  const Master   = 'master';
-  
-  static public function compare($role1, $role2)
-  {
-    $weight = array(
-      self::None     => 0,
-      self::Listener => 1,
-      self::Speaker  => 2,
-      self::Master   => 3
-    );
-    
-    if ($weight[$role1] > $weight[$role2])
+    const NONE = 'none';
+    const LISTENER = 'listener';
+    const SPEAKER = 'speaker';
+    const MASTER = 'master';
+
+    static public function compare($role1, $role2)
     {
-      return $role1;
+        $weight = [
+            self::NONE => 0,
+            self::LISTENER => 1,
+            self::SPEAKER => 2,
+            self::MASTER => 3
+        ];
+
+        if ($weight[$role1] > $weight[$role2]) {
+            return $role1;
+        }
+
+        return $role2;
     }
-    return $role2;
-  }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace event\models;
 
+use application\components\ActiveRecord;
 use catalog\models\Company;
 
 /**
@@ -12,34 +13,43 @@ use catalog\models\Company;
  *
  * @property Company $Company
  * @property PartnerType $Type
+ *
+ * Описание вспомогательных методов
+ * @method Partner   with($condition = '')
+ * @method Partner   find($condition = '', $params = [])
+ * @method Partner   findByPk($pk, $condition = '', $params = [])
+ * @method Partner   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Partner[] findAll($condition = '', $params = [])
+ * @method Partner[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Partner byId(int $id, bool $useAnd = true)
+ * @method Partner byEventId(int $id, bool $useAnd = true)
+ * @method Partner byCompanyId(int $id, bool $useAnd = true)
+ * @method Partner byTypeId(int $id, bool $useAnd = true)
  */
-class Partner extends \CActiveRecord
+class Partner extends ActiveRecord
 {
-  /**
-   * @param string $className
-   * @return Partner
-   */
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
+    /**
+     * @param string $className
+     * @return Partner
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
-  public function tableName()
-  {
-    return 'EventPartner';
-  }
+    public function tableName()
+    {
+        return 'EventPartner';
+    }
 
-  public function primaryKey()
-  {
-    return 'Id';
-  }
-
-  public function relations()
-  {
-    return array(
-      'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId'),
-      'Company' => array(self::BELONGS_TO, '\catalog\models\company\Company', 'CompanyId'),
-      'Type' => array(self::BELONGS_TO, '\event\models\PartnerType', 'TypeId')
-    );
-  }
+    public function relations()
+    {
+        return [
+            'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
+            'Company' => [self::BELONGS_TO, '\catalog\models\company\Company', 'CompanyId'],
+            'Type' => [self::BELONGS_TO, '\event\models\PartnerType', 'TypeId']
+        ];
+    }
 }

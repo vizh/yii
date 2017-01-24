@@ -144,7 +144,7 @@ class Link extends \CActiveRecord
         $eventType = null;
         if ($this->beforeSaveIsNewRecord) {
             $eventType = 'create';
-        } elseif ($this->beforeSaveApproved != \event\models\Approved::Yes && $this->Approved == \event\models\Approved::Yes) {
+        } elseif ($this->beforeSaveApproved != \event\models\Approved::YES && $this->Approved == \event\models\Approved::YES) {
             $eventType = 'approve';
         } elseif ($this->beforeSaveMeetingTime !== null && $this->beforeSaveMeetingTime !== $this->MeetingTime) {
             $eventType = 'changetime';

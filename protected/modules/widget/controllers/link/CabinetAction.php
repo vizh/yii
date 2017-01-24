@@ -32,9 +32,9 @@ class CabinetAction extends \widget\components\Action
     /** @var \link\models\Link $link */
     foreach($links as $link)
     {
-      if ($link->Approved == \event\models\Approved::None && $link->OwnerId == $userId)
+      if ($link->Approved == \event\models\Approved::NONE && $link->OwnerId == $userId)
         $schedule->notDistributedLinks[] = $link;
-      else if ($link->Approved == \event\models\Approved::Yes)
+      else if ($link->Approved == \event\models\Approved::YES)
         $schedule->links[] = $link;
     }
 
@@ -65,7 +65,7 @@ class CabinetAction extends \widget\components\Action
 
   private function processAjaxActionReject(\link\models\Link $link)
   {
-    $link->Approved = \event\models\Approved::No;
+    $link->Approved = \event\models\Approved::NO;
     $link->save();
     return ['success' => true];
   }
@@ -79,7 +79,7 @@ class CabinetAction extends \widget\components\Action
     $form->attributes = $request->getParam(get_class($form));
     if ($form->validate())
     {
-      $link->Approved = \event\models\Approved::Yes;
+      $link->Approved = \event\models\Approved::YES;
       $link->MeetingTime = date('Y-m-d H:i:s', strtotime($form));
       $link->save();
       $result->success = true;
@@ -90,4 +90,4 @@ class CabinetAction extends \widget\components\Action
     }
     return $result;
   }
-} 
+}

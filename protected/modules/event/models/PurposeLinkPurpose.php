@@ -1,27 +1,39 @@
 <?php
 namespace event\models;
 
+use application\components\ActiveRecord;
+
 /**
- * Class PurposeLinkPurpose
- * @package event\models
  * @property int $Id
  * @property int $FirstPurposeId
  * @property int $SecondPurposeId
+ *
+ * Описание вспомогательных методов
+ * @method Purpose   with($condition = '')
+ * @method Purpose   find($condition = '', $params = [])
+ * @method Purpose   findByPk($pk, $condition = '', $params = [])
+ * @method Purpose   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Purpose[] findAll($condition = '', $params = [])
+ * @method Purpose[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Purpose byId(int $id, bool $useAnd = true)
+ * @method Purpose byFirstPurposeId(int $id, bool $useAnd = true)
+ * @method Purpose bySecondPurposeId(int $id, bool $useAnd = true)
  */
-class Purpose extends \CActiveRecord
+class Purpose extends ActiveRecord
 {
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
+    /**
+     * @param string $className
+     * @return Purpose
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
-  public function tableName()
-  {
-    return 'EventPurposeLink';
-  }
-
-  public function primaryKey()
-  {
-    return 'Id';
-  }
-} 
+    public function tableName()
+    {
+        return 'EventPurposeLink';
+    }
+}

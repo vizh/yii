@@ -74,7 +74,7 @@ foreach ($widgets->All as $widget) {
 
                 <div class="control-group">
                     <?=CHtml::activeLabel($form, 'Address', ['class' => 'control-label'])?>
-                    <?$this->widget('contact\widgets\AddressControls', ['form' => $form->Address])?>
+                    <?$this->widget('contact\widgets\AddressControls', ['form' => $form->Address, 'geoCoordinates' => true])?>
                 </div>
 
                 <div class="control-group">
@@ -216,9 +216,9 @@ foreach ($widgets->All as $widget) {
                         <?=CHtml::activeLabel($form, 'Approved', ['class' => 'control-label'])?>
                         <div class="controls">
                             <?=CHtml::activeDropDownList($form, 'Approved', [
-                                Approved::Yes => Yii::t('app', 'Принят'),
-                                Approved::None => Yii::t('app', 'На рассмотрении'),
-                                Approved::No => Yii::t('app', 'Отклонен')
+                                Approved::YES => Yii::t('app', 'Принят'),
+                                Approved::NONE => Yii::t('app', 'На рассмотрении'),
+                                Approved::NO => Yii::t('app', 'Отклонен')
                             ])?>
                         </div>
                     </div>

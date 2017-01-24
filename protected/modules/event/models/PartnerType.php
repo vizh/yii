@@ -1,37 +1,46 @@
 <?php
 namespace event\models;
 
+use application\components\ActiveRecord;
+
 /**
  * @property int $Id
  * @property int $EventId
  * @property string $Name
  * @property int $Order
+ *
+ * Описание вспомогательных методов
+ * @method PartnerType   with($condition = '')
+ * @method PartnerType   find($condition = '', $params = [])
+ * @method PartnerType   findByPk($pk, $condition = '', $params = [])
+ * @method PartnerType   findByAttributes($attributes, $condition = '', $params = [])
+ * @method PartnerType[] findAll($condition = '', $params = [])
+ * @method PartnerType[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method PartnerType byId(int $id, bool $useAnd = true)
+ * @method PartnerType byEventId(int $id, bool $useAnd = true)
  */
-class PartnerType extends \CActiveRecord
+class PartnerType extends ActiveRecord
 {
-  /**
-   * @param string $className
-   * @return PartnerType
-   */
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
+    /**
+     * @param string $className
+     * @return PartnerType
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
-  public function tableName()
-  {
-    return 'EventPartnerType';
-  }
+    public function tableName()
+    {
+        return 'EventPartnerType';
+    }
 
-  public function primaryKey()
-  {
-    return 'Id';
-  }
-
-  public function relations()
-  {
-    return array(
-      'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId'),
-    );
-  }
+    public function relations()
+    {
+        return [
+            'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
+        ];
+    }
 }

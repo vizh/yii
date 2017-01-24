@@ -10,9 +10,31 @@ use application\components\ActiveRecord;
  * @property string $Value
  *
  * @property Section $Section
+ *
+ * Описание вспомогательных методов
+ * @method Attribute   with($condition = '')
+ * @method Attribute   find($condition = '', $params = [])
+ * @method Attribute   findByPk($pk, $condition = '', $params = [])
+ * @method Attribute   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Attribute[] findAll($condition = '', $params = [])
+ * @method Attribute[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Attribute byId(int $id, bool $useAnd = true)
+ * @method Attribute bySectionId(int $id, bool $useAnd = true)
+ * @method Attribute byName(string $name, bool $useAnd = true)
  */
 class Attribute extends ActiveRecord
 {
+    /**
+     * @param string $className
+     * @return Attribute
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
+
     /**
      * @inheritdoc
      */
@@ -29,23 +51,5 @@ class Attribute extends ActiveRecord
         return [
             'Section' => [self::BELONGS_TO, '\event\models\section\Section', 'SectionId']
         ];
-    }
-
-    public function byName($name, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."Name" = :Name';
-        $criteria->params = array('Name' => $name);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    public function bySectionId($sectionId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."SectionId" = :SectionId';
-        $criteria->params = array('SectionId' => $sectionId);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
     }
 }

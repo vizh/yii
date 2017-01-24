@@ -1,5 +1,6 @@
 <?php
 namespace event\models\section;
+
 use application\models\translation\ActiveRecord;
 
 /**
@@ -11,11 +12,17 @@ use application\models\translation\ActiveRecord;
  * @property bool $Deleted
  * @property bool $DeletionTIme
  *
- * @method Hall find($condition='',$params=array())
- * @method Hall findByPk($pk,$condition='',$params=array())
- * @method Hall[] findAll($condition='',$params=array())
- * @method Hall byDeleted(boolean $deleted)
- * @method Hall byEventId(integer $eventId)
+ * Описание вспомогательных методов
+ * @method Hall   with($condition = '')
+ * @method Hall   find($condition = '', $params = [])
+ * @method Hall   findByPk($pk, $condition = '', $params = [])
+ * @method Hall   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Hall[] findAll($condition = '', $params = [])
+ * @method Hall[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Hall byId(int $id, bool $useAnd = true)
+ * @method Hall byEventId(int $id, bool $useAnd = true)
+ * @method Hall byDeleted(bool $deleted, bool $useAnd = true)
  */
 class Hall extends ActiveRecord
 {
@@ -26,24 +33,15 @@ class Hall extends ActiveRecord
      *
      * @return Hall
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
     public function tableName()
     {
         return 'EventSectionHall';
-    }
-
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
-    public function relations()
-    {
-        return array();
     }
 
     /**
@@ -57,6 +55,7 @@ class Hall extends ActiveRecord
         $criteria->condition = '"t"."UpdateTime" > :UpdateTime';
         $criteria->params = ['UpdateTime' => $updateTime];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -71,6 +70,7 @@ class Hall extends ActiveRecord
     protected function beforeSave()
     {
         $this->UpdateTime = date('Y-m-d H:i:s');
+
         return parent::beforeSave();
     }
 }

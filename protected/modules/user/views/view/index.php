@@ -21,9 +21,9 @@ $hasContacts = !empty($user->LinkSite) || !empty($user->LinkServiceAccounts);
                 color: "#e6e6e6"
             },
             parts: [
-                {color: "#ffd02e", val: <?=isset($participation->count[\event\models\RoleType::Listener]) ? $participation->count[\event\models\RoleType::Listener] : 0?>, role: "слушателя"},
-                {color: "#6363d2", val: <?=isset($participation->count[\event\models\RoleType::Speaker]) ? $participation->count[\event\models\RoleType::Speaker] : 0?>, role: "докладчика"},
-                {color: "#7d45a1", val: <?=isset($participation->count[\event\models\RoleType::Master]) ? $participation->count[\event\models\RoleType::Master] : 0?>, role: "ведущего"}
+                {color: "#ffd02e", val: <?=isset($participation->count[\event\models\RoleType::LISTENER]) ? $participation->count[\event\models\RoleType::LISTENER] : 0?>, role: "слушателя"},
+                {color: "#6363d2", val: <?=isset($participation->count[\event\models\RoleType::SPEAKER]) ? $participation->count[\event\models\RoleType::SPEAKER] : 0?>, role: "докладчика"},
+                {color: "#7d45a1", val: <?=isset($participation->count[\event\models\RoleType::MASTER]) ? $participation->count[\event\models\RoleType::MASTER] : 0?>, role: "ведущего"}
             ],
             charts: [
                 'charts-pie-canvas-1',
