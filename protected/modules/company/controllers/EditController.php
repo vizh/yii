@@ -115,7 +115,7 @@ class EditController extends \application\components\controllers\PublicMainContr
       $phone->CountryCode = $formPhone->CountryCode;
       $phone->CityCode = $formPhone->CityCode;
       $phone->Phone = $formPhone->Phone;
-      $phone->Type = \contact\models\PhoneType::Work;
+      $phone->Type = \contact\models\PhoneType::WORK;
       $phone->save();
       $linkPhone->PhoneId = $phone->Id;
       $linkPhone->save();

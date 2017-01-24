@@ -14,7 +14,7 @@ class Phone extends CreateUpdateForm
     public $CountryCode;
     public $CityCode;
     public $Phone;
-    public $Type = PhoneType::Mobile;
+    public $Type = PhoneType::MOBILE;
     public $Id = null;
     public $Delete = 0;
 

@@ -720,7 +720,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      * @param string $type
      * @return \contact\models\Phone|null
      */
-    public function getContactPhone($type = \contact\models\PhoneType::Mobile)
+    public function getContactPhone($type = \contact\models\PhoneType::MOBILE)
     {
         foreach ($this->LinkPhones as $linkPhone) {
             if ($linkPhone->Phone->Type == $type) {
@@ -737,7 +737,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      *
      * @return \contact\models\Phone|null
      */
-    public function setContactPhone($number, $type = \contact\models\PhoneType::Mobile)
+    public function setContactPhone($number, $type = \contact\models\PhoneType::MOBILE)
     {
         $isNew = false;
         $phone = $this->getContactPhone($type);

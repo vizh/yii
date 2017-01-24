@@ -24,10 +24,35 @@ use geo\models\Region;
  * @property Country $Country
  * @property Region $Region
  * @property City $City
+ *
+ * Описание вспомогательных методов
+ * @method Address   with($condition = '')
+ * @method Address   find($condition = '', $params = [])
+ * @method Address   findByPk($pk, $condition = '', $params = [])
+ * @method Address   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Address[] findAll($condition = '', $params = [])
+ * @method Address[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Address byId(int $id, bool $useAnd = true)
+ * @method Address byCountryId(int $id, bool $useAnd = true)
+ * @method Address byRegionId(int $id, bool $useAnd = true)
+ * @method Address byCityId(int $id, bool $useAnd = true)
+ * @method Address byPostCode(string $postCode, bool $useAnd = true)
+ * @method Address byStreet(string $street, bool $useAnd = true)
  */
 class Address extends ActiveRecord
 {
     use OldAttributesStorage;
+
+    /**
+     * @param string $className
+     * @return Address
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
     /**
      * @inheritdoc
@@ -82,7 +107,20 @@ class Address extends ActiveRecord
     protected function beforeSave()
     {
         $this->updateGeoPointCoordinates();
+
         return parent::beforeSave();
+    }
+
+    /**
+     *
+     */
+    public function afterFind()
+    {
+        if (empty($this->GeoPoint)) {
+            $this->GeoPoint = [0 => '', 1 => ''];
+        } else {
+            $this->GeoPoint = explode(',', $this->GeoPoint);
+        }
     }
 
     /**
@@ -91,20 +129,35 @@ class Address extends ActiveRecord
     private function updateGeoPointCoordinates()
     {
         $oldAttributes = $this->getOldAttributes();
+
+        if (is_array($this->GeoPoint)) {
+            $this->GeoPoint = implode(',', $this->GeoPoint);
+
+            return;
+        }
+
         if (empty($this->CityId)) {
             $this->GeoPoint = null;
-        } elseif (empty($this->GeoPoint) || $this->CityId != $oldAttributes['CityId'] ||$this->Street != $oldAttributes['Street'] || $this->House != $oldAttributes['House'] || $this->Place != $oldAttributes['Place']) {
+        } elseif (empty($this->GeoPoint) || $this->CityId != $oldAttributes['CityId'] || $this->Street != $oldAttributes['Street'] || $this->House != $oldAttributes['House'] || $this->Place != $oldAttributes['Place']) {
             $this->setGeoPointCoordinates();
         }
     }
-
 
     /**
      * @return array
      */
     public function getGeoPointCoordinates()
     {
-        return explode(',', $this->GeoPoint);
+        return $this->GeoPoint;
+    }
+
+    /**
+     * @param $latitude
+     * @param $longitude
+     */
+    public function setGeoPointCoordinatesManual($latitude, $longitude)
+    {
+        $this->GeoPoint = [$latitude, $longitude];
     }
 
     /**
@@ -133,12 +186,12 @@ class Address extends ActiveRecord
         curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 1);
         curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_URL, 'http://geocode-maps.yandex.ru/1.x/?' . http_build_query(['format' => 'json', 'geocode' => $this->__toString()]));
+        curl_setopt($curl, CURLOPT_URL, 'http://geocode-maps.yandex.ru/1.x/?'.http_build_query(['format' => 'json', 'geocode' => $this->__toString()]));
         $yaGeocoderResponse = json_decode(curl_exec($curl));
         if (!empty($yaGeocoderResponse->response->GeoObjectCollection->featureMember)) {
             $position = $yaGeocoderResponse->response->GeoObjectCollection->featureMember[0]->GeoObject->Point->pos;
             $coordinates = explode(' ', $position);
-            $this->GeoPoint = $coordinates[1] . ',' . $coordinates[0];
+            $this->GeoPoint = setGeoPointCoordinatesManual($coordinates[1], $coordinates[0]);
         }
     }
 
@@ -146,26 +199,33 @@ class Address extends ActiveRecord
     {
         $parts = [];
 
-        if ($city && !empty($this->CityId))
-            $parts[] = \Yii::t('app', 'г.') . ' ' . $this->City->Name;
+        if ($city && !empty($this->CityId)) {
+            $parts[] = \Yii::t('app', 'г.').' '.$this->City->Name;
+        }
 
-        if (!empty($this->Street))
+        if (!empty($this->Street)) {
             $parts[] = $this->Street;
+        }
 
-        if (!empty($this->House))
-            $parts[] = \Yii::t('app', 'д.') . ' ' . $this->House;
+        if (!empty($this->House)) {
+            $parts[] = \Yii::t('app', 'д.').' '.$this->House;
+        }
 
-        if (!empty($this->Building))
-            $parts[] = \Yii::t('app', 'стр.') . ' ' . $this->Building;
+        if (!empty($this->Building)) {
+            $parts[] = \Yii::t('app', 'стр.').' '.$this->Building;
+        }
 
-        if (!empty($this->Wing))
-            $parts[] = \Yii::t('app', 'корпус') . ' ' . $this->Wing;
+        if (!empty($this->Wing)) {
+            $parts[] = \Yii::t('app', 'корпус').' '.$this->Wing;
+        }
 
-        if (!empty($this->Apartment))
-            $parts[] = \Yii::t('app', 'офис ') . ' ' . $this->Apartment;
+        if (!empty($this->Apartment)) {
+            $parts[] = \Yii::t('app', 'офис ').' '.$this->Apartment;
+        }
 
-        if ($place && !empty($this->Place))
+        if ($place && !empty($this->Place)) {
             $parts[] = $this->Place;
+        }
 
         return $parts;
     }
@@ -186,22 +246,23 @@ class Address extends ActiveRecord
     public function getWithSchema()
     {
         $address = '';
-        if (!empty($this->City->Name))
-            $address .= \Yii::t('app', 'г.') . ' <span itemprop="addressLocality">' . $this->City->Name . '</span>';
+        if (!empty($this->City->Name)) {
+            $address .= \Yii::t('app', 'г.').' <span itemprop="addressLocality">'.$this->City->Name.'</span>';
+        }
 
         $parts = $this->getParts(false, true);
         if (!empty($parts)) {
-            $address .= (!empty($address) ? ', ' : '') . '<span itemprop="streetAddress">' . implode(', ', $parts) . '</span>';
+            $address .= (!empty($address) ? ', ' : '').'<span itemprop="streetAddress">'.implode(', ', $parts).'</span>';
         }
+
         return $address;
     }
-
 
     /**
      * @return string[]
      */
     public function getTranslationFields()
     {
-        return array('Street', 'House', 'Place');
+        return ['Street', 'House', 'Place'];
     }
 }

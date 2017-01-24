@@ -1,12 +1,26 @@
 <?php
 namespace contact\models;
 
+use application\models\translation\ActiveRecord;
+
 /**
  * @property int $Id
  * @property string $Url
  * @property bool $Secure
+ *
+ * Описание вспомогательных методов
+ * @method Site   with($condition = '')
+ * @method Site   find($condition = '', $params = [])
+ * @method Site   findByPk($pk, $condition = '', $params = [])
+ * @method Site   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Site[] findAll($condition = '', $params = [])
+ * @method Site[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Site byId(int $id, bool $useAnd = true)
+ * @method Site byUrl(string $url, bool $useAnd = true)
+ * @method Site bySecure(bool $secure, bool $useAnd = true)
  */
-class Site extends \application\models\translation\ActiveRecord
+class Site extends ActiveRecord
 {
     /**
      * @param string $className
@@ -14,6 +28,7 @@ class Site extends \application\models\translation\ActiveRecord
      */
     public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -22,20 +37,10 @@ class Site extends \application\models\translation\ActiveRecord
         return 'ContactSite';
     }
 
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
-    public function relations()
-    {
-        return array();
-    }
-
     public function getCleanUrl()
     {
         $parts = parse_url($this);
-        $url = $parts['scheme'] . '://' . $parts['host'];
+        $url = $parts['scheme'].'://'.$parts['host'];
         if (!empty($parts['path'])) {
             $path = $parts['path'];
             if (strpos($path, 'index.php') !== false) {
@@ -43,6 +48,7 @@ class Site extends \application\models\translation\ActiveRecord
             }
             $url .= $path;
         }
+
         return $url;
     }
 
@@ -51,7 +57,7 @@ class Site extends \application\models\translation\ActiveRecord
      */
     public function getTranslationFields()
     {
-        return array('Url');
+        return ['Url'];
     }
 
     /**
@@ -59,6 +65,6 @@ class Site extends \application\models\translation\ActiveRecord
      */
     public function __toString()
     {
-        return ($this->Secure == 1 ? 'https://' : 'http://') . trim($this->Url, ' /');
+        return ($this->Secure == 1 ? 'https://' : 'http://').trim($this->Url, ' /');
     }
 }

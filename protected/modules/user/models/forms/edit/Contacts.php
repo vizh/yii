@@ -15,7 +15,7 @@ class Contacts extends \CFormModel
     $this->Address = new \contact\models\forms\Address();
     return parent::__construct($scenario);
   }
-  
+
   public function validate($attributes = null, $clearErrors = true)
   {
     $this->Address->attributes = \Yii::app()->request->getParam(get_class($this->Address));
@@ -28,7 +28,7 @@ class Contacts extends \CFormModel
     }
     return parent::validate($attributes, false);
   }
-  
+
   public function rules()
   {
     return array(
@@ -43,7 +43,7 @@ class Contacts extends \CFormModel
       ['PrimaryPhone', 'unique', 'className' => '\user\models\User', 'attributeName' => 'PrimaryPhone', 'criteria' => ['condition' => '"t"."Id" != :UserId AND "t"."Visible"', 'params' => ['UserId' => \Yii::app()->user->getId()]]]
     );
   }
- 
+
   public function attributeLabels()
   {
     return array(
@@ -71,8 +71,8 @@ class Contacts extends \CFormModel
     }
     return $phones;
   }
-  
-  
+
+
   public function filterAccounts($accounts)
   {
     $accountTypeList = array();
@@ -84,7 +84,7 @@ class Contacts extends \CFormModel
         break;
       }
       $accountTypeList[] = $account->TypeId;
-      
+
       if (!$account->validate())
       {
         $this->addError('Accounts', \Yii::t('app', 'Ошибка в заполнении поля {attribute}.', array('{attribute}' => $this->getAttributeLabel('Accounts'))));
@@ -94,7 +94,7 @@ class Contacts extends \CFormModel
     return $accounts;
   }
 
-  
+
 
   public function setAttributes($values, $safeOnly = true)
   {
@@ -108,7 +108,7 @@ class Contacts extends \CFormModel
       }
       unset($values['Phones']);
     }
-    
+
     if (isset($values['Accounts']))
     {
       foreach ($values['Accounts'] as $value)
@@ -125,17 +125,17 @@ class Contacts extends \CFormModel
   public function getPhoneTypeData()
   {
     $types = array(
-     \contact\models\PhoneType::Mobile => \Yii::t('app', 'Мобильный'),
-     \contact\models\PhoneType::Work => \Yii::t('app', 'Рабочий')
+     \contact\models\PhoneType::MOBILE => \Yii::t('app', 'Мобильный'),
+     \contact\models\PhoneType::WORK => \Yii::t('app', 'Рабочий')
     );
     return $types;
   }
-  
+
   public function getAccountTypeData()
   {
     $criteria = new \CDbCriteria();
     $criteria->order = '"t"."Title" ASC';
-    $types = \contact\models\ServiceType::model()->byVisible()->findAll($criteria);
+    $types = \contact\models\ServiceType::model()->byVisible(true)->findAll($criteria);
     return \CHtml::listData($types, 'Id', 'Title');
   }
 }

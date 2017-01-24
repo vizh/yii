@@ -3,6 +3,6 @@ namespace contact\models;
 
 interface PhoneType
 {
-  const Mobile = 'mobile';
-  const Work = 'work';
+    const MOBILE = 'mobile';
+    const WORK = 'work';
 }

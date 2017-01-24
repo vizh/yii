@@ -1,31 +1,39 @@
 <?php
 namespace contact\models;
 
+use application\components\ActiveRecord;
+
 /**
  * @property int $Id
  * @property string $Email
  * @property bool $Verified
+ *
+ * Описание вспомогательных методов
+ * @method Email   with($condition = '')
+ * @method Email   find($condition = '', $params = [])
+ * @method Email   findByPk($pk, $condition = '', $params = [])
+ * @method Email   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Email[] findAll($condition = '', $params = [])
+ * @method Email[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Email byId(int $id, bool $useAnd = true)
+ * @method Email byEmail(int $id, bool $useAnd = true)
+ * @method Email byVerifed(bool $verifed, bool $useAnd = true)
  */
-class Email extends \CActiveRecord
+class Email extends ActiveRecord
 {
-  public static function model($className=__CLASS__)
-  {    
-    return parent::model($className);
-  }
-  
-  public function tableName()
-  {
-    return 'ContactEmail';
-  }
-  
-  public function primaryKey()
-  {
-    return 'Id';
-  }
-  
-  public function relations()
-  {
-    return array();
-  }
+    /**
+     * @param string $className
+     * @return Address
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
+    public function tableName()
+    {
+        return 'ContactEmail';
+    }
 }

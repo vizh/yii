@@ -87,7 +87,7 @@ class DataBuilder
         if ($user->PrimaryPhone !== null) {
             $this->user->Phone = $user->PrimaryPhone;
         } else {
-            $phone = $user->getContactPhone(\contact\models\PhoneType::Mobile);
+            $phone = $user->getContactPhone(\contact\models\PhoneType::MOBILE);
             if ($phone !== null) {
                 $this->user->Phone = (string)$phone;
             }

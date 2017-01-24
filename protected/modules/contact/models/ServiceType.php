@@ -1,49 +1,40 @@
 <?php
 namespace contact\models;
 
+use application\components\ActiveRecord;
+
 /**
  * @property int $Id
  * @property string $Title
  * @property string $Pattern
  * @property string $UrlMask
  * @property bool $Visible
+ *
+ * Описание вспомогательных методов
+ * @method ServiceType   with($condition = '')
+ * @method ServiceType   find($condition = '', $params = [])
+ * @method ServiceType   findByPk($pk, $condition = '', $params = [])
+ * @method ServiceType   findByAttributes($attributes, $condition = '', $params = [])
+ * @method ServiceType[] findAll($condition = '', $params = [])
+ * @method ServiceType[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method ServiceType byId(int $id, bool $useAnd = true)
+ * @method ServiceType byVisible(bool $visible, bool $useAnd = true)
  */
-class ServiceType extends \CActiveRecord
+class ServiceType extends ActiveRecord
 {
-  /**
-   * @param string $className
-   * @return ServiceType
-   */
-  public static function model($className=__CLASS__)
-  {    
-    return parent::model($className);
-  }
-  
-  public function tableName()
-  {
-    return 'ContactServiceType';
-  }
-  
-  public function primaryKey()
-  {
-    return 'Id';
-  }
-  
-  public function relations()
-  {
-    return array();
-  }
+    /**
+     * @param string $className
+     * @return ServiceType
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
-  /**
-   * @param bool $visible
-   * @param bool $useAnd
-   * @return $this
-   */
-  public function byVisible($visible = true, $useAnd = true)
-  {
-    $critetia = new \CDbCriteria();
-    $critetia->condition = (!$visible ? 'NOT ' : '').'"t"."Visible"';
-    $this->getDbCriteria()->mergeWith($critetia,$useAnd);
-    return $this;
-  }
+    public function tableName()
+    {
+        return 'ContactServiceType';
+    }
 }
