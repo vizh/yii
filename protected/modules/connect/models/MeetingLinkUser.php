@@ -15,16 +15,18 @@ use user\models\User;
  * @property Meeting $Meeting
  * @property User $User
  *
- * @method MeetingLinkUser byMeetingId(int $id)
- * @method MeetingLinkUser byUserId(int $id)
- * @method MeetingLinkUser byStatus(int $id)
+ * Описание вспомогательных методов
+ * @method MeetingLinkUser   with($condition = '')
+ * @method MeetingLinkUser   find($condition = '', $params = [])
+ * @method MeetingLinkUser   findByPk($pk, $condition = '', $params = [])
+ * @method MeetingLinkUser   findByAttributes($attributes, $condition = '', $params = [])
+ * @method MeetingLinkUser[] findAll($condition = '', $params = [])
+ * @method MeetingLinkUser[] findAllByAttributes($attributes, $condition = '', $params = [])
  *
- * @method MeetingLinkUser with($condition='')
- * @method MeetingLinkUser find($condition='',$params=array())
- * @method MeetingLinkUser findByPk($pk,$condition='',$params=array())
- * @method MeetingLinkUser findByAttributes($attributes,$condition='',$params=array())
- * @method MeetingLinkUser[] findAll($condition='',$params=array())
- * @method MeetingLinkUser[] findAllByAttributes($attributes,$condition='',$params=array())
+ * @method MeetingLinkUser byId(int $id, bool $useAnd = true)
+ * @method MeetingLinkUser byMeetingId(int $id, bool $useAnd = true)
+ * @method MeetingLinkUser byUserId(int $id, bool $useAnd = true)
+ * @method MeetingLinkUser byStatus(int $status, bool $useAnd = true)
  */
 class MeetingLinkUser extends ActiveRecord
 {
@@ -32,6 +34,16 @@ class MeetingLinkUser extends ActiveRecord
     const STATUS_ACCEPTED = 1;
     const STATUS_DECLINED = 2;
     const STATUS_CANCELLED = 3;
+
+    /**
+     * @param string $className
+     * @return MeetingLinkUser
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
     public function tableName()
     {

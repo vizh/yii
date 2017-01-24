@@ -14,7 +14,7 @@ use user\models\User;
  * @property integer $StatusId
  * @property string $JoinTime
  * @property string $ExitTime
- * @property boolean $AllowVote
+ * @property bool $AllowVote
  *
  * The followings are the available model relations:
  * @property Company $Company

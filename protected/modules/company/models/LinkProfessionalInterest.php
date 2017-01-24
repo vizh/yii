@@ -6,7 +6,7 @@ use application\components\ActiveRecord;
 /**
  * @property integer $CompanyId
  * @property integer $ProfessionalInterestId
- * @property boolean $Primary
+ * @property bool $Primary
  *
  * Описание вспомогательных методов
  * @method LinkProfessionalInterest   with($condition = '')

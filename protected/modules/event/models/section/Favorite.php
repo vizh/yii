@@ -8,7 +8,7 @@ namespace event\models\section;
  * @property int $Id
  * @property int $SectionId
  * @property int $UserId
- * @property boolean $Deleted
+ * @property bool $Deleted
  * @property string $UpdateTime
  *
  * @property Section $Section
@@ -108,4 +108,4 @@ class Favorite extends \CActiveRecord
         $this->UpdateTime = date('Y-m-d H:i:s');
         return parent::beforeSave();
     }
-} 
+}

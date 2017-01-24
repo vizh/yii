@@ -7,7 +7,7 @@ use competence\models\Result;
  * Class Textarea
  * @package competence\models\form
  *
- * @property boolean $Required
+ * @property bool $Required
  */
 class Textarea extends Base
 {

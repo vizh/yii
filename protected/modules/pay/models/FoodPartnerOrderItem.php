@@ -8,10 +8,10 @@ use application\components\ActiveRecord;
  * The followings are the available columns in table 'PayFoodPartnerOrderItem':
  * @property integer $Id
  * @property integer $ProductId
- * @property boolean $Paid
+ * @property bool $Paid
  * @property string $PaidTime
  * @property string $CreationTime
- * @property boolean $Deleted
+ * @property bool $Deleted
  * @property string $DeletionTime
  * @property integer $OrderId
  * @property integer $Count

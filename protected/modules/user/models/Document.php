@@ -12,7 +12,7 @@ use user\models\forms\document\BaseDocument;
  * @property integer $TypeId
  * @property integer $UserId
  * @property string $Attributes
- * @property boolean $Actual
+ * @property bool $Actual
  * @property string $CreationTime
  *
  * The followings are the available model relations:

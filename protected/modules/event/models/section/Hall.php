@@ -9,7 +9,7 @@ use application\models\translation\ActiveRecord;
  * @property string $UpdateTime
  * @property int $Order
  * @property bool $Deleted
- * @property boolean $DeletionTIme
+ * @property bool $DeletionTIme
  *
  * @method Hall find($condition='',$params=array())
  * @method Hall findByPk($pk,$condition='',$params=array())

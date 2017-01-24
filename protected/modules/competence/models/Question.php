@@ -18,13 +18,13 @@ use competence\models\form;
  * @property string $Code
  * @property string $Title
  * @property string $SubTitle
- * @property boolean $First
- * @property boolean $Last
+ * @property bool $First
+ * @property bool $Last
  * @property int $Sort
  * @property string $BeforeTitleText
  * @property string $AfterTitleText
  * @property string $AfterQuestionText
- * @property boolean $Required
+ * @property bool $Required
  *
  * Relations
  * @property QuestionType $Type

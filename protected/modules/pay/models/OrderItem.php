@@ -19,7 +19,7 @@ use user\models\User;
  * @property bool $Deleted
  * @property string $DeletionTime
  * @property string $UpdateTime
- * @property boolean $Refund
+ * @property bool $Refund
  * @property string $RefundTime
  *
  * @property Product $Product

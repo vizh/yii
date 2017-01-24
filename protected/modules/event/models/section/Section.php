@@ -12,8 +12,8 @@ namespace event\models\section;
  * @property string $UpdateTime
  * @property int $TypeId
  * @property string $Code
- * @property boolean $Deleted
- * @property boolean $DeletionTIme
+ * @property bool $Deleted
+ * @property bool $DeletionTIme
  *
  *
  * @property \event\models\Event $Event

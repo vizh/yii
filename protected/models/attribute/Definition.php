@@ -12,13 +12,13 @@ use application\models\translation\ActiveRecord;
  * @property string $ClassName
  * @property string $Name
  * @property string $Title
- * @property boolean $Required
- * @property boolean $Secure
+ * @property bool $Required
+ * @property bool $Secure
  * @property string $Params
- * @property boolean $UseCustomTextField Whether use the custom option (text field) for list definitions
+ * @property bool $UseCustomTextField Whether use the custom option (text field) for list definitions
  * @property int $Order
- * @property boolean $Public
- * @property boolean $Translatable
+ * @property bool $Public
+ * @property bool $Translatable
  *
  * @method Definition find($condition='',$params=array())
  * @method Definition findByPk($pk,$condition='',$params=array())

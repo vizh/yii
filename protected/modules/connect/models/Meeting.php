@@ -23,17 +23,20 @@ use Yii;
  * @property User $Creator
  * @property MeetingLinkUser[] $UserLinks
  *
- * @method Meeting byPlaceId(int $id, $useAnd = true)
- * @method Meeting byCreatorId(int $id, $useAnd = true)
- * @method Meeting byType(int $id, $useAnd = true)
- * @method Meeting byStatus(int $id, $useAnd = true)
- *
- * @method Meeting with($condition = '')
- * @method Meeting find($condition = '', $params = [])
- * @method Meeting findByPk($pk, $condition = '', $params = [])
- * @method Meeting findByAttributes($attributes, $condition = '', $params = [])
+ * Описание вспомогательных методов
+ * @method Meeting   with($condition = '')
+ * @method Meeting   find($condition = '', $params = [])
+ * @method Meeting   findByPk($pk, $condition = '', $params = [])
+ * @method Meeting   findByAttributes($attributes, $condition = '', $params = [])
  * @method Meeting[] findAll($condition = '', $params = [])
  * @method Meeting[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Meeting byId(int $id, bool $useAnd = true)
+ * @method Meeting byCreatorId(int $id, bool $useAnd = true)
+ * @method Meeting byPlaceId(int $id, bool $useAnd = true)
+ * @method Meeting byType(int $id, bool $useAnd = true)
+ * @method Meeting byReservationNumber(int $reservationNumber, bool $useAnd = true)
+ * @method Meeting byStatus(int $status, bool $useAnd = true)
  */
 class Meeting extends ActiveRecord
 {
@@ -42,6 +45,16 @@ class Meeting extends ActiveRecord
 
     const STATUS_OPEN = 1;
     const STATUS_CANCELLED = 2;
+
+    /**
+     * @param string $className
+     * @return Meeting
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
     public function tableName()
     {
@@ -227,20 +240,18 @@ class Meeting extends ActiveRecord
     {
         $attrs = UserData::getDefinedAttributeValues($this->Place->Event, $user);
         $languages = ArrayHelper::getValue($attrs, 'languages', null);
-        if (!$languages){
+        if (!$languages) {
             return 'ru';
         }
         $languages = mb_strtolower($languages);
 
-        if (mb_strpos($languages, 'английский') !== false || mb_strpos($languages, 'english') !== false){
-            if (mb_stripos($languages, 'русский') !== false || mb_stripos($languages, 'russian') !== false){
+        if (mb_strpos($languages, 'английский') !== false || mb_strpos($languages, 'english') !== false) {
+            if (mb_stripos($languages, 'русский') !== false || mb_stripos($languages, 'russian') !== false) {
                 return 'ru';
-            }
-            else{
+            } else {
                 return 'en';
             }
-        }
-        else{
+        } else {
             return 'ru';
         }
     }
@@ -249,44 +260,42 @@ class Meeting extends ActiveRecord
     {
         $lang = $this->getUserLanguage($user);
         $base = ucfirst($this->Place->Event->IdName);
-        if ($lang == 'en'){
+        if ($lang == 'en') {
             return Yii::getExistClassArray($namespace, [$base.'En', $base], 'Base');
-        }
-        else{
+        } else {
             return Yii::getExistClassArray($namespace, [$base], 'Base');
         }
     }
 
     public function getStatusText()
     {
-        if ($this->Type == self::TYPE_PRIVATE){
-            if ($this->Status == self::STATUS_CANCELLED){
+        if ($this->Type == self::TYPE_PRIVATE) {
+            if ($this->Status == self::STATUS_CANCELLED) {
                 return 'Отменена ('.$this->CancelResponse.')';
-            }
-            else{
+            } else {
                 $link = $this->UserLinks[0];
-                if ($link->Status == MeetingLinkUser::STATUS_SENT){
+                if ($link->Status == MeetingLinkUser::STATUS_SENT) {
                     return 'Отправлено';
                 }
-                if ($link->Status == MeetingLinkUser::STATUS_ACCEPTED){
+                if ($link->Status == MeetingLinkUser::STATUS_ACCEPTED) {
                     return 'Принято';
                 }
-                if ($link->Status == MeetingLinkUser::STATUS_DECLINED){
+                if ($link->Status == MeetingLinkUser::STATUS_DECLINED) {
                     return 'Отклонено ('.$link->Response.')';
                 }
-                if ($link->Status == MeetingLinkUser::STATUS_CANCELLED){
+                if ($link->Status == MeetingLinkUser::STATUS_CANCELLED) {
                     return 'Отменено ('.$link->Response.')';
                 }
             }
-        }
-        else{
-            if ($this->Status == self::STATUS_OPEN){
+        } else {
+            if ($this->Status == self::STATUS_OPEN) {
                 return 'Активна';
             }
-            if ($this->Status == Meeting::STATUS_CANCELLED){
+            if ($this->Status == Meeting::STATUS_CANCELLED) {
                 return 'Отменена ('.$this->CancelResponse.')';
             }
         }
+
         return '';
     }
 }

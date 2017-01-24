@@ -14,7 +14,7 @@ use event\models\Event;
  * @property string $Role
  * @property string $RequestPhoneOnRegistration
  * @property integer $QuotaByUser
- * @property boolean $Blocked
+ * @property bool $Blocked
  * @property string $BlockedReason
  *
  * @property Event $Event

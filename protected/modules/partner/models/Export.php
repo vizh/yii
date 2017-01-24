@@ -19,7 +19,7 @@ use partner\models\forms\user\Export as ExportForm;
  * @property integer $UserId
  * @property integer $TotalRow
  * @property integer $ExportedRow
- * @property boolean $Success
+ * @property bool $Success
  * @property string $SuccessTime
  * @property string $CreationTime
  * @property string $FilePath

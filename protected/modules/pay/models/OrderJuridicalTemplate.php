@@ -28,7 +28,7 @@ namespace pay\models;
  * @property int $ParentTemplateId
  * @property string $CreationTime
  * @property string $OfferText
- * @property boolean $ShowValidity
+ * @property bool $ShowValidity
  * @property int $ValidityDays
  *
  */
@@ -76,7 +76,7 @@ class OrderJuridicalTemplate extends \CActiveRecord
     if ($this->StampImageMargin !== null) $this->StampImageMargin = explode(',', trim($this->StampImageMargin,')('));
     parent::afterFind();
   }
-  
+
   protected function afterSave()
   {
     if ($this->getIsNewRecord())
@@ -91,17 +91,17 @@ class OrderJuridicalTemplate extends \CActiveRecord
   {
     return $this->getImagePath('fist-sign.png', $absolute);
   }
-  
+
   public function getSecondSignImagePath($absolute = false)
   {
     return $this->getImagePath('secong-sign.png', $absolute);
   }
-  
+
   public function getStampImagePath($absolute = false)
   {
     return $this->getImagePath('stamp.png', $absolute);
   }
-  
+
   private function getImagePath($name, $absolute = false)
   {
     $id = $this->ParentTemplateId !== null ? $this->ParentTemplateId : $this->Id;

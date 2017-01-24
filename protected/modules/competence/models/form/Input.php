@@ -7,7 +7,7 @@ use competence\models\Result;
  * Class Input
  *
  * @property string $Suffix
- * @property boolean $Required
+ * @property bool $Required
  *
  */
 class Input extends Base
