@@ -1,57 +1,49 @@
 <?php
 namespace company\models;
+
 use application\components\ActiveRecord;
+use user\models\User;
 
 /**
  * @property int $Id
  * @property int $UserId
  * @property int $CompanyId
  *
- * @property \user\models\User $User
+ * @property User $User
+ *
+ * Описание вспомогательных методов
+ * @method LinkModerator   with($condition = '')
+ * @method LinkModerator   find($condition = '', $params = [])
+ * @method LinkModerator   findByPk($pk, $condition = '', $params = [])
+ * @method LinkModerator   findByAttributes($attributes, $condition = '', $params = [])
+ * @method LinkModerator[] findAll($condition = '', $params = [])
+ * @method LinkModerator[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method LinkModerator byId(int $id, bool $useAnd = true)
+ * @method LinkModerator byUserId(int $id, bool $useAnd = true)
+ * @method LinkModerator byCompanyId(int $id, bool $useAnd = true)
  */
 class LinkModerator extends ActiveRecord
 {
-  /**
-   * @param string $className
-   * @return LinkModerator
-   */
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
+    /**
+     * @param string $className
+     * @return LinkModerator
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
-  public function tableName()
-  {
-    return 'CompanyLinkModerator';
-  }
+    public function tableName()
+    {
+        return 'CompanyLinkModerator';
+    }
 
-  public function primaryKey()
-  {
-    return 'Id';
-  }
-
-  public function relations()
-  {
-    return array(
-      'User' => array(self::BELONGS_TO, '\User\models\User', 'UserId')
-    );
-  }
-  
-  public function byCompanyId($companyId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."CompanyId" = :CompanyId';
-    $criteria->params = array(':CompanyId' => $companyId);
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-  
-  public function byUserId($userId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."UserId" = :UserId';
-    $criteria->params = array(':UserId' => $userId);
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
+    public function relations()
+    {
+        return [
+            'User' => [self::BELONGS_TO, '\User\models\User', 'UserId']
+        ];
+    }
 }

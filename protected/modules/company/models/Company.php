@@ -12,8 +12,6 @@ use raec\models\CompanyUser;
 use search\components\interfaces\ISearch;
 
 /**
- * @throws \Exception
- *
  * @property int $Id
  * @property string $Name
  * @property string $FullName
@@ -51,11 +49,11 @@ use search\components\interfaces\ISearch;
  * @method Company[] findAll($condition = '', $params = [])
  * @method Company[] findAllByAttributes($attributes, $condition = '', $params = [])
  *
- * @method Company byId(int $id, $useAnd = true)
- * @method Company byCode(string $code, $useAnd = true)
- * @method Company byName($name, $useAnd = true)
- * @method Company byFullName($name, $useAnd = true)
- * @method Company byCluster($name, $useAnd = true)
+ * @method Company byId(int $id, bool $useAnd = true)
+ * @method Company byCode(string $code, bool $useAnd = true)
+ * @method Company byName(string $name, bool $useAnd = true)
+ * @method Company byFullName(string $name, bool $useAnd = true)
+ * @method Company byCluster(string $name, bool $useAnd = true)
  */
 class Company extends ActiveRecord implements ISearch, IAutocompleteItem
 {
@@ -74,11 +72,6 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
     public function tableName()
     {
         return 'Company';
-    }
-
-    public function primaryKey()
-    {
-        return 'Id';
     }
 
     public function relations()
