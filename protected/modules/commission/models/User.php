@@ -1,5 +1,8 @@
 <?php
 namespace commission\models;
+
+use application\components\ActiveRecord;
+
 /**
  * @property int $Id
  * @property int $CommissionId
@@ -11,66 +14,42 @@ namespace commission\models;
  * @property \user\models\User $User
  * @property Role $Role
  *
- * @method User[] findAll()
+ * Описание вспомогательных методов
+ * @method User   with($condition = '')
+ * @method User   find($condition = '', $params = [])
+ * @method User   findByPk($pk, $condition = '', $params = [])
+ * @method User   findByAttributes($attributes, $condition = '', $params = [])
+ * @method User[] findAll($condition = '', $params = [])
+ * @method User[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method User byId(int $id, bool $useAnd = true)
+ * @method User byCommissionId(int $id, bool $useAnd = true)
+ * @method User byUserId(int $id, bool $useAnd = true)
+ * @method User byRoleId(int $id, bool $useAnd = true)
  */
-class User extends \CActiveRecord
+class User extends ActiveRecord
 {
-  /**
-   * @param string $className
-   *
-   * @return User
-   */
-  public static function model($className=__CLASS__)
-	{    
-		return parent::model($className);
-	}
-	
-	public function tableName()
-	{
-		return 'CommissionUser';
-	}
-	
-	public function primaryKey()
-	{
-		return 'Id';
-	}
-  
-  public function relations() 
-  {
-    return array(
-      'Commission' => array(self::BELONGS_TO, '\commission\models\Commission', 'CommissionId'),  
-      'Role' => array(self::BELONGS_TO, '\commission\models\Role', 'RoleId'),
-      'User' => array(self::BELONGS_TO, '\user\models\User', 'UserId')
-    );
-  }
+    /**
+     * @param string $className
+     * @return User
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
-  /**
-   * @param int $userId
-   * @param bool $useAnd
-   *
-   * @return User
-   */
-  public function byUserId($userId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."UserId" = :UserId';
-    $criteria->params['UserId'] = $userId;
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
+    public function tableName()
+    {
+        return 'CommissionUser';
+    }
 
-  /**
-   * @param int $comissionId
-   * @param bool $useAnd
-   *
-   * @return User
-   */
-  public function byComissionId($comissionId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."ComissionId" = :ComissionId';
-    $criteria->params = array('ComissionId' => $comissionId);
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
+    public function relations()
+    {
+        return [
+            'Commission' => [self::BELONGS_TO, '\commission\models\Commission', 'CommissionId'],
+            'Role' => [self::BELONGS_TO, '\commission\models\Role', 'RoleId'],
+            'User' => [self::BELONGS_TO, '\user\models\User', 'UserId']
+        ];
+    }
 }

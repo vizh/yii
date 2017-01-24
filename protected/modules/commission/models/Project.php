@@ -1,5 +1,8 @@
 <?php
 namespace commission\models;
+
+use application\components\ActiveRecord;
+
 /**
  * @property int $Id
  * @property int $CommissionId
@@ -8,28 +11,41 @@ namespace commission\models;
  * @property bool $Visible
  *
  * @property ProjectUser[] $ProjectUsers
+ *
+ * Описание вспомогательных методов
+ * @method Project   with($condition = '')
+ * @method Project   find($condition = '', $params = [])
+ * @method Project   findByPk($pk, $condition = '', $params = [])
+ * @method Project   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Project[] findAll($condition = '', $params = [])
+ * @method Project[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Project byId(int $id, bool $useAnd = true)
+ * @method Project byCommissionId(int $id, bool $useAnd = true)
+ * @method Project byTitle(string $title, bool $useAnd = true)
+ * @method Project byVisible(bool $visible, bool $useAnd = true)
  */
-class Project extends \CActiveRecord
+class Project extends ActiveRecord
 {
-  public static function model($className=__CLASS__)
-	{    
-		return parent::model($className);
-	}
+    /**
+     * @param string $className
+     * @return Commission
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
-	public function tableName()
-	{
-		return 'CommissionProject';
-	}
-	
-	public function primaryKey()
-	{
-		return 'Id';
-	}
-  
-  public function relations() 
-  {
-    return array(
-      'Users' => array(self::HAS_MANY, '\commission\models\ProjectUser', 'ProjectId'),
-    );
-  }
+    public function tableName()
+    {
+        return 'CommissionProject';
+    }
+
+    public function relations()
+    {
+        return [
+            'Users' => [self::HAS_MANY, '\commission\models\ProjectUser', 'ProjectId'],
+        ];
+    }
 }
