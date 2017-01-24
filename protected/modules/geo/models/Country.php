@@ -1,5 +1,6 @@
 <?php
 namespace geo\models;
+
 use application\components\ActiveRecord;
 
 /**
@@ -9,10 +10,18 @@ use application\components\ActiveRecord;
  * @property int $Priority
  * @property bool $CitiesParsed
  *
- * @method Country find($condition='',$params=array())
- * @method Country findByPk($pk,$condition='',$params=array())
- * @method Country[] findAll($condition='',$params=array())
- * @method Country byExtId($id)
+ * Описание вспомогательных методов
+ * @method Country   with($condition = '')
+ * @method Country   find($condition = '', $params = [])
+ * @method Country   findByPk($pk, $condition = '', $params = [])
+ * @method Country   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Country[] findAll($condition = '', $params = [])
+ * @method Country[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Country byId(int $id, bool $useAnd = true)
+ * @method Country byExtId(int $id, bool $useAnd = true)
+ * @method Country byName(string $name, bool $useAnd = true)
+ * @method Country byCitiesParsed(bool $parsed, bool $useAnd = true)
  */
 class Country extends ActiveRecord
 {
@@ -20,18 +29,14 @@ class Country extends ActiveRecord
      * @param string $className
      * @return Country
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
     public function tableName()
     {
         return 'GeoCountry';
-    }
-
-    public function primaryKey()
-    {
-        return 'Id';
     }
 }

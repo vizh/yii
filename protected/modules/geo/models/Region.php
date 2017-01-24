@@ -1,5 +1,6 @@
 <?php
 namespace geo\models;
+
 use application\components\ActiveRecord;
 use application\components\helpers\ArrayHelper;
 use application\components\utility\Texts;
@@ -16,12 +17,17 @@ use application\components\utility\Texts;
  *
  * @property Country $Country
  *
- * @method Region find($condition='',$params=array())
- * @method Region findByPk($pk,$condition='',$params=array())
- * @method Region[] findAll($condition='',$params=array())
- * @method Region byCountryId($id)
- * @method Region ordered()
- * @method Region with(array)
+ * Описание вспомогательных методов
+ * @method Region   with($condition = '')
+ * @method Region   find($condition = '', $params = [])
+ * @method Region   findByPk($pk, $condition = '', $params = [])
+ * @method Region   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Region[] findAll($condition = '', $params = [])
+ * @method Region[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Region byId(int $id, bool $useAnd = true)
+ * @method Region byExtId(int $id, bool $useAnd = true)
+ * @method Region byCountryId(int $id, bool $useAnd = true)
  */
 class Region extends ActiveRecord
 {
@@ -31,19 +37,15 @@ class Region extends ActiveRecord
      * @param string $className
      * @return Region
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
     public function tableName()
     {
         return 'GeoRegion';
-    }
-
-    public function primaryKey()
-    {
-        return 'Id';
     }
 
     public function relations()
@@ -58,7 +60,7 @@ class Region extends ActiveRecord
      */
     public function getAbsoluteName()
     {
-        return $this->Country->Name.', ' . $this->Name;
+        return $this->Country->Name.', '.$this->Name;
     }
 
     /**
@@ -73,6 +75,7 @@ class Region extends ActiveRecord
         $criteria->condition = '"t"."SearchName" @@ to_tsquery(:Name)';
         $criteria->params = ['Name' => $name];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -81,10 +84,16 @@ class Region extends ActiveRecord
      */
     function jsonSerialize()
     {
-        return ArrayHelper::toArray($this, [self::className() => [
-            'RegionId' => 'Id', 'value' => 'Name', 'Name', 'CountryId', 'label' => function (Region $region) {
-                return $region->getAbsoluteName();
-            }
-        ]]);
+        return ArrayHelper::toArray($this, [
+            self::className() => [
+                'RegionId' => 'Id',
+                'value' => 'Name',
+                'Name',
+                'CountryId',
+                'label' => function (Region $region) {
+                    return $region->getAbsoluteName();
+                }
+            ]
+        ]);
     }
 }
