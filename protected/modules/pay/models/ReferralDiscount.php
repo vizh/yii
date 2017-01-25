@@ -7,9 +7,6 @@ use user\models\Referral;
 use user\models\User;
 
 /**
- * This is the model class for table "PayReferralDiscount".
- *
- * The followings are the available columns in table 'PayReferralDiscount':
  * @property integer $Id
  * @property integer $EventId
  * @property integer $ProductId
@@ -18,119 +15,127 @@ use user\models\User;
  * @property string $StartTime
  * @property string $EndTime
  *
- * The followings are the available model relations:
- * @property Event $Event
+ * Описание вспомогательных методов
+ * @method ReferralDiscount   with($condition = '')
+ * @method ReferralDiscount   find($condition = '', $params = [])
+ * @method ReferralDiscount   findByPk($pk, $condition = '', $params = [])
+ * @method ReferralDiscount   findByAttributes($attributes, $condition = '', $params = [])
+ * @method ReferralDiscount[] findAll($condition = '', $params = [])
+ * @method ReferralDiscount[] findAllByAttributes($attributes, $condition = '', $params = [])
  *
- * @method ReferralDiscount find()
- * @method ReferralDiscount[] findAll()
- * @method ReferralDiscount byEventId(integer $id)
+ * @method ReferralDiscount byId(int $id, bool $useAnd = true)
+ * @method ReferralDiscount byEventId(int $id, bool $useAnd = true)
+ *
+ * @property Event $Event
  */
 class ReferralDiscount extends ActiveRecord
 {
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return ReferralDiscount the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * @param null|string $className
+     * @return static
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'PayReferralDiscount';
-	}
+    public function tableName()
+    {
+        return 'PayReferralDiscount';
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		return [
-			'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
-			'Product' => [self::BELONGS_TO, '\pay\models\Product', 'ProductId']
-		];
-	}
+    public function relations()
+    {
+        return [
+            'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
+            'Product' => [self::BELONGS_TO, '\pay\models\Product', 'ProductId']
+        ];
+    }
 
-	/**
-	 * @param int $id
-	 * @param bool $orIsNull
-	 * @param bool $useAnd
-	 * @return $this
-	 */
-	public function byProductId($id, $orIsNull = true, $useAnd = true)
-	{
-		$criteria = new \CDbCriteria();
-		$criteria->addCondition('"t"."ProductId" = :ProductId'. ($orIsNull ? ' OR "t"."ProductId" IS NULL' : ''));
-		$criteria->params['ProductId'] = $id;
-		$this->getDbCriteria()->mergeWith($criteria, $useAnd);
-		return $this;
-	}
+    /**
+     * @param int $id
+     * @param bool $orIsNull
+     * @param bool $useAnd
+     * @return $this
+     */
+    public function byProductId($id, $orIsNull = true, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->addCondition('"t"."ProductId" = :ProductId'.($orIsNull ? ' OR "t"."ProductId" IS NULL' : ''));
+        $criteria->params['ProductId'] = $id;
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
 
-	/**
-	 * @param string $time
-	 * @param bool $useAnd
-	 * @return $this
-	 */
-	public function byActual($time, $useAnd = true)
-	{
-		$criteria = new \CDbCriteria();
-		$criteria->addCondition('"t"."StartTime" IS NULL OR "t"."StartTime" <= :Time');
-		$criteria->addCondition('"t"."EndTime" IS NULL OR "t"."EndTime" >= :Time');
-		$criteria->params['Time'] = $time;
-		$this->getDbCriteria()->mergeWith($criteria, $useAnd);
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Примет скидку к заказу и возвращает стоимость заказа, с учетом этой скидки
-	 * @param OrderItem $orderItem
-	 * @return int
-	 */
-	public function apply(OrderItem $orderItem)
-	{
-		$price = $orderItem->getPrice();
-		return $price - $this->getDiscount($orderItem->Product, $price);
-	}
+    /**
+     * @param string $time
+     * @param bool $useAnd
+     * @return $this
+     */
+    public function byActual($time, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->addCondition('"t"."StartTime" IS NULL OR "t"."StartTime" <= :Time');
+        $criteria->addCondition('"t"."EndTime" IS NULL OR "t"."EndTime" >= :Time');
+        $criteria->params['Time'] = $time;
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
 
-	/**
-	 * Возврвщает размер скидки
-	 * @param Product $product
-	 * @param int|null $price
-	 * @return float
-	 */
-	public function getDiscount(Product $product, $price = null)
-	{
-		if ($price === null) {
-			$price = $product->getPrice();
-		}
-		return $price * $this->Discount / 100;
-	}
+        return $this;
+    }
 
-	/**
-	 * Ищет действующую реферальную по указанным параметрам
-	 *
-	 * @param Product $product
-	 * @param User $user
-	 * @param null $time
-	 * @return ReferralDiscount|null
-	 */
-	public static function findDiscount(Product $product, User $user, $time = null) {
-		if (empty($time)) {
-			$time = date('Y-m-d H:i:s');
-		}
+    /**
+     * Примет скидку к заказу и возвращает стоимость заказа, с учетом этой скидки
+     *
+     * @param OrderItem $orderItem
+     * @return int
+     */
+    public function apply(OrderItem $orderItem)
+    {
+        $price = $orderItem->getPrice();
 
-		$discount = self::model()->byEventId($product->EventId)->byProductId($product->Id)->byActual($time)->find();
-		if (!empty($discount)) {
-			$exists = Referral::model()->byUserId($user->Id)->byEventId($product->EventId)->exists();
-			if ($exists) {
-				return $discount;
-			}
-		}
-		return null;
-	}
+        return $price - $this->getDiscount($orderItem->Product, $price);
+    }
+
+    /**
+     * Возврвщает размер скидки
+     *
+     * @param Product $product
+     * @param int|null $price
+     * @return float
+     */
+    public function getDiscount(Product $product, $price = null)
+    {
+        if ($price === null) {
+            $price = $product->getPrice();
+        }
+
+        return $price * $this->Discount / 100;
+    }
+
+    /**
+     * Ищет действующую реферальную по указанным параметрам
+     *
+     * @param Product $product
+     * @param User $user
+     * @param null $time
+     * @return ReferralDiscount|null
+     */
+    public static function findDiscount(Product $product, User $user, $time = null)
+    {
+        if (empty($time)) {
+            $time = date('Y-m-d H:i:s');
+        }
+
+        $discount = self::model()->byEventId($product->EventId)->byProductId($product->Id)->byActual($time)->find();
+        if (!empty($discount)) {
+            $exists = Referral::model()->byUserId($user->Id)->byEventId($product->EventId)->exists();
+            if ($exists) {
+                return $discount;
+            }
+        }
+
+        return null;
+    }
 }

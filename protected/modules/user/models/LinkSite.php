@@ -1,40 +1,51 @@
 <?php
 namespace user\models;
 
+use application\components\ActiveRecord;
+use contact\models\Site;
+
 /**
  * @property int $Id
  * @property int $UserId
  * @property int $SiteId
  *
  * @property User $User
- * @property \contact\models\Site $Site
+ * @property Site $Site
+ *
+ * Описание вспомогательных методов
+ * @method LinkSite   with($condition = '')
+ * @method LinkSite   find($condition = '', $params = [])
+ * @method LinkSite   findByPk($pk, $condition = '', $params = [])
+ * @method LinkSite   findByAttributes($attributes, $condition = '', $params = [])
+ * @method LinkSite[] findAll($condition = '', $params = [])
+ * @method LinkSite[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method LinkSite byId(int $id, bool $useAnd = true)
+ * @method LinkSite byUserId(int $id, bool $useAnd = true)
+ * @method LinkSite bySiteId(int $id, bool $useAnd = true)
  */
-class LinkSite extends \CActiveRecord
+class LinkSite extends ActiveRecord
 {
-  /**
-   * @param string $className
-   * @return LinkSite
-   */
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
+    /**
+     * @param null|string $className
+     * @return static
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
-  public function tableName()
-  {
-    return 'UserLinkSite';
-  }
+    public function tableName()
+    {
+        return 'UserLinkSite';
+    }
 
-  public function primaryKey()
-  {
-    return 'Id';
-  }
-
-  public function relations()
-  {
-    return array(
-      'User' => array(self::BELONGS_TO, '\user\models\User', 'UserId'),
-      'Site' => array(self::BELONGS_TO, '\contact\models\Site', 'SiteId'),
-    );
-  }
+    public function relations()
+    {
+        return [
+            'User' => [self::BELONGS_TO, '\user\models\User', 'UserId'],
+            'Site' => [self::BELONGS_TO, '\contact\models\Site', 'SiteId'],
+        ];
+    }
 }

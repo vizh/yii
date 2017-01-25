@@ -1,9 +1,9 @@
 <?php
 namespace pay\models;
+
 use application\components\ActiveRecord;
+
 /**
- * Class TmpRifParking
- * @package pay\models
  * @property int $Id
  * @property string $Brand
  * @property string $Model
@@ -13,26 +13,31 @@ use application\components\ActiveRecord;
  * @property string $DateOut
  * @property string $Status
  *
- * @method \pay\models\TmpRifParking byEventId()
+ * Описание вспомогательных методов
+ * @method TmpRifParking   with($condition = '')
+ * @method TmpRifParking   find($condition = '', $params = [])
+ * @method TmpRifParking   findByPk($pk, $condition = '', $params = [])
+ * @method TmpRifParking   findByAttributes($attributes, $condition = '', $params = [])
+ * @method TmpRifParking[] findAll($condition = '', $params = [])
+ * @method TmpRifParking[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method TmpRifParking byId(int $id, bool $useAnd = true)
+ * @method TmpRifParking byEventId(int $id, bool $useAnd = true)
  */
 class TmpRifParking extends ActiveRecord
 {
-  /**
-   * @param string $className
-   * @return TmpRifParking
-   */
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
+    /**
+     * @param null|string $className
+     * @return static
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
-  public function tableName()
-  {
-    return 'TmpRifParking';
-  }
-
-  public function primaryKey()
-  {
-    return 'Id';
-  }
-} 
+    public function tableName()
+    {
+        return 'TmpRifParking';
+    }
+}

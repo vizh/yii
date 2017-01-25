@@ -1,58 +1,51 @@
 <?php
 namespace user\models;
 
+use application\components\ActiveRecord;
+use contact\models\ServiceAccount;
+
 /**
  * @property int $Id
  * @property int $UserId
  * @property int $ServiceAccountId
  *
  * @property User $User
- * @property \contact\models\ServiceAccount $ServiceAccount
+ * @property ServiceAccount $ServiceAccount
+ *
+ * Описание вспомогательных методов
+ * @method LinkServiceAccount   with($condition = '')
+ * @method LinkServiceAccount   find($condition = '', $params = [])
+ * @method LinkServiceAccount   findByPk($pk, $condition = '', $params = [])
+ * @method LinkServiceAccount   findByAttributes($attributes, $condition = '', $params = [])
+ * @method LinkServiceAccount[] findAll($condition = '', $params = [])
+ * @method LinkServiceAccount[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method LinkServiceAccount byId(int $id, bool $useAnd = true)
+ * @method LinkServiceAccount byUserId(int $id, bool $useAnd = true)
+ * @method LinkServiceAccount byServiceAccountId(int $id, bool $useAnd = true)
  */
-class LinkServiceAccount extends \CActiveRecord
+class LinkServiceAccount extends ActiveRecord
 {
-  /**
-   * @param string $className
-   * @return LinkServiceAccount
-   */
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
+    /**
+     * @param null|string $className
+     * @return static
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
-  public function tableName()
-  {
-    return 'UserLinkServiceAccount';
-  }
+    public function tableName()
+    {
+        return 'UserLinkServiceAccount';
+    }
 
-  public function primaryKey()
-  {
-    return 'Id';
-  }
-
-  public function relations()
-  {
-    return array(
-      'User' => array(self::BELONGS_TO, '\user\models\User', 'UserId'),
-      'ServiceAccount' => array(self::BELONGS_TO, '\contact\models\ServiceAccount', 'ServiceAccountId'),
-    );
-  }
-  
-   public function byUserId($userId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."UserId" = :UserId';
-    $criteria->params = array(':UserId' => $userId);
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-  
-  public function byAccountId($accountId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."ServiceAccountId" = :AccountId';
-    $criteria->params = array(':AccountId' => $accountId);
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
+    public function relations()
+    {
+        return [
+            'User' => [self::BELONGS_TO, '\user\models\User', 'UserId'],
+            'ServiceAccount' => [self::BELONGS_TO, '\contact\models\ServiceAccount', 'ServiceAccountId'],
+        ];
+    }
 }

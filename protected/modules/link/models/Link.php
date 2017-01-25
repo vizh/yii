@@ -1,11 +1,13 @@
 <?php
 namespace link\models;
 
+use application\components\ActiveRecord;
+use event\models\Event;
 use mail\components\mailers\SESMailer;
+use user\models\User;
+use Yii;
 
 /**
- * Class Link
- * @package link\models
  * @property int $Id
  * @property int $EventId
  * @property int $UserId
@@ -13,11 +15,26 @@ use mail\components\mailers\SESMailer;
  * @property int $Approved
  * @property string $CreationTime
  * @property string $MeetingTime
- * @property \user\models\User $User
- * @property \user\models\User $Owner
- * @property \event\models\Event $Event
+ *
+ * @property User $User
+ * @property User $Owner
+ * @property Event $Event
+ *
+ * Описание вспомогательных методов
+ * @method Link   with($condition = '')
+ * @method Link   find($condition = '', $params = [])
+ * @method Link   findByPk($pk, $condition = '', $params = [])
+ * @method Link   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Link[] findAll($condition = '', $params = [])
+ * @method Link[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Link byId(int $id, bool $useAnd = true)
+ * @method Link byEventId(int $id, bool $useAnd = true)
+ * @method Link byUserId(int $id, bool $useAnd = true)
+ * @method Link byOwnerId(int $id, bool $useAnd = true)
+ * @method Link byApproved(int $approved, bool $useAnd = true)
  */
-class Link extends \CActiveRecord
+class Link extends ActiveRecord
 {
     /**
      * @param string $className
@@ -25,6 +42,7 @@ class Link extends \CActiveRecord
      */
     public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -42,39 +60,6 @@ class Link extends \CActiveRecord
         ];
     }
 
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
-    /**
-     * @param int $eventId
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byEventId($eventId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."EventId" = :EventId';
-        $criteria->params = ['EventId' => $eventId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    /**
-     * @param int $userId
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byUserId($userId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."UserId" = :UserId';
-        $criteria->params = ['UserId' => $userId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
     /**
      * @param int $userId
      * @param bool $useAnd
@@ -86,41 +71,13 @@ class Link extends \CActiveRecord
         $criteria->condition = '"t"."UserId" = :UserId OR "t"."OwnerId" = :UserId';
         $criteria->params = ['UserId' => $userId];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
 
-
-    /**
-     * @param int $ownerId
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byOwnerId($ownerId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."OwnerId" = :OwnerId';
-        $criteria->params = ['OwnerId' => $ownerId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    /**
-     * @param int $approved
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byApproved($approved, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."Approved" = :Approved';
-        $criteria->params = ['Approved' => $approved];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
         return $this;
     }
 
     public function getFormattedMeetingTime($pattern = 'dd MMMM yyyy')
     {
-        return \Yii::app()->dateFormatter->format($pattern, $this->MeetingTime);
+        return Yii::app()->dateFormatter->format($pattern, $this->MeetingTime);
     }
 
     protected $beforeSaveIsNewRecord = null;
@@ -136,6 +93,7 @@ class Link extends \CActiveRecord
             $this->beforeSaveMeetingTime = $link->MeetingTime;
             $this->beforeSaveApproved = $link->Approved;
         }
+
         return parent::beforeSave();
     }
 
@@ -154,7 +112,7 @@ class Link extends \CActiveRecord
             $event = new \CModelEvent($this);
             $mailer = new SESMailer();
             $sender = $event->sender;
-            $class = \Yii::getExistClass('\link\components\handlers\\' . $eventType, ucfirst($sender->Event->IdName), 'Base');
+            $class = Yii::getExistClass('\link\components\handlers\\'.$eventType, ucfirst($sender->Event->IdName), 'Base');
             /** @var \mail\components\Mail $mail */
             $mail = new $class($mailer, $event);
             $mail->send();

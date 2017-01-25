@@ -2,6 +2,7 @@
 namespace mail\models;
 
 use application\components\db\MongoLogDocument;
+use mail\components\ILog;
 
 /**
  * @property int $Id
@@ -9,7 +10,7 @@ use application\components\db\MongoLogDocument;
  * @property int $TemplateId
  * @property string $Error
  */
-class TemplateLog extends MongoLogDocument implements \mail\components\ILog
+class TemplateLog extends MongoLogDocument implements ILog
 {
     /**
      * @param string $className
@@ -17,6 +18,7 @@ class TemplateLog extends MongoLogDocument implements \mail\components\ILog
      */
     public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -32,6 +34,7 @@ class TemplateLog extends MongoLogDocument implements \mail\components\ILog
     public function byTemplateId($id)
     {
         $this->mergeDbCriteria(['condition' => ['TemplateId' => $id]]);
+
         return $this;
     }
 
@@ -43,6 +46,7 @@ class TemplateLog extends MongoLogDocument implements \mail\components\ILog
     {
         $condition = !$has ? ['$or' => [['Error' => null], ['Error' => $has]]] : ['Error' => $has];
         $this->mergeDbCriteria(['condition' => $condition]);
+
         return $this;
     }
 

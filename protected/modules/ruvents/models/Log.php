@@ -17,10 +17,11 @@ class Log extends MongoLogDocument
 {
     /**
      * @param string $className
-     * @return Log
+     * @return static
      */
     public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 

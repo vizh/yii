@@ -1,6 +1,9 @@
 <?php
 namespace ruvents\models;
 
+use application\components\ActiveRecord;
+use JsonSerializable;
+
 /**
  * @property int $Id
  * @property int $EventId
@@ -9,47 +12,37 @@ namespace ruvents\models;
  * @property string $Role
  * @property string $LastLoginTime
  *
- * @method \ruvents\models\Operator find()
- * @method \ruvents\models\Operator findByAttributes()
+ * Описание вспомогательных методов
+ * @method Operator   with($condition = '')
+ * @method Operator   find($condition = '', $params = [])
+ * @method Operator   findByPk($pk, $condition = '', $params = [])
+ * @method Operator   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Operator[] findAll($condition = '', $params = [])
+ * @method Operator[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Operator byId(int $id, bool $useAnd = true)
+ * @method Operator byEventId(int $id, bool $useAnd = true)
+ * @method Operator byLogin(string $login, bool $useAnd = true)
+ * @method Operator byRole(string $role, bool $useAnd = true)
  */
-class Operator extends \CActiveRecord implements \JsonSerializable
+class Operator extends ActiveRecord implements JsonSerializable
 {
     const RoleOperator = 'Operator';
     const RoleAdmin = 'Admin';
 
     /**
-     * @static
-     * @param string $className
-     * @return Operator
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
     public function tableName()
     {
         return 'RuventsOperator';
-    }
-
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
-    /**
-     * @param int $eventId
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byEventId($eventId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."EventId" = :EventId';
-        $criteria->params = ['EventId' => $eventId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
     }
 
     /**

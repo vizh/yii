@@ -5,9 +5,8 @@ use application\components\ActiveRecord;
 use application\components\utility\Texts;
 
 /**
- * Class RoomPartnerOrder
- *
  * @property int $Id
+ * @property int $EventId
  * @property string $Number
  * @property string $Name
  * @property string $Address
@@ -26,29 +25,44 @@ use application\components\utility\Texts;
  * @property string $ChiefPosition
  * @property string $ChiefNameP
  * @property string $ChiefPositionP
- * @property int $EventId
  *
  * @property string $StatuteTitle
  * @property string $RealAddress
  *
- *
  * @property RoomPartnerBooking[] $Bookings
  *
- * @method RoomPartnerBooking byEventId(int $eventId)
+ * Описание вспомогательных методов
+ * @method RoomPartnerOrder   with($condition = '')
+ * @method RoomPartnerOrder   find($condition = '', $params = [])
+ * @method RoomPartnerOrder   findByPk($pk, $condition = '', $params = [])
+ * @method RoomPartnerOrder   findByAttributes($attributes, $condition = '', $params = [])
+ * @method RoomPartnerOrder[] findAll($condition = '', $params = [])
+ * @method RoomPartnerOrder[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method RoomPartnerOrder byId(int $id, bool $useAnd = true)
+ * @method RoomPartnerOrder byEventId(int $id, bool $useAnd = true)
+ * @method RoomPartnerOrder byPaid(bool $paid = true, bool $useAnd = true)
+ * @method RoomPartnerOrder byDeleted(bool $deleted = true, bool $useAnd = true)
  */
 class RoomPartnerOrder extends ActiveRecord
 {
+    private $total = null;
+
     /**
-     * @inheritdoc
+     * @param null|string $className
+     * @return static
      */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
+
     public function tableName()
     {
         return 'PayRoomPartnerOrder';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function relations()
     {
         return [
@@ -56,59 +70,32 @@ class RoomPartnerOrder extends ActiveRecord
         ];
     }
 
-    /**
-     * @param bool $deleted
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byDeleted($deleted, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = (!$deleted ? 'NOT ' : '' ) . '"t"."Deleted"';
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
 
-    /**
-     * @param bool $paid
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byPaid($paid = true, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = (!$paid ? 'NOT ' : '' ) . '"t"."Paid"';
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    private $total = null;
     /**
      * @return int
      */
     public function getTotalPrice()
     {
-        if ($this->total == null)
-        {
+        if ($this->total == null) {
             $this->total = 0;
-            foreach ($this->Bookings as $booking)
-            {
+            foreach ($this->Bookings as $booking) {
                 $manager = $booking->Product->getManager();
                 $price = Texts::getOnlyNumbers($manager->Price) + $booking->AdditionalCount * $manager->AdditionalPrice;
                 $this->total += $booking->getStayDay() * $price;
             }
         }
+
         return $this->total;
     }
 
     public function activate()
     {
-        if ($this->Deleted || $this->Paid)
+        if ($this->Deleted || $this->Paid) {
             return false;
+        }
 
         $timestamp = date('Y-m-d H:i:s');
-        foreach ($this->Bookings as $booking)
-        {
+        foreach ($this->Bookings as $booking) {
             $booking->Paid = true;
             $booking->PaidTime = $timestamp;
             $booking->save();
@@ -117,24 +104,25 @@ class RoomPartnerOrder extends ActiveRecord
         $this->Paid = true;
         $this->PaidTime = $timestamp;
         $this->save();
+
         return true;
     }
 
     public function delete()
     {
-        if ($this->Deleted || $this->Paid)
+        if ($this->Deleted || $this->Paid) {
             return false;
+        }
 
         $this->Deleted = true;
         $this->DeletionTime = date('Y-m-d H:i:s');
         $this->save();
-        foreach ($this->Bookings as $booking)
-        {
+        foreach ($this->Bookings as $booking) {
             $booking->OrderId = null;
             $booking->save();
         }
+
         return true;
     }
-
 
 }

@@ -1,20 +1,32 @@
 <?php
 namespace raec\models;
 
+use application\components\ActiveRecord;
+
 /**
- * Class BriefUserRole
  * @property int $Id
  * @property string $Title
- * @package raec\models
+ *
+ * Описание вспомогательных методов
+ * @method BriefUserRole   with($condition = '')
+ * @method BriefUserRole   find($condition = '', $params = [])
+ * @method BriefUserRole   findByPk($pk, $condition = '', $params = [])
+ * @method BriefUserRole   findByAttributes($attributes, $condition = '', $params = [])
+ * @method BriefUserRole[] findAll($condition = '', $params = [])
+ * @method BriefUserRole[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method BriefUserRole byId(int $id, bool $useAnd = true)
+ * @method BriefUserRole byTitle(string $title, bool $useAnd = true)
  */
-class BriefUserRole extends \CActiveRecord
+class BriefUserRole extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return BriefUserRole
+     * @param null|string $className
+     * @return static
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -22,9 +34,4 @@ class BriefUserRole extends \CActiveRecord
     {
         return 'RaecBriefUserRole';
     }
-
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-} 
+}

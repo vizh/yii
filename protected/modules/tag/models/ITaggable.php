@@ -3,5 +3,5 @@ namespace tag\models;
 
 interface ITaggable
 {
-  public function byTagId($id, $useAnd = true);
+    public function byTagId($id, $useAnd = true);
 }

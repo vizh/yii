@@ -3,11 +3,9 @@ namespace partner\models;
 
 use api\models\Account;
 use application\components\ActiveRecord;
+use event\models\Event;
 
 /**
- * Class Import
- *
- * Fields
  * @property int $Id
  * @property int $EventId
  * @property string $Fields
@@ -18,11 +16,20 @@ use application\components\ActiveRecord;
  * @property string $CreationTime
  * @property string $Products
  *
- * Relations
+ * @property Event $Event
  * @property ImportUser[] $Users
- * @property \event\models\Event $Event
  *
- * @method Import findByPk($pk)
+ * Описание вспомогательных методов
+ * @method Import   with($condition = '')
+ * @method Import   find($condition = '', $params = [])
+ * @method Import   findByPk($pk, $condition = '', $params = [])
+ * @method Import   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Import[] findAll($condition = '', $params = [])
+ * @method Import[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Import byId(int $id, bool $useAnd = true)
+ * @method Import byEventId(int $id, bool $useAnd = true)
+ * @method Import byVisible(bool $visible, bool $useAnd = true)
  */
 class Import extends ActiveRecord
 {
@@ -60,16 +67,17 @@ class Import extends ActiveRecord
      */
     public function getFileName()
     {
-        $path = \Yii::getPathOfAlias('partner.data.' . $this->EventId . '.import');
+        $path = \Yii::getPathOfAlias('partner.data.'.$this->EventId.'.import');
         if (!file_exists($path)) {
             mkdir($path, 0755, true);
         }
 
-        return $path . DIRECTORY_SEPARATOR . $this->Id;
+        return $path.DIRECTORY_SEPARATOR.$this->Id;
     }
 
     /**
      * Returns worksheet for the import excel file
+     *
      * @return \PHPExcel_Worksheet
      * @throws \PHPExcel_Exception
      */
@@ -85,6 +93,7 @@ class Import extends ActiveRecord
 
     /**
      * Returns significant columns
+     *
      * @return string[]
      */
     public function getSignificantColumns()

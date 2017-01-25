@@ -2,8 +2,8 @@
 namespace pay\models;
 
 use application\components\ActiveRecord;
-use pay\components\coupon\managers\Base as BaseDiscountManager;
 use pay\components\CodeException;
+use pay\components\coupon\managers\Base as BaseDiscountManager;
 use pay\components\Exception;
 use pay\components\MessageException;
 use user\models\User;
@@ -29,9 +29,13 @@ use user\models\User;
  * @property CouponLinkProduct[] $ProductLinks
  * @property Product[] $Products
  *
- * @method \pay\models\Coupon find($condition='',$params=array())
- * @method \pay\models\Coupon findByPk($pk,$condition='',$params=array())
- * @method \pay\models\Coupon[] findAll($condition='',$params=array())
+ * Описание вспомогательных методов
+ * @method Coupon   with($condition = '')
+ * @method Coupon   find($condition = '', $params = [])
+ * @method Coupon   findByPk($pk, $condition = '', $params = [])
+ * @method Coupon   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Coupon[] findAll($condition = '', $params = [])
+ * @method Coupon[] findAllByAttributes($attributes, $condition = '', $params = [])
  *
  * @method Coupon byEventId(int $eventId)
  * @method Coupon byCode(string $code)
@@ -46,22 +50,17 @@ class Coupon extends ActiveRecord
 
     /**
      * @param string $className
-     *
      * @return Coupon
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
     public function tableName()
     {
         return 'PayCoupon';
-    }
-
-    public function primaryKey()
-    {
-        return 'Id';
     }
 
     public function relations()
@@ -79,6 +78,7 @@ class Coupon extends ActiveRecord
         if ($name === 'Discount') {
             return (float)parent::__get($name);
         }
+
         return parent::__get($name);
     }
 
@@ -92,40 +92,41 @@ class Coupon extends ActiveRecord
     {
         $criteria = new \CDbCriteria();
         $criteria->condition = '"Activations"."UserId" = :UserId';
-        $criteria->params = array('UserId' => $userId);
-        $criteria->with = array('Activations' => array('together' => true));
+        $criteria->params = ['UserId' => $userId];
+        $criteria->with = ['Activations' => ['together' => true]];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
-
     public function getIsRightCountActivations()
     {
-        if ($this->Multiple)
-        {
-            return $this->MultipleCount === null || $this->MultipleCount > sizeof($this->Activations);
-        }
-        else
-        {
-            return sizeof($this->Activations) == 0;
+        if ($this->Multiple) {
+            return $this->MultipleCount === null || $this->MultipleCount > count($this->Activations);
+        } else {
+            return count($this->Activations) === 0;
         }
     }
 
     public function getIsNotExpired()
     {
         $time = date('Y-m-d H:i:s');
+
         return $this->EndTime === null || $this->EndTime > $time;
     }
 
     public function getIsForProduct($productId, $strict = false)
     {
-        if (empty($this->ProductLinks) && !$strict)
+        if (empty($this->ProductLinks) && !$strict) {
             return true;
+        }
 
         foreach ($this->ProductLinks as $link) {
-            if ($link->ProductId == $productId)
+            if ($link->ProductId == $productId) {
                 return true;
+            }
         }
+
         return false;
     }
 
@@ -141,7 +142,6 @@ class Coupon extends ActiveRecord
             $link->save();
         }
     }
-
 
     /**
      * @param \user\models\User $payer
@@ -164,6 +164,7 @@ class Coupon extends ActiveRecord
 
     /**
      * Активирует 100% промо-код
+     *
      * @param User $payer
      * @param User $owner
      * @param Product $product
@@ -192,7 +193,7 @@ class Coupon extends ActiveRecord
                 $activation = $this->createActivation($owner);
 
                 $link = new CouponActivationLinkOrderItem();
-                $link->CouponActivationId= $activation->Id;
+                $link->CouponActivationId = $activation->Id;
                 $link->OrderItemId = $item->Id;
                 $link->save();
             } else {
@@ -216,8 +217,9 @@ class Coupon extends ActiveRecord
      */
     protected function getActivate100Product($product)
     {
-        if (count($this->Products) === 0)
+        if (count($this->Products) === 0) {
             throw new CodeException(CodeException::NO_PRODUCT_FOR_COUPON_100);
+        }
         if (count($this->Products) === 1) {
             return $this->Products[0];
         }
@@ -237,20 +239,23 @@ class Coupon extends ActiveRecord
      */
     protected function cleanActivate100MultipleProduct($owner, $product)
     {
-        if (count($this->Products) === 1)
+        if (count($this->Products) === 1) {
             return;
+        }
 
         $criteria = new \CDbCriteria();
         $criteria->condition = '"OrderItem"."Paid" AND NOT "OrderItem"."Deleted"';
         $criteria->with = ['OrderItemLinks.OrderItem' => ['together' => true]];
         /** @var CouponActivation $couponActivation */
         $couponActivation = CouponActivation::model()->byCouponId($this->Id)->byUserId($owner->Id)->find($criteria);
-        if ($couponActivation === null)
+        if ($couponActivation === null) {
             return;
+        }
 
         $orderItem = $couponActivation->OrderItemLinks[0]->OrderItem;
-        if ($orderItem->ProductId === $product->Id)
+        if ($orderItem->ProductId === $product->Id) {
             throw new MessageException('Вы уже активировали 100% промо-код для этого товара ранее');
+        }
 
         $orderItem->deactivate();
         $couponActivation->OrderItemLinks[0]->delete();
@@ -292,10 +297,10 @@ class Coupon extends ActiveRecord
         }
     }
 
-
     /**
      * Промо код А содержит промо код Б, если множество товаров А содержит множество товаров Б,
      * и скидка промо кода А, больше либо равна скидки промо кода Б.
+     *
      * @param Coupon $coupon
      * @return boolean
      */
@@ -321,6 +326,7 @@ class Coupon extends ActiveRecord
                 return false;
             }
         }
+
         return $this->compare($coupon) >= 0;
     }
 
@@ -329,15 +335,17 @@ class Coupon extends ActiveRecord
      * 0 - если размер скидки одинаковый,
      * 1 - если размер скидки объекта больше чем размер скидки аргумента,
      * -1 - если размер скидки аргумента больше чем размер скидки объекта.
+     *
      * @param Coupon $coupon
      * @return integer
      */
     public function compare(Coupon $coupon)
     {
-        if ($this->Discount == $coupon->Discount)
+        if ($this->Discount == $coupon->Discount) {
             return 0;
-        else
+        } else {
             return $this->Discount > $coupon->Discount ? 1 : -1;
+        }
     }
 
     /**
@@ -355,31 +363,28 @@ class Coupon extends ActiveRecord
         return $activation;
     }
 
-
     const CodeLength = 12;
+
     /**
      * @return string
      */
     public function generateCode()
     {
-        $salt = (string) $this->EventId;
+        $salt = (string)$this->EventId;
         $salt = substr($salt, max(0, strlen($salt) - 3));
         $salt = strlen($salt) == 3 ? $salt : '0'.$salt;
         $chars = 'abcdefghijkmnpqrstuvwxyz1234567890';
         $pass = '';
-        while (strlen($pass) < self::CodeLength)
-        {
-            if ((strlen($pass)) % 4 != 0)
-            {
-                $invert = mt_rand(1,5);
-                $pass .= ($invert == 1) ? strtoupper($chars[mt_rand(0, strlen($chars)-1)]) : $chars[mt_rand(0, strlen($chars)-1)];
-            }
-            else
-            {
-                $key = intval((strlen($pass)) / 4);
+        while (strlen($pass) < self::CodeLength) {
+            if ((strlen($pass)) % 4 != 0) {
+                $invert = mt_rand(1, 5);
+                $pass .= ($invert == 1) ? strtoupper($chars[mt_rand(0, strlen($chars) - 1)]) : $chars[mt_rand(0, strlen($chars) - 1)];
+            } else {
+                $key = (int)((strlen($pass)) / 4);
                 $pass .= $salt[$key];
             }
         }
+
         return $pass;
     }
 
@@ -393,7 +398,6 @@ class Coupon extends ActiveRecord
         return substr(md5($this->EventId.self::HashSecret.$this->Code), 0, 16);
     }
 
-
     private $manager = null;
 
     /**
@@ -402,9 +406,10 @@ class Coupon extends ActiveRecord
     public function getManager()
     {
         if ($this->manager === null) {
-            $class = '\pay\components\coupon\managers\\' . $this->ManagerName;
+            $class = '\pay\components\coupon\managers\\'.$this->ManagerName;
             $this->manager = new $class($this);
         }
+
         return $this->manager;
     }
 }

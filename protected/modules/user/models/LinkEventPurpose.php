@@ -1,84 +1,53 @@
 <?php
 namespace user\models;
 
+use application\components\ActiveRecord;
+use event\models\Purpose;
+
 /**
- * Class LinkEventPurpose
- * @package user\models
  * @property int $Id
  * @property int $UserId
  * @property int $EventId
  * @property int $PurposeId
- * @property \event\models\Purpose $Purpose
+ *
+ * @property Purpose $Purpose
  * @property User $User
+ *
+ * Описание вспомогательных методов
+ * @method LinkEventPurpose   with($condition = '')
+ * @method LinkEventPurpose   find($condition = '', $params = [])
+ * @method LinkEventPurpose   findByPk($pk, $condition = '', $params = [])
+ * @method LinkEventPurpose   findByAttributes($attributes, $condition = '', $params = [])
+ * @method LinkEventPurpose[] findAll($condition = '', $params = [])
+ * @method LinkEventPurpose[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method LinkEventPurpose byId(int $id, bool $useAnd = true)
+ * @method LinkEventPurpose byUserId(int $id, bool $useAnd = true)
+ * @method LinkEventPurpose byEventId(int $id, bool $useAnd = true)
+ * @method LinkEventPurpose byPurposeId(int $id, bool $useAnd = true)
  */
-class LinkEventPurpose extends \CActiveRecord
+class LinkEventPurpose extends ActiveRecord
 {
-  /**
-   * @param string $className
-   * @return LinkEventPurpose
-   */
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
+    /**
+     * @param null|string $className
+     * @return static
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
-  public function tableName()
-  {
-    return 'UserLinkEventPurpose';
-  }
+    public function tableName()
+    {
+        return 'UserLinkEventPurpose';
+    }
 
-  public function primaryKey()
-  {
-    return 'Id';
-  }
-
-  public function relations()
-  {
-    return [
-      'Purpose' => [self::BELONGS_TO, '\event\models\Purpose', 'PurposeId'],
-      'User' => [self::BELONGS_TO, '\user\models\User', 'UserId']
-    ];
-  }
-
-  /**
-   * @param int $userId
-   * @param bool $useAnd
-   * @return $this
-   */
-  public function byUserId($userId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."UserId" = :UserId';
-    $criteria->params = ['UserId' => $userId];
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-
-  /**
-   * @param int $eventId
-   * @param bool $useAnd
-   * @return $this
-   */
-  public function byEventId($eventId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."EventId" = :EventId';
-    $criteria->params = ['EventId' => $eventId];
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-
-  /**
-   * @param int $purposeId
-   * @param bool $useAnd
-   * @return $this
-   */
-  public function byPurposeId($purposeId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."PurposeId" = :PurposeId';
-    $criteria->params = ['PurposeId' => $purposeId];
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-} 
+    public function relations()
+    {
+        return [
+            'Purpose' => [self::BELONGS_TO, '\event\models\Purpose', 'PurposeId'],
+            'User' => [self::BELONGS_TO, '\user\models\User', 'UserId']
+        ];
+    }
+}

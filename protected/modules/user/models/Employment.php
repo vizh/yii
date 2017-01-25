@@ -3,7 +3,7 @@ namespace user\models;
 
 use application\components\ActiveRecord;
 use company\models\Company;
-
+use Yii;
 
 /**
  * @property int $Id
@@ -19,18 +19,30 @@ use company\models\Company;
  * @property Company $Company
  * @property User $User
  *
- * @method Employment findByPk(integer $pk)
+ * Описание вспомогательных методов
+ * @method Employment   with($condition = '')
+ * @method Employment   find($condition = '', $params = [])
+ * @method Employment   findByPk($pk, $condition = '', $params = [])
+ * @method Employment   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Employment[] findAll($condition = '', $params = [])
+ * @method Employment[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Employment byId(int $id, bool $useAnd = true)
+ * @method Employment byUserId(int $id, bool $useAnd = true)
+ * @method Employment byCompanyId(int $id, bool $useAnd = true)
+ * @method Employment byPrimary(bool $primary = true, bool $useAnd = true)
  */
 class Employment extends ActiveRecord
 {
     const TableName = 'UserEmployment';
 
     /**
-     * @param string $className
-     * @return Employment
+     * @param null|string $className
+     * @return static
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -39,17 +51,12 @@ class Employment extends ActiveRecord
         return self::TableName;
     }
 
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
     public function relations()
     {
-        return array(
-            'Company' => array(self::BELONGS_TO, '\company\models\Company', 'CompanyId'),
-            'User' => array(self::BELONGS_TO, '\user\models\User', 'UserId'),
-        );
+        return [
+            'Company' => [self::BELONGS_TO, '\company\models\Company', 'CompanyId'],
+            'User' => [self::BELONGS_TO, '\user\models\User', 'UserId'],
+        ];
     }
 
     public function __toString()
@@ -64,8 +71,8 @@ class Employment extends ActiveRecord
      */
     public static function ResetAllUserPrimary($userId)
     {
-        \Yii::app()->db->createCommand()->update(self::TableName, array('Primary' => 0),
-            'UserId = :UserId', array(':UserId' => $userId));
+        Yii::app()->db->createCommand()->update(self::TableName, ['Primary' => 0],
+            'UserId = :UserId', [':UserId' => $userId]);
     }
 
     /**
@@ -74,12 +81,9 @@ class Employment extends ActiveRecord
     public function GetCompany()
     {
         $company = $this->Company;
-        if (isset($company))
-        {
+        if (isset($company)) {
             return $company;
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
@@ -92,7 +96,7 @@ class Employment extends ActiveRecord
     public function GetParsedStartWorking()
     {
         $date = $this->StartWorking;
-        $result = array();
+        $result = [];
 
         $result['year'] = intval(substr($date, 0, 4));
         $result['month'] = intval(substr($date, 5, 2));
@@ -110,54 +114,42 @@ class Employment extends ActiveRecord
     {
         $date = strtotime($this->StartWorking);
 
-        if (!$date || strpos($this->StartWorking, '9999') !== false || strpos($this->StartWorking, '0000') !== false)
-        {
+        if (!$date || strpos($this->StartWorking, '9999') !== false || strpos($this->StartWorking, '0000') !== false) {
             return 'неизвестно';
         }
 
-        if (strpos($this->StartWorking, '-00-00'))
-        {
+        if (strpos($this->StartWorking, '-00-00')) {
             return intval(substr($this->StartWorking, 0, 4));
-        }
-        elseif (strpos($this->StartWorking, '-00'))
-        {
+        } elseif (strpos($this->StartWorking, '-00')) {
             $date = strtotime(str_replace('-00', '-01', $this->StartWorking));
         }
 
-        return \Yii::app()->dateFormatter->format('LLLL yyyy', $date);
+        return Yii::app()->dateFormatter->format('LLLL yyyy', $date);
     }
 
     /**
      * Устанавливает корректную дату начала работы из массива day, month, year
+     *
      * @param array $date
      * @return void
      */
     public function SetParsedStartWorking($date)
     {
-        if (empty($date['year']) || intval($date['year']) == 0)
-        {
+        if (empty($date['year']) || intval($date['year']) == 0) {
             $result = '0000';
-        }
-        else
-        {
+        } else {
             $result = $date['year'];
         }
         $result .= '-';
-        if (empty($date['month']) || intval($date['month']) == 0)
-        {
+        if (empty($date['month']) || intval($date['month']) == 0) {
             $result .= '00';
-        }
-        else
-        {
+        } else {
             $result .= $date['month'];
         }
         $result .= '-';
-        if (empty($date['day']) || intval($date['day']) == 0)
-        {
+        if (empty($date['day']) || intval($date['day']) == 0) {
             $result .= '00';
-        }
-        else
-        {
+        } else {
             $result .= $date['day'];
         }
         $this->StartWorking = $result;
@@ -171,7 +163,7 @@ class Employment extends ActiveRecord
     public function GetParsedFinishWorking()
     {
         $date = $this->FinishWorking;
-        $result = array();
+        $result = [];
 
         $result['year'] = intval(substr($date, 0, 4));
         $result['month'] = intval(substr($date, 5, 2));
@@ -187,57 +179,45 @@ class Employment extends ActiveRecord
      */
     public function GetFormatedFinishWorking()
     {
-        if (strpos($this->FinishWorking, '9999') !== false)
-        {
+        if (strpos($this->FinishWorking, '9999') !== false) {
             return 'по настоящее время';
         }
         $date = strtotime($this->FinishWorking);
-        if (!$date)
-        {
+        if (!$date) {
             return 'по настоящее время';
         }
-        if (strpos($this->FinishWorking, '-00-00'))
-        {
+        if (strpos($this->FinishWorking, '-00-00')) {
             return intval(substr($this->FinishWorking, 0, 4));
-        }
-        elseif (strpos($this->FinishWorking, '-00'))
-        {
+        } elseif (strpos($this->FinishWorking, '-00')) {
             $date = strtotime(str_replace('-00', '-01', $this->FinishWorking));
         }
-        return \Yii::app()->dateFormatter->format('LLLL yyyy', $date);
+
+        return Yii::app()->dateFormatter->format('LLLL yyyy', $date);
     }
 
     /**
      * Устанавливает корректную дату начала работы из массива day, month, year
+     *
      * @param array $date
      * @return void
      */
     public function SetParsedFinishWorking($date)
     {
-        if (empty($date['year']) || intval($date['year']) == 0 || empty($date['month']) || $date['month'] == 0)
-        {
+        if (empty($date['year']) || intval($date['year']) == 0 || empty($date['month']) || $date['month'] == 0) {
             $result = '9999';
-        }
-        else
-        {
+        } else {
             $result = $date['year'];
         }
         $result .= '-';
-        if (empty($date['month']) || intval($date['month']) == 0)
-        {
+        if (empty($date['month']) || intval($date['month']) == 0) {
             $result .= '00';
-        }
-        else
-        {
+        } else {
             $result .= $date['month'];
         }
         $result .= '-';
-        if (empty($date['day']) || intval($date['day']) == 0)
-        {
+        if (empty($date['day']) || intval($date['day']) == 0) {
             $result .= '00';
-        }
-        else
-        {
+        } else {
             $result .= $date['day'];
         }
         $this->FinishWorking = $result;
@@ -255,58 +235,32 @@ class Employment extends ActiveRecord
      */
     public function getWorkingInterval()
     {
-        if (empty($this->StartYear))
+        if (empty($this->StartYear)) {
             return null;
+        }
 
         $result = new \stdClass();
-        $result->Years  = 0;
+        $result->Years = 0;
         $result->Months = 0;
 
         $dateStart = $this->StartYear.'-'.(!empty($this->StartMonth) ? $this->StartMonth : '1').'-1';
 
-        if (!empty($this->EndYear))
-        {
+        if (!empty($this->EndYear)) {
             $dateEnd = $this->EndYear.'-'.(!empty($this->EndMonth) ? $this->EndMonth : '1').'-1';
-        }
-        else
-        {
+        } else {
             $dateEnd = date('Y-n-j');
         }
 
         $dtStart = new \DateTime($dateStart);
         $dtEnd = new \DateTime($dateEnd);
-        if (!empty($this->StartMonth) || !empty($this->EndMonth))
+        if (!empty($this->StartMonth) || !empty($this->EndMonth)) {
             $dtEnd->modify('+1 month');
+        }
 
         $diff = $dtStart->diff($dtEnd);
-        $result->Years  = $diff->format('%y');
+        $result->Years = $diff->format('%y');
         $result->Months = $diff->format('%m');
+
         return $result;
-    }
-
-    public function byUserId($userId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."UserId" = :UserId';
-        $criteria->params = array(':UserId' => $userId);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    public function byPrimary($primary, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = (!$primary ? 'NOT ' : '').'"t"."Primary"';
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    /**
-     * @param $pk
-     * @return Employment|null
-     */
-    public static function findOne($pk)
-    {
-        return parent::findOne($pk);
     }
 }

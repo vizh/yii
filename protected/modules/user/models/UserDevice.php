@@ -15,10 +15,6 @@ use Yii;
  *
  * @property User $User
  *
- * @method UserDevice byUserId(int $id)
- * @method UserDevice byToken(string $token)
- * @method UserDevice byType(string $type)
- *
  * Описание вспомогательных методов
  * @method UserDevice   with($condition = '')
  * @method UserDevice   find($condition = '', $params = [])
@@ -26,6 +22,10 @@ use Yii;
  * @method UserDevice   findByAttributes($attributes, $condition = '', $params = [])
  * @method UserDevice[] findAll($condition = '', $params = [])
  * @method UserDevice[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method UserDevice byUserId(int $id)
+ * @method UserDevice byToken(string $token)
+ * @method UserDevice byType(string $type)
  */
 class UserDevice extends ActiveRecord
 {
@@ -34,7 +34,7 @@ class UserDevice extends ActiveRecord
 
     /**
      * @param string $className
-     * @return UserDevice
+     * @return static
      */
     public static function model($className = __CLASS__)
     {
@@ -45,11 +45,6 @@ class UserDevice extends ActiveRecord
     public function tableName()
     {
         return 'UserDevice';
-    }
-
-    public function getPrimaryKey()
-    {
-        return 'Id';
     }
 
     public function behaviors()
@@ -118,8 +113,12 @@ class UserDevice extends ActiveRecord
         $appArn = null;
 
         switch ($this->Type) {
-            case self::$TYPE_IOS: $appArn = 'arn:aws:sns:eu-central-1:431010506613:app/APNS_SANDBOX/forinnovations.ios'; break;
-            case self::$TYPE_ANDROID: $appArn = 'arn:aws:sns:eu-central-1:431010506613:app/GCM/forinnovations.android'; break;
+            case self::$TYPE_IOS:
+                $appArn = 'arn:aws:sns:eu-central-1:431010506613:app/APNS_SANDBOX/forinnovations.ios';
+                break;
+            case self::$TYPE_ANDROID:
+                $appArn = 'arn:aws:sns:eu-central-1:431010506613:app/GCM/forinnovations.android';
+                break;
             default:
                 throw new InvalidArgumentException("Неизвестный DeviceType:{$this->Type}");
         }
@@ -150,8 +149,9 @@ class UserDevice extends ActiveRecord
             'TopicArn' => 'arn:aws:sns:eu-central-1:431010506613:forinnovations'
         ]);
 
-        if ($result->hasKey('SubscriptionArn') === false)
+        if ($result->hasKey('SubscriptionArn') === false) {
             throw new Exception("Ошибка оформления подписки устройства Token:{$this->Token} посетителя RunetId:{$this->User->RunetId} на канал уведомлений");
+        }
 
         $this->setAttribute('SnsSubscriptionArn', $result->get('SubscriptionArn'));
     }

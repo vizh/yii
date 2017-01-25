@@ -3,35 +3,37 @@ namespace pay\models;
 use application\components\ActiveRecord;
 
 /**
- * Class CollectionCouponAttribute
- * @package pay\models
- *
  * @property int $Id
  * @property int $CollectionCouponId
  * @property string $Name
  * @property string $Value
  *
- * @method CollectionCouponAttribute byName(string $name)
+ * Описание вспомогательных методов
+ * @method CollectionCouponAttribute   with($condition = '')
+ * @method CollectionCouponAttribute   find($condition = '', $params = [])
+ * @method CollectionCouponAttribute   findByPk($pk, $condition = '', $params = [])
+ * @method CollectionCouponAttribute   findByAttributes($attributes, $condition = '', $params = [])
+ * @method CollectionCouponAttribute[] findAll($condition = '', $params = [])
+ * @method CollectionCouponAttribute[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method CollectionCouponAttribute byId(int $id, bool $useAnd = true)
+ * @method CollectionCouponAttribute byCollectionCouponId(int $id, bool $useAnd = true)
+ * @method CollectionCouponAttribute byName(int $id, bool $useAnd = true)
  */
 class CollectionCouponAttribute extends ActiveRecord
 {
     /**
      * @param string $className
-     *
      * @return CollectionCouponAttribute
      */
     public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
     public function tableName()
     {
         return 'PayCollectionCouponAttribute';
-    }
-
-    public function primaryKey()
-    {
-        return 'Id';
     }
 }

@@ -1,11 +1,10 @@
 <?php
 namespace pay\models;
+
 use application\components\ActiveRecord;
 use user\models\User;
 
 /**
- * Class ProductCheck
- * @package pay\models
  * @property int $Id
  * @property int $UserId
  * @property int $ProductId
@@ -15,16 +14,28 @@ use user\models\User;
  *
  * @property User $User
  *
- * @method ProductCheck byProductId(int $productId)
+ * Описание вспомогательных методов
+ * @method ProductCheck   with($condition = '')
+ * @method ProductCheck   find($condition = '', $params = [])
+ * @method ProductCheck   findByPk($pk, $condition = '', $params = [])
+ * @method ProductCheck   findByAttributes($attributes, $condition = '', $params = [])
+ * @method ProductCheck[] findAll($condition = '', $params = [])
+ * @method ProductCheck[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method ProductCheck byId(int $id, bool $useAnd = true)
+ * @method ProductCheck byUserId(int $id, bool $useAnd = true)
+ * @method ProductCheck byProductId(int $id, bool $useAnd = true)
+ * @method ProductCheck byOperatorId(int $id, bool $useAnd = true)
  */
 class ProductCheck extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return ProductCheck
+     * @param null|string $className
+     * @return static
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -53,6 +64,7 @@ class ProductCheck extends ActiveRecord
         $criteria->condition = '"Product"."EventId" = :EventId';
         $criteria->params = ['EventId' => $eventId];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
-} 
+}

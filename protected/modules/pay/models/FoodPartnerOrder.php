@@ -1,13 +1,10 @@
 <?php
 namespace pay\models;
+
 use application\components\ActiveRecord;
-use application\components\utility\Texts;
 use pay\components\managers\BaseProductManager;
 
 /**
- * Class FoodPartnerOrder
- * @package pay\models
- *
  * @property int $Id
  * @property string $Owner
  * @property string $Name
@@ -33,42 +30,38 @@ use pay\components\managers\BaseProductManager;
  * @property string $RealAddress
  * @property FoodPartnerOrderItem[] $Items
  *
+ * Описание вспомогательных методов
+ * @method FoodPartnerOrder   with($condition = '')
+ * @method FoodPartnerOrder   find($condition = '', $params = [])
+ * @method FoodPartnerOrder   findByPk($pk, $condition = '', $params = [])
+ * @method FoodPartnerOrder   findByAttributes($attributes, $condition = '', $params = [])
+ * @method FoodPartnerOrder[] findAll($condition = '', $params = [])
+ * @method FoodPartnerOrder[] findAllByAttributes($attributes, $condition = '', $params = [])
  *
- * @method FoodPartnerOrder byEventId(int $eventId)
- * @method FoodPartnerOrder byPaid(bool $paid)
- * @method FoodPartnerOrder byDeleted(bool $deleted)
+ * @method FoodPartnerOrder byId(int $id, bool $useAnd = true)
+ * @method FoodPartnerOrder byEventId(int $id, bool $useAnd = true)
+ * @method FoodPartnerOrder byPaid(bool $paid = true, bool $useAnd = true)
+ * @method FoodPartnerOrder byDeleted(bool $deleted = true, bool $useAnd = true)
  */
 class FoodPartnerOrder extends ActiveRecord
 {
+    private $total = null;
+
     /**
-     * @param string $className
-     *
-     * @return RoomPartnerBooking
+     * @param null|string $className
+     * @return static
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function tableName()
     {
         return 'PayFoodPartnerOrder';
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function relations()
     {
         return [
@@ -76,7 +69,6 @@ class FoodPartnerOrder extends ActiveRecord
         ];
     }
 
-    private $total = null;
 
     /**
      * @return int
@@ -91,17 +83,20 @@ class FoodPartnerOrder extends ActiveRecord
                 $this->total += $manager->getPriceByTime($this->CreationTime) * $item->Count;
             }
         }
+
         return $this->total;
     }
 
     /**
      * Активирует счет на питание для партнеров
+     *
      * @return bool
      */
     public function activate()
     {
-        if ($this->Deleted || $this->Paid)
+        if ($this->Deleted || $this->Paid) {
             return false;
+        }
 
         $timestamp = date('Y-m-d H:i:s');
         foreach ($this->Items as $item) {
@@ -113,17 +108,20 @@ class FoodPartnerOrder extends ActiveRecord
         $this->Paid = true;
         $this->PaidTime = $timestamp;
         $this->save();
+
         return true;
     }
 
     /**
      * Удаляет счет на питание для партнеров
-     * @return bool|void
+     *
+     * @return bool
      */
     public function delete()
     {
-        if ($this->Deleted || $this->Paid)
+        if ($this->Deleted || $this->Paid) {
             return false;
+        }
 
         $timestamp = date('Y-m-d H:i:s');
 
@@ -135,8 +133,7 @@ class FoodPartnerOrder extends ActiveRecord
             $item->DeletionTime = $timestamp;
             $item->save();
         }
+
         return true;
     }
-
-
 }

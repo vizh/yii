@@ -2,6 +2,7 @@
 namespace pay\models;
 
 use application\models\translation\ActiveRecord;
+use event\models\Event;
 
 /**
  * @property int $Id
@@ -34,24 +35,31 @@ use application\models\translation\ActiveRecord;
  * @property string $CabinetHasRecentPaidItemsMessage
  * @property string $CabinetJuridicalCreateInfo
  *
- * @property \event\models\Event $Event
+ * @property Event $Event
  * @property OrderJuridicalTemplate $OrderTemplate
  * @property OrderJuridicalTemplate $ReceiptTemplate
  *
- * @method \pay\models\Account find($condition = '', $params = array())
- * @method \pay\models\Account findByPk($pk, $condition = '', $params = array())
- * @method \pay\models\Account[] findAll($condition = '', $params = array())
+ * Описание вспомогательных методов
+ * @method Account   with($condition = '')
+ * @method Account   find($condition = '', $params = [])
+ * @method Account   findByPk($pk, $condition = '', $params = [])
+ * @method Account   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Account[] findAll($condition = '', $params = [])
+ * @method Account[] findAllByAttributes($attributes, $condition = '', $params = [])
  *
+ * @method Account byId(int $id, bool $useAnd = true)
+ * @method Account byEventId(int $id, bool $useAnd = true)
+ * @method Account byOwn(bool $own, bool $useAnd = true)
  */
 class Account extends ActiveRecord
 {
     /**
      * @param string $className
-     *
      * @return Account
      */
     public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -60,33 +68,13 @@ class Account extends ActiveRecord
         return 'PayAccount';
     }
 
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
     public function relations()
     {
-        return array(
+        return [
             'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
             'OrderTemplate' => [self::BELONGS_TO, '\pay\models\OrderJuridicalTemplate', 'OrderTemplateId'],
             'ReceiptTemplate' => [self::BELONGS_TO, '\pay\models\OrderJuridicalTemplate', 'ReceiptTemplateId'],
-        );
-    }
-
-    /**
-     * @param int $eventId
-     * @param bool $useAnd
-     *
-     * @return Account
-     */
-    public function byEventId($eventId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."EventId" = :EventId';
-        $criteria->params = array('EventId' => $eventId);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
+        ];
     }
 
     /**

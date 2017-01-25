@@ -1,25 +1,40 @@
 <?php
 namespace raec\models;
+
+use application\components\ActiveRecord;
 use company\models\Company;
 
 /**
- * Class BriefLinkCompany
  * @property int $Id
  * @property int $CompanyId
  * @property int $BriefId
  * @property bool $Primary
+ *
  * @property Company $Company
  * @property Brief $Brief
- * @package raec\models
+ *
+ * Описание вспомогательных методов
+ * @method BriefLinkCompany   with($condition = '')
+ * @method BriefLinkCompany   find($condition = '', $params = [])
+ * @method BriefLinkCompany   findByPk($pk, $condition = '', $params = [])
+ * @method BriefLinkCompany   findByAttributes($attributes, $condition = '', $params = [])
+ * @method BriefLinkCompany[] findAll($condition = '', $params = [])
+ * @method BriefLinkCompany[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method BriefLinkCompany byId(int $id, bool $useAnd = true)
+ * @method BriefLinkCompany byCompanyId(int $id, bool $useAnd = true)
+ * @method BriefLinkCompany byBriefId(int $id, bool $useAnd = true)
+ * @method BriefLinkCompany byPrimary(bool $primary, bool $useAnd = true)
  */
-class BriefLinkCompany extends \CActiveRecord
+class BriefLinkCompany extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return BriefLinkCompany
+     * @param null|string $className
+     * @return static
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -28,45 +43,11 @@ class BriefLinkCompany extends \CActiveRecord
         return 'RaecBriefLinkCompany';
     }
 
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
     public function relations()
     {
         return [
             'Brief' => [self::BELONGS_TO, '\raec\models\Brief', 'Id'],
             'Company' => [self::BELONGS_TO, '\company\models\Company', 'Id']
         ];
-    }
-
-
-    /**
-     * @param int $briefId
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byBriefId($briefId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."BriefId" = :BriefId';
-        $criteria->params = array(':BriefId' => $briefId);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    /**
-     * @param int $companyId
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byCompanyId($companyId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."CompanyId" = :CompanyId';
-        $criteria->params = array(':CompanyId' => $companyId);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
     }
 }

@@ -16,6 +16,7 @@ use user\models\User;
  * @property int $Id
  * @property int $PayerId
  * @property int $EventId
+ * @property int $TemplateId
  * @property bool $Paid
  * @property string $PaidTime
  * @property int $Total
@@ -24,10 +25,8 @@ use user\models\User;
  * @property bool $Deleted
  * @property string $DeletionTime
  * @property bool $Receipt
- * @property int $TemplateId
  * @property string $Number
  * @property int $Type
- *
  *
  * @property OrderLinkOrderItem[] $ItemLinks
  * @property OrderJuridical $OrderJuridical
@@ -35,9 +34,21 @@ use user\models\User;
  * @property Event $Event
  * @property OrderJuridicalTemplate $Template
  *
- * @method Order findByPk(int $id)
- * @method Order find($condition = '', $params = [])
+ * Описание вспомогательных методов
+ * @method Order   with($condition = '')
+ * @method Order   find($condition = '', $params = [])
+ * @method Order   findByPk($pk, $condition = '', $params = [])
+ * @method Order   findByAttributes($attributes, $condition = '', $params = [])
  * @method Order[] findAll($condition = '', $params = [])
+ * @method Order[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Order byId(int $id, bool $useAnd = true)
+ * @method Order byPayerId(int $id, bool $useAnd = true)
+ * @method Order byEventId(int $id, bool $useAnd = true)
+ * @method Order byTemplateId(int $id, bool $useAnd = true)
+ * @method Order byNumber(string $number, bool $useAnd = true)
+ * @method Order byPaid(bool $paid = true, bool $useAnd = true)
+ * @method Order byDeleted(bool $deleted = true, bool $useAnd = true)
  */
 class Order extends ActiveRecord
 {
@@ -49,56 +60,29 @@ class Order extends ActiveRecord
     private $viewTemplate;
 
     /**
-     * @inheritdoc
+     * @param null|string $className
+     * @return static
      */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
+
     public function tableName()
     {
         return 'PayOrder';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function relations()
     {
         return [
-            'ItemLinks' => array(self::HAS_MANY, 'pay\models\OrderLinkOrderItem', 'OrderId'),
-            'OrderJuridical' => array(self::HAS_ONE, 'pay\models\OrderJuridical', 'OrderId'),
-            'Payer' => array(self::BELONGS_TO, 'user\models\User', 'PayerId'),
-            'Event' => array(self::BELONGS_TO, 'event\models\Event', 'EventId'),
+            'ItemLinks' => [self::HAS_MANY, 'pay\models\OrderLinkOrderItem', 'OrderId'],
+            'OrderJuridical' => [self::HAS_ONE, 'pay\models\OrderJuridical', 'OrderId'],
+            'Payer' => [self::BELONGS_TO, 'user\models\User', 'PayerId'],
+            'Event' => [self::BELONGS_TO, 'event\models\Event', 'EventId'],
             'Template' => [self::BELONGS_TO, 'pay\models\OrderJuridicalTemplate', 'TemplateId']
         ];
-    }
-
-    /**
-     * @param int $payerId
-     * @param bool $useAnd
-     * @return Order
-     */
-    public function byPayerId($payerId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."PayerId" = :PayerId';
-        $criteria->params = ['PayerId' => $payerId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
-    }
-
-    /**
-     * @param int $eventId
-     * @param bool $useAnd
-     *
-     * @return Order
-     */
-    public function byEventId($eventId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."EventId" = :EventId';
-        $criteria->params = ['EventId' => $eventId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
     }
 
     /**
@@ -144,6 +128,7 @@ class Order extends ActiveRecord
     /**
      * @param bool $juridical
      * @param bool $useAnd
+     *
      * @return $this
      */
     public function byJuridical($juridical, $useAnd = true)
@@ -163,6 +148,7 @@ class Order extends ActiveRecord
     /**
      * @param bool $receipt
      * @param bool $useAnd
+     *
      * @return $this
      */
     public function byReceipt($receipt, $useAnd = true)
@@ -183,6 +169,7 @@ class Order extends ActiveRecord
      * @param bool $type
      * @param bool $value
      * @param bool $useAnd
+     *
      * @return $this
      */
     public function byType($type, $value, $useAnd = true)
@@ -194,35 +181,6 @@ class Order extends ActiveRecord
             $criteria->addNotInCondition('"t"."Type"', [$type], $useAnd);
         }
 
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
-    }
-
-    /**
-     * @param bool $paid
-     * @param bool $useAnd
-     * @return Order
-     */
-    public function byPaid($paid, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = ($paid ? '' : 'NOT ') . '"t"."Paid"';
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
-    }
-
-    /**
-     * @param bool $deleted
-     * @param bool $useAnd
-     *
-     * @return Order
-     */
-    public function byDeleted($deleted, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = ($deleted ? '' : 'NOT ') . '"t"."Deleted"';
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
 
         return $this;
@@ -271,7 +229,7 @@ class Order extends ActiveRecord
 
         PartnerCallback::pay($this->Event, $this, strtotime($this->CreationTime));
 
-        $event = new \CModelEvent($this, array('total' => $total));
+        $event = new \CModelEvent($this, ['total' => $total]);
         $this->onActivate($event);
 
         return ['Total' => $total, 'ErrorItems' => $errorItems];
@@ -298,6 +256,7 @@ class Order extends ActiveRecord
      * @param Event $event
      * @param int $type
      * @param array $data
+     *
      * @throws Exception
      *
      * @return int
@@ -398,7 +357,9 @@ class Order extends ActiveRecord
 
     /**
      * @static
+     *
      * @param string $start
+     *
      * @return string format Y-m-d H:i:s
      */
     private function getBookEnd($start)
@@ -433,6 +394,7 @@ class Order extends ActiveRecord
             }
             $price += $item->getPriceDiscount();
         }
+
         return $price;
     }
 
@@ -443,8 +405,9 @@ class Order extends ActiveRecord
         }
 
         foreach ($this->ItemLinks as $link) {
-            if ($link->OrderItem == null)
+            if ($link->OrderItem == null) {
                 continue;
+            }
             if ($link->OrderItem->Booked != null) {
                 $link->OrderItem->Booked = date('Y-m-d H:i:s', time() + 5 * 60 * 60);
             }
@@ -461,6 +424,7 @@ class Order extends ActiveRecord
 
     /**
      * Обновляет счет, в связи с возвратом заказа
+     *
      * @return bool
      */
     public function refund(OrderItem $orderItem)
@@ -496,7 +460,9 @@ class Order extends ActiveRecord
 
     /**
      * Возаращает модель связи между счетом и заказом
+     *
      * @param OrderItem $orderItem
+     *
      * @return null|OrderLinkOrderItem
      */
     public function getItemLink(OrderItem $orderItem)
@@ -506,12 +472,13 @@ class Order extends ActiveRecord
                 return $link;
             }
         }
+
         return null;
     }
 
     public function getHash()
     {
-        return substr(md5($this->Id . self::$SecretKey), 0, 16);
+        return substr(md5($this->Id.self::$SecretKey), 0, 16);
     }
 
     public function checkHash($hash)
@@ -522,13 +489,14 @@ class Order extends ActiveRecord
     public function getUrl($clear = false)
     {
         if (OrderType::getIsBank($this->Type)) {
-            $params = array(
+            $params = [
                 'orderId' => $this->Id,
                 'hash' => $this->getHash()
-            );
+            ];
             if ($clear) {
                 $params['clear'] = 'clear';
             }
+
             return \Yii::app()->createAbsoluteUrl('/pay/order/index', $params);
         } elseif ($this->Type == OrderType::MailRu) {
             return $this->OrderJuridical->UrlPay;
@@ -544,7 +512,6 @@ class Order extends ActiveRecord
     {
         return OrderType::getIsBank($this->Type);
     }
-
 
     /**
      * @return string
@@ -571,16 +538,18 @@ class Order extends ActiveRecord
      */
     public function getBillData()
     {
-        if (!\pay\models\OrderType::getIsBank($this->Type))
+        if (!\pay\models\OrderType::getIsBank($this->Type)) {
             return null;
+        }
 
         if ($this->billData == null) {
             $this->billData = new \stdClass();
             $this->billData->Total = 0;
             $this->billData->Data = [];
 
-            if (!\pay\models\OrderType::getIsBank($this->Type))
+            if (!\pay\models\OrderType::getIsBank($this->Type)) {
                 return null;
+            }
 
             $collection = \pay\components\OrderItemCollection::createByOrder($this);
             foreach ($collection as $item) {
@@ -591,7 +560,7 @@ class Order extends ActiveRecord
                 $orderItem = $item->getOrderItem();
                 $isTicket = $orderItem->Product->ManagerName == 'Ticket';
                 $price = $isTicket ? $orderItem->Product->getPrice($this->CreationTime) : $item->getPriceDiscount($this->CreationTime);
-                $key = $orderItem->ProductId . $price;
+                $key = $orderItem->ProductId.$price;
                 if (!isset($this->billData->Data[$key])) {
                     $this->billData->Data[$key] = [
                         'Title' => $orderItem->Product->getManager()->GetTitle($orderItem),
@@ -607,6 +576,7 @@ class Order extends ActiveRecord
             }
             $this->billData->Nds = $this->billData->Total - round($this->billData->Total / 1.18, 2, PHP_ROUND_HALF_DOWN);
         }
+
         return $this->billData;
     }
 
@@ -618,8 +588,9 @@ class Order extends ActiveRecord
     public function getViewName()
     {
         if ($this->viewName == null) {
-            if (!OrderType::getIsBank($this->Type))
+            if (!OrderType::getIsBank($this->Type)) {
                 return null;
+            }
 
             if ($this->Type == OrderType::Juridical) {
                 $template = $this->getViewTemplate();
@@ -628,7 +599,7 @@ class Order extends ActiveRecord
                 } else {
                     $this->viewName = $template->OrderTemplateName;
                 }
-                $this->viewName = 'bills/' . $this->viewName;
+                $this->viewName = 'bills/'.$this->viewName;
             } else {
                 $this->viewName = 'receipt/template';
             }
@@ -643,8 +614,9 @@ class Order extends ActiveRecord
     public function getViewTemplate()
     {
         if (is_null($this->viewTemplate)) {
-            if (!OrderType::getIsBank($this->Type))
+            if (!OrderType::getIsBank($this->Type)) {
                 return null;
+            }
 
             if ($this->Template !== null) {
                 $this->viewTemplate = $this->Template;

@@ -1,6 +1,8 @@
 <?php
 namespace oauth\models;
 
+use application\components\ActiveRecord;
+
 /**
  * @property int $Id
  * @property int $UserId
@@ -9,73 +11,35 @@ namespace oauth\models;
  * @property bool $Verified
  * @property bool $Deleted
  * @property string $DeletionTime
+ *
+ * Описание вспомогательных методов
+ * @method Permission   with($condition = '')
+ * @method Permission   find($condition = '', $params = [])
+ * @method Permission   findByPk($pk, $condition = '', $params = [])
+ * @method Permission   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Permission[] findAll($condition = '', $params = [])
+ * @method Permission[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Permission byId(int $id, bool $useAnd = true)
+ * @method Permission byUserId(int $id, bool $useAnd = true)
+ * @method Permission byAccountId(int $id, bool $useAnd = true)
+ * @method Permission byVerifed(bool $verifed, bool $useAnd = true)
+ * @method Permission byDeleted(bool $deleted, bool $useAnd = true)
  */
-class Permission extends \CActiveRecord
+class Permission extends ActiveRecord
 {
-  /**
-   * @param string $className
-   * @return Permission
-   */
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
+    /**
+     * @param string $className
+     * @return Permission
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
-  public function tableName()
-  {
-    return 'OAuthPermission';
-  }
-
-  public function primaryKey()
-  {
-    return 'Id';
-  }
-
-  public function relations()
-  {
-    return array(
-
-    );
-  }
-
-  /**
-   * @param int $userId
-   * @param bool $useAnd
-   * @return Permission
-   */
-  public function byUserId($userId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."UserId" = :UserId';
-    $criteria->params = array(':UserId' => $userId);
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-
-  /**
-   * @param int $accountId
-   * @param bool $useAnd
-   * @return Permission
-   */
-  public function byAccountId($accountId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."AccountId" = :AccountId';
-    $criteria->params = array(':AccountId' => $accountId);
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-
-  /**
-   * @param bool $deleted
-   * @param bool $useAnd
-   * @return Permission
-   */
-  public function byDeleted($deleted, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = ($deleted ? '' : 'NOT ') . '"t"."Deleted"';
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
+    public function tableName()
+    {
+        return 'OAuthPermission';
+    }
 }

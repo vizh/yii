@@ -2,47 +2,51 @@
 
 namespace partner\models;
 
+use application\components\ActiveRecord;
 use event\models\Event;
 use event\models\Part;
 use event\models\Role;
-use user\models\User;
-use application\components\ActiveRecord;
 use partner\models\forms\user\Export as ExportForm;
+use user\models\User;
 
 /**
- * This is the model class for table "PartnerExport".
- *
- * The followings are the available columns in table 'PartnerExport':
- * @property integer $Id
- * @property integer $EventId
+ * @property int $Id
+ * @property int $UserId
+ * @property int $EventId
  * @property string $Config
- * @property integer $UserId
- * @property integer $TotalRow
- * @property integer $ExportedRow
+ * @property int $TotalRow
+ * @property int $ExportedRow
  * @property bool $Success
  * @property string $SuccessTime
  * @property string $CreationTime
  * @property string $FilePath
  *
- * The followings are the available model relations:
  * @property Event $Event
  * @property User $User
  *
- * @method Export bySuccess(boolean $success)
- * @method Export[] findAll()
- * @method Export byEventId(int $id)
- * @method Export findByPk(int $id)
- * @method Export byTotalRow(int $total)
+ * Описание вспомогательных методов
+ * @method Export   with($condition = '')
+ * @method Export   find($condition = '', $params = [])
+ * @method Export   findByPk($pk, $condition = '', $params = [])
+ * @method Export   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Export[] findAll($condition = '', $params = [])
+ * @method Export[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Export byId(int $id, bool $useAnd = true)
+ * @method Export byUserId(int $id, bool $useAnd = true)
+ * @method Export byEventId(int $id, bool $useAnd = true)
+ * @method Export byTotalRow(int $success, bool $useAnd = true)
+ * @method Export bySuccess(bool $success, bool $useAnd = true)
  */
 class Export extends ActiveRecord
 {
     /**
-     * Returns the static model of the specified AR class.
      * @param string $className active record class name.
      * @return Export the static model class
      */
     public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -53,7 +57,6 @@ class Export extends ActiveRecord
     {
         return 'PartnerExport';
     }
-
 
     /**
      * @return array relational rules.
@@ -68,6 +71,7 @@ class Export extends ActiveRecord
 
     /**
      * Процент выполнения экспорта
+     *
      * @return float|int
      */
     public function getExportedPercent()
@@ -75,24 +79,26 @@ class Export extends ActiveRecord
         if ($this->TotalRow == 0) {
             return 0;
         }
-        return round($this->ExportedRow / $this->TotalRow * 100) ;
+
+        return round($this->ExportedRow / $this->TotalRow * 100);
     }
 
-    public function getDescription() {
+    public function getDescription()
+    {
         $config = json_decode($this->Config);
-        $description = \Yii::t('app', 'Язык выгрузки') . ': ' . ExportForm::getLanguageData()[$config->Language] . '<br/>';
+        $description = \Yii::t('app', 'Язык выгрузки').': '.ExportForm::getLanguageData()[$config->Language].'<br/>';
         if (!empty($config->Roles)) {
             $roles = Role::model()->findAllByPk($config->Roles);
-            $description .= \Yii::t('app', 'Роли') . ': ' . implode(', ', \CHtml::listData($roles, 'Id', 'Title')) . '<br/>';
+            $description .= \Yii::t('app', 'Роли').': '.implode(', ', \CHtml::listData($roles, 'Id', 'Title')).'<br/>';
         }
 
         if (!empty($config->PartId)) {
             $part = Part::model()->findByPk($config->PartId);
-            $description .= \Yii::t('app', 'Чать меропрития') . ': ' . $part->Title . '<br/>';
+            $description .= \Yii::t('app', 'Чать меропрития').': '.$part->Title.'<br/>';
         }
 
         if (!empty($config->Document)) {
-            $description .= \Yii::t('app', 'Добавлены паспортные данные') . '<br/>';
+            $description .= \Yii::t('app', 'Добавлены паспортные данные').'<br/>';
         }
 
         return $description;

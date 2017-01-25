@@ -25,6 +25,7 @@ final class OrderType
                 $title = 'Платежная система';
                 break;
         }
+
         return \Yii::t('app', $title);
     }
 
@@ -42,6 +43,7 @@ final class OrderType
                 $title .= 'счет в системе Деньги Mail.Ru';
                 break;
         }
+
         return \Yii::t('app', $title);
     }
 
@@ -53,6 +55,7 @@ final class OrderType
     public static function getIsLong($type)
     {
         $type = intval($type);
+
         return in_array($type, self::getLong());
     }
 
@@ -64,6 +67,7 @@ final class OrderType
     public static function getIsTemplate($type)
     {
         $type = intval($type);
+
         return in_array($type, self::getTemplate());
     }
 
@@ -75,8 +79,8 @@ final class OrderType
     public static function getIsBank($type)
     {
         $type = intval($type);
+
         return in_array($type, self::getBank());
     }
 
-
-} 
+}

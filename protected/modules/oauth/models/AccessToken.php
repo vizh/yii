@@ -1,79 +1,69 @@
 <?php
 namespace oauth\models;
 
+use api\models\Account;
+use application\components\ActiveRecord;
+use user\models\User;
+
 /**
  * @property int $Id
- * @property string $Token
  * @property int $UserId
  * @property int $AccountId
+ * @property string $Token
  * @property string $CreationTime
  * @property string $EndingTime
- * @property \user\models\User $user
  *
+ * @property User $user
+ *
+ * Описание вспомогательных методов
+ * @method AccessToken   with($condition = '')
+ * @method AccessToken   find($condition = '', $params = [])
+ * @method AccessToken   findByPk($pk, $condition = '', $params = [])
+ * @method AccessToken   findByAttributes($attributes, $condition = '', $params = [])
+ * @method AccessToken[] findAll($condition = '', $params = [])
+ * @method AccessToken[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method AccessToken byId(int $id, bool $useAnd = true)
+ * @method AccessToken byUserId(int $id, bool $useAnd = true)
+ * @method AccessToken byAccountId(int $id, bool $useAnd = true)
+ * @method AccessToken byToken(string $token, bool $useAnd = true)
  */
-class AccessToken extends \CActiveRecord
+class AccessToken extends ActiveRecord
 {
 
-  /**
-   * @param string $className
-   * @return AccessToken
-   */
-  public static function model($className=__CLASS__)
-  {    
-    return parent::model($className);
-  }
-  
-  public function tableName()
-  {
-    return 'OAuthAccessToken';
-  }
-  
-  public function primaryKey()
-  {
-    return 'Id';
-  }
+    /**
+     * @param string $className
+     * @return AccessToken
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
-  public function relations()
-  {
-    return [
-      'User' => [self::BELONGS_TO, '\user\models\User', 'UserId']
-    ];
-  }
+    public function tableName()
+    {
+        return 'OAuthAccessToken';
+    }
 
-  /**
-   * @param string $token
-   * @param bool $useAnd
-   * @return AccessToken
-   */
-  public function byToken($token, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."Token" = :Token';
-    $criteria->params = array(':Token' => $token);
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-  
-  public function byUserId($userId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."UserId" = :UserId';
-    $criteria->params = array(':UserId' => $userId);
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
+    public function relations()
+    {
+        return [
+            'User' => [self::BELONGS_TO, '\user\models\User', 'UserId']
+        ];
+    }
 
-  /**
-   * @param \api\models\Account $account
-   *
-   * @return AccessToken
-   */
-  public function createToken($account)
-  {
-    $solt = substr(md5(microtime()), 0, 16);
-    $token = crypt($account->Key.$account->Secret, '$5$rounds=5000$'.$solt);
-    $token = substr($token, strrpos($token, '$')+1);
-    $this->Token = $token;
-    return $this;
-  }
+    /**
+     * @param Account $account
+     * @return AccessToken
+     */
+    public function createToken(Account $account)
+    {
+        $solt = substr(md5(microtime()), 0, 16);
+        $token = crypt($account->Key.$account->Secret, '$5$rounds=5000$'.$solt);
+        $token = substr($token, strrpos($token, '$') + 1);
+        $this->Token = $token;
+
+        return $this;
+    }
 }

@@ -4,10 +4,8 @@ namespace pay\models;
 use application\components\ActiveRecord;
 
 /**
- * Class RoomPartnerBooking
- * @package pay\models
- *
  * @property int $Id
+ * @property int $OrderId
  * @property int $ProductId
  * @property string $Owner
  * @property string $DateIn
@@ -18,16 +16,24 @@ use application\components\ActiveRecord;
  * @property string $CreationTime
  * @property bool $Deleted
  * @property string $DeletionTime
- * @property int $OrderId
  * @property int $AdditionalCount
  * @property string $People
  * @property string $Car
  *
- * @method RoomPartnerBooking byDeleted(boolean $deleted)
+ * Описание вспомогательных методов
+ * @method RoomPartnerBooking   with($condition = '')
+ * @method RoomPartnerBooking   find($condition = '', $params = [])
+ * @method RoomPartnerBooking   findByPk($pk, $condition = '', $params = [])
+ * @method RoomPartnerBooking   findByAttributes($attributes, $condition = '', $params = [])
  * @method RoomPartnerBooking[] findAll($condition = '', $params = [])
+ * @method RoomPartnerBooking[] findAllByAttributes($attributes, $condition = '', $params = [])
  *
- * @method RoomPartnerBooking byProductId(int $productId)
- * @method RoomPartnerBooking byOwner(string $owner)
+ * @method RoomPartnerBooking byId(int $id, bool $useAnd = true)
+ * @method RoomPartnerBooking byOrderId(int $id, bool $useAnd = true)
+ * @method RoomPartnerBooking byOwner(string $owner, bool $useAnd = true)
+ * @method RoomPartnerBooking byProductId(int $id, bool $useAnd = true)
+ * @method RoomPartnerBooking byPaid(bool $paid = true, bool $useAnd = true)
+ * @method RoomPartnerBooking byDeleted(bool $deleted = true, bool $useAnd = true)
  *
  */
 class RoomPartnerBooking extends ActiveRecord
@@ -37,7 +43,7 @@ class RoomPartnerBooking extends ActiveRecord
      *
      * @return RoomPartnerBooking
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
@@ -72,9 +78,9 @@ class RoomPartnerBooking extends ActiveRecord
         $criteria->condition = '"Product"."EventId" = :EventId';
         $criteria->params = ['EventId' => $eventId];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
-
 
     /**
      * @param bool $hasOrder
@@ -86,13 +92,13 @@ class RoomPartnerBooking extends ActiveRecord
         $criteria = new \CDbCriteria();
         $criteria->condition = '"t"."OrderId" '.($hasOrder ? 'NOT' : '').' IS NULL';
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
     public function deleteHard()
     {
-        if ($this->Paid || $this->Deleted)
-        {
+        if ($this->Paid || $this->Deleted) {
             return false;
         }
 

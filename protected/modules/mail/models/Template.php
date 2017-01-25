@@ -8,8 +8,6 @@ use mail\components\mailers\PhpMailer;
 use Yii;
 
 /**
- * Class Template
- *
  * @property int $Id
  * @property string $Filter
  * @property string $Title
@@ -34,7 +32,17 @@ use Yii;
  * @property Event $RelatedEvent
  * @property string $MailerClass
  *
- * @method Template findByPk(int $pk)
+ * Описание вспомогательных методов
+ * @method Template   with($condition = '')
+ * @method Template   find($condition = '', $params = [])
+ * @method Template   findByPk($pk, $condition = '', $params = [])
+ * @method Template   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Template[] findAll($condition = '', $params = [])
+ * @method Template[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Template byId(int $id, bool $useAnd = true)
+ * @method Template byActive(bool $active = true, bool $useAnd = true)
+ * @method Template bySuccess(bool $success = true, bool $useAnd = true)
  */
 class Template extends ActiveRecord
 {
@@ -44,20 +52,19 @@ class Template extends ActiveRecord
     const MAILER_MANDRILL = 'TrueMandrillMailer';
     const MAILER_AMAZON_SES = 'SESMailer';
 
-    private $testMode  = false;
+    private $testMode = false;
     private $testUsers = [];
     public $Attachments = [];
 
     private $viewPath;
 
-
     /**
      * @param string $className
-     *
      * @return Template
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -67,14 +74,6 @@ class Template extends ActiveRecord
     public function tableName()
     {
         return 'MailTemplate';
-    }
-
-    /**
-     * @return int
-     */
-    public function primaryKey()
-    {
-        return 'Id';
     }
 
     /**
@@ -92,23 +91,23 @@ class Template extends ActiveRecord
      */
     public function send()
     {
-        if (!$this->Success){
-            if (!$this->getIsTestMode()){
+        if (!$this->Success) {
+            if (!$this->getIsTestMode()) {
                 $mails = [];
-                foreach ($this->getUsers() as $user){
+                foreach ($this->getUsers() as $user) {
                     $mails[] = new \mail\components\mail\Template($this->getMailer(), $user, $this);
                 }
-                if (!empty($mails)){
+                if (!empty($mails)) {
                     $this->getMailer()->send($mails);
                 }
-            } else{
-                foreach ($this->testUsers as $user){
+            } else {
+                foreach ($this->testUsers as $user) {
                     $criteria = new \CDbCriteria();
                     $criteria->addCondition('"t"."Id" = :UserId');
                     $criteria->params['UserId'] = $user->Id;
                     $criteria->mergeWith($this->getCriteria());
                     $recipient = \user\models\User::model()->find($criteria);
-                    $mail = new \mail\components\mail\Template($this->getMailer(),$recipient,$this);
+                    $mail = new \mail\components\mail\Template($this->getMailer(), $recipient, $this);
                     $this->getMailer()->send([$mail]);
                 }
             }
@@ -130,6 +129,7 @@ class Template extends ActiveRecord
         $this->SuccessTime = null;
         $this->Active = false;
         $this->LastUserId = null;
+
         return $this->save(false);
     }
 
@@ -144,11 +144,12 @@ class Template extends ActiveRecord
             ->beginTransaction();
 
         try {
-            if (!defined('NEW_SES_SENDER'))
+            if (!defined('NEW_SES_SENDER')) {
                 Yii::app()
                     ->getDb()
                     ->createCommand('LOCK TABLE "MailTemplate" IN ACCESS EXCLUSIVE MODE;')
                     ->execute();
+            }
 
             $this->refresh();
             $criteria = $this->getCriteria();
@@ -158,10 +159,11 @@ class Template extends ActiveRecord
                 $this->Success = true;
                 $this->SuccessTime = date('Y-m-d H:i:s');
             } else {
-                $this->LastUserId = $users[sizeof($users)-1]->Id;
+                $this->LastUserId = $users[sizeof($users) - 1]->Id;
             }
             $this->save();
             $transaction->commit();
+
             return $users;
         } catch (\Exception $e) {
             $transaction->rollback();
@@ -180,8 +182,8 @@ class Template extends ActiveRecord
         $criteria->order = '"t"."Id" ASC';
         $criteria->addCondition('"t"."Email" != \'\'');
 
-        if (!$this->getIsTestMode()){
-            if (!$this->SendUnsubscribe){
+        if (!$this->getIsTestMode()) {
+            if (!$this->SendUnsubscribe) {
                 $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
                 if (!empty($this->RelatedEventId)) {
                     $criteria->addCondition('"t"."Id" NOT IN (SELECT "UserId" FROM "UserUnsubscribeEventMail" WHERE "EventId" = :RelativeEventId)');
@@ -193,20 +195,20 @@ class Template extends ActiveRecord
                 $criteria->addCondition('"t"."Verified"');
             }
 
-
-            if (!$this->SendInvisible){
+            if (!$this->SendInvisible) {
                 $criteria->addCondition('"t"."Visible"');
             }
         }
 
-        if (!$this->getIsTestMode() && !$all && $this->LastUserId !== null){
+        if (!$this->getIsTestMode() && !$all && $this->LastUserId !== null) {
             $criteria->addCondition('"t"."Id" > :LastUserId');
             $criteria->params['LastUserId'] = $this->LastUserId;
         }
         $filter = $this->getFilter();
-        if (!empty($filter)){
+        if (!empty($filter)) {
             $criteria->mergeWith($filter->getCriteria());
         }
+
         return $criteria;
     }
 
@@ -215,9 +217,10 @@ class Template extends ActiveRecord
      */
     public function getViewName()
     {
-        if (!$this->getIsNewRecord()){
+        if (!$this->getIsNewRecord()) {
             return 'mail.views.templates.template'.$this->Id;
         }
+
         return null;
     }
 
@@ -226,14 +229,16 @@ class Template extends ActiveRecord
      */
     public function getViewPath()
     {
-        if ($this->viewPath == null && !$this->getIsNewRecord()){
+        if ($this->viewPath == null && !$this->getIsNewRecord()) {
             $this->viewPath = Yii::getPathOfAlias($this->getViewName()).'.php';
         }
+
         return $this->viewPath;
     }
 
     /**
      * Возращает true, если представление рассылки было изменено из вне
+     *
      * @return bool
      */
     public function checkViewExternalChanges()
@@ -247,8 +252,9 @@ class Template extends ActiveRecord
     public function setTestMode($test)
     {
         $this->testMode = $test;
-        if (!$test)
+        if (!$test) {
             $this->testUsers = [];
+        }
     }
 
     /**
@@ -265,32 +271,6 @@ class Template extends ActiveRecord
     public function setTestUsers($users)
     {
         $this->testUsers = $users;
-    }
-
-    /**
-     * @param bool $active
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byActive($active = true, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = ($active == false ? 'NOT ' : '').'"t"."Active"';
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    /**
-     * @param bool $success
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function bySuccess($success = true, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = ($success == false ? 'NOT ' : '').'"t"."Success"';
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
     }
 
     /**
@@ -317,8 +297,8 @@ class Template extends ActiveRecord
     public function getMailer()
     {
         if (is_null($this->mailer)) {
-            $className = 'mail\\components\\mailers\\' . $this->MailerClass;
-            $fileName = Yii::getPathOfAlias('application.modules') . '/' . strtr($className, ['\\' => '/']) . '.php';
+            $className = 'mail\\components\\mailers\\'.$this->MailerClass;
+            $fileName = Yii::getPathOfAlias('application.modules').'/'.strtr($className, ['\\' => '/']).'.php';
 
             if (!file_exists($fileName)) {
                 // use fallback option for mailer class
@@ -338,12 +318,13 @@ class Template extends ActiveRecord
      */
     public function getBodyVarValues(\user\models\User $user)
     {
-        $controller = new \CController('default',null);
+        $controller = new \CController('default', null);
         $result = [
             $this->getMailer()->getVarNameUserUrl() => $user->getUrl(),
             $this->getMailer()->getVarNameUserRunetId() => $user->RunetId,
             $this->getMailer()->getVarNameMailBody() => $controller->renderPartial($this->getViewName(), ['user' => $user], true)
         ];
+
         return $result;
     }
 }

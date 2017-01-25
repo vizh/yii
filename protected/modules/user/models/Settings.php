@@ -1,6 +1,8 @@
 <?php
 namespace user\models;
 
+use application\components\ActiveRecord;
+
 /**
  * @property int $Id
  * @property int $UserId
@@ -17,28 +19,38 @@ namespace user\models;
  * @property int $HideBirthdayYear
  * @property bool $UnsubscribeAll
  *
+ * Описание вспомогательных методов
+ * @method Settings   with($condition = '')
+ * @method Settings   find($condition = '', $params = [])
+ * @method Settings   findByPk($pk, $condition = '', $params = [])
+ * @method Settings   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Settings[] findAll($condition = '', $params = [])
+ * @method Settings[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Settings byId(int $id, bool $useAnd = true)
+ * @method Settings byUserId(int $id, bool $useAnd = true)
  */
-class Settings extends \CActiveRecord
+class Settings extends ActiveRecord
 {
-  public static function model($className=__CLASS__)
-  {    
-    return parent::model($className);
-  }
-  
-  public function tableName()
-  {
-    return 'UserSettings';
-  }
-  
-  public function primaryKey()
-  {
-    return 'Id';
-  }
-  
-  public function relations()
-  {
-    return array(
-      'User' => array(self::BELONGS_TO, '\user\modelsUser', 'UserId'),
-    );
-  }
+    /**
+     * @param null|string $className
+     * @return static
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
+
+    public function tableName()
+    {
+        return 'UserSettings';
+    }
+
+    public function relations()
+    {
+        return [
+            'User' => [self::BELONGS_TO, '\user\modelsUser', 'UserId'],
+        ];
+    }
 }

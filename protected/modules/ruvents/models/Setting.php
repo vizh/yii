@@ -14,29 +14,34 @@ use JsonSerializable;
  * @property string[] $EditableUserData
  * @property string[] $AvailableUserData
  *
- * @method Setting find()
- * @method Setting byEventId(int $eventId)
+ * Описание вспомогательных методов
+ * @method Setting   with($condition = '')
+ * @method Setting   find($condition = '', $params = [])
+ * @method Setting   findByPk($pk, $condition = '', $params = [])
+ * @method Setting   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Setting[] findAll($condition = '', $params = [])
+ * @method Setting[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Setting byId(int $id, bool $useAnd = true)
+ * @method Setting byEventId(int $id, bool $useAnd = true)
  */
 class Setting extends ActiveRecord implements JsonSerializable
 {
+    private $settings = null;
+
     /**
-     * @param string $className
-     *
-     * @return Setting
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
     public function tableName()
     {
         return 'RuventsSetting';
-    }
-
-    public function primaryKey()
-    {
-        return 'Id';
     }
 
     /**
@@ -65,9 +70,6 @@ class Setting extends ActiveRecord implements JsonSerializable
         return parent::__isset($name);
     }
 
-
-    private $settings = null;
-
     /**
      * @return \stdClass|null
      */
@@ -92,8 +94,9 @@ class Setting extends ActiveRecord implements JsonSerializable
     {
         $settings = $this->getSettings();
 
-        if ($settings === null)
+        if ($settings === null) {
             return null;
+        }
 
         // Если определены редактируемые атрибуты, то получим их настройки. Данный код будет отрабатывать
         // в случае если для данного мероприятия будет проходить оффлайн регистрация. Задача кода - передать

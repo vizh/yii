@@ -4,9 +4,6 @@ namespace sms\models;
 use application\components\db\MongoLogDocument;
 
 /**
- * Class Log
- * @package sms\models
- *
  * @property int $Id
  * @property string $To
  * @property string $Message
@@ -16,10 +13,11 @@ class Log extends MongoLogDocument
 {
     /**
      * @param string $className
-     * @return Log
+     * @return static
      */
     public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -27,4 +25,4 @@ class Log extends MongoLogDocument
     {
         return 'SmsLog';
     }
-} 
+}

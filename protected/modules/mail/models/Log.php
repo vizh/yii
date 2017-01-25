@@ -1,6 +1,9 @@
 <?php
 namespace mail\models;
 
+use application\components\ActiveRecord;
+use mail\components\ILog;
+
 /**
  * @property int $Id
  * @property string $From
@@ -10,17 +13,26 @@ namespace mail\models;
  * @property string $Hash
  * @property string $Error
  *
+ * Описание вспомогательных методов
+ * @method Log   with($condition = '')
+ * @method Log   find($condition = '', $params = [])
+ * @method Log   findByPk($pk, $condition = '', $params = [])
+ * @method Log   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Log[] findAll($condition = '', $params = [])
+ * @method Log[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Log byId(int $id, bool $useAnd = true)
+ * @method Log byHash(string $hash, bool $useAnd = true)
  */
-class Log extends \CActiveRecord implements \mail\components\ILog
+class Log extends ActiveRecord implements ILog
 {
-
     /**
      * @param string $className
-     *
      * @return Log
      */
     public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -28,26 +40,6 @@ class Log extends \CActiveRecord implements \mail\components\ILog
     {
         return 'MailLog';
     }
-
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
-    /**
-     * @param string $hash
-     * @param bool $useAnd
-     * @return Log
-     */
-    public function byHash($hash, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."Hash" = :Hash';
-        $criteria->params = array('Hash' => $hash);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
 
     public function setError($error)
     {

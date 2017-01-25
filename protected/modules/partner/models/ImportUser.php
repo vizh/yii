@@ -3,16 +3,14 @@ namespace partner\models;
 
 use api\models\ExternalUser;
 use application\components\ActiveRecord;
+use event\models\Role;
 use event\models\UserData;
-use pay\components\Exception;
 use partner\components\ImportException;
+use pay\components\Exception;
 use pay\models\Product;
 use user\models\User;
-use event\models\Role;
 
 /**
- * Class ImportUser
- *
  * @property int $Id
  * @property int $ImportId
  * @property string $LastName
@@ -32,12 +30,24 @@ use event\models\Role;
  * @property string $UserData
  * @property string $PhotoUrl
  * @property string $PhotoNameInPath
- *
  * @property bool $Imported
  * @property bool $Error
  * @property string $ErrorMessage
  *
  * @property Import $Import
+ *
+ * Описание вспомогательных методов
+ * @method ImportUser   with($condition = '')
+ * @method ImportUser   find($condition = '', $params = [])
+ * @method ImportUser   findByPk($pk, $condition = '', $params = [])
+ * @method ImportUser   findByAttributes($attributes, $condition = '', $params = [])
+ * @method ImportUser[] findAll($condition = '', $params = [])
+ * @method ImportUser[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method ImportUser byId(int $id, bool $useAnd = true)
+ * @method ImportUser byImportId(int $id, bool $useAnd = true)
+ * @method ImportUser byImported(bool $imported, bool $useAnd = true)
+ * @method ImportUser byError(bool $error, bool $useAnd = true)
  */
 class ImportUser extends ActiveRecord
 {
@@ -60,49 +70,6 @@ class ImportUser extends ActiveRecord
     }
 
     /**
-     * @param int $importId
-     * @param bool $useAnd
-     *
-     * @return ImportUser
-     */
-    public function byImportId($importId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."ImportId" = :ImportId';
-        $criteria->params = array('ImportId' => $importId);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    /**
-     * @param bool $imported
-     * @param bool $useAnd
-     *
-     * @return ImportUser
-     */
-    public function byImported($imported, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = ($imported ? '' : 'NOT ') . '"t"."Imported"';
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    /**
-     * @param bool $error
-     * @param bool $useAnd
-     *
-     * @return ImportUser
-     */
-    public function byError($error, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = ($error ? '' : 'NOT ') . '"t"."Error"';
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    /**
      * @param Import $import
      * @param array $roles
      * @param array $products
@@ -122,7 +89,7 @@ class ImportUser extends ActiveRecord
 
         $product = Product::model()->findByPk($productId);
         if ($productId != -1 && ($product == null || $product->EventId != $import->EventId)) {
-            throw new ImportException('Не найден товар: "' . $productName . '".');
+            throw new ImportException('Не найден товар: "'.$productName.'".');
         }
 
         $this->Email = $this->getCorrectEmail($import);
@@ -190,8 +157,9 @@ class ImportUser extends ActiveRecord
         $validator = new \CEmailValidator();
         $validator->allowEmpty = false;
 
-        if (!$validator->validateValue($this->Email))
+        if (!$validator->validateValue($this->Email)) {
             $this->Email = \CText::generateFakeEmail($import->EventId);
+        }
 
         $criteria = new \CDbCriteria();
         $criteria->condition = '"ImportId" = :ImportId AND "Imported" AND "Email" = :Email AND "Id" != :Id';
@@ -201,8 +169,9 @@ class ImportUser extends ActiveRecord
             'Id' => $this->Id
         ];
 
-        if (empty($this->Email) || ImportUser::model()->exists($criteria))
+        if (empty($this->Email) || ImportUser::model()->exists($criteria)) {
             return \CText::generateFakeEmail($import->EventId);
+        }
 
         $model = User::model()->byEmail($this->Email)->byEventId($import->EventId);
         if ($import->Visible) {
@@ -210,8 +179,9 @@ class ImportUser extends ActiveRecord
         }
         $user = $model->find();
 
-        if ($user != null && ($user->LastName != $this->LastName || $user->FirstName != $this->FirstName))
+        if ($user != null && ($user->LastName != $this->LastName || $user->FirstName != $this->FirstName)) {
             return \CText::generateFakeEmail($import->EventId);
+        }
 
         return $this->Email;
     }
@@ -247,6 +217,7 @@ class ImportUser extends ActiveRecord
 
     /**
      * Fetches photo if this is exists
+     *
      * @param User $user
      */
     private function importPhoto(User $user)
@@ -257,13 +228,13 @@ class ImportUser extends ActiveRecord
 
         $extensions = ['jpg', 'JPG', 'jpeg', 'png'];
 
-        $baseFileName = \Yii::getPathOfAlias('webroot.files.import-photos') .
-            DIRECTORY_SEPARATOR . $this->PhotoNameInPath;
+        $baseFileName = \Yii::getPathOfAlias('webroot.files.import-photos').
+            DIRECTORY_SEPARATOR.$this->PhotoNameInPath;
 
         if (!\CFileHelper::getExtension($this->PhotoNameInPath)) {
             $hasFound = false;
             foreach ($extensions as $ext) {
-                $fileName = $baseFileName . '.' . $ext;
+                $fileName = $baseFileName.'.'.$ext;
                 if (file_exists($fileName)) {
                     $hasFound = true;
                     break;
@@ -372,7 +343,7 @@ class ImportUser extends ActiveRecord
             $manager = $data->getManager();
             if (!$manager->validate()) {
                 foreach ($manager->getErrors() as $attribute => $errors) {
-                    throw new ImportException('Ошибка атрибута пользоватя "' . $attribute . '": ' . $errors[0]);
+                    throw new ImportException('Ошибка атрибута пользоватя "'.$attribute.'": '.$errors[0]);
                 }
             }
 
@@ -417,7 +388,7 @@ class ImportUser extends ActiveRecord
         $user->setLocale($locale);
 
         foreach (['FirstName', 'LastName', 'FatherName'] as $attribute) {
-            if (!$value = $this->{$attribute . '_en'}) {
+            if (!$value = $this->{$attribute.'_en'}) {
                 continue;
             }
 
@@ -490,17 +461,17 @@ class ImportUser extends ActiveRecord
                     break;
             }
 
-            return $match[1] . '.' . $month;
+            return $match[1].'.'.$month;
         }
 
         $match = [];
         if (preg_match('#(\d{2})[\.//](\d{2})[\.//]?(\d{2,4})?#', $date, $match)) {
-            return $match[1] . '.' . $match[2];
+            return $match[1].'.'.$match[2];
         }
 
         $match = [];
         if (preg_match('#(\d{2})-(\d{2})[-]?(\d{2,4})?#', $date, $match)) {
-            return $match[2] . '.' . $match[1];
+            return $match[2].'.'.$match[1];
         }
 
         return null;

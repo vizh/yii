@@ -8,25 +8,30 @@ use event\models\UserData;
 use user\models\User;
 
 /**
- * This is the model class for table "RuventsVisit".
- *
- * The followings are the available columns in table 'RuventsVisit':
- *
  * @property integer $Id
  * @property string $EventId
- * @property integer $UserId RunetId of the user
+ * @property integer $UserId
  * @property string $MarkId
  * @property string $CreationTime
  *
- * The followings are the available model relations:
  * @property User $User
  * @property Event $Event
  * @property UserData $UserData
  * @property Participant[] $Participants
  *
+ * Описание вспомогательных методов
+ * @method Visit   with($condition = '')
+ * @method Visit   find($condition = '', $params = [])
+ * @method Visit   findByPk($pk, $condition = '', $params = [])
+ * @method Visit   findByAttributes($attributes, $condition = '', $params = [])
  * @method Visit[] findAll($condition = '', $params = [])
- * @method Visit byEventId(int $id)
- * @method Visit byUserId(int $id)
+ * @method Visit[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Visit byId(int $id, bool $useAnd = true)
+ * @method Visit byEventId(int $id, bool $useAnd = true)
+ * @method Visit byUserId(int $id, bool $useAnd = true)
+ * @method Visit byMarkId(int $id, bool $useAnd = true)
+ *
  * @method Visit orderByCreationTime(int $order)
  */
 class Visit extends ActiveRecord implements \JsonSerializable
@@ -34,13 +39,12 @@ class Visit extends ActiveRecord implements \JsonSerializable
     public $CountForCriteria = 0;
 
     /**
-     * Returns the static model of the specified AR class.
-     *
-     * @param string $className active record class name.
-     * @return Visit the static model class
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -72,7 +76,7 @@ class Visit extends ActiveRecord implements \JsonSerializable
     /**
      * @inheritdoc
      */
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return $this->getAttributes([
             'UserId',

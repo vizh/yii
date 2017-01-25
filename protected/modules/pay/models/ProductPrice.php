@@ -4,20 +4,40 @@ namespace pay\models;
 use application\models\translation\ActiveRecord;
 
 /**
- * Class ProductPrice
- *
  * @property int $Id
  * @property int $ProductId
  * @property int $Price
  * @property string $StartTime
  * @property string $EndTime
  * @property string $Title
+ * @property bool $Deleted
+ * @property bool $DeletionTime
  *
- * @method ProductPrice byDeleted(boolean $deleted)
+ * Описание вспомогательных методов
+ * @method ProductPrice   with($condition = '')
+ * @method ProductPrice   find($condition = '', $params = [])
+ * @method ProductPrice   findByPk($pk, $condition = '', $params = [])
+ * @method ProductPrice   findByAttributes($attributes, $condition = '', $params = [])
+ * @method ProductPrice[] findAll($condition = '', $params = [])
+ * @method ProductPrice[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method ProductPrice byId(int $id, bool $useAnd = true)
+ * @method ProductPrice byProductId(int $id, bool $useAnd = true)
+ * @method ProductPrice byDeleted(bool $deleted = true, bool $useAnd = true)
  */
 class ProductPrice extends ActiveRecord
 {
     protected $useSoftDelete = true;
+
+    /**
+     * @param null|string $className
+     * @return static
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
     /**
      * Creates a new one model
@@ -49,21 +69,14 @@ class ProductPrice extends ActiveRecord
 
             return $model;
         } catch (\CDbException $e) {
-
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function tableName()
     {
         return 'PayProductPrice';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function relations()
     {
         return [
@@ -71,9 +84,6 @@ class ProductPrice extends ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getTranslationFields()
     {
         return ['Title'];

@@ -11,6 +11,7 @@ use application\components\utility\PhoneticSearch;
 use application\components\utility\Texts;
 use application\models\translation\ActiveRecord;
 use application\widgets\IAutocompleteItem;
+use CEvent;
 use commission\models\Commission;
 use competence\models\Result;
 use event\models\Participant;
@@ -26,8 +27,6 @@ use user\components\handlers\Register;
 use Yii;
 
 /**
- * @throws \Exception
- *
  * @property int $Id
  * @property int $RunetId
  * @property string $LastName
@@ -53,8 +52,6 @@ use Yii;
  * @property string $SearchFirstName
  * @property bool $Verified
  *
- *
- * Внешние связи
  * @property LinkEmail $LinkEmail
  * @property LinkAddress $LinkAddress
  * @property LinkSite $LinkSite
@@ -78,11 +75,7 @@ use Yii;
  * @property UserDevice[] $Devices
  *
  * События
- * @property \CEvent $onRegister
- *
- * @method User byTemporary(bool $temporary)
- * @method User byVerified(bool $verified)
- * @method User byTranslationFields($locale, $fields, $valueSuffix = '%', $useAnd = true)
+ * @property CEvent $onRegister
  *
  * Описание вспомогательных методов
  * @method User   with($condition = '')
@@ -91,6 +84,12 @@ use Yii;
  * @method User   findByAttributes($attributes, $condition = '', $params = [])
  * @method User[] findAll($condition = '', $params = [])
  * @method User[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method User byId(int $id, bool $useAnd = true)
+ * @method User byRunetId(int $id, bool $useAnd = true)
+ * @method User byTemporary(bool $temporary)
+ * @method User byVerified(bool $verified)
+ * @method User byTranslationFields($locale, $fields, $valueSuffix = '%', $useAnd = true)
  */
 class User extends ActiveRecord implements ISearch, IAutocompleteItem
 {
@@ -101,6 +100,16 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     const MaxSearchFragments = 500;
 
     const PasswordLengthMin = 6;
+
+    /**
+     * @param null|string $className
+     * @return static
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
     /**
      * @inheritdoc
@@ -200,21 +209,6 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     public function getTranslationFields()
     {
         return ['LastName', 'FirstName', 'FatherName'];
-    }
-
-    /**
-     * @param int $runetId
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byRunetId($runetId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."RunetId" = :RunetId';
-        $criteria->params['RunetId'] = (int)$runetId;
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
     }
 
     /**

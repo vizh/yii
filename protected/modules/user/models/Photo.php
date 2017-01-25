@@ -7,6 +7,7 @@ class Photo
 
     /**
      * Constructor
+     *
      * @param int $runetId
      */
     public function __construct($runetId)
@@ -16,83 +17,91 @@ class Photo
 
     /**
      * Возвращает путь к мини изображению пользователя, для навигационного бара
+     *
      * @param bool $serverPath
      *
      * @return string
      */
     public function get18px($serverPath = false)
     {
-        return $this->getByName($serverPath, $this->runetId . '_50.jpg', 'nophoto_50.png');
+        return $this->getByName($serverPath, $this->runetId.'_50.jpg', 'nophoto_50.png');
     }
 
     /**
      * Возвращает путь к мини изображению пользователя, для шапки сайта, отображения в компаниях и тп
+     *
      * @param bool $serverPath
      * @return string
      */
     public function get50px($serverPath = false)
     {
-        return $this->getByName($serverPath, $this->runetId . '_50.jpg', 'nophoto_50.png');
+        return $this->getByName($serverPath, $this->runetId.'_50.jpg', 'nophoto_50.png');
     }
 
     /**
      * Возвращает путь к мини изображению пользователя, для страницы мероприятия
+     *
      * @param bool $serverPath
      *
      * @return string
      */
     public function get58px($serverPath = false)
     {
-        return $this->getByName($serverPath, $this->runetId . '_90.jpg', 'nophoto_58.png');
+        return $this->getByName($serverPath, $this->runetId.'_90.jpg', 'nophoto_58.png');
     }
 
     /**
      * Возвращает путь к мини изображению пользователя, для шапки сайта, отображения в компаниях и тп
+     *
      * @param bool $serverPath
      * @return string
      */
     public function get90px($serverPath = false)
     {
-        return $this->getByName($serverPath, $this->runetId . '_90.jpg', 'nophoto_90.png');
+        return $this->getByName($serverPath, $this->runetId.'_90.jpg', 'nophoto_90.png');
     }
 
     /**
      * Возвращает путь к изображению пользователя для профиля и тп
+     *
      * @param bool $serverPath
      * @return string
      */
     public function get200px($serverPath = false)
     {
-        return $this->getByName($serverPath, $this->runetId . '_200.jpg', 'nophoto_200.png');
+        return $this->getByName($serverPath, $this->runetId.'_200.jpg', 'nophoto_200.png');
     }
 
     /**
      * Возвращает путь к изображению пользователя для профиля и тп
+     *
      * @param bool $serverPath
      * @return string
      */
     public function get238px($serverPath = false)
     {
-        return $this->getByName($serverPath, $this->runetId . '_200.jpg', 'nophoto_200.png');
+        return $this->getByName($serverPath, $this->runetId.'_200.jpg', 'nophoto_200.png');
     }
 
     /**
      * Возвращает путь к исходному изображению пользователя
+     *
      * @param bool $serverPath
      * @return string
      */
     public function getOriginal($serverPath = false)
     {
-        return $this->getByName($serverPath, $this->runetId . '.jpg', 'nophoto_200.png');
+        return $this->getByName($serverPath, $this->runetId.'.jpg', 'nophoto_200.png');
     }
 
     /**
      * Проверяет наличие изображения
+     *
      * @return boolean
      */
     public function hasImage()
     {
-        return file_exists($fileName = $this->getPath(true) . $this->runetId . '.jpg');
+        return file_exists($fileName = $this->getPath(true).$this->runetId.'.jpg');
     }
 
     /**
@@ -114,6 +123,7 @@ class Photo
 
     /**
      * Сохраняет изображение из исходного файла
+     *
      * @param string $path
      */
     public function save($path)
@@ -159,12 +169,13 @@ class Photo
 
     /**
      * Возвращает путь к исходному изображению пользователя
+     *
      * @param bool $serverPath
      * @return string
      */
     protected function getClear($serverPath = false)
     {
-        return $this->getByName($serverPath, $this->runetId . '_clear.jpg', 'nophoto_200.png');
+        return $this->getByName($serverPath, $this->runetId.'_clear.jpg', 'nophoto_200.png');
     }
 
     /**
@@ -175,12 +186,10 @@ class Photo
     {
         $folder = $this->runetId / 10000;
         $folder = (int)$folder;
-        $result = \Yii::app()->params['UserPhotoDir'] . $folder . '/';
-
-
+        $result = \Yii::app()->params['UserPhotoDir'].$folder.'/';
 
         if ($serverPath) {
-            $result = \Yii::getPathOfAlias('webroot') . $result;
+            $result = \Yii::getPathOfAlias('webroot').$result;
         }
 
         return $result;
@@ -188,6 +197,7 @@ class Photo
 
     /**
      * Returns path to the user photo
+     *
      * @param string $serverPath
      * @param string $name
      * @param string $noFile
@@ -195,12 +205,13 @@ class Photo
      */
     protected function getByName($serverPath, $name, $noFile)
     {
-        $fileName = $this->getPath(true) . $name;
+        $fileName = $this->getPath(true).$name;
         if ($serverPath || file_exists($fileName)) {
             $mtime = @filemtime($fileName);
-            return $this->getPath($serverPath) . $name . ($serverPath ? '' : '?t=' . $mtime);
+
+            return $this->getPath($serverPath).$name.($serverPath ? '' : '?t='.$mtime);
         } else {
-            return \Yii::app()->params['UserPhotoDir'] . $noFile;
+            return \Yii::app()->params['UserPhotoDir'].$noFile;
         }
     }
 

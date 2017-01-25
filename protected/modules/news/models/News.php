@@ -1,5 +1,8 @@
 <?php
 namespace news\models;
+
+use application\components\ActiveRecord;
+
 /**
  * @property int Id
  * @property string Title
@@ -7,49 +10,56 @@ namespace news\models;
  * @property string Date
  * @property string Url
  * @property string UrlHash
- *  
+ *
+ * Описание вспомогательных методов
+ * @method News   with($condition = '')
+ * @method News   find($condition = '', $params = [])
+ * @method News   findByPk($pk, $condition = '', $params = [])
+ * @method News   findByAttributes($attributes, $condition = '', $params = [])
+ * @method News[] findAll($condition = '', $params = [])
+ * @method News[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method News byId(int $id, bool $useAnd = true)
+ * @method News byUrlHash(string $hash, bool $useAnd = true)
  */
-class News extends \CActiveRecord
+class News extends ActiveRecord
 {
-  public static function model($className=__CLASS__)
-  {    
-    return parent::model($className);
-  }
-  
-  public function tableName()
-  {
-    return 'News';
-  }
+    /**
+     * @param string $className
+     * @return News
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
-  protected function beforeSave()
-  {
-    if ($this->getIsNewRecord())
+    public function tableName()
     {
-      $this->UrlHash = md5($this->Url);
+        return 'News';
     }
-    return parent::beforeSave();
-  }
-  
-  private $photo = null;
-  /**
-   * 
-   * @return \news\models\Photo $photo
-   */
-  public function getPhoto()
-  {
-    if ($this->photo == null)
+
+    protected function beforeSave()
     {
-      $this->photo = new \news\models\Photo($this);
+        if ($this->getIsNewRecord()) {
+            $this->UrlHash = md5($this->Url);
+        }
+
+        return parent::beforeSave();
     }
-    return $this->photo;
-  }
-  
-  public function byUrl($url, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."UrlHash" = :UrlHash';
-    $criteria->params = array('UrlHash' => md5($url));
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
+
+    private $photo = null;
+
+    /**
+     *
+     * @return Photo $photo
+     */
+    public function getPhoto()
+    {
+        if ($this->photo == null) {
+            $this->photo = new Photo($this);
+        }
+
+        return $this->photo;
+    }
 }

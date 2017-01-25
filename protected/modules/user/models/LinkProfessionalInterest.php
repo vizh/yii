@@ -1,61 +1,51 @@
 <?php
 namespace user\models;
 
+use application\components\ActiveRecord;
+use application\models\ProfessionalInterest;
+
 /**
  * @property int $Id
  * @property int $UserId
  * @property int $ProfessionalInterestId
  *
  * @property User $User
- * @property \application\models\ProfessionalInterest $ProfessionalInterest
+ * @property ProfessionalInterest $ProfessionalInterest
  *
- * @method LinkProfessionalInterest[] findAll()
+ * Описание вспомогательных методов
+ * @method LinkProfessionalInterest   with($condition = '')
+ * @method LinkProfessionalInterest   find($condition = '', $params = [])
+ * @method LinkProfessionalInterest   findByPk($pk, $condition = '', $params = [])
+ * @method LinkProfessionalInterest   findByAttributes($attributes, $condition = '', $params = [])
+ * @method LinkProfessionalInterest[] findAll($condition = '', $params = [])
+ * @method LinkProfessionalInterest[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method LinkProfessionalInterest byId(int $id, bool $useAnd = true)
+ * @method LinkProfessionalInterest byUserId(int $id, bool $useAnd = true)
+ * @method LinkProfessionalInterest byProfessionalInterestId(int $id, bool $useAnd = true)
  */
-class LinkProfessionalInterest extends \CActiveRecord
+class LinkProfessionalInterest extends ActiveRecord
 {
-  /**
-   * @param string $className
-   * @return LinkProfessionalInterest
-   */
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
+    /**
+     * @param null|string $className
+     * @return static
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
-  public function tableName()
-  {
-    return 'UserLinkProfessionalInterest';
-  }
+    public function tableName()
+    {
+        return 'UserLinkProfessionalInterest';
+    }
 
-  public function primaryKey()
-  {
-    return 'Id';
-  }
-
-  public function relations()
-  {
-    return array(
-      'User' => array(self::BELONGS_TO, '\user\models\User', 'UserId'),
-      'ProfessionalInterest' => array(self::BELONGS_TO, '\application\models\ProfessionalInterest', 'ProfessionalInterestId'),
-    );
-  }
-  
-  public function byProfessionalInterestId($professionalInterestId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."ProfessionalInterestId" = :ProfessionalInterestId';
-    $criteria->params = array(':ProfessionalInterestId' => $professionalInterestId);
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-  
-  public function byUserId($userId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."UserId" = :UserId';
-    $criteria->params = array(':UserId' => $userId);
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-  
+    public function relations()
+    {
+        return [
+            'User' => [self::BELONGS_TO, '\user\models\User', 'UserId'],
+            'ProfessionalInterest' => [self::BELONGS_TO, '\application\models\ProfessionalInterest', 'ProfessionalInterestId'],
+        ];
+    }
 }

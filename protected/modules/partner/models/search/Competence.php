@@ -33,7 +33,6 @@ class Competence extends SearchFormModel
         ];
     }
 
-
     /**
      * @return \CDataProvider
      */
@@ -45,7 +44,7 @@ class Competence extends SearchFormModel
         $criteria->with = [
             'Participants' => [
                 'together' => true,
-                'return'   => false
+                'return' => false
             ]
         ];
         $criteria->order = '"Participants"."CreationTime" DESC';
@@ -58,11 +57,11 @@ class Competence extends SearchFormModel
             }
         }
         $model->getDbCriteria()->mergeWith($criteria);
-        return new \CActiveDataProvider($model,[
+
+        return new \CActiveDataProvider($model, [
             'sort' => $this->getSort()
         ]);
     }
-
 
     /**
      * @return \CSort
@@ -77,6 +76,7 @@ class Competence extends SearchFormModel
             ]
         ];
         $sort->defaultOrder = ['Name' => SORT_ASC];
+
         return $sort;
     }
 }

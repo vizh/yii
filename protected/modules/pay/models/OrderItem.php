@@ -27,15 +27,26 @@ use user\models\User;
  * @property User $Owner
  * @property User $ChangedOwner
  * @property OrderLinkOrderItem[] $OrderLinks
- * @method OrderLinkOrderItem[] OrderLinks($params)
  * @property CouponActivationLinkOrderItem $CouponActivationLink
  * @property OrderItemAttribute[] $Attributes
  *
- * @method OrderItem findByPk($pk, $condition = '', $params = [])
- * @method OrderItem find()
+ * Описание вспомогательных методов
+ * @method OrderItem   with($condition = '')
+ * @method OrderItem   find($condition = '', $params = [])
+ * @method OrderItem   findByPk($pk, $condition = '', $params = [])
+ * @method OrderItem   findByAttributes($attributes, $condition = '', $params = [])
  * @method OrderItem[] findAll($condition = '', $params = [])
- * @method OrderItem with($with)
- * @method OrderItem byRefund(boolean $refund)
+ * @method OrderItem[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method OrderItem byId(int $id, bool $useAnd = true)
+ * @method OrderItem byProductId(int $id, bool $useAnd = true)
+ * @method OrderItem byPayerId(int $id, bool $useAnd = true)
+ * @method OrderItem byOwnerId(int $id, bool $useAnd = true)
+ * @method OrderItem byPaid(bool $paid = true, bool $useAnd = true)
+ * @method OrderItem byDeleted(bool $deleted = true, bool $useAnd = true)
+ * @method OrderItem byRefund(bool $refund = true, bool $useAnd = true)
+ *
+ * @method OrderLinkOrderItem[] OrderLinks($params)
  */
 class OrderItem extends ActiveRecord
 {
@@ -57,16 +68,20 @@ class OrderItem extends ActiveRecord
     private $loyaltyDiscount = false;
 
     /**
-     * @return string
+     * @param null|string $className
+     * @return static
      */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
+
     public function tableName()
     {
         return 'PayOrderItem';
     }
 
-    /**
-     * @return array
-     */
     public function relations()
     {
         return [
@@ -82,6 +97,7 @@ class OrderItem extends ActiveRecord
 
     /**
      * @param $name
+     *
      * @return null|string
      * @throws MessageException
      */
@@ -105,6 +121,7 @@ class OrderItem extends ActiveRecord
     /**
      * @param string $name
      * @param mixed $value
+     *
      * @throws MessageException
      */
     public function setItemAttribute($name, $value)
@@ -126,7 +143,7 @@ class OrderItem extends ActiveRecord
             $attribute->Value = $value;
             $attribute->save();
         } else {
-            throw new MessageException('Данный заказ не содержит аттрибута с именем ' . $name);
+            throw new MessageException('Данный заказ не содержит аттрибута с именем '.$name);
         }
     }
 
@@ -136,7 +153,7 @@ class OrderItem extends ActiveRecord
     public function getOrderItemAttributes()
     {
         if ($this->orderItemAttributes === null) {
-            $this->orderItemAttributes = array();
+            $this->orderItemAttributes = [];
             foreach ($this->Attributes as $attribute) {
                 $this->orderItemAttributes[$attribute->Name] = $attribute;
             }
@@ -146,53 +163,9 @@ class OrderItem extends ActiveRecord
     }
 
     /**
-     * @param int $productId
-     * @param bool $useAnd
-     * @return OrderItem
-     */
-    public function byProductId($productId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."ProductId" = :ProductId';
-        $criteria->params = ['ProductId' => $productId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
-    }
-
-    /**
-     * @param int $userId
-     * @param bool $useAnd
-     * @return OrderItem
-     */
-    public function byPayerId($userId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."PayerId" = :PayerId';
-        $criteria->params = ['PayerId' => $userId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
-    }
-
-    /**
-     * @param int $userId
-     * @param bool $useAnd
-     * @return OrderItem
-     */
-    public function byOwnerId($userId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."OwnerId" = :OwnerId';
-        $criteria->params = ['OwnerId' => $userId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
-    }
-
-    /**
      * @param int|null $userId
      * @param bool $useAnd
+     *
      * @return OrderItem
      */
     public function byChangedOwnerId($userId, $useAnd = true)
@@ -213,6 +186,7 @@ class OrderItem extends ActiveRecord
     /**
      * @param $userId
      * @param bool $useAnd
+     *
      * @return $this
      */
     public function byAnyOwnerId($userId, $useAnd = true)
@@ -228,6 +202,7 @@ class OrderItem extends ActiveRecord
     /**
      * @param int $eventId
      * @param bool $useAnd
+     *
      * @return OrderItem
      */
     public function byEventId($eventId, $useAnd = true)
@@ -242,37 +217,11 @@ class OrderItem extends ActiveRecord
     }
 
     /**
-     * @param bool $paid
-     * @param bool $useAnd
-     * @return OrderItem
-     */
-    public function byPaid($paid, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = ($paid ? '' : 'NOT ') . '"t"."Paid"';
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
-    }
-
-    /**
-     * @param bool $deleted
-     * @param bool $useAnd
-     * @return OrderItem
-     */
-    public function byDeleted($deleted, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = ($deleted ? '' : 'NOT ') . '"t"."Deleted"';
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
-    }
-
-    /**
      * Усли параметр $booked=true - добавляет условие, что срок заказа не истек
+     *
      * @param $booked
      * @param bool $useAnd
+     *
      * @return OrderItem
      */
     public function byBooked($booked = true, $useAnd = true)
@@ -298,7 +247,6 @@ class OrderItem extends ActiveRecord
         if (!$this->Product->EnableCoupon && !$this->Paid) {
             return null;
         }
-
 
         if (is_null($this->couponActivation) && !$this->couponTrySet) {
             $this->couponTrySet = true;
@@ -327,6 +275,7 @@ class OrderItem extends ActiveRecord
 
     /**
      * @param Order $order
+     *
      * @return bool
      */
     public function activate($order = null)
@@ -346,6 +295,7 @@ class OrderItem extends ActiveRecord
     public function check()
     {
         $owner = $this->ChangedOwnerId == null ? $this->Owner : $this->ChangedOwner;
+
         return $this->Product->getManager()->checkProduct($owner);
     }
 
@@ -362,6 +312,7 @@ class OrderItem extends ActiveRecord
 
     /**
      * @param User $newOwner
+     *
      * @return bool
      */
     public function changeOwner(User $newOwner)
@@ -370,12 +321,12 @@ class OrderItem extends ActiveRecord
         if ($this->Product->getManager()->changeOwner($fromOwner, $newOwner)) {
             $this->ChangedOwnerId = $newOwner->Id;
             $this->save();
+
             return true;
         }
 
         return false;
     }
-
 
     /**
      * @return int
@@ -387,6 +338,7 @@ class OrderItem extends ActiveRecord
 
     /**
      * Итоговое значение цены товара, с учетом скидки, если она есть
+     *
      * @throws Exception
      * @return int|null
      */
@@ -443,12 +395,13 @@ class OrderItem extends ActiveRecord
     protected function beforeSave()
     {
         $this->UpdateTime = date('Y-m-d H:i:s');
+
         return parent::beforeSave();
     }
 
-
     /**
      * Deletes the order item. It makes soft delete, that means the order item gets Deleted = TRUE and DeletionTime
+     *
      * @return bool
      */
     public function delete()
@@ -474,6 +427,7 @@ class OrderItem extends ActiveRecord
 
     /**
      * Отмечает возврат заказа.
+     *
      * @return bool
      */
     public function refund()

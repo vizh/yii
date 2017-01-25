@@ -1,26 +1,39 @@
 <?php
 namespace ruvents\models;
 
+use application\components\ActiveRecord;
+use event\models\Event;
+
 /**
- * Class Account
- * @package ruvents\models
- *
  * @property int $Id
  * @property int $EventId
  * @property string $Hash
  * @property string $Role
  *
- * @property \event\models\Event $Event
+ * @property Event $Event
+ *
+ * Описание вспомогательных методов
+ * @method Account   with($condition = '')
+ * @method Account   find($condition = '', $params = [])
+ * @method Account   findByPk($pk, $condition = '', $params = [])
+ * @method Account   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Account[] findAll($condition = '', $params = [])
+ * @method Account[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Account byId(int $id, bool $useAnd = true)
+ * @method Account byEventId(int $id, bool $useAnd = true)
+ * @method Account byHash(string $hash, bool $useAnd = true)
+ * @method Account byRole(string $role, bool $useAnd = true)
  */
-class Account extends \CActiveRecord
+class Account extends ActiveRecord
 {
     /**
-     * @static
-     * @param string $className
-     * @return Account
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -29,60 +42,10 @@ class Account extends \CActiveRecord
         return 'RuventsAccount';
     }
 
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
     public function relations()
     {
         return [
             'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
         ];
-    }
-
-    /**
-     * @param string $hash
-     * @param bool $useAnd
-     * @return Account
-     */
-    public function byHash($hash, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."Hash" = :Hash';
-        $criteria->params = ['Hash' => $hash];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
-    }
-
-    /**
-     * @param int $eventId
-     * @param bool $useAnd
-     * @return Account
-     */
-    public function byEventId($eventId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."EventId" = :EventId';
-        $criteria->params = ['EventId' => $eventId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
-    }
-
-    /**
-     * @param string $role
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byRole($role, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."Role" = :Role';
-        $criteria->params = ['Role' => $role];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
     }
 }

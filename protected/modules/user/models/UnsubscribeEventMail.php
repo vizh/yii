@@ -1,5 +1,7 @@
 <?php
 namespace user\models;
+
+use application\components\ActiveRecord;
 use event\models\Event;
 
 /**
@@ -10,15 +12,28 @@ use event\models\Event;
  *
  * @property User $User
  * @property Event $Event
+ *
+ * Описание вспомогательных методов
+ * @method UnsubscribeEventMail   with($condition = '')
+ * @method UnsubscribeEventMail   find($condition = '', $params = [])
+ * @method UnsubscribeEventMail   findByPk($pk, $condition = '', $params = [])
+ * @method UnsubscribeEventMail   findByAttributes($attributes, $condition = '', $params = [])
+ * @method UnsubscribeEventMail[] findAll($condition = '', $params = [])
+ * @method UnsubscribeEventMail[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method UnsubscribeEventMail byId(int $id, bool $useAnd = true)
+ * @method UnsubscribeEventMail byUserId(int $id, bool $useAnd = true)
+ * @method UnsubscribeEventMail byEventId(int $id, bool $useAnd = true)
  */
-class UnsubscribeEventMail extends \CActiveRecord
+class UnsubscribeEventMail extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return UnsubscribeEventMail
+     * @param null|string $className
+     * @return static
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -27,44 +42,11 @@ class UnsubscribeEventMail extends \CActiveRecord
         return 'UserUnsubscribeEventMail';
     }
 
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
     public function relations()
     {
         return [
             'User' => [self::BELONGS_TO, '\user\models\User', 'UserId'],
             'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId']
         ];
-    }
-
-    /**
-     * @param int $eventId
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byUserId($userId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."UserId" = :UserId';
-        $criteria->params = [':UserId' => $userId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    /**
-     * @param int $eventId
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byEventId($eventId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."EventId" = :EventId';
-        $criteria->params = [':EventId' => $eventId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
     }
 }

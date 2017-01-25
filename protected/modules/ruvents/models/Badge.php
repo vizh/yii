@@ -2,6 +2,9 @@
 namespace ruvents\models;
 
 use application\components\ActiveRecord;
+use event\models\Part;
+use event\models\Role;
+use user\models\User;
 
 /**
  * @property int $Id
@@ -12,11 +15,9 @@ use application\components\ActiveRecord;
  * @property int $RoleId
  * @property string $CreationTime
  *
- * @property \event\models\Role $Role
- * @property \user\models\User $User
- * @property \event\models\Part $Part
- *
- * @method Badge byUserId($id, $useAnd = true)
+ * @property Role $Role
+ * @property User $User
+ * @property Part $Part
  *
  * Описание вспомогательных методов
  * @method Badge   with($condition = '')
@@ -26,6 +27,12 @@ use application\components\ActiveRecord;
  * @method Badge[] findAll($condition = '', $params = [])
  * @method Badge[] findAllByAttributes($attributes, $condition = '', $params = [])
  *
+ * @method Badge byId(int $id, bool $useAnd = true)
+ * @method Badge byOperatorId(int $id, bool $useAnd = true)
+ * @method Badge byEventId(int $id, bool $useAnd = true)
+ * @method Badge byPartId(int $id, bool $useAnd = true)
+ * @method Badge byUserId(int $id, bool $useAnd = true)
+ * @method Badge byRoleId(int $id, bool $useAnd = true)
  */
 class Badge extends ActiveRecord
 {
@@ -33,23 +40,18 @@ class Badge extends ActiveRecord
     public $DateForCriteria = null;
 
     /**
-     * @static
-     * @param string $className
-     * @return Badge
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
     public function tableName()
     {
         return 'RuventsBadge';
-    }
-
-    public function primaryKey()
-    {
-        return 'Id';
     }
 
     public function relations()
@@ -61,40 +63,4 @@ class Badge extends ActiveRecord
             'Operator' => [self::BELONGS_TO, '\ruvents\models\Operator', 'OperatorId']
         ];
     }
-
-    /**
-     * @param $eventId
-     * @param bool $useAnd
-     * @return Badge
-     */
-    public function byEventId($eventId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."EventId" = :EventId';
-        $criteria->params = [':EventId' => $eventId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
-    }
-
-    /**
-     * @param int|null $partId
-     * @param bool $useAnd
-     *
-     * @return Badge
-     */
-    public function byPartId($partId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        if ($partId !== null) {
-            $criteria->condition = '"t"."PartId" = :PartId';
-            $criteria->params = [':PartId' => $partId];
-        } else {
-            $criteria->condition = '"t"."PartId" IS NULL';
-        }
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
-    }
-
 }

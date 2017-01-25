@@ -10,9 +10,30 @@ use application\components\ActiveRecord;
  *
  * @property Order $Order
  * @property OrderItem $OrderItem
+ *
+ * Описание вспомогательных методов
+ * @method OrderLinkOrderItem   with($condition = '')
+ * @method OrderLinkOrderItem   find($condition = '', $params = [])
+ * @method OrderLinkOrderItem   findByPk($pk, $condition = '', $params = [])
+ * @method OrderLinkOrderItem   findByAttributes($attributes, $condition = '', $params = [])
+ * @method OrderLinkOrderItem[] findAll($condition = '', $params = [])
+ * @method OrderLinkOrderItem[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method OrderLinkOrderItem byId(int $id, bool $useAnd = true)
+ * @method OrderLinkOrderItem byOrderId(int $id, bool $useAnd = true)
+ * @method OrderLinkOrderItem byOrderItemId(int $id, bool $useAnd = true)
  */
 class OrderLinkOrderItem extends ActiveRecord
 {
+    /**
+     * @param null|string $className
+     * @return static
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
     public function tableName()
     {
@@ -21,39 +42,9 @@ class OrderLinkOrderItem extends ActiveRecord
 
     public function relations()
     {
-        return array(
-            'Order' => array(self::BELONGS_TO, '\pay\models\Order', 'OrderId'),
-            'OrderItem' => array(self::BELONGS_TO, '\pay\models\OrderItem', 'OrderItemId'),
-        );
-    }
-
-    /**
-     * @param int $orderId
-     * @param bool $useAnd
-     * @return OrderLinkOrderItem
-     */
-    public function byOrderId($orderId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."OrderId" = :OrderId';
-        $criteria->params = ['OrderId' => $orderId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
-    }
-
-    /**
-     * @param int $orderItemId
-     * @param bool $useAnd
-     * @return OrderLinkOrderItem
-     */
-    public function byOrderItemId($orderItemId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."OrderItemId" = :OrderItemId';
-        $criteria->params = ['OrderItemId' => $orderItemId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
+        return [
+            'Order' => [self::BELONGS_TO, '\pay\models\Order', 'OrderId'],
+            'OrderItem' => [self::BELONGS_TO, '\pay\models\OrderItem', 'OrderItemId'],
+        ];
     }
 }

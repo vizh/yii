@@ -1,16 +1,37 @@
 <?php
 namespace ruvents\models;
 
+use application\components\ActiveRecord;
+
 /**
- * @property int EventSettingId
- * @property int EventId
- * @property string Name
- * @property string DataBuilder
+ * @property int $EventSettingId
+ * @property int $EventId
+ * @property string $Name
+ * @property string $DataBuilder
+ *
+ * Описание вспомогательных методов
+ * @method EventSetting   with($condition = '')
+ * @method EventSetting   find($condition = '', $params = [])
+ * @method EventSetting   findByPk($pk, $condition = '', $params = [])
+ * @method EventSetting   findByAttributes($attributes, $condition = '', $params = [])
+ * @method EventSetting[] findAll($condition = '', $params = [])
+ * @method EventSetting[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method EventSetting byId(int $id, bool $useAnd = true)
+ * @method EventSetting byEventId(int $id, bool $useAnd = true)
+ * @method EventSetting byEventSettingId(int $id, bool $useAnd = true)
+ * @method EventSetting byName(string $name, bool $useAnd = true)
+ * @method EventSetting byDataBuilder(string $builder, bool $useAnd = true)
  */
-class EventSetting extends \CActiveRecord
+class EventSetting extends ActiveRecord
 {
+    /**
+     * @param null|string $className
+     * @return static
+     */
     public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -22,15 +43,5 @@ class EventSetting extends \CActiveRecord
     public function primaryKey()
     {
         return 'EventSettingId';
-    }
-
-    public function byEventId($eventId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = 't.EventId = :EventId';
-        $criteria->params = [':EventId' => $eventId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
     }
 }

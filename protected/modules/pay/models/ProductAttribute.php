@@ -1,5 +1,6 @@
 <?php
 namespace pay\models;
+
 use application\components\ActiveRecord;
 
 /**
@@ -9,13 +10,30 @@ use application\components\ActiveRecord;
  * @property string $Value
  *
  * @property Product $Product
+ *
+ * Описание вспомогательных методов
+ * @method ProductAttribute   with($condition = '')
+ * @method ProductAttribute   find($condition = '', $params = [])
+ * @method ProductAttribute   findByPk($pk, $condition = '', $params = [])
+ * @method ProductAttribute   findByAttributes($attributes, $condition = '', $params = [])
+ * @method ProductAttribute[] findAll($condition = '', $params = [])
+ * @method ProductAttribute[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method ProductAttribute byId(int $id, bool $useAnd = true)
+ * @method ProductAttribute byProductId(int $id, bool $useAnd = true)
+ * @method ProductAttribute byName(string $name, bool $useAnd = true)
  */
 class ProductAttribute extends ActiveRecord
 {
     protected $useSoftDelete = true;
 
-    public static function model($className=__CLASS__)
+    /**
+     * @param null|string $className
+     * @return static
+     */
+    public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -24,45 +42,10 @@ class ProductAttribute extends ActiveRecord
         return 'PayProductAttribute';
     }
 
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
     public function relations()
     {
-        return array(
-            'Product' => array(self::BELONGS_TO, '\pay\models\Product', 'ProductId')
-        );
-    }
-
-    /**
-     *
-     * @param int $productId
-     * @param bo0l $useAnd
-     * @return \pay\models\ProductAttribute
-     */
-    public function byProductId($productId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."ProductId" = :ProductId';
-        $criteria->params = array('ProductId' => $productId);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    /**
-     *
-     * @param string $name
-     * @param bool $useAnd
-     * @return \pay\models\ProductAttribute
-     */
-    public function byName($name, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."Name" = :Name';
-        $criteria->params = array('Name' => $name);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
+        return [
+            'Product' => [self::BELONGS_TO, '\pay\models\Product', 'ProductId']
+        ];
     }
 }

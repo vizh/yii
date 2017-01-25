@@ -5,20 +5,39 @@ use application\components\ActiveRecord;
 use application\components\helpers\ArrayHelper;
 
 /**
- * Class ImportOrder
- *
- * Fields
- * @property int $ImportId
- * @property array $Data
- * @property string $OrderNumber
+ * @property int $Id
  * @property int $OrderId
+ * @property int $ImportId
+ * @property string $OrderNumber
+ * @property array $Data
  * @property bool $Approved
+ *
+ * Описание вспомогательных методов
+ * @method ImportOrder   with($condition = '')
+ * @method ImportOrder   find($condition = '', $params = [])
+ * @method ImportOrder   findByPk($pk, $condition = '', $params = [])
+ * @method ImportOrder   findByAttributes($attributes, $condition = '', $params = [])
+ * @method ImportOrder[] findAll($condition = '', $params = [])
+ * @method ImportOrder[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method ImportOrder byId(int $id, bool $useAnd = true)
+ * @method ImportOrder byOrderId(int $id, bool $useAnd = true)
+ * @method ImportOrder byImportId(int $id, bool $useAnd = true)
+ * @method ImportOrder byOrderNumber(string $number, bool $useAnd = true)
+ * @method ImportOrder byApproved(bool $approved = true, bool $useAnd = true)
  */
 class ImportOrder extends ActiveRecord
 {
     /**
-     * @inheritdoc
+     * @param null|string $className
+     * @return static
      */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
+
     public function tableName()
     {
         return 'PayOrderImportOrder';
@@ -33,7 +52,8 @@ class ImportOrder extends ActiveRecord
 
     public function beforeSave()
     {
-        $this->Data =  serialize($this->Data);
+        $this->Data = serialize($this->Data);
+
         return parent::beforeSave();
     }
 
@@ -58,18 +78,18 @@ class ImportOrder extends ActiveRecord
     {
         $this->OrderNumber = $this->extractOrderNumber(ArrayHelper::getValue($this->Data, 'НазначениеПлатежа'));
         $orders = Order::model()->findAll('"Number" = :number', [':number' => $this->OrderNumber]);
-        if (count($orders) == 1){
+        if (count($orders) == 1) {
             return $orders[0];
         }
 
         $split_number = explode('-', $this->OrderNumber);
-        if (count($split_number) == 2){
+        if (count($split_number) == 2) {
             $orders = Order::model()->findAll('"Number" = :number', [':number' => '-'.$split_number[1]]);
-            if (count($orders) == 1){
+            if (count($orders) == 1) {
                 return $orders[0];
             }
             $orders = Order::model()->findAll('"Number" = :number', [':number' => $split_number[1]]);
-            if (count($orders) == 1){
+            if (count($orders) == 1) {
                 return $orders[0];
             }
         }

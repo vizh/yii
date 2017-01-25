@@ -6,14 +6,11 @@ use event\models\Event;
 use pay\components\managers\BaseProductManager;
 
 /**
- * Class Product
- *
- * Fields
  * @property int $Id
+ * @property int $EventId
  * @property string $ManagerName
  * @property string $Title
  * @property string $Description
- * @property int $EventId
  * @property string $Unit
  * @property int $Count
  * @property bool $EnableCoupon
@@ -32,14 +29,21 @@ use pay\components\managers\BaseProductManager;
  * @property ProductPrice[] $Prices
  * @property ProductPrice[] $PricesActive
  *
+ * Описание вспомогательных методов
+ * @method Product   with($condition = '')
+ * @method Product   find($condition = '', $params = [])
+ * @method Product   findByPk($pk, $condition = '', $params = [])
+ * @method Product   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Product[] findAll($condition = '', $params = [])
+ * @method Product[] findAllByAttributes($attributes, $condition = '', $params = [])
  *
- * @method Product find($condition='',$params=array())
- * @method Product findByPk($pk,$condition='',$params=array())
- * @method Product[] findAll($condition='',$params=array())
- * @method Product byId(int $id)
- * @method Product byVisibleForRuvents(bool $visible)
- * @method Product byDeleted(bool $deleted)
- *
+ * @method Product byId(int $id, bool $useAnd = true)
+ * @method Product byEventId(int $id, bool $useAnd = true)
+ * @method Product byManagerName(string $managerName, bool $useAnd = true)
+ * @method Product byGroupName(string $groupName, bool $useAnd = true)
+ * @method Product byPublic(bool $public = true, bool $useAnd = true)
+ * @method Product byVisibleForRuvents(bool $visible = true, bool $useAnd = true)
+ * @method Product byDeleted(bool $deleted = true, bool $useAnd = true)
  */
 class Product extends ActiveRecord
 {
@@ -56,12 +60,24 @@ class Product extends ActiveRecord
     private $manager;
 
     /**
+     * @param null|string $className
+     * @return static
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
+
+    /**
      * Creates a new one model
+     *
      * @param int|Event $event Event's identifier of the event object
      * @param string $name Name of the product
      * @param string $managerName Manager's name for the product @see ProductManager
      * @param string $unit Units that will be used in orders, for example
      * @param array $config Configuration for the other attributes, for example ['EnableCoupon' => true]
+     *
      * @return self|null
      */
     public static function create($event, $name, $managerName, $unit = 'шт', array $config = [])
@@ -86,32 +102,25 @@ class Product extends ActiveRecord
             $model->save(false);
 
             return $model;
-
         } catch (\CDbException $e) {
             return null;
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function tableName()
     {
         return 'PayProduct';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function relations()
     {
-        return array(
+        return [
             'Event' => [self::BELONGS_TO, 'event\models\Event', 'EventId'],
             'Attributes' => [self::HAS_MANY, 'pay\models\ProductAttribute', 'ProductId'],
             'Prices' => [self::HAS_MANY, 'pay\models\ProductPrice', 'ProductId', 'order' => '"Prices"."StartTime" ASC'],
             'PricesActive' => [self::HAS_MANY, 'pay\models\ProductPrice', 'ProductId', 'order' => '"PricesActive"."StartTime" ASC', 'condition' => '("PricesActive"."EndTime" IS NULL OR "PricesActive"."EndTime" >  now())'],
             'UserAccess' => [self::HAS_MANY, 'pay\models\ProductUserAccess', 'ProductId']
-        );
+        ];
     }
 
     /**
@@ -119,11 +128,11 @@ class Product extends ActiveRecord
      */
     public function getManager()
     {
-        if ($this->manager === null)
-        {
-            $manager = '\pay\components\managers\\' . $this->ManagerName;
+        if ($this->manager === null) {
+            $manager = '\pay\components\managers\\'.$this->ManagerName;
             $this->manager = new $manager($this);
         }
+
         return $this->manager;
     }
 
@@ -132,11 +141,9 @@ class Product extends ActiveRecord
      */
     public function getProductAttributes()
     {
-        if ($this->productAttributes === null)
-        {
-            $this->productAttributes = array();
-            foreach ($this->Attributes as $attribute)
-            {
+        if ($this->productAttributes === null) {
+            $this->productAttributes = [];
+            foreach ($this->Attributes as $attribute) {
                 $this->productAttributes[$attribute->Name] = $attribute;
             }
         }
@@ -153,35 +160,6 @@ class Product extends ActiveRecord
     }
 
     /**
-     * @param int $eventId
-     * @param bool $useAnd
-     *
-     * @return Product
-     */
-    public function byEventId($eventId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."EventId" = :EventId';
-        $criteria->params = array('EventId' => $eventId);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    /**
-     *
-     * @param bool $public
-     * @param bool $useAnd
-     * @return \pay\models\Product
-     */
-    public function byPublic($public, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = ($public ? '' : 'NOT ') . '"t"."Public"';
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    /**
      * @param int $userId
      * @param bool $useAnd
      *
@@ -194,27 +172,15 @@ class Product extends ActiveRecord
         $criteria->condition = '"UserAccess"."UserId" = :UserId';
         $criteria->params = ['UserId' => $userId];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
 
-    /**
-     * @param string $managerName
-     * @param bool $useAnd
-     *
-     * @return Product
-     */
-    public function byManagerName($managerName, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."ManagerName" = :ManagerName';
-        $criteria->params = array('ManagerName' => $managerName);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
         return $this;
     }
 
     /**
      * Исключить менеджер комнат
+     *
      * @param bool $useAnd
+     *
      * @return $this
      */
     public function excludeRoomManager($useAnd = true)
@@ -223,11 +189,13 @@ class Product extends ActiveRecord
             'condition' => '"t"."ManagerName" <> \'RoomProductManager\''
         ]);
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
     /**
      * @param string $time
+     *
      * @return int
      */
     public function getPrice($time = null)
@@ -248,10 +216,11 @@ class Product extends ActiveRecord
      */
     public function getAdditionalAttributes()
     {
-        if ($this->AdditionalAttributes == null)
-        {
+        if ($this->AdditionalAttributes == null) {
             return [];
         }
+
+        /** @noinspection UnserializeExploitsInspection */
         return unserialize(base64_decode($this->AdditionalAttributes));
     }
 
@@ -265,10 +234,11 @@ class Product extends ActiveRecord
 
     /**
      * Является ли товар билетом
+     *
      * @return bool
      */
     public function getIsTicket()
     {
-        return $this->ManagerName == 'Ticket';
+        return $this->ManagerName === 'Ticket';
     }
 }

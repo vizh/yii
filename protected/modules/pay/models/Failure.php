@@ -5,9 +5,6 @@ use application\components\db\MongoLogDocument;
 use application\components\helpers\ArrayHelper;
 
 /**
- * Class Failure
- * @package pay\models
- *
  * @property int $OrderItemId
  * @property int $AttemptsQuantity
  * @property string $LastAttemptTime
@@ -25,10 +22,11 @@ class Failure extends MongoLogDocument
 
     /**
      * @param string $className
-     * @return self
+     * @return static
      */
     public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
@@ -49,11 +47,13 @@ class Failure extends MongoLogDocument
         }
         $model->LastAttemptTime = date('Y-m-d H:i:s');
         $model->save();
+
         return $model;
     }
 
     /**
      * формирует отчет по ошибкам оплаты
+     *
      * @param array $criteria
      * @return array
      */
@@ -105,7 +105,7 @@ class Failure extends MongoLogDocument
         $criteria = new \EMongoCriteria();
         $criteria->compare('AttemptsQuantity', '>=2');
         if ($notSent) {
-            $criteria->compare('NotificationSent', FALSE);
+            $criteria->compare('NotificationSent', false);
         }
         $criteria->sort = ['LastAttemptTime' => -1];
         $mongoData = self::model()->findAll($criteria);
@@ -135,7 +135,7 @@ class Failure extends MongoLogDocument
                 ->join('PayProductPrice as pp', 'pp."ProductId" = oi."ProductId"')
                 ->join('Event as ev', 'ppr."EventId" = ev."Id"')
                 ->join('User as us', 'oi."PayerId" = us."Id"')
-                ->where('oi."Paid" = FALSE AND oi."Id" IN ('.implode(',',$ids).')', [
+                ->where('oi."Paid" = FALSE AND oi."Id" IN ('.implode(',', $ids).')', [
                     ':forHours' => date('Y-m-d H:i:s', strtotime('-4 hours'))
                 ])
                 //выбираем только актуальные события
@@ -165,15 +165,17 @@ class Failure extends MongoLogDocument
                 ')
                 ->queryAll();
             $report = array_merge($report, $report2);
-            usort($report, function($a, $b) {
+            usort($report, function ($a, $b) {
                 $at = strtotime($a['CreationTime']);
                 $bt = strtotime($b['CreationTime']);
                 if ($at == $bt) {
                     return 0;
                 }
+
                 return $at > $bt ? -1 : 1;
             });
         }
+
         return $report;
     }
 }

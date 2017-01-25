@@ -1,74 +1,52 @@
 <?php
 namespace pay\models;
 
+use application\components\ActiveRecord;
+use user\models\User;
+
 /**
- * Class ProductUserAccess
- * @package pay\models
- *
  * @property int $Id
- * @property int $ProductId
  * @property int $UserId
+ * @property int $ProductId
  * @property string $CreationTime
  *
  * @property Product $Product
- * @property \user\models\User $User
+ * @property User $User
+ *
+ * Описание вспомогательных методов
+ * @method ProductUserAccess   with($condition = '')
+ * @method ProductUserAccess   find($condition = '', $params = [])
+ * @method ProductUserAccess   findByPk($pk, $condition = '', $params = [])
+ * @method ProductUserAccess   findByAttributes($attributes, $condition = '', $params = [])
+ * @method ProductUserAccess[] findAll($condition = '', $params = [])
+ * @method ProductUserAccess[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method ProductUserAccess byId(int $id, bool $useAnd = true)
+ * @method ProductUserAccess byUserId(int $id, bool $useAnd = true)
+ * @method ProductUserAccess byProductId(int $id, bool $useAnd = true)
  */
-class ProductUserAccess extends \CActiveRecord
+class ProductUserAccess extends ActiveRecord
 {
-  /**
-   * @param string $className
-   *
-   * @return ProductUserAccess
-   */
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
+    /**
+     * @param null|string $className
+     * @return static
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
-  public function tableName()
-  {
-    return 'PayProductUserAccess';
-  }
+    public function tableName()
+    {
+        return 'PayProductUserAccess';
+    }
 
-  public function primaryKey()
-  {
-    return 'Id';
-  }
-
-  public function relations()
-  {
-    return array(
-      'Product' => [self::BELONGS_TO, '\pay\models\Product', 'ProductId'],
-      'User' => [self::BELONGS_TO, '\user\models\User', 'UserId'],
-    );
-  }
-
-  /**
-   * @param int[] $productsId
-   * @param bool $useAnd
-   *
-   * @return $this
-   */
-  public function byProductId($productsId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->addInCondition('"t"."ProductId"', $productsId);
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-
-  /**
-   * @param int $userId
-   * @param bool $useAnd
-   *
-   * @return $this
-   */
-  public function byUserId($userId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."UserId" = :UserId';
-    $criteria->params = ['UserId' => $userId];
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
+    public function relations()
+    {
+        return [
+            'Product' => [self::BELONGS_TO, '\pay\models\Product', 'ProductId'],
+            'User' => [self::BELONGS_TO, '\user\models\User', 'UserId'],
+        ];
+    }
 }

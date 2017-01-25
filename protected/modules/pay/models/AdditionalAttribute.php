@@ -1,7 +1,6 @@
 <?php
 namespace pay\models;
 
-
 class AdditionalAttribute
 {
     const TypeText = 'text';
@@ -15,10 +14,10 @@ class AdditionalAttribute
 
     public static function getTypes()
     {
-      return [
-          self::TypeText,
-          self::TypeTextarea,
-          self::TypeBoolean
-      ];
+        return [
+            self::TypeText,
+            self::TypeTextarea,
+            self::TypeBoolean
+        ];
     }
-} 
+}

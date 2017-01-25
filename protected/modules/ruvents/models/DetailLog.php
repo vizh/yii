@@ -1,6 +1,8 @@
 <?php
 namespace ruvents\models;
 
+use application\components\ActiveRecord;
+
 /**
  * @property int $Id
  * @property int $EventId
@@ -12,27 +14,40 @@ namespace ruvents\models;
  * @property string $CreationTime
  *
  * @property Operator $Operator
+ *
+ * Описание вспомогательных методов
+ * @method DetailLog   with($condition = '')
+ * @method DetailLog   find($condition = '', $params = [])
+ * @method DetailLog   findByPk($pk, $condition = '', $params = [])
+ * @method DetailLog   findByAttributes($attributes, $condition = '', $params = [])
+ * @method DetailLog[] findAll($condition = '', $params = [])
+ * @method DetailLog[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method DetailLog byId(int $id, bool $useAnd = true)
+ * @method DetailLog byEventId(int $id, bool $useAnd = true)
+ * @method DetailLog byOperatorId(int $id, bool $useAnd = true)
+ * @method DetailLog byUserId(int $id, bool $useAnd = true)
+ * @method DetailLog byController(string $controller, bool $useAnd = true)
+ * @method DetailLog byAction(string $action, bool $useAnd = true)
  */
-class DetailLog extends \CActiveRecord
+class DetailLog extends ActiveRecord
 {
+    /** @var ChangeMessage[] */
+    private $changeMessages = null;
+
     /**
-     * @static
-     * @param string $className
-     * @return DetailLog
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
     public function tableName()
     {
         return 'RuventsDetailLog';
-    }
-
-    public function primaryKey()
-    {
-        return 'Id';
     }
 
     public function relations()
@@ -42,40 +57,6 @@ class DetailLog extends \CActiveRecord
             'User' => [self::BELONGS_TO, '\user\models\User', 'UserId']
         ];
     }
-
-
-    /**
-     * @param int $userId
-     * @param bool $useAnd
-     * @return DetailLog
-     */
-    public function byUserId($userId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."UserId" = :UserId';
-        $criteria->params = [':UserId' => $userId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
-    }
-
-    /**
-     * @param int $eventId
-     * @param bool $useAnd
-     * @return DetailLog
-     */
-    public function byEventId($eventId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."EventId" = :EventId';
-        $criteria->params = [':EventId' => $eventId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
-        return $this;
-    }
-
-    /** @var ChangeMessage[] */
-    private $changeMessages = null;
 
     /**
      * @param ChangeMessage $changeMessages

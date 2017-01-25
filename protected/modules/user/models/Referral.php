@@ -1,57 +1,53 @@
 <?php
 namespace user\models;
+
 use application\components\ActiveRecord;
 
 /**
- * This is the model class for table "UserReferral".
- *
- * The followings are the available columns in table 'UserReferral':
  * @property integer $Id
  * @property integer $UserId
- * @property integer $ReferrerUserId
  * @property integer $EventId
+ * @property integer $ReferrerUserId
  * @property string $CreationTime
  *
- * The followings are the available model relations:
  * @property User $User
  * @property User $ReferrerUser
  *
- * @method Referral byId(int $id)
- * @method Referral byUserId(int $id)
- * @method Referral byReferrerUserId(int $id)
- * @method Referral find()
- * @method Referral byEventId(int $id)
+ * Описание вспомогательных методов
+ * @method Referral   with($condition = '')
+ * @method Referral   find($condition = '', $params = [])
+ * @method Referral   findByPk($pk, $condition = '', $params = [])
+ * @method Referral   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Referral[] findAll($condition = '', $params = [])
+ * @method Referral[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Referral byId(int $id, bool $useAnd = true)
+ * @method Referral byUserId(int $id, bool $useAnd = true)
+ * @method Referral byEventId(int $id, bool $useAnd = true)
+ * @method Referral byReferrerUserId(int $id, bool $useAnd = true)
  */
 class Referral extends ActiveRecord
 {
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return Referral the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * @param null|string $className
+     * @return static
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'UserReferral';
-	}
+    public function tableName()
+    {
+        return 'UserReferral';
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return [
-			'User' => [self::BELONGS_TO, '\user\models\User', 'UserId'],
-			'ReferrerUser' => [self::BELONGS_TO, '\user\models\User', 'ReferrerUserId'],
-		];
-	}
+    public function relations()
+    {
+        return [
+            'User' => [self::BELONGS_TO, '\user\models\User', 'UserId'],
+            'ReferrerUser' => [self::BELONGS_TO, '\user\models\User', 'ReferrerUserId'],
+        ];
+    }
 }

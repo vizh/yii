@@ -1,39 +1,46 @@
 <?php
 namespace raec\models;
+
+use application\components\ActiveRecord;
 use raec\components\BriefData;
-use raec\models\forms\brief\About;
-use raec\models\forms\brief\Resume;
-use raec\models\forms\brief\Users;
 use user\models\User;
 
 /**
- * Class Brief
  * @property int $Id
  * @property int $UserId
  * @property string $CreationTime
  * @property string $Data
+ *
  * @property User $User
- * @package raec\models
+ *
+ * Описание вспомогательных методов
+ * @method Brief   with($condition = '')
+ * @method Brief   find($condition = '', $params = [])
+ * @method Brief   findByPk($pk, $condition = '', $params = [])
+ * @method Brief   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Brief[] findAll($condition = '', $params = [])
+ * @method Brief[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Brief byId(int $id, bool $useAnd = true)
+ * @method Brief byUserId(int $id, bool $useAnd = true)
  */
-class Brief extends \CActiveRecord
+class Brief extends ActiveRecord
 {
+    private $briefData = null;
+
     /**
-     * @param string $className
-     * @return Brief
+     * @param null|string $className
+     * @return static
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
     public function tableName()
     {
         return 'RaecBrief';
-    }
-
-    public function primaryKey()
-    {
-        return 'Id';
     }
 
     public function relations()
@@ -43,8 +50,6 @@ class Brief extends \CActiveRecord
         ];
     }
 
-    private $briefData = null;
-
     /**
      * @return BriefData
      */
@@ -53,6 +58,7 @@ class Brief extends \CActiveRecord
         if ($this->briefData == null) {
             $this->briefData = new BriefData($this);
         }
+
         return $this->briefData;
     }
 
@@ -68,20 +74,7 @@ class Brief extends \CActiveRecord
                 $count++;
             }
         }
+
         return round($count / sizeof($attributes) * 100);
     }
-
-    /**
-     * @param int $userId
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byUserId($userId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."UserId" = :UserId';
-        $criteria->params = array(':UserId' => $userId);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-} 
+}

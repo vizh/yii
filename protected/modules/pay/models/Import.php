@@ -5,17 +5,31 @@ use application\components\ActiveRecord;
 use application\components\helpers\ArrayHelper;
 
 /**
- * Class Import
- *
- * Fields
  * @property int $Id
  * @property string $CreationTime
+ *
+ * Описание вспомогательных методов
+ * @method Import   with($condition = '')
+ * @method Import   find($condition = '', $params = [])
+ * @method Import   findByPk($pk, $condition = '', $params = [])
+ * @method Import   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Import[] findAll($condition = '', $params = [])
+ * @method Import[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Import byId(int $id, bool $useAnd = true)
  */
 class Import extends ActiveRecord
 {
     /**
-     * @inheritdoc
+     * @param null|string $className
+     * @return static
      */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
+
     public function tableName()
     {
         return 'PayOrderImport';
@@ -38,7 +52,7 @@ class Import extends ActiveRecord
             mkdir($path, 0755, true);
         }
 
-        return $path . DIRECTORY_SEPARATOR . $this->Id;
+        return $path.DIRECTORY_SEPARATOR.$this->Id;
     }
 
     public function importOrders()
@@ -65,6 +79,7 @@ class Import extends ActiveRecord
                 list($key, $value) = $keyvalue;
                 $result[$key] = $value;
             }
+
             return $result;
         }, $orders);
 
@@ -73,7 +88,7 @@ class Import extends ActiveRecord
             return ArrayHelper::getValue($order, 'ПолучательИНН') == '7703806326';
         });
 
-        $this->orders = array_map(function($data){
+        $this->orders = array_map(function ($data) {
             $order = new ImportOrder();
             $order->ImportId = $this->Id;
             $order->Data = $data;

@@ -8,7 +8,7 @@ class TheRunetController extends \application\components\controllers\MainControl
     $rss = new SimpleXMLElement(file_get_contents($this->theRunetRSSUrl));
     foreach ($rss->channel->item as $item)
     {
-      $news = \news\models\News::model()->byUrl($item->link)->find();
+      $news = \news\models\News::model()->byUrlHash($item->link)->find();
       if ($news == null)
       {
         $news = new \news\models\News();
@@ -18,7 +18,7 @@ class TheRunetController extends \application\components\controllers\MainControl
         $previewText = trim($item->description);
         $news->PreviewText = strip_tags($previewText);
         $news->save();
-        
+
         preg_match('/<img(.*)src="([а-яa-z\/_0-9-.]+)"/iu', $previewText, $imageMatch);
         if (!empty($imageMatch))
         {

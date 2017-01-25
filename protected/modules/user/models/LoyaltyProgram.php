@@ -1,58 +1,52 @@
 <?php
 namespace user\models;
 
+use application\components\ActiveRecord;
+use event\models\Event;
+
 /**
- * Class LoyaltyProgram
- * @package user\models
- *
  * @property int $Id
  * @property int $UserId
  * @property int $EventId
  * @property string $CreationTime
  *
- * @property \event\models\Event $Event
+ * @property Event $Event
  * @property User $User
+ *
+ * Описание вспомогательных методов
+ * @method LoyaltyProgram   with($condition = '')
+ * @method LoyaltyProgram   find($condition = '', $params = [])
+ * @method LoyaltyProgram   findByPk($pk, $condition = '', $params = [])
+ * @method LoyaltyProgram   findByAttributes($attributes, $condition = '', $params = [])
+ * @method LoyaltyProgram[] findAll($condition = '', $params = [])
+ * @method LoyaltyProgram[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method LoyaltyProgram byId(int $id, bool $useAnd = true)
+ * @method LoyaltyProgram byUserId(int $id, bool $useAnd = true)
+ * @method LoyaltyProgram byEventId(int $id, bool $useAnd = true)
  */
-class LoyaltyProgram extends \CActiveRecord
+class LoyaltyProgram extends ActiveRecord
 {
-  /**
-   * @param string $className
-   * @return LoyaltyProgram
-   */
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
+    /**
+     * @param null|string $className
+     * @return static
+     */
+    public static function model($className = __CLASS__)
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return parent::model($className);
+    }
 
-  public function tableName()
-  {
-    return 'UserLoyaltyProgram';
-  }
+    public function tableName()
+    {
+        return 'UserLoyaltyProgram';
+    }
 
-  public function primaryKey()
-  {
-    return 'Id';
-  }
-
-  public function relations()
-  {
-    return [
-      'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
-      'User' => [self::BELONGS_TO, '\user\models\User', 'UserId']
-    ];
-  }
-
-  /**
-   * @param int $userId
-   * @param bool $useAnd
-   * @return LoyaltyProgram
-   */
-  public function byUserId($userId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."UserId" = :UserId';
-    $criteria->params = ['UserId' => $userId];
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
+    public function relations()
+    {
+        return [
+            'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
+            'User' => [self::BELONGS_TO, '\user\models\User', 'UserId']
+        ];
+    }
 }

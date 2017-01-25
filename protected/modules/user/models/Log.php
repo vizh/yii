@@ -4,7 +4,6 @@ namespace user\models;
 use application\components\db\MongoLogDocument;
 use ext\ipgeobase\Geo;
 
-
 /**
  * @property int $Id
  * @property int $UserId
@@ -13,16 +12,16 @@ use ext\ipgeobase\Geo;
  * @property string $City
  * @property string $UserAgent
  * @property string $Referal
- *
  */
 class Log extends MongoLogDocument
 {
     /**
      * @param string $className
-     * @return Log
+     * @return static
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
