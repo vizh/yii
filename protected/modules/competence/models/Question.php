@@ -61,8 +61,8 @@ class Question extends ActiveRecord
     private $form;
 
     /**
-     * @param string $className
-     * @return Question
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

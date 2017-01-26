@@ -29,9 +29,8 @@ class Hall extends ActiveRecord
     protected $useSoftDelete = true;
 
     /**
-     * @param string $className
-     *
-     * @return Hall
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

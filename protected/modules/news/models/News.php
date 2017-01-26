@@ -25,8 +25,8 @@ use application\components\ActiveRecord;
 class News extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return News
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

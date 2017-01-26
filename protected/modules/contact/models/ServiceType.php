@@ -24,8 +24,8 @@ use application\components\ActiveRecord;
 class ServiceType extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return ServiceType
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

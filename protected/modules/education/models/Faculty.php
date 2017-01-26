@@ -31,8 +31,8 @@ use application\components\utility\Texts;
 class Faculty extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return Faculty
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

@@ -38,8 +38,8 @@ use user\models\User;
 class ParticipantLog extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return Participant
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

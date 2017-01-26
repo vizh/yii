@@ -22,8 +22,8 @@ use application\components\ActiveRecord;
 class ShortUrl extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return ShortUrl
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

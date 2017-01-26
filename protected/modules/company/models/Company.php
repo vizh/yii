@@ -60,8 +60,8 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
     const CLUSTER_RAEC = 'РАЭК';
 
     /**
-     * @param string $className
-     * @return Company
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

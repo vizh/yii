@@ -25,8 +25,8 @@ use JsonSerializable;
 class Part extends ActiveRecord implements JsonSerializable
 {
     /**
-     * @param string $className
-     * @return Part
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

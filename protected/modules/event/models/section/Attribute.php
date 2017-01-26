@@ -26,8 +26,8 @@ use application\components\ActiveRecord;
 class Attribute extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return Attribute
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

@@ -26,9 +26,8 @@ use application\components\ActiveRecord;
 class LinkTheme extends ActiveRecord
 {
     /**
-     * @param string $className
-     *
-     * @return LinkTheme
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

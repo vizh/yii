@@ -36,8 +36,8 @@ class MeetingLinkUser extends ActiveRecord
     const STATUS_CANCELLED = 3;
 
     /**
-     * @param string $className
-     * @return MeetingLinkUser
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

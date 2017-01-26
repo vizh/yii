@@ -31,8 +31,8 @@ use user\models\User;
 class UserVisit extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return UserVisit
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

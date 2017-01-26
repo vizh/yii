@@ -48,7 +48,7 @@ class Account extends ActiveRecord
     const SELF_ID = 1;
 
     /**
-     * @param string $className
+     * @param null|string $className
      * @return static
      */
     public static function model($className = __CLASS__)

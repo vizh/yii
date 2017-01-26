@@ -29,8 +29,8 @@ use application\models\ProfessionalInterest;
 class LinkProfessionalInterest extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return LinkProfessionalInterest
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

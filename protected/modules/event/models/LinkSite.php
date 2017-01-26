@@ -27,8 +27,8 @@ use contact\models\Site;
 class LinkSite extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return LinkSite
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

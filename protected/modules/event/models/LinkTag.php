@@ -24,8 +24,8 @@ use tag\models\Tag;
 class LinkTag extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return LinkTag
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

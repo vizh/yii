@@ -27,8 +27,8 @@ use contact\models\Address;
 class LinkAddress extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return LinkAddress
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

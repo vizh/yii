@@ -32,8 +32,8 @@ use event\models\Event;
 class CollectionCoupon extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return CollectionCoupon
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

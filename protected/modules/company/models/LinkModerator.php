@@ -26,8 +26,8 @@ use user\models\User;
 class LinkModerator extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return LinkModerator
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

@@ -21,9 +21,8 @@ use application\components\ActiveRecord;
 class AccoutQuotaByUserLog extends ActiveRecord
 {
     /**
-     * @param string $className
-     *
-     * @return Account
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

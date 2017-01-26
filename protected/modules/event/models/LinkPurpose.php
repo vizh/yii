@@ -25,8 +25,8 @@ use application\components\ActiveRecord;
 class LinkPurpose extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return LinkPurpose
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

@@ -15,8 +15,13 @@ use application\components\db\MongoLogDocument;
  */
 class Log extends MongoLogDocument
 {
+    /**
+     * @param null|string $className
+     * @return static
+     */
     public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 

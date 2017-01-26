@@ -27,8 +27,8 @@ use application\components\ActiveRecord;
 class PartnerCallback extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return PartnerCallback
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

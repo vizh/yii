@@ -23,8 +23,8 @@ use application\components\ActiveRecord;
 class QuestionType extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return QuestionType
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

@@ -24,9 +24,8 @@ use application\components\ActiveRecord;
 class LinkProfessionalInterest extends ActiveRecord
 {
     /**
-     * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
-     * @return LinkProfessionalInterest the static model class
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

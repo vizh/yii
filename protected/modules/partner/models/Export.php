@@ -41,8 +41,8 @@ use user\models\User;
 class Export extends ActiveRecord
 {
     /**
-     * @param string $className active record class name.
-     * @return Export the static model class
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

@@ -45,8 +45,8 @@ class Address extends ActiveRecord
     use OldAttributesStorage;
 
     /**
-     * @param string $className
-     * @return Address
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

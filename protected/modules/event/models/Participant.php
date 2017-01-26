@@ -46,8 +46,8 @@ class Participant extends ActiveRecord
     private $hashSalt = 'aHQR/agr(pSEt/t.EFS.BT/!';
 
     /**
-     * @param string $className
-     * @return Participant
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

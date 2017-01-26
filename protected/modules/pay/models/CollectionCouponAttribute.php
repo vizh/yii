@@ -23,8 +23,8 @@ use application\components\ActiveRecord;
 class CollectionCouponAttribute extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return CollectionCouponAttribute
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

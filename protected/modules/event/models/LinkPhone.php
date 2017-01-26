@@ -27,8 +27,8 @@ use contact\models\Phone;
 class LinkPhone extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return LinkPhone
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

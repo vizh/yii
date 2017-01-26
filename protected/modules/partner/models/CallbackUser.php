@@ -32,8 +32,8 @@ use application\components\ActiveRecord;
 class CallbackUser extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return CallbackUser
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

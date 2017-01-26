@@ -29,8 +29,8 @@ use user\models\User;
 class ExternalUser extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return Ip
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

@@ -28,8 +28,8 @@ use application\components\ActiveRecord;
 class Vote extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return Vote
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

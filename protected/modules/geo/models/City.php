@@ -39,8 +39,8 @@ class City extends ActiveRecord
     protected $defaultOrderBy = ['"t"."Priority"' => SORT_DESC, '"t"."Name"' => SORT_ASC];
 
     /**
-     * @param string $className
-     * @return City
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

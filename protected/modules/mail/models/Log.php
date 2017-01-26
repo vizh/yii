@@ -27,8 +27,8 @@ use mail\components\ILog;
 class Log extends ActiveRecord implements ILog
 {
     /**
-     * @param string $className
-     * @return Log
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

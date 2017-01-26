@@ -21,8 +21,8 @@ use application\components\ActiveRecord;
 class Position extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return Position
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

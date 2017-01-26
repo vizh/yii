@@ -27,7 +27,7 @@ use application\components\ActiveRecord;
 class CouponActivationLinkOrderItem extends ActiveRecord
 {
     /**
-     * @param string $className
+     * @param null|string $className
      * @return static
      */
     public static function model($className = __CLASS__)

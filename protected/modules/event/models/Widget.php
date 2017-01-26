@@ -27,8 +27,8 @@ use event\components\IWidget;
 class Widget extends ActiveRecord implements IWidget
 {
     /**
-     * @param string $className
-     * @return Widget
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

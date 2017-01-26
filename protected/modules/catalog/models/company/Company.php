@@ -31,8 +31,8 @@ class Company extends ActiveRecord
     protected $fileDir;
 
     /**
-     * @param string $className
-     * @return Company
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

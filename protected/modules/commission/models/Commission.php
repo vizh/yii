@@ -36,8 +36,8 @@ class Commission extends ActiveRecord
     protected $defaultOrderBy = ['"t"."Title"' => SORT_ASC];
 
     /**
-     * @param string $className
-     * @return Commission
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

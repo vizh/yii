@@ -21,7 +21,7 @@ class Failure extends MongoLogDocument
     }
 
     /**
-     * @param string $className
+     * @param null|string $className
      * @return static
      */
     public static function model($className = __CLASS__)

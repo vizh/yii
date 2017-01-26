@@ -78,8 +78,8 @@ class Test extends ActiveRecord
     protected $firstQuestion;
 
     /**
-     * @param string $className
-     * @return Test
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

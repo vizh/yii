@@ -13,8 +13,8 @@ use mail\components\ILog;
 class TemplateLog extends MongoLogDocument implements ILog
 {
     /**
-     * @param string $className
-     * @return TemplateLog
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

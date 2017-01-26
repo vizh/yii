@@ -26,8 +26,8 @@ use application\components\ActiveRecord;
 class Country extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return Country
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

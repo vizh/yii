@@ -49,8 +49,8 @@ class Coupon extends ActiveRecord
     const MaxDelta = 0.001;
 
     /**
-     * @param string $className
-     * @return Coupon
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

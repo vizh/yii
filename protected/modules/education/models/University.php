@@ -35,8 +35,8 @@ use geo\models\City;
 class University extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return University
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

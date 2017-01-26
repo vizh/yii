@@ -38,10 +38,8 @@ use application\models\ProfessionalInterest;
 class User extends ActiveRecord
 {
     /**
-     * Returns the static model of the specified AR class.
-     *
-     * @param string $className active record class name.
-     * @return User the static model class
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

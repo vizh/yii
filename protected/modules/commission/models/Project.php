@@ -28,8 +28,8 @@ use application\components\ActiveRecord;
 class Project extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return Commission
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

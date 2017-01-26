@@ -120,8 +120,8 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
     protected $baseDir; // кеш, содержащий абсолютный путь к wwwroot
 
     /**
-     * @param string $className
-     * @return Event
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

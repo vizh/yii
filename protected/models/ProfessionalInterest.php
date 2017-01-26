@@ -19,11 +19,12 @@ class ProfessionalInterest extends ActiveRecord
     protected $defaultOrderBy = ['"t"."Title"' => SORT_ASC];
 
     /**
-     * @param string $className
-     * @return ProfessionalInterest
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 

@@ -34,8 +34,8 @@ use user\models\User;
 class InviteRequest extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return InviteRequest
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

@@ -59,8 +59,8 @@ class Template extends ActiveRecord
     private $viewPath;
 
     /**
-     * @param string $className
-     * @return Template
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

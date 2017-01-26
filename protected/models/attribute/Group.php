@@ -32,8 +32,8 @@ use application\components\CDbCriteria;
 class Group extends ActiveRecord
 {
     /**
-     * @param string $className
-     * @return Group
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

@@ -47,8 +47,8 @@ class Meeting extends ActiveRecord
     const STATUS_CANCELLED = 2;
 
     /**
-     * @param string $className
-     * @return Meeting
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {

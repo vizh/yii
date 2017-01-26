@@ -39,12 +39,12 @@ use application\components\ActiveRecord;
 class RoomPartnerBooking extends ActiveRecord
 {
     /**
-     * @param string $className
-     *
-     * @return RoomPartnerBooking
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 

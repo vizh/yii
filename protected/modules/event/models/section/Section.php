@@ -45,8 +45,8 @@ class Section extends ActiveRecord
     protected $useSoftDelete = true;
 
     /**
-     * @param string $className
-     * @return Section
+     * @param null|string $className
+     * @return static
      */
     public static function model($className = __CLASS__)
     {
