@@ -1,6 +1,9 @@
 <?php
 namespace application\components;
 
+use application\components\helpers\ArrayHelper;
+use CDbCriteria;
+
 /**
  * Class ActiveRecord Base class for all active records
  */
@@ -104,11 +107,20 @@ abstract class ActiveRecord extends \CActiveRecord
             $column = substr($name, 2);
             $schema = $this->getTableSchema();
             if (isset($schema->columns[$column]) === true) {
-                $criteria = new \CDbCriteria();
-                if ($schema->getColumn($column)->dbType !== 'boolean') {
+                $columnType = $schema->getColumn($column)->dbType;
+                $criteria = new CDbCriteria();
+                if ($columnType === 'boolean') {
+                    $criteria->addCondition(((bool)$parameters[0] === false ? 'NOT ' : '').'"t"."'.$column.'"');
+                } else {
                     $value = $parameters[0];
+                    $isarr = is_array($value);
+                    if ($columnType === 'integer') {
+                        $value = $isarr === true
+                            ? array_map('intval', $value)
+                            : (int) $value;
+                    }
                     if ($value) {
-                        if (is_array($value)) {
+                        if ($isarr === true) {
                             $criteria->addInCondition('"t"."' . $column . '"', $value);
                         } else {
                             $criteria->addCondition('"t"."' . $column . '" = :'.$column);
@@ -117,11 +129,8 @@ abstract class ActiveRecord extends \CActiveRecord
                     } else {
                         $criteria->addCondition('"t"."' . $column . '" IS NULL');
                     }
-                } else {
-                    $criteria->addCondition(($parameters[0] === false ? 'NOT ' : '') . '"t"."' . $column . '"');
                 }
                 $this->getDbCriteria()->mergeWith($criteria, true);
-
                 return $this;
             }
         }
@@ -147,7 +156,7 @@ abstract class ActiveRecord extends \CActiveRecord
             $orders = [$orders];
         }
 
-        $criteria = new \CDbCriteria();
+        $criteria = new CDbCriteria();
         foreach ($orders as $column => $order) {
             if (!is_string($column)) {
                 $column = $order;
