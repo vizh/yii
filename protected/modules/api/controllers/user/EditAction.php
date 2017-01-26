@@ -45,22 +45,28 @@ class EditAction extends \api\components\Action
      */
     private function hasEditPermission(User $user)
     {
-        return true;
-        // Для собственных мероприятий позволяем редактировать любого посетителя
-        if ($this->getAccount()->Role === Account::ROLE_OWN) {
-            return true;
+        switch ($this->getAccount()->Role) {
+            // Для собственных мероприятий позволяем редактировать любого посетителя
+            case Account::ROLE_OWN:
+                return true;
+            // Для партнёрских мероприятий позволяем редактирование только зарегистрированных на мероприятие посетителей
+            case Account::ROLE_PARTNER:
+            case Account::ROLE_PARTNER_WOC:
+                return $this->getEvent()->hasParticipant($user);
+            default:
+                return false;
         }
 
-        $permission = Permission::model()
-            ->byUserId($user->Id)
-            ->byAccountId($this->getAccount()->Id)
-            ->find();
-
-        $participant = Participant::model()
-            ->byEventId($this->getAccount()->EventId)
-            ->byUserId($user->Id)
-            ->find();
-
-        return $permission !== null && $participant !== null;
+//        $permission = Permission::model()
+//            ->byUserId($user->Id)
+//            ->byAccountId($this->getAccount()->Id)
+//            ->find();
+//
+//        $participant = Participant::model()
+//            ->byEventId($this->getAccount()->EventId)
+//            ->byUserId($user->Id)
+//            ->find();
+//
+//        return $permission !== null && $participant !== null;
     }
 }
