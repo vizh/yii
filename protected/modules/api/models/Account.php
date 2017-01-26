@@ -49,8 +49,7 @@ class Account extends ActiveRecord
 
     /**
      * @param string $className
-     *
-     * @return Account
+     * @return static
      */
     public static function model($className = __CLASS__)
     {
@@ -90,7 +89,13 @@ class Account extends ActiveRecord
 
     public function checkIp($ip)
     {
+        // Считаем ip-адрес корректным, если для аккаунта не задан список доверенных адресов или запрос происходит локально.
         if (empty($this->Ips)) {
+            return true;
+        }
+
+        // В режиме разработки позволяем обращения к api с адреса 127.0.0.1 даже если для мероприятия определён список разрешённых адресов.
+        if (YII_DEBUG && $ip === '127.0.0.1') {
             return true;
         }
 
@@ -118,13 +123,12 @@ class Account extends ActiveRecord
 
     public function checkReferer($referer, $hash)
     {
-        if ($hash !== $this->getRefererHash($referer)) {
-            return false;
-        }
-        foreach ($this->Domains as $domain) {
-            $pattern = '/^'.$domain->Domain.'$/i';
-            if (preg_match($pattern, $referer) === 1) {
-                return true;
+        if ($hash === $this->getRefererHash($referer)) {
+            foreach ($this->Domains as $domain) {
+                $pattern = '/^'.$domain->Domain.'$/i';
+                if (preg_match($pattern, $referer) === 1) {
+                    return true;
+                }
             }
         }
 
@@ -203,11 +207,9 @@ class Account extends ActiveRecord
      */
     private function getHash($timestamp)
     {
-        if ($timestamp === null) {
-            return md5($this->Key.$this->Secret);
-        } else {
-            return substr(md5($this->Key.$timestamp.$this->Secret), 0, 16);
-        }
+        return $timestamp === null
+            ? md5($this->Key.$this->Secret)
+            : substr(md5($this->Key.$timestamp.$this->Secret), 0, 16);
     }
 
     /**
