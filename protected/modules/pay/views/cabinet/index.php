@@ -10,10 +10,12 @@
 
 $eventsWithoutHEader = [
     'idc17',
-    'testEvent'
+    'testEvent',
+    'forinnovations16',
+    'startupvillage17'
 ]
 ?>
-<?if(in_array($this->getEvent()->IdName, ['forinnovations16', 'startupvillage17'])):?>
+<?if(in_array($this->getEvent()->IdName, $eventsWithoutHEader)):?>
   <style>
     header#header,
     footer#footer,
@@ -22,28 +24,17 @@ $eventsWithoutHEader = [
     }
   </style>
 <?endif?>
-<?if(in_array($this->getEvent()->IdName,$eventsWithoutHEader)):?>
-<style>
-  header#header,
-  footer#footer {
-    display: none;
-  }
-  #section {
-    padding-bottom: 0 !important;
-  }
-  </style>
-<?endif?>
 <div class="event-register" data-event-idname="<?=$this->getEvent()->IdName?>">
   <div class="container">
 
     <div class="tabs clearfix">
       <div class="tab pull-left">
         <span class="number img-circle">1</span>
-        <?=\Yii::t('app', 'Регистрация')?>
+        <?=Yii::t('app', 'Регистрация')?>
       </div>
       <div class="tab current pull-left">
         <span class="number img-circle">2</span>
-        <?=!empty($account->CabinetIndexTabTitle) ? $account->CabinetIndexTabTitle :\Yii::t('app', 'Оплата')?>
+        <?=!empty($account->CabinetIndexTabTitle) ? $account->CabinetIndexTabTitle : Yii::t('app', 'Оплата')?>
       </div>
     </div>
 
