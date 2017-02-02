@@ -125,8 +125,8 @@ class Contacts extends \CFormModel
   public function getPhoneTypeData()
   {
     $types = array(
-     \contact\models\PhoneType::MOBILE => \Yii::t('app', 'Мобильный'),
-     \contact\models\PhoneType::WORK => \Yii::t('app', 'Рабочий')
+     \contact\models\PhoneType::Mobile => \Yii::t('app', 'Мобильный'),
+     \contact\models\PhoneType::Work => \Yii::t('app', 'Рабочий')
     );
     return $types;
   }
