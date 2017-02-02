@@ -4,8 +4,29 @@ namespace api\controllers\pay;
 use pay\components\OrderItemCollection;
 use pay\models\OrderItem;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Param;
+
 class ItemsAction extends \api\components\Action
 {
+
+    /**
+     * @ApiAction(
+     *     controller="Pay",
+     *     title="Список оплаченных заказов",
+     *     description="Список оплаченных за пользователя заказов. Возвращает массив с купленными пользователем заказами.",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/pay/items",
+     *          body="",
+     *          params={
+     *              @Param(title="OwnerRunetId", type="", defaultValue="", description="Идентификатор.")
+     *          },
+     *          response=""
+     *     )
+     * )
+     */
     public function run()
     {
         $owner = $this->getRequestedOwner();

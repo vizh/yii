@@ -4,8 +4,43 @@ namespace api\controllers\section;
 use event\models\section\Section;
 use Yii;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Param;
+
 class ListAction extends \api\components\Action
 {
+
+    /**
+     * @ApiAction(
+     *     controller="Event",
+     *     title="Секции",
+     *     description="Список секций.",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/event/section/list",
+     *          body="",
+     *          params={
+     *              @Param(title="FromUpdateTime", description="(Y-m-d H:i:s) - время последнего обновления секций, начиная с которого формировать список."),
+     *              @Param(title="WithDeleted", description="Если параметр задан, не пустой и не приводится к false, возвращаются в том числе удаленные секции, иначе только не удаленные.")
+     *          },
+     *          response="[{
+    'Id': 'идентификатор',
+    'Title': 'название',
+    'Info': 'краткое описание',
+    'Start': 'время начала',
+    'End': 'время окончания',
+    'TypeCode': 'код типа секции',
+    'Places': ['массив с названиями залов, в которых проходит секция (deprecated)'],
+    'Halls': ['массив объектов Hall'],
+    'Attributes': ['дополнительные аттрибуты (произвольный массив ключ =>
+ значение, набор ключей и значений зависит от мероприятия)'],
+    'UpdateTime': 'дата/время последнего обновления',
+    'Deleted': 'true - если секция удалена, false - иначе'
+}]"
+     *     )
+     * )
+     */
     public function run()
     {
         $request = Yii::app()->getRequest();

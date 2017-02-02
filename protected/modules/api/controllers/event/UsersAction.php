@@ -11,8 +11,34 @@ use pay\models\OrderItem;
 use user\models\User;
 use Yii;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Param;
+
 class UsersAction extends Action
 {
+
+    /**
+     * @ApiAction(
+     *     controller="Event",
+     *     title="Участники",
+     *     description="Список участников",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/event/users",
+     *          body="",
+     *          params={
+     *              @Param(title="MaxResults", type="", defaultValue="", description="Максимальное количество пользователей в ответе, от 0 до 200. Если нужно загрузить более 200 участников, необходимо использовать постраничную загрузку"),
+     *              @Param(title="PageToken", type="", defaultValue="", description="Указатель на следующую страницу, берется из результата последнего запроса, значения NextPageToken"),
+     *              @Param(title="RoleId", type="", defaultValue="", description="Массив идентификаторов ролей")
+     *          },
+     *          response="{
+    'Users': 'массив пользователей',
+    'NextPageToken':'указатель на следующую страницу'
+}"
+     *     )
+     * )
+     */
     public function run()
     {
         $request = Yii::app()->getRequest();

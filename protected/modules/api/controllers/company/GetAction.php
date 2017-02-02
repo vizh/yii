@@ -1,8 +1,21 @@
 <?php
 namespace api\controllers\company;
 
+use nastradamus39\slate\annotations\ApiController;
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\ApiContent;
+
 class GetAction extends \api\components\Action
 {
+    /**
+     * @ApiAction(
+     *     controller="Company",
+     *     title="Детальная информация о компании",
+     *     description="Возвращает детальную информацию о компании",
+     *     request="GET http://$baseurl/api_v1/list",
+     *     params=""
+     * )
+     */
     public function run()
     {
         $companyId = \Yii::app()->getRequest()->getParam('CompanyId', null);

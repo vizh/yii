@@ -3,8 +3,32 @@ namespace api\controllers\user;
 
 use api\components\builders\Builder;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Param;
+
 class SearchAction extends \api\components\Action
 {
+
+    /**
+     * @ApiAction(
+     *     controller="User",
+     *     title="Поиск",
+     *     description="Поиск пользователей по базе RUNET-ID.",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/user/search",
+     *          body="",
+     *          params={
+     *              @Param(title="Query", type="Строка", defaultValue="", description="может принимать значения Email, RunetId, список RunetId через запятую, Фамилия, Фамилия Имя, Имя Фамилия")
+     *          },
+     *          response="{
+    'Users': 'массив пользователей',
+    'NextPageToken':  'указатель на следующую страницу'
+}"
+     *     )
+     * )
+     */
     public function run()
     {
         $request = \Yii::app()->getRequest();

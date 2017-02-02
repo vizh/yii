@@ -6,8 +6,44 @@ use api\components\Exception;
 use application\hacks\AbstractHack;
 use user\models\User;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Param;
+
 class LoginAction extends Action
 {
+
+    /**
+     * @ApiAction(
+     *     controller="User",
+     *     title="Авторизация",
+     *     description="Авторизация, проверка связки Email и Password.",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/user/login",
+     *          body="",
+     *          params={
+     *              @Param(title="Email", type="строка", defaultValue="", description="Email. Обязательно."),
+     *              @Param(title="Password", type="строка", defaultValue="", description="Пароль. Обязательно."),
+     *              @Param(title="DeviceType", type="строка", defaultValue="", description="Тип регистрируемого устройства пользователя. Обязателен, если указан параметр DeviceToken. Возможные значения: iOS, Android."),
+     *              @Param(title="DeviceToken", type="строка", defaultValue="", description="Уникальный идентификатор устройства для получения push-уведомлений.")
+     *          },
+     *          response="{
+    'RunetId': 'идентификатор',
+    'LastName': 'фамилия',
+    'FirstName': 'имя',
+    'FatherName': 'отчество',
+    'CreationTime': 'дата регистрации пользователя',
+    'Photo': 'объект Photo({Small, Medium, Large}) - ссылки на 3 размера фотографии пользователя',
+    'Email': 'email пользователя',
+    'Gender': 'пол посетителя. Возможные значения: null, male, female',
+    'Phones': 'массив с телефонами пользователя, если заданы',
+    'Work': 'объект с данными о месте работы пользователя',
+    'Status': 'объект с данными о статусе пользователя на мероприятии'
+}"
+     *     )
+     * )
+     */
     public function run()
     {
         // Позволяем реализовать кастомный механизм авторизации

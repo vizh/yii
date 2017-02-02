@@ -7,14 +7,49 @@ use pay\components\collection\Finder;
 use pay\components\OrderItemCollection;
 use user\models\User;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Param;
+
 /**
  * Class ListAction Returns list of products
  */
 class ListAction extends Action
 {
     /**
-     * @inheritdoc
-     * @throws Exception
+     * @ApiAction(
+     *     controller="Pay",
+     *     title="Заказы",
+     *     description="Список заказов.",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/pay/list",
+     *          body="",
+     *          params={ @Param(title="PayerRunetId", type="", defaultValue="", description="Идентификатор плательщика.") },
+     *          response="{
+    'Items': [{
+        'Id': 'идентификатор элемента заказа',
+        'Product': 'объект Product',
+        'Owner': 'объект User (сокращенный, только основные данные пользователя)',
+        'PriceDiscount': 'цена с учетом скидки',
+        'Paid': 'статус оплаты',
+        'PaidTime': 'время оплаты',
+        'Attributes': 'массив с атрибутами (если заданы)',
+        'Discount': 'размер скидки от 0 до 1, где 0 - скидки нет, 1 - скидка 100%',
+        'CouponCode': 'код купона, по которому была получена скидка',
+        'GroupDiscount': 'была скидка групповая или нет'
+    }],
+    'Orders': [{
+        'OrderId': 'идентификатор счета',
+        'Number': 'номер счета ()',
+        'Paid': 'статус оплачен/не оплачен',
+        'Url': 'ссылка на счет',
+        'Items': 'массив объектов OrderItem',
+        'CreationTime': 'дата создания счета'
+    }]
+}"
+     *     )
+     * )
      */
     public function run()
     {

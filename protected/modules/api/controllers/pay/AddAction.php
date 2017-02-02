@@ -10,16 +10,41 @@ use pay\models\Coupon;
 use Throwable;
 use Yii;
 
-/**
- * Class AddAction
- */
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Param;
+
 class AddAction extends Action
 {
+
     /**
-     * @inheritdoc
-     * @throws Exception
-     * @throws CodeException
-     * @throws MessageException
+     * @ApiAction(
+     *     controller="Pay",
+     *     title="Добавление",
+     *     description="Добавление заказа",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/pay/add",
+     *          body="",
+     *          params={
+     *              @Param(title="ProductId", type="строка", defaultValue="", description="Идентификатор товара. Обязательно."),
+     *              @Param(title="PayerRunetId", type="строка", defaultValue="", description="Идентификатор плательщика. Обязательно."),
+     *              @Param(title="OwnerRunetId", type="строка", defaultValue="", description="Идентификатор получателя товара. Обязательно.")
+     *          },
+     *          response="{
+    'Id': 'идентификатор элемента заказа',
+    'Product': 'объект Product',
+    'Owner': 'объект User (сокращенный, только основные данные пользователя)',
+    'PriceDiscount': 'цена с учетом скидки',
+    'Paid': 'статус оплаты',
+    'PaidTime': 'время оплаты',
+    'Attributes': 'массив с атрибутами (если заданы)',
+    'Discount': 'размер скидки от 0 до 1, где 0 - скидки нет, 1 - скидка 100%',
+    'CouponCode': 'код купона, по которому была получена скидка',
+    'GroupDiscount': 'была скидка групповая или нет'
+}"
+     *     )
+     * )
      */
     public function run()
     {

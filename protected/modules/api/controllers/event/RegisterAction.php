@@ -5,6 +5,10 @@ use api\components\Action;
 use api\components\Exception;
 use event\models\Role;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Param;
+
 /**
  * Регистрации на мероприяте
  *
@@ -15,6 +19,25 @@ use event\models\Role;
  */
 class RegisterAction extends Action
 {
+    /**
+     * @ApiAction(
+     *     controller="Event",
+     *     title="Изменение статуса",
+     *     description="Изменение статуса пользователя (или добавление).",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/event/register",
+     *          body="",
+     *          params={
+     *              @Param(title="RunetId", type="", defaultValue="", description="Идентификатор пользователя. Обязательно. "),
+     *              @Param(title="RoleId", type="", defaultValue="", description="Идентификатор статуса, который пользователь должен получить на мероприятии. Обязательно. "),
+     *          },
+     *          response="{
+    'Success': 'true'
+}"
+     *     )
+     * )
+     */
     public function run()
     {
         $role = Role::model()

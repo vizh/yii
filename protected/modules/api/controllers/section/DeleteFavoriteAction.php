@@ -1,8 +1,30 @@
 <?php
 namespace api\controllers\section;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Param;
+
 class DeleteFavoriteAction extends \api\components\Action
 {
+
+    /**
+     * @ApiAction(
+     *     controller="Event",
+     *     title="Удаление из избранного.",
+     *     description="",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/event/section/deleteFavorite",
+     *          body="",
+     *          params={
+     *              @Param(title="RunetId", type="", defaultValue="", description="Идентификатор."),
+     *              @Param(title="SectionId", type="", defaultValue="", description="Идентификатор.")
+     *          },
+     *          response="{'Success': 'true'}"
+     *     )
+     * )
+     */
   public function run()
   {
     $request = \Yii::app()->getRequest();

@@ -1,0 +1,1029 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>API Documentation</title>
+
+    <style>
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight, .highlight .w {
+  color: #f8f8f2;
+  background-color: #272822;
+}
+.highlight .err {
+  color: #272822;
+  background-color: #f92672;
+}
+.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+  color: #75715e;
+}
+.highlight .cp {
+  color: #f4bf75;
+}
+.highlight .nt {
+  color: #f4bf75;
+}
+.highlight .o, .highlight .ow {
+  color: #f8f8f2;
+}
+.highlight .p, .highlight .pi {
+  color: #f8f8f2;
+}
+.highlight .gi {
+  color: #a6e22e;
+}
+.highlight .gd {
+  color: #f92672;
+}
+.highlight .gh {
+  color: #66d9ef;
+  background-color: #272822;
+  font-weight: bold;
+}
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+  color: #ae81ff;
+}
+.highlight .kc {
+  color: #fd971f;
+}
+.highlight .kt {
+  color: #fd971f;
+}
+.highlight .kd {
+  color: #fd971f;
+}
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+  color: #a6e22e;
+}
+.highlight .sr {
+  color: #a1efe4;
+}
+.highlight .si {
+  color: #cc6633;
+}
+.highlight .se {
+  color: #cc6633;
+}
+.highlight .nn {
+  color: #f4bf75;
+}
+.highlight .nc {
+  color: #f4bf75;
+}
+.highlight .no {
+  color: #f4bf75;
+}
+.highlight .na {
+  color: #66d9ef;
+}
+.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
+  color: #a6e22e;
+}
+.highlight .ss {
+  color: #a6e22e;
+}
+    </style>
+    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all.js"></script>
+  </head>
+
+  <body class="index" data-languages="[&quot;json&quot;]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" alt="Navbar" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+      <img src="images/logo.png" alt="Logo" />
+        <div class="lang-selector">
+              <a href="#" data-language-name="json">json</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <div id="toc">
+      </div>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id="1">1. Общая информация</h1>
+
+<aside class='notice'><br />
+Запрос к методам API представляет собой обращение по HTTP-протоколу к URL вида http://api.runet-id.com/<название метода>.<br />
+Переменные методов передаются с помощью GET или POST параметров. В качестве результата возвращается JSON объект.<br />
+Для каждого мероприятия генерируются ApiKey и Secret. Доступ к API для каждого ApiKey ограничивается списком ip-адресов.<br />
+<strong>Обязательные для всех методов параметры:</strong><br />
+&nbsp;&nbsp;&nbsp;1. ApiKey<br />
+&nbsp;&nbsp;&nbsp;2. Hash - вычисляется по формуле md5(ApiKey+Secret)<br />
+<strong>Формат возвращаемых ошибок:</strong><br />
+{<br />
+&nbsp;&nbsp;&nbsp;Error: {Code: int, Message: string}<br />
+}<br />
+<strong>При использовании php-API:</strong><br />
+$api = new \RunetID\Api\Api(ApiKey, Secret, Cache = null);<br />
+где Cache - объект класса, реализующего интерфейс \RunetID\Api\ICache
+</aside>
+
+<h1 id="2">2. Общие параметры</h1>
+
+<aside class='notice'><br />
+<b>Общие параметры для всех методов</b><br />
+Language – переключение языка приложения и его ответов в “ru” или “en”. По-умолчанию, значение устанавливается в &lsquo;ru&rsquo;.
+</aside>
+
+<h1 id="3">3. Авторизация</h1>
+
+<aside class='notice'><br />
+<b>Шаг 1</b><br />
+Добавить следующий код на страницу с вызовом диалога авторизации<br />
+window.rIDAsyncInit = function() {<br />
+&nbsp;&nbsp;&nbsp;rID.init({<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apiKey: <key><br />
+&nbsp;&nbsp;&nbsp;});<br />
+&nbsp;&nbsp;&nbsp;// Additional initialization code here<br />
+};<br />
+<br />
+// Load the SDK Asynchronously<br />
+(function(d){<br />
+var js, id = 'runetid-jssdk&rsquo;, ref = d.getElementsByTagName('script&rsquo;)[0];<br />
+if (d.getElementById(id)) {return;}<br />
+js = d.createElement('script&rsquo;); js.id = id; js.async = true;<br />
+js.src = &rsquo;//runet-id.com/javascripts/api/runetid.js&rsquo;;<br />
+ref.parentNode.insertBefore(js, ref);<br />
+}(document));<br />
+<br />
+<b>Шаг 2</b><br />
+Вызвать метод rID.login(); для создания окна авторизации<br />
+<br />
+<b>Шаг 3</b><br />
+После авторизации, пользователь будет переадресован на исходную страницу с GET-параметром token (переадресация происходит в рамках окна авторизации)<br />
+<br />
+<b>Шаг 4</b><br />
+После получения token - необходимо сделать запрос к API методу user/auth передав параметр token, полученный выше.<br />
+API вернет данные авторизованного пользователя (RUNET-ID, ФИО, Место работы, Контакты).<br />
+<br />
+<b>При использовании php-API:</b><br />
+$user = \RunetID\Api\User::model($api)->getByToken(token);<br />
+
+</aside>
+
+<h1 id="4">4. Компании</h1>
+
+<p>Описаие методов для работы с компаниями</p>
+
+<h2 id="4-1">4.1. Детальная информация о компании</h2>
+
+<p>Возвращает детальную информацию о компании</p>
+
+<h2 id="4-2">4.2. Список</h2>
+
+<p>Список компаний.</p>
+
+<blockquote>
+<p>Ответ на запрос: </p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">[{</span><span class="w">
+        </span><span class="nt">"Companies"</span><span class="p">:</span><span class="w"> </span><span class="s2">"массив объектов User"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"NextPageToken"</span><span class="p">:</span><span class="w"> </span><span class="s2">"строка, если присутствует в ответе - значит доступны следующие страницы,
+если значение отсутствует - значит загружена последняя страница."</span><span class="w">
+</span><span class="p">}]</span><span class="w">
+</span></code></pre>
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET http://api.runet-id.com/company/list</code> </p>
+
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Название</th>
+<th>Тип</th>
+<th>Значение по умолчанию</th>
+<th>Описание</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Cluster</td>
+<td></td>
+<td></td>
+<td>(enum[РАЭК]) – кластер, компании которого необходимо получить. В данный момент может принимать единственное значение: РАЭК. Обязательно.</td>
+</tr>
+<tr>
+<td>Query</td>
+<td></td>
+<td></td>
+<td>поисковая строка.</td>
+</tr>
+<tr>
+<td>PageToken</td>
+<td></td>
+<td></td>
+<td>Указатель на следующую страницу, берется из результата последнего запроса, значения NextPageToken.</td>
+</tr>
+<tr>
+<td>MaxResults</td>
+<td></td>
+<td></td>
+<td>MaxResults (число) - максимальное количество компаний в ответе, от 0 до 200. Если нужно загрузить более 200 участников, необходимо использовать постраничную загрузку.</td>
+</tr>
+</tbody></table>
+
+<h1 id="5">5. Мероприятия</h1>
+
+<p>Методы для работы с мероприятиями.</p>
+
+<h2 id="5-1">5.1. Залы</h2>
+
+<p>Список залов.</p>
+
+<blockquote>
+<p>Ответ на запрос: </p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">[{</span><span class="w">
+    </span><span class="nt">"Id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"идентификатор"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"название зала"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"UpdateTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"время последнего обновления зала (Y-m-d H:i:s)"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Order"</span><span class="p">:</span><span class="w"> </span><span class="s2">"порядок вывода залов"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Deleted"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true - если зал удален, false - иначе."</span><span class="w">
+</span><span class="p">}]</span><span class="w">
+</span></code></pre>
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET http://api.runet-id.com/event/halls</code> </p>
+
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Название</th>
+<th>Тип</th>
+<th>Значение по умолчанию</th>
+<th>Описание</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>FromUpdateTime</td>
+<td></td>
+<td></td>
+<td>(Y-m-d H:i:s) - время последнего обновления залов, начиная с которого формировать список.</td>
+</tr>
+<tr>
+<td>WithDeleted</td>
+<td></td>
+<td></td>
+<td>Если параметр задан, не пустой и не приводится к false, возвращаются в том числе удаленные залы, иначе только не удаленные.</td>
+</tr>
+</tbody></table>
+
+<h2 id="5-2">5.2. Изменение статуса</h2>
+
+<p>Изменение статуса пользователя (или добавление).</p>
+
+<blockquote>
+<p>Ответ на запрос: </p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"Success"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET http://api.runet-id.com/event/register</code> </p>
+
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Название</th>
+<th>Тип</th>
+<th>Значение по умолчанию</th>
+<th>Описание</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>RunetId</td>
+<td></td>
+<td></td>
+<td>Идентификатор пользователя. Обязательно.</td>
+</tr>
+<tr>
+<td>RoleId</td>
+<td></td>
+<td></td>
+<td>Идентификатор статуса, который пользователь должен получить на мероприятии. Обязательно.</td>
+</tr>
+</tbody></table>
+
+<h2 id="5-3">5.3. Статусы</h2>
+
+<p>Список статусов.</p>
+
+<blockquote>
+<p>Ответ на запрос: </p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">[{</span><span class="w">
+    </span><span class="nt">"RoleId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"идентификатор статуса на мероприятии"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"RoleTitle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"название статуса"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"UpdateTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"время последнего обновления"</span><span class="w">
+</span><span class="p">}]</span><span class="w">
+</span></code></pre>
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET http://api.runet-id.com/event/roles</code> </p>
+
+<h2 id="5-4">5.4. Участники</h2>
+
+<p>Список участников</p>
+
+<blockquote>
+<p>Ответ на запрос: </p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"Users"</span><span class="p">:</span><span class="w"> </span><span class="s2">"массив пользователей"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"NextPageToken"</span><span class="p">:</span><span class="s2">"указатель на следующую страницу"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET http://api.runet-id.com/event/users</code> </p>
+
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Название</th>
+<th>Тип</th>
+<th>Значение по умолчанию</th>
+<th>Описание</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>MaxResults</td>
+<td></td>
+<td></td>
+<td>Максимальное количество пользователей в ответе, от 0 до 200. Если нужно загрузить более 200 участников, необходимо использовать постраничную загрузку</td>
+</tr>
+<tr>
+<td>PageToken</td>
+<td></td>
+<td></td>
+<td>Указатель на следующую страницу, берется из результата последнего запроса, значения NextPageToken</td>
+</tr>
+<tr>
+<td>RoleId</td>
+<td></td>
+<td></td>
+<td>Массив идентификаторов ролей</td>
+</tr>
+</tbody></table>
+
+<h2 id="5-5">5.5. Добавление в избранное.</h2>
+
+<blockquote>
+<p>Ответ на запрос: </p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="nt">"Success"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET http://api.runet-id.com/event/section/addFavorite</code> </p>
+
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Название</th>
+<th>Тип</th>
+<th>Значение по умолчанию</th>
+<th>Описание</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>RunetId</td>
+<td></td>
+<td></td>
+<td>Идентификатор.</td>
+</tr>
+<tr>
+<td>SectionId</td>
+<td></td>
+<td></td>
+<td>Идентификатор.</td>
+</tr>
+</tbody></table>
+
+<h2 id="5-6">5.6. Удаление из избранного.</h2>
+
+<blockquote>
+<p>Ответ на запрос: </p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="nt">"Success"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET http://api.runet-id.com/event/section/deleteFavorite</code> </p>
+
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Название</th>
+<th>Тип</th>
+<th>Значение по умолчанию</th>
+<th>Описание</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>RunetId</td>
+<td></td>
+<td></td>
+<td>Идентификатор.</td>
+</tr>
+<tr>
+<td>SectionId</td>
+<td></td>
+<td></td>
+<td>Идентификатор.</td>
+</tr>
+</tbody></table>
+
+<h2 id="5-7">5.7. Список избранных</h2>
+
+<p>Список избранных секций.</p>
+
+<blockquote>
+<p>Ответ на запрос: </p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"SectionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"идентификатор секции"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"UpdateTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"время добавления или удаления в избранное"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Deleted"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true - если секция удалена из избранных секций пользователя, false - иначе."</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET http://api.runet-id.com/event/section/favorites</code> </p>
+
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Название</th>
+<th>Тип</th>
+<th>Значение по умолчанию</th>
+<th>Описание</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>RunetId</td>
+<td></td>
+<td></td>
+<td>Идентификатор. Обязательно.</td>
+</tr>
+<tr>
+<td>FromUpdateTime</td>
+<td></td>
+<td></td>
+<td>(Y-m-d H:i:s) - время последнего обновления избранных секций пользователя, начиная с которого формировать список. Обязательно.</td>
+</tr>
+<tr>
+<td>WithDeleted</td>
+<td></td>
+<td></td>
+<td>Если параметр задан, не пустой и не приводится к false, возвращаются в том числе удаленные из избранного секции, иначе только не удаленные. Обязательно.</td>
+</tr>
+</tbody></table>
+
+<h2 id="5-8">5.8. Секции</h2>
+
+<p>Список секций.</p>
+
+<blockquote>
+<p>Ответ на запрос: </p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">[{</span><span class="w">
+    </span><span class="nt">"Id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"идентификатор"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"название"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Info"</span><span class="p">:</span><span class="w"> </span><span class="s2">"краткое описание"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"время начала"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"End"</span><span class="p">:</span><span class="w"> </span><span class="s2">"время окончания"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"TypeCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"код типа секции"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Places"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"массив с названиями залов, в которых проходит секция (deprecated)"</span><span class="p">],</span><span class="w">
+    </span><span class="nt">"Halls"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"массив объектов Hall"</span><span class="p">],</span><span class="w">
+    </span><span class="nt">"Attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"дополнительные аттрибуты (произвольный массив ключ =&gt;
+ значение, набор ключей и значений зависит от мероприятия)"</span><span class="p">],</span><span class="w">
+    </span><span class="nt">"UpdateTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"дата/время последнего обновления"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Deleted"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true - если секция удалена, false - иначе"</span><span class="w">
+</span><span class="p">}]</span><span class="w">
+</span></code></pre>
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET http://api.runet-id.com/event/section/list</code> </p>
+
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Название</th>
+<th>Тип</th>
+<th>Значение по умолчанию</th>
+<th>Описание</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>FromUpdateTime</td>
+<td></td>
+<td></td>
+<td>(Y-m-d H:i:s) - время последнего обновления секций, начиная с которого формировать список.</td>
+</tr>
+<tr>
+<td>WithDeleted</td>
+<td></td>
+<td></td>
+<td>Если параметр задан, не пустой и не приводится к false, возвращаются в том числе удаленные секции, иначе только не удаленные.</td>
+</tr>
+</tbody></table>
+
+<h2 id="5-9">5.9. Доклады</h2>
+
+<p>Список докладов.<br />
+&nbsp;&nbsp;&nbsp;User, Company, CustomText - всегда будет заполнено только одно из этих полей.<br />
+&nbsp;&nbsp;&nbsp;Title, Thesis, FullInfo, Url - могут отсутствовать, если нет информации о докладе, либо роль не предполагает выступление с докладом (например, ведущий)</p>
+
+<blockquote>
+<p>Ответ на запрос: </p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">[{</span><span class="w">
+    </span><span class="nt">"Id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"идентификатор"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"User"</span><span class="p">:</span><span class="w"> </span><span class="s2">"объект User (может быть пустым) - делающий доклад пользователь"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"объект Company (может быть пустым) - делающая доклад компания"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"CustomText"</span><span class="p">:</span><span class="w"> </span><span class="s2">"произвольная строка с описанием докладчика"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"SectionRoleId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"идентификатор роли докладчика на этой секции"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"SectionRoleTitle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"название роли докладчика на этой секции"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Order"</span><span class="p">:</span><span class="w"> </span><span class="s2">"порядок выступления докладчиков"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"название доклада"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Thesis"</span><span class="p">:</span><span class="w"> </span><span class="s2">"тезисы доклада"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"FullInfo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"полная информация о докладе"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ссылка на презентацию"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"UpdateTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"дата/время последнего обновления"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Deleted"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true - если секция удалена, false - иначе."</span><span class="w">
+</span><span class="p">}]</span><span class="w">
+</span></code></pre>
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET http://api.runet-id.com/event/section/reports</code> </p>
+
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Название</th>
+<th>Тип</th>
+<th>Значение по умолчанию</th>
+<th>Описание</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>SectionId</td>
+<td></td>
+<td></td>
+<td>Идентификатор секции. Обязательно</td>
+</tr>
+<tr>
+<td>FromUpdateTime</td>
+<td></td>
+<td></td>
+<td>Время последнего обновления доклада, начиная с которого формировать список.</td>
+</tr>
+<tr>
+<td>WithDeleted</td>
+<td></td>
+<td></td>
+<td>Если параметр задан, не пустой и не приводится к false, возвращаются в том числе удаленные доклады, иначе только не удаленные.</td>
+</tr>
+</tbody></table>
+
+<h1 id="6">6. Платежный кабинет</h1>
+
+<h2 id="6-1">6.1. Добавление</h2>
+
+<p>Добавление заказа</p>
+
+<blockquote>
+<p>Ответ на запрос: </p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"Id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"идентификатор элемента заказа"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"объект Product"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Owner"</span><span class="p">:</span><span class="w"> </span><span class="s2">"объект User (сокращенный, только основные данные пользователя)"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"PriceDiscount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"цена с учетом скидки"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Paid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"статус оплаты"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"PaidTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"время оплаты"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Attributes"</span><span class="p">:</span><span class="w"> </span><span class="s2">"массив с атрибутами (если заданы)"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Discount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"размер скидки от 0 до 1, где 0 - скидки нет, 1 - скидка 100%"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"CouponCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"код купона, по которому была получена скидка"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"GroupDiscount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"была скидка групповая или нет"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET http://api.runet-id.com/pay/add</code> </p>
+
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Название</th>
+<th>Тип</th>
+<th>Значение по умолчанию</th>
+<th>Описание</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ProductId</td>
+<td>строка</td>
+<td></td>
+<td>Идентификатор товара. Обязательно.</td>
+</tr>
+<tr>
+<td>PayerRunetId</td>
+<td>строка</td>
+<td></td>
+<td>Идентификатор плательщика. Обязательно.</td>
+</tr>
+<tr>
+<td>OwnerRunetId</td>
+<td>строка</td>
+<td></td>
+<td>Идентификатор получателя товара. Обязательно.</td>
+</tr>
+</tbody></table>
+
+<h2 id="6-2">6.2. Удаление</h2>
+
+<p>Удаление заказа</p>
+
+<blockquote>
+<p>Ответ на запрос: </p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="nt">"Success"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET http://api.runet-id.com/pay/delete</code> </p>
+
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Название</th>
+<th>Тип</th>
+<th>Значение по умолчанию</th>
+<th>Описание</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>OrderItemId</td>
+<td></td>
+<td></td>
+<td>Идентификатор заказа.</td>
+</tr>
+<tr>
+<td>PayerRunetId</td>
+<td></td>
+<td></td>
+<td>Идентификатор плательщика.</td>
+</tr>
+</tbody></table>
+
+<h2 id="6-3">6.3. Список оплаченных заказов</h2>
+
+<p>Список оплаченных за пользователя заказов. Возвращает массив с купленными пользователем заказами.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET http://api.runet-id.com/pay/items</code> </p>
+
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Название</th>
+<th>Тип</th>
+<th>Значение по умолчанию</th>
+<th>Описание</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>OwnerRunetId</td>
+<td></td>
+<td></td>
+<td>Идентификатор.</td>
+</tr>
+</tbody></table>
+
+<h2 id="6-4">6.4. Заказы</h2>
+
+<p>Список заказов.</p>
+
+<blockquote>
+<p>Ответ на запрос: </p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"Items"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+        </span><span class="nt">"Id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"идентификатор элемента заказа"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"Product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"объект Product"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"Owner"</span><span class="p">:</span><span class="w"> </span><span class="s2">"объект User (сокращенный, только основные данные пользователя)"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"PriceDiscount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"цена с учетом скидки"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"Paid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"статус оплаты"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"PaidTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"время оплаты"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"Attributes"</span><span class="p">:</span><span class="w"> </span><span class="s2">"массив с атрибутами (если заданы)"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"Discount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"размер скидки от 0 до 1, где 0 - скидки нет, 1 - скидка 100%"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"CouponCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"код купона, по которому была получена скидка"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"GroupDiscount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"была скидка групповая или нет"</span><span class="w">
+    </span><span class="p">}],</span><span class="w">
+    </span><span class="nt">"Orders"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+        </span><span class="nt">"OrderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"идентификатор счета"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"Number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"номер счета ()"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"Paid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"статус оплачен/не оплачен"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"Url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ссылка на счет"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"Items"</span><span class="p">:</span><span class="w"> </span><span class="s2">"массив объектов OrderItem"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"CreationTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"дата создания счета"</span><span class="w">
+    </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET http://api.runet-id.com/pay/list</code> </p>
+
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Название</th>
+<th>Тип</th>
+<th>Значение по умолчанию</th>
+<th>Описание</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>PayerRunetId</td>
+<td></td>
+<td></td>
+<td>Идентификатор плательщика.</td>
+</tr>
+</tbody></table>
+
+<h2 id="6-5">6.5. Товары</h2>
+
+<p>Список доступных товаров</p>
+
+<blockquote>
+<p>Ответ на запрос: </p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">[{</span><span class="w">
+    </span><span class="nt">"Id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"идентификатор"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Manager"</span><span class="p">:</span><span class="w"> </span><span class="s2">"строка, название менеджера (участие, питание и другие)"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"название товара"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"текущая цена"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Attributes"</span><span class="p">:</span><span class="w"> </span><span class="s2">"массив ключ-значение с атрибутами товара"</span><span class="w">
+</span><span class="p">}]</span><span class="w">
+</span></code></pre>
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET http://api.runet-id.com/pay/products</code> </p>
+
+<h1 id="7">7. Пользователи</h1>
+
+<p>Загрузка данных пользователя. Работа с пользователями.</p>
+
+<h2 id="7-1">7.1. Адресс пользователя</h2>
+
+<p>Возвращает адрес пользователя</p>
+
+<h2 id="7-2">7.2. Создание</h2>
+
+<p>Создает нового пользователя.</p>
+
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">POST http://api.runet-id.com/user/create</code> </p>
+
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Название</th>
+<th>Тип</th>
+<th>Значение по умолчанию</th>
+<th>Описание</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Email</td>
+<td>Строка</td>
+<td></td>
+<td>Email. Обязательно.</td>
+</tr>
+<tr>
+<td>LastName</td>
+<td>Строка</td>
+<td></td>
+<td>Фамилия. Обязательно.</td>
+</tr>
+<tr>
+<td>FirstName</td>
+<td>Строка</td>
+<td></td>
+<td>Имя. Обязательно.</td>
+</tr>
+<tr>
+<td>FatherName</td>
+<td>Строка</td>
+<td></td>
+<td>Отчество.</td>
+</tr>
+<tr>
+<td>Phone</td>
+<td>Строка</td>
+<td></td>
+<td>Телефон.</td>
+</tr>
+<tr>
+<td>Company</td>
+<td>Строка</td>
+<td></td>
+<td>Компания.</td>
+</tr>
+<tr>
+<td>Position</td>
+<td>Строка</td>
+<td></td>
+<td>Должность.</td>
+</tr>
+</tbody></table>
+
+<h2 id="7-3">7.3. Детальная информация</h2>
+
+<p>Возвращает данные пользователя, включая информацию о статусе участия в мероприятии.<br />
+При использовании php-API:<br />
+$user = \RunetID\Api\User::model($api)-&gt;getByRunetId(RunetId);</p>
+
+<blockquote>
+<p>Ответ на запрос: </p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"RunetId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"идентификатор"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"LastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"фамилия"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"FirstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"имя"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"FatherName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"отчество"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"CreationTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"дата регистрации пользователя"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Photo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"объект Photo({Small, Medium, Large}) - ссылки на 3 размера фотографии пользователя"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email пользователя"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"пол посетителя. Возможные значения: null, male, female"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Phones"</span><span class="p">:</span><span class="w"> </span><span class="s2">"массив с телефонами пользователя, если заданы"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Work"</span><span class="p">:</span><span class="w"> </span><span class="s2">"объект с данными о месте работы пользователя"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"объект с данными о статусе пользователя на мероприятии"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="err">Объект</span><span class="w"> </span><span class="err">Status:</span><span class="w">
+</span><span class="p">{</span><span class="w">
+    </span><span class="nt">"RoleId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"идентификатор статуса на мероприятии"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"RoleTitle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"название статуса"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"UpdateTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"время последнего обновления"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET http://api.runet-id.com/user/get</code> </p>
+
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Название</th>
+<th>Тип</th>
+<th>Значение по умолчанию</th>
+<th>Описание</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>RunetId</td>
+<td></td>
+<td></td>
+<td>runetid пользователя. Обязательно.</td>
+</tr>
+</tbody></table>
+
+<h2 id="7-4">7.4. Авторизация</h2>
+
+<p>Авторизация, проверка связки Email и Password.</p>
+
+<blockquote>
+<p>Ответ на запрос: </p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"RunetId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"идентификатор"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"LastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"фамилия"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"FirstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"имя"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"FatherName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"отчество"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"CreationTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"дата регистрации пользователя"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Photo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"объект Photo({Small, Medium, Large}) - ссылки на 3 размера фотографии пользователя"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email пользователя"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"пол посетителя. Возможные значения: null, male, female"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Phones"</span><span class="p">:</span><span class="w"> </span><span class="s2">"массив с телефонами пользователя, если заданы"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Work"</span><span class="p">:</span><span class="w"> </span><span class="s2">"объект с данными о месте работы пользователя"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"Status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"объект с данными о статусе пользователя на мероприятии"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET http://api.runet-id.com/user/login</code> </p>
+
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Название</th>
+<th>Тип</th>
+<th>Значение по умолчанию</th>
+<th>Описание</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Email</td>
+<td>строка</td>
+<td></td>
+<td>Email. Обязательно.</td>
+</tr>
+<tr>
+<td>Password</td>
+<td>строка</td>
+<td></td>
+<td>Пароль. Обязательно.</td>
+</tr>
+<tr>
+<td>DeviceType</td>
+<td>строка</td>
+<td></td>
+<td>Тип регистрируемого устройства пользователя. Обязателен, если указан параметр DeviceToken. Возможные значения: iOS, Android.</td>
+</tr>
+<tr>
+<td>DeviceToken</td>
+<td>строка</td>
+<td></td>
+<td>Уникальный идентификатор устройства для получения push-уведомлений.</td>
+</tr>
+</tbody></table>
+
+<h2 id="7-5">7.5. Поиск</h2>
+
+<p>Поиск пользователей по базе RUNET-ID.</p>
+
+<blockquote>
+<p>Ответ на запрос: </p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"Users"</span><span class="p">:</span><span class="w"> </span><span class="s2">"массив пользователей"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"NextPageToken"</span><span class="p">:</span><span class="w">  </span><span class="s2">"указатель на следующую страницу"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id="request">Request</h3>
+
+<p><code class="prettyprint">GET http://api.runet-id.com/user/search</code> </p>
+
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Название</th>
+<th>Тип</th>
+<th>Значение по умолчанию</th>
+<th>Описание</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Query</td>
+<td>Строка</td>
+<td></td>
+<td>может принимать значения Email, RunetId, список RunetId через запятую, Фамилия, Фамилия Имя, Имя Фамилия</td>
+</tr>
+</tbody></table>
+
+<h1 id="8">8.</h1>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="json">json</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

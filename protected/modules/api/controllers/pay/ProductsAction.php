@@ -4,8 +4,33 @@ namespace api\controllers\pay;
 use api\components\Action;
 use pay\models\Product;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Param;
+
 class ProductsAction extends Action
 {
+
+    /**
+     * @ApiAction(
+     *     controller="Pay",
+     *     title="Товары",
+     *     description="Список доступных товаров",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/pay/products",
+     *          body="",
+     *          params="",
+     *          response="[{
+    'Id': 'идентификатор',
+    'Manager': 'строка, название менеджера (участие, питание и другие)',
+    'Title': 'название товара',
+    'Price': 'текущая цена',
+    'Attributes': 'массив ключ-значение с атрибутами товара'
+}]"
+     *     )
+     * )
+     */
     public function run()
     {
         /** @var \CHttpRequest $request */
