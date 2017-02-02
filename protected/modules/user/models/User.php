@@ -1176,4 +1176,17 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
 
         return $string;
     }
+
+    /**
+     * Возвращает информацию о бэйдже для мероприятия
+     * @param $eventId
+     * @return Badge
+     */
+    public function getEventBage($eventId)
+    {
+        return Badge::model()
+            ->byEventId($eventId)
+            ->byUserId($this->Id)
+            ->find();
+    }
 }

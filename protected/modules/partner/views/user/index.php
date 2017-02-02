@@ -148,10 +148,10 @@ use application\components\utility\Texts;
                         'type' => 'raw',
                         'header' => $search->getAttributeLabel('Ruvents'),
                         'name' => 'Ruvents',
-                        'value' => function (User $user) use ($controller) {
+                        'value' => function (User $user) use ($controller, $event) {
                             $result = '';
-                            if (!empty($user->Badges)) {
-                                $badge = $user->Badges[0];
+                            $badge = $user->getEventBage($event->Id);
+                            if ($badge) {
                                 $dateFormatter = \Yii::app()->getDateFormatter();
                                 $result.= $dateFormatter->format('dd.MM.yyyy HH:mm', $badge->CreationTime) . '<br/>';
                                 $result.= \CHtml::tag('em', [], $badge->Operator->Login);
