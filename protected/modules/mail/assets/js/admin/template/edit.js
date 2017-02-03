@@ -107,7 +107,7 @@ CTemplateEdit.prototype = {
                     });
                 });
             }
-            row.find('select[name*="type"] option[value="' + data.type + '"]').attr('selected', 'selected');
+            row.find('select[name*="type"] option[value="' + data.type + '"]').prop('selected', 'selected');
         }
         this.criteriaIterator++;
     },
@@ -124,7 +124,7 @@ CTemplateEdit.prototype = {
 
         if (typeof data != "undefined") {
             row.find('textarea[name*="emails"]').val(data.emails);
-            row.find('select[name*="type"] option[value="' + data.type + '"]').attr('selected', 'selected');
+            row.find('select[name*="type"] option[value="' + data.type + '"]').prop('selected', 'selected');
         }
         this.criteriaIterator++;
     },
@@ -141,7 +141,7 @@ CTemplateEdit.prototype = {
 
         if (typeof data != "undefined") {
             row.find('textarea[name*="runetIdList"]').val(data.runetIdList);
-            row.find('select[name*="type"] option[value="' + data.type + '"]').attr('selected', 'selected');
+            row.find('select[name*="type"] option[value="' + data.type + '"]').prop('selected', 'selected');
         }
         this.criteriaIterator++;
     },
@@ -184,7 +184,7 @@ CTemplateEdit.prototype = {
             fields.cityId.val(data.cityId);
             fields.regionId.val(data.regionId);
             fields.countryId.val(data.countryId);
-            row.find('select[name*="type"] option[value="' + data.type + '"]').attr('selected', 'selected');
+            row.find('select[name*="type"] option[value="' + data.type + '"]').prop('selected', 'selected');
         }
         this.criteriaIterator++;
     }
