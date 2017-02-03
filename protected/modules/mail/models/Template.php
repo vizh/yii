@@ -9,6 +9,7 @@ use Yii;
 
 /**
  * @property int $Id
+ * @property int $RelatedEventId
  * @property string $Filter
  * @property string $Title
  * @property string $Subject
@@ -28,9 +29,9 @@ use Yii;
  * @property bool $ShowUnsubscribeLink
  * @property bool $ShowFooter
  * @property string $Layout
- * @property int $RelatedEventId
- * @property Event $RelatedEvent
  * @property string $MailerClass
+ *
+ * @property Event $RelatedEvent
  *
  * Описание вспомогательных методов
  * @method Template   with($condition = '')

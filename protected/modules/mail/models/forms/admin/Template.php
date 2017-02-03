@@ -2,20 +2,21 @@
 namespace mail\models\forms\admin;
 
 use application\components\form\CreateUpdateForm;
-use event\models\Role;
 use event\models\Event;
+use event\models\Role;
 use geo\models\City;
 use geo\models\Country;
 use geo\models\Region;
 use mail\components\filter\EmailCondition;
 use mail\components\filter\EventCondition;
 use mail\components\filter\GeoCondition;
+use mail\components\filter\Main as MainFilter;
 use mail\components\filter\RunetIdCondition;
 use mail\models\Layout;
+use mail\models\Template as TemplateModel;
 use mail\models\TemplateLog;
 use user\models\User;
-use mail\models\Template as TemplateModel;
-use mail\components\filter\Main as MainFilter;
+use Yii;
 
 /**
  * Class Template
@@ -24,15 +25,15 @@ use mail\components\filter\Main as MainFilter;
  */
 class Template extends CreateUpdateForm
 {
-    const ByEvent      = 'Event';
-    const ByEmail      = 'Email';
-    const ByRunetId    = 'RunetId';
-    const ByGeo        = 'Geo';
+    const ByEvent = 'Event';
+    const ByEmail = 'Email';
+    const ByRunetId = 'RunetId';
+    const ByGeo = 'Geo';
 
     const TypePositive = 'positive';
     const TypeNegative = 'negative';
 
-    /** @var TemplateModel  */
+    /** @var TemplateModel */
     protected $model;
 
     public $Title;
@@ -47,7 +48,7 @@ class Template extends CreateUpdateForm
     public $TestUsers;
     public $Conditions = [];
     public $Body;
-    public $Layout = \mail\models\Layout::OneColumn;
+    public $Layout = Layout::OneColumn;
     public $ShowUnsubscribeLink = 1;
     public $ShowFooter = 1;
     public $RelatedEventId;
@@ -55,7 +56,7 @@ class Template extends CreateUpdateForm
     /**
      * @var string Mailer class for sending mails
      */
-    public $MailerClass = TemplateModel::MAILER_PHP;
+    public $MailerClass = TemplateModel::MAILER_AMAZON_SES;
 
     /** @var \CUploadedFile[] */
     public $Attachments = [];
@@ -64,6 +65,7 @@ class Template extends CreateUpdateForm
 
     /**
      * Returns list of mailers
+     *
      * @return array
      */
     public function getMailServices()
@@ -81,23 +83,23 @@ class Template extends CreateUpdateForm
     public function attributeLabels()
     {
         return [
-            'Title' => \Yii::t('app', 'Название рассылки'),
-            'Subject' => \Yii::t('app', 'Тема письма'),
-            'From' => \Yii::t('app', 'Отправитель письма'),
-            'FromName' => \Yii::t('app', 'Имя отправителя письма'),
-            'SendPassbook' => \Yii::t('app', 'Добавлять PassBook'),
-            'SendUnsubscribe' => \Yii::t('app', 'Отправлять отписавшимся'),
-            'SendUnverified' => \Yii::t('app', 'Отправлять неподтвежденным пользователям'),
-            'Active' => \Yii::t('app', 'Рассылка по выбранным получателям'),
-            'Test' => \Yii::t('app', 'Получатели тестовой рассылки'),
-            'Body' => \Yii::t('app', 'Тело письма'),
-            'SendInvisible' => \Yii::t('app', 'Отправлять скрытым пользователям'),
-            'Layout' => \Yii::t('app', 'Шаблон'),
-            'ShowUnsubscribeLink' => \Yii::t('app', 'Показывать ссылку на отписку'),
-            'ShowFooter' => \Yii::t('app', 'Показывать футер'),
-            'RelatedEventId' => \Yii::t('app', 'Связанное мероприятие'),
-            'Attachments' => \Yii::t('app', 'Приложенные файлы'),
-            'MailerClass' => \Yii::t('app', 'Сервис отправки'),
+            'Title' => Yii::t('app', 'Название рассылки'),
+            'Subject' => Yii::t('app', 'Тема письма'),
+            'From' => Yii::t('app', 'Отправитель письма'),
+            'FromName' => Yii::t('app', 'Имя отправителя письма'),
+            'SendPassbook' => Yii::t('app', 'Добавлять PassBook'),
+            'SendUnsubscribe' => Yii::t('app', 'Отправлять отписавшимся'),
+            'SendUnverified' => Yii::t('app', 'Отправлять неподтвежденным пользователям'),
+            'Active' => Yii::t('app', 'Рассылка по выбранным получателям'),
+            'Test' => Yii::t('app', 'Получатели тестовой рассылки'),
+            'Body' => Yii::t('app', 'Тело письма'),
+            'SendInvisible' => Yii::t('app', 'Отправлять скрытым пользователям'),
+            'Layout' => Yii::t('app', 'Шаблон'),
+            'ShowUnsubscribeLink' => Yii::t('app', 'Показывать ссылку на отписку'),
+            'ShowFooter' => Yii::t('app', 'Показывать футер'),
+            'RelatedEventId' => Yii::t('app', 'Связанное мероприятие'),
+            'Attachments' => Yii::t('app', 'Приложенные файлы'),
+            'MailerClass' => Yii::t('app', 'Сервис отправки'),
         ];
     }
 
@@ -126,12 +128,13 @@ class Template extends CreateUpdateForm
      */
     public function filterTest($value)
     {
-        if ($this->Test == 1){
+        if ($this->Test == 1) {
             $this->TestUsers = trim($this->TestUsers, ', ');
-            if (empty($this->TestUsers)){
-                $this->addError('Test', \Yii::t('app', 'Не указаны получатели тестовой рассылки.'));
+            if (empty($this->TestUsers)) {
+                $this->addError('Test', Yii::t('app', 'Не указаны получатели тестовой рассылки.'));
             }
         }
+
         return $value;
     }
 
@@ -142,8 +145,8 @@ class Template extends CreateUpdateForm
     public function filterConditions($value)
     {
         $countByEvent = 0;
-        foreach ($value as $key => $condition){
-            switch($condition['by']){
+        foreach ($value as $key => $condition) {
+            switch ($condition['by']) {
                 case self::ByEvent:
                     $value[$key] = $this->filterConditionByEvent($condition);
                     $countByEvent++;
@@ -164,10 +167,11 @@ class Template extends CreateUpdateForm
         }
 
         if ((preg_match('/{Event.Title}|{TicketUrl}|{Role.Title}/', $this->Body) !== 0 || $this->SendPassbook == 1)
-            && $countByEvent !== 1)
-        {
-            $this->addError('Conditions', \Yii::t('app', 'Для данных настроек, фильтр рассылки должен иметь только одно мероприятие!'));
+            && $countByEvent !== 1
+        ) {
+            $this->addError('Conditions', Yii::t('app', 'Для данных настроек, фильтр рассылки должен иметь только одно мероприятие!'));
         }
+
         return $value;
     }
 
@@ -178,11 +182,12 @@ class Template extends CreateUpdateForm
     private function filterConditionByEvent($condition)
     {
         $event = Event::model()->findByPk($condition['eventId']);
-        if ($event == null){
-            $this->addError('Conditions', \Yii::t('app', 'Не найдена мероприятие с ID:{id}', ['{id}' => $condition['eventId']]));
+        if ($event == null) {
+            $this->addError('Conditions', Yii::t('app', 'Не найдено мероприятие с ID:{id}', ['{id}' => $condition['eventId']]));
         }
-        if (empty($condition['roles']))
+        if (empty($condition['roles'])) {
             $condition['roles'] = [];
+        }
 
         return $condition;
     }
@@ -193,17 +198,18 @@ class Template extends CreateUpdateForm
      */
     private function filterConditionByEmail($condition)
     {
-        if (empty($condition['emails'])){
-            $this->addError('Conditions', \Yii::t('app', 'Укажите адреса Email в фильтре.'));
+        if (empty($condition['emails'])) {
+            $this->addError('Conditions', Yii::t('app', 'Укажите адреса Email в фильтре.'));
         } else {
             $emails = explode(',', $condition['emails']);
-            foreach ($emails as $email){
+            foreach ($emails as $email) {
                 $user = User::model()->byEmail($email)->find();
-                if ($user == null){
-                    $this->addError('Conditions', \Yii::t('app', 'Не найден пользователь с Email:"{email}"', ['{email}' => $email]));
+                if ($user == null) {
+                    $this->addError('Conditions', Yii::t('app', 'Не найден пользователь с Email:"{email}"', ['{email}' => $email]));
                 }
             }
         }
+
         return $condition;
     }
 
@@ -213,17 +219,18 @@ class Template extends CreateUpdateForm
      */
     private function filterConditionByRunetId($condition)
     {
-        if (empty($condition['runetIdList'])){
-            $this->addError('Conditions', \Yii::t('app', 'Укажите список RUNET-ID в фильтре.'));
+        if (empty($condition['runetIdList'])) {
+            $this->addError('Conditions', Yii::t('app', 'Укажите список RUNET-ID в фильтре.'));
         } else {
             $runetIdList = explode(',', $condition['runetIdList']);
             foreach ($runetIdList as $runetId) {
                 $user = User::model()->byRunetId($runetId)->find();
                 if ($user == null) {
-                    $this->addError('Conditions', \Yii::t('app', 'Не найден пользователь с RUNET-ID:"{runetId}"', ['{runetId}' => $runetId]));
+                    $this->addError('Conditions', Yii::t('app', 'Не найден пользователь с RUNET-ID:"{runetId}"', ['{runetId}' => $runetId]));
                 }
             }
         }
+
         return $condition;
     }
 
@@ -234,7 +241,7 @@ class Template extends CreateUpdateForm
     private function filterConditionByGeo($condition)
     {
         if (empty($condition['countryId']) || empty($condition['regionId']) || empty($condition['label'])) {
-            $this->addError('Conditions', \Yii::t('app', 'Укажите региональную принадлежность.'));
+            $this->addError('Conditions', Yii::t('app', 'Укажите региональную принадлежность.'));
         } else {
             $country = Country::model()->findByPk($condition['countryId']);
             if ($country !== null) {
@@ -243,16 +250,17 @@ class Template extends CreateUpdateForm
                     if (!empty($condition['cityId'])) {
                         $city = City::model()->byCountryId($country->Id)->byRegionId($region->Id)->findByPk($condition['cityId']);
                         if ($city == null) {
-                            $this->addError('Conditions', \Yii::t('app', 'Не найден город.'));
+                            $this->addError('Conditions', Yii::t('app', 'Не найден город.'));
                         }
                     }
                 } else {
-                    $this->addError('Conditions', \Yii::t('app', 'Не найден регион.'));
+                    $this->addError('Conditions', Yii::t('app', 'Не найден регион.'));
                 }
             } else {
-                $this->addError('Conditions', \Yii::t('app', 'Не найдена страна.'));
+                $this->addError('Conditions', Yii::t('app', 'Не найдена страна.'));
             }
         }
+
         return $condition;
     }
 
@@ -281,16 +289,16 @@ class Template extends CreateUpdateForm
     public function bodyFieldLabels()
     {
         return [
-            '{User.Url}'       => \Yii::t('app', 'Ссылка на страницу пользователя'),
-            '{User.FullName}'  => \Yii::t('app', 'Полное имя пользователя'),
-            '{User.ShortName}' => \Yii::t('app', 'Краткое имя пользователя. Имя или имя + отчество'),
-            '{User.RunetId}'   => \Yii::t('app', 'RUNET-ID пользователя'),
-            '{Event.Title}'    => \Yii::t('app', 'Название меропрития'),
-            '{TicketUrl}'      => \Yii::t('app', 'Ссылка на пригласительный'),
-            '{Role.Title}'     => \Yii::t('app', 'Роль на меропритие'),
-            '{UnsubscribeUrl}' => \Yii::t('app', 'Ссылка на отписаться'),
-            '{Event.Start.Date}' => \Yii::t('app', 'Дата начала события'),
-            '{Event.End.Date}' => \Yii::t('app', 'Дата окончания события'),
+            '{User.Url}' => Yii::t('app', 'Ссылка на страницу пользователя'),
+            '{User.FullName}' => Yii::t('app', 'Полное имя пользователя'),
+            '{User.ShortName}' => Yii::t('app', 'Краткое имя пользователя. Имя или имя + отчество'),
+            '{User.RunetId}' => Yii::t('app', 'RUNET-ID пользователя'),
+            '{Event.Title}' => Yii::t('app', 'Название меропрития'),
+            '{TicketUrl}' => Yii::t('app', 'Ссылка на пригласительный'),
+            '{Role.Title}' => Yii::t('app', 'Роль на меропритие'),
+            '{UnsubscribeUrl}' => Yii::t('app', 'Ссылка на отписаться'),
+            '{Event.Start.Date}' => Yii::t('app', 'Дата начала события'),
+            '{Event.End.Date}' => Yii::t('app', 'Дата окончания события'),
         ];
     }
 
@@ -313,8 +321,8 @@ class Template extends CreateUpdateForm
     public function getTypeData()
     {
         return [
-            self::TypePositive => \Yii::t('app', 'Добавить'),
-            self::TypeNegative => \Yii::t('app', 'Исключить')
+            self::TypePositive => Yii::t('app', 'Добавить'),
+            self::TypeNegative => Yii::t('app', 'Исключить')
         ];
     }
 
@@ -328,6 +336,7 @@ class Template extends CreateUpdateForm
         foreach ($roles as $role) {
             $data[] = ['label' => $role->Id.' - '.$role->Title, 'value' => $role->Id];
         }
+
         return $data;
     }
 
@@ -337,10 +346,10 @@ class Template extends CreateUpdateForm
     public function getLayoutData()
     {
         return [
-            Layout::None => \Yii::t('app', 'Без шаблона'),
-            Layout::OneColumn => \Yii::t('app', 'Одноколоночный'),
-            Layout::TwoColumn => \Yii::t('app', 'Двухколоночный'),
-            Layout::DevCon16 => \Yii::t('app', 'DevCon 2016')
+            Layout::None => Yii::t('app', 'Без шаблона'),
+            Layout::OneColumn => Yii::t('app', 'Одноколоночный'),
+            Layout::TwoColumn => Yii::t('app', 'Двухколоночный'),
+            Layout::DevCon16 => Yii::t('app', 'DevCon 2016')
         ];
     }
 
@@ -350,9 +359,9 @@ class Template extends CreateUpdateForm
     public function createActiveRecord()
     {
         $this->model = new TemplateModel();
+
         return $this->updateActiveRecord();
     }
-
 
     /**
      * @inheritdoc
@@ -378,7 +387,7 @@ class Template extends CreateUpdateForm
         $this->model->ShowFooter = $this->ShowFooter == 1 ? true : false;
         $this->model->RelatedEventId = !empty($this->RelatedEventId) ? $this->RelatedEventId : null;
         $this->model->MailerClass = $this->MailerClass;
-        if ($this->model->Active){
+        if ($this->model->Active) {
             $this->model->ActivateTime = date('Y-m-d H:i:s');
         }
 
@@ -419,6 +428,7 @@ class Template extends CreateUpdateForm
         if ($this->Test && !$this->sendTestMails()) {
             return null;
         }
+
         return $this->model;
     }
 
@@ -442,7 +452,7 @@ class Template extends CreateUpdateForm
                 mkdir($path, 0777, true);
             }
             foreach ($this->Attachments as $i => $file) {
-                $file->saveAs($path . DIRECTORY_SEPARATOR . str_replace(' ', '-', $file->name));
+                $file->saveAs($path.DIRECTORY_SEPARATOR.str_replace(' ', '-', $file->name));
             };
         }
     }
@@ -452,7 +462,7 @@ class Template extends CreateUpdateForm
      */
     public function getPathAttachments()
     {
-        return \Yii::getpathOfAlias('webroot.files.upload.mails.template' . $this->model->Id);
+        return Yii::getpathOfAlias('webroot.files.upload.mails.template'.$this->model->Id);
     }
 
     /**
@@ -471,15 +481,15 @@ class Template extends CreateUpdateForm
     protected function loadData()
     {
         if (parent::loadData()) {
-            if (!$this->model->checkViewExternalChanges()){
+            if (!$this->model->checkViewExternalChanges()) {
                 $this->Body = strtr(
                     file_get_contents($this->model->getViewPath()),
                     array_flip($this->bodyFields())
                 );
             }
             $this->fillConditionsAttribute();
-
         }
+
         return false;
     }
 
@@ -490,10 +500,10 @@ class Template extends CreateUpdateForm
     {
         $filter = $this->model->getFilter()->getFilters();
         $filterMap = [
-            '\mail\components\filter\Event'   => self::ByEvent,
-            '\mail\components\filter\Email'   => self::ByEmail,
+            '\mail\components\filter\Event' => self::ByEvent,
+            '\mail\components\filter\Email' => self::ByEmail,
             '\mail\components\filter\RunetId' => self::ByRunetId,
-            '\mail\components\filter\Geo'     => self::ByGeo
+            '\mail\components\filter\Geo' => self::ByGeo
         ];
 
         $filters = [];
@@ -505,17 +515,17 @@ class Template extends CreateUpdateForm
             self::TypePositive,
             self::TypeNegative
         ];
-        foreach ($filters as $className => $by){
-            foreach ($types as $type){
-                if (isset($filter[$className])){
-                    foreach ($filter[$className]->$type as $criteria){
+        foreach ($filters as $className => $by) {
+            foreach ($types as $type) {
+                if (isset($filter[$className])) {
+                    foreach ($filter[$className]->$type as $criteria) {
                         $condition = ['type' => $type, 'by' => $by];
                         $class = new \ReflectionClass($criteria);
-                        foreach ($class->getProperties() as $property){
+                        foreach ($class->getProperties() as $property) {
                             $condition[$property->getName()] = isset($criteria->{$property->getName()}) ? $criteria->{$property->getName()} : null;
                         }
 
-                        switch ($by){
+                        switch ($by) {
                             case self::ByEvent:
                                 $event = \event\models\Event::model()->findByPk($condition['eventId']);
                                 $condition['eventLabel'] = $event->Id.', '.$event->Title;
@@ -539,6 +549,7 @@ class Template extends CreateUpdateForm
 
     /**
      * Кол-во пользовтелей, которые получат рассылку
+     *
      * @return int|string
      */
     public function getRecipientsCount()
@@ -546,11 +557,13 @@ class Template extends CreateUpdateForm
         if (!empty($this->model)) {
             return User::model()->count($this->model->getCriteria(true));
         }
+
         return 0;
     }
 
     /**
      * Кол-во уже отправленные писем
+     *
      * @return int|string
      */
     public function getSentCount()
@@ -558,11 +571,13 @@ class Template extends CreateUpdateForm
         if (!empty($this->model)) {
             return TemplateLog::model()->byTemplateId($this->model->Id)->byHasError(false)->count();
         }
+
         return 0;
     }
 
     /**
      * Отправка тестовых писем пользователю
+     *
      * @return bool
      */
     public function sendTestMails()
@@ -574,13 +589,15 @@ class Template extends CreateUpdateForm
             $criteria->addCondition('"t"."Id" = :UserId');
             $criteria->params['UserId'] = $user->Id;
             if (!User::model()->exists($criteria)) {
-                $this->addError('Test', \Yii::t('app', 'В тестовой рассылке пользователь с RUNET-ID: {id} не попадает в общую выборку!', ['{id}' => $user->RunetId]));
+                $this->addError('Test', Yii::t('app', 'В тестовой рассылке пользователь с RUNET-ID: {id} не попадает в общую выборку!', ['{id}' => $user->RunetId]));
+
                 return false;
             }
         }
 
         $this->model->setTestUsers($users);
         $this->model->send();
+
         return true;
     }
 }
