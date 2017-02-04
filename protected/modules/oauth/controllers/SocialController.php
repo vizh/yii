@@ -1,5 +1,7 @@
 <?php
 
+use oauth\components\social\Proxy;
+use oauth\models\Social;
 use user\models\User;
 
 class SocialController extends \oauth\components\Controller
@@ -12,11 +14,14 @@ class SocialController extends \oauth\components\Controller
 
     public function actionRequest()
     {
-        $socialProxy = new \oauth\components\social\Proxy($this->social);
-        if ($socialProxy->isHasAccess())
+        $proxy = new Proxy($this->social);
+
+        if ($proxy->isHasAccess())
         {
-            $data = $socialProxy->getData();
-            $social = $socialProxy->getSocial($data->Hash, true);
+            $social = Social::model()
+                ->byHash($proxy->getData()->Hash)
+                ->bySocialId($proxy->getSocialId())
+                ->findAll();
 
             /**
              * Очень временное решение. РЕШИТЬ ПРОБЛЕМУ
@@ -57,7 +62,7 @@ class SocialController extends \oauth\components\Controller
         }
         else
         {
-            $this->redirect($socialProxy->getOAuthUrl());
+            $this->redirect($proxy->getOAuthUrl());
         }
     }
 
@@ -66,7 +71,7 @@ class SocialController extends \oauth\components\Controller
      */
     public function actionConnect()
     {
-        $socialProxy = new \oauth\components\social\Proxy($this->social);
+        $socialProxy = new Proxy($this->social);
         if ($socialProxy->isHasAccess()) // если пользователь авторизован и зареган на сайте
         {
             if (\Iframe::isFrame()) {

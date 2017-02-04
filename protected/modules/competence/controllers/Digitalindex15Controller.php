@@ -3,6 +3,7 @@
 use \application\components\controllers\PublicMainController;
 use \oauth\components\social\Proxy;
 use oauth\components\social\ISocial;
+use oauth\models\Social;
 use user\models\User;
 use application\components\auth\identity\RunetId;
 
@@ -42,7 +43,11 @@ class Digitalindex15Controller extends PublicMainController
     private function getUser(Proxy $proxy)
     {
         $data = $proxy->getData();
-        $social = $proxy->getSocial($data->Hash);
+        $social = Social::model()
+            ->byHash($data->Hash)
+            ->bySocialId($proxy->getSocialId())
+            ->find();
+
         if (empty($social)) {
             $user = new User();
             $user->FirstName = $proxy->getData()->FirstName;

@@ -73,22 +73,6 @@ class Proxy implements ISocial
     return $this->social->getSocialId();
   }
 
-    /**
-     * @param $hash
-     * @param bool $dublicates
-     * @return null|Social|Social[]
-     */
-  public function getSocial($hash, $dublicates = false)
-  {
-      $social = Social::model()
-          ->byHash($hash)
-          ->bySocialId($this->getSocialId());
-
-      return $dublicates
-          ? $social->findAll()
-          : $social->find();
-  }
-
   /**
    * @param User $user
    */
