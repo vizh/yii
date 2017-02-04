@@ -118,6 +118,12 @@ abstract class ActiveRecord extends \CActiveRecord
                         $value = $isarr === true
                             ? array_map('intval', $value)
                             : (int) $value;
+                    } else {
+                        // Данное преобразование важно, если поле для фильтрации имеет строковый тип,
+                        // но значение для фильтра передано в виде числа.
+                        $value = $isarr === true
+                            ? array_map('strval', $value)
+                            : (string) $value;
                     }
                     if ($value) {
                         if ($isarr === true) {
