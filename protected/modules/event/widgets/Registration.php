@@ -1,14 +1,17 @@
 <?php
 namespace event\widgets;
 
+use event\components\Widget;
+use event\components\WidgetPosition;
 use event\models\Participant;
 use pay\models\Account;
 use pay\models\Product;
 use pay\models\ProductPrice;
-use \event\components\WidgetPosition;
+use Yii;
 
 /**
  * Class Registration
+ *
  * @package event\widgets
  *
  * @property string $RegistrationAfterInfo
@@ -17,7 +20,7 @@ use \event\components\WidgetPosition;
  * @property string $RegistrationBuyLabel
  * @property string $RegistrationNote
  */
-class Registration extends \event\components\Widget
+class Registration extends Widget
 {
 
     /**
@@ -38,10 +41,10 @@ class Registration extends \event\components\Widget
 
     public function process()
     {
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
         $product = $request->getParam('product', []);
-        if ($request->getIsPostRequest() && sizeof($product) !== 0) {
-            $this->getController()->redirect(\Yii::app()->createUrl('/pay/cabinet/register', ['eventIdName' => $this->event->IdName]));
+        if (!empty($product) && $request->getIsPostRequest()) {
+            $this->getController()->redirect(Yii::app()->createUrl('/pay/cabinet/register', ['eventIdName' => $this->event->IdName]));
         }
     }
 
@@ -50,22 +53,30 @@ class Registration extends \event\components\Widget
      */
     public function run()
     {
-        if ( !$this->event->isRegistrationClosed()) {
-            $account = Account::model()->byEventId($this->event->Id)->find();
+        if (!$this->event->isRegistrationClosed()) {
+            $account = Account::model()
+                ->byEventId($this->event->Id)
+                ->find();
+
             if ($account === null) {
                 return;
             }
 
             /** @var Participant $participant */
             $participant = null;
-            if (!\Yii::app()->user->getIsGuest()) {
+            if (!Yii::app()->user->getIsGuest()) {
                 if (count($this->event->Parts) == 0) {
-                    $participant = Participant::model()->byUserId(\Yii::app()->user->getCurrentUser()->Id)
-                        ->byEventId($this->event->Id)->find();
+                    $participant = Participant::model()
+                        ->byUserId(Yii::app()->user->getCurrentUser()->Id)
+                        ->byEventId($this->event->Id)
+                        ->find();
                 } else {
-                    $participants = Participant::model()->byUserId(\Yii::app()->user->getCurrentUser()->Id)->byEventId($this->event->Id)->findAll();
+                    $participants = Participant::model()
+                        ->byUserId(Yii::app()->user->getCurrentUser()->Id)
+                        ->byEventId($this->event->Id)
+                        ->findAll();
                     foreach ($participants as $p) {
-                        if ($participant == null || $participant->Role->Priority < $p->Role->Priority) {
+                        if ($participant === null || $participant->Role->Priority < $p->Role->Priority) {
                             $participant = $p;
                         }
                     }
@@ -73,15 +84,18 @@ class Registration extends \event\components\Widget
             }
 
             if ($account->ReturnUrl === null) {
-                \Yii::app()->getClientScript()->registerPackage('runetid.event-calculate-price');
+                Yii::app()->getClientScript()->registerPackage('runetid.event-calculate-price');
                 $criteria = new \CDbCriteria();
                 $criteria->order = '"t"."Priority" DESC, "t"."Id" ASC';
                 $criteria->addCondition('"t"."ManagerName" != \'Ticket\'');
                 $model = Product::model()->byPublic(true)->byDeleted(false);
-                if (!\Yii::app()->user->isGuest) {
-                    $model->byUserAccess(\Yii::app()->user->getCurrentUser()->Id, 'OR');
+                if (!Yii::app()->user->isGuest) {
+                    $model->byUserAccess(Yii::app()->user->getCurrentUser()->Id, 'OR');
                 }
-                $products = $model->byEventId($this->event->Id)->findAll($criteria);
+
+                $products = $model
+                    ->byEventId($this->event->Id)
+                    ->findAll($criteria);
 
                 $productsByGroup = [];
                 foreach ($products as $product) {
@@ -92,7 +106,9 @@ class Registration extends \event\components\Widget
                     }
                 }
 
-                $viewName = !$this->event->FullWidth ? 'registration/index' : 'fullwidth/registration';
+                $viewName = !$this->event->FullWidth
+                    ? 'registration/index'
+                    : 'fullwidth/registration';
 
                 $criteria = new \CDbCriteria();
                 $criteria->condition = 't."Price" > 0 AND "Product"."EventId" = :EventId';
@@ -121,10 +137,7 @@ class Registration extends \event\components\Widget
      */
     public function getTitle()
     {
-        if ($this->event->Id == 1498) {
-            return \Yii::t('app', 'Регистрация');
-        }
-        return \Yii::t('app', 'Регистрация на мероприятии');
+        return Yii::t('app', 'Регистрация на мероприятии');
     }
 
     /**
@@ -132,9 +145,6 @@ class Registration extends \event\components\Widget
      */
     public function getPosition()
     {
-        if ($this->event->Id == 1498) {
-            return WidgetPosition::Tabs;
-        }
         return WidgetPosition::Content;
     }
 }
