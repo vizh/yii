@@ -1,17 +1,20 @@
 <?php
 namespace pay\controllers\cabinet;
 
+use CHttpException;
+use user\models\User;
 use Yii;
 
 class AuthAction extends \pay\components\Action
 {
     public function run($eventIdName, $runetId, $hash)
     {
-        /** @var $user \user\models\User */
-        $user = \user\models\User::model()->byRunetId($runetId)->find();
+        $user = User::model()
+            ->byRunetId($runetId)
+            ->find();
 
         if ($user === null || !$user->checkHash($hash)) {
-            throw new \CHttpException(404);
+            throw new CHttpException(404);
         }
 
         if (Yii::app()->user->getCurrentUser() === null || Yii::app()->user->getCurrentUser()->RunetId != $runetId) {
@@ -24,7 +27,7 @@ class AuthAction extends \pay\components\Action
                     Yii::app()->tempUser->login($identity);
                 }
             } else {
-                throw new \CHttpException(404);
+                throw new CHttpException(404);
             }
         }
 

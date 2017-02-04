@@ -1,7 +1,7 @@
 <?php
 
-use \pay\components\Controller;
-use \pay\models\Account;
+use pay\components\Controller;
+use pay\models\Account;
 
 class CabinetController extends Controller
 {
@@ -10,8 +10,7 @@ class CabinetController extends Controller
      */
     public function filters()
     {
-        $filters = parent::filters();
-        return array_merge($filters, [
+        return array_merge(parent::filters(), [
             'postOnly + deleteitem'
         ]);
     }
@@ -34,26 +33,33 @@ class CabinetController extends Controller
     protected function setHeaders()
     {
         header('Access-Control-Allow-Credentials: true');
-        header('Access-Control-Allow-Origin: http://pay.' . RUNETID_HOST);
+        header('Access-Control-Allow-Origin: http://pay.'.RUNETID_HOST);
         parent::setHeaders();
     }
 
     /**
      * Редирект после оплаты
+     *
      * @param $eventIdName
      * @throws CHttpException
      */
     public function actionReturn($eventIdName)
     {
-        /** @var $account \pay\models\Account */
-        $account = Account::model()->byEventId($this->getEvent()->Id)->find();
-        if ($account->AfterPayUrl !== null) {
-            $this->redirect($account->AfterPayUrl);
-        } elseif ($account->ReturnUrl !== null) {
-            $this->redirect($account->ReturnUrl);
-        } else {
-            $this->redirect(['/event/view/index', 'idName' => $eventIdName]);
+        $account = Account::model()
+            ->byEventId($this->getEvent()->Id)
+            ->find();
+
+        if ($account !== null) {
+            if ($account->AfterPayUrl !== null) {
+                $this->redirect($account->AfterPayUrl);
+            }
+
+            if ($account->ReturnUrl !== null) {
+                $this->redirect($account->ReturnUrl);
+            }
         }
+
+        $this->redirect(['/event/view/index', 'idName' => $eventIdName]);
     }
 
 }

@@ -8,13 +8,9 @@ class PublicMainController extends MainController
 
     public function filters()
     {
-        $filters = parent::filters();
-        return array_merge(
-            $filters,
-            array(
-                'setLanguage'
-            )
-        );
+        return array_merge(parent::filters(), [
+            'setLanguage'
+        ]);
     }
 
     /**
@@ -42,7 +38,7 @@ class PublicMainController extends MainController
                 \Yii::app()->user->getCurrentUser()->Language = $lang;
                 \Yii::app()->user->getCurrentUser()->save();
             }
-            $this->redirect($this->createUrl('/' . $this->route, $_GET));
+            $this->redirect($this->createUrl('/'.$this->route, $_GET));
         }
 
         $lang = isset(\Yii::app()->getRequest()->cookies['lang']) ? \Yii::app()->getRequest()->cookies['lang']->value : null;

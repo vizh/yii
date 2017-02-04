@@ -4,17 +4,16 @@ namespace pay\controllers\cabinet;
 use partner\models\PartnerCallback;
 use pay\models\EventUserAdditionalAttribute;
 use pay\models\Failure;
-use \pay\models\forms\AddtionalAttributes as FormAdditionalAttributes;
+use pay\models\forms\AddtionalAttributes as FormAdditionalAttributes;
 
 class IndexAction extends \pay\components\Action
 {
     public function run($eventIdName, $iframe = false)
     {
-        $this->getController()->setPageTitle(\Yii::t('app', 'Оплата') . ' / ' .$this->getEvent()->Title);
+        $this->getController()->setPageTitle(\Yii::t('app', 'Оплата').' / '.$this->getEvent()->Title);
 
         PartnerCallback::start($this->getEvent());
-        if ($this->getUser() != null)
-        {
+        if ($this->getUser() != null) {
             PartnerCallback::registration($this->getEvent(), $this->getUser());
         }
 
@@ -24,18 +23,19 @@ class IndexAction extends \pay\components\Action
         $unpaidItems->tickets = [];
         $unpaidItems->callbacks = [];
 
-        foreach ($finder->getUnpaidFreeCollection() as $item)
-        {
+        foreach ($finder->getUnpaidFreeCollection() as $item) {
             switch ($item->getOrderItem()->Product->ManagerName) {
-                case 'Ticket': $key = 'tickets';
+                case 'Ticket':
+                    $key = 'tickets';
                     break;
-                case 'Callback': $key = 'callbacks';
+                case 'Callback':
+                    $key = 'callbacks';
                     break;
-                default: $key = 'all';
+                default:
+                    $key = 'all';
             }
 
-            if (!isset($unpaidItems->{$key}[$item->getOrderItem()->ProductId]))
-            {
+            if (!isset($unpaidItems->{$key}[$item->getOrderItem()->ProductId])) {
                 $unpaidItems->{$key}[$item->getOrderItem()->ProductId] = [];
             }
             $unpaidItems->{$key}[$item->getOrderItem()->ProductId][] = $item;
@@ -46,24 +46,20 @@ class IndexAction extends \pay\components\Action
         $formAdditionalAttributes = $this->getAdditionalAttributesForm($finder);
         $this->processAdditionalAttributesForm($formAdditionalAttributes);
 
-
-
         $allPaidCollections = array_merge($finder->getPaidOrderCollections(), $finder->getPaidFreeCollections());
 
         $hasRecentPaidItems = false;
-        foreach ($allPaidCollections as $collection)
-        {
-            foreach ($collection as $item)
-            {
+        foreach ($allPaidCollections as $collection) {
+            foreach ($collection as $item) {
                 /** @var $item \pay\components\OrderItemCollectable */
-                if ($item->getOrderItem()->PaidTime > date('Y-m-d H:i:s', time() - 10*60*60))
-                {
+                if ($item->getOrderItem()->PaidTime > date('Y-m-d H:i:s', time() - 10 * 60 * 60)) {
                     $hasRecentPaidItems = true;
                     break;
                 }
             }
-            if ($hasRecentPaidItems)
+            if ($hasRecentPaidItems) {
                 break;
+            }
         }
 
         $params = [
@@ -73,14 +69,12 @@ class IndexAction extends \pay\components\Action
             'account' => $this->getAccount(),
             'formAdditionalAttributes' => $formAdditionalAttributes
         ];
-        if (!$iframe){
+        if (!$iframe) {
             $this->getController()->render('index', $params);
-        }
-        else{
+        } else {
             $this->getController()->layout = '//layouts/clear';
             $this->getController()->render('index', $params);
         }
-
     }
 
     /**
@@ -91,11 +85,9 @@ class IndexAction extends \pay\components\Action
     {
         $attributes = [];
         $values = [];
-        foreach ($finder->getUnpaidFreeCollection() as $item)
-        {
+        foreach ($finder->getUnpaidFreeCollection() as $item) {
             $product = $item->getOrderItem()->Product;
-            foreach ($product->getAdditionalAttributes() as $attr)
-            {
+            foreach ($product->getAdditionalAttributes() as $attr) {
                 $attributes[$attr->Name] = $attr;
                 $value = \pay\models\EventUserAdditionalAttribute::model()->byEventId($this->getEvent()->Id)->byUserId($this->getUser()->Id)->byName($attr->Name)->find();
                 if ($value !== null) {
@@ -108,15 +100,18 @@ class IndexAction extends \pay\components\Action
             if ($a->Order == $b->Order) {
                 return 0;
             }
+
             return ($a->Order < $b->Order) ? -1 : 1;
         });
 
         $form = new FormAdditionalAttributes($attributes, $values);
+
         return $form;
     }
 
     /**
      * Проверяет наличие формы дополнительных параметров и производит валидацию
+     *
      * @param FormAdditionalAttributes $form
      */
     private function processAdditionalAttributesForm(FormAdditionalAttributes $form)

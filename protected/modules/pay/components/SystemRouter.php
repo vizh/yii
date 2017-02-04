@@ -17,6 +17,7 @@ class SystemRouter
     {
         $router = new SystemRouter($addition);
         $router->init();
+
         return $router;
     }
 
@@ -28,14 +29,15 @@ class SystemRouter
     private function init()
     {
         foreach (self::$SystemNames as $name) {
-            $className = self::Prefix . $name;
+            $className = self::Prefix.$name;
             if (!class_exists($className)) {
-                throw new MessageException('Not exist class: ' . $className);
+                throw new MessageException('Not exist class: '.$className);
             }
             /** @var $system \pay\components\systems\Base */
             $system = new $className($this->addition);
             if ($system->check()) {
                 $this->system = $system;
+
                 return;
             }
         }
@@ -56,6 +58,7 @@ class SystemRouter
 
     /**
      * Логгирует возникающие ошибки
+     *
      * @param string $message
      * @param string $code
      * @param SystemRouter $router
@@ -66,15 +69,12 @@ class SystemRouter
         $log = new \pay\models\Log();
         $log->Message = $message;
         $log->Code = $code;
-        if ($router != null && $router->system != null)
-        {
+        if ($router != null && $router->system != null) {
             $log->Info = $router->system->Info();
             $log->OrderId = $router->system->getOrderId();
             $log->Total = $router->system->getTotal();
             $log->PaySystem = get_class($router->system);
-        }
-        else
-        {
+        } else {
             ob_start();
             print_r($_REQUEST);
             $log->Info = ob_get_clean();
