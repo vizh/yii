@@ -1,6 +1,11 @@
 <?php
 namespace oauth\components\social;
 
+use contact\models\ServiceAccount;
+use oauth\models\Social;
+use user\models\LinkServiceAccount;
+use user\models\User;
+
 class Proxy implements ISocial
 {
   /**
@@ -68,21 +73,24 @@ class Proxy implements ISocial
     return $this->social->getSocialId();
   }
 
-  /**
-   * @param $hash
-   * @return \oauth\models\Social|null
-   */
+    /**
+     * @param $hash
+     * @param bool $dublicates
+     * @return null|Social|Social[]
+     */
   public function getSocial($hash, $dublicates = false)
   {
-      if($dublicates){
-          return \oauth\models\Social::model()->byHash($hash)->bySocialId($this->getSocialId())->findAll();
-      }else{
-          return \oauth\models\Social::model()->byHash($hash)->bySocialId($this->getSocialId())->find();
-      }
+      $social = Social::model()
+          ->byHash($hash)
+          ->bySocialId($this->getSocialId());
+
+      return $dublicates
+          ? $social->findAll()
+          : $social->find();
   }
 
   /**
-   * @param \user\models\User $user
+   * @param User $user
    */
   public function saveSocialData($user)
   {
@@ -95,16 +103,16 @@ class Proxy implements ISocial
   }
 
   /**
-   * @param \user\models\User $user
+   * @param User $user
    */
-  protected function saveSocial(\user\models\User $user)
+  protected function saveSocial(User $user)
   {
-    $social = \oauth\models\Social::model()
+    $social = Social::model()
         ->byUserId($user->Id)
         ->bySocialId($this->getSocialId())->find();
     if ($social === null)
     {
-      $social = new \oauth\models\Social();
+      $social = new Social();
       $social->UserId = $user->Id;
       $social->SocialId = $this->getSocialId();
     }
@@ -113,9 +121,9 @@ class Proxy implements ISocial
   }
 
   /**
-   * @param \user\models\User $user
+   * @param User $user
    */
-  protected function saveServiceAccount(\user\models\User $user)
+  protected function saveServiceAccount(User $user)
   {
     foreach ($user->LinkServiceAccounts as $link)
     {
@@ -128,12 +136,12 @@ class Proxy implements ISocial
     }
 
 
-    $account = new \contact\models\ServiceAccount();
+    $account = new ServiceAccount();
     $account->TypeId = $this->getSocialId();
     $account->Account = $this->getData()->UserName;
     $account->save();
 
-    $link = new \user\models\LinkServiceAccount();
+    $link = new LinkServiceAccount();
     $link->ServiceAccountId = $account->Id;
     $link->UserId = $user->Id;
     $link->save();
