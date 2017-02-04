@@ -110,7 +110,7 @@ abstract class ActiveRecord extends \CActiveRecord
                 $columnType = $schema->getColumn($column)->dbType;
                 $criteria = new CDbCriteria();
                 if ($columnType === 'boolean') {
-                    $criteria->addCondition(((bool)$parameters[0] === false ? 'NOT ' : '').'"t"."'.$column.'"');
+                    $criteria->addCondition(($parameters[0] === false ? 'NOT ' : '').'"t"."'.$column.'"');
                 } else {
                     $value = $parameters[0];
                     $isarr = is_array($value);

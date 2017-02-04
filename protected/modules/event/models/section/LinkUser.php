@@ -100,4 +100,20 @@ class LinkUser extends ActiveRecord
     {
         return ['CustomText'];
     }
+
+    /**
+     * @param int $eventId
+     * @param bool $useAnd
+     * @return $this
+     */
+    public function byEventId($eventId, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->with = ['Section'];
+        $criteria->condition = '"Section"."EventId" = :EventId';
+        $criteria->params = ['EventId' => $eventId];
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
+        return $this;
+    }
 }

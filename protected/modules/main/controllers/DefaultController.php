@@ -1,8 +1,8 @@
 <?php
 
 use buduguru\models\Course;
-use job\models\Job;
 use event\models\Event;
+use job\models\Job;
 
 class DefaultController extends \application\components\controllers\PublicMainController
 {
@@ -15,10 +15,9 @@ class DefaultController extends \application\components\controllers\PublicMainCo
         $criteria->order = '"t"."ShowOnMain" DESC, "t"."StartYear", "t"."StartMonth", "t"."StartDay", "t"."EndYear", "t"."EndMonth", "t"."EndDay"';
         $criteria->limit = 3;
         $events = Event::model()
-            ->byVisible(true)
+            ->byVisible()
             ->byFromDate($date['year'], $date['mon'], $date['mday'])
             ->findAll($criteria);
-
 
         $criteria = new \CDbCriteria();
         $criteria->order = '"t"."Id" DESC';
