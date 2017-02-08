@@ -7,6 +7,7 @@ use event\models\section\Hall;
 use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
 
 class HallsAction extends Action
 {
@@ -24,13 +25,7 @@ class HallsAction extends Action
      *              @Param(title="FromUpdateTime", description="(Y-m-d H:i:s) - время последнего обновления залов, начиная с которого формировать список."),
      *              @Param(title="WithDeleted", description="Если параметр задан, не пустой и не приводится к false, возвращаются в том числе удаленные залы, иначе только не удаленные.")
      *          },
-     *          response="[{
-    'Id': 'идентификатор',
-    'Title': 'название зала',
-    'UpdateTime': 'время последнего обновления зала (Y-m-d H:i:s)',
-    'Order': 'порядок вывода залов',
-    'Deleted': 'true - если зал удален, false - иначе.'
-}]"
+     *          response=@Response(body="[{'Id': 'идентификатор','Title': 'название зала','UpdateTime': 'время последнего обновления зала (Y-m-d H:i:s)','Order': 'порядок вывода залов', 'Deleted': 'true - если зал удален, false - иначе.' }]")
      *     )
      * )
      */

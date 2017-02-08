@@ -10,6 +10,7 @@ use user\models\User;
 use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
 
 /**
  * Class ListAction Returns list of products
@@ -26,7 +27,7 @@ class ListAction extends Action
      *          url="/pay/list",
      *          body="",
      *          params={ @Param(title="PayerRunetId", type="", defaultValue="", description="Идентификатор плательщика.") },
-     *          response="{
+     *          response=@Response(body="{
     'Items': [{
         'Id': 'идентификатор элемента заказа',
         'Product': 'объект Product',
@@ -47,7 +48,7 @@ class ListAction extends Action
         'Items': 'массив объектов OrderItem',
         'CreationTime': 'дата создания счета'
     }]
-}"
+}")
      *     )
      * )
      */

@@ -7,6 +7,7 @@ use event\models\section\Section;
 use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
 
 class ReportsAction extends \api\components\Action
 {
@@ -27,7 +28,7 @@ class ReportsAction extends \api\components\Action
      *              @Param(title="FromUpdateTime ", description="Время последнего обновления доклада, начиная с которого формировать список."),
      *              @Param(title="WithDeleted", description="Если параметр задан, не пустой и не приводится к false, возвращаются в том числе удаленные доклады, иначе только не удаленные.")
      *          },
-     *          response="[{
+     *          response=@Response(body="[{
     'Id': 'идентификатор',
     'User': 'объект User (может быть пустым) - делающий доклад пользователь',
     'Company': 'объект Company (может быть пустым) - делающая доклад компания',
@@ -41,7 +42,7 @@ class ReportsAction extends \api\components\Action
     'Url': 'ссылка на презентацию',
     'UpdateTime': 'дата/время последнего обновления',
     'Deleted': 'true - если секция удалена, false - иначе.'
-}]"
+}]")
      *     )
      * )
      */

@@ -7,7 +7,8 @@ use event\models\Role;
 
 use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
-use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\Action\Param as ApiParam;
 
 /**
  * Регистрации на мероприяте
@@ -29,12 +30,10 @@ class RegisterAction extends Action
      *          url="/event/register",
      *          body="",
      *          params={
-     *              @Param(title="RunetId", type="", defaultValue="", description="Идентификатор пользователя. Обязательно. "),
-     *              @Param(title="RoleId", type="", defaultValue="", description="Идентификатор статуса, который пользователь должен получить на мероприятии. Обязательно. "),
+     *              @ApiParam(title="RunetId", description="Идентификатор пользователя. Обязательно."),
+     *              @ApiParam(title="RoleId", description="Идентификатор статуса, который пользователь должен получить на мероприятии. Обязательно."),
      *          },
-     *          response="{
-    'Success': 'true'
-}"
+     *          response=@Response(body="{'Success': 'true'}")
      *     )
      * )
      */

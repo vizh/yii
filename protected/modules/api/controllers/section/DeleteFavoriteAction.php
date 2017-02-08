@@ -4,6 +4,7 @@ namespace api\controllers\section;
 use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
 
 class DeleteFavoriteAction extends \api\components\Action
 {
@@ -21,7 +22,7 @@ class DeleteFavoriteAction extends \api\components\Action
      *              @Param(title="RunetId", type="", defaultValue="", description="Идентификатор."),
      *              @Param(title="SectionId", type="", defaultValue="", description="Идентификатор.")
      *          },
-     *          response="{'Success': 'true'}"
+     *          response=@Response(body="{'Success': 'true'}")
      *     )
      * )
      */

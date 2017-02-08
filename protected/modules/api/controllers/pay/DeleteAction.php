@@ -6,6 +6,7 @@ use api\components\Exception;
 use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
 
 class DeleteAction extends \api\components\Action
 {
@@ -23,7 +24,7 @@ class DeleteAction extends \api\components\Action
      *              @Param(title="OrderItemId", type="", defaultValue="", description="Идентификатор заказа."),
      *              @Param(title="PayerRunetId", type="", defaultValue="", description="Идентификатор плательщика.")
      *          },
-     *          response="{'Success': 'true'}"
+     *          response=@Response(body="{'Success': 'true'}")
      *     )
      * )
      */

@@ -21,9 +21,8 @@ class ItemsAction extends \api\components\Action
      *          url="/pay/items",
      *          body="",
      *          params={
-     *              @Param(title="OwnerRunetId", type="", defaultValue="", description="Идентификатор.")
-     *          },
-     *          response=""
+     *              @Param(title="OwnerRunetId", description="Идентификатор.")
+     *          }
      *     )
      * )
      */

@@ -4,6 +4,7 @@ namespace api\controllers\section;
 use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
 
 class AddFavoriteAction extends \api\components\Action
 {
@@ -16,12 +17,11 @@ class AddFavoriteAction extends \api\components\Action
      *     request=@Request(
      *          method="GET",
      *          url="/event/section/addFavorite",
-     *          body="",
      *          params={
      *              @Param(title="RunetId", type="", defaultValue="", description="Идентификатор."),
      *              @Param(title="SectionId", type="", defaultValue="", description="Идентификатор.")
      *          },
-     *          response="{'Success': 'true'}"
+     *          response=@Response(body="{'Success': 'true'}")
      *     )
      * )
      */

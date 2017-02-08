@@ -14,6 +14,7 @@ use Yii;
 use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
 
 class UsersAction extends Action
 {
@@ -26,16 +27,12 @@ class UsersAction extends Action
      *     request=@Request(
      *          method="GET",
      *          url="/event/users",
-     *          body="",
      *          params={
      *              @Param(title="MaxResults", type="", defaultValue="", description="Максимальное количество пользователей в ответе, от 0 до 200. Если нужно загрузить более 200 участников, необходимо использовать постраничную загрузку"),
      *              @Param(title="PageToken", type="", defaultValue="", description="Указатель на следующую страницу, берется из результата последнего запроса, значения NextPageToken"),
      *              @Param(title="RoleId", type="", defaultValue="", description="Массив идентификаторов ролей")
      *          },
-     *          response="{
-    'Users': 'массив пользователей',
-    'NextPageToken':'указатель на следующую страницу'
-}"
+     *          response=@Response(body="{'Users': 'массив пользователей','NextPageToken':'указатель на следующую страницу'}")
      *     )
      * )
      */

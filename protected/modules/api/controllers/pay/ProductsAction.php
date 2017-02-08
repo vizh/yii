@@ -7,6 +7,7 @@ use pay\models\Product;
 use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
 
 class ProductsAction extends Action
 {
@@ -21,13 +22,7 @@ class ProductsAction extends Action
      *          url="/pay/products",
      *          body="",
      *          params="",
-     *          response="[{
-    'Id': 'идентификатор',
-    'Manager': 'строка, название менеджера (участие, питание и другие)',
-    'Title': 'название товара',
-    'Price': 'текущая цена',
-    'Attributes': 'массив ключ-значение с атрибутами товара'
-}]"
+     *          response=@Response(body="[{'Id': 'идентификатор','Manager': 'строка, название менеджера (участие, питание и другие)','Title': 'название товара','Price': 'текущая цена','Attributes': 'массив ключ-значение с атрибутами товара'}]")
      *     )
      * )
      */

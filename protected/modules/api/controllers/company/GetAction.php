@@ -4,6 +4,7 @@ namespace api\controllers\company;
 use nastradamus39\slate\annotations\ApiController;
 use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\ApiContent;
+use nastradamus39\slate\annotations\Action\Sample;
 
 class GetAction extends \api\components\Action
 {
@@ -12,8 +13,10 @@ class GetAction extends \api\components\Action
      *     controller="Company",
      *     title="Детальная информация о компании",
      *     description="Возвращает детальную информацию о компании",
-     *     request="GET http://$baseurl/api_v1/list",
-     *     params=""
+     *     samples={
+     *          @Sample(lang="javascript", code="alert('123');"),
+     *          @Sample(lang="php", code="phpinfo();")
+     *     }
      * )
      */
     public function run()

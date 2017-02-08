@@ -9,6 +9,7 @@ use user\models\User;
 use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
 
 class LoginAction extends Action
 {
@@ -28,7 +29,7 @@ class LoginAction extends Action
      *              @Param(title="DeviceType", type="строка", defaultValue="", description="Тип регистрируемого устройства пользователя. Обязателен, если указан параметр DeviceToken. Возможные значения: iOS, Android."),
      *              @Param(title="DeviceToken", type="строка", defaultValue="", description="Уникальный идентификатор устройства для получения push-уведомлений.")
      *          },
-     *          response="{
+     *          response=@Response(body="{
     'RunetId': 'идентификатор',
     'LastName': 'фамилия',
     'FirstName': 'имя',
@@ -40,7 +41,7 @@ class LoginAction extends Action
     'Phones': 'массив с телефонами пользователя, если заданы',
     'Work': 'объект с данными о месте работы пользователя',
     'Status': 'объект с данными о статусе пользователя на мероприятии'
-}"
+}")
      *     )
      * )
      */

@@ -4,6 +4,7 @@ namespace api\controllers\event;
 use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
 
 class RolesAction extends \api\components\Action
 {
@@ -15,13 +16,7 @@ class RolesAction extends \api\components\Action
      *     request=@Request(
      *          method="GET",
      *          url="/event/roles",
-     *          body="",
-     *          params="",
-     *          response="[{
-    'RoleId': 'идентификатор статуса на мероприятии',
-    'RoleTitle': 'название статуса',
-    'UpdateTime': 'время последнего обновления'
-}]"
+     *          response=@Response(body="[{'RoleId': 'идентификатор статуса на мероприятии','RoleTitle': 'название статуса','UpdateTime': 'время последнего обновления'}]")
      *     )
      * )
      */

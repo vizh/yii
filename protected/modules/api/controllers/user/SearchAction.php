@@ -6,6 +6,7 @@ use api\components\builders\Builder;
 use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
 
 class SearchAction extends \api\components\Action
 {
@@ -22,10 +23,7 @@ class SearchAction extends \api\components\Action
      *          params={
      *              @Param(title="Query", type="Строка", defaultValue="", description="может принимать значения Email, RunetId, список RunetId через запятую, Фамилия, Фамилия Имя, Имя Фамилия")
      *          },
-     *          response="{
-    'Users': 'массив пользователей',
-    'NextPageToken':  'указатель на следующую страницу'
-}"
+     *          response=@Response(body="{'Users': 'массив пользователей','NextPageToken':  'указатель на следующую страницу'}")
      *     )
      * )
      */

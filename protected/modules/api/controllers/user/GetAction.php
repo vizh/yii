@@ -6,6 +6,8 @@ use api\components\Exception;
 use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\Action\Sample;
 
 /**
  * Class GetAction
@@ -16,9 +18,10 @@ class GetAction extends \api\components\Action
      * @ApiAction(
      *     controller="User",
      *     title="Детальная информация",
-     *     description="Возвращает данные пользователя, включая информацию о статусе участия в мероприятии.
-При использовании php-API:
-$user = \RunetID\Api\User::model($api)->getByRunetId(RunetId);",
+     *     description="Возвращает данные пользователя, включая информацию о статусе участия в мероприятии.",
+     *     samples={
+     *          @Sample(lang="php",code="<?php $user = \RunetID\Api\User::model($api)->getByRunetId(RunetId); ")
+     *     },
      *     request=@Request(
      *          method="GET",
      *          url="/user/get",
@@ -26,7 +29,7 @@ $user = \RunetID\Api\User::model($api)->getByRunetId(RunetId);",
      *          params={
      *              @Param(title="RunetId", type="", defaultValue="", description="runetid пользователя. Обязательно.")
      *          },
-     *          response="{
+     *          response=@Response(body="{
     'RunetId': 'идентификатор',
     'LastName': 'фамилия',
     'FirstName': 'имя',
@@ -37,14 +40,8 @@ $user = \RunetID\Api\User::model($api)->getByRunetId(RunetId);",
     'Gender': 'пол посетителя. Возможные значения: null, male, female',
     'Phones': 'массив с телефонами пользователя, если заданы',
     'Work': 'объект с данными о месте работы пользователя',
-    'Status': 'объект с данными о статусе пользователя на мероприятии'
-}
-Объект Status:
-{
-    'RoleId': 'идентификатор статуса на мероприятии',
-    'RoleTitle': 'название статуса',
-    'UpdateTime': 'время последнего обновления'
-}"
+    'Status': {'RoleId': 'идентификатор статуса на мероприятии','RoleTitle': 'название статуса','UpdateTime': 'время последнего обновления'}
+}")
      *     )
      * )
      */
