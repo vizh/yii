@@ -67,8 +67,9 @@ class IndexAction extends \pay\components\Action
             'unpaidItems' => $unpaidItems,
             'hasRecentPaidItems' => $hasRecentPaidItems,
             'account' => $this->getAccount(),
-            'formAdditionalAttributes' => $formAdditionalAttributes,
+            'formAdditionalAttributes' => $formAdditionalAttributes
         ];
+
         if (!$iframe) {
             $this->getController()->render('index', $params);
         } else {
@@ -111,7 +112,6 @@ class IndexAction extends \pay\components\Action
 
     /**
      * Проверяет наличие формы дополнительных параметров и производит валидацию
-     *
      *
      * @param FormAdditionalAttributes $form
      */

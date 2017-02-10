@@ -34,10 +34,9 @@ $(function () {
     offerCheckbox.trigger('change');
 
     payButtons.on('click', function (e) {
-        if (offerCheckbox.prop('checked')){
+        if (offerCheckbox.prop('checked')) {
             return true;
-        }
-        else {
+        } else {
             e.stopPropagation();
             e.stopImmediatePropagation();
             return false;
