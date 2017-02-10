@@ -51,6 +51,7 @@ use Yii;
  * @property string $SearchLastName
  * @property string $SearchFirstName
  * @property bool $Verified
+ * @property string $PayonlineRebill
  *
  * @property LinkEmail $LinkEmail
  * @property LinkAddress $LinkAddress

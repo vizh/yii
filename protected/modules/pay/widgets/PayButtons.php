@@ -81,6 +81,9 @@ class PayButtons extends Widget
     {
         $options = $this->htmlOptions;
         $options['class'] .= ' '.$name;
+        if ($name == 'payonline'){
+            $options['class'] .= ' iframe';
+        }
         return $options;
     }
 

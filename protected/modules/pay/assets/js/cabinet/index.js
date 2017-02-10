@@ -33,8 +33,15 @@ $(function () {
     }
     offerCheckbox.trigger('change');
 
-    payButtons.on('click', function () {
-        return offerCheckbox.prop('checked');
+    payButtons.on('click', function (e) {
+        if (offerCheckbox.prop('checked')){
+            return true;
+        }
+        else {
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            return false;
+        }
     });
 
 
@@ -68,5 +75,36 @@ $(function () {
             e.preventDefault();
             window.location = $target.attr('href');
         }
+    });
+
+    payButtons.on('click', function(e) {
+        if (!$(this).hasClass("iframe")){
+            return true;
+        }
+
+        var $modal = $("#payonline-modal");
+
+        var $iframe = $("<iframe></iframe>")
+            .css({
+
+            })
+            .load(function(){
+                $("#payonline-modal .modal-body .loading").remove();
+            })
+            .attr("src", this.href);
+
+        $modal
+            .find(".modal-body")
+            .html("<div class='loading'><img src='/img/pay/loading.gif' alt='loading'></div>")
+            .append($iframe);
+        $modal.modal({"backdrop": "static"});
+        return false;
+    });
+
+    $('.pay-buttons .payonline-save-card').on("change", function(){
+        var url = $('.pay-buttons .btn.payonline').get(0).search.substr(1);
+        var params = JSON.parse('{"' + decodeURI(url).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
+        params.save = this.checked ? 1 : undefined;
+        $('.pay-buttons .btn.payonline').get(0).search = '?' + $.param(params);
     });
 });

@@ -16,6 +16,7 @@ class PayOnline extends Base
     private $privateSecurityKey;
 
     public $toYandexMoney = false;
+    public $SaveRebill = false;
 
 
     /**
@@ -113,9 +114,11 @@ class PayOnline extends Base
         if ($order === null)
             throw new CHttpException(404);
 
+        if ($this->SaveRebill && $order->Payer->PayonlineRebill == null){
+            $order->Payer->updateByPk($order->Payer->Id, ['PayonlineRebill' => 'pending']);
+        }
         $params = array_merge($params, [
             'Email' => $order->Payer->Email,
-            'ReturnUrl' => Yii::app()->createAbsoluteUrl('/pay/cabinet/return', ['eventIdName' => $event->IdName]),
             'SecurityKey' => $hash
         ]);
 
@@ -131,8 +134,15 @@ class PayOnline extends Base
      */
     public function EndParseSystem()
     {
+        /** @var $order \pay\models\Order */
+        $order = \pay\models\Order::model()->findByPk($this->getOrderId());
+        if ($order->Payer->PayonlineRebill == 'pending'){
+            $order->Payer->PayonlineRebill = Yii::app()->request->getParam('RebillAnchor');
+            $order->Payer->save(false);
+        }
+
         header('Status: 200');
-        echo 'OK';
+        echo '<script type="text/javascript">window.top.location.href = "'.$this->getReturnUrl($order->EventId).'";</script>';
         exit();
     }
 }
