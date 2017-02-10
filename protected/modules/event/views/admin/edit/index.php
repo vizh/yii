@@ -74,7 +74,7 @@ foreach ($widgets->All as $widget) {
 
                 <div class="control-group">
                     <?=CHtml::activeLabel($form, 'Address', ['class' => 'control-label'])?>
-                    <?$this->widget('contact\widgets\AddressControls', ['form' => $form->Address, 'geoCoordinates' => true])?>
+                    <?$this->widget('contact\widgets\AddressControls', ['form' => $form->Address])?>
                 </div>
 
                 <div class="control-group">

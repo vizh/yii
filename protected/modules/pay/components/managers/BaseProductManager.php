@@ -380,13 +380,14 @@ abstract class BaseProductManager
             return false;
         }
 
-        $result = $this->internalBuy($user, $orderItem, $params);
-        if ($result) {
+        $success = $this->internalBuy($user, $orderItem, $params);
+
+        if ($success) {
             $this->buyLinkProducts($user, $orderItem);
             $this->sendMail($user);
         }
 
-        return $result;
+        return $success;
     }
 
     /**

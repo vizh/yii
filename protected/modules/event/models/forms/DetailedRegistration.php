@@ -215,7 +215,7 @@ class DetailedRegistration extends CreateUpdateForm
                 case 'Company':
                     $rules = array_merge($rules, [
                         ['Company', 'required'],
-                        ['Position', $this->widget->WidgetRegistrationPositionRequired ? 'required' : 'safe']
+                        ['Position', isset($this->widget->WidgetRegistrationPositionRequired) && $this->widget->WidgetRegistrationPositionRequired ? 'required' : 'safe']
                     ]);
                     break;
 

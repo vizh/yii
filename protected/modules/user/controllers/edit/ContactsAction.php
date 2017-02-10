@@ -29,9 +29,9 @@ class ContactsAction extends \CAction
         else{
           $user->setContactSite(null);
         }
-        
+
         $user->save();
-        
+
         // Сохранение адреса
         $address = $user->getContactAddress();
         if (!$form->Address->getIsEmpty() || $address !== null){
@@ -44,7 +44,7 @@ class ContactsAction extends \CAction
           $address->save();
           $user->setContactAddress($address);
         }
-        
+
         // Сохранение номеров телефонов
         foreach ($form->Phones as $formPhone){
           if (!empty($formPhone->Id)){
@@ -72,12 +72,14 @@ class ContactsAction extends \CAction
           $linkPhone->PhoneId = $phone->Id;
           $linkPhone->save();
         }
-        
+
         // Сохранение аккаунтов в соц. сетях
         foreach ($form->Accounts as $formAccount){
           $serviceType = ServiceType::model()->findByPk($formAccount->TypeId);
           if (!empty($formAccount->Id)){
-            $linkServiceAccount = LinkServiceAccount::model()->byAccountId($formAccount->Id)->byUserId($user->Id)->find();
+            $linkServiceAccount = LinkServiceAccount::model()
+                ->byServiceAccountId($formAccount->Id)
+                ->byUserId($user->Id)->find();
             if ($linkServiceAccount == null)
               throw new \CHttpException(500);
             $serviceAccount = $linkServiceAccount->ServiceAccount;
@@ -96,7 +98,7 @@ class ContactsAction extends \CAction
             $serviceAccount = $user->setContactServiceAccount($formAccount->Account, $serviceType);
           }
         }
-       
+
         \Yii::app()->user->setFlash('success', \Yii::t('app', 'Ваша контактная информация успешно сохранена!'));
         $this->getController()->refresh();
       }
@@ -107,7 +109,7 @@ class ContactsAction extends \CAction
       if ($user->getContactSite() !== null){
         $form->Site = (string) $user->getContactSite();
       }
-      
+
       foreach ($user->LinkPhones as $linkPhone){
         $phone = new PhoneForm(PhoneForm::ScenarioOneFieldRequired);
         $phone->attributes = array(
@@ -117,7 +119,7 @@ class ContactsAction extends \CAction
         );
         $form->Phones[] = $phone;
       }
-      
+
       foreach ($user->LinkServiceAccounts as $linkAccount){
         if ($linkAccount->ServiceAccount !== null){
           $account = new ServiceAccountForm();
@@ -129,7 +131,7 @@ class ContactsAction extends \CAction
           $form->Accounts[] = $account;
         }
       }
-      
+
       if ($user->getContactAddress() !== null){
         $form->Address->attributes = $user->getContactAddress()->attributes;
       }

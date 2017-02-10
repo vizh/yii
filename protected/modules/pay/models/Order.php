@@ -3,6 +3,7 @@ namespace pay\models;
 
 use application\components\ActiveRecord;
 use event\models\Event;
+use GuzzleHttp\Client;
 use mail\components\mailers\SESMailer;
 use partner\models\PartnerCallback;
 use pay\components\CodeException;
@@ -227,12 +228,24 @@ class Order extends ActiveRecord
         $this->Total = $total;
         $this->save();
 
+        if ($this->Event->IdName === 'startupvillage17') {
+            (new Client())->post('http://sv17.ruvents.com/runet-id/payed', [
+                'json' => [
+                    'RunetId' => $this->PayerId,
+                    'OrderId' => $this->Id
+                ]
+            ]);
+        }
+
         PartnerCallback::pay($this->Event, $this, strtotime($this->CreationTime));
 
         $event = new \CModelEvent($this, ['total' => $total]);
         $this->onActivate($event);
 
-        return ['Total' => $total, 'ErrorItems' => $errorItems];
+        return [
+            'Total' => $total,
+            'ErrorItems' => $errorItems
+        ];
     }
 
     public function onActivate($event)

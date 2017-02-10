@@ -68,15 +68,9 @@ class EventProductManager extends BaseProductManager
             $isSelf = !Yii::app()->user->isGuest && Yii::app()->user->getCurrentUser()->Id == $user->Id;
             $roleTitle = $this->participant->Role->Title;
 
-            if ($this->participant->RoleId == 64) {
-                return 'К сожалению, на данный момент Вы не можете оплатить участие в DevCon 2014, т.к. все места на конференцию уже забронированы, и Вы переведены в лист ожидания. При появлении свободных мест мы обязательно с Вами свяжемся.';
-            }
-
-            if ($isSelf) {
-                return sprintf('Вы уже зарегистрированы на мероприятие со статусом "%s"', $roleTitle);
-            } else {
-                return sprintf('%s уже зарегистрирован на мероприятие со статусом "%s"', $user->getFullName(), $roleTitle);
-            }
+            return $isSelf
+                ? sprintf('Вы уже зарегистрированы на мероприятие со статусом "%s"', $roleTitle)
+                : sprintf('%s уже зарегистрирован на мероприятие со статусом "%s"', $user->getFullName(), $roleTitle);
         }
 
         return parent::getCheckProductMessage($user, $params);
@@ -91,9 +85,20 @@ class EventProductManager extends BaseProductManager
      */
     protected function internalBuy($user, $orderItem = null, $params = [])
     {
-        /** @var Role $role */
-        $role = Role::model()->findByPk($this->RoleId);
-        $this->product->Event->registerUser($user, $role);
+        $this->product->Event->registerUser(
+            $user,
+            Role::model()->findByPk($this->RoleId)
+        );
+
+//        if ($this->product->Event->IdName === 'startupvillage17') {
+//            (new Client())->post('http://sv17.ruvents.com/runet-id/payed', [
+//                'json' => [
+//                    'RunetId' => $user->RunetId,
+//                    'ProductId' => $this->product->Id
+//                ]
+//            ]);
+//        }
+
         return true;
     }
 

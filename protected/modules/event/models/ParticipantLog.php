@@ -62,4 +62,24 @@ class ParticipantLog extends ActiveRecord
             'Part' => [self::BELONGS_TO, '\event\models\Part', 'PartId']
         ];
     }
+
+    /**
+     * @param Participant $participant
+     * @return $this
+     */
+    public function byParticipant(Participant $participant)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->addCondition('"t"."UserId" = :UserId AND "t"."RoleId" = :RoleId AND "t"."EventId" = :EventId');
+        $criteria->params['UserId']  = $participant->UserId;
+        $criteria->params['RoleId']  = $participant->RoleId;
+        $criteria->params['EventId'] = $participant->EventId;
+        if (!empty($participant->PartId)) {
+            $criteria->addCondition('"t"."PartId" = :PartId');
+            $criteria->params['PartId'] = $participant->PartId;
+        }
+        $criteria->order = '"t"."CreationTime" DESC';
+        $this->getDbCriteria()->mergeWith($criteria);
+        return $this;
+    }
 }

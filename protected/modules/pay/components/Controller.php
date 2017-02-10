@@ -2,6 +2,7 @@
 namespace pay\components;
 
 use event\models\Event;
+use pay\models\Account;
 use Yii;
 
 class Controller extends \application\components\controllers\PublicMainController
@@ -108,14 +109,19 @@ class Controller extends \application\components\controllers\PublicMainControlle
     protected $account = null;
 
     /**
-     * @return \pay\models\Account
+     * @return Account
      * @throws Exception
      */
     public function getAccount()
     {
-        $this->account = \pay\models\Account::model()->byEventId($this->getEvent()->Id)->find();
         if ($this->account === null) {
-            throw new CodeException(CodeException::NO_PAY_ACCOUNT, [$this->getEvent()->Id, $this->getEvent()->IdName, $this->getEvent()->Title]);
+            $this->account = Account::model()
+                ->byEventId($this->getEvent()->Id)
+                ->find();
+            /** @noinspection NotOptimalIfConditionsInspection */
+            if ($this->account === null) {
+                throw new CodeException(CodeException::NO_PAY_ACCOUNT, [$this->getEvent()->Id, $this->getEvent()->IdName, $this->getEvent()->Title]);
+            }
         }
 
         return $this->account;

@@ -1,6 +1,9 @@
 <?php
 namespace pay\models\forms;
 
+use CHtmlPurifier;
+use Yii;
+
 class Product extends \CFormModel
 {
     private $product;
@@ -79,7 +82,7 @@ class Product extends \CFormModel
             foreach ($manager->getProductAttributeNames() as $name)
             {
                 if (in_array($name, $manager->getRequiredProductAttributeNames()) && (!isset($attributes[$name]) || empty($attributes[$name]))) {
-                    $this->addError('Attributes', \Yii::t('app', 'Не указан атрибут обязательный для товара').' '.$name);
+                    $this->addError('Attributes', Yii::t('app', 'Не указан атрибут обязательный для товара').' '.$name);
                 }
             }
         }
@@ -98,7 +101,7 @@ class Product extends \CFormModel
         }
         if (!$valid)
         {
-            $this->addError('Prices', \Yii::t('app', 'Ошибка в заполнении цен'));
+            $this->addError('Prices', Yii::t('app', 'Ошибка в заполнении цен'));
         }
         else
         {
@@ -109,7 +112,7 @@ class Product extends \CFormModel
                 if ((empty($price->EndDate) && isset($prices[$i+1]))
                     || ($i != 0 && $curStartDate->modify('-1 day') != $lastEndDate))
                 {
-                    $this->addError('Prices', \Yii::t('app', 'Нарушена непрерывность цен'));
+                    $this->addError('Prices', Yii::t('app', 'Нарушена непрерывность цен'));
                     break;
                 }
                 $lastEndDate->setTimestamp(strtotime($price->EndDate));
@@ -146,19 +149,19 @@ class Product extends \CFormModel
         $managers = [];
         if (!empty($this->event->Parts)) {
             $managers = [
-                'EventOnPart' => \Yii::t('app', 'Часть мероприятия'),
-                'EventListParts' => \Yii::t('app', 'Несколько частей мероприятия'),
-                'EventAllParts' => \Yii::t('app', 'Все части мероприятия'),
-                'Section' => \Yii::t('app', 'Секция')
+                'EventOnPart' => Yii::t('app', 'Часть мероприятия'),
+                'EventListParts' => Yii::t('app', 'Несколько частей мероприятия'),
+                'EventAllParts' => Yii::t('app', 'Все части мероприятия'),
+                'Section' => Yii::t('app', 'Секция')
             ];
         } else {
             $managers = [
-                'EventProductManager' => \Yii::t('app', 'Мероприятие'),
-                'EventMicrosoft' =>  \Yii::t('app', 'Тип товара для мероприятий Microsoft'),
+                'EventProductManager' => Yii::t('app', 'Мероприятие'),
+                'EventMicrosoft' =>  Yii::t('app', 'Тип товара для мероприятий Microsoft'),
             ];
         }
-        $managers['FoodProductManager'] = \Yii::t('app', 'Питание');
-        $managers['Ticket'] = \Yii::t('app', 'Билет');
+        $managers['FoodProductManager'] = Yii::t('app', 'Питание');
+        $managers['Ticket'] = Yii::t('app', 'Билет');
         return $managers;
     }
 
@@ -186,7 +189,7 @@ class Product extends \CFormModel
             ['Prices', 'filter', 'filter' => [$this, 'filterPrices']],
             ['Attributes', 'filter', 'filter' => [$this, 'filterAttributes']],
             ['AdditionalAttributes', 'filter', 'filter' => [$this, 'filterAdditionalAttributes']],
-            ['GroupName', 'filter', 'filter' => [new \CHtmlPurifier(), 'purify']],
+            ['GroupName', 'filter', 'filter' => [new CHtmlPurifier(), 'purify']],
         ];
     }
 
@@ -202,14 +205,14 @@ class Product extends \CFormModel
         }
         if (!$valid)
         {
-            $this->addError('Prices', \Yii::t('app', 'Ошибка в заполнении дополнительных параметров заказа'));
+            $this->addError('Prices', Yii::t('app', 'Ошибка в заполнении дополнительных параметров заказа'));
         }
         return $attributes;
     }
 
     public function filterDescription($value)
     {
-        $purifier = new \CHtmlPurifier();
+        $purifier = new CHtmlPurifier();
         $purifier->options = [
             'HTML.AllowedElements'   => ['p', 'ul', 'li', 'br', 'strong', 'em'],
             'HTML.AllowedAttributes' => ['class'],
@@ -220,19 +223,19 @@ class Product extends \CFormModel
     public function attributeLabels()
     {
         return [
-            'Title' => \Yii::t('app', 'Название'),
-            'Description' => \Yii::t('app', 'Описание'),
-            'Public' => \Yii::t('app', 'Отображение'),
-            'Priority' => \Yii::t('app', 'Приоритет'),
-            'ManagerName' => \Yii::t('app', 'Менеджер'),
-            'Attributes' => \Yii::t('app', 'Параметры'),
-            'Prices' => \Yii::t('app', 'Цены'),
-            'Unit' => \Yii::t('app', 'Ед. измерения'),
-            'EnableCoupon' => \Yii::t('app', 'Разрешить промо-коды'),
-            'AdditionalAttributes' => \Yii::t('app', 'Дополнительные параметры заказа'),
-            'AdditionalAttributesTitle' => \Yii::t('app', 'Заголовок к дополнительным параметрам'),
-            'OrderTitle' => \Yii::t('app', 'Название для счетов'),
-            'GroupName' => \Yii::t('app', 'Название группы товаров')
+            'Title' => Yii::t('app', 'Название'),
+            'Description' => Yii::t('app', 'Описание'),
+            'Public' => Yii::t('app', 'Отображение'),
+            'Priority' => Yii::t('app', 'Приоритет'),
+            'ManagerName' => Yii::t('app', 'Менеджер'),
+            'Attributes' => Yii::t('app', 'Параметры'),
+            'Prices' => Yii::t('app', 'Цены'),
+            'Unit' => Yii::t('app', 'Ед. измерения'),
+            'EnableCoupon' => Yii::t('app', 'Разрешить промо-коды'),
+            'AdditionalAttributes' => Yii::t('app', 'Дополнительные параметры заказа'),
+            'AdditionalAttributesTitle' => Yii::t('app', 'Заголовок к дополнительным параметрам'),
+            'OrderTitle' => Yii::t('app', 'Название для счетов'),
+            'GroupName' => Yii::t('app', 'Название группы товаров')
         ];
     }
 }

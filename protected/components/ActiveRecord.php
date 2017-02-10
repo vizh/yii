@@ -1,7 +1,6 @@
 <?php
 namespace application\components;
 
-use application\components\helpers\ArrayHelper;
 use CDbCriteria;
 
 /**
@@ -21,6 +20,7 @@ abstract class ActiveRecord extends \CActiveRecord
 
     /**
      * Returns name of the class
+     *
      * @return string
      */
     public static function className()
@@ -30,20 +30,23 @@ abstract class ActiveRecord extends \CActiveRecord
 
     /**
      * Returns the instance of the active record by using late static binding
+     *
      * @param string $className
      * @return static
      */
     public static function model($className = null)
     {
-        if (!$className) {
+        if ($className === null) {
             $className = get_called_class();
         }
 
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
     /**
      * Creates a new one moel
+     *
      * @param array $attributes
      * @return mixed
      */
@@ -57,6 +60,7 @@ abstract class ActiveRecord extends \CActiveRecord
 
     /**
      * Находит одну запись по PrimaryKey
+     *
      * @param mixed $pk
      * @return array|\CActiveRecord|mixed|null
      */
@@ -97,6 +101,7 @@ abstract class ActiveRecord extends \CActiveRecord
 
     /**
      * Magic method __call
+     *
      * @param string $name
      * @param array $parameters
      * @return $this|mixed
@@ -117,33 +122,33 @@ abstract class ActiveRecord extends \CActiveRecord
                     if ($columnType === 'integer') {
                         $value = $isarr === true
                             ? array_map('intval', $value)
-                            : (int) $value;
+                            : (int)$value;
                     } else {
                         // Данное преобразование важно, если поле для фильтрации имеет строковый тип,
                         // но значение для фильтра передано в виде числа.
                         $value = $isarr === true
                             ? array_map('strval', $value)
-                            : (string) $value;
+                            : (string)$value;
                     }
                     if ($value) {
                         if ($isarr === true) {
-                            $criteria->addInCondition('"t"."' . $column . '"', $value);
+                            $criteria->addInCondition('"t"."'.$column.'"', $value);
                         } else {
-                            $criteria->addCondition('"t"."' . $column . '" = :'.$column);
+                            $criteria->addCondition('"t"."'.$column.'" = :'.$column);
                             $criteria->params[$column] = $value;
                         }
                     } else {
-                        $criteria->addCondition('"t"."' . $column . '" IS NULL');
+                        $criteria->addCondition('"t"."'.$column.'" IS NULL');
                     }
                 }
                 $this->getDbCriteria()->mergeWith($criteria, true);
+
                 return $this;
             }
         }
 
         if (strpos($name, 'orderBy') === 0) {
-            $column = substr($name, 7);
-            $this->orderBy(["\"t\".\"{$column}\"" => $parameters[0]]);
+            $this->orderBy(['"t"."'.substr($name, 7).'"' => $parameters[0]]);
 
             return $this;
         }
@@ -153,6 +158,7 @@ abstract class ActiveRecord extends \CActiveRecord
 
     /**
      * Set sort orders
+     *
      * @param array $orders
      * @return $this
      */
@@ -166,9 +172,9 @@ abstract class ActiveRecord extends \CActiveRecord
         foreach ($orders as $column => $order) {
             if (!is_string($column)) {
                 $column = $order;
-                $order  = SORT_ASC;
+                $order = SORT_ASC;
             }
-            $criteria->order .= (!empty($criteria->order) ? ', ' : '') . $column . ' ' . ($order === SORT_DESC ? 'DESC' : 'ASC');
+            $criteria->order .= (!empty($criteria->order) ? ', ' : '').$column.' '.($order === SORT_DESC ? 'DESC' : 'ASC');
         }
         $this->getDbCriteria()->mergeWith($criteria);
 
@@ -177,6 +183,7 @@ abstract class ActiveRecord extends \CActiveRecord
 
     /**
      * Отсортировать записи, используя сортировку по умолчанию
+     *
      * @see [$this->defaultOrderBy]
      * @return ActiveRecord
      */
@@ -187,12 +194,14 @@ abstract class ActiveRecord extends \CActiveRecord
 
     /**
      * Устанавливает лимит записей
+     *
      * @param int $limit
      * @return $this
      */
     public function limit($limit)
     {
         $this->getDbCriteria()->limit = $limit;
+
         return $this;
     }
 
@@ -205,6 +214,7 @@ abstract class ActiveRecord extends \CActiveRecord
             $this->Deleted = true;
             $this->DeletionTime = date('Y-m-d H:i:s');
             $this->save();
+
             return true;
         } else {
             return parent::delete();

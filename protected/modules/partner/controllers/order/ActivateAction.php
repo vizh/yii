@@ -20,12 +20,17 @@ class ActivateAction extends Action
      */
     public function run($id)
     {
-        $order = Order::model()->byEventId($this->getEvent()->Id)->byPaid(false)->findByPk($id);
+        $order = Order::model()
+            ->byEventId($this->getEvent()->Id)
+            ->byPaid(false)
+            ->findByPk($id);
+
         if ($order === null) {
             throw new \CHttpException(404);
         }
 
         $result = $order->activate();
+
         if (!empty($result['ErrorItems'])) {
             Flash::setError('Повторно активированы некоторые заказы. Список идентификаторов: ' . implode(', ', $result['ErrorItems']));
         } else {
