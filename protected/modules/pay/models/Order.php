@@ -228,16 +228,16 @@ class Order extends ActiveRecord
         $this->Total = $total;
         $this->save();
 
+        PartnerCallback::pay($this->Event, $this, strtotime($this->CreationTime));
+
         if ($this->Event->IdName === 'startupvillage17') {
             (new Client())->post('http://sv17.ruvents.com/runet-id/payed', [
                 'json' => [
-                    'RunetId' => $this->PayerId,
+                    'RunetId' => $this->Payer->RunetId,
                     'OrderId' => $this->Id
                 ]
             ]);
         }
-
-        PartnerCallback::pay($this->Event, $this, strtotime($this->CreationTime));
 
         $event = new \CModelEvent($this, ['total' => $total]);
         $this->onActivate($event);
