@@ -191,7 +191,7 @@ class Address extends ActiveRecord
         if (!empty($yaGeocoderResponse->response->GeoObjectCollection->featureMember)) {
             $position = $yaGeocoderResponse->response->GeoObjectCollection->featureMember[0]->GeoObject->Point->pos;
             $coordinates = explode(' ', $position);
-            $this->GeoPoint = setGeoPointCoordinatesManual($coordinates[1], $coordinates[0]);
+            $this->GeoPoint = $this->setGeoPointCoordinatesManual($coordinates[1], $coordinates[0]);
         }
     }
 

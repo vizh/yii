@@ -15,12 +15,12 @@ $width = !$this->event->FullWidth ? '218px' : '100%';
   <h5 style="z-index: 100;" class="title"><?=Yii::t('app', 'Место проведения')?></h5>
   <div id="ymaps-map-id_13401960168727002685" style="width: <?=$width?>; height: 340px;"></div>
 </div>
+<!--suppress JSUnusedLocalSymbols -->
 <script type="text/javascript">
 function fid_13401960168727002685(ymaps) {
     <?php
-        if (!empty($address->GeoPoint)) {
-            $points = explode(',', $address->GeoPoint);
-            $geo = $points[1].','.$points[0];
+        if (is_array($address->GeoPoint) && !empty($address->GeoPoint[0])) {
+            $geo = $address->GeoPoint[1].','.$address->GeoPoint[0];
         } else {
             $geo =  $address->getShort();
         }
