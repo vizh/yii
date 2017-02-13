@@ -118,10 +118,10 @@ class IndexAction extends \CAction
                 if (!empty($form->SiteUrl)) {
                     $urlParts = parse_url($form->SiteUrl);
 
-                    if( !isset( $urlParts['path'] ) ){
+                    if (!isset($urlParts['path'])) {
                         $urlParts['path'] = '';
                     }
-                    $url = $urlParts['host'] .$urlParts['path'].(empty($urlParts['query']) ? '' : '?'.$urlParts['query']);
+                    $url = $urlParts['host'] . $urlParts['path'] . (empty($urlParts['query']) ? '' : '?' . $urlParts['query']);
 
                     $event->setContactSite($url, $urlParts['scheme'] === 'https');
                 }

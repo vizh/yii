@@ -186,7 +186,7 @@ class Address extends ActiveRecord
         curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 1);
         curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_URL, 'http://geocode-maps.yandex.ru/1.x/?'.http_build_query(['format' => 'json', 'geocode' => $this->__toString()]));
+        curl_setopt($curl, CURLOPT_URL, 'http://geocode-maps.yandex.ru/1.x/?' . http_build_query(['format' => 'json', 'geocode' => $this->__toString()]));
         $yaGeocoderResponse = json_decode(curl_exec($curl));
         if (!empty($yaGeocoderResponse->response->GeoObjectCollection->featureMember)) {
             $position = $yaGeocoderResponse->response->GeoObjectCollection->featureMember[0]->GeoObject->Point->pos;

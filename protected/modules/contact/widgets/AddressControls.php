@@ -12,6 +12,7 @@ class AddressControls extends \CWidget
     public $inputClass = '';
     public $inputPlaceholder = null;
     public $disabled = false;
+    public $geoCoordinates = false;
 
 
     public function init()
@@ -30,7 +31,8 @@ class AddressControls extends \CWidget
             'form' => $this->form,
             'address' => $this->address,
             'place' => $this->place,
-            'apartment' => $this->apartment
+            'apartment' => $this->apartment,
+            'geoPointCoordinates' => $this->geoCoordinates
         ));
     }
 }
