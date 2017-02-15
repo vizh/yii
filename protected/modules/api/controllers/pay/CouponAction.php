@@ -4,8 +4,31 @@ namespace api\controllers\pay;
 use pay\models\Coupon;
 use pay\models\Product;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
+
 class CouponAction extends \api\components\Action
 {
+
+    /**
+     * @ApiAction(
+     *     controller="Pay",
+     *     title="Купон",
+     *     description="Активация купона",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/pay/coupon",
+     *          params={
+     *              @Param(title="CouponCode", description="Код купона.", mandatory="Y"),
+     *              @Param(title="ExternalId", description="Внешний Id.", mandatory="Y"),
+     *              @Param(title="ProductId", description="Идентификатор товара.", mandatory="Y")
+     *          },
+     *          response=@Response( body="{'Discount':'50%'}" )
+     *     )
+     * )
+     */
     public function run()
     {
         $request = \Yii::app()->getRequest();

@@ -1,8 +1,40 @@
 <?php
 namespace api\controllers\event;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
+
 class StatisticsAction extends \api\components\Action
 {
+    /**
+     * @ApiAction(
+     *     controller="Event",
+     *     title="Статистика",
+     *     description="Статистика по мероприятию. Возвращает колличество участников мероприятия, сгруппированные по ролям.",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/event/statistics",
+     *          response=@Response(body="{
+    'Roles': [
+        {
+            'RoleId': 25,
+            'Name': 'Эксперт ПК',
+            'Priority': 72,
+            'Count': 32
+        },
+        {
+            'RoleId': 26,
+            'Name': 'Видеоучастник',
+            'Priority': 15,
+            'Count': 4
+        }
+    ],
+    'Total': 36
+}"))
+     * )
+     */
     public function run()
     {
         $result = [];

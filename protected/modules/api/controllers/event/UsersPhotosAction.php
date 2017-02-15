@@ -7,10 +7,25 @@ use user\models\Photo;
 use user\models\User;
 use Yii;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
+
 class UsersPhotosAction extends Action
 {
     /**
-     *
+     * @ApiAction(
+     *     controller="Event",
+     *     title="Фотографии участников",
+     *     description="Возвращает Фотографии участников одним архивом.",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/event/usersphotos",
+     *          params={},
+     *          response=@Response(body="{'Users': ['Объект USER'],'NextPageToken':'указатель на следующую страницу'}")
+     *     )
+     * )
      */
     public function run()
     {

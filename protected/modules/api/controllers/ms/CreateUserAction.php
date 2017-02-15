@@ -6,6 +6,11 @@ use api\components\ms\forms\RegisterUser;
 use event\models\Role;
 use pay\models\Product;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
+
 /**
  * Class CreateUserAction
  *
@@ -15,6 +20,22 @@ use pay\models\Product;
  */
 class CreateUserAction extends Action
 {
+    /**
+     * @ApiAction(
+     *     controller="ms",
+     *     title="Создание пользователя",
+     *     description="Создает нового пользователя",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/ms/createuser",
+     *          params={
+     *              @Param(title="RunetId", mandatory="Y", description="RunetId пользователя"),
+     *              @Param(title="AuthHash", mandatory="Y", description="Проверяемый хеш")
+     *          },
+     *          response=@Response(body="{'Result':true}")
+     *     )
+     * )
+     */
     public function run()
     {
         $form = new RegisterUser($this->getAccount());

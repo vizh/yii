@@ -16,7 +16,7 @@ class RolesAction extends \api\components\Action
      *     request=@Request(
      *          method="GET",
      *          url="/event/roles",
-     *          response=@Response(body="[{'RoleId': 'идентификатор статуса на мероприятии','RoleTitle': 'название статуса','UpdateTime': 'время последнего обновления'}]")
+     *          response=@Response(body="['Объект EVENTROLE']")
      *     )
      * )
      */

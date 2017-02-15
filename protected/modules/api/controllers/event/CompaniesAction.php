@@ -1,8 +1,28 @@
 <?php
 namespace api\controllers\event;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Response as ApiResponse;
+use nastradamus39\slate\annotations\Action\Param;
+
 class CompaniesAction extends \api\components\Action
 {
+
+    /**
+     * @ApiAction(
+     *     controller="Event",
+     *     title="Компании",
+     *     description="Выбираются все компании, сотрудники которых учавствуют в мероприятии.",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/event/сompanies",
+     *          body="",
+     *          params={},
+     *          response=@ApiResponse(body="{'10':'Объект COMPANY'}")
+     *      )
+     * )
+     */
   public function run()
   {
     $command = \Yii::app()->getDb()->createCommand();

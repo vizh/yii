@@ -5,8 +5,37 @@ use application\components\CDbCriteria;
 use application\components\helpers\ArrayHelper;
 use connect\models\Meeting;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\Action\Param;
+
 class ListAction extends \api\components\Action
 {
+
+    /**
+     * @ApiAction(
+     *     controller="Connect",
+     *     title="Список встреч",
+     *     description="Списк встреч.",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/connect/list",
+     *          body="",
+     *          params={
+     *              @Param(title="RunetId", description="", mandatory="N"),
+     *              @Param(title="CreatorId", description="", mandatory="N"),
+     *              @Param(title="UserId", description="", mandatory="N"),
+     *              @Param(title="Type", description="Тип встречи. 1-закрытая,2-открытая.", mandatory="N"),
+     *              @Param(title="Status", description="Сатус встречи. 1-открыта. 2-отменена.", mandatory="N")
+     *          },
+     *          response=@Response(body="{
+                    'Success': true,
+                    'Meetings': ['Объект MEETING']
+                }")
+     *      )
+     * )
+     */
     public function run()
     {
         $meetings = Meeting::model()

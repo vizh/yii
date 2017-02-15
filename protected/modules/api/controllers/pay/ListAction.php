@@ -26,7 +26,7 @@ class ListAction extends Action
      *          method="GET",
      *          url="/pay/list",
      *          body="",
-     *          params={ @Param(title="PayerRunetId", type="", defaultValue="", description="Идентификатор плательщика.") },
+     *          params={ @Param(title="PayerRunetId", description="Идентификатор плательщика.") },
      *          response=@Response(body="{
     'Items': [{
         'Id': 'идентификатор элемента заказа',

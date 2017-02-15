@@ -24,15 +24,12 @@ class ListAction extends Action
      *          url="/company/list",
      *          body="",
      *          params={
-     *              @Param(title="Cluster", type="some variable type", description="(enum[РАЭК]) – кластер, компании которого необходимо получить. В данный момент может принимать единственное значение: РАЭК. Обязательно."),
-     *              @Param(title="Query", defaultValue="some default value", description="поисковая строка."),
+     *              @Param(title="Cluster", description="(enum[РАЭК]) – кластер, компании которого необходимо получить. В данный момент может принимать единственное значение: РАЭК.", mandatory="Y"),
+     *              @Param(title="Query", description="Поисковая строка."),
      *              @Param(title="PageToken", description="Указатель на следующую страницу, берется из результата последнего запроса, значения NextPageToken."),
      *              @Param(title="MaxResults", description="MaxResults (число) - максимальное количество компаний в ответе, от 0 до 200. Если нужно загрузить более 200 участников, необходимо использовать постраничную загрузку.")
      *          },
-     *          response=@Response(body="[{
-    'Companies': 'массив объектов User',
-    'NextPageToken': 'строка, если присутствует в ответе - значит доступны следующие страницы, если значение отсутствует - значит загружена последняя страница.'
-}]")
+     *          response=@Response(body="{'Companies':[{'Id':77529,'Name':'RUVENTS','FullName':'ООО «РУВЕНТС»','Info':null,'Logo':{'Small':'http://runet-id.dev/upload/images/company/logo/b/e/f/b/9/befb921b1aa035508c9a58b8828469c5-d864780c4b18a07512a2de7044703e9189e757d6.png','Medium':'http://runet-id.dev/upload/images/company/logo/b/e/f/b/9/befb921b1aa035508c9a58b8828469c5-594f0c64feeb1daa88af22e7484a0bf29cf77021.png','Large':'http://runet-id.dev/upload/images/company/logo/b/e/f/b/9/befb921b1aa035508c9a58b8828469c5-0f1ebad037e00404db8dc9d479da5dfb563fca83.png'},'Url':'http://ruvents.com','Phone':'+7 (495) 6385147','Email':'info@ruvents.com','Address':'г. Москва, Пресненская наб., д. 12','Cluster':'РАЭК','ClusterGroups':[],'OGRN':null}]}")
      *     )
      * )
      */

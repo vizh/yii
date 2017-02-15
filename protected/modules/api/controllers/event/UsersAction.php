@@ -28,11 +28,9 @@ class UsersAction extends Action
      *          method="GET",
      *          url="/event/users",
      *          params={
-     *              @Param(title="MaxResults", type="", defaultValue="", description="Максимальное количество пользователей в ответе, от 0 до 200. Если нужно загрузить более 200 участников, необходимо использовать постраничную загрузку"),
-     *              @Param(title="PageToken", type="", defaultValue="", description="Указатель на следующую страницу, берется из результата последнего запроса, значения NextPageToken"),
-     *              @Param(title="RoleId", type="", defaultValue="", description="Массив идентификаторов ролей")
+     *              @Param(title="RoleId", mandatory="N", description="Массив идентификаторов ролей")
      *          },
-     *          response=@Response(body="{'Users': 'массив пользователей','NextPageToken':'указатель на следующую страницу'}")
+     *          response=@Response(body="{'Users': ['Объект USER'],'NextPageToken':'указатель на следующую страницу'}")
      *     )
      * )
      */

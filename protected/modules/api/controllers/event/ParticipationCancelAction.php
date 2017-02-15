@@ -5,6 +5,11 @@ use api\components\Exception;
 use api\models\Account;
 use event\models\Participant;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
+
 /**
  * Метод только для служебного использования. Позволяет отменить участие
  * на собственных мероприятиях.
@@ -13,6 +18,23 @@ use event\models\Participant;
  */
 class ParticipationCancelAction extends \api\components\Action
 {
+
+    /**
+     * @ApiAction(
+     *     controller="Event",
+     *     title="Отменя участия.",
+     *     description="Отмена участия посетителя. Только для создателей мероприятия.",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/event/participationcancel",
+     *          body="",
+     *          params={
+     *              @Param(title="RunetId", description="RunetId пользователя", mandatory="Y")
+     *          },
+     *          response=@Response(body="{'success':true}")
+     *     )
+     * )
+     */
     public function run()
     {
         if ($this->getAccount()->Role !== Account::ROLE_OWN)

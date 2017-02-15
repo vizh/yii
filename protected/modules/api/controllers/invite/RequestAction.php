@@ -1,8 +1,28 @@
 <?php
 namespace api\controllers\invite;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
+
 class RequestAction extends \api\components\Action
 {
+    /**
+     * @ApiAction(
+     *     controller="Invite",
+     *     title="Создание приглашения",
+     *     description="Создает приглашение на участие в мероприятии пользователя RunetId",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/invite/request",
+     *          params={
+     *               @Param(title="RunetId", mandatory="Y", description="RunetId пользователя")
+     *          },
+     *          response=@Response(body="{'Success':true}")
+     *     )
+     * )
+     */
   public function run()
   {
     $runetId = \Yii::app()->getRequest()->getParam('RunetId', null);

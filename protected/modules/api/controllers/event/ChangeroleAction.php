@@ -4,6 +4,11 @@ namespace api\controllers\event;
 use api\components\Exception;
 use event\models\Participant;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Response as ApiResponse;
+use nastradamus39\slate\annotations\Action\Param;
+
 /**
  * Изменение статуса на мероприятии
  * параметры: RunetId -участник RoleId - id новой роли
@@ -12,6 +17,24 @@ use event\models\Participant;
  */
 class ChangeroleAction extends \api\components\Action
 {
+
+    /**
+     * @ApiAction(
+     *     controller="Event",
+     *     title="Смена роли",
+     *     description="Меняет роль заданному пользователю.",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/event/changerole",
+     *          body="",
+     *          params={
+     *              @Param(title="RoleId",  description="Id новой роли.", mandatory="Y"),
+     *              @Param(title="RunetId", description="RunetId пользователя.", mandatory="Y")
+     *          },
+     *          response=@ApiResponse(body="{'Success': true}")
+     *      )
+     * )
+     */
     public function run()
     {
         $request = \Yii::app()->getRequest();

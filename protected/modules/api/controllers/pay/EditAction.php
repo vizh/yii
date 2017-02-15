@@ -9,6 +9,11 @@ use pay\models\Product;
 use user\models\User;
 use Yii;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Param as ApiParam;
+use nastradamus39\slate\annotations\Action\Response;
+
 /**
  * Class EditAction
  *
@@ -23,6 +28,26 @@ use Yii;
  */
 class EditAction extends \api\components\Action
 {
+
+    /**
+     * @ApiAction(
+     *     controller="Pay",
+     *     title="Редактирование",
+     *     description="Редактирование позиций заказа",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/pay/edit",
+     *          body="",
+     *          params={
+     *              @ApiParam(title="OrderItemId",     mandatory="Y",  description="Идентификатор заказа."),
+     *              @ApiParam(title="PayerRunetId",    mandatory="Y",  description="Идентификатор плательщика."),
+     *              @ApiParam(title="ProductId",       mandatory="Y",  description="Идентификатор товара."),
+     *              @ApiParam(title="OwnerRunetId",    mandatory="Y",  description="Идентификатор получателя товара.")
+     *          },
+     *          response=@Response(body="{'Success': 'true'}")
+     *     )
+     * )
+     */
     public function run()
     {
         // Редактирование позиций заказа позволено только для собственных мероприятий

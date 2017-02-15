@@ -27,11 +27,11 @@ class AddAction extends Action
      *          method="GET",
      *          url="/pay/add",
      *          params={
-     *              @Param(title="ProductId", type="строка", defaultValue="", description="Идентификатор товара. Обязательно."),
-     *              @Param(title="PayerRunetId", type="строка", defaultValue="", description="Идентификатор плательщика. Обязательно."),
-     *              @Param(title="OwnerRunetId", type="строка", defaultValue="", description="Идентификатор получателя товара. Обязательно.")
+     *              @Param(title="ProductId", mandatory="Y", description="Идентификатор товара."),
+     *              @Param(title="PayerRunetId", mandatory="Y", description="Идентификатор плательщика. Обязательно."),
+     *              @Param(title="OwnerRunetId", mandatory="Y", description="Идентификатор получателя товара. Обязательно.")
      *          },
-     *          response=@Response( body="{'Id': 'идентификатор элемента заказа','Product': 'объект Product','Owner': 'объект User (сокращенный, только основные данные пользователя)','PriceDiscount': 'цена с учетом скидки','Paid': 'статус оплаты','PaidTime': 'время оплаты','Attributes': 'массив с атрибутами (если заданы)','Discount': 'размер скидки от 0 до 1, где 0 - скидки нет, 1 - скидка 100%','CouponCode': 'код купона, по которому была получена скидка','GroupDiscount': 'была скидка групповая или нет'}" )
+     *          response=@Response( body="'Объект ORDER'" )
      *     )
      * )
      */

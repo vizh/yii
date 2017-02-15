@@ -5,14 +5,31 @@ use api\components\Action;
 use api\components\Exception;
 use pay\models\Product;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
+
 /**
  * Class ProductAction Returns list of products
  */
 class ProductAction extends Action
 {
     /**
-     * @inheritdoc
-     * @throws Exception
+     * @ApiAction(
+     *     controller="Pay",
+     *     title="Список товаров",
+     *     description="Список доступных товаров.",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/pay/product",
+     *          body="",
+     *          params={
+     *              @Param(title="OwnerRunetId", description="Идентификатор владельца.")
+     *          },
+     *          response=@Response( body="{'Items': ['Объект ITEM'] }" )
+     *     )
+     * )
      */
     public function run()
     {

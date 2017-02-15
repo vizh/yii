@@ -1,9 +1,29 @@
 <?php
 namespace api\controllers\professionalinterest;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
 
 class DeleteAction extends \api\components\Action
 {
+    /**
+     * @ApiAction(
+     *     controller="Interests",
+     *     title="Удаление",
+     *     description="Удаляет у частника мероприятия 'проф. интерес'",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/professionalinterest/dell",
+     *          params={
+     *              @Param(title="RunetId", mandatory="Y", description="Идентификатор участника."),
+     *              @Param(title="ProfessionalInterestId", mandatory="Y", description="Идентификатор 'проф. интереса'.")
+     *          },
+     *          response=@Response( body="{'Success': true}" )
+     *     )
+     * )
+     */
   public function run()
   {
     $runetId = \Yii::app()->getRequest()->getParam('RunetId');

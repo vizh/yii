@@ -5,13 +5,32 @@ use api\components\Action;
 use api\components\Exception;
 use pay\models\Product;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
+
 /**
  * Class FilterListAction Returns list of the products
  */
 class FilterListAction extends Action
 {
     /**
-     * @inheritdoc
+     * @ApiAction(
+     *     controller="Pay",
+     *     title="Товары",
+     *     description="Список товаров",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/pay/filterlist",
+     *          params={
+     *              @Param(title="Manager", description="Идентификатор менеджера.", mandatory="Y"),
+     *              @Param(title="Params", description="Параметры поиска.", mandatory="Y"),
+     *              @Param(title="Filter", description="Фильтр.", mandatory="N")
+     *          },
+     *          response=@Response( body="" )
+     *     )
+     * )
      */
     public function run()
     {

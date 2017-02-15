@@ -8,16 +8,32 @@ use pay\components\OrderItemCollection;
 use pay\models\Product;
 use Yii;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
+
 /**
  * Class FilterBookAction
  */
 class FilterBookAction extends \api\components\Action
 {
     /**
-     * @inheritdoc
-     * @throws Exception
-     * @throws CodeException
-     * @throws MessageException
+     * @ApiAction(
+     *     controller="Pay",
+     *     title="Купон",
+     *     description="Покупки",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/pay/filterbook",
+     *          params={
+     *              @Param(title="Manager", description="Идентификатор менеджера.", mandatory="Y"),
+     *              @Param(title="Params", description="Параметры поиска.", mandatory="Y"),
+     *              @Param(title="BookTime", description="Время зааказа.", mandatory="N")
+     *          },
+     *          response=@Response( body="" )
+     *     )
+     * )
      */
     public function run()
     {

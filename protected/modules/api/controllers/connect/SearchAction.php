@@ -6,8 +6,32 @@ use CDbCriteria;
 use event\models\Participant;
 use Yii;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\Action\Param;
+
 class SearchAction extends \api\components\Action
 {
+
+    /**
+     * @ApiAction(
+     *     controller="Connect",
+     *     title="Поиск",
+     *     description="Поиск по участникам мероприятия.",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/connect/search",
+     *          body="",
+     *          params={
+     *              @Param(title="RoleId", description="Роль участника.", mandatory="N"),
+     *              @Param(title="Attributes", description="Атрибуты.", mandatory="N"),
+     *              @Param(title="q", description="Поисковый запрос", mandatory="N"),
+     *          },
+     *          response=@Response(body="{'Success': true, 'Users': ['Объект USER']}")
+     *      )
+     * )
+     */
     public function run()
     {
         $participants = Participant::model()

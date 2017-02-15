@@ -8,8 +8,31 @@ use iri\models\Role;
 use user\models\User;
 use iri\models\User as IriUser;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
+
 class UserDeleteAction extends Action
 {
+    /**
+     * @ApiAction(
+     *     controller="Iri",
+     *     title="Удалить пользователя",
+     *     description="Удаляет пользователя ИРИ. Поиск пользователя на выход из ИРИ осуществляется по всем переданным параметрам.",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/iri/userdelete",
+     *          params={
+     *              @Param(title="RunetId", mandatory="Y", description="RunetId пользователя"),
+     *              @Param(title="RoleId", mandatory="Y", description="Роль пользователя ИРИ. 1- Ведущий эксперт. 2- Эксперт ЭС ИРИ. 3 - Член программного коммитета."),
+     *              @Param(title="Type", mandatory="Y", description="Тип пользователя(expert)"),
+     *              @Param(title="ProfessionalInterestId", mandatory="N", description="Профессиональные интересы.")
+     *          },
+     *          response=@Response(body="{'Success':true}")
+     *     )
+     * )
+     */
     public function run()
     {
         $request = \Yii::app()->getRequest();

@@ -6,8 +6,31 @@ use connect\models\forms\Response;
 use connect\models\MeetingLinkUser;
 use user\models\User;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Response as ApiResponse;
+use nastradamus39\slate\annotations\Action\Param;
+
 class DeclineAction extends \api\components\Action
 {
+
+    /**
+     * @ApiAction(
+     *     controller="Connect",
+     *     title="Отклонение приглашения",
+     *     description="Отклоняет приглашение.",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/connect/decline",
+     *          body="",
+     *          params={
+     *              @Param(title="RunetId",     description="Пользователь", mandatory="Y"),
+     *              @Param(title="MeetingId",   description="Id встречи", mandatory="Y")
+     *          },
+     *          response=@ApiResponse(body="{'Success': true}")
+     *      )
+     * )
+     */
     public function run()
     {
         $user = $this->getRequestedUser();

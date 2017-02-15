@@ -1,8 +1,27 @@
 <?php
 namespace api\controllers\pay;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
+
 class RifroomsAction extends \api\components\Action
 {
+    /**
+     * @ApiAction(
+     *     controller="Pay",
+     *     title="Товары",
+     *     description="Список доступных товаров, отфильтрованы по менеджеру RoomProductManager",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/pay/rifrooms",
+     *          body="",
+     *          params="",
+     *          response=@Response(body="[{'Id': 'идентификатор','Manager': 'строка, название менеджера (участие, питание и другие)','Title': 'название товара','Price': 'текущая цена','Attributes': 'массив ключ-значение с атрибутами товара'}]")
+     *     )
+     * )
+     */
     public function run()
     {
         //$hotel = \Yii::app()->getRequest()->getParam('Hotel');

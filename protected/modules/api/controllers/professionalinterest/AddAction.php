@@ -1,8 +1,30 @@
 <?php
 namespace api\controllers\professionalinterest;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
+
 class AddAction extends \api\components\Action
 {
+
+    /**
+     * @ApiAction(
+     *     controller="Interests",
+     *     title="Добавление",
+     *     description="Добавляет участнику мероприятия 'проф. интерес'",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/professionalinterest/add",
+     *          params={
+     *              @Param(title="RunetId", mandatory="Y", description="Идентификатор участника."),
+     *              @Param(title="ProfessionalInterestId", mandatory="Y", description="Идентификатор 'проф. интереса'.")
+     *          },
+     *          response=@Response( body="{'Success': true}" )
+     *     )
+     * )
+     */
   public function run()
   {
     $runetId = \Yii::app()->getRequest()->getParam('RunetId');

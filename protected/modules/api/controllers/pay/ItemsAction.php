@@ -7,6 +7,7 @@ use pay\models\OrderItem;
 use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
 
 class ItemsAction extends \api\components\Action
 {
@@ -22,7 +23,8 @@ class ItemsAction extends \api\components\Action
      *          body="",
      *          params={
      *              @Param(title="OwnerRunetId", description="Идентификатор.")
-     *          }
+     *          },
+     *          response=@Response( body="{'Items': ['Объект ITEM'] }" )
      *     )
      * )
      */
