@@ -59,7 +59,5 @@ use nastradamus39\slate\annotations\ApiObject;
  */
 class ConnectController extends \api\components\Controller
 {
-
-    const STATUS_OPEN = 1;
-    const STATUS_CANCELLED = 2;
+    
 }
