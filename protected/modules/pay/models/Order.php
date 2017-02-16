@@ -12,6 +12,7 @@ use pay\components\Exception;
 use pay\components\MessageException;
 use pay\components\OrderItemCollection;
 use user\models\User;
+use Yii;
 
 /**
  * @property int $Id
@@ -231,7 +232,7 @@ class Order extends ActiveRecord
         PartnerCallback::pay($this->Event, $this, strtotime($this->CreationTime));
 
         if ($this->Event->IdName === 'startupvillage17') {
-            (new Client())->post('http://sv17.ruvents.com/runet-id/payed', [
+            (new Client())->post('https://startupvillage.ru/runet-id/payed', [
                 'json' => [
                     'RunetId' => $this->Payer->RunetId,
                     'OrderId' => $this->Id
@@ -250,16 +251,18 @@ class Order extends ActiveRecord
 
     public function onActivate($event)
     {
-        $oldLanguage = \Yii::app()->getLanguage();
-        $language = $this->Payer->Language != null ? $this->Payer->Language : 'ru';
-        \Yii::app()->setLanguage($language);
+        if ($this->Event->IdName === 'startupvillage17')
+            return;
+
+        $oldLanguage = Yii::app()->getLanguage();
+        Yii::app()->setLanguage(empty($this->Payer->Language) ? 'ru' : $this->Payer->Language);
         /** @var $sender Order */
         $sender = $event->sender;
-        $class = \Yii::getExistClass('\pay\components\handlers\order\activate', ucfirst($sender->Event->IdName), 'Base');
+        $class = Yii::getExistClass('\pay\components\handlers\order\activate', ucfirst($sender->Event->IdName), 'Base');
         /** @var $mail \event\components\handlers\register\Base */
         $mail = new $class(new SESMailer(), $event);
         $mail->send();
-        \Yii::app()->setLanguage($oldLanguage);
+        Yii::app()->setLanguage($oldLanguage);
     }
 
     /**
@@ -358,14 +361,14 @@ class Order extends ActiveRecord
 
     public function onCreateOrderJuridical($event)
     {
-        $oldLanguage = \Yii::app()->getLanguage();
+        $oldLanguage = Yii::app()->getLanguage();
         $language = $this->Payer->Language != null ? $this->Payer->Language : 'ru';
-        \Yii::app()->setLanguage($language);
-        $class = \Yii::getExistClass('\pay\components\handlers\orderjuridical\create', ucfirst($event->params['event']->IdName), 'Base');
+        Yii::app()->setLanguage($language);
+        $class = Yii::getExistClass('\pay\components\handlers\orderjuridical\create', ucfirst($event->params['event']->IdName), 'Base');
         /** @var $mail \event\components\handlers\register\Base */
         $mail = new $class(new SESMailer(), $event);
         $mail->send();
-        \Yii::app()->setLanguage($oldLanguage);
+        Yii::app()->setLanguage($oldLanguage);
     }
 
     /**
@@ -510,7 +513,7 @@ class Order extends ActiveRecord
                 $params['clear'] = 'clear';
             }
 
-            return \Yii::app()->createAbsoluteUrl('/pay/order/index', $params);
+            return Yii::app()->createAbsoluteUrl('/pay/order/index', $params);
         } elseif ($this->Type == OrderType::MailRu) {
             return $this->OrderJuridical->UrlPay;
         }

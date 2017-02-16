@@ -189,7 +189,9 @@ $total = 0;
     <?endif?>
 
     <div class="nav-buttons">
-        <?$this->renderPartial('index/buttons/back', ['account' => $account])?>
+        <?if($this->getEvent()->IdName !== 'startupvillage17'):?>
+            <?$this->renderPartial('index/buttons/back', ['account' => $account])?>
+        <?endif?>
     </div>
 
 <?endif?>
