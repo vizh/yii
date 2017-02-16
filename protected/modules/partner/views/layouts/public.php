@@ -57,7 +57,7 @@ $language = Yii::app()->getLanguage();
 
 <div <?if($sidebar):?>id="main-wrapper"<?endif?>>
     <?if($sidebar):?>
-        <?$this->widget('partner\widgets\Sidebar', ['event' => $this->getAction()->getEvent()])?>
+        <?$this->widget('partner\widgets\Sidebar', ['event' => $this->getEvent()])?>
     <?endif?>
 
     <div id="content-wrapper">
