@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
     [
         'allow',
         'users' => ['@'],
@@ -14,19 +14,19 @@ return array(
         'controllers' => ['auth'],
         'actions' => ['logout']
     ],
-    array(
+    [
         'allow',
-        'roles' => array('Admin'),
+        'roles' => ['Admin'],
         'module' => 'partner',
-        'controllers' => array('user'),
-    ),
-    array(
+        'controllers' => ['user'],
+    ],
+    [
         'allow',
-        'users' => array('?', '*'),
+        'users' => ['?', '*'],
         'module' => 'partner',
-        'controllers' => array('auth'),
-        'actions' => array('index')
-    ),
+        'controllers' => ['auth'],
+        'actions' => ['index']
+    ],
     [
         'allow',
         'users' => ['@'],
@@ -34,20 +34,20 @@ return array(
         'controllers' => ['ajax'],
         'actions' => ['users']
     ],
-    array(
+    [
         'allow',
-        'roles' => array('Admin'),
+        'roles' => ['Admin'],
         'module' => 'partner',
-        'controllers' => array('user'),
-        'actions' => array('statistics')
-    ),
-    array(
+        'controllers' => ['user'],
+        'actions' => ['statistics']
+    ],
+    [
         'deny',
-        'roles' => array('PartnerLimited'),
+        'roles' => ['PartnerLimited'],
         'module' => 'partner',
-        'controllers' => array('user'),
-        'actions' => array('statistics')
-    ),
+        'controllers' => ['user'],
+        'actions' => ['statistics']
+    ],
     [
         'allow',
         'roles' => ['PartnerLimited'],
@@ -72,7 +72,7 @@ return array(
         'roles' => ['Partner'],
         'module' => 'partner',
         'controllers' => ['order'],
-        'actions' => ['edit','activate','delete']
+        'actions' => ['edit', 'activate', 'delete']
     ],
     [
         'allow',
@@ -95,22 +95,19 @@ return array(
         'controllers' => ['user'],
         'actions' => ['export', 'exportdownload']
     ],
-
-
-    array(
+    [
         'allow',
-        'roles' => array('Admin'),
+        'roles' => ['Admin'],
         'module' => 'partner',
-        'controllers' => array('settings'),
-        'actions' => array('loyalty', 'roles', 'api', 'definitions')
-    ),
-
-    array(
+        'controllers' => ['settings'],
+        'actions' => ['loyalty', 'roles', 'api', 'definitions']
+    ],
+    [
         'allow',
-        'roles' => array('Admin'),
+        'roles' => ['Admin'],
         'module' => 'partner',
-        'controllers' => array('user', 'user/import')
-    ),
+        'controllers' => ['user', 'user/import']
+    ],
     [
         'allow',
         'roles' => ['PartnerLimited'],
@@ -125,51 +122,51 @@ return array(
         'controllers' => ['orderitem'],
         'actions' => ['create', 'redirect', 'refund']
     ],
-    array(
+    [
         'allow',
-        'roles' => array('Admin'),
+        'roles' => ['Admin'],
         'module' => 'partner',
-        'controllers' => array('orderitem'),
-        'actions' => array('activateajax')
-    ),
-    array(
+        'controllers' => ['orderitem'],
+        'actions' => ['activateajax']
+    ],
+    [
         'allow',
-        'roles' => array('PartnerLimited'),
+        'roles' => ['PartnerLimited'],
         'module' => 'partner',
-        'controllers' => array('auth'),
-        'actions' => array('logout')
-    ),
-    array(
+        'controllers' => ['auth'],
+        'actions' => ['logout']
+    ],
+    [
         'allow',
-        'roles' => array('Admin'),
+        'roles' => ['Admin'],
         'module' => 'partner',
-        'controllers' => array('ruvents', 'internal')
-    ),
-    array(
+        'controllers' => ['ruvents', 'internal']
+    ],
+    [
         'allow',
-        'roles' => array('Admin'),
+        'roles' => ['Admin'],
         'module' => 'partner',
-        'controllers' => array('user'),
-        'actions' => array('register')
-    ),
-    array(
+        'controllers' => ['user'],
+        'actions' => ['register']
+    ],
+    [
         'allow',
-        'roles' => array('Admin'),
+        'roles' => ['Admin'],
         'module' => 'partner',
-        'controllers' => array('stat')
-    ),
-    array(
+        'controllers' => ['stat']
+    ],
+    [
         'allow',
-        'roles' => array('PartnerLimited'),
+        'roles' => ['PartnerLimited'],
         'module' => 'partner',
-        'controllers' => array('program')
-    ),
-    array(
+        'controllers' => ['program']
+    ],
+    [
         'allow',
-        'roles' => array('PartnerLimited'),
+        'roles' => ['PartnerLimited'],
         'module' => 'partner',
-        'controllers' => array('competence')
-    ),
+        'controllers' => ['competence']
+    ],
     [
         'allow',
         'roles' => ['Partner'],
@@ -183,7 +180,6 @@ return array(
         'controllers' => ['user'],
         'actions' => ['index', 'edit', 'find', 'translate', 'invite', 'competence', 'viewdatafile', 'data']
     ],
-
     [
         'deny',
         'roles' => ['Statistics'],
@@ -197,7 +193,6 @@ return array(
         'module' => 'partner',
         'controllers' => ['user', 'main'],
     ],
-
     [
         'allow',
         'roles' => ['moderator'],
@@ -249,10 +244,8 @@ return array(
         'module' => 'partner',
         'controllers' => ['connect']
     ],
-
-
-    array(
+    [
         'deny',
-        'users' => array('*')
-    )
-);
+        'users' => ['*']
+    ]
+];
