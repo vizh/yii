@@ -68,7 +68,7 @@
                     if ($isMuted) {
                         $inpParams['disabled'] = 'disabled';
                     }
-                    echo CHtml::dropDownList('count[' . $product->Id . ']', 0, array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10), $inpParams)?>
+                    echo CHtml::dropDownList('count[' . $product->Id . ']', 0, array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15), $inpParams)?>
                 </td>
                 <td class="t-right totalPrice <?=$isMuted ? 'muted' : ''?>"><strong
                         class="mediate-price">0</strong> <?=Yii::t('app', 'руб.')?></td>

@@ -70,7 +70,7 @@
                   </th>
                   <th class="col-width t-right"><span class="number"><?=$product->GetPrice()?></span> Р</th>
                   <th class="col-width t-right">
-                    <?=CHtml::activeDropDownList($orderForm, 'Count['.$product->ProductId.']', array(0,1,2,3,4,5,6,7,8,9,10), array('class' => 'input-mini form-element_select'))?>
+                    <?=CHtml::activeDropDownList($orderForm, 'Count['.$product->ProductId.']', array(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15), array('class' => 'input-mini form-element_select'))?>
                   </th>
                   <th class="col-width t-right last-child"><b class="number mediate-price">0</b> Р</th>
                 </tr>
