@@ -30,7 +30,7 @@ class UsersAction extends Action
      *          params={
      *              @Param(title="RoleId", mandatory="N", description="Массив идентификаторов ролей")
      *          },
-     *          response=@Response(body="{'Users': ['Объект USER'],'NextPageToken':'указатель на следующую страницу'}")
+     *          response=@Response(body="{'Users': ['{$USER}'],'NextPageToken':'указатель на следующую страницу'}")
      *     )
      * )
      */

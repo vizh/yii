@@ -10,38 +10,6 @@ use nastradamus39\slate\annotations\ApiObject;
  *     description="Методы для работы с мероприятиями."
  * )
  * @ApiObject(
- *     code="COMPANY",
- *     title="Компания",
- *     json="{
-            'Id': 10,
-            'Name': 'Майкрософт',
-            'FullName': 'Microsoft,  Россия',
-            'Info': '',
-            'Logo': {
-                'Small': 'http://runet-id.dev/upload/images/company/logo/f/a/l/l/b/fallback.jpg',
-                'Medium': 'http://runet-id.dev/upload/images/company/logo/f/a/l/l/b/fallback.jpg',
-                'Large': 'http://runet-id.dev/upload/images/company/logo/f/a/l/l/b/fallback.jpg'
-            },
-            'Url': '',
-            'Phone': '',
-            'Email': 'olgad@microsoft.com',
-            'Address': 'г. Москва',
-            'Cluster': null,
-            'ClusterGroups': [],
-            'OGRN': null,
-            'CountParticipants': 22
-        }",
- *     description="Компания.",
- *     params={
- *          "Id":"Айди компании",
- *          "Name":"Название компании",
- *          "FullName":"Расширенное название компании",
- *          "Info":"Информация о компании",
- *          "Logo" : "Лого компании",
- *          "Url" : "Сайт компании"
- *     }
- * )
- * @ApiObject(
  *     code="HALL",
  *     title="Зал",
  *     json="{'Id': 'идентификатор','Title': 'название зала','UpdateTime': 'время последнего обновления зала (Y-m-d H:i:s)','Order': 'порядок вывода залов', 'Deleted': 'true - если зал удален, false - иначе.' }",

@@ -17,7 +17,7 @@ class AcceptAction extends \api\components\Action
      * @ApiAction(
      *     controller="Connect",
      *     title="Принять приглашение",
-     *     description="Принимает приглашение.",
+     *     description="Если встреча с заданным идентификатором существует, то приглашение на нее 'принимается'.",
      *     request=@Request(
      *          method="GET",
      *          url="/connect/accept",

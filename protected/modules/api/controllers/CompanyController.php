@@ -3,6 +3,7 @@
 use nastradamus39\slate\annotations\ApiController;
 use nastradamus39\slate\annotations\ApiContent;
 use nastradamus39\slate\annotations\ApiError;
+use nastradamus39\slate\annotations\ApiObject;
 
 /**
  * @ApiController(
@@ -42,6 +43,71 @@ Error: {Code: int, Message: string}
 <strong>При использовании php-API:</strong>
 $api = new \RunetID\Api\Api(ApiKey, Secret, Cache = null);
 где Cache - объект класса, реализующего интерфейс \RunetID\Api\ICache"
+ * )
+ * @ApiObject(
+ *     code="COMPANY",
+ *     title="Компания",
+ *     json="{
+            'Id':77529,
+            'Name':'RUVENTS',
+            'FullName':'ООО «РУВЕНТС»',
+            'Info':null,
+            'Logo': '{$LOGO}',
+            'Url':'http://ruvents.com',
+            'Phone':'+7 (495) 6385147',
+            'Email':'info@ruvents.com',
+            'Address':'г. Москва, Пресненская наб., д. 12',
+            'Cluster':'РАЭК',
+            'ClusterGroups':[],
+            'OGRN':null,
+            'Employments':['{$USER}']
+       }",
+ *     description="Компания",
+ *     params={
+ *          "Id"            :"Идентификатор компании",
+            "Name"          :"Название",
+            "FullName"      :"Полное название",
+            "Info"          :"Информация о компании",
+            "Logo"          :"Массив ссылок на логотипы в трех разрешениях",
+            "Url"           :"Сылка на сайт компании",
+            "Phone"         :"Телефон",
+            "Email"         :"Email компании",
+            "Address"       :"Адрес компании",
+            "Cluster"       :"Кластер,к которому относится компания. Пока только РАЭК",
+            "ClusterGroups" :"Список груп кластеров",
+            "OGRN"          :"ОГРН компании",
+            "Employments"   :"Массив сотрудников компании"
+ *     }
+ * )
+ * @ApiObject(
+ *     code="LOGO",
+ *     title="Лого компании",
+ *     json="{
+           'Small':'Ссылка на лого компании (50px*50px)',
+           'Medium':'Ссылка на лого компании (90px*90px)',
+           'Large':'Ссылка на лого компании (200px*200px)'
+      }",
+ *     description="Логотипы компании в трех разрешениях",
+ *     params={
+ *          "Small":"Логотип размерами 50px на 50px",
+ *          "Medium":"Логотип размерами 90px на 90px",
+ *          "Large":"Логотип размерами 200px на 200px"
+ *     }
+ * )
+ * @ApiObject(
+ *     code="PHOTO",
+ *     title="Фото пользователя",
+ *     json="{
+           'Small':'http://runet-id.com/files/photo/0/454_50.jpg?t=1475191745',
+           'Medium':'http://runet-id.com/files/photo/0/454_90.jpg?t=1475191306',
+           'Large':'http://runet-id.com/files/photo/0/454_200.jpg?t=1475191317'
+       }",
+ *     description="Фото пользователя в трех разрешениях",
+ *     params={
+           "Small":"Фото размерами 50px на 50px",
+           "Medium":"Фото размерами 90px на 90px",
+           "Large":"Фото размерами 200px на 200px"
+       }
  * )
  * @ApiError(code="400", description="Bad Request – Your request sucks.")
  * @ApiError(code="401", description="Unauthorized – Your API key is wrong.")

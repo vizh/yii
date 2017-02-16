@@ -18,14 +18,15 @@ class CancelAction extends \api\components\Action
      * @ApiAction(
      *     controller="Connect",
      *     title="Отмена встречи",
-     *     description="Отменяет встречу. Статус встречи меняется на 'отмененная'",
+     *     description="Отменяет встречу. Статус встречи меняется на 'отменена'",
      *     request=@Request(
      *          method="GET",
      *          url="/connect/cancel",
      *          body="",
      *          params={
-     *              @Param(title="MeetingId", description="Айди встречи.", mandatory="Y"),
-     *              @Param(title="RunetId",   description="Runetid создателя встречи.", mandatory="Y")
+     *              @Param(title="MeetingId", description="Айди встречи", mandatory="Y"),
+     *              @Param(title="RunetId",   description="Runetid создателя встречи", mandatory="Y"),
+     *              @Param(title="Response",  description="Причина отмены", mandatory="Y")
      *          },
      *          response=@ApiResponse(body="{'Success': true}")
      *      )

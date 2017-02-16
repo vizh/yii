@@ -21,10 +21,10 @@ use nastradamus39\slate\annotations\ApiObject;
  *     title="Встреча",
  *     json="{
             'Id': 2817,
-            'Place': 'Объект PLACE',
-            'Creator': 'Объект USER',
+            'Place': '{$PLACE}',
+            'Creator': '{$USER}',
             'Users': [
-                {'Status': 1,'Response': '', 'User': 'Объект USER'}
+                {'Status': 1,'Response': '', 'User': '{$USER}'}
             ],
             'UserCount': 1,
             'Start': '2009-02-15 00:00:00',
@@ -40,16 +40,26 @@ use nastradamus39\slate\annotations\ApiObject;
         }",
  *     description="Встреча.",
  *     params={
- *          "Id":"Айди встречи",
- *          "Place":"Объект места встречи",
- *          "Creator":"Создатель встречи",
- *          "Users":"Массив объектов пользователей, приглашенных на встречу",
+ *          "Id"        : "Идентификатор встречи",
+ *          "Place"     : "Место встречи",
+ *          "Creator"   : "Создатель встречи",
+ *          "Users"     : "Пользователи, приглашенные на встречу",
  *          "UserCount" : "Колличество пользователей приглашенных на встречу",
- *          "Start" : "Время начала встречи"
+ *          "Start"     : "Время начала встречи",
+ *          "Date"      : "Дата встречи",
+ *          "Time"      : "Время встречи",
+ *          "Type"      : "Тип встречи. 1-закрытая,2-открытая",
+ *          "Purpose"   : "Цель встречи",
+ *          "Subject"   : "Тема встречи",
+ *          "File"      : "Прилагаемые материалы. Файл.",
+ *          "CreateTime": "Дата создания",
+ *          "Status"    : "Статус. 1-открыта,2-отменена."
  *     }
  * )
  */
 class ConnectController extends \api\components\Controller
 {
 
+    const STATUS_OPEN = 1;
+    const STATUS_CANCELLED = 2;
 }
