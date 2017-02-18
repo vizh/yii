@@ -292,7 +292,15 @@ class DetailedRegistration extends CreateUpdateForm
             return true;
         }
 
-        $user = User::model()->byEmail($value)->byVisible(true)->find();
+        // Не проверяем существование посетителя, если регистрируем невидимых
+        if ($this->registerVisibleUser === false) {
+            return true;
+        }
+
+        $user = User::model()
+            ->byEmail($value)
+            ->byVisible(true)
+            ->find();
 
         if ($user === null)
             return true;
