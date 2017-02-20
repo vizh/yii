@@ -2,8 +2,12 @@
 namespace pay\widgets;
 
 use application\components\web\Widget;
+use pay\components\Controller;
 use pay\models\Account;
 
+/**
+ * @property Controller $controller The controller that this widget belongs to.
+ */
 class PayButtons extends Widget
 {
     /** @var Account */
@@ -76,8 +80,8 @@ class PayButtons extends Widget
     public function getHtmlOptions($name)
     {
         $options = $this->htmlOptions;
-        $options['class'] .= ' '.$name;
-        if ($name == 'payonline'){
+        $options['class'] .= " $name";
+        if ($name === 'payonline'){
             $options['class'] .= ' iframe';
         }
         return $options;

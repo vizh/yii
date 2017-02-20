@@ -13,7 +13,7 @@ use pay\widgets\PayButtons;
         <?endforeach?>
     </ul>
 
-    <ul class="online-money clearfix">
+    <ul class="clearfix">
         <?foreach($this->getPayButtons() as $name):?>
             <li><?$this->renderButton(in_array($name, PayButtons::$OnlineMoney) ? 'onlinemoney' : $name, $name)?></li>
         <?endforeach?>
@@ -21,9 +21,7 @@ use pay\widgets\PayButtons;
 
     <?if($this->enableReceipt()):?>
         <ul class="clearfix">
-            <li>
-                <?$this->renderButton('receipt')?>
-            </li>
+            <li><?$this->renderButton('receipt')?></li>
         </ul>
     <?endif?>
 </div>

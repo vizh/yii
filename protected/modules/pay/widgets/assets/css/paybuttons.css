@@ -24,10 +24,10 @@
   background-image: url(/img/pay/uniteller_36_white.png);
 }
 #pay_widget_PayButtons a.payonline {
-  background-image: url(/img/pay/payonline_20.png);
+  background-image: url(/img/pay/logo.cards.png);
 }
 #pay_widget_PayButtons a.btn-primary.payonline {
-  background-image: url(/img/pay/payonline_20_white.png);
+  background-image: url(/img/pay/logo.cards.white.png);
 }
 #pay_widget_PayButtons a.cloudpayments {
   background-image: url(/img/pay/cloudpayments_20.png);
@@ -64,13 +64,6 @@
   background-image: url(/img/pay/yandexmoney_34_white.png);
 }
 
-#pay_widget_PayButtons a.paypal {
-  background-image: url(/img/pay/paypal_30.png);
-}
-#pay_widget_PayButtons a.btn-primary.paypal {
-  background-image: url(/img/pay/paypal_30_white.png);
-}
-
 #pay_widget_PayButtons a.mailrumoney{
   background-image: url(/img/pay/mailrumoney_25.png);
 }
@@ -94,6 +87,14 @@
 #pay_widget_PayButtons li span.cloudpayments{
   width: 120px;
 }
+
 #pay_widget_PayButtons li span.payonline{
   width: 262px;
+  background: url(/img/pay/logo.payonline.png) no-repeat;
+  background-size: contain;
+  margin: 0 0 0 1.25em;
+  line-height: 106px;
+  color: #c0c0c0;
+  font-weight: lighter;
+  font-size: 11px;
 }
