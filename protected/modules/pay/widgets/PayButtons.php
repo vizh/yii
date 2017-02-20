@@ -28,11 +28,7 @@ class PayButtons extends Widget
      */
     public function getPayButtons()
     {
-        $buttons = [];
-        if ($this->account->PayOnline) {
-            $buttons[] = 'yandexmoney';
-        }
-        $buttons[] = 'paypal';
+        $buttons = ['paypal'];
         if ($this->account->MailRuMoney) {
             $buttons[] = 'mailrumoney';
         }
