@@ -59,7 +59,7 @@ $full = sizeof($product->PricesActive) > 1 || !empty($product->Description);
             <?endif?>
         </td>
         <td class="t-center <?=$mutedClass?>">
-            <?=CHtml::dropDownList('count['.$product->Id.']', 0, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], ['class' => 'input-mini form-element_select', 'disabled' => $isMuted])?>
+            <?=CHtml::dropDownList('count['.$product->Id.']', 0, range(0, 9), ['class' => 'input-mini form-element_select', 'disabled' => $isMuted])?>
         </td>
         <td class="t-right <?=$mutedClass?>"><b class="number mediate-price">0</b> <?=Yii::t('app', 'руб.')?></td>
     </tr>

@@ -127,7 +127,7 @@ $isHideProduct = function (Product $product) use ($event, $countRows) {
                             {
                                 $value = isset($countRows[$product->getManager()->ProductId]) ? $countRows[$product->getManager()->ProductId] : 0;
                             }
-                            echo \CHtml::dropDownList(\CHtml::activeName($orderForm, 'Items['.$i.'][Count]'), $value, [0,1,2,3,4,5,6,7,8,9,10],  ['class' => 'input-mini'])?>
+                            echo \CHtml::dropDownList(\CHtml::activeName($orderForm, 'Items['.$i.'][Count]'), $value, range(0, 10),  ['class' => 'input-mini'])?>
                         </td>
                         <td class="t-right"><b class="number mediate-price">0</b> <?=Yii::t('app', 'руб.')?></td>
                     </tr>

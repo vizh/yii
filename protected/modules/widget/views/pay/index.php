@@ -60,7 +60,7 @@
                             <?endif?>
                         </td>
                         <td class="t-center <?=$mutedClass?>">
-                            <?=\CHtml::dropDownList('ProductCount[' . $product->Id . ']', 0, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], ['class' => 'input-mini form-element_select'])?>
+                            <?=\CHtml::dropDownList('ProductCount[' . $product->Id . ']', 0, range(0, 9), ['class' => 'input-mini form-element_select'])?>
                         </td>
                         <td class="t-right <?=$mutedClass?>"><b
                                 class="number mediate-price">0</b> <?=Yii::t('app', 'руб.')?></td>

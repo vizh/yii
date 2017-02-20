@@ -31,7 +31,7 @@ $this->setPageTitle(Yii::t('app', 'Дополнительные атрибуты
                     </div>
                     <div class="col-sm-2">
                         <?=$activeForm->label($form, 'Order')?>
-                        <?=$activeForm->dropDownList($form, 'Order', [0,1,2,3,4,5,6,7,8,9,10], ['class' => 'form-control'])?>
+                        <?=$activeForm->dropDownList($form, 'Order', range(0, 10), ['class' => 'form-control'])?>
                     </div>
                 </div>
                 <?if($form->isUpdateMode()):?>
@@ -73,7 +73,7 @@ $this->setPageTitle(Yii::t('app', 'Дополнительные атрибуты
                                         </div>
                                         <div class="col-sm-2">
                                             <?=$activeForm->label($definition, 'Order')?>
-                                            <?=$activeForm->dropDownList($form, "Definitions[$i][Order]", [0,1,2,3,4,5,6,7,8,9,10], ['class' => 'form-control'])?>
+                                            <?=$activeForm->dropDownList($form, "Definitions[$i][Order]", range(0, 10), ['class' => 'form-control'])?>
                                         </div>
                                     </div>
                                     <?if($definition->isFullyEditable()):?>

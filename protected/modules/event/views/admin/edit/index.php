@@ -352,7 +352,7 @@ foreach ($widgets->All as $widget) {
                             <?if($widget->getAdminPanel() !== NULL && isset($widgets->Used[$class])):?>
                                 <a href="<?=$this->createUrl('/event/admin/edit/widget', ['widget' => $class, 'eventId' => $event->Id])?>" class="btn"><i class="icon-edit"></i></a>
                             <?endif?>
-                            <?=CHtml::activeDropDownList($form, 'Widgets['.get_class($widget).'][Order]', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], ['class' => 'input-mini'])?>
+                            <?=CHtml::activeDropDownList($form, 'Widgets['.get_class($widget).'][Order]', range(0, 10), ['class' => 'input-mini'])?>
                         </div>
                     </div>
                 <?endforeach?>
@@ -376,7 +376,7 @@ foreach ($widgets->All as $widget) {
                                 <a href="<?=$this->createUrl('/event/admin/edit/widget', ['widget' => $class, 'eventId' => $event->Id])?>"
                                    class="btn"><i class="icon-edit"></i></a>
                             <?endif?>
-                            <?=CHtml::activeDropDownList($form, 'Widgets['.get_class($widget).'][Order]', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], ['class' => 'input-mini'])?>
+                            <?=CHtml::activeDropDownList($form, 'Widgets['.get_class($widget).'][Order]', range(0, 10), ['class' => 'input-mini'])?>
                         </div>
                     </div>
                 <?endforeach?>
@@ -402,7 +402,7 @@ foreach ($widgets->All as $widget) {
                                 <a href="<?=$this->createUrl('/event/admin/edit/widget', ['widget' => $class, 'eventId' => $event->Id])?>"
                                    class="btn"><i class="icon-edit"></i></a>
                             <?endif?>
-                            <?=CHtml::activeDropDownList($form, 'Widgets['.get_class($widget).'][Order]', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], ['class' => 'input-mini'])?>
+                            <?=CHtml::activeDropDownList($form, 'Widgets['.get_class($widget).'][Order]', range(0, 10), ['class' => 'input-mini'])?>
                         </div>
                     </div>
                 <?endforeach?>
