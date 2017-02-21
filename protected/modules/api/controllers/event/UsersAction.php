@@ -15,6 +15,7 @@ use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\Action\Sample;
 
 class UsersAction extends Action
 {
@@ -23,14 +24,18 @@ class UsersAction extends Action
      * @ApiAction(
      *     controller="Event",
      *     title="Участники",
-     *     description="Список участников",
+     *     description="Список участников мероприятия с заданной ролью.",
+     *     samples={
+                @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
+    '{{API_URL}}/event/users?RoleId=1'")
+     *     },
      *     request=@Request(
      *          method="GET",
      *          url="/event/users",
      *          params={
-     *              @Param(title="RoleId", mandatory="N", description="Массив идентификаторов ролей")
+     *              @Param(title="RoleId", mandatory="Y", description="Массив идентификаторов ролей")
      *          },
-     *          response=@Response(body="{'Users': ['{$USER}'],'NextPageToken':'указатель на следующую страницу'}")
+     *          response=@Response(body="{'Users': ['{$USER}'],'TotalCount':1}")
      *     )
      * )
      */

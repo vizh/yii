@@ -5,18 +5,23 @@ use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\Action\Sample;
 
 class RolesAction extends \api\components\Action
 {
     /**
      * @ApiAction(
      *     controller="Event",
-     *     title="Статусы",
-     *     description="Список статусов.",
+     *     title="Роли",
+     *     description="Список возможных ролей участника мероприятия.",
+     *     samples={
+     *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
+    '{{API_URL}}/event/roles'")
+     *     },
      *     request=@Request(
      *          method="GET",
      *          url="/event/roles",
-     *          response=@Response(body="['Объект EVENTROLE']")
+     *          response=@Response(body="['{$EVENTROLE}']")
      *     )
      * )
      */

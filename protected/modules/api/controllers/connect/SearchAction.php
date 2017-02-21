@@ -10,6 +10,7 @@ use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Sample;
 
 class SearchAction extends \api\components\Action
 {
@@ -18,17 +19,19 @@ class SearchAction extends \api\components\Action
      * @ApiAction(
      *     controller="Connect",
      *     title="Поиск",
-     *     description="Поиск по участникам мероприятия.",
+     *     description="Поиск по участникам мероприятия. (Не работает)",
+     *     samples={
+     *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}' '{{API_URL}}/connect/search?RunetId=678047&q=Ruvents'")
+     *     },
      *     request=@Request(
      *          method="GET",
      *          url="/connect/search",
-     *          body="",
      *          params={
      *              @Param(title="RoleId", description="Роль участника.", mandatory="N"),
      *              @Param(title="Attributes", description="Атрибуты.", mandatory="N"),
      *              @Param(title="q", description="Поисковый запрос", mandatory="N"),
      *          },
-     *          response=@Response(body="{'Success': true, 'Users': ['Объект USER']}")
+     *          response=@Response(body="{'Success': true, 'Users': ['{$USER}']}")
      *      )
      * )
      */

@@ -31,7 +31,7 @@ class AddAction extends Action
      *              @Param(title="PayerRunetId", mandatory="Y", description="Идентификатор плательщика. Обязательно."),
      *              @Param(title="OwnerRunetId", mandatory="Y", description="Идентификатор получателя товара. Обязательно.")
      *          },
-     *          response=@Response( body="'Объект ORDER'" )
+     *          response=@Response( body="'{$ORDER}'" )
      *     )
      * )
      */

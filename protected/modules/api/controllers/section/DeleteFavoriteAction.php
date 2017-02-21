@@ -5,22 +5,26 @@ use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\Action\Sample;
 
 class DeleteFavoriteAction extends \api\components\Action
 {
 
     /**
      * @ApiAction(
-     *     controller="Event",
-     *     title="Удаление из избранного.",
-     *     description="",
+     *     controller="Section",
+     *     title="Удаление из избранного",
+     *     description="Удаление секции из избранного.",
+     *     samples={
+    @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
+    '{{API_URL}}/event/section/deleteFavorite?RunetId=656438&SectionId=4107'")
+     *     },
      *     request=@Request(
      *          method="GET",
      *          url="/event/section/deleteFavorite",
-     *          body="",
      *          params={
-     *              @Param(title="RunetId", type="", defaultValue="", description="Идентификатор."),
-     *              @Param(title="SectionId", type="", defaultValue="", description="Идентификатор.")
+     *              @Param(title="RunetId", mandatory="Y", description="RunetId пользователя."),
+     *              @Param(title="SectionId", mandatory="Y", description="Идентификатор секции.")
      *          },
      *          response=@Response(body="{'Success': 'true'}")
      *     )

@@ -25,30 +25,8 @@ class ListAction extends Action
      *     request=@Request(
      *          method="GET",
      *          url="/pay/list",
-     *          body="",
      *          params={ @Param(title="PayerRunetId", description="Идентификатор плательщика.") },
-     *          response=@Response(body="{
-    'Items': [{
-        'Id': 'идентификатор элемента заказа',
-        'Product': 'объект Product',
-        'Owner': 'объект User (сокращенный, только основные данные пользователя)',
-        'PriceDiscount': 'цена с учетом скидки',
-        'Paid': 'статус оплаты',
-        'PaidTime': 'время оплаты',
-        'Attributes': 'массив с атрибутами (если заданы)',
-        'Discount': 'размер скидки от 0 до 1, где 0 - скидки нет, 1 - скидка 100%',
-        'CouponCode': 'код купона, по которому была получена скидка',
-        'GroupDiscount': 'была скидка групповая или нет'
-    }],
-    'Orders': [{
-        'OrderId': 'идентификатор счета',
-        'Number': 'номер счета ()',
-        'Paid': 'статус оплачен/не оплачен',
-        'Url': 'ссылка на счет',
-        'Items': 'массив объектов OrderItem',
-        'CreationTime': 'дата создания счета'
-    }]
-}")
+     *          response=@Response(body="{ 'Items': ['{$ITEM}'], 'Orders': ['{$ORDER}'] }")
      *     )
      * )
      */

@@ -10,6 +10,7 @@ use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response as ApiResponse;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Sample;
 
 class AcceptAction extends \api\components\Action
 {
@@ -18,10 +19,13 @@ class AcceptAction extends \api\components\Action
      *     controller="Connect",
      *     title="Принять приглашение",
      *     description="Если встреча с заданным идентификатором существует, то приглашение на нее 'принимается'.",
+     *     samples={
+     *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
+    '{{API_URL}}/connect/accept?MeetingId=2817&RunetId=678047'")
+     *     },
      *     request=@Request(
      *          method="GET",
      *          url="/connect/accept",
-     *          body="",
      *          params={
      *              @Param(title="MeetingId",   description="Айди встречи.", mandatory="Y"),
      *              @Param(title="RunetId",     description="RunetId пользователя.", mandatory="Y")

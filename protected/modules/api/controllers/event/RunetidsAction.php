@@ -9,6 +9,7 @@ use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\Action\Sample;
 
 class RunetidsAction extends Action
 {
@@ -18,6 +19,10 @@ class RunetidsAction extends Action
      *     controller="Event",
      *     title="RunetId участников мероприятия",
      *     description="Список RunetId,Ролей участников мерроприятия.",
+     *     samples={
+     *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
+    '{{API_URL}}/event/runetids'")
+     *     },
      *     request=@Request(
      *          method="GET",
      *          url="/event/runetids",

@@ -19,7 +19,7 @@ class ProductAction extends Action
      * @ApiAction(
      *     controller="Pay",
      *     title="Список товаров",
-     *     description="Список доступных товаров.",
+     *     description="Список доступных товаров. (Не работает)",
      *     request=@Request(
      *          method="GET",
      *          url="/pay/product",
@@ -27,7 +27,7 @@ class ProductAction extends Action
      *          params={
      *              @Param(title="OwnerRunetId", description="Идентификатор владельца.")
      *          },
-     *          response=@Response( body="{'Items': ['Объект ITEM'] }" )
+     *          response=@Response( body="[ '{$PRODUCT}' ]" )
      *     )
      * )
      */

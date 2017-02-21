@@ -5,6 +5,7 @@ use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response as ApiResponse;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Sample;
 
 class CompaniesAction extends \api\components\Action
 {
@@ -14,12 +15,15 @@ class CompaniesAction extends \api\components\Action
      *     controller="Event",
      *     title="Компании",
      *     description="Выбираются все компании, сотрудники которых учавствуют в мероприятии.",
+     *     samples={
+     *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
+    '{{API_URL}}/event/companies'")
+     *     },
      *     request=@Request(
      *          method="GET",
      *          url="/event/сompanies",
-     *          body="",
      *          params={},
-     *          response=@ApiResponse(body="{'10':'Объект COMPANY'}")
+     *          response=@ApiResponse(body="{'77529': '{$COMPANY}'}")
      *      )
      * )
      */

@@ -7,18 +7,18 @@ use nastradamus39\slate\annotations\ApiObject;
  * @ApiController(
  *     controller="Event",
  *     title="Мероприятия",
- *     description="Методы для работы с мероприятиями."
+ *     description="Методы для работы с мероприятиями. Аккаунт API соответствует конкретному мероприятию. Методы описанные в данном разделе работают с мероприятием аккаунта. Но можно получить список мероприятий в методе list."
  * )
  * @ApiObject(
  *     code="HALL",
  *     title="Зал",
- *     json="{'Id': 'идентификатор','Title': 'название зала','UpdateTime': 'время последнего обновления зала (Y-m-d H:i:s)','Order': 'порядок вывода залов', 'Deleted': 'true - если зал удален, false - иначе.' }",
- *     description="Зал.",
+ *     json="{'Id': '599','Title': 'Зал 1','UpdateTime': '2017-02-19 12:29:58','Order': '0', 'Deleted': false }",
+ *     description="Зал, где может проходить часть или все мероприятие. Залы привязываются к секциям.",
  *     params={
- *          "Id":"идентификатор",
- *          "Title":"название зала",
- *          "UpdateTime":"время последнего обновления зала",
- *          "Order":"порядок вывода залов",
+ *          "Id":"Идентификатор",
+ *          "Title":"Название зала",
+ *          "UpdateTime":"Время последнего обновления зала в формате (Y-m-d H:i:s)",
+ *          "Order":"Порядок вывода залов",
  *          "Deleted" : "true - если зал удален, false - иначе"
  *     }
  * )
@@ -26,44 +26,58 @@ use nastradamus39\slate\annotations\ApiObject;
  *     code="EVENT",
  *     title="Мероприятие",
  *     json="{
-            'EventId': 245,
-            'IdName': 'rif12',
-            'Name': 'РИФ+КИБ 2012',
-            'Title': 'РИФ+КИБ 2012',
-            'Info': 'Крупнейшее весеннее мероприятие интернет-отрасли пройдет с 18 по 20 апреля 2012 года.',
-            'Url': 'http://2012.russianinternetforum.ru',
+            'EventId': 3206,
+            'IdName': 'Meropriyatiegoda',
+            'Name': 'Мероприятие 2017 года',
+            'Title': 'Мероприятие 2017 года',
+            'Info': 'Краткое описание мероприятия 2017',
+            'Place': 'г. Волгоград, пр-т Ленина, д. 123',
+            'Url': 'http://www.runet-id.com',
             'UrlRegistration': '',
             'UrlProgram': '',
-            'StartYear': 2012,
-            'StartMonth': 4,
-            'StartDay': 18,
-            'EndYear': 2012,
-            'EndMonth': 4,
-            'EndDay': 20,
+            'StartYear': 2017,
+            'StartMonth': 2,
+            'StartDay': 22,
+            'EndYear': 2017,
+            'EndMonth': 2,
+            'EndDay': 22,
             'Image': {
-                'Mini': 'http://runet-id.dev/files/event/rif12/50.png',
-                'MiniSize': {
-                    'Width': 49,
-                    'Height': 21
-                },
-            'Normal': 'http://runet-id.dev/files/event/rif12/120.png',
-            'NormalSize': {
-                'Width': 120,
-                'Height': 51
-            }
-        },
-        'Menu': [{'Type': 'program','Title': 'Программа'}],
-        'Statistics': {
-            'Participants': {
-                'ByRole': {'1': 3796,'2': 209,'3': 500,'5': 424,'6': 26,'14': 8,'22': 31,'24': 5306,'25': 32,'26': 4,'29': 63},
-                'TotalCount': 10399
-            }
-        },
-        'FullInfo': '<p>Главное весеннее мероприятие ИТ-отрасли традиционно проходит в выездном формате.'
-}",
+                'Mini': 'http://runet-id.dev/files/event/Meropriyatiegoda/50.png',
+                'MiniSize': { 'Width': 50, 'Height': 50 },
+                'Normal': 'http://runet-id.dev/files/event/Meropriyatiegoda/120.png',
+                'NormalSize': { 'Width': 120, 'Height': 120 }
+            },
+            'GeoPoint': [ '', '' ],
+            'Address': 'г. Волгоград, пр-т Ленина, д. 123',
+            'Menu': [{'Type': 'program', 'Title': 'Программа' }],
+            'Statistics': {
+                'Participants': { 'ByRole': {'24': 1 }, 'TotalCount': 1 }
+            },
+            'FullInfo': '<p>Подробное описание мероприятия 2017</p>\r\n'
+        }",
  *     description="Информация о мероприятии.",
  *     params={
- *
+ *          "EventId" : "Идентификатор мероприятия",
+ *          "IdName" : "Символьный код мероприятия",
+ *          "Name" : "Название мероприятия",
+ *          "Title" : "Название мероприятия",
+ *          "Info" : "Информация о мероприятии",
+ *          "Place" : "Место проведения мероприятия",
+ *          "Url" : "Сайт мероприятия",
+ *          "UrlRegistration" : "",
+ *          "UrlProgram" : "",
+ *          "StartYear" : "Год начала мероприятия",
+ *          "StartMonth" : "Месяц начала мероприятия",
+ *          "StartDay" : "День начала мероприятия",
+ *          "EndYear" : "Год окончания мероприятия",
+ *          "EndMonth" : "Месяц окончания мероприятия",
+ *          "EndDay" : "День окончания мероприятия",
+ *          "Image" : "Ссылки на логотип мероприятия в двух разрешениях",
+ *          "GeoPoint" : "Координаты места проведеня мероприятия",
+ *          "Address":"Адрес места проведения мероприятия",
+ *          "Menu" : "",
+ *          "Statistics" : "Статистика мероприятия по участникам/ролям",
+ *          "FullInfo" : "Подробное описание мероприятия"
  *     }
  * )
  * @ApiObject(
@@ -72,7 +86,9 @@ use nastradamus39\slate\annotations\ApiObject;
  *     json="{'RoleId': 'идентификатор статуса на мероприятии','RoleTitle': 'название статуса','UpdateTime': 'время последнего обновления'}",
  *     description="Статус на мероприятии.",
  *     params={
- *
+ *          "RoleId" : "Идентификатор роли участника мероприятия.",
+ *          "RoleTitle" : "Название роли",
+ *          "UpdateTime" : "Время последнего обновления"
  *     }
  * )
  */

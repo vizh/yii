@@ -5,21 +5,26 @@ use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\Action\Sample;
 
 class AddFavoriteAction extends \api\components\Action
 {
 
     /**
      * @ApiAction(
-     *     controller="Event",
-     *     title="Добавление в избранное.",
-     *     description="",
+     *     controller="Section",
+     *     title="Добавление в избранное",
+     *     description="Добавление секции в избранное",
+     *     samples={
+                @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
+    '{{API_URL}}/event/section/addFavorite?RunetId=656438&SectionId=4107'")
+     *     },
      *     request=@Request(
      *          method="GET",
      *          url="/event/section/addFavorite",
      *          params={
-     *              @Param(title="RunetId", type="", defaultValue="", description="Идентификатор."),
-     *              @Param(title="SectionId", type="", defaultValue="", description="Идентификатор.")
+     *              @Param(title="RunetId", description="RunetId участника.", mandatory="Y"),
+     *              @Param(title="SectionId", description="Идентификатор секции.", mandatory="Y")
      *          },
      *          response=@Response(body="{'Success': 'true'}")
      *     )

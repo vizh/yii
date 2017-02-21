@@ -5,6 +5,7 @@ use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Sample;
 
 class PlacesAction extends \api\components\Action
 {
@@ -14,12 +15,15 @@ class PlacesAction extends \api\components\Action
      *     controller="Connect",
      *     title="Места",
      *     description="Места для встреч.",
+     *     samples={
+     *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
+    '{{API_URL}}/connect/places'")
+     *     },
      *     request=@Request(
      *          method="GET",
      *          url="/connect/places",
-     *          body="",
      *          params={},
-     *          response=@Response(body="{'Success': true,'Places': ['Объект PLACE']}")
+     *          response=@Response(body="{'Success': true,'Places': ['{$PLACE}']}")
      *      )
      * )
      */

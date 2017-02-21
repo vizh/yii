@@ -9,6 +9,7 @@ use competence\models\Test;
 use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\Action\Sample;
 
 class TestsAction extends Action
 {
@@ -17,10 +18,12 @@ class TestsAction extends Action
      *     controller="Competence",
      *     title="Тесты",
      *     description="Доступные для мероприятия тесты.",
+     *     samples={
+     *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}' '{{API_URL}}/competence/tests'")
+     *     },
      *     request=@Request(
      *          method="GET",
      *          url="/competence/tests",
-     *          body="",
      *          response=@Response(body="['{$TEST}']")
      *      )
      * )

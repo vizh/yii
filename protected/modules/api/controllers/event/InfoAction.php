@@ -5,6 +5,7 @@ use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\Action\Sample;
 
 class InfoAction extends \api\components\Action
 {
@@ -13,6 +14,10 @@ class InfoAction extends \api\components\Action
      *     controller="Event",
      *     title="Информация о мероприятии",
      *     description="Информация о мероприятии.",
+     *     samples={
+     *          @Sample(lang="shell",code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
+    '{{API_URL}}/event/info'")
+     *     },
      *     request=@Request(
      *          method="GET",
      *          url="/event/info",
@@ -21,7 +26,7 @@ class InfoAction extends \api\components\Action
      *              @Param(title="FromUpdateTime", description="(Y-m-d H:i:s) - время последнего обновления залов, начиная с которого формировать список."),
      *              @Param(title="WithDeleted", description="Если параметр задан, не пустой и не приводится к false, возвращаются в том числе удаленные залы, иначе только не удаленные.")
      *          },
-     *          response=@Response(body="['Объект EVENT']")
+     *          response=@Response(body="'{$EVENT}'")
      *     )
      * )
      */

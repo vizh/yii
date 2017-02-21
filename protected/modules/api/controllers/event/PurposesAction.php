@@ -5,6 +5,7 @@ use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\Action\Sample;
 
 class PurposesAction extends \api\components\Action
 {
@@ -14,12 +15,16 @@ class PurposesAction extends \api\components\Action
      *     controller="Event",
      *     title="Цели мероприятия",
      *     description="Цели мероприятия.",
+     *     samples={
+     *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
+    '{{API_URL}}/event/purposes'")
+     *     },
      *     request=@Request(
      *          method="GET",
      *          url="/event/purposes",
-     *          body="",
      *          params={},
-     *          response=@Response(body="{[]}")
+     *          response=@Response(body="[ { 'Id': 3, 'Title': 'Выступление с докладом' }, { 'Id': 2, 'Title': 'Обмен опытом' },
+                                            { 'Id': 1, 'Title': 'Образование / получение новых знаний' }, { 'Id': 4, 'Title': 'Хантинг' }]")
      *     )
      * )
      */

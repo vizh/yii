@@ -11,6 +11,7 @@ use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response as ApiResponse;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Sample;
 
 class CancelAction extends \api\components\Action
 {
@@ -19,6 +20,10 @@ class CancelAction extends \api\components\Action
      *     controller="Connect",
      *     title="Отмена встречи",
      *     description="Отменяет встречу. Статус встречи меняется на 'отменена'",
+     *     samples={
+     *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
+    '{{API_URL}}/connect/cancel?RunetId=678047&MeetingId=2817&Response=%D0%9F%D1%80%D0%B8%D1%87%D0%B8%D0%BD%D0%B0%20%D0%BE%D1%82%D0%BC%D0%B5%D0%BD%D1%8B'")
+     *     },
      *     request=@Request(
      *          method="GET",
      *          url="/connect/cancel",

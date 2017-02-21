@@ -7,6 +7,7 @@ use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Sample;
 
 class InviteAction extends \api\components\Action
 {
@@ -16,10 +17,13 @@ class InviteAction extends \api\components\Action
      *     controller="Connect",
      *     title="Отправляет приглашение",
      *     description="Отправляет приглашение пользователю на встречу.",
+     *     samples={
+     *          @Sample(lang="shell", code="curl -X POST -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
+    '{{API_URL}}/connect/invite?PlaceId=1&CreatorId=1&UserId=1&Date=12-12-2017&Type=1&Purpose=1&Subject=1&File='")
+     *     },
      *     request=@Request(
      *          method="POST",
      *          url="/connect/invite",
-     *          body="",
      *          params={
      *              @Param(title="PlaceId",     description="Айди места встречи.", mandatory="Y"),
      *              @Param(title="CreatorId",   description="Runetid создателя встречи.", mandatory="Y"),
@@ -32,7 +36,7 @@ class InviteAction extends \api\components\Action
      *          },
      *          response=@Response(body="{
                     'Success': true,
-                    'Meeting': 'Объект MEETING',
+                    'Meeting': '{$MEETING}',
                     'Errors': []
                 }")
      *      )

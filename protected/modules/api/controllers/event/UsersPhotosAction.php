@@ -23,7 +23,7 @@ class UsersPhotosAction extends Action
      *          method="GET",
      *          url="/event/usersphotos",
      *          params={},
-     *          response=@Response(body="{'Users': ['Объект USER'],'NextPageToken':'указатель на следующую страницу'}")
+     *          response=@Response(body="")
      *     )
      * )
      */

@@ -18,8 +18,8 @@ use nastradamus39\slate\annotations\ApiObject;
 <p>Для удобства сделана коллекция для postman( GUI для выполнения HTTP запросов ). Можно скачать c оф.
 <a target='blank' href='https://www.getpostman.com/'>сайта</a>.
 Псле установки нужно:
-    - скачать и импортировать <a target='blank' href='runet-id.collection.json'>коллекцию</a> запросов.
-    - загрузить и импортировать <a target='blank' href='runet-id.environment.json'>окружение</a>
+    - скачать и импортировать <a target='blank' href='runet-id.com.postman_collection.json'>коллекцию</a> запросов.
+    - загрузить и импортировать <a target='blank' href='api.runet-id.com.postman_environment.json'>окружение</a>
     - ApiKey и Hash в окружении заменить на Ваши
 </p>
 <b>SDK</b><br/>
@@ -33,7 +33,7 @@ use nastradamus39\slate\annotations\ApiObject;
 Запрос к методам API представляет собой обращение по HTTP-протоколу к URL вида http://api.runet-id.com/<название метода>.
 Переменные методов передаются с помощью GET или POST параметров. В качестве результата возвращается JSON объект.
 Для каждого мероприятия генерируются ApiKey и Secret. Доступ к API для каждого ApiKey ограничивается списком ip-адресов.
-<strong>Обязательные для всех методов параметры:</strong>
+<strong>Обязательные для всех методов заголовки:</strong>
 1. ApiKey
 2. Hash - вычисляется по формуле md5(ApiKey+Secret)
 <strong>Формат возвращаемых ошибок:</strong>

@@ -9,6 +9,7 @@ use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\Action\Sample;
 
 /**
  * Метод только для служебного использования. Позволяет отменить участие
@@ -24,6 +25,10 @@ class ParticipationCancelAction extends \api\components\Action
      *     controller="Event",
      *     title="Отменя участия.",
      *     description="Отмена участия посетителя. Только для создателей мероприятия.",
+     *     samples={
+     *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
+    '{{API_URL}}/event/participationcancel?RunetId=111111'")
+     *     },
      *     request=@Request(
      *          method="GET",
      *          url="/event/participationcancel",

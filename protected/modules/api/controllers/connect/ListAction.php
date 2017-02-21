@@ -9,6 +9,7 @@ use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Sample;
 
 class ListAction extends \api\components\Action
 {
@@ -18,6 +19,10 @@ class ListAction extends \api\components\Action
      *     controller="Connect",
      *     title="Список встреч",
      *     description="Списк встреч.",
+     *     samples={
+     *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
+    '{{API_URL}}/connect/list?UserId=678047&RunetId=678047&CreatorId=678047'")
+     *     },
      *     request=@Request(
      *          method="GET",
      *          url="/connect/list",
@@ -31,7 +36,7 @@ class ListAction extends \api\components\Action
      *          },
      *          response=@Response(body="{
                     'Success': true,
-                    'Meetings': ['Объект MEETING']
+                    'Meetings': ['{$MEETING}']
                 }")
      *      )
      * )

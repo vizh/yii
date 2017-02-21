@@ -9,6 +9,7 @@ use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Param as ApiParam;
+use nastradamus39\slate\annotations\Action\Sample;
 
 /**
  * Регистрации на мероприяте
@@ -23,8 +24,12 @@ class RegisterAction extends Action
     /**
      * @ApiAction(
      *     controller="Event",
-     *     title="Изменение статуса",
-     *     description="Изменение статуса пользователя (или добавление).",
+     *     title="Регистрация",
+     *     description="Регисрация пользователя на мероприятии с заданной ролью.",
+     *     samples={
+     *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
+    '{{API_URL}}/event/register?RunetId=678047&RoleId=2'")
+     *     },
      *     request=@Request(
      *          method="GET",
      *          url="/event/register",

@@ -8,6 +8,7 @@ use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Sample;
 
 class RecommendationsAction extends \api\components\Action
 {
@@ -17,6 +18,10 @@ class RecommendationsAction extends \api\components\Action
      *     controller="Connect",
      *     title="Рекомендации",
      *     description="Рекомендации.",
+     *     samples={
+     *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
+    '{{API_URL}}/connect/recommendations?RunetId=678047'")
+     *     },
      *     request=@Request(
      *          method="GET",
      *          url="/connect/recommendations",
@@ -24,7 +29,7 @@ class RecommendationsAction extends \api\components\Action
      *          params={
      *              @Param(title="RunetId", description="RunetId пользователя для которого вернутся рекоммендации.", mandatory="Y"),
      *          },
-     *          response=@Response(body="{'Success': true, 'Users': ['Объект USER']}")
+     *          response=@Response(body="{'Success': true, 'Users': ['{$USER}']}")
      *      )
      * )
      */

@@ -8,41 +8,29 @@ use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\Action\Sample;
 
 class ReportsAction extends \api\components\Action
 {
 
     /**
      * @ApiAction(
-     *     controller="Event",
+     *     controller="Section",
      *     title="Доклады",
-     *     description="Список докладов.
-    User, Company, CustomText - всегда будет заполнено только одно из этих полей.
-    Title, Thesis, FullInfo, Url - могут отсутствовать, если нет информации о докладе, либо роль не предполагает выступление с докладом (например, ведущий)",
+     *     description="Список докладов.",
+     *     samples={
+     *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
+    '{{API_URL}}/event/section/reports?SectionId=4109'")
+     *     },
      *     request=@Request(
      *          method="GET",
      *          url="/event/section/reports",
-     *          body="",
      *          params={
-     *              @Param(title="SectionId", description="Идентификатор секции. Обязательно"),
-     *              @Param(title="FromUpdateTime ", description="Время последнего обновления доклада, начиная с которого формировать список."),
-     *              @Param(title="WithDeleted", description="Если параметр задан, не пустой и не приводится к false, возвращаются в том числе удаленные доклады, иначе только не удаленные.")
+     *              @Param(title="SectionId", mandatory="Y", description="Идентификатор секции."),
+     *              @Param(title="FromUpdateTime", mandatory="N", description="Время последнего обновления доклада, начиная с которого формировать список."),
+     *              @Param(title="WithDeleted", mandatory="N", description="Если параметр задан, не пустой и не приводится к false, возвращаются в том числе удаленные доклады, иначе только не удаленные.")
      *          },
-     *          response=@Response(body="[{
-    'Id': 'идентификатор',
-    'User': 'объект User (может быть пустым) - делающий доклад пользователь',
-    'Company': 'объект Company (может быть пустым) - делающая доклад компания',
-    'CustomText': 'произвольная строка с описанием докладчика',
-    'SectionRoleId': 'идентификатор роли докладчика на этой секции',
-    'SectionRoleTitle': 'название роли докладчика на этой секции',
-    'Order': 'порядок выступления докладчиков',
-    'Title': 'название доклада',
-    'Thesis': 'тезисы доклада',
-    'FullInfo': 'полная информация о докладе',
-    'Url': 'ссылка на презентацию',
-    'UpdateTime': 'дата/время последнего обновления',
-    'Deleted': 'true - если секция удалена, false - иначе.'
-}]")
+     *          response=@Response(body="['{$REPORT}']")
      *     )
      * )
      */

@@ -5,6 +5,7 @@ use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\Action\Sample;
 
 class GetAction extends \api\components\Action
 {
@@ -21,10 +22,10 @@ class GetAction extends \api\components\Action
      *               @Param(title="RunetId", mandatory="Y", description="RunetId пользователя")
      *          },
      *          response=@Response(body="{
-                    'Sender': 'Объект USER',
-                    'Owner': 'Объект USER',
+                    'Sender': '{$USER}',
+                    'Owner': '{$USER}',
                     'CreationTime': '2017-02-14 14:12:27',
-                    'Event': 'Объект EVENT',
+                    'Event': '{$EVENT}',
                     'Approved': 0
                 }")
      *     )

@@ -7,6 +7,7 @@ use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Sample;
 
 class CreateAction extends \api\components\Action
 {
@@ -15,10 +16,13 @@ class CreateAction extends \api\components\Action
      *     controller="Connect",
      *     title="Создание встречи",
      *     description="Создает новую встречу",
+     *     samples={
+     *          @Sample(lang="shell", code="curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}' -d 'PlaceId=1&CreatorId=678047&UserId=678047&Date=15-Feb-2017&Type=1&Purpose=Предложение&Subject=Тема встречи&File='
+    '{{API_URL}}/connect/create'")
+     *     },
      *     request=@Request(
      *          method="POST",
      *          url="/connect/create",
-     *          body="",
      *          params={
      *              @Param(title="PlaceId",     mandatory="Y",  description="Айди места встречи." ),
      *              @Param(title="CreatorId",   mandatory="Y",  description="Runetid создателя встречи." ),

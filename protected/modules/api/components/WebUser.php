@@ -33,9 +33,13 @@ class WebUser extends \CWebUser
         {
             $request = \Yii::app()->getRequest();
 
-            $key = $request->getParam('ApiKey');
-            $hash = $request->getParam('Hash');
-            $timestamp = $request->getParam('Timestamp');
+            $key = !empty($_SERVER['HTTP_APIKEY']) ? $_SERVER['HTTP_APIKEY'] : null;
+            $hash = !empty($_SERVER['HTTP_HASH']) ? $_SERVER['HTTP_HASH'] : null;
+            $timestamp = !empty($_SERVER['HTTP_TIMESTAMP']) ? $_SERVER['HTTP_TIMESTAMP'] : null;
+
+            $key = $request->getParam('ApiKey',$key);
+            $hash = $request->getParam('Hash',$hash);
+            $timestamp = $request->getParam('Timestamp',$timestamp);
 
             $account = \Yii::app()
                 ->getCache()

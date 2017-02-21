@@ -8,6 +8,7 @@ use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response as ApiResponse;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Sample;
 
 /**
  * Изменение статуса на мероприятии
@@ -23,6 +24,10 @@ class ChangeroleAction extends \api\components\Action
      *     controller="Event",
      *     title="Смена роли",
      *     description="Меняет роль заданному пользователю.",
+     *     samples={
+                @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
+    '{{API_URL}}/event/changerole?RunetId=678047&RoleId=6'")
+     *     },
      *     request=@Request(
      *          method="GET",
      *          url="/event/changerole",

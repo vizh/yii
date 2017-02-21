@@ -20,11 +20,10 @@ class ItemsAction extends \api\components\Action
      *     request=@Request(
      *          method="GET",
      *          url="/pay/items",
-     *          body="",
      *          params={
      *              @Param(title="OwnerRunetId", description="Идентификатор.")
      *          },
-     *          response=@Response( body="{'Items': ['Объект ITEM'] }" )
+     *          response=@Response( body="{'Items': ['{$ITEM}'] }" )
      *     )
      * )
      */

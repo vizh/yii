@@ -14,12 +14,14 @@ class GetAction extends Action
     /**
      * @ApiAction(
      *     controller="Company",
-     *     title="Детально",
+     *     title="Информация о компании",
      *     description="Возвращает подробную информацию о компании. Так же в ответе будет список сотрудников компании (Employments).",
      *     samples={
-     *          @Sample(lang="php", code="")
+     *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
+        '{{API_URL}}/company/get?CompanyId=77529'")
      *     },
      *     request=@Request(
+     *
      *          method="GET",
      *          url="/company/get",
      *          body="",

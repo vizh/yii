@@ -22,7 +22,7 @@ class ProductsAction extends Action
      *          url="/pay/products",
      *          body="",
      *          params="",
-     *          response=@Response(body="[{'Id': 'идентификатор','Manager': 'строка, название менеджера (участие, питание и другие)','Title': 'название товара','Price': 'текущая цена','Attributes': 'массив ключ-значение с атрибутами товара'}]")
+     *          response=@Response(body="['{$PRODUCT}']")
      *     )
      * )
      */

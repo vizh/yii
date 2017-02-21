@@ -8,6 +8,7 @@ use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\Action\Sample;
 
 class HallsAction extends Action
 {
@@ -16,7 +17,11 @@ class HallsAction extends Action
      * @ApiAction(
      *     controller="Event",
      *     title="Залы",
-     *     description="Список залов.",
+     *     description="Список залов мероприятия.",
+     *     samples={
+     *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
+    '{{API_URL}}/event/halls'")
+     *     },
      *     request=@Request(
      *          method="GET",
      *          url="/event/halls",
@@ -25,7 +30,7 @@ class HallsAction extends Action
      *              @Param(title="FromUpdateTime", description="(Y-m-d H:i:s) - время последнего обновления залов, начиная с которого формировать список."),
      *              @Param(title="WithDeleted", description="Если параметр задан, не пустой и не приводится к false, возвращаются в том числе удаленные залы, иначе только не удаленные.")
      *          },
-     *          response=@Response(body="['Объект HALL']")
+     *          response=@Response(body="['{$HALL}']")
      *     )
      * )
      */

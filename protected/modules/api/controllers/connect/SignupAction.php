@@ -11,6 +11,7 @@ use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Sample;
 
 class SignupAction extends \api\components\Action
 {
@@ -20,6 +21,10 @@ class SignupAction extends \api\components\Action
      *     controller="Connect",
      *     title="Присоединиться к встрече",
      *     description="Присоединиться к встрече.",
+     *     samples={
+     *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
+    '{{API_URL}}/connect/signup?RunetId=678047&MeetingId=2817'")
+     *     },
      *     request=@Request(
      *          method="GET",
      *          url="/connect/signup",

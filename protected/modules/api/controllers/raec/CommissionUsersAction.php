@@ -3,8 +3,29 @@ namespace api\controllers\raec;
 
 use api\components\builders\Builder;
 
+use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Response;
+
 class CommissionUsersAction extends \api\components\Action
 {
+
+    /**
+     * @ApiAction(
+     *     controller="Raek",
+     *     title="Список участников комиссии РАЭК",
+     *     description="Список участников комиссии РАЭК.'",
+     *     request=@Request(
+     *          method="GET",
+     *          url="/raec/commissionusers",
+     *          params={
+     *              @Param(title="CommissionId", mandatory="N", description="Идентификатор комиссий РАЭК.")
+     *          },
+     *          response=@Response( body="" )
+     *     )
+     * )
+     */
     public function run()
     {
         $commissionId = \Yii::app()->getRequest()->getParam('CommissionId');

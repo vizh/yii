@@ -8,37 +8,29 @@ use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\Action\Sample;
 
 class ListAction extends \api\components\Action
 {
 
     /**
      * @ApiAction(
-     *     controller="Event",
+     *     controller="Section",
      *     title="Секции",
      *     description="Список секций.",
+     *     samples={
+     *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
+     '{{API_URL}}/event/section/list")
+     *     },
      *     request=@Request(
      *          method="GET",
      *          url="/event/section/list",
      *          body="",
      *          params={
-     *              @Param(title="FromUpdateTime", type="ssss", description="(Y-m-d H:i:s) - время последнего обновления секций, начиная с которого формировать список."),
+     *              @Param(title="FromUpdateTime", description="(Y-m-d H:i:s) - время последнего обновления секций, начиная с которого формировать список."),
      *              @Param(title="WithDeleted", description="Если параметр задан, не пустой и не приводится к false, возвращаются в том числе удаленные секции, иначе только не удаленные.")
      *          },
-     *          response=@Response(body="[{
-    'Id': 'идентификатор',
-    'Title': 'название',
-    'Info': 'краткое описание',
-    'Start': 'время начала',
-    'End': 'время окончания',
-    'TypeCode': 'код типа секции',
-    'Places': ['массив с названиями залов, в которых проходит секция (deprecated)'],
-    'Halls': ['массив объектов Hall'],
-    'Attributes': ['дополнительные аттрибуты (произвольный массив ключ
-      => значение, набор ключей и значений зависит от мероприятия)'],
-    'UpdateTime': 'дата/время последнего обновления',
-    'Deleted': 'true - если секция удалена, false - иначе'
-}]")
+     *          response=@Response(body="['{$SECTION}']")
      *     )
      * )
      */

@@ -11,6 +11,7 @@ use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\Action\Sample;
 
 class ResultAction extends Action
 {
@@ -19,10 +20,13 @@ class ResultAction extends Action
      *     controller="Competence",
      *     title="Результаты теста",
      *     description="Результаты теста с заданным TestId для пользователя с заданным RunetId.",
+     *     params={
+     *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
+    '{{API_URL}}/competence/result?RunetId=656438&TestId=55'")
+     *     },
      *     request=@Request(
      *          method="GET",
      *          url="/competence/result",
-     *          body="",
      *          params={
      *              @Param(title="RunetId", description="", mandatory="Y"),
      *              @Param(title="TestId", description="", mandatory="Y")
