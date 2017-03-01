@@ -32,10 +32,10 @@ class BookingSearch extends \CFormModel
      * @var array Даты проведения мероприятия
      */
     private static $_dates = [
-        '2016-04-12',
-        '2016-04-13',
-        '2016-04-14',
-        '2016-04-15'
+        '2016-04-18',
+        '2016-04-19',
+        '2016-04-20',
+        '2016-04-21'
     ];
 
     private $minDate;
