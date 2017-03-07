@@ -607,7 +607,7 @@ class OneuseController extends \application\components\controllers\AdminMainCont
 
         $price = new \pay\models\ProductPrice();
         $price->ProductId = $product->Id;
-        $price->Price = $room['Price'];
+        $price->Price = (int) str_replace(' ', '', $room['Price']);
         $price->StartTime = '2017-03-01 09:00:00';
         $price->save();
 
