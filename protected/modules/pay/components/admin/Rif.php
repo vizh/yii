@@ -18,7 +18,7 @@ class Rif
     public static function getDb()
     {
         if (self::$db == null) {
-            self::$db = new \CDbConnection('mysql:host=109.234.156.202;dbname=rif2016', 'rif2016', 'eiceu3OQuahbeujo');
+            self::$db = new \CDbConnection('mysql:host=89.207.88.196;dbname=rif2017', 'rif2017', 'tahb6vu0eH4eonga');
         }
         return self::$db;
     }
@@ -134,4 +134,4 @@ class Rif
             self::HOTEL_S => 'Сосны'
         ];
     }
-} 
+}
