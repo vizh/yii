@@ -191,7 +191,13 @@ $controller = $this;
                         'buttons' => [
                             'ticket' => [
                                 'label' => '<i class="fa fa-ticket"></i>',
-                                'url' => '$data->Participants[0]->getTicketUrl()',
+                                'url' => function ($user) use ($event) {
+                                    return EventParticipant::model()
+                                        ->byUserId($user->Id)
+                                        ->byEventId($event->Id)
+                                        ->find()
+                                        ->getTicketUrl();
+                                },
                                 'options' => [
                                     'class' => 'btn btn-default',
                                     'target' => '_blank',
