@@ -51,13 +51,13 @@ use application\components\utility\Texts;
         <ol style="padding-top: 10px; font-weight: normal;">
             <li style="padding-bottom: 10px;">
                 Организатор оказывает Заказчику услуги по участию представителей Заказчика в конференции
-                "РИФ+КИБ 2016" (далее - Конференция) на территории пансионата ФГУ
+                "РИФ+КИБ 2017" (далее - Конференция) на территории пансионата ФГУ
                 «Рублево-Звенигородский лечебно-оздоровительный комплекс» Управления делами Президента Российской
                 Федерации
                 по адресу: Московская область, Одинцовский район, поселок Горки-10, а Заказчик оплачивает услуги
                 Организатора.
             </li>
-            <li style="padding-bottom: 10px;">Срок оказания услуг: с 13 апреля 2016 года по 15 апреля 2016 года.</li>
+            <li style="padding-bottom: 10px;">Срок оказания услуг: с 19 апреля 2017 года по 21 апреля 2017 года.</li>
         </ol>
     </li>
     <li style="padding-bottom: 10px;">
@@ -126,13 +126,13 @@ use application\components\utility\Texts;
             Доп.места
         </th>
         <th style="padding: 30px 8px;text-align: center;font-weight: normal;background-color: #f2f2f2;border: 1px solid #000000;">
-            12-13 апр
+            18-19 апр
         </th>
         <th style="padding: 30px 8px;text-align: center;font-weight: normal;background-color: #f2f2f2;border: 1px solid #000000;">
-            13-14 апр
+            19-20 апр
         </th>
         <th style="padding: 30px 8px;text-align: center;font-weight: normal;background-color: #f2f2f2;border: 1px solid #000000;">
-            14-15 апр
+            20-21 апр
         </th>
         <th style="padding: 30px 8px;text-align: center;font-weight: normal;background-color: #f2f2f2;border: 1px solid #000000;">
             КОЛ-ВО СУТОК
@@ -155,13 +155,13 @@ use application\components\utility\Texts;
                 <td style="border: 1px solid #000000;padding: 8px;text-align:center;"><?=$manager->Price?></td>
                 <td style="border: 1px solid #000000;padding: 8px;text-align:center;"><?=$manager->AdditionalPrice * $booking->AdditionalCount?></td>
                 <td style="border: 1px solid #000000;padding: 8px;text-align:center;">
-                    <?if($booking->DateIn <= '2016-04-12' && $booking->DateOut >= '2016-04-13'):?>1<?endif?>
+                    <?if($booking->DateIn <= '2017-04-18' && $booking->DateOut >= '2017-04-19'):?>1<?endif?>
                 </td>
                 <td style="border: 1px solid #000000;padding: 8px;text-align:center;">
-                    <?if($booking->DateIn <= '2016-04-13' && $booking->DateOut >= '2016-04-14'):?>1<?endif?>
+                    <?if($booking->DateIn <= '2017-04-19' && $booking->DateOut >= '2017-04-20'):?>1<?endif?>
                 </td>
                 <td style="border: 1px solid #000000;padding: 8px;text-align:center;">
-                    <?if($booking->DateIn <= '2016-04-15' && $booking->DateOut >= '2016-04-15'):?>1<?endif?>
+                    <?if($booking->DateIn <= '2017-04-20' && $booking->DateOut >= '2017-04-21'):?>1<?endif?>
                 </td>
                 <td style="border: 1px solid #000000;padding: 8px;text-align:center;"><?=$booking->getStayDay()?></td>
                 <td style="border: 1px solid #000000;padding: 8px;text-align:center;"><?=$booking->getStayDay() * (Texts::getOnlyNumbers($manager->Price) + $booking->AdditionalCount * $manager->AdditionalPrice)?></td>
@@ -241,8 +241,8 @@ use application\components\utility\Texts;
                 <p><strong>«Организатор»</strong></p>
 
                 <p>ООО «Интернет Медиа Холдинг»<br/>
-                    123100, г. Москва, Пресненская наб., д. 12, эт. 46<br/>
-                    ИНН/КПП 7703725797/770301001<br/>
+                    123317, г. Москва, Пресненская набережная, дом 6, строение 2, этаж 27, помещение I<br/>
+                    ИНН/КПП 7703725797/770301001 <br/>
                     Московский филиал ПАО РОСБАНК <br/>
                     р/с 40702810697620000409<br/>
                     к/с 30101810000000000256<br/>
@@ -282,7 +282,7 @@ use application\components\utility\Texts;
     <tr>
         <td>
             <strong>ООО «Интернет Медиа Холдинг»</strong><br>
-            Адрес: 123100, г. Москва, наб. Пресненская., д. 12, этаж 46<br>
+            Адрес: 123317, г. Москва, Пресненская набережная, дом 6, строение 2, этаж 27, помещение I<br>
             тел. +7 (495) 950-56-51
         </td>
         <td style="text-align: right; vertical-align: middle;">
@@ -344,8 +344,8 @@ use application\components\utility\Texts;
     <tr>
         <td style="border: 1px solid #000;  padding: 5px;">1</td>
         <td style="border: 1px solid #000;  padding: 5px;">Услуги по участию представителей Заказчика в конференции
-            "РИФ+КИБ 2016",
-            проходящей в период с 13 апреля 2016 года по 15 апреля 2016 года по адресу Московская область,
+            "РИФ+КИБ 2017",
+            проходящей в период с 19 апреля 2017 года по 21 апреля 2017 года по адресу Московская область,
             Одинцовский район, поселок Горки-10, согласно
             Договору № <?=$order->Number?> от
             <?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy г', $order->CreationTime)?>.
