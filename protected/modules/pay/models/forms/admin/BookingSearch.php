@@ -257,6 +257,8 @@ class BookingSearch extends \CFormModel
         self::parseValues($paids, $row['Paid'], ';');
         $booked = [];
         self::parseValues($booked, $row['Booked'], ';');
+        $reserved = [];
+        self::parseValues($reserved, $row['Reserved'], ';');
         if (count($ownerIds) !== count($userNames) || count($ownerIds) !== count($dates)) {
             throw new \CException('Ошибка парсига диапазонов дат!');
         }
@@ -290,6 +292,7 @@ class BookingSearch extends \CFormModel
                         'Name' => $userNames[$i],
                         'Paid' => $paids[$i] == 'true' ? true : false,
                         'Booked' => $booked[$i],
+                        'Reserved' => $reserved[$i],
                     ];
                 } else {
                     $datesRanges['other'] = true;
@@ -363,12 +366,22 @@ class BookingSearch extends \CFormModel
 
         $query = '
     WITH orders AS (
-     SELECT oi."ProductId", oi."OwnerId", oi."Paid", oi."Booked", u."RunetId", u."Email", (COALESCE(u."LastName", \'\') || \' \' || COALESCE(u."FirstName", \'\')) AS "Name", STRING_AGG(oia."Name" || \'=\' || oia."Value", \',\') AS "Dates"
-         FROM "PayOrderItem" oi
-         INNER JOIN "PayOrderItemAttribute" oia ON oi."Id" = oia."OrderItemId"
-         INNER JOIN "User" u ON u."Id" = oi."OwnerId"
-         WHERE (oi."Paid" OR NOT oi."Deleted")
-         GROUP BY oi."Id", u."RunetId", u."Email", COALESCE(u."LastName", \'\') || \' \' || COALESCE(u."FirstName", \'\')
+     SELECT
+         oi."ProductId",
+         oi."OwnerId",
+         oi."Paid",
+         oi."Booked",
+         u."RunetId",
+         u."Email",
+         (COALESCE(u."LastName", \'\') || \' \' || COALESCE(u."FirstName", \'\')) AS "Name",
+         STRING_AGG(oiad."Name" || \'=\' || oiad."Value", \',\') AS "Dates",
+         max(oiar."Value") as "Reserved"
+     FROM "PayOrderItem" oi
+     INNER JOIN "PayOrderItemAttribute" oiad ON oi."Id" = oiad."OrderItemId" and (oiad."Name" = \'DateIn\' or oiad."Name" = \'DateOut\')
+     INNER JOIN "PayOrderItemAttribute" oiar ON oi."Id" = oiar."OrderItemId" and (oiar."Name" = \'Reserved\')
+     INNER JOIN "User" u ON u."Id" = oi."OwnerId"
+     WHERE (oi."Paid" OR NOT oi."Deleted")
+     GROUP BY oi."Id", u."RunetId", u."Email", COALESCE(u."LastName", \'\') || \' \' || COALESCE(u."FirstName", \'\')
     ), products AS (
 	    SELECT p."Id", STRING_AGG(ppa."Name" || \'=\' || ppa."Value", \';;\') AS "Attributes" FROM "PayProduct" p
         INNER JOIN "PayProductAttribute" ppa ON p."Id" = ppa."ProductId"
@@ -381,7 +394,8 @@ class BookingSearch extends \CFormModel
         STRING_AGG(orders."Name", \';\') AS "Names",
         STRING_AGG(orders."Dates", \';\') AS "Dates",
         STRING_AGG(CAST(orders."Paid" AS text), \';\') AS "Paid",
-        STRING_AGG(CAST(orders."Booked" AS text), \';\') AS "Booked",
+        STRING_AGG(coalesce(CAST(orders."Booked" AS text), \'\'), \';\') AS "Booked",
+        STRING_AGG(CAST(orders."Reserved" AS text), \';\') AS "Reserved",
         STRING_AGG(rpb."Owner", \';;\') AS "PartnerOwners",
         STRING_AGG(CAST(rpb."Paid" AS text), \';\') AS "PartnerPaid",
         STRING_AGG(\'DateIn\' || \'=\' || rpb."DateIn" || \',\' || \'DateOut\' || \'=\' || rpb."DateOut", \';\') AS "PartnerDates"

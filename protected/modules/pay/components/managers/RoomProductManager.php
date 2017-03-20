@@ -82,7 +82,7 @@ class RoomProductManager extends BaseProductManager
      */
     public function getOrderItemAttributeNames()
     {
-        return array_merge(['DateIn', 'DateOut'], parent::getOrderItemAttributeNames());
+        return array_merge(['DateIn', 'DateOut', 'Reserved'], parent::getOrderItemAttributeNames());
     }
 
     /**

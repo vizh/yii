@@ -18,7 +18,7 @@ class Rif
     public static function getDb()
     {
         if (self::$db == null) {
-            self::$db = new \CDbConnection('mysql:host=109.234.156.202;dbname=rif2017', 'rif2017', 'tahb6vu0eH4eonga');
+            self::$db = new \CDbConnection('mysql:host=109.234.156.202;dbname=rif2107', 'rif2017', 'Iep6phohlie9equ2');
         }
         return self::$db;
     }
