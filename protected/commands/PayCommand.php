@@ -63,6 +63,10 @@ class PayCommand extends BaseConsoleCommand
         foreach ($orderItems as $orderItem) {
             $orderLinks = $orderItem->OrderLinks(['with' => ['Order']]);
             /** @var OrderLinkOrderItem $orderLink */
+            // Если бронь младше 3 часов, то ничего не делаем
+            if ((time() - strtotime($orderItem->CreationTime)) / 60 < 180) {
+                continue;
+            }
             foreach ($orderLinks as $orderLink) {
                 $order = $orderLink->Order;
                 if (OrderType::getIsLong($order->Type) && !$order->Deleted) {

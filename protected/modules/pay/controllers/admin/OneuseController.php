@@ -1,9 +1,5 @@
 <?php
 
-use pay\components\managers\BaseProductManager;
-use pay\models\Product;
-use pay\models\ProductPrice;
-
 class OneuseController extends \application\components\controllers\AdminMainController
 {
     public function actionIbcfood()
@@ -42,13 +38,25 @@ class OneuseController extends \application\components\controllers\AdminMainCont
 
     public function actionAddRooms()
     {
-        echo 'closed';
-        return;
         $rooms = [];
 
-
         $roomsTmp = [
-            ['1', 'ЛЕСНЫЕ ДАЛИ', 'ГЛАВНЫЙ КОРПУС', 'твин стандартный однокомнатный', '202', 'есть', '1', '2', '2', '0', '2 полуторн.(вместе)', 'нет', 'партнеры ', '6 053'],
+            [
+                '1',
+                'ЛЕСНЫЕ ДАЛИ',
+                'ГЛАВНЫЙ КОРПУС',
+                'твин стандартный однокомнатный',
+                '202',
+                'есть',
+                '1',
+                '2',
+                '2',
+                '0',
+                '2 полуторн.(вместе)',
+                'нет',
+                'партнеры ',
+                '6 053'
+            ],
             ['2', 'ЛЕСНЫЕ ДАЛИ', 'ГЛАВНЫЙ КОРПУС', 'твин стандартный однокомнатный', '204', 'есть', '1', '2', '2', '0', '2 полуторн.(вместе)', 'нет', 'партнеры ', '6 053'],
             ['3', 'ЛЕСНЫЕ ДАЛИ', 'ГЛАВНЫЙ КОРПУС', 'твин стандартный однокомнатный', '206', 'есть', '1', '2', '2', '0', '2 полуторн.(вместе)', 'нет', 'партнеры ', '6 053'],
             ['4', 'ЛЕСНЫЕ ДАЛИ', 'ГЛАВНЫЙ КОРПУС', 'твин стандартный однокомнатный', '208', 'есть', '1', '2', '2', '0', '2 полуторн.(вместе)', 'нет', 'партнеры ', '6 053'],
@@ -562,7 +570,7 @@ class OneuseController extends \application\components\controllers\AdminMainCont
                 'PlaceMore' => $item[9],
                 'DescriptionBasic' => $item[10],
                 'DescriptionMore' => $item[11],
-                'Visible' => true,
+                'Visible' => empty($item[12]),
                 'Price' => $item[13],
             ];
             $rooms[] = $roomItem;

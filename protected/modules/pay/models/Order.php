@@ -385,6 +385,11 @@ class Order extends ActiveRecord
             return '2016-04-08 22:59:59';
         }
 
+        // TODO Delete after RIF
+        if ($this->EventId == 3016 /* РИФ17 */) {
+            return '2017-04-21 22:59:59';
+        }
+
         $timestamp = strtotime($start);
 
         $days = 0;
