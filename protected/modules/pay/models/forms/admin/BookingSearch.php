@@ -378,7 +378,7 @@ class BookingSearch extends \CFormModel
          max(oiar."Value") as "Reserved"
      FROM "PayOrderItem" oi
      INNER JOIN "PayOrderItemAttribute" oiad ON oi."Id" = oiad."OrderItemId" and (oiad."Name" = \'DateIn\' or oiad."Name" = \'DateOut\')
-     INNER JOIN "PayOrderItemAttribute" oiar ON oi."Id" = oiar."OrderItemId" and (oiar."Name" = \'Reserved\')
+     LEFT JOIN "PayOrderItemAttribute" oiar ON oi."Id" = oiar."OrderItemId" and (oiar."Name" = \'Reserved\')
      INNER JOIN "User" u ON u."Id" = oi."OwnerId"
      WHERE (oi."Paid" OR NOT oi."Deleted")
      GROUP BY oi."Id", u."RunetId", u."Email", COALESCE(u."LastName", \'\') || \' \' || COALESCE(u."FirstName", \'\')
