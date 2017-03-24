@@ -1,7 +1,11 @@
 <?php
 
 use application\components\console\BaseConsoleCommand;
+use Aws\Ses\SesClient;
 use event\models\Event;
+use mail\components\Mail;
+use mail\components\Mailer;
+use mail\components\mailers\PhpMailer;
 use mail\components\mailers\SESMailer;
 use pay\models\Order;
 use pay\models\OrderItem;
@@ -58,7 +62,10 @@ class PayCommand extends BaseConsoleCommand
             ->byPaid(false)
             ->byBooked(false)
             ->byDeleted(false)
+            ->with('Owner')
             ->findAll();
+
+        $mailer = new SESMailer();
 
         foreach ($orderItems as $orderItem) {
             $orderLinks = $orderItem->OrderLinks(['with' => ['Order']]);
@@ -67,6 +74,7 @@ class PayCommand extends BaseConsoleCommand
             if ((time() - strtotime($orderItem->CreationTime)) / 60 < 180) {
                 continue;
             }
+
             foreach ($orderLinks as $orderLink) {
                 $order = $orderLink->Order;
                 if (OrderType::getIsLong($order->Type) && !$order->Deleted) {
@@ -82,6 +90,21 @@ class PayCommand extends BaseConsoleCommand
                     } else {
                         $orderLink->delete();
                     }
+
+                    // Соберём информацию для отправки уведомлений
+                    $mail = new RifBookingCanceledMail(
+                        $mailer,
+                        $orderItem->Owner->Email,
+                        $orderItem->Owner->getFullName()
+                    );
+
+                    $mail->send();
+
+                    // Информация для отладки
+                    Yii::log(sprintf('Удалена предварительная бронь %d отправлено письмо на %s',
+                        $orderItem->Owner->RunetId,
+                        $orderItem->Owner->Email
+                    ));
                 }
             }
 
@@ -159,7 +182,7 @@ class PayCommand extends BaseConsoleCommand
         if (empty($report)) {
             return;
         }
-        $mailer = new \mail\components\mailers\SESMailer();
+        $mailer = new SESMailer();
         $emailTo = 'fin@runet-id.com';
         //$emailTo = 'nikitozina@inbox.ru';
         $mail = new \mail\components\mail\TemplateForController(
@@ -235,5 +258,71 @@ class PayCommand extends BaseConsoleCommand
         }
         $body .= '</table></body></html>';
         return $body;
+    }
+}
+
+class RifBookingCanceledMail extends Mail
+{
+    private $to;
+    private $toName;
+
+    public function __construct(Mailer $mailer, $to, $toName)
+    {
+        parent::__construct($mailer);
+        $this->to = $to;
+        $this->toName = $toName;
+    }
+
+    /**
+     * Отправитель
+     *
+     * @return string
+     */
+    public function getFrom()
+    {
+        return 'users@runet-id.com';
+    }
+
+    public function getFromName()
+    {
+        return 'Оргкомитет РИФ+КИБ 2017';
+    }
+
+    public function getSubject()
+    {
+        return 'Ваша бронь аннулирована';
+    }
+
+    /**
+     * Получатель
+     *
+     * @return string
+     */
+    public function getTo()
+    {
+        return $this->to;
+    }
+
+    public function getToName()
+    {
+        return $this->toName;
+    }
+
+    /**
+     * Тело письма
+     *
+     * @return string
+     */
+    public function getBody()
+    {
+        $name = $this->getToName();
+        $name = empty($name) ? "{$name}, здравствуйте!" : "Здравствуйте!";
+
+        return "
+            <h2>{$name}</h2>
+            <p>Вы – участник <a href='http://www.rif.ru/'>РИФ+КИБ 2017</a>, который проходит 19-21 апреля в п-те Лесные дали!</p>
+            <p><b>ВНИМАНИЕ:</b><br>Ваша бронь номера на РИФ+КИБ 2017 аннулирована.<br>Номер снова поступил в открытую продажу.</p>  
+            <p>---------------<br>С уважением,<br>Оргкомитет РИФ+КИБ 2017<br>users@rif.ru</p>
+        ";
     }
 }
