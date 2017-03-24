@@ -7,9 +7,11 @@
 $this->setPageTitle(\Yii::t('app', 'Импорт участников мероприятия'));
 
 $definitions = [];
+/*
 if ($users[0]->getUserData() !== null) {
     $definitions = $users[0]->getUserData()->getManager()->getDefinitions();
 }
+*/
 ?>
 <?=CHtml::beginForm()?>
     <div class="panel panel-info">
