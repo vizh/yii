@@ -12,15 +12,24 @@ use event\models\Participant;
 
 
 ?>
+<?if(Yii::app()->language === 'ru'):?>
+    <style>
+        .main{
+            background: url("/img/ticket/ipheb17/bg.png") no-repeat;
+        }
+    </style>
+<? else :?>
+    <style>
+        .main{
+            background: url("/img/ticket/ipheb17/bg-en.png") no-repeat;
+        }
+    </style>
+<? endif?>
 <style>
-
-
-
     .main{
         height: 281mm;
         width: 420mm;
 
-        background: url("/img/ticket/ipheb17/bg.png") no-repeat;
         background-size: cover;
     }
 
