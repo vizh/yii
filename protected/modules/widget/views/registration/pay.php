@@ -7,12 +7,13 @@
 
 /** @var \CClientScript $clientScript */
 $clientScript = \Yii::app()->getClientScript();
+$clientScript->registerCssFile('/stylesheets/application.css');
 $clientScript->registerScript('init', '
     new CRegistrationPay({products : ' . $form->getProductsJson() . '});
 ', \CClientScript::POS_HEAD);
 ?>
 
-<div ng-controller="RegisterPayController">
+<div class="event-register" ng-controller="RegisterPayController">
     <table class="table thead-actual">
         <thead>
         <tr>
@@ -77,7 +78,7 @@ $clientScript->registerScript('init', '
             <hr/>
         </div>
     </div>
-    <div class="row pay-buttons">
+    <div class="row pay-buttons actions">
         <div class="col-sm-5">
             <h5><?=\Yii::t('app', 'Для юр. лиц')?></h5>
             <?$this->widget('\pay\widgets\JuridicalButton', ['account' => $account, 'htmlOptions' => ['class' => 'btn btn-default btn-lg', 'ng-class' => '{\'btn-primary\' : offer}', 'ng-disabled' => '!offer'], 'url' => ['juridical']])?>
