@@ -151,7 +151,7 @@ class RoomProductManager extends BaseProductManager
             $sql = 'SELECT count("p"."Id") as "Count", "pa"."Value", min("pp"."Price") as "MinPrice" FROM "PayProduct" as "p"
               LEFT JOIN "PayProductAttribute" as "pa" ON ("p"."Id" = "pa"."ProductId")
               LEFT JOIN "PayProductPrice" as "pp" ON ("p"."Id" = "pp"."ProductId")
-              WHERE ' . $productSql . ' AND "pa"."Name" = :Filter
+              WHERE ' . $productSql . ' AND "pa"."Name" = :Filter AND NOT "p"."Deleted"
               GROUP BY "pa"."Value"';
 
             $command = \Yii::app()->getDb()->createCommand($sql);
