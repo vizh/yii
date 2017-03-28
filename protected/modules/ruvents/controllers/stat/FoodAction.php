@@ -1,6 +1,7 @@
 <?php
 namespace ruvents\controllers\stat;
 
+use application\components\Exception;
 use event\models\Event;
 use ruvents\models\Visit;
 
@@ -17,17 +18,33 @@ class FoodAction extends StatAction
     {
         $this->controller->layout = '//layouts/clear';
 
-        if ($eventId == Event::TS16) {
-            $this->controller->render('food-ts16', [
-                'allStat' => $this->fetchTS16Stat()
-            ]);
-        } else {
-            $groups = $this->fetchUniqueGroups($eventId);
-            $allStat = $this->collectAllStat($eventId, $groups);
+        $event = Event::model()
+            ->byId($eventId)
+            ->find();
 
-            $this->controller->render('food', [
-                'allStat' => $allStat
-            ]);
+        if ($event === null) {
+            throw new Exception("Мероприятие EventId:{$eventId} не найдено");
+        }
+
+        switch ($event->Id) {
+            case Event::TS16:
+                $this->controller->render('food-ts16', [
+                    'event' => $event,
+                    'allStat' => $this->fetchTS16Stat()
+                ]);
+                break;
+
+            case Event::AR17:
+                $this->controller->render('food-ar17', [
+                    'event' => $event,
+                    'allStat' => $this->fetchAR17Stat()
+                ]);
+                break;
+
+            default:
+                $this->controller->render('food', [
+                    'allStat' => $this->collectAllStat($event->Id, $this->fetchUniqueGroups($event->Id))
+                ]);
         }
     }
 
@@ -167,6 +184,91 @@ SQL;
         $result['2016-08-14-2016-08-21']['16.08']['Обед']['touched'] = 1171;
         $result['2016-07-29-2016-08-05']['04.08']['Ужин']['total'] = 756;
         $result['2016-07-29-2016-08-05']['04.08']['Ужин']['touched'] = 783;
+
+        return $result;
+    }
+    /**
+     * @return array
+     */
+    private function fetchAR17Stat()
+    {
+        $shiftsDates = [
+            ['2017-03-27', '2017-04-02']
+        ];
+
+        $dates = [];
+        foreach ($shiftsDates as $d) {
+            $dates[] = "('".implode("','", $d)."')";
+        }
+        $dates = implode(',', $dates);
+
+        $sql = <<<SQL
+WITH "Dates" AS (
+    SELECT *
+    FROM (VALUES $dates) AS "Dates"(start_date, end_date)
+)
+SELECT u."RunetId", v."CreationTime"::DATE, "MarkId", SUBSTRING("MarkId" FROM '^Питание\\s\\d{2}\\.\\d{2}\/\\w+') AS "Mark", "Dates".start_date || '-' || "Dates".end_date AS "Shift" FROM "RuventsVisit" v
+    INNER JOIN "Dates" ON v."CreationTime"::DATE >= "Dates".start_date::DATE AND v."CreationTime"::DATE <= "Dates".end_date::DATE
+    INNER JOIN "User" u ON u."Id" = v."UserId"
+    WHERE v."EventId" = :eventId AND v."MarkId" ~ '^Питание';
+SQL;
+        $rows = \Yii::app()->getDb()->createCommand($sql)
+            ->query([
+                ':eventId' => Event::AR17
+            ]);
+
+        $result = [];
+        foreach ($rows as $row) {
+            $shift = $row['Shift'];
+
+            $match = [];
+            if (!preg_match('/^Питание\s(\d{2}\.\d{2})\/(\w+)/u', $row['Mark'], $match)) {
+                continue;
+            }
+
+            if (!isset($match[1]) || !isset($match[2])) {
+                continue;
+            }
+
+            $date = $match[1];
+            $food = $match[2];
+            $id = $row['RunetId'];
+
+            if (!isset($result[$shift])) {
+                $result[$shift] = [];
+            }
+
+            if (!isset($result[$shift][$date])) {
+                $result[$shift][$date] = [];
+            }
+
+            if (!isset($result[$shift][$date][$food])) {
+                $result[$shift][$date][$food] = [
+                    'users-list-url' => \Yii::app()->getUrlManager()->createUrl('/ruvents/stat/users-list', [
+                        'eventId' => Event::AR17,
+                        'group' => \Inflector::transliterate(strtr(\Inflector::transliterate($row['Mark']), [
+                            ' ' => '_',
+                            '/' => '_',
+                            '.' => ''
+                        ]))
+                    ]),
+                    'total' => 0,
+                    'touched' => 0
+                ];
+            }
+
+            if (!isset($result[$shift][$date][$food][$id])) {
+                $result[$shift][$date][$food][$id] = true;
+                $result[$shift][$date][$food]['total']++;
+            }
+
+            $result[$shift][$date][$food]['touched']++;
+        }
+
+        // Makes sort by dates
+        foreach ($result as $shift => &$items) {
+            ksort($items);
+        }
 
         return $result;
     }
