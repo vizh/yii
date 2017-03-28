@@ -9,6 +9,8 @@ class PartnerExportCommand extends BaseConsoleCommand
 {
     public function run($args)
     {
+        ini_set('memory_limit', '6G');
+
         $export = Export::model()
             ->bySuccess(false)
             ->byTotalRow(null)
