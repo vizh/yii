@@ -1,7 +1,15 @@
 <?php
+
 namespace pay\controllers\admin\booking;
 
-class StatisticsAction extends \CAction
+use pay\models\Product;
+use event\models\Event;
+use pay\models\OrderItem;
+use CDbCriteria;
+use DateTime;
+use CAction;
+
+class StatisticsAction extends CAction
 {
     const ManagerName = 'RoomProductManager';
 
@@ -9,32 +17,27 @@ class StatisticsAction extends \CAction
 
     public function run()
     {
-        $this->event = \event\models\Event::model()->findByPk(\Yii::app()->params['AdminBookingEventId']);
+        $this->event = Event::model()->findByPk(\Yii::app()->params['AdminBookingEventId']);
         $statistics = $this->getStatisticsArray();
 
-        $criteria = new \CDbCriteria();
+        $criteria = new CDbCriteria();
         $criteria->with = ['Product'];
         $criteria->addCondition('"Product"."EventId" = :EventId AND "Product"."ManagerName" = :Manager');
         $criteria->params['EventId'] = \Yii::app()->params['AdminBookingEventId'];
         $criteria->params['Manager'] = self::ManagerName;
-        $orderItems = \pay\models\OrderItem::model()->byDeleted(false)->findAll($criteria);
+        $orderItems = OrderItem::model()->byDeleted(false)->findAll($criteria);
 
         $allCount = $this->getAllNumberCount();
-        foreach ($orderItems as $orderItem)
-        {
-            $datetime = new \DateTime($orderItem->getItemAttribute('DateIn'));
-            while ($datetime->format('Y-m-d') <  $orderItem->getItemAttribute('DateOut'))
-            {
-                $key = $datetime->format('d').'-';
+        foreach ($orderItems as $orderItem) {
+            $datetime = new DateTime($orderItem->getItemAttribute('DateIn'));
+            while ($datetime->format('Y-m-d') < $orderItem->getItemAttribute('DateOut')) {
+                $key = $datetime->format('d') . '-';
                 $datetime->modify('+1 day');
                 $key .= $datetime->format('d');
-                if ($orderItem->Paid)
-                {
+                if ($orderItem->Paid) {
                     $statistics->Numbers[$key]->Paid++;
                     $statistics->TotalPaidPrice += $orderItem->getPriceDiscount();
-                }
-                else
-                {
+                } else {
                     $statistics->Numbers[$key]->Booking++;
                     $statistics->TotalBookPrice += $orderItem->getPriceDiscount();
                 }
@@ -47,7 +50,9 @@ class StatisticsAction extends \CAction
         $this->getController()->render('statistics', ['statistics' => $statistics]);
     }
 
-
+    /**
+     * @return \stdClass
+     */
     private function getStatisticsArray()
     {
         $statistics = new \stdClass();
@@ -55,13 +60,12 @@ class StatisticsAction extends \CAction
         $statistics->TotalBookPrice = 0;
         $statistics->Numbers = [];
 
-        $datetime = new \DateTime();
+        $datetime = new DateTime();
         $datetime->setTimestamp($this->event->getTimeStampStartDate());
         $datetime->modify('-1 day');
-        while ($datetime->getTimestamp() < $this->event->getTimeStampEndDate())
-        {
+        while ($datetime->getTimestamp() < $this->event->getTimeStampEndDate()) {
             $from = $datetime->format('Y-m-d');
-            $key = $datetime->format('d').'-';
+            $key = $datetime->format('d') . '-';
             $datetime->modify('+1 day');
             $key .= $datetime->format('d');
 
@@ -75,11 +79,18 @@ class StatisticsAction extends \CAction
         return $statistics;
     }
 
+    /**
+     * @return string
+     */
     private function getAllNumberCount()
     {
-        $criteria = new \CDbCriteria();
+        $criteria = new CDbCriteria();
         $criteria->with = ['Attributes'];
         $criteria->addCondition('"Attributes"."Name" = \'Visible\' AND "Attributes"."Value" = \'1\'');
-        return \pay\models\Product::model()->byEventId(\Yii::app()->params['AdminBookingEventId'])->byManagerName(self::ManagerName)->count($criteria);
+        return Product::model()
+            ->byEventId(\Yii::app()->params['AdminBookingEventId'])
+            ->byManagerName(self::ManagerName)
+            ->byDeleted(false)
+            ->count($criteria);
     }
 } 
