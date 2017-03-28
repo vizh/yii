@@ -30,6 +30,12 @@ class UsersListAction extends StatAction
                 'groupName' => $groupName,
                 'eventId' => $eventId
             ]);
+        } else if ($eventId == Event::AR17) {
+            $this->controller->render('food-users-list-ar17', [
+                'dataProvider' => $this->constructUsersListDataProvider($eventId, $groupName),
+                'groupName' => $groupName,
+                'eventId' => $eventId
+            ]);
         } else {
             $this->controller->render('users-list', [
                 'dataProvider' => $this->constructUsersListDataProvider($eventId, $groupName),
