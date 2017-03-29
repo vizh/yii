@@ -226,13 +226,15 @@ class BookingSearch extends \CFormModel
 
         $this->_rooms = [];
         foreach ($this->makeQuery() as $row) {
-            $room = [];
-            $room['Id'] = $row['Id'];
-            // Парсим атрибуты
-            self::parseValues($room, $row['Attributes'], ';;', '=');
-            $this->parseDates($room, $row);
+            if ($row['Id'] != 9258) {
+                $room = [];
+                $room['Id'] = $row['Id'];
+                // Парсим атрибуты
+                self::parseValues($room, $row['Attributes'], ';;', '=');
+                $this->parseDates($room, $row);
 
-            $this->_rooms[] = $room;
+                $this->_rooms[] = $room;
+            }
         }
         return $this->_rooms;
     }
