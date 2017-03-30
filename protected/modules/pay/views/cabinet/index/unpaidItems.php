@@ -61,7 +61,7 @@ $total = 0;
                                 <?=\Yii::t('app', 'Групповая скидка')?>:
                             <?endif?>
                             <b class="number">-<?=$item->getOrderItem()->getPrice() - $item->getPriceDiscount()?></b> <?=Yii::t('app', 'руб.')?>
-                        <?elseif ($item->getOrderItem()->Product->ManagerName == 'RoomProductManager'):?>
+                        <?elseif ($item->getOrderItem()->Product->ManagerName == 'RoomProductManager' || $item->getOrderItem()->Product->ManagerName == 'RifAdditionalBedProductManager'):?>
                             <?$dateFormatter = Yii::app()->getLocale()->getDateFormatter()?>
                             с <?=$dateFormatter->format('dd MMMM' , strtotime($item->getOrderItem()->getItemAttribute('DateIn')))?> по <?=$dateFormatter->format('dd MMMM' , strtotime($item->getOrderItem()->getItemAttribute('DateOut')))?> за  <b class="number"><?=$item->getPriceDiscount()?></b> <?=Yii::t('app', 'руб.')?>
                         <?endif?>
