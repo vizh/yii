@@ -127,9 +127,9 @@ class Builder
         }
 
         $this->user->Photo = new \stdClass();
-        $this->user->Photo->Small = 'http://'.RUNETID_HOST.$user->getPhoto()->get50px();;
-        $this->user->Photo->Medium = 'http://'.RUNETID_HOST.$user->getPhoto()->get90px();
-        $this->user->Photo->Large = 'http://'.RUNETID_HOST.$user->getPhoto()->get200px();
+        $this->user->Photo->Small = SCHEMA.'://'.RUNETID_HOST.$user->getPhoto()->get50px();;
+        $this->user->Photo->Medium = SCHEMA.'://'.RUNETID_HOST.$user->getPhoto()->get90px();
+        $this->user->Photo->Large = SCHEMA.'://'.RUNETID_HOST.$user->getPhoto()->get200px();
 
         return $this->user;
     }
