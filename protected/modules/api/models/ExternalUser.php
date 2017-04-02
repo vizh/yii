@@ -1,4 +1,5 @@
 <?php
+
 namespace api\models;
 
 use application\components\ActiveRecord;
@@ -64,21 +65,20 @@ class ExternalUser extends ActiveRecord
      * @param string|int $externalId An external identifier
      * @return ExternalUser|null Created model
      */
-    public static function create(User $user, Account $account, $externalId)
+    public static function create(User $user, Account $account, $externalId = null)
     {
-        try {
-            $model = new self();
-            $model->UserId = $user->Id;
-            $model->AccountId = $account->Id;
-            $model->Partner = $account->Role;
-            $model->ExternalId = $externalId;
-            $model->save();
+        $model = new self();
+        $model->UserId = $user->Id;
+        $model->AccountId = $account->Id;
+        $model->Partner = $account->Role;
+        $model->ExternalId = $externalId;
 
-            $user->refreshUpdateTime(true);
+        return $model;
+    }
 
-            return $model;
-        } catch (\CDbException $e) {
-            return null;
-        }
+    protected function afterSave()
+    {
+        parent::afterSave();
+        $this->User->refreshUpdateTime(true);
     }
 }

@@ -3,6 +3,7 @@ namespace api\components\builders;
 
 use api\models\Account;
 use api\models\AccoutQuotaByUserLog;
+use api\models\ExternalUser;
 use application\components\helpers\ArrayHelper;
 use application\components\utility\Texts;
 use application\models\translation\ActiveRecord;
@@ -55,6 +56,7 @@ class Builder
     const USER_BADGE = 'buildUserBadge';
     const USER_CONTACTS = 'buildUserContacts';
     const USER_ATTRIBUTES = 'buildUserAttributes';
+    const USER_EXTERNALID = 'buildUserExternalId';
     const USER_AUTH = 'buildAuthData';
 
     /**
@@ -92,6 +94,7 @@ class Builder
                 self::USER_EVENT,
                 self::USER_BADGE,
                 self::USER_CONTACTS,
+                self::USER_EXTERNALID
             ];
         }
 
@@ -293,6 +296,25 @@ class Builder
             $this->user->Attributes = empty($attributes)
                 ? new \stdClass()
                 : $attributes;
+        }
+
+        return $this->user;
+    }
+
+    /**
+     * @noinspection PhpUnusedPrivateMethodInspection
+     * @param User|\commission\models\User $user
+     * @return \stdClass
+     */
+    protected function buildUserExternalId($user)
+    {
+        $extuser = ExternalUser::model()
+            ->byUserId($user->Id)
+            ->byAccountId($this->account->Id)
+            ->find();
+
+        if ($extuser !== null) {
+            $this->user->ExternalId = $extuser->ExternalId;
         }
 
         return $this->user;

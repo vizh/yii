@@ -187,12 +187,17 @@ class EventCommand extends BaseConsoleCommand
 
         $data = UserData::fetch($event, $user);
 
-        if (!$externalUser = ExternalUser::model()->byAccountId($apiAccount->Id)->byUserId($user->Id)->find()) {
-            ExternalUser::create($user, $apiAccount, $userId);
-        } else {
-            $externalUser->ExternalId = $userId;
-            $externalUser->save();
+        $extuser = ExternalUser::model()
+            ->byAccountId($apiAccount->Id)
+            ->byUserId($user->Id)
+            ->find();
+
+        if ($extuser === null) {
+            $extuser = ExternalUser::create($user, $apiAccount);
         }
+
+        $extuser->ExternalId = $userId;
+        $extuser->save();
 
         $m = $data->getManager();
         $m->country = $country;

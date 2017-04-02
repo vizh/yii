@@ -2,6 +2,7 @@
 namespace api\controllers\user;
 
 use api\components\Action;
+use api\models\ExternalUser;
 use api\models\forms\user\Register;
 use event\models\UserData;
 use user\models\User;
@@ -31,7 +32,9 @@ class CreateAction extends Action
      *              @Param(title="FatherName", type="Строка", defaultValue="", description="Отчество."),
      *              @Param(title="Phone", type="Строка", defaultValue="", description="Телефон."),
      *              @Param(title="Company", type="Строка", defaultValue="", description="Компания."),
-     *              @Param(title="Position", type="Строка", defaultValue="", description="Должность.")
+     *              @Param(title="Position", type="Строка", defaultValue="", description="Должность."),
+     *              @Param(title="ExternalId", type="Строка", defaultValue="", description="Внешний идентификатор пользователя для привязки его профиля к сторонним сервисам."),
+     *              @Param(title="Attributes", type="Массив", defaultValue="", description="Расширенные атрибуты пользователя.")
      *          }
      *     )
      * )
@@ -46,6 +49,11 @@ class CreateAction extends Action
 
         if ($this->hasRequestParam('Attributes')) {
             UserData::set($this->getEvent(), $user, $this->getRequestParam('Attributes'));
+        }
+
+        if ($this->hasRequestParam('ExternalId')) {
+            ExternalUser::create($user, $this->getAccount(), $this->getRequestParam('ExternalId'))
+                ->save();
         }
 
         $userData = $this

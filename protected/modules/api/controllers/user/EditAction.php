@@ -3,13 +3,37 @@ namespace api\controllers\user;
 
 use api\components\Exception;
 use api\models\Account;
+use api\models\ExternalUser;
 use api\models\forms\user\Edit;
 use event\models\Participant;
 use event\models\UserData;
+use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\ApiAction;
 use oauth\models\Permission;
 use user\models\User;
 use Yii;
 
+/**
+ * @ApiAction(
+ *     controller="User",
+ *     title="Создание",
+ *     description="Редактирует пользователя.",
+ *     request=@Request(
+ *          method="POST",
+ *          url="/user/edit",
+ *          body="",
+ *          params={
+ *              @Param(title="Email", type="Строка", defaultValue="", description="Email."),
+ *              @Param(title="LastName", type="Строка", defaultValue="", description="Фамилия."),
+ *              @Param(title="FirstName", type="Строка", defaultValue="", description="Имя."),
+ *              @Param(title="FatherName", type="Строка", defaultValue="", description="Отчество."),
+ *              @Param(title="Attributes", type="Массив", defaultValue="", description="Расширенные атрибуты пользователя."),
+ *              @Param(title="ExternalId", type="Строка", defaultValue="", description="Внешний идентификатор пользователя для привязки его профиля к сторонним сервисам.")
+ *          }
+ *     )
+ * )
+ */
 class EditAction extends \api\components\Action
 {
     public function run()
@@ -29,6 +53,20 @@ class EditAction extends \api\components\Action
 
         if ($this->hasRequestParam('Attributes')) {
             UserData::set($this->getEvent(), $user, $this->getRequestParam('Attributes'));
+        }
+
+        if ($this->hasRequestParam('ExternalId')) {
+            $extuser = ExternalUser::model()
+                ->byAccountId($this->getAccount()->Id)
+                ->byUserId($user->Id)
+                ->find();
+
+            if ($extuser === null) {
+                $extuser = ExternalUser::create($user, $this->getAccount());
+            }
+
+            $extuser->ExternalId = $this->getRequestParam('ExternalId');
+            $extuser->save();
         }
 
         // Возвращаем обновлённые данные пользователя

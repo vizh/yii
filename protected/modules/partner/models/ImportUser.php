@@ -199,7 +199,8 @@ class ImportUser extends ActiveRecord
             $user = $this->createUser($import);
 
             if ($this->ExternalId && $import->getApiAccount()) {
-                ExternalUser::create($user, $import->getApiAccount(), $this->ExternalId);
+                ExternalUser::create($user, $import->getApiAccount(), $this->ExternalId)
+                    ->save();
             }
 
             $this->setCompany($user);
