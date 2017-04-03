@@ -183,8 +183,8 @@ class UserData extends ActiveRecord
                 }
             }
             if ($manager->validate() === false) {
-                foreach ($manager->getErrors() as $attributeName => $errorMessage) {
-                    throw new Exception("Ошибка валидации атрибута $attributeName: $errorMessage");
+                foreach ($manager->getErrors() as $attributeName => $errorMessages) {
+                    throw new Exception("Ошибка валидации атрибута {$attributeName}: ".implode(', ', $errorMessages));
                 }
             }
             $userData->save();
