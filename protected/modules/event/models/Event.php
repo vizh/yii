@@ -1143,7 +1143,7 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
             ->byDeleted(false)
             ->findAll();
 
-        if ($createEmpty === true) {
+        if ($createEmpty === true && empty($data)) {
             $data[] = UserData::createEmpty($this, $user);
         }
 

@@ -174,7 +174,7 @@ class UserData extends ActiveRecord
      */
     public static function set(Event $event, User $user, array $attributes)
     {
-        foreach ($event->getUserData($user) as $userData) {
+        foreach ($event->getUserData($user, true) as $userData) {
             $manager = $userData->getManager();
             foreach ($attributes as $name => $value) {
                 $valueCurrent = $manager->$name;
