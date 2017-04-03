@@ -3,7 +3,6 @@ namespace api\models\forms\user;
 
 use api\components\Exception;
 use api\models\Account;
-use api\models\forms\ExternalUser;
 use event\models\Event;
 use event\models\Participant;
 use oauth\models\Permission;
@@ -28,16 +27,6 @@ class Register extends BaseRegisterForm
     protected $account;
 
     /**
-     * @var string
-     */
-    private $externalUserPartner;
-
-    /**
-     * @var int Identifier of the event for register
-     */
-    private $eventId;
-
-    /**
      * @return array
      */
     public function rules()
@@ -49,25 +38,13 @@ class Register extends BaseRegisterForm
 
     /**
      * @param Account $account
-     * @param string $externalUserPartner
-     * @param int $eventId Identifier of the event that will be used for validation of uniqueness of an email
+     * @param string $externalUserPartner toDo: убрать
      */
-    public function __construct(Account $account, $externalUserPartner = 'partner', $eventId = null)
+    public function __construct(Account $account, $externalUserPartner = 'partner')
     {
         $this->account = $account;
-        $this->externalUserPartner = $externalUserPartner;
 
         parent::__construct(null);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected function initForms()
-    {
-        parent::initForms();
-
-        $this->registerForm(ExternalUser::className(), [$this->account, $this->externalUserPartner]);
     }
 
     /**
@@ -77,7 +54,6 @@ class Register extends BaseRegisterForm
     {
         return array_merge(parent::attributeLabels(), [
             'Password' => Yii::t('app', 'Пароль'),
-            'ExternalId' => Yii::t('app', 'Внешний Id')
         ]);
     }
 
@@ -96,7 +72,6 @@ class Register extends BaseRegisterForm
             'Phone' => $request->getParam('Phone'),
             'Company' => $request->getParam('Company'),
             'Position' => $request->getParam('Position'),
-            'ExternalId' => $request->getParam('ExternalId')
         ];
 
         $this->setAttributes($attributes);
