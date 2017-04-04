@@ -31,7 +31,7 @@ class UpdateUser extends BaseUser
      * @param Account $account
      * @param string $externalUserPartner
      */
-    public function __construct(User $user, Account $account, $externalUserPartner = 'partner')
+    public function __construct(User $user, Account $account, $externalUserPartner = Account::ROLE_PARTNER)
     {
         $this->model = $user;
         parent::__construct($account, $externalUserPartner);

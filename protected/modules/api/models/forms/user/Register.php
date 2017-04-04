@@ -40,7 +40,7 @@ class Register extends BaseRegisterForm
      * @param Account $account
      * @param string $externalUserPartner toDo: убрать
      */
-    public function __construct(Account $account, $externalUserPartner = 'partner')
+    public function __construct(Account $account, $externalUserPartner = Account::ROLE_PARTNER)
     {
         $this->account = $account;
 

@@ -1,6 +1,7 @@
 <?php
 namespace ruvents\controllers\user;
 
+use api\models\Account;
 use api\models\ExternalUser;
 use application\components\utility\Texts;
 use CText;
@@ -49,7 +50,7 @@ class CreateAction extends Action
             if ($this->getEvent()->Id == 1369) {
                 $externalUser = new ExternalUser();
                 $externalUser->AccountId = 105;
-                $externalUser->Partner = 'microsoft';
+                $externalUser->Partner = Account::ROLE_MICROSOFT;
                 $externalUser->UserId = $user->Id;
                 $externalUser->ExternalId = Texts::GenerateString(8, true);
                 $externalUser->save();

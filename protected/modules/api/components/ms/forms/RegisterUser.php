@@ -13,7 +13,7 @@ class RegisterUser extends BaseUser
      */
     public function __construct(Account $account)
     {
-        parent::__construct($account, 'microsoft');
+        parent::__construct($account, Account::ROLE_MICROSOFT);
 
         $request = \Yii::app()->getRequest();
 

@@ -763,7 +763,7 @@ class Builder
 
     protected function filterSectionTitle($title)
     {
-        if ($this->account->Role == 'mobile') {
+        if ($this->account->Role === Account::ROLE_MOBILE) {
             return (new \application\components\utility\Texts())->filterPurify($title);
         }
 

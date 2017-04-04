@@ -1,5 +1,9 @@
 <?php
 
+use api\models\Account;
+
+$apiAccountRoleLabels = Account::getRoleLabels();
+
 return [
     'guest' => [
         'type' => CAuthItem::TYPE_ROLE,
@@ -8,9 +12,9 @@ return [
         'data' => null
     ],
 
-    'base' => [
+    Account::ROLE_BASE => [
         'type' => CAuthItem::TYPE_ROLE,
-        'description' => 'Базовый набор прав доступа',
+        'description' => $apiAccountRoleLabels[Account::ROLE_BASE],
         'children' => [
             'guest',
         ],
@@ -18,9 +22,9 @@ return [
         'data' => null
     ],
 
-    'mobile' => [
+    Account::ROLE_MOBILE => [
         'type' => CAuthItem::TYPE_ROLE,
-        'description' => 'Авторизация в качестве мобильного приложения',
+        'description' => $apiAccountRoleLabels[Account::ROLE_MOBILE],
         'children' => [
             'base',
         ],
@@ -28,9 +32,9 @@ return [
         'data' => null
     ],
 
-    'partner' => [
+    Account::ROLE_PARTNER => [
         'type' => CAuthItem::TYPE_ROLE,
-        'description' => 'Авторизация с партнерским доступом к api',
+        'description' => $apiAccountRoleLabels[Account::ROLE_PARTNER],
         'children' => [
             'base',
         ],
@@ -38,9 +42,9 @@ return [
         'data' => null
     ],
 
-    'partner_woc' => [
+    Account::ROLE_PARTNER_WOC => [
         'type' => CAuthItem::TYPE_ROLE,
-        'description' => 'Авторизация с партнерским доступом к api без доступа к персональным данным',
+        'description' => $apiAccountRoleLabels[Account::ROLE_PARTNER_WOC],
         'children' => [
             'base',
         ],
@@ -48,33 +52,26 @@ return [
         'data' => null
     ],
 
-    'own' => [
+    Account::ROLE_OWN => [
         'type' => CAuthItem::TYPE_ROLE,
-        'description' => 'Авторизация с максимальным доступом к api',
+        'description' => $apiAccountRoleLabels[Account::ROLE_OWN],
         'children' => [
-            'partner',
+            Account::ROLE_PARTNER,
         ],
         'bizRule' => null,
         'data' => null
     ],
 
-    'sberbank' => [
+    Account::ROLE_MBLT => [
         'type' => CAuthItem::TYPE_ROLE,
-        'description' => 'Роль для сбербанка',
+        'description' => $apiAccountRoleLabels[Account::ROLE_MBLT],
         'bizRule' => null,
         'data' => null
     ],
 
-    'mblt' => [
+    Account::ROLE_MICROSOFT => [
         'type' => CAuthItem::TYPE_ROLE,
-        'description' => 'Роль для MBLT',
-        'bizRule' => null,
-        'data' => null
-    ],
-
-    'microsoft' => [
-        'type' => CAuthItem::TYPE_ROLE,
-        'description' => 'Роль для проектов с MicroSoft',
+        'description' => $apiAccountRoleLabels[Account::ROLE_MICROSOFT],
         'bizRule' => null,
         'data' => null
     ]

@@ -1,6 +1,7 @@
 <?php
 namespace ruvents\controllers\visit;
 
+use api\models\Account;
 use api\models\ExternalUser;
 use event\models\section\Hall;
 use ruvents\components\Exception;
@@ -50,9 +51,9 @@ class CreateAction extends \ruvents\components\Action
             $criteria->params = ['ExternalId' => strtolower($externalId) . '%'];
 
             $externalUser = ExternalUser::model()
-                ->byPartner('microsoft')
+                ->byPartner(Account::ROLE_MICROSOFT)
                 ->find($criteria);//todo: жестко прописано microsoft!!! переделать
-            
+
             if ($externalUser === null)
                 return null;
 
