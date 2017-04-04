@@ -3,7 +3,9 @@
 namespace api\controllers\user;
 
 use api\components\Exception;
+use api\models\Account;
 use api\models\ExternalUser;
+use event\models\section\LinkUser;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
@@ -81,6 +83,18 @@ class GetAction extends \api\components\Action
 
         if ($user === null) {
             throw new Exception(208);
+        }
+
+        // Для данного мультиаккаунта позволено получать только спикеров для секций
+        if ($this->getAccount()->Role === Account::ROLE_PROFIT) {
+            $isSectionSpeaker = LinkUser::model()
+                ->byUserId($user->Id)
+                ->byEventId($this->getAccount()->EventId)
+                ->byDeleted(false)
+                ->exists();
+
+            if ($isSectionSpeaker === false)
+                throw new Exception(231, [$user->RunetId]);
         }
 
         $user = empty($user->MergeUserId)

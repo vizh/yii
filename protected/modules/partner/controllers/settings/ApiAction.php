@@ -31,7 +31,10 @@ class ApiAction extends Action
      */
     private function getApiAccount()
     {
-        $account = Account::model()->byEventId($this->getEvent()->Id)->find();
+        $account = Account::model()
+            ->byEventId($this->getEvent()->Id)
+            ->find();
+
         if ($account === null) {
             $account = new Account();
             $account->EventId = $this->getEvent()->Id;
@@ -40,6 +43,7 @@ class ApiAction extends Action
             $account->Role = Account::ROLE_PARTNER;
             $account->save();
         }
+
         return $account;
     }
 }

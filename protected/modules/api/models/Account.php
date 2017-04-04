@@ -45,6 +45,7 @@ class Account extends ActiveRecord
     const ROLE_MICROSOFT = 'microsoft';
     const ROLE_MBLT = 'mblt';
     const ROLE_MOBILE = 'mobile';
+    const ROLE_PROFIT = 'profit';
     const ROLE_OLD_OWN = 'oldown';
 
     const SELF_ID = 1;
@@ -87,6 +88,16 @@ class Account extends ActiveRecord
         }
 
         return $this->_dataBuilder;
+    }
+
+    /**
+     * Мультиаккаунт? То есть имеем ли мы доступ ко всем мероприятиям.
+     *
+     * @return bool
+     */
+    public function isGlobal()
+    {
+        return $this->EventId === null;
     }
 
     public function checkIp($ip)
@@ -222,14 +233,13 @@ class Account extends ActiveRecord
     public static function getRoleLabels()
     {
         return [
-            self::ROLE_BASE => 'Базовый уровень доступа (не используется)',
             self::ROLE_OWN => 'Собственное мероприятие',
+            self::ROLE_MOBILE => 'Мобильное приложение',
             self::ROLE_PARTNER => 'Партнерское мероприятие',
             self::ROLE_PARTNER_WOC => 'Партнёрское мероприятие с ограничениями',
             self::ROLE_MICROSOFT => 'Мероприятие Microsoft',
             self::ROLE_MBLT => 'Мероприятие MBLT',
-            self::ROLE_MOBILE => 'Мобильное приложение',
-            self::ROLE_OLD_OWN => 'Собственное мероприятие старого типа (не используется)'
+            self::ROLE_PROFIT => 'Глобальный: Программные сетки ВСЕХ мероприятий',
         ];
     }
 }

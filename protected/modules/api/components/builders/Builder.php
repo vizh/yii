@@ -212,9 +212,9 @@ class Builder
      */
     protected function buildUserEvent($user)
     {
-        $isOnePart = $this->account->EventId != null && empty($this->account->Event->Parts);
+        $isOnePart = empty($this->account->Event->Parts);
         foreach ($user->Participants as $participant) {
-            if ($this->account->EventId != null && $participant->EventId == $this->account->EventId) {
+            if ($participant->EventId == $this->account->EventId) {
                 if ($isOnePart) {
                     $this->user->Status = new \stdClass();
                     $this->user->Status->RoleId = $participant->RoleId;
@@ -236,17 +236,6 @@ class Builder
                     $status->TicketUrl = $participant->getTicketUrl();
                     $this->user->Status[] = $status;
                 }
-            } elseif ($this->account->EventId == null) {
-                if (!$participant->Event->Visible) {
-                    continue;
-                }
-                $status = new \stdClass();
-                $status->RoleId = $participant->RoleId;
-                $status->RoleName = $participant->Role->Title;
-                $status->RoleTitle = $participant->Role->Title;
-                $status->UpdateTime = $participant->UpdateTime;
-                $status->Event = $this->CreateEvent($participant->Event);
-                $this->user->Status[] = $status;
             }
         }
 
@@ -259,11 +248,11 @@ class Builder
      */
     protected function buildUserBadge($user)
     {
-        $isOnePart = $this->account->EventId != null && empty($this->account->Event->Parts);
-        if ($isOnePart && !empty($this->user->Status)) {
-            $model = \ruvents\models\Badge::model()
-                ->byEventId($this->account->EventId)->byUserId($user->Id);
-            $this->user->Status->Registered = $model->exists();
+        if (empty($this->account->Event->Parts) && !empty($this->user->Status)) {
+            $this->user->Status->Registered = \ruvents\models\Badge::model()
+                ->byEventId($this->account->EventId)
+                ->byUserId($user->Id)
+                ->exists();
         }
 
         return $this->user;

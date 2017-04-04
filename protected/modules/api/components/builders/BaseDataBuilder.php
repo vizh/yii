@@ -77,7 +77,7 @@ class BaseDataBuilder
     {
         $isSingleDay = empty($this->account->Event->Days);
         foreach ($user->Participants as $participant) {
-            if ($this->account->EventId != null && $participant->EventId == $this->account->EventId) {
+            if ($participant->EventId === $this->account->EventId) {
                 if ($isSingleDay) {
                     $this->user->Status = new \stdClass();
                     $this->user->Status->RoleId = $participant->RoleId;
@@ -96,16 +96,6 @@ class BaseDataBuilder
                     $this->user->Status[] = $status;
                 }
 
-            } elseif ($this->account->EventId == null) {
-                if ($participant->Event->Visible == \event\models\Event::EventVisibleN) {
-                    continue;
-                }
-                $status = new \stdClass();
-                $status->RoleId = $participant->RoleId;
-                $status->RoleName = $participant->EventRole->Name;
-                $status->UpdateTime = $participant->UpdateTime;
-                $status->Event = $this->CreateEvent($participant->Event);
-                $this->user->Status[] = $status;
             }
         }
 

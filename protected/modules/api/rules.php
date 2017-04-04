@@ -116,11 +116,24 @@ return [
         'controllers' => ['ms', 'pay', 'user'],
     ],
 
-    /** Iri **/
+    /** Iri toDo: Это не является типом api-аккаунта! Тут должны быть только они. **/
     [
         'allow',
         'roles' => ['iri'],
         'controllers' => ['iri'],
+    ],
+
+    [
+        'allow',
+        'roles' => [Account::ROLE_PROFIT],
+        'controllers' => ['section']
+    ],
+
+    [
+        'allow',
+        'roles' => [Account::ROLE_PROFIT],
+        'controllers' => ['user'],
+        'actions' => ['get']
     ],
 
     /***  ЗАПРЕЩЕНО ВСЕ ЧТО НЕ РАЗРЕШЕНО   ***/

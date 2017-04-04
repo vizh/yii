@@ -14,7 +14,7 @@ return [
 
     Account::ROLE_BASE => [
         'type' => CAuthItem::TYPE_ROLE,
-        'description' => $apiAccountRoleLabels[Account::ROLE_BASE],
+        'description' => 'Базовый уровень доступа',
         'children' => [
             'guest',
         ],
@@ -48,6 +48,13 @@ return [
         'children' => [
             'base',
         ],
+        'bizRule' => null,
+        'data' => null
+    ],
+
+    Account::ROLE_PROFIT => [
+        'type' => CAuthItem::TYPE_ROLE,
+        'description' => $apiAccountRoleLabels[Account::ROLE_PROFIT],
         'bizRule' => null,
         'data' => null
     ],

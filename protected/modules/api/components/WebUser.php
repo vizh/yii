@@ -1,7 +1,10 @@
 <?php
+
 namespace api\components;
 
 use api\models\Account;
+use event\models\Event;
+use Yii;
 
 class WebUser extends \CWebUser
 {
@@ -14,13 +17,14 @@ class WebUser extends \CWebUser
     public static function Instance()
     {
         if (self::$instance === null)
-        {
             self::$instance = new WebUser();
-        }
 
         return self::$instance;
     }
 
+    /**
+     * @var Account|null
+     */
     private $account = null;
 
     /**
@@ -29,24 +33,22 @@ class WebUser extends \CWebUser
      */
     public function getAccount()
     {
-        if ($this->account === null)
-        {
-            $request = \Yii::app()->getRequest();
+        if ($this->account === null) {
+            $request = Yii::app()->getRequest();
 
             $key = !empty($_SERVER['HTTP_APIKEY']) ? $_SERVER['HTTP_APIKEY'] : null;
             $hash = !empty($_SERVER['HTTP_HASH']) ? $_SERVER['HTTP_HASH'] : null;
             $timestamp = !empty($_SERVER['HTTP_TIMESTAMP']) ? $_SERVER['HTTP_TIMESTAMP'] : null;
 
-            $key = $request->getParam('ApiKey',$key);
-            $hash = $request->getParam('Hash',$hash);
-            $timestamp = $request->getParam('Timestamp',$timestamp);
+            $key = $request->getParam('ApiKey', $key);
+            $hash = $request->getParam('Hash', $hash);
+            $timestamp = $request->getParam('Timestamp', $timestamp);
 
-            $account = \Yii::app()
+            $account = Yii::app()
                 ->getCache()
                 ->get("$key,$hash,$timestamp");
 
-            if ($account === false)
-            {
+            if ($account === false) {
                 $account = Account::model()
                     ->byKey($key)
                     ->with('Event', 'Ips')
@@ -62,13 +64,20 @@ class WebUser extends \CWebUser
                     throw new Exception(105);
 
                 // Предоставляем возможность иметь api-аккаунты с динамической привязкой к мероприятию
-                if ($account->EventId === null)
+                if ($account->isGlobal()) {
                     $account->EventId = $request->getParam('EventId');
+                    // Параметр EventId обязателен для отправки запроса из под мультиаккаунта
+                    /** @noinspection NotOptimalIfConditionsInspection */
+                    if ($account->isGlobal())
+                        throw new Exception(109, ['EventId']);
+                    // В случае мультиаккаунтов, связи в моделях работать не будут. Помогаем им.
+                    $account->Event = Event::model()->findByPk($account->EventId);
+                }
 
                 if ($account->checkIp($request->getUserHostAddress()) === false)
                     throw new Exception(103, [$key, $request->getUserHostAddress()]);
 
-                \Yii::app()
+                Yii::app()
                     ->getCache()
                     ->set("$key,$hash,$timestamp", $account, 30);
             }
@@ -89,26 +98,27 @@ class WebUser extends \CWebUser
      */
     public function getRole()
     {
-        if ($this->getAccount() !== null)
-        {
-            return $this->getAccount()->Role;
-        }
+        if ($this->account !== null || $this->getAccount() !== null)
+            return $this->account->Role;
+
         return null;
     }
 
-    protected $_access = array();
+    protected $_access = [];
 
-    public function checkAccess($operation,$params=array(),$allowCaching=true)
+    public function checkAccess($operation, $params = [], $allowCaching = true)
     {
-        if($allowCaching && $params===array() && isset($this->_access[$operation]))
+        if ($allowCaching && $params === [] && isset($this->_access[$operation]))
             return $this->_access[$operation];
         else
-            return $this->_access[$operation]= \Yii::app()->apiAuthManager->checkAccess($operation,$this->getId(),$params);
+            return $this->_access[$operation] = Yii::app()->apiAuthManager->checkAccess($operation, $this->getId(),
+                $params);
     }
 
     public function getIsGuest()
     {
-        return $this->getAccount() === null;
+        return $this->account === null
+            && $this->getAccount() === null;
     }
 
     public function getId()

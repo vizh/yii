@@ -1,8 +1,10 @@
 <?php
 /**
- * @var \api\models\Account $account
+ * @var Account $account
  * @var \api\models\forms\admin\Account $form
  */
+use api\models\Account;
+
 ?>
 <?=CHtml::form('','POST', ['class' => 'form-horizontal'])?>
 <?=CHtml::activeHiddenField($form, 'Id')?>
@@ -61,7 +63,7 @@
         <?=CHtml::activeDropDownList($form, 'RequestPhoneOnRegistration', $form->getRequestPhoneOnRegistrationStatusData(), ['class' => 'input-xlarge'])?>
       </div>
     </div>
-      <?php if ($form->Role == \api\models\Account::ROLE_PARTNER_WOC): ?>
+      <?php if ($form->Role == Account::ROLE_PARTNER_WOC): ?>
       <div class="control-group">
           <?=CHtml::activeLabel($form, 'QuotaByUser', ['class' => 'control-label'])?>
           <div class="controls">
