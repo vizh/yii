@@ -144,7 +144,7 @@ class UpdatedUsersAction extends \ruvents\components\Action
     private function getExternalIds($idList)
     {
         $externalUsers = ExternalUser::model()
-            ->byAccountId($this->getAccount()->Id)
+//            ->byAccountId($this->getAccount()->Id)
             ->byUserId($idList)
             ->findAll();
 
