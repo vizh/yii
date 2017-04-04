@@ -1,6 +1,8 @@
 <?php
 namespace competence\models\test\iior17;
 
+use competence\models\Result;
+
 class Q18 extends \competence\models\form\Base {
 
     public $subMarkets = [
@@ -61,7 +63,9 @@ class Q18 extends \competence\models\form\Base {
         $questionData = $result->getQuestionResult($this->question);
         $data = [];
         foreach ($this->subMarkets as $key => $market) {
-            $data[] = isset($questionData['value'][$key]) ? $questionData['value'][$key] : '';
+            $data[] = isset($questionData['value'][$key]) && $questionData['value'][$key]['type']
+                ? $questionData['value'][$key]['type'].' / '.$questionData[$key]['result']
+                : '';
         }
         return $data;
     }

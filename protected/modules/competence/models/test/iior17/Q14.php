@@ -1,6 +1,8 @@
 <?php
 namespace competence\models\test\iior17;
 
+use competence\models\Result;
+
 class Q14 extends \competence\models\form\Base {
 
     public $subMarkets = [
