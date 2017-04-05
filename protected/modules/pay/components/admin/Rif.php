@@ -8,7 +8,7 @@ class Rif
     const HOTEL_N = 'НАЗАРЬЕВО';
     const HOTEL_S = 'СОСНЫ';
 
-    const EventId = 2393;
+    const EventId = 3016;
 
     private static $db = null;
 
