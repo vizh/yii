@@ -73,7 +73,7 @@ class Controller extends \application\components\controllers\BaseController
         if ($account->checkUrl($this->url)) {
             $this->Account = $account;
         } else {
-            throw new \CHttpException(400, 'Не корректно задан путь возврата' . $this->url);
+            throw new \CHttpException(400, "Не корректно задан путь возврата {$this->url}");
         }
 
         return true;
