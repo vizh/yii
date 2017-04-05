@@ -136,6 +136,13 @@ return [
         'actions' => ['get']
     ],
 
+    [
+        'allow',
+        'roles' => [Account::ROLE_PROFIT],
+        'controllers' => ['event'],
+        'actions' => ['list']
+    ],
+
     /***  ЗАПРЕЩЕНО ВСЕ ЧТО НЕ РАЗРЕШЕНО   ***/
     [
         'deny',

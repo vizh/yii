@@ -90,16 +90,6 @@ class Account extends ActiveRecord
         return $this->_dataBuilder;
     }
 
-    /**
-     * Мультиаккаунт? То есть имеем ли мы доступ ко всем мероприятиям.
-     *
-     * @return bool
-     */
-    public function isGlobal()
-    {
-        return $this->EventId === null;
-    }
-
     public function checkIp($ip)
     {
         // Считаем ip-адрес корректным, если для аккаунта не задан список доверенных адресов или запрос происходит локально.
