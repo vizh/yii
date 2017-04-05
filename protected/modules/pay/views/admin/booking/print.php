@@ -39,7 +39,7 @@ use application\components\utility\Texts;
 </table>
 <p>
     <strong><?=CHtml::encode($order->Name)?></strong>, именуемое в дальнейшем <strong>«Заказчик»</strong>,
-    в лице <?=CHtml::encode($order->ChiefPositionP)?>, действующего на основании
+    в лице <?=CHtml::encode($order->ChiefPositionP)?> <?=CHtml::encode($order->ChiefNameP)?>, действующего на основании
     <?=!empty($order->StatuteTitle) ? $order->StatuteTitle : 'Устава'?>, и
     <strong>Общество с ограниченной ответственностью «Интернет Медиа Холдинг»</strong>,
     именуемое в дальнейшем <strong>«Организатор»</strong>, в лице Директора Гребенникова Сергея Владимировича,
@@ -243,7 +243,7 @@ use application\components\utility\Texts;
                 <p>ООО «Интернет Медиа Холдинг»<br/>
                     123317, г. Москва, Пресненская набережная, дом 6, строение 2, этаж 27, помещение I<br/>
                     ИНН/КПП 7703725797/770301001 <br/>
-                    Московский филиал ПАО РОСБАНК <br/>
+                    ПАО РОСБАНК Г.МОСКВА<br/>
                     р/с 40702810697620000409<br/>
                     к/с 30101810000000000256<br/>
                     БИК 044525256</p>
@@ -254,7 +254,7 @@ use application\components\utility\Texts;
                 <p>
                     <?=$order->ChiefPosition?>:<br/><br/>
 
-                    _____________________ / <?=$order->ChiefName?>/<br/>
+                    _____________________ / <?=preg_replace('/(\w+) (\w)\w+ (\w)\w+/iu', '$1 $2. $3.', $order->ChiefName)?>/<br/>
                     м.п.
                 </p>
             </td>
@@ -307,8 +307,7 @@ use application\components\utility\Texts;
         <td style="border: 1px solid #000; padding: 5px;"><br>40702810697620000409</td>
     </tr>
     <tr>
-        <td colspan="2" style="border: 1px solid #000; padding: 5px;">Банк получателя<br>ПАО РОСБАНК
-            Г.МОСКВА
+        <td colspan="2" style="border: 1px solid #000; padding: 5px;">Банк получателя<br>ПАО РОСБАНК Г.МОСКВА
         </td>
         <td style="border: 1px solid #000; padding: 5px;">БИК<br>Сч. №</td>
         <td style="border: 1px solid #000; padding: 5px;">044525256<br>30101810000000000256</td>
