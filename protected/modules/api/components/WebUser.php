@@ -63,25 +63,25 @@ class WebUser extends \CWebUser
                 if ($account->Blocked)
                     throw new Exception(105);
 
-                // Предоставляем возможность иметь api-аккаунты с динамической привязкой к мероприятию
-                // Важно понимать, что есть единственный метод-исключение: event/list, для вызова которого
-                // мы не можем знать конкретный EventId
-                if ($account->EventId === null && $request->pathInfo !== 'event/list') {
-                    $account->EventId = $request->getParam('EventId');
-                    // Параметр EventId обязателен для отправки запроса из под мультиаккаунта
-                    /** @noinspection NotOptimalIfConditionsInspection */
-                    if ($account->EventId === null)
-                        throw new Exception(109, ['EventId']);
-                    // В случае мультиаккаунтов, связи в моделях работать не будут. Помогаем им.
-                    $account->Event = Event::model()->findByPk($account->EventId);
-                }
-
                 if ($account->checkIp($request->getUserHostAddress()) === false)
                     throw new Exception(103, [$key, $request->getUserHostAddress()]);
 
                 Yii::app()
                     ->getCache()
                     ->set("$key,$hash,$timestamp", $account, 30);
+            }
+
+            // Предоставляем возможность иметь api-аккаунты с динамической привязкой к мероприятию
+            // Важно понимать, что есть единственный метод-исключение: event/list, для вызова которого
+            // мы не можем знать конкретный EventId
+            if ($account->EventId === null && $request->pathInfo !== 'event/list') {
+                $account->EventId = $request->getParam('EventId');
+                // Параметр EventId обязателен для отправки запроса из под мультиаккаунта
+                /** @noinspection NotOptimalIfConditionsInspection */
+                if ($account->EventId === null)
+                    throw new Exception(109, ['EventId']);
+                // В случае мультиаккаунтов, связи в моделях работать не будут. Помогаем им.
+                $account->Event = Event::model()->findByPk($account->EventId);
             }
 
             $this->account = $account;
