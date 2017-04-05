@@ -64,7 +64,7 @@ class Q18 extends \competence\models\form\Base {
         $data = [];
         foreach ($this->subMarkets as $key => $market) {
             $data[] = isset($questionData['value'][$key]) && $questionData['value'][$key]['type']
-                ? $questionData['value'][$key]['type'].' / '.$questionData[$key]['result']
+                ? $questionData['value'][$key]['type'].' / '.$questionData['value'][$key]['result']
                 : '';
         }
         return $data;
