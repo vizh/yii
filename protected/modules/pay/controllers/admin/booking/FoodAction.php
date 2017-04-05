@@ -17,9 +17,9 @@ class FoodAction extends \CAction
         $users = Rif::getUsersByHotel();
 
         $usersFood = [];
-        $usersFood['breakfastP']  = $this->getFoodUsers($food['breakfast'], array_merge($users['ЛЕСНЫЕ ДАЛИ'], $users['НАЗАРЬЕВО']), true);
-        $usersFood['breakfastLD'] = $this->getFoodUsers($food['breakfast'], $users['ЛЕСНЫЕ ДАЛИ']);
-        $usersFood['breakfastN']  = $this->getFoodUsers($food['breakfast'], $users['НАЗАРЬЕВО']);
+        $usersFood['breakfastP']  = $this->getFoodUsers($food['breakfast'], array_merge(isset($users['ЛЕСНЫЕ ДАЛИ']) ? $users['ЛЕСНЫЕ ДАЛИ'] : [], isset($users['НАЗАРЬЕВО']) ? $users['НАЗАРЬЕВО'] : []), true);
+        $usersFood['breakfastLD'] = $this->getFoodUsers($food['breakfast'], isset($users['ЛЕСНЫЕ ДАЛИ']) ? $users['ЛЕСНЫЕ ДАЛИ'] : []);
+        $usersFood['breakfastN']  = $this->getFoodUsers($food['breakfast'], isset($users['НАЗАРЬЕВО']) ? $users['НАЗАРЬЕВО'] : []);
         $usersFood['lunchP']      = $this->getFoodUsers($food['lunch'], [], true);
         $usersFood['lunchLD']     = [];
         $usersFood['dinnerP']     = $this->getFoodUsers($food['dinner'], [], true);;
