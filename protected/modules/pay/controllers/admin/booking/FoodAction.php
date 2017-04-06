@@ -17,13 +17,13 @@ class FoodAction extends \CAction
         $users = Rif::getUsersByHotel();
 
         $usersFood = [];
-        $usersFood['breakfastP']  = $this->getFoodUsers($food['breakfast'], array_merge(isset($users['ЛЕСНЫЕ ДАЛИ']) ? $users['ЛЕСНЫЕ ДАЛИ'] : [], isset($users['НАЗАРЬЕВО']) ? $users['НАЗАРЬЕВО'] : []), true);
-        $usersFood['breakfastLD'] = $this->getFoodUsers($food['breakfast'], isset($users['ЛЕСНЫЕ ДАЛИ']) ? $users['ЛЕСНЫЕ ДАЛИ'] : []);
+        $usersFood['breakfastLD']  = $this->getFoodUsers($food['breakfast'], array_merge(isset($users['ЛЕСНЫЕ ДАЛИ']) ? $users['ЛЕСНЫЕ ДАЛИ'] : [], isset($users['НАЗАРЬЕВО']) ? $users['НАЗАРЬЕВО'] : []), true);
+        $usersFood['breakfastP'] = $this->getFoodUsers($food['breakfast'], isset($users['ЛЕСНЫЕ ДАЛИ']) ? $users['ЛЕСНЫЕ ДАЛИ'] : []);
         $usersFood['breakfastN']  = $this->getFoodUsers($food['breakfast'], isset($users['НАЗАРЬЕВО']) ? $users['НАЗАРЬЕВО'] : []);
-        $usersFood['lunchP']      = $this->getFoodUsers($food['lunch'], [], true);
-        $usersFood['lunchLD']     = [];
-        $usersFood['dinnerP']     = $this->getFoodUsers($food['dinner'], [], true);;
-        $usersFood['dinnerLD']    = [];
+        $usersFood['lunchLD']      = $this->getFoodUsers($food['lunch'], [], true);
+        $usersFood['lunchP']     = [];
+        $usersFood['dinnerLD']     = $this->getFoodUsers($food['dinner'], [], true);;
+        $usersFood['dinnerP']    = [];
 
         $this->getController()->render('food', [
             'dates' => $dates,
