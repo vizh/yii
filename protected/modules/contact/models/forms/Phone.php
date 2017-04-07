@@ -84,7 +84,7 @@ class Phone extends CreateUpdateForm
     {
         if ($this->getScenario() == self::ScenarioOneField || $this->getScenario() == self::ScenarioOneFieldRequired) {
             $attributes = $this->getAttributes();
-            if (preg_match('/\+(\d+)(\(\d+\))?([\d-]+)/', $attributes['OriginalPhone'], $matches) > 0) {
+            if (preg_match('/\+?(\d+)(\(\d+\))?([\d-]+)/', $attributes['OriginalPhone'], $matches) > 0) {
                 $attributes['CountryCode'] = $matches[1];
                 if (!empty($matches[2])) {
                     $attributes['CityCode'] = trim($matches[2], '()');
