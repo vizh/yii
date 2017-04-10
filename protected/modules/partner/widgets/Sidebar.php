@@ -168,6 +168,16 @@ class Sidebar extends \CWidget
             ],
             ['label' => 'Программа', 'icon' => 'th', 'url' => ['program/index']],
             [
+                'label' => 'Paperless',
+                'icon' => 'file',
+                'url' => ['paperlessDevice/index'],
+                'items' => [
+                    ['label' => 'Настройки', 'url' => ['paperlessDevice/index']],
+                    ['label' => 'Материалы', 'url' => ['paperlessMaterial/index']],
+                    ['label' => 'События', 'url' => ['paperlessEvent/index']],
+                ]
+            ],
+            [
                 'label' => 'Настройки',
                 'icon' => 'cog',
                 'url' => ['settings/roles'],

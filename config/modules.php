@@ -30,6 +30,7 @@ $modules = [
     'competence',
     'iri',
     'connect',
+    'paperless',
 
     /** Технические модули */
     'mytest',
