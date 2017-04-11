@@ -41,7 +41,7 @@ class UserAutocompleteInput extends \CWidget
         }
 
         $this->htmlOptions['data-userautocompleteinput'] = 1;
-        $this->htmlOptions['data-eventid'] = \CHtml::value($this->form, 'section.EventId');
+        $this->htmlOptions['data-eventid'] = \CHtml::value(\Yii::app()->partner->getEvent(), 'Id');
         $this->render('user-input', ['user' => $user]);
     }
 
