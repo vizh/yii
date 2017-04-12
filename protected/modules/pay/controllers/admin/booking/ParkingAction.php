@@ -100,6 +100,17 @@ class ParkingAction extends \CAction
                 $this->parking[] = $item;
             }
         }
+        //TODO: удалить посте РИФ 17
+        //Костыль добавляет парков для Горского Ф.Б.
+        //Нужно для отладки билета
+        $tmp = new ParkingItem();
+        $tmp->RunetId = 87610;
+        $tmp->Number = 'е008ра';
+        $tmp->Brand = 'volvo';
+        $tmp->Model = 'v50';
+        $tmp->Status = ParkingItem::STATUS_ORGANIZER;
+        $tmp->Hotel = Rif::HOTEL_LD;
+        $this->parking[] = $tmp;
     }
 
     private function initLocalTable()
