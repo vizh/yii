@@ -5,7 +5,6 @@
  * @var Participant|Participant[] $participant
  */
 
-use user\models\UseFr;
 use event\models\Event;
 use event\models\Participant;
 use ruvents\components\QrCode;
@@ -396,7 +395,7 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
              style="font-size: 4.1mm;margin-top:-22mm;margin-bottom:10mm;margin-left: 100px;padding-top: 20mm">
             19 -
             21 апреля <? if ($roomProductManager->Hotel) : ?><span
-                    class="red">/</span> Пансионат &laquo;<?= $roomProductManager->Hotel ?>&raquo;, <?= $roomProductManager->Housing ?>, номер <?= $roomProductManager->Number ?>
+                class="red">/</span> Пансионат &laquo;<?= $roomProductManager->Hotel ?>&raquo;, <?= $roomProductManager->Housing ?>, номер <?= $roomProductManager->Number ?>
 
             <? endif ?>
 
@@ -507,40 +506,38 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
                 <? endforeach; ?>
             </tr>
             <tr class="bg-grey">
-                <?php if(!empty($foodOrderItems)) :?>
-                <? foreach ($productIds as $day => $meals) :?>
-                    <? $payedMeals = 'не оплачено';
-                    $i = 0;
-                    foreach ($meals as $mealName => $mealId) {
-                        if (in_array($mealId, $userFoodProductIds)) {
-                            if (!$i) {
-                                $payedMeals = $mealName;
-                            } else {
-                                $payedMeals .= ', ' . $mealName;
+                <?php if (!empty($foodOrderItems)) : ?>
+                    <? foreach ($productIds as $day => $meals) : ?>
+                        <? $payedMeals = 'не оплачено';
+                        $i = 0;
+                        foreach ($meals as $mealName => $mealId) {
+                            if (in_array($mealId, $userFoodProductIds)) {
+                                if (!$i) {
+                                    $payedMeals = $mealName;
+                                } else {
+                                    $payedMeals .= ', ' . $mealName;
+                                }
+                                $i++;
                             }
-                            $i++;
-                        }
-                    }?>
-                    <td style="font-size: 2.6mm">Питание (<?=$payedMeals?>) </td>
-                <? endforeach; ?>
-                <? else :?>
+                        } ?>
+                        <td style="font-size: 2.6mm">Питание (<?= $payedMeals ?>)</td>
+                    <? endforeach; ?>
+                <? else : ?>
                     <td style="font-size: 2.6mm">Питание (не оплачено)</td>
                     <td style="font-size: 2.6mm">Питание (не оплачено)</td>
                     <td style="font-size: 2.6mm">Питание (не оплачено)</td>
-                <? endif?>
+                <? endif ?>
             </tr>
             <tr>
-                <td>Завтрак / 8:30 - 10:00<br>
+                <td style="vertical-align: top">Завтрак / 8:30 - 10:00<br>
                     Обед / 13:30 - 15:00<br>
                     Ланчбокс / 15:00 - 16:00<br>
                     Ужин / 18:30 - 20:00<br><br>
-                    Вечернее мероприятие / 21:30 - 23:00
                 </td>
-                <td>Завтрак / 8:30 - 10:00<br>
+                <td style="vertical-align: top">Завтрак / 8:30 - 10:00<br>
                     Обед / 13:30 - 15:00<br>
                     Ланчбокс / 15:00 - 16:00<br>
                     Ужин / 18:30 - 20:00<br><br>
-                    Вечернее мероприятие / 21:30 - 23:00
                 </td>
                 <td style="vertical-align: top">Завтрак / 8:30 - 10:00<br>
                     Обед / 13:30 - 15:00<br>
@@ -551,7 +548,6 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
         </table>
 
         <div class="col-12">
-            <!--            --><? /* var_dump($roomProductManager) */ ?>
         </div>
 
     </div>
@@ -566,7 +562,7 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
              style="font-size: 4.1mm;margin-top:-22mm;margin-bottom:10mm;margin-left: 100px;padding-top: 20mm">
             19 -
             21 апреля <? if ($roomProductManager->Hotel) : ?><span
-                    class="red">/</span> Пансионат &laquo;<?= $roomProductManager->Hotel ?>&raquo;<? endif ?>
+                class="red">/</span> Пансионат &laquo;<?= $roomProductManager->Hotel ?>&raquo;<? endif ?>
         </div>
     </div>
     <img style="margin-top: -20mm" src="/img/event/rif17/ticket/second.png"/>
@@ -581,7 +577,7 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
              style="font-size: 4.1mm;margin-top:-22mm;margin-bottom:10mm;margin-left: 100px;padding-top: 20mm">
             19 -
             21 апреля <? if ($roomProductManager->Hotel) : ?><span
-                    class="red">/</span> Пансионат &laquo;<?= $roomProductManager->Hotel ?>&raquo;<? endif ?>
+                class="red">/</span> Пансионат &laquo;<?= $roomProductManager->Hotel ?>&raquo;<? endif ?>
         </div>
     </div>
     <img style="margin-top: -20mm" src="/img/event/rif17/ticket/third.png"/>
@@ -591,10 +587,6 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
 <pagebreak/>
 <div class="text-center">
     <img src="/img/event/rif17/ticket/krylo.png" class="img-responsive"/>
-</div>
-<pagebreak/>
-<div class="text-center">
-    <img src="/img/event/rif17/ticket/scheme.png" class="img-responsive"/>
 </div>
 <? if (!empty($parking) && $roomProductManager !== null): ?><?php
     $showText2 = false;
@@ -638,13 +630,39 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
     ?>
 
 <? endif ?>
+<?
+$eventSections = \event\models\section\Section::model()->with('LinkUsers')
+    ->byEventId($event->Id)
+    ->findAll('"LinkUsers"."UserId" = :userId', [':userId' => $user->Id]);
 
+$dates = [];
+
+if (!empty($eventSections)) {
+    foreach ($eventSections as $eventSection) {
+        $datetime = new \DateTime($eventSection->StartTime);
+        $dates[] = $datetime->format('d');
+        $datetime->modify('+1 day');
+    }
+
+}
+?>
+<? if (!$parkingReporter): ?>
+    <pagebreak/>
+    <div class="text-center">
+        <img src="/img/event/rif17/ticket/map_ld.png"/>
+    </div>
+    <pagebreak/>
+    <div class="text-center">
+        <img src="/img/event/rif17/ticket/scheme-ld.png" class="img-responsive"/>
+    </div>
+    <pagebreak/>
+    <div class="text-center">
+        <img src="/img/event/rif17/ticket/scheme.png" class="img-responsive"/>
+    </div>
+<? endif ?>
 <? if (!empty($parking)): ?>
     <? if (!$parkingReporter): ?>
-        <pagebreak/>
-        <div class="text-center">
-            <img src="/img/event/rif17/ticket/<?= $map ?>"/>
-        </div>
+
         <pagebreak orientation="L"/>
         <div class="text-center"
              style="position:fixed;rotate:90; width: 285mm; height: 225mm;text-align: center; margin-top:-25mm">
@@ -655,18 +673,44 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
     <? else: ?>
         <?php
 
+        $eventSections = \event\models\section\Section::model()->with('LinkUsers')
+            ->byEventId($event->Id)
+            ->findAll('"LinkUsers"."UserId" = :userId', [':userId' => $user->Id]);
+
+        $dates = [];
+
+        if (!empty($eventSections)) {
+            foreach ($eventSections as $eventSection) {
+                $datetime = new \DateTime($eventSection->StartTime);
+                $dates[] = $datetime->format('d');
+                $datetime->modify('+1 day');
+            }
+
+        }
+
         $image = \Yii::app()->image->load(\Yii::getPathOfAlias('webroot.img.event.rif17.ticket.reporter') . '.png');
         $text1 = mb_strtoupper($parking['carNumber']);
         $path = '/img/event/rif17/ticket/car_rendered/' . $user->RunetId . '-r.jpg';
         $image->text($text1, 160, 0, 860);
         $image->save(\Yii::getPathOfAlias('webroot') . $path);
         $image = \Yii::app()->image->load(\Yii::getPathOfAlias('webroot') . $path);
-        $image->text('13,14,15', 100, 500, 1360);
-        $image->save(\Yii::getPathOfAlias('webroot') . $path);
+
+        if (!empty($dates)) {
+            $image->text(implode(',', $dates), 100, 500, 1360);
+            $image->save(\Yii::getPathOfAlias('webroot') . $path);
+        }
         ?>
         <pagebreak/>
         <div class="text-center">
             <img src="/img/event/rif17/ticket/map_reporter.png"/>
+        </div>
+        <pagebreak/>
+        <div class="text-center">
+            <img src="/img/event/rif17/ticket/scheme-ld.png" class="img-responsive"/>
+        </div>
+        <pagebreak/>
+        <div class="text-center">
+            <img src="/img/event/rif17/ticket/scheme.png" class="img-responsive"/>
         </div>
         <pagebreak orientation="L"/>
 
@@ -677,4 +721,6 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
         <sethtmlpagefooter name="footer" value="on" show-this-page="1"/>
     <? endif ?>
 <? endif ?>
+
+
 </html>
