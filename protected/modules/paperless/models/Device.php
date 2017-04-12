@@ -5,12 +5,26 @@ namespace paperless\models;
 use application\components\ActiveRecord;
 
 /**
- * @property integer $Id
- * @property integer $EventId
+ * @property int $Id
+ * @property int $EventId
+ * @property bool $Active
  * @property string $Name
  * @property string $Type
  * @property string $Comment
- * @property boolean $Active
+ *
+ * Описание вспомогательных методов
+ * @method Device   with($condition = '')
+ * @method Device   find($condition = '', $params = [])
+ * @method Device   findByPk($pk, $condition = '', $params = [])
+ * @method Device   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Device[] findAll($condition = '', $params = [])
+ * @method Device[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Device byId(int $id, bool $useAnd = true)
+ * @method Device byEventId(int $id, bool $useAnd = true)
+ * @method Device byActive(bool $active, bool $useAnd = true)
+ * @method Device byName(string $name, bool $useAnd = true)
+ * @method Device byType(string $type, bool $useAnd = true)
  */
 class Device extends ActiveRecord
 {
