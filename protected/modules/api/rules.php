@@ -24,6 +24,15 @@ return [
     ],
     /*** END DENY BLOCK ***/
 
+    /*** OFFLINE BLOCK ***/
+    [
+        'allow',
+        'roles' => [Account::ROLE_OFFLINE],
+        'controllers' => ['user'],
+        'actions' => ['badge', 'get']
+    ],
+    /*** END OFFLINE BLOCK ***/
+
     [
         'allow',
         'users' => ['?'],

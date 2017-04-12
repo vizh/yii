@@ -214,6 +214,10 @@ class Builder
     {
         $isOnePart = empty($this->account->Event->Parts);
         foreach ($user->Participants as $participant) {
+            if ($this->account->Role === Account::ROLE_OFFLINE && empty($participant->BadgeId) !== true) {
+//                tgmsg($participant->BadgeId);
+                $this->user->BadgeId = $participant->BadgeId;
+            }
             if ($participant->EventId == $this->account->EventId) {
                 if ($isOnePart) {
                     $this->user->Status = new \stdClass();

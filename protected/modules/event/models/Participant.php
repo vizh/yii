@@ -15,6 +15,7 @@ use user\models\User;
  * @property int $PartId
  * @property int $UserId
  * @property int $RoleId
+ * @property int $BadgeId уникальный идентификатор UID для RFID-бейджа
  * @property string $CreationTime
  * @property string $UpdateTime
  *
