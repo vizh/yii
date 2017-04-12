@@ -81,7 +81,7 @@ $config = [
 
 // Костыль для выключения поддержки сессий в api.
 // toDo: Вывести api в отдельное приложение с собственным конфигом
-if (preg_match('#^(api|ruvents)\.#', $_SERVER['HTTP_HOST'])) {
+if (isset($_SERVER['HTTP_HOST']) && preg_match('#^(api|ruvents)\.#', $_SERVER['HTTP_HOST'])) {
     $config['components']['session'] = [
         'autoStart' => false,
         'cookieMode' => 'none'
