@@ -507,15 +507,12 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
                 <? endforeach; ?>
             </tr>
             <tr class="bg-grey">
-                <?php var_dump(!empty($foodOrderItems));if(!empty($foodOrderItems)) :?>
-                    <? var_dump($productIds)?>
+                <?php if(!empty($foodOrderItems)) :?>
                 <? foreach ($productIds as $day => $meals) :?>
                     <? $payedMeals = 'не оплачено';
                     $i = 0;
                     foreach ($meals as $mealName => $mealId) {
-                        var_dump($mealId, $userFoodProductIds);
                         if (in_array($mealId, $userFoodProductIds)) {
-                             var_dump($mealId, $mealName);
                             if (!$i) {
                                 $payedMeals = $mealName;
                             } else {
