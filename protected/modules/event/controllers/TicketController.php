@@ -57,5 +57,9 @@ class TicketController extends application\components\controllers\PublicMainCont
         if ($participant->RoleId == Role::VIRTUAL_ROLE_ID && $event->IdName !== 'mcf16') {
             throw new \CHttpException(404, 'Virtual participants of rif16 can\'t get the ticket');
         }
+
+        if ($participant->RoleId == Role::VIRTUAL_ROLE_ID && $event->IdName !== 'rif17') {
+            throw new \CHttpException(404, 'Virtual participants of rif17 can\'t get the ticket');
+        }
     }
 }
