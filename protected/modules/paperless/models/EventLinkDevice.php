@@ -5,12 +5,24 @@ namespace paperless\models;
 use application\components\ActiveRecord;
 
 /**
- * @property integer $Id
- * @property integer $EventId
- * @property integer $DeviceId
+ * @property int $Id
+ * @property int $EventId
+ * @property int $DeviceId
  *
  * @property Event $Event
  * @property Device $Device
+ *
+ * Описание вспомогательных методов
+ * @method EventLinkDevice   with($condition = '')
+ * @method EventLinkDevice   find($condition = '', $params = [])
+ * @method EventLinkDevice   findByPk($pk, $condition = '', $params = [])
+ * @method EventLinkDevice   findByAttributes($attributes, $condition = '', $params = [])
+ * @method EventLinkDevice[] findAll($condition = '', $params = [])
+ * @method EventLinkDevice[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method EventLinkDevice byId(int $id, bool $useAnd = true)
+ * @method EventLinkDevice byEventId(int $id, bool $useAnd = true)
+ * @method EventLinkDevice byDeviceId(int $id, bool $useAnd = true)
  */
 class EventLinkDevice extends ActiveRecord
 {

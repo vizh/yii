@@ -5,23 +5,41 @@ namespace paperless\models;
 use application\components\ActiveRecord;
 
 /**
- * @property integer $Id
- * @property integer $EventId
+ * @property int $Id
+ * @property int $EventId
+ * @property bool $Active
  * @property string $Subject
  * @property string $Text
  * @property string $FromName
  * @property string $FromAddress
  * @property string $File
- * @property boolean $SendOnce
- * @property boolean $ConditionLike
+ * @property bool $SendOnce
+ * @property bool $ConditionLike
  * @property string $ConditionLikeString
- * @property boolean $ConditionNotLike
- * @property boolean $ConditionNotLikeString
- * @property boolean $Active
+ * @property bool $ConditionNotLike
+ * @property bool $ConditionNotLikeString
  *
  * @property \event\models\Event $Event
  * @property EventLinkDevice[] $DeviceLinks
  * @property EventLinkRole[] $RoleLinks
+ *
+ * Описание вспомогательных методов
+ * @method Event   with($condition = '')
+ * @method Event   find($condition = '', $params = [])
+ * @method Event   findByPk($pk, $condition = '', $params = [])
+ * @method Event   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Event[] findAll($condition = '', $params = [])
+ * @method Event[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Event byId(int $id, bool $useAnd = true)
+ * @method Event byEventId(int $id, bool $useAnd = true)
+ * @method Event bySubject(string $subject, bool $useAnd = true)
+ * @method Event byFromName(string $name, bool $useAnd = true)
+ * @method Event byFromAddress(string $address, bool $useAnd = true)
+ * @method Event bySendOnce(bool $once, bool $useAnd = true)
+ * @method Event byConditionLike(bool $like, bool $useAnd = true)
+ * @method Event byConditionNotLike(bool $notLike, bool $useAnd = true)
+ * @method Event byActive(bool $active, bool $useAnd = true)
  */
 class Event extends ActiveRecord
 {
