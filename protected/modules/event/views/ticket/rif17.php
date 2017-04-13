@@ -62,16 +62,10 @@ if (!empty($foodOrderItems)) {
 /*$foodProductManager = $foodOrderItem !== null ? $foodOrderItem->Product->getManager() : null;*/
 
 //$partyOrderItem = OrderItem::model()
-/*$dates = [];*/
 
 if ($roomOrderItem) {
     $dateIn = new \DateTime($roomOrderItem->getItemAttribute('DateIn'));
     $dateOut = new \DateTime($roomOrderItem->getItemAttribute('DateOut'));
-
-    /*while ($datetime->format('Y-m-d') <= $roomOrderItem->getItemAttribute('DateOut')) {
-        $dates[] = $datetime->format('d');
-        $datetime->modify('+1 day');
-    }*/
 }
 
 $coupons = \pay\models\CouponActivation::model()
@@ -398,7 +392,7 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
              style="font-size: 4.1mm;margin-top:-22mm;margin-bottom:10mm;margin-left: 100px;padding-top: 20mm">
             19 -
             21 апреля <? if ($roomProductManager->Hotel) : ?><span
-                    class="red">/</span> Пансионат &laquo;<?= $roomProductManager->Hotel ?>&raquo;, <?= $roomProductManager->Housing ?>, номер <?= $roomProductManager->Number ?>
+                class="red">/</span> Пансионат &laquo;<?= $roomProductManager->Hotel ?>&raquo;, <?= $roomProductManager->Housing ?>, номер <?= $roomProductManager->Number ?>
             <? endif ?>
         </div>
     </div>
@@ -487,7 +481,7 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
                             <div style="font-size: 2.1mm;margin-top:0;margin-left: 95px" class="date status"><b>НЕ РАНЕЕ
                                     17:00</b></div><? endif ?> </div>
                     <div style="float:left;margin-left:4mm">Дата выезда: <span
-                                style="color: #d2232a;"><b>       <?= $dateOut->format('d.m.Y') ?></b></span>
+                            style="color: #d2232a;"><b>       <?= $dateOut->format('d.m.Y') ?></b></span>
                         <div style="font-size: 2.1mm;margin-top:0;margin-left: 100px;color: #d2232a;" class="date"><b>НЕ
                                 ПОЗДНЕЕ 12:00</b></div>
                     </div>
@@ -581,7 +575,7 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
              style="font-size: 4.1mm;margin-top:-22mm;margin-bottom:10mm;margin-left: 100px;padding-top: 20mm">
             19 -
             21 апреля <? if ($roomProductManager->Hotel) : ?><span
-                    class="red">/</span> Пансионат &laquo;<?= $roomProductManager->Hotel ?>&raquo;, <?= $roomProductManager->Housing ?>, номер <?= $roomProductManager->Number ?>
+                class="red">/</span> Пансионат &laquo;<?= $roomProductManager->Hotel ?>&raquo;, <?= $roomProductManager->Housing ?>, номер <?= $roomProductManager->Number ?>
 
             <? endif ?>
 
@@ -600,82 +594,144 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
              style="font-size: 4.1mm;margin-top:-22mm;margin-bottom:10mm;margin-left: 100px;padding-top: 20mm">
             19 -
             21 апреля <? if ($roomProductManager->Hotel) : ?><span
-                    class="red">/</span> Пансионат &laquo;<?= $roomProductManager->Hotel ?>&raquo;, <?= $roomProductManager->Housing ?>, номер <?= $roomProductManager->Number ?>
+                class="red">/</span> Пансионат &laquo;<?= $roomProductManager->Hotel ?>&raquo;, <?= $roomProductManager->Housing ?>, номер <?= $roomProductManager->Number ?>
 
             <? endif ?>
 
         </div>
     </div>
-        <img style="margin-top: -20mm" src="/img/event/rif17/ticket/third.png"/>
-    </div>
-    <sethtmlpagefooter name="main-footer" value="on" show-this-page="1"/>
-    <div style="page-break-after: always"></div>
+    <img style="margin-top: -20mm" src="/img/event/rif17/ticket/third.png"/>
+</div>
+<sethtmlpagefooter name="main-footer" value="on" show-this-page="1"/>
+<div style="page-break-after: always"></div>
+<pagebreak/>
+<div class="text-center">
+    <img src="/img/event/rif17/ticket/krylo.png" class="img-responsive"/>
+</div>
+
+<?
+
+$dates = [];
+if ($roomOrderItem) {
+    $datetime = new \DateTime($roomOrderItem->getItemAttribute('DateIn'));
+    while ($datetime->format('Y-m-d') <= $roomOrderItem->getItemAttribute('DateOut')) {
+        $dates[] = $datetime->format('d');
+        $datetime->modify('+1 day');
+    }
+}
+
+?>
+<? if (!empty($parking) && $roomProductManager !== null): ?><?php
+    $showText2 = false;
+
+    switch ($roomProductManager->Hotel) {
+        case Rif::HOTEL_LD:
+            $y = 930;
+            $name = 'dali';
+            $showText2 = true;
+            $map = 'map_ld.png';
+            break;
+
+        case RIF::HOTEL_P:
+            $y = 1380;
+            $name = 'polyany';
+            $showText2 = false;
+            $map = 'map_p.png';
+            break;
+    }
+
+    $image = \Yii::app()->image->load(\Yii::getPathOfAlias('webroot.img.event.rif17.ticket.' . $name) . '.png');
+    $text1 = mb_strtoupper($parking['carNumber']);
+
+    $path = '/img/event/rif17/ticket/car_rendered/' . $user->RunetId . '.jpg';
+    $image->text($text1, 130, 0, $y);
+    $image->save(\Yii::getPathOfAlias('webroot') . $path);
+
+    if ($showText2) {
+        $text2 = implode(',', $dates);
+
+        $image = \Yii::app()->image->load(\Yii::getPathOfAlias('webroot') . $path);
+        $image->text($text2, 80, 500, 1380);
+        $image->save(\Yii::getPathOfAlias('webroot') . $path);
+    }
+    ?>
+
+<? endif ?>
+<?/*
+$eventSections = \event\models\section\Section::model()->with('LinkUsers')
+    ->byEventId($event->Id)
+    ->findAll('"LinkUsers"."UserId" = :userId', [':userId' => $user->Id]);
+
+$dates = [];
+
+if (!empty($eventSections)) {
+    foreach ($eventSections as $eventSection) {
+        $datetime = new \DateTime($eventSection->StartTime);
+        $dates[] = $datetime->format('d');
+        $datetime->modify('+1 day');
+    }
+
+}
+*/?>
+<? if (!$parkingReporter): ?>
     <pagebreak/>
     <div class="text-center">
-        <img src="/img/event/rif17/ticket/krylo.png" class="img-responsive"/>
+        <img src="/img/event/rif17/ticket/map_ld.png"/>
     </div>
-    <? if (!empty($parking) && $roomProductManager !== null): ?><?php
-        $showText2 = false;
+    <pagebreak/>
+    <div class="text-center">
+        <img src="/img/event/rif17/ticket/scheme-ld.png" class="img-responsive"/>
+    </div>
+    <pagebreak/>
+    <div class="text-center">
+        <img src="/img/event/rif17/ticket/scheme.png" class="img-responsive"/>
+    </div>
+<? endif ?>
+<? if (!empty($parking)): ?>
+    <? if (!$parkingReporter): ?>
 
-        switch ($roomProductManager->Hotel) {
-            case Rif::HOTEL_LD:
-                $y = 930;
-                $name = 'dali';
-                $showText2 = true;
-                $map = 'map_ld.png';
-                break;
+        <pagebreak orientation="L"/>
+        <div class="text-center"
+             style="position:fixed;rotate:90; width: 285mm; height: 225mm;text-align: center; margin-top:-25mm">
+            <img style="width: 100%; height:100%" src="<?= $path ?>"/>
+        </div>
+        <sethtmlpagefooter name="footer" value="on" show-this-page="1"/>
 
-            case RIF::HOTEL_P:
-                $y = 1380;
-                $name = 'polyany';
-                $showText2 = false;
-                $map = 'map_p.png';
-                break;
-        }
+    <? else: ?>
+        <?php
 
-        $image = \Yii::app()->image->load(\Yii::getPathOfAlias('webroot.img.event.rif17.ticket.' . $name) . '.png');
-        $text1 = mb_strtoupper($parking['carNumber']);
+        $eventSections = \event\models\section\Section::model()->with('LinkUsers')
+            ->byEventId($event->Id)
+            ->findAll('"LinkUsers"."UserId" = :userId', [':userId' => $user->Id]);
 
-        $path = '/img/event/rif17/ticket/car_rendered/' . $user->RunetId . '.jpg';
-        $image->text($text1, 130, 0, $y);
-        $image->save(\Yii::getPathOfAlias('webroot') . $path);
+        $reportDates = [];
 
-        if ($showText2) {
-            $dates = [];
-            $datetime = new \DateTime($roomOrderItem->getItemAttribute('DateIn'));
-            while ($datetime->format('Y-m-d') <= $roomOrderItem->getItemAttribute('DateOut')) {
-                $dates[] = $datetime->format('d');
+        if (!empty($eventSections)) {
+            foreach ($eventSections as $eventSection) {
+                $datetime = new \DateTime($eventSection->StartTime);
+                $reportDates[] = $datetime->format('d');
                 $datetime->modify('+1 day');
             }
-            $text2 = implode(',', $dates);
 
-            $image = \Yii::app()->image->load(\Yii::getPathOfAlias('webroot') . $path);
-            $image->text($text2, 80, 500, 1380);
+        }
+
+        $totalDates = $dates + $reportDates;
+
+        $image = \Yii::app()->image->load(\Yii::getPathOfAlias('webroot.img.event.rif17.ticket.reporter') . '.png');
+        $text1 = mb_strtoupper($parking['carNumber']);
+        $path = '/img/event/rif17/ticket/car_rendered/' . $user->RunetId . '-r.jpg';
+        $image->text($text1, 160, 0, 860);
+        $image->save(\Yii::getPathOfAlias('webroot') . $path);
+        $image = \Yii::app()->image->load(\Yii::getPathOfAlias('webroot') . $path);
+
+        if (!empty($totalDates)) {
+            $image->text(implode(',', $totalDates), 100, 500, 1360);
             $image->save(\Yii::getPathOfAlias('webroot') . $path);
         }
         ?>
-
-    <? endif ?>
-    <?
-    $eventSections = \event\models\section\Section::model()->with('LinkUsers')
-        ->byEventId($event->Id)
-        ->findAll('"LinkUsers"."UserId" = :userId', [':userId' => $user->Id]);
-
-    $dates = [];
-
-    if (!empty($eventSections)) {
-        foreach ($eventSections as $eventSection) {
-            $datetime = new \DateTime($eventSection->StartTime);
-            $dates[] = $datetime->format('d');
-            $datetime->modify('+1 day');
-        }
-
-    }
-    ?>
-    <? if (!$parkingReporter): ?>
         <pagebreak/>
         <div class="text-center">
-            <img src="/img/event/rif17/ticket/map_ld.png"/>
+            <img src="/img/event/rif17/ticket/map_reporter.png"/>
         </div>
         <pagebreak/>
         <div class="text-center">
@@ -685,68 +741,15 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
         <div class="text-center">
             <img src="/img/event/rif17/ticket/scheme.png" class="img-responsive"/>
         </div>
+        <pagebreak orientation="L"/>
+
+        <div class="text-center"
+             style="position:fixed;rotate:90; width: 285mm; height: 225mm;text-align: center; margin-top:-25mm">
+            <img src="<?= $path ?>"/>
+        </div>
+        <sethtmlpagefooter name="footer" value="on" show-this-page="1"/>
     <? endif ?>
-    <? if (!empty($parking)): ?>
-        <? if (!$parkingReporter): ?>
-
-            <pagebreak orientation="L"/>
-            <div class="text-center"
-                 style="position:fixed;rotate:90; width: 285mm; height: 225mm;text-align: center; margin-top:-25mm">
-                <img style="width: 100%; height:100%" src="<?= $path ?>"/>
-            </div>
-            <sethtmlpagefooter name="footer" value="on" show-this-page="1"/>
-
-        <? else: ?>
-            <?php
-
-            $eventSections = \event\models\section\Section::model()->with('LinkUsers')
-                ->byEventId($event->Id)
-                ->findAll('"LinkUsers"."UserId" = :userId', [':userId' => $user->Id]);
-
-            $dates = [];
-
-            if (!empty($eventSections)) {
-                foreach ($eventSections as $eventSection) {
-                    $datetime = new \DateTime($eventSection->StartTime);
-                    $dates[] = $datetime->format('d');
-                    $datetime->modify('+1 day');
-                }
-
-            }
-
-            $image = \Yii::app()->image->load(\Yii::getPathOfAlias('webroot.img.event.rif17.ticket.reporter') . '.png');
-            $text1 = mb_strtoupper($parking['carNumber']);
-            $path = '/img/event/rif17/ticket/car_rendered/' . $user->RunetId . '-r.jpg';
-            $image->text($text1, 160, 0, 860);
-            $image->save(\Yii::getPathOfAlias('webroot') . $path);
-            $image = \Yii::app()->image->load(\Yii::getPathOfAlias('webroot') . $path);
-
-            if (!empty($dates)) {
-                $image->text(implode(',', $dates), 100, 500, 1360);
-                $image->save(\Yii::getPathOfAlias('webroot') . $path);
-            }
-            ?>
-            <pagebreak/>
-            <div class="text-center">
-                <img src="/img/event/rif17/ticket/map_reporter.png"/>
-            </div>
-            <pagebreak/>
-            <div class="text-center">
-                <img src="/img/event/rif17/ticket/scheme-ld.png" class="img-responsive"/>
-            </div>
-            <pagebreak/>
-            <div class="text-center">
-                <img src="/img/event/rif17/ticket/scheme.png" class="img-responsive"/>
-            </div>
-            <pagebreak orientation="L"/>
-
-            <div class="text-center"
-                 style="position:fixed;rotate:90; width: 285mm; height: 225mm;text-align: center; margin-top:-25mm">
-                <img src="<?= $path ?>"/>
-            </div>
-            <sethtmlpagefooter name="footer" value="on" show-this-page="1"/>
-        <? endif ?>
-    <? endif ?>
+<? endif ?>
 
 
 </html>
