@@ -998,6 +998,10 @@ class Builder
                     $permissions[$user->RunetId] = false;
                     break;
 
+                case Account::ROLE_PROFIT:
+                    $permissions[$user->RunetId] = false;
+                    break;
+
                 default:
                     $permissions[$user->RunetId] = $this->account->Event->hasParticipant($user)
                         || Permission::model()

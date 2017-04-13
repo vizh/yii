@@ -147,7 +147,7 @@ return [
         'allow',
         'roles' => [Account::ROLE_PROFIT],
         'controllers' => ['user'],
-        'actions' => ['get']
+        'actions' => ['get', 'auth']
     ],
 
     [
