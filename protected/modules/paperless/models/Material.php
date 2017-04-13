@@ -18,6 +18,21 @@ use event\models\Event;
  *
  * @property Event $Event
  * @property MaterialLinkRole[] $RoleLinks
+ *
+ * Описание вспомогательных методов
+ * @method Material   with($condition = '')
+ * @method Material   find($condition = '', $params = [])
+ * @method Material   findByPk($pk, $condition = '', $params = [])
+ * @method Material   findByAttributes($attributes, $condition = '', $params = [])
+ * @method Material[] findAll($condition = '', $params = [])
+ * @method Material[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method Material byId(int $id, bool $useAnd = true)
+ * @method Material byEventId(int $id, bool $useAnd = true)
+ * @method Material byName(string $name, bool $useAnd = true)
+ * @method Material byComment(string $comment, bool $useAnd = true)
+ * @method Material byFile(string $file, bool $useAnd = true)
+ * @method Material byActive(bool $active, bool $useAnd = true)
  */
 class Material extends ActiveRecord
 {
