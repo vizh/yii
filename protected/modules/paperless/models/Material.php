@@ -6,30 +6,18 @@ use application\components\ActiveRecord;
 use event\models\Event;
 
 /**
- * @property int $Id
- * @property int $EventId
+ * @property integer $Id
+ * @property integer $EventId
  * @property string $Name
  * @property string $Comment
  * @property string $File
- * @property bool $Active
+ * @property boolean $Active
+ * @property string $PartnerName
+ * @property string $PartnerSite
+ * @property string $PartnerFile
  *
  * @property Event $Event
  * @property MaterialLinkRole[] $RoleLinks
- *
- * Описание вспомогательных методов
- * @method Material   with($condition = '')
- * @method Material   find($condition = '', $params = [])
- * @method Material   findByPk($pk, $condition = '', $params = [])
- * @method Material   findByAttributes($attributes, $condition = '', $params = [])
- * @method Material[] findAll($condition = '', $params = [])
- * @method Material[] findAllByAttributes($attributes, $condition = '', $params = [])
- *
- * @method Material byId(int $id, bool $useAnd = true)
- * @method Material byEventId(int $id, bool $useAnd = true)
- * @method Material byName(string $name, bool $useAnd = true)
- * @method Material byComment(string $comment, bool $useAnd = true)
- * @method Material byFile(string $file, bool $useAnd = true)
- * @method Material byActive(bool $active, bool $useAnd = true)
  */
 class Material extends ActiveRecord
 {
@@ -53,6 +41,9 @@ class Material extends ActiveRecord
             'Active' => 'Материал активен',
             'activeLabel' => 'Материал активен',
             'Roles' => 'Статусы',
+            'PartnerName' => 'Название партнера',
+            'PartnerSite' => 'Сайт партнера',
+            'PartnerLogo' => 'Логотип партнера',
         ];
     }
 
@@ -63,6 +54,7 @@ class Material extends ActiveRecord
     {
         return [
             ['EventId, Name, Active', 'required'],
+            ['PartnerName, PartnerSite', 'length', 'max' => 255],
             ['Active', 'boolean'],
         ];
     }
@@ -93,6 +85,15 @@ class Material extends ActiveRecord
      */
     public function getFilePath()
     {
-        return \Yii::getPathOfAlias('webroot.paperless.material');
+        return \Yii::getPathOfAlias('webroot.paperless.material.file');
+    }
+
+    /**
+     * Путь для сохранения логотипов партнеров
+     * @return string
+     */
+    public function getPartnerLogoPath()
+    {
+        return \Yii::getPathOfAlias('webroot.paperless.material.partner-logo');
     }
 }

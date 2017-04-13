@@ -16,6 +16,9 @@ class Material extends CreateUpdateForm
     public $Active;
     public $File;
     public $Roles;
+    public $PartnerName;
+    public $PartnerSite;
+    public $PartnerLogo;
 
     /** @var Event */
     protected $event;
@@ -38,8 +41,9 @@ class Material extends CreateUpdateForm
         return [
             ['Name, Active', 'required'],
             ['Comment, Roles', 'safe'],
+            ['PartnerName, PartnerSite', 'length', 'max' => 255],
             ['Active', 'boolean'],
-            ['File', 'file', 'allowEmpty' => true],
+            ['File, PartnerLogo', 'file', 'allowEmpty' => true],
         ];
     }
 
@@ -70,6 +74,8 @@ class Material extends CreateUpdateForm
             $this->model->Name = $this->Name;
             $this->model->Comment = $this->Comment;
             $this->model->Active = $this->Active;
+            $this->model->PartnerName = $this->PartnerName;
+            $this->model->PartnerSite = $this->PartnerSite;
 
             if (!$this->model->validate()) {
                 return null;
@@ -84,6 +90,17 @@ class Material extends CreateUpdateForm
                 }
 
                 $this->model->File = $file;
+            }
+
+            if ($this->PartnerLogo) {
+                $file = uniqid().'.'.$this->PartnerLogo->extensionName;
+                $this->PartnerLogo->saveAs($this->model->getPartnerLogoPath() . '/' . $file);
+
+                if ($this->model->PartnerLogo && is_file($this->model->getPartnerLogoPath() . '/' . $this->model->PartnerLogo)) {
+                    unlink($this->model->getPartnerLogoPath() . '/' . $this->model->PartnerLogo);
+                }
+
+                $this->model->PartnerLogo = $file;
             }
 
             $this->model->save(false);
@@ -113,6 +130,7 @@ class Material extends CreateUpdateForm
     {
         parent::fillFromPost();
         $this->File = \CUploadedFile::getInstance($this, 'File');
+        $this->PartnerLogo = \CUploadedFile::getInstance($this, 'PartnerLogo');
     }
 
     public function roles()

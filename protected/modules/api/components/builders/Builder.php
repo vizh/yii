@@ -18,6 +18,7 @@ use event\models\section\Hall;
 use event\models\section\LinkUser;
 use event\models\UserData;
 use oauth\models\Permission;
+use paperless\models\Material;
 use raec\models\CompanyUser;
 use user\models\Document;
 use user\models\DocumentType;
@@ -214,10 +215,6 @@ class Builder
     {
         $isOnePart = empty($this->account->Event->Parts);
         foreach ($user->Participants as $participant) {
-            if ($this->account->Role === Account::ROLE_OFFLINE && empty($participant->BadgeId) !== true) {
-//                tgmsg($participant->BadgeId);
-                $this->user->BadgeId = $participant->BadgeId;
-            }
             if ($participant->EventId == $this->account->EventId) {
                 if ($isOnePart) {
                     $this->user->Status = new \stdClass();
@@ -1094,5 +1091,28 @@ class Builder
         }
 
         return $result;
+    }
+
+    protected $paperlessMaterial;
+
+    /**
+     * @param Material $material
+     * @return mixed
+     */
+    public function createPaperlessMaterial($material)
+    {
+        $this->paperlessMaterial = new \stdClass();
+
+        $this->paperlessMaterial->Id = $material->Id;
+        $this->paperlessMaterial->Name = $material->Name;
+        $this->paperlessMaterial->Comment = $material->Comment;
+        $this->paperlessMaterial->File = $material->File;
+        $this->paperlessMaterial->Active = $material->Active;
+        $this->paperlessMaterial->PartnerName = $material->PartnerName;
+        $this->paperlessMaterial->PartnerSite = $material->PartnerSite;
+        $this->paperlessMaterial->PartnerLogo = $material->PartnerLogo;
+
+
+        return $this->paperlessMaterial;
     }
 }
