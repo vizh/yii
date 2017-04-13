@@ -41,6 +41,15 @@ $this->setPageTitle(\Yii::t('app', 'Добавление материала'));
                 </div>
             </div>
             <div class="col-md-6">
+                <?= $activeForm->label($form, 'PartnerName') ?>
+                <?= $activeForm->textField($form, 'PartnerName', ['class' => 'form-control']) ?>
+
+                <?= $activeForm->label($form, 'PartnerSite') ?>
+                <?= $activeForm->textField($form, 'PartnerSite', ['class' => 'form-control']) ?>
+
+                <?= $activeForm->label($form, 'PartnerLogo') ?>
+                <?= $activeForm->fileField($form, 'PartnerLogo', ['class' => 'form-control']) ?>
+
                 <?= $activeForm->label($form, 'Roles') ?>
                 <div class="form-group">
                     <?= $activeForm->checkBoxList($form, 'Roles', CHtml::listData($form->roles(), 'Id', 'Title')) ?>

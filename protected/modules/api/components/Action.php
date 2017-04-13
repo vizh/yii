@@ -135,7 +135,7 @@ class Action extends \CAction
     }
 
     /**
-     * @param string $param параметр запроса из которого взять Id пользователя
+     * @param string $param параметр запроса из которого взять RUNET-ID пользователя
      * @return User
      * @throws Exception
      */

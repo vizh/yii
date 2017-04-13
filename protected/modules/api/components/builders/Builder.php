@@ -18,6 +18,7 @@ use event\models\section\Hall;
 use event\models\section\LinkUser;
 use event\models\UserData;
 use oauth\models\Permission;
+use paperless\models\Material;
 use raec\models\CompanyUser;
 use user\models\Document;
 use user\models\DocumentType;
@@ -214,6 +215,10 @@ class Builder
     {
         $isOnePart = empty($this->account->Event->Parts);
         foreach ($user->Participants as $participant) {
+            // Для оффлайн сервисов добавляем в выдачу идентификатор RFID-бейджа
+            if ($this->account->Role === Account::ROLE_OFFLINE && empty($participant->BadgeId) !== true) {
+                $this->user->BadgeId = $participant->BadgeId;
+            }
             if ($participant->EventId == $this->account->EventId) {
                 if ($isOnePart) {
                     $this->user->Status = new \stdClass();
@@ -993,6 +998,10 @@ class Builder
                     $permissions[$user->RunetId] = false;
                     break;
 
+                case Account::ROLE_PROFIT:
+                    $permissions[$user->RunetId] = false;
+                    break;
+
                 default:
                     $permissions[$user->RunetId] = $this->account->Event->hasParticipant($user)
                         || Permission::model()
@@ -1090,5 +1099,28 @@ class Builder
         }
 
         return $result;
+    }
+
+    protected $paperlessMaterial;
+
+    /**
+     * @param Material $material
+     * @return mixed
+     */
+    public function createPaperlessMaterial($material)
+    {
+        $this->paperlessMaterial = new \stdClass();
+
+        $this->paperlessMaterial->Id = $material->Id;
+        $this->paperlessMaterial->Name = $material->Name;
+        $this->paperlessMaterial->Comment = $material->Comment;
+        $this->paperlessMaterial->File = $material->getFileUrl();
+        $this->paperlessMaterial->Active = $material->Active;
+        $this->paperlessMaterial->PartnerName = $material->PartnerName;
+        $this->paperlessMaterial->PartnerSite = $material->PartnerSite;
+        $this->paperlessMaterial->PartnerLogo = $material->getPartnerLogoUrl();
+
+
+        return $this->paperlessMaterial;
     }
 }

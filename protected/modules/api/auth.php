@@ -22,6 +22,16 @@ return [
         'data' => null
     ],
 
+    Account::ROLE_OFFLINE => [
+        'type' => CAuthItem::TYPE_ROLE,
+        'description' => $apiAccountRoleLabels[Account::ROLE_OFFLINE],
+        'children' => [
+            'guest',
+        ],
+        'bizRule' => null,
+        'data' => null
+    ],
+
     Account::ROLE_MOBILE => [
         'type' => CAuthItem::TYPE_ROLE,
         'description' => $apiAccountRoleLabels[Account::ROLE_MOBILE],

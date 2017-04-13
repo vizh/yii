@@ -39,6 +39,7 @@ use event\models\Event;
 class Account extends ActiveRecord
 {
     const ROLE_BASE = 'base';
+    const ROLE_OFFLINE = 'offline';
     const ROLE_OWN = 'own';
     const ROLE_PARTNER = 'partner';
     const ROLE_PARTNER_WOC = 'partner_woc';
@@ -224,6 +225,7 @@ class Account extends ActiveRecord
     {
         return [
             self::ROLE_OWN => 'Собственное мероприятие',
+            self::ROLE_OFFLINE => 'Оффлайн сервисы RUVENTS',
             self::ROLE_MOBILE => 'Мобильное приложение',
             self::ROLE_PARTNER => 'Партнерское мероприятие',
             self::ROLE_PARTNER_WOC => 'Партнёрское мероприятие с ограничениями',
