@@ -4,6 +4,7 @@ namespace paperless\models;
 
 use application\components\ActiveRecord;
 use event\models\Event;
+use Yii;
 
 /**
  * @property integer $Id
@@ -103,6 +104,16 @@ class Material extends ActiveRecord
         return \Yii::getPathOfAlias('webroot.paperless.material.file');
     }
 
+    public function getFileUrl($absolute = false)
+    {
+        if (!$this->File) {
+            return '';
+        }
+        $url = '/paperless/material/file/'.$this->File;
+
+        return rtrim($absolute ? Yii::app()->createAbsoluteUrl($url) : Yii::app()->createUrl($url), '/');
+    }
+
     /**
      * Путь для сохранения логотипов партнеров
      * @return string
@@ -110,5 +121,15 @@ class Material extends ActiveRecord
     public function getPartnerLogoPath()
     {
         return \Yii::getPathOfAlias('webroot.paperless.material.partner-logo');
+    }
+
+    public function getPartnerLogoUrl($absolute = false)
+    {
+        if (!$this->File) {
+            return '';
+        }
+        $url = '/paperless/material/partner-logo/'.$this->File;
+
+        return rtrim($absolute ? Yii::app()->createAbsoluteUrl($url) : Yii::app()->createUrl($url), '/');
     }
 }

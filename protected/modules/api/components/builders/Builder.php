@@ -1110,11 +1110,11 @@ class Builder
         $this->paperlessMaterial->Id = $material->Id;
         $this->paperlessMaterial->Name = $material->Name;
         $this->paperlessMaterial->Comment = $material->Comment;
-        $this->paperlessMaterial->File = $material->File;
+        $this->paperlessMaterial->File = $material->getFileUrl();
         $this->paperlessMaterial->Active = $material->Active;
         $this->paperlessMaterial->PartnerName = $material->PartnerName;
         $this->paperlessMaterial->PartnerSite = $material->PartnerSite;
-        $this->paperlessMaterial->PartnerLogo = $material->PartnerLogo;
+        $this->paperlessMaterial->PartnerLogo = $material->getPartnerLogoUrl();
 
 
         return $this->paperlessMaterial;
