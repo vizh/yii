@@ -125,6 +125,15 @@ $hasContacts = !empty($user->LinkSite) || !empty($user->LinkServiceAccounts);
                                     <?endforeach?>
                                 </div>
                             <?endif?>
+
+                            <?if(!empty($user->ICTParticipantsActive)):?>
+                                <div class="b-iri">
+                                    <?=\CHtml::link(\CHtml::image('/images/content/iri-logo_small.jpg', \Yii::t('app', 'ICT'), ['class' => 'logo']), 'http://ict.moskow', ['target' => '_blank'])?>
+                                    <?foreach($user->ICTParticipantsActive as $participant):?>
+                                        <p class="text"><?=$participant?></p>
+                                    <?endforeach?>
+                                </div>
+                            <?endif?>
                         </div>
 
 

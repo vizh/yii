@@ -17,6 +17,7 @@ use competence\models\Result;
 use event\models\Participant;
 use event\models\section\LinkUser;
 use iri\models\User as IriUser;
+use ict\models\User as IctUser;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
@@ -70,6 +71,8 @@ use Yii;
  * @property Badge[] $Badges
  * @property IriUser[] $IRIParticipants
  * @property IriUser[] $IRIParticipantsActive
+ * @property IctUser[] $ICTParticipants
+ * @property IctUser[] $ICTParticipantsActive
  * @property ExternalUser[] $ExternalAccounts
  * @property Document[] $Documents
  * @property UnsubscribeEventMail[] $UnsubscribeEventMails
@@ -188,6 +191,15 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
                 'UserId',
                 'with' => ['Role'],
                 'on' => '"IRIParticipantsActive"."ExitTime" IS NULL OR "IRIParticipantsActive"."ExitTime" > NOW()'
+            ],
+
+            'ICTParticipants' => [self::HAS_MANY, '\ict\models\User', 'UserId', 'with' => ['Role']],
+            'ICTParticipantsActive' => [
+                self::HAS_MANY,
+                '\ict\models\User',
+                'UserId',
+                'with' => ['Role'],
+                'on' => '"ICTParticipantsActive"."ExitTime" IS NULL OR "ICTParticipantsActive"."ExitTime" > NOW()'
             ],
 
             'ExternalAccounts' => [self::HAS_MANY, '\api\models\ExternalUser', 'UserId'],
