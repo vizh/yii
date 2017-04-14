@@ -16,7 +16,7 @@ use Yii;
  * @property boolean $Visible
  * @property string $PartnerName
  * @property string $PartnerSite
- * @property string $PartnerFile
+ * @property string $PartnerLogo
  *
  * @property Event $Event
  * @property MaterialLinkRole[] $RoleLinks
@@ -110,7 +110,7 @@ class Material extends ActiveRecord
 
     public function getFileUrl($absolute = false)
     {
-        if (!$this->File) {
+        if (empty($this->File)) {
             return '';
         }
 
@@ -132,11 +132,11 @@ class Material extends ActiveRecord
 
     public function getPartnerLogoUrl($absolute = false)
     {
-        if (!$this->File) {
+        if (empty($this->PartnerLogo)) {
             return '';
         }
 
-        $url = '/files/paperless/material/partner-logo/'.$this->File;
+        $url = '/files/paperless/material/partner-logo/'.$this->PartnerLogo;
 
         return $absolute === true
             ? SCHEMA.'://'.RUNETID_HOST.$url
