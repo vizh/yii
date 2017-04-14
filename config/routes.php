@@ -133,7 +133,7 @@ return [
     'http://api.'.RUNETID_HOST.'/raec/commission/users' => 'api/raec/commissionusers',
 
     'http://api.'.RUNETID_HOST.'/iri/<Type:(expert|director|program)>/<action:\w+>' => 'api/iri/user<action>',
-    'http://api.'.RUNETID_HOST.'/ict/<Type:(expert|director|program)>/<action:\w+>' => 'api/ict/user<action>',
+    'http://api.'.RUNETID_HOST.'/ict/<Type:(expert|leader|participant)>/<action:\w+>' => 'api/ict/user<action>',
     'http://api.'.RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'api/<controller>/<action>',
 
 

@@ -157,6 +157,11 @@ return [
         'controllers' => ['event'],
         'actions' => ['list']
     ],
+    [
+        'allow',
+        'roles' => [Account::ROLE_OWN],
+        'controllers' => ['ict'],
+    ],
 
     /***  ЗАПРЕЩЕНО ВСЕ ЧТО НЕ РАЗРЕШЕНО   ***/
     [
