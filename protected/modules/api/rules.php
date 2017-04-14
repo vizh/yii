@@ -35,7 +35,7 @@ return [
         'allow',
         'roles' => [Account::ROLE_OFFLINE],
         'controllers' => ['paperlessmaterial'],
-        'actions' => ['event']
+        'actions' => ['signal']
     ],
     /*** END OFFLINE BLOCK ***/
 

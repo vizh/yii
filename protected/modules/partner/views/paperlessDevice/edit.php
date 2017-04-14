@@ -24,8 +24,8 @@ $this->setPageTitle(\Yii::t('app', 'Добавление устройства'))
         <?= Flash::html() ?>
         <div class="row">
             <div class="col-md-6">
-                <?= $activeForm->label($form, 'DeviceId') ?>
-                <?= $activeForm->textField($form, 'DeviceId', ['class' => 'form-control']) ?>
+                <?= $activeForm->label($form, 'DeviceNumber') ?>
+                <?= $activeForm->textField($form, 'DeviceNumber', ['class' => 'form-control']) ?>
 
                 <?= $activeForm->label($form, 'Type') ?>
                 <?= $activeForm->dropDownList($form, 'Type', Device::getTypeLabels(), ['prompt' => '', 'class' => 'form-control']) ?>

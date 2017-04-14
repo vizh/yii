@@ -1112,12 +1112,12 @@ class Builder
         $this->paperlessMaterial = (object)[
             'Id' => $material->Id,
             'Name' => $material->Name,
-            'File' => $material->getFileUrl(),
+            'File' => $material->getFileUrl(true),
             'Comment' => $material->Comment,
             'Partner' => (object)[
                 'Name' => $material->PartnerName,
                 'Site' => $material->PartnerSite,
-                'Logo' => $material->getPartnerLogoUrl()
+                'Logo' => $material->getPartnerLogoUrl(true)
             ]
         ];
 

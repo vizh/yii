@@ -10,7 +10,7 @@ use paperless\models\Device as DeviceModel;
 class Device extends CreateUpdateForm
 {
     public $Id;
-    public $DeviceId;
+    public $DeviceNumber;
     public $Name;
     public $Type;
     public $Comment;
@@ -37,7 +37,7 @@ class Device extends CreateUpdateForm
     public function rules()
     {
         return [
-            ['Id,DeviceId,Name,Type,Active', 'required'],
+            ['Id,DeviceNumber,Name,Type,Active', 'required'],
             ['Comment', 'safe'],
             ['Active', 'boolean']
         ];

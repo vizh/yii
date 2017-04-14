@@ -12,7 +12,7 @@ class PaperlessDevice extends SearchFormModel
     private $event;
 
     public $Id;
-    public $DeviceId;
+    public $DeviceNumber;
     public $Name;
     public $Type;
     public $activeLabel;
@@ -26,7 +26,7 @@ class PaperlessDevice extends SearchFormModel
     public function rules()
     {
         return [
-            ['Id,DeviceId,Name,Type,activeLabel', 'safe']
+            ['Id,DeviceNumber,Name,Type,activeLabel', 'safe']
         ];
     }
 

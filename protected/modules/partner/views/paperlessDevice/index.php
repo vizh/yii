@@ -29,7 +29,7 @@ $this->setPageTitle(Yii::t('app', 'Paperless - Настройки'));
                 'filter' => $search,
                 'summaryText' => 'Устройства {start}-{end} из {count}.',
                 'columns' => [
-                    ['name' => 'DeviceId'],
+                    ['name' => 'DeviceNumber'],
                     ['name' => 'Name'],
                     ['name' => 'Type', 'value' => function($data){ return $data->typeLabel; }, 'filter' => Device::getTypeLabels()],
                     ['name' => 'activeLabel', 'filter' => ['1' => 'Активна', '0' => 'Неактивна']],

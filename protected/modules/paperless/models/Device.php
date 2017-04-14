@@ -6,7 +6,7 @@ use application\components\ActiveRecord;
 
 /**
  * @property int $Id
- * @property int $DeviceId
+ * @property int $DeviceNumber
  * @property int $EventId
  * @property bool $Active
  * @property string $Name
@@ -22,8 +22,8 @@ use application\components\ActiveRecord;
  * @method Device[] findAllByAttributes($attributes, $condition = '', $params = [])
  *
  * @method Device byId(int $id, bool $useAnd = true)
- * @method Device byDeviceId(int $id, bool $useAnd = true)
  * @method Device byEventId(int $id, bool $useAnd = true)
+ * @method Device byDeviceNumber(int $id, bool $useAnd = true)
  * @method Device byActive(bool $active, bool $useAnd = true)
  * @method Device byName(string $name, bool $useAnd = true)
  * @method Device byType(string $type, bool $useAnd = true)
@@ -45,8 +45,8 @@ class Device extends ActiveRecord
     {
         return [
             ['Id', 'required', 'on' => 'update'],
-            ['EventId,DeviceId,Name,Type', 'required'],
-            ['EventId,DeviceId', 'numerical'],
+            ['EventId,DeviceNumber,Name,Type', 'required'],
+            ['EventId,DeviceNumber', 'numerical'],
             ['Active', 'boolean']
         ];
     }
@@ -58,7 +58,8 @@ class Device extends ActiveRecord
     {
         return [
             'Id' => 'ID точки',
-            'DeviceId' => 'Номер устройства',
+            'EventId' => 'Идентификатор мероприятия',
+            'DeviceNumber' => 'Номер устройства',
             'Name' => 'Название',
             'Type' => 'Тип',
             'Comment' => 'Комментарий',

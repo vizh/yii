@@ -7,9 +7,12 @@ use application\components\ActiveRecord;
 /**
  * @property int $Id
  * @property int $EventId
- * @property int $DeviceId
- * @property int $BadgeId
+ * @property int $DeviceNumber
+ * @property int $BadgeUID
+ * @property int $BadgeTime
  * @property bool $Processed
+ * @property bool $ProcessedTime
+ * @property bool $CreatedTime
  *
  * Описание вспомогательных методов
  * @method DeviceSignal   with($condition = '')
@@ -21,8 +24,8 @@ use application\components\ActiveRecord;
  *
  * @method DeviceSignal byId(int $id, bool $useAnd = true)
  * @method DeviceSignal byEventId(int $id, bool $useAnd = true)
- * @method DeviceSignal byDeviceId(int $id, bool $useAnd = true)
- * @method DeviceSignal byBadgeId(int $id, bool $useAnd = true)
+ * @method DeviceSignal byDeviceNumber(int $uid, bool $useAnd = true)
+ * @method DeviceSignal byBadgeUID(int $id, bool $useAnd = true)
  * @method DeviceSignal byProcessed(bool $processed, bool $useAnd = true)
  */
 class DeviceSignal extends ActiveRecord
@@ -42,8 +45,8 @@ class DeviceSignal extends ActiveRecord
     {
         return [
             ['Id', 'required', 'on' => 'update'],
-            ['EventId,DeviceId,BadgeId', 'required'],
-            ['EventId,DeviceId,BadgeId', 'numerical'],
+            ['EventId,DeviceNumber,BadgeUID,BadgeTime', 'required'],
+            ['EventId,DeviceNumber,BadgeUID', 'numerical'],
             ['Processed', 'boolean']
         ];
     }
@@ -56,8 +59,9 @@ class DeviceSignal extends ActiveRecord
         return [
             'Id' => 'Идентификатор сигнала',
             'EventId' => 'Идентификатор мероприятия',
-            'DeviceId' => 'Идентификатор устройства',
-            'BadgeId' => 'Идентификатор бейджа',
+            'DeviceNumber' => 'Номер устройства',
+            'BadgeUID' => 'Уникальный идентификатор бейджа',
+            'BadgeTime' => 'Время прикладывания бейджа',
             'Processed' => 'Флаг обработки сигнала',
         ];
     }

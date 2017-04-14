@@ -109,11 +109,13 @@ class Event extends CreateUpdateForm
             $criteria = new \CDbCriteria();
             $criteria->addColumnCondition(['"EventId"' => $this->model->Id]);
             EventLinkDevice::model()->deleteAll($criteria);
-            foreach ($this->Devices as $device) {
-                $link = new EventLinkDevice();
-                $link->EventId = $this->model->Id;
-                $link->DeviceId = $device;
-                $link->save(false);
+            if (false === empty($this->Devices)) {
+                foreach ($this->Devices as $device) {
+                    $link = new EventLinkDevice();
+                    $link->EventId = $this->model->Id;
+                    $link->DeviceId = $device;
+                    $link->save(false);
+                }
             }
 
             $criteria = new \CDbCriteria();
