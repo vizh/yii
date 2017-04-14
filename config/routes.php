@@ -123,6 +123,7 @@ return [
     /** API Module Rules */
     'http://api.'.RUNETID_HOST.'/paperless/materials/get' => 'api/paperlessmaterial/get',
     'http://api.'.RUNETID_HOST.'/paperless/materials/search' => 'api/paperlessmaterial/search',
+    'http://api.'.RUNETID_HOST.'/paperless/event' => 'api/paperlessmaterial/event',
 
     'http://api.'.RUNETID_HOST.'/event/section/<action>' => 'api/section/<action>',
     'http://api.'.RUNETID_HOST.'/event/role/list' => 'api/event/roles',

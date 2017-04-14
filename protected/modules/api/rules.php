@@ -31,6 +31,12 @@ return [
         'controllers' => ['user'],
         'actions' => ['badge', 'get']
     ],
+    [
+        'allow',
+        'roles' => [Account::ROLE_OFFLINE],
+        'controllers' => ['paperlessmaterial'],
+        'actions' => ['event']
+    ],
     /*** END OFFLINE BLOCK ***/
 
     [

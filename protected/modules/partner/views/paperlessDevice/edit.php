@@ -19,11 +19,12 @@ $this->setPageTitle(\Yii::t('app', 'Добавление устройства'))
         <span class="panel-title"><span class="fa fa-plus"></span> <?= \Yii::t('app', 'Добавление устройства') ?></span>
     </div> <!-- / .panel-heading -->
     <div class="panel-body">
-        <?= $activeForm->errorSummary($form, '<div class="alert alert-danger">', '</div>') ?>
+        <?=$activeForm->errorSummary($form, '<div class="alert alert-danger">', '</div>')?>
+		<?=$activeForm->hiddenField($form, 'Id')?>
         <?= Flash::html() ?>
         <div class="row">
             <div class="col-md-6">
-                <?= $activeForm->label($form, 'Id') ?>
+                <?= $activeForm->label($form, 'DeviceId') ?>
                 <?= $activeForm->textField($form, 'Id', ['class' => 'form-control']) ?>
 
                 <?= $activeForm->label($form, 'Type') ?>

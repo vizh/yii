@@ -35,6 +35,8 @@ class GetAction extends \api\components\Action
     {
         $material = Material::model()
             ->byEventId($this->getEvent()->Id)
+            ->byActive()
+            ->byVisible()
             ->findByPk($this->getRequestParam('MaterialId'));
 
         if ($material === null) {

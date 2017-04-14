@@ -13,6 +13,7 @@ use Yii;
  * @property string $Comment
  * @property string $File
  * @property boolean $Active
+ * @property boolean $Visible
  * @property string $PartnerName
  * @property string $PartnerSite
  * @property string $PartnerFile
@@ -33,7 +34,8 @@ use Yii;
  * @method Material byName(string $name, bool $useAnd = true)
  * @method Material byComment(string $comment, bool $useAnd = true)
  * @method Material byFile(string $file, bool $useAnd = true)
- * @method Material byActive(bool $active, bool $useAnd = true)
+ * @method Material byActive(bool $active = true, bool $useAnd = true)
+ * @method Material byVisible(bool $visible = true, bool $useAnd = true)
  */
 class Material extends ActiveRecord
 {
@@ -54,7 +56,8 @@ class Material extends ActiveRecord
             'Name' => 'Название',
             'Comment' => 'Комментарий',
             'File' => 'Файл',
-            'Active' => 'Материал активен',
+            'Active' => 'Активность',
+            'Visible' => 'Отображать на сайте (если активен)',
             'activeLabel' => 'Материал активен',
             'Roles' => 'Статусы',
             'PartnerName' => 'Название партнера',
@@ -69,9 +72,10 @@ class Material extends ActiveRecord
     public function rules()
     {
         return [
-            ['EventId, Name, Active', 'required'],
-            ['PartnerName, PartnerSite', 'length', 'max' => 255],
-            ['Active', 'boolean'],
+            ['Id', 'required', 'on' => 'update'],
+            ['EventId,Name', 'required'],
+            ['PartnerName,PartnerSite', 'length', 'max' => 255],
+            ['Active,Visible', 'boolean'],
         ];
     }
 

@@ -34,9 +34,8 @@ $this->setPageTitle(\Yii::t('app', 'Добавление материала'));
 
                 <div class="form-group">
                     <div class="checkbox">
-                        <label>
-                            <?= $activeForm->checkBox($form, 'Active') ?> <?= $form->getAttributeLabel('Active') ?>
-                        </label>
+                        <label><?=$activeForm->checkBox($form, 'Active')?> <?=$form->getAttributeLabel('Active')?></label>
+                        <label><?=$activeForm->checkBox($form, 'Visible')?> <?=$form->getAttributeLabel('Visible')?></label>
                     </div>
                 </div>
             </div>

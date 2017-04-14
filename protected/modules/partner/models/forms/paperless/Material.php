@@ -14,6 +14,7 @@ class Material extends CreateUpdateForm
     public $Name;
     public $Comment;
     public $Active;
+    public $Visible;
     public $File;
     public $Roles;
     public $PartnerName;
@@ -42,7 +43,7 @@ class Material extends CreateUpdateForm
             ['Name, Active', 'required'],
             ['Comment, Roles', 'safe'],
             ['PartnerName, PartnerSite', 'length', 'max' => 255],
-            ['Active', 'boolean'],
+            ['Active,Visible', 'boolean'],
             ['File, PartnerLogo', 'file', 'allowEmpty' => true],
         ];
     }
@@ -74,6 +75,7 @@ class Material extends CreateUpdateForm
             $this->model->Name = $this->Name;
             $this->model->Comment = $this->Comment;
             $this->model->Active = $this->Active;
+            $this->model->Visible = $this->Visible;
             $this->model->PartnerName = $this->PartnerName;
             $this->model->PartnerSite = $this->PartnerSite;
 
@@ -109,11 +111,13 @@ class Material extends CreateUpdateForm
             $criteria->addColumnCondition(['"MaterialId"' => $this->model->Id]);
             MaterialLinkRole::model()->deleteAll($criteria);
 
-            foreach ($this->Roles as $role) {
-                $link = new MaterialLinkRole();
-                $link->MaterialId = $this->model->Id;
-                $link->RoleId = $role;
-                $link->save(false);
+            if (false === empty($this->Roles)) {
+                foreach ($this->Roles as $role) {
+                    $link = new MaterialLinkRole();
+                    $link->MaterialId = $this->model->Id;
+                    $link->RoleId = $role;
+                    $link->save(false);
+                }
             }
 
             return $this->model;

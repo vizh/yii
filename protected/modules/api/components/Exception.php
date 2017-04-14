@@ -8,7 +8,7 @@ class Exception extends \CException
     private $data = [];
 
     /**
-     * @param int $code
+     * @param int|\CModel $code
      * @param array $params
      * @param \Exception $previous
      */
