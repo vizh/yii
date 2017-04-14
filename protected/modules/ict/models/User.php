@@ -72,10 +72,11 @@ class User extends ActiveRecord
      */
     public function __toString()
     {
+        //TODO: Доработать. когда придумаем что делать со статусами
         $result = $this->Role->Title;
-        if (!empty($this->ProfessionalInterest)) {
-            $result .= ', '.\Yii::t('app', 'экосистема').' «'.$this->ProfessionalInterest->Title.'»';
-        }
+//        if (!empty($this->ProfessionalInterest)) {
+            $result .= ' клуба ИТ-лидеров Москвы';
+//        }
 
         return $result;
     }
