@@ -416,4 +416,9 @@ class Action extends \CAction
     {
         return (boolean)$this->getRequestParam($param, $defaultValue);
     }
+
+    protected function getRequestParamArray($param, $defaultValue = PHP_INT_SIZE)
+    {
+        return explode(',', $this->getRequestParam($param, $defaultValue));
+    }
 }

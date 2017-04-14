@@ -2,6 +2,9 @@
 
 namespace api\controllers\paperlessmaterial;
 
+use api\components\Exception;
+use event\models\Participant;
+use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
@@ -23,6 +26,8 @@ class SearchAction extends \api\components\Action
      *          url="/paperless/materials/search",
      *          body="",
      *          params={
+     *              @Param(title="RunetId", mandatory="N", description="RUNET-ID посетителя для выборки доступных ему материалов.")
+     *              @Param(title="RoleId", mandatory="N", description="Один или несколько статусов участия на мероприятии для выборки доступных им материалов.")
      *          },
      *          response=@Response(body="['{$PAPERLESSMATERIAL}']")
      *     )
@@ -34,8 +39,26 @@ class SearchAction extends \api\components\Action
         $materials = Material::model()
             ->byEventId($this->getEvent()->Id)
             ->byActive()
-            ->byVisible()
-            ->findAll();
+            ->byVisible();
+
+        if ($this->hasRequestParam('RunetId')) {
+            $participant = Participant::model()
+                ->byEventId($this->getEvent()->Id)
+                ->byUserId($this->getRequestedUser()->Id)
+                ->find();
+
+            if ($participant === null) {
+                throw new Exception(304);
+            }
+
+            $materials->byRoleId($participant->RoleId);
+        }
+
+        if ($this->hasRequestParam('RoleId')) {
+            $materials->byRoleId($this->getRequestParamArray('RoleId'));
+        }
+
+        $materials = $materials->findAll();
 
         $result = [];
         foreach ($materials as $material) {

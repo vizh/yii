@@ -3,8 +3,8 @@
 namespace paperless\models;
 
 use application\components\ActiveRecord;
+use application\components\CDbCriteria;
 use event\models\Event;
-use Yii;
 
 /**
  * @property integer $Id
@@ -59,7 +59,7 @@ class Material extends ActiveRecord
             'Active' => 'Активность',
             'Visible' => 'Отображать на сайте (если активен)',
             'activeLabel' => 'Материал активен',
-            'Roles' => 'Статусы',
+            'Roles' => 'Статусы участия',
             'PartnerName' => 'Название партнера',
             'PartnerSite' => 'Сайт партнера',
             'PartnerLogo' => 'Логотип партнера',
@@ -141,5 +141,22 @@ class Material extends ActiveRecord
         return $absolute === true
             ? SCHEMA.'://'.RUNETID_HOST.$url
             : $url;
+    }
+
+    /**
+     * @param int|array $roleids
+     * @param bool $useAnd
+     */
+    public function byRoleId($roleids, $useAnd = true)
+    {
+        if (false === is_array($roleids)) {
+            $roleids = [$roleids];
+        }
+
+        $this->getDbCriteria()->mergeWith(
+            CDbCriteria::create()
+                ->setWith(['RoleLinks' => ['together' => true]])
+                ->addInCondition('"RoleLinks"."RoleId"', $roleids, $useAnd ? 'AND' : 'OR')
+        );
     }
 }
