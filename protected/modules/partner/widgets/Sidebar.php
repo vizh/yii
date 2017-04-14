@@ -172,7 +172,7 @@ class Sidebar extends \CWidget
                 'icon' => 'file',
                 'url' => ['paperlessDevice/index'],
                 'items' => [
-                    ['label' => 'Настройки', 'url' => ['paperlessDevice/index']],
+                    ['label' => 'Устройства', 'url' => ['paperlessDevice/index']],
                     ['label' => 'Материалы', 'url' => ['paperlessMaterial/index']],
                     ['label' => 'События', 'url' => ['paperlessEvent/index']],
                 ]
