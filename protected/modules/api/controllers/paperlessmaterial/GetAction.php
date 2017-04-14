@@ -36,10 +36,11 @@ class GetAction extends \api\components\Action
     public function run()
     {
         $material = Material::model()
+            ->byEventId($this->getEvent()->Id)
             ->findByPk($this->getRequestParam('MaterialId'));
 
         if ($material === null) {
-            throw new Exception(100, 'Запрашиваемый материал не найден');
+            throw new Exception(100, 'Запрашиваемый материал не найден в базе текущего мероприятия');
         }
 
         $result = $this
