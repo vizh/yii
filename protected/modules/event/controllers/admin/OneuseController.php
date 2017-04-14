@@ -5,6 +5,22 @@ use event\models\UserData;
 
 class OneuseController extends AdminMainController
 {
+    public function actionRuvRif17()
+    {
+        for ($i = 0; $i < 20; $i++) {
+            $discount = new \pay\models\Coupon();
+            $discount->EventId  = 3016;
+            $discount->Code = 'RUV' . $discount->generateCode();
+            $discount->EndTime  = null;
+            $discount->Discount = 100;
+            $discount->save();
+            $product = \pay\models\Product::model()->findByPk(9270);
+            $discount->addProductLinks([$product]);
+            echo "<b>" . $discount->Code . "</b><br/>";
+        }
+
+    }
+
     public function actionDevcon16Exam()
     {
         $products = [5741,5743,5745, 5742,5744,5746];
