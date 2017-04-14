@@ -101,7 +101,7 @@ class Material extends ActiveRecord
      */
     public function getFilePath()
     {
-        return \Yii::getPathOfAlias('webroot.paperless.material.file');
+        return \Yii::getPathOfAlias('webroot.files.paperless.material.file');
     }
 
     public function getFileUrl($absolute = false)
@@ -109,7 +109,7 @@ class Material extends ActiveRecord
         if (!$this->File) {
             return '';
         }
-        $url = '/paperless/material/file/'.$this->File;
+        $url = '/files/paperless/material/file/'.$this->File;
 
         return rtrim($absolute ? Yii::app()->createAbsoluteUrl($url) : Yii::app()->createUrl($url), '/');
     }
@@ -120,7 +120,7 @@ class Material extends ActiveRecord
      */
     public function getPartnerLogoPath()
     {
-        return \Yii::getPathOfAlias('webroot.paperless.material.partner-logo');
+        return \Yii::getPathOfAlias('webroot.files.paperless.material.partner-logo');
     }
 
     public function getPartnerLogoUrl($absolute = false)
@@ -128,7 +128,7 @@ class Material extends ActiveRecord
         if (!$this->File) {
             return '';
         }
-        $url = '/paperless/material/partner-logo/'.$this->File;
+        $url = '/files/paperless/material/partner-logo/'.$this->File;
 
         return rtrim($absolute ? Yii::app()->createAbsoluteUrl($url) : Yii::app()->createUrl($url), '/');
     }

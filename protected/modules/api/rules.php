@@ -106,7 +106,8 @@ return [
     [
         'allow',
         'roles' => [Account::ROLE_BASE],
-        'controllers' => ['paperlessmaterial']
+        'controllers' => ['paperlessmaterial'],
+        'actions' => ['get', 'search']
     ],
 
     /*** MBLT ***/

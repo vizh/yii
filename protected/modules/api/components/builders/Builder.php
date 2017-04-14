@@ -1109,17 +1109,17 @@ class Builder
      */
     public function createPaperlessMaterial($material)
     {
-        $this->paperlessMaterial = new \stdClass();
-
-        $this->paperlessMaterial->Id = $material->Id;
-        $this->paperlessMaterial->Name = $material->Name;
-        $this->paperlessMaterial->Comment = $material->Comment;
-        $this->paperlessMaterial->File = $material->getFileUrl();
-        $this->paperlessMaterial->Active = $material->Active;
-        $this->paperlessMaterial->PartnerName = $material->PartnerName;
-        $this->paperlessMaterial->PartnerSite = $material->PartnerSite;
-        $this->paperlessMaterial->PartnerLogo = $material->getPartnerLogoUrl();
-
+        $this->paperlessMaterial = (object)[
+            'Id' => $material->Id,
+            'Name' => $material->Name,
+            'File' => $material->getFileUrl(),
+            'Comment' => $material->Comment,
+            'Partner' => (object)[
+                'Name' => $material->PartnerName,
+                'Site' => $material->PartnerSite,
+                'Logo' => $material->getPartnerLogoUrl()
+            ]
+        ];
 
         return $this->paperlessMaterial;
     }
