@@ -113,9 +113,12 @@ class Material extends ActiveRecord
         if (!$this->File) {
             return '';
         }
+
         $url = '/files/paperless/material/file/'.$this->File;
 
-        return rtrim($absolute ? Yii::app()->createAbsoluteUrl($url) : Yii::app()->createUrl($url), '/');
+        return $absolute === true
+            ? SCHEMA.'://'.RUNETID_HOST.$url
+            : $url;
     }
 
     /**
@@ -132,8 +135,11 @@ class Material extends ActiveRecord
         if (!$this->File) {
             return '';
         }
+
         $url = '/files/paperless/material/partner-logo/'.$this->File;
 
-        return rtrim($absolute ? Yii::app()->createAbsoluteUrl($url) : Yii::app()->createUrl($url), '/');
+        return $absolute === true
+            ? SCHEMA.'://'.RUNETID_HOST.$url
+            : $url;
     }
 }
