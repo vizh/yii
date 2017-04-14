@@ -29,6 +29,7 @@ $modules = [
     'sms',
     'competence',
     'iri',
+    'ict',
     'connect',
     'paperless',
 
