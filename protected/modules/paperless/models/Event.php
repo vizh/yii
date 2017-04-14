@@ -10,8 +10,6 @@ use application\components\ActiveRecord;
  * @property bool $Active
  * @property string $Subject
  * @property string $Text
- * @property string $FromName
- * @property string $FromAddress
  * @property string $File
  * @property bool $SendOnce
  * @property bool $ConditionLike
@@ -34,8 +32,6 @@ use application\components\ActiveRecord;
  * @method Event byId(int $id, bool $useAnd = true)
  * @method Event byEventId(int $id, bool $useAnd = true)
  * @method Event bySubject(string $subject, bool $useAnd = true)
- * @method Event byFromName(string $name, bool $useAnd = true)
- * @method Event byFromAddress(string $address, bool $useAnd = true)
  * @method Event bySendOnce(bool $once, bool $useAnd = true)
  * @method Event byConditionLike(bool $like, bool $useAnd = true)
  * @method Event byConditionNotLike(bool $notLike, bool $useAnd = true)
@@ -57,7 +53,7 @@ class Event extends ActiveRecord
     public function rules()
     {
         return [
-            ['EventId, Subject, Text, FromName, FromAddress', 'required'],
+            ['EventId, Subject, Text', 'required'],
             ['SendOnce, ConditionLike, ConditionNotLike, Active', 'boolean'],
         ];
     }
@@ -69,14 +65,12 @@ class Event extends ActiveRecord
     {
         return [
             'Subject' => 'Тема письма',
-            'Text' => 'Текст письма',
-            'FromName' => 'Наимаенование отправителя',
-            'FromAddress' => 'Email отправителя',
+            'Text' => 'Содержание письма',
             'File' => 'Файл',
             'SendOnce' => 'Отправлять письмо участнику только один раз',
-            'ConditionLike' => 'Ответ устрояяства содержит строку',
+            'ConditionLike' => 'Отправлять только для перечисленных RunetId (через запятую)',
             'ConditionLikeString' => '',
-            'ConditionNotLike' => 'Ответ устройства не содержит строку',
+            'ConditionNotLike' => 'Игнорировать перечисленные RunetId (через запятую)',
             'ConditionNotLikeString' => '',
             'Active' => 'Событие активно',
             'activeLabel' => 'Событие активно',

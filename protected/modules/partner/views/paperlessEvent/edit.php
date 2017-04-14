@@ -11,6 +11,10 @@ use paperless\models\Event;
  */
 
 $this->setPageTitle(\Yii::t('app', 'Добавление события'));
+
+$possibleRoles = $form->getRoles();
+$possibleDevices = $form->getDevices();
+
 ?>
 
 <? $activeForm = $this->beginWidget('CActiveForm', ['htmlOptions' => ['enctype' => 'multipart/form-data']]) ?>
@@ -27,32 +31,41 @@ $this->setPageTitle(\Yii::t('app', 'Добавление события'));
                 <?= $activeForm->textField($form, 'Subject', ['class' => 'form-control']) ?>
 
                 <?= $activeForm->label($form, 'Text') ?>
-                <?= $activeForm->textArea($form, 'Text', ['class' => 'form-control', 'rows' => '6']) ?>
+                <?= $activeForm->textArea($form, 'Text', ['class' => 'form-control', 'rows' => '17']) ?>
 
                 <?= $activeForm->label($form, 'File') ?>
                 <?= $activeForm->fileField($form, 'File', ['class' => 'form-control']) ?>
             </div>
             <div class="col-md-6">
-                <?= $activeForm->label($form, 'FromName') ?>
-                <?= $activeForm->textField($form, 'FromName', ['class' => 'form-control']) ?>
-
-                <?= $activeForm->label($form, 'FromAddress') ?>
-                <?= $activeForm->textField($form, 'FromAddress', ['class' => 'form-control']) ?>
-
                 <?= $activeForm->label($form, 'Roles') ?>
                 <div class="form-group">
-                    <?= $activeForm->checkBoxList($form, 'Roles', CHtml::listData($form->roles(), 'Id', 'Title')) ?>
+					<?if(!empty($possibleRoles)):?>
+                    	<?=$activeForm->checkBoxList($form, 'Roles', CHtml::listData($possibleRoles, 'Id', 'Title'))?>
+					<?else:?>
+						<div class="alert alert-danger">На мероприятии не найдено ни одного статуса участия.</div>
+                    <?endif?>
                 </div>
 
                 <?= $activeForm->label($form, 'Devices') ?>
                 <div class="form-group">
-                    <?= $activeForm->checkBoxList($form, 'Devices', CHtml::listData($form->devices(), 'Id', 'Name')) ?>
+					<?if(!empty($possibleDevices)):?>
+                    	<?=$activeForm->checkBoxList($form, 'Devices', CHtml::listData($possibleDevices, 'Id', 'Name'))?>
+					<?else:?>
+						<div class="alert">На мероприятии не найдено ни одного устройства. Добавьте их, или приложите к ним бейдж.</div>
+					<?endif?>
                 </div>
 
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <b><?=$activeForm->checkBox($form, 'Active') ?> <?= $form->getAttributeLabel('Active')?></b>
+                        </label>
+                    </div>
+                </div>
                 <div class="form-group">
                     <div class="checkbox">
                         <label>
@@ -65,7 +78,7 @@ $this->setPageTitle(\Yii::t('app', 'Добавление события'));
                         <label>
                             <?= $activeForm->checkBox($form, 'ConditionLike') ?> <?= $form->getAttributeLabel('ConditionLike') ?>
                         </label>
-                        <?= $activeForm->textField($form, 'ConditionLikeString') ?>
+                        <?= $activeForm->textArea($form, 'ConditionLikeString', ['style' => 'width:100%', 'rows' => 6]) ?>
                     </div>
                 </div>
                 <div class="form-group">
@@ -73,14 +86,7 @@ $this->setPageTitle(\Yii::t('app', 'Добавление события'));
                         <label>
                             <?= $activeForm->checkBox($form, 'ConditionNotLike') ?> <?= $form->getAttributeLabel('ConditionNotLike') ?>
                         </label>
-                        <?= $activeForm->textField($form, 'ConditionNotLikeString') ?>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label>
-                            <?= $activeForm->checkBox($form, 'Active') ?> <?= $form->getAttributeLabel('Active') ?>
-                        </label>
+                        <?= $activeForm->textArea($form, 'ConditionNotLikeString', ['style' => 'width:100%', 'rows' => 6]) ?>
                     </div>
                 </div>
             </div>

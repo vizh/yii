@@ -4,6 +4,7 @@ namespace partner\models\forms\paperless;
 
 use application\components\form\CreateUpdateForm;
 use application\helpers\Flash;
+use paperless\models\Device;
 use paperless\models\Event as EventModel;
 use paperless\models\EventLinkDevice;
 use paperless\models\EventLinkRole;
@@ -13,8 +14,6 @@ class Event extends CreateUpdateForm
     public $Id;
     public $Subject;
     public $Text;
-    public $FromName;
-    public $FromAddress;
     public $SendOnce;
     public $ConditionLike;
     public $ConditionLikeString;
@@ -50,7 +49,7 @@ class Event extends CreateUpdateForm
     public function rules()
     {
         return [
-            ['Subject, Text, FromName, FromAddress', 'required'],
+            ['Subject, Text', 'required'],
             ['SendOnce, ConditionLike, ConditionNotLike, Active', 'boolean'],
             ['ConditionLikeString, ConditionNotLikeString, Devices, Roles', 'safe'],
             ['File', 'file', 'allowEmpty' => true],
@@ -83,8 +82,6 @@ class Event extends CreateUpdateForm
         try {
             $this->model->Subject = $this->Subject;
             $this->model->Text = $this->Text;
-            $this->model->FromName = $this->FromName;
-            $this->model->FromAddress = $this->FromAddress;
             $this->model->SendOnce = $this->SendOnce;
             $this->model->ConditionLike = $this->ConditionLike;
             $this->model->ConditionLikeString = $this->ConditionLikeString;
@@ -122,11 +119,13 @@ class Event extends CreateUpdateForm
             $criteria = new \CDbCriteria();
             $criteria->addColumnCondition(['"EventId"' => $this->model->Id]);
             EventLinkRole::model()->deleteAll($criteria);
-            foreach ($this->Roles as $role) {
-                $link = new EventLinkRole();
-                $link->EventId = $this->model->Id;
-                $link->RoleId = $role;
-                $link->save(false);
+            if (false === empty($this->Roles)) {
+                foreach ($this->Roles as $role) {
+                    $link = new EventLinkRole();
+                    $link->EventId = $this->model->Id;
+                    $link->RoleId = $role;
+                    $link->save(false);
+                }
             }
 
             return $this->model;
@@ -145,15 +144,17 @@ class Event extends CreateUpdateForm
         $this->File = \CUploadedFile::getInstance($this, 'File');
     }
 
-    public function roles()
+    public function getRoles()
     {
         return $this->event->getRoles();
     }
 
-    public function devices()
+    public function getDevices()
     {
-        if (!$this->devices) {
-            $this->devices = \paperless\models\Device::model()->findAllByAttributes(['EventId' => $this->event->Id]);
+        if ($this->devices === null) {
+            $this->devices = Device::model()
+                ->byEventId($this->event->Id)
+                ->findAll();
         }
         return $this->devices;
     }
