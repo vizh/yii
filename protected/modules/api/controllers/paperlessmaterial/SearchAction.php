@@ -10,19 +10,17 @@ use paperless\models\Material;
 
 class SearchAction extends \api\components\Action
 {
-
     /**
      * @ApiAction(
      *     controller="Paperlessmaterial",
      *     title="Список материалов",
-     *     description="Список материалов.",
+     *     description="Список партнёрских материалов Paperless.",
      *     samples={
-     *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
-    '{{API_URL}}/paperlessmaterial/list'")
+     *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}' '{{API_URL}}/paperless/materials/search'")
      *     },
      *     request=@Request(
      *          method="GET",
-     *          url="/paperlessmaterial/list",
+     *          url="/paperless/materials/search",
      *          body="",
      *          params={
      *          },

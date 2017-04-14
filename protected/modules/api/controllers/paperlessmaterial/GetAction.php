@@ -16,21 +16,19 @@ class GetAction extends \api\components\Action
      * @ApiAction(
      *     controller="Paperlessmaterial",
      *     title="Информация по материалу",
-     *     description="Информация по материалу.",
+     *     description="Информация по партнёрскому материалу Paperless.",
      *     samples={
-     *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
-    '{{API_URL}}/paperlessmaterial/info?Id=1'")
+     *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}' '{{API_URL}}/paperless/materials/get?MaterialId=1'")
      *     },
      *     request=@Request(
      *          method="GET",
-     *          url="/paperlessmaterial/info",
+     *          url="/paperless/materials/get",
      *          body="",
      *          params={
      *              @Param(title="MaterialId", mandatory="Y", description="Идентификатор материала.")
      *          },
      *          response=@Response(body="['{$PAPERLESSMATERIAL}']")
      *     )
-     *
      * )
      */
     public function run()

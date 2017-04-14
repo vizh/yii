@@ -6,36 +6,37 @@ use nastradamus39\slate\annotations\ApiObject;
 /**
  * @ApiController(
  *     controller="Paperlessmaterial",
- *     title="Материалы",
- *     description="Методы для работы со встречами."
+ *     title="Материалы Paperless",
+ *     description="Методы для работы с механикой Paperless."
  * )
  * @ApiObject(
  *     code="PAPERLESSMATERIAL",
  *     title="Материал",
  *     json="{
- *          'Id': 1,
- *          'Name': '',
- *          'Comment': 'true',
- *          'File': '',
- *          'Active': 'true',
- *          'PartnerName': '',
- *          'PartnerSite': '',
- *          'PartnerLogo': ''
+ *         'Id': 1,
+ *         'Name': '',
+ *         'File': '',
+ *         'Comment': true,
+ *         'Partner':{
+ *             'Name': '',
+ *             'Site': '',
+ *             'Logo': ''
  *     }",
  *     description="Материал.",
  *     params={
- *          "Id": "Айди материала",
- *          "Name": "Название",
- *          "Comment": "Комментарий",
- *          "File": "Файл",
- *          "Active": "Активность",
- *          "PartnerName": "Название партнера",
- *          "PartnerSite": "Сайт партнера",
- *          "PartnerLogo": "Лого партнера"
- *      }
+ *         "Id": "Идентификатор",
+ *         "Name": "Название",
+ *         "Comment": "Комментарий",
+ *         "File": "Файл для скачивания",
+ *         "Partner":{
+ *             "Name": "Название компании-партнёра",
+ *             "Site": "Сайт",
+ *             "Logo": "Логотип"
+ *         }
+ *     }
  * )
  */
 class PaperlessmaterialController extends \api\components\Controller
 {
-    
+
 }
