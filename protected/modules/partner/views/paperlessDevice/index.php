@@ -1,5 +1,6 @@
 <?php
 
+use paperless\models\Device;
 use partner\components\Controller;
 
 /**
@@ -30,13 +31,10 @@ $this->setPageTitle(Yii::t('app', 'Paperless - Настройки'));
                 'columns' => [
                     ['name' => 'DeviceId'],
                     ['name' => 'Name'],
-                    ['name' => 'Type', 'value' => function($data){ return $data->typeLabel; }],
+                    ['name' => 'Type', 'value' => function($data){ return $data->typeLabel; }, 'filter' => Device::getTypeLabels()],
+                    ['name' => 'activeLabel', 'filter' => ['1' => 'Активна', '0' => 'Неактивна']],
                     [
-                        'name' => 'activeLabel',
-                        'filter' => ['1' => 'Активна', '0' => 'Неактивна']
-                    ],
-                    [
-                        'class' => '\application\widgets\grid\ButtonColumn',
+                    	'class' => '\application\widgets\grid\ButtonColumn',
                         'template' => '{update}{delete}',
                     ]
                 ]

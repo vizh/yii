@@ -71,7 +71,7 @@ class Device extends ActiveRecord
      * Список доступных типов устройства
      * @return array
      */
-    public static function types()
+    public static function getTypeLabels()
     {
         return [
             1 => 'Голосование',
@@ -96,6 +96,6 @@ class Device extends ActiveRecord
      */
     public function getTypeLabel()
     {
-        return \CHtml::value(self::types(), $this->Type, null);
+        return \CHtml::value(self::getTypeLabels(), $this->Type, null);
     }
 }
