@@ -5,6 +5,8 @@ class Exception extends \CException
 {
     const PAY_EXCEPTION_PREFIX = 40000;
 
+    private $data = [];
+
     /**
      * @param int $code
      * @param array $params
@@ -12,7 +14,18 @@ class Exception extends \CException
      */
     public function __construct($code, $params = [], \Exception $previous = null)
     {
-        parent::__construct($this->getErrorMessage($code, $params), $code, $previous);
+        // Передана модель с ошибками валидации
+        if ($code instanceof \CModel) {
+            /** @var \CModel $code */
+            $msg = 'Ошибки валидации при сохранении модели';
+            $this->data = $code->getErrors();
+            // Будем создавать ошибку с самым типовым кодом
+            $code = 100;
+        } else {
+            $msg = $this->getErrorMessage($code, $params);
+        }
+
+        parent::__construct($msg, $code, $previous);
     }
 
     private $codes = array(
@@ -163,9 +176,15 @@ class Exception extends \CException
         if (is_a($previous, 'pay\components\Exception')) {
             $error->Code = self::PAY_EXCEPTION_PREFIX + $previous->getCode();
             $error->Message = $previous->getMessage();
+            if ($this->data !== null) {
+                $error->Fields = $this->data;
+            }
         } else {
             $error->Code = $this->getCode();
             $error->Message = $this->getMessage();
+            if ($this->data !== null) {
+                $error->Fields = $this->data;
+            }
         }
         echo json_encode(['Error' => $error], JSON_UNESCAPED_UNICODE);
     }
