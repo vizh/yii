@@ -4,6 +4,7 @@ namespace application\models\paperless;
 
 use application\components\ActiveRecord;
 use application\components\helpers\ArrayHelper;
+use application\components\mail\MailBuilder;
 use CLogger;
 use Yii;
 
@@ -71,7 +72,7 @@ class Event extends ActiveRecord
             'Text' => 'Содержание письма',
             'File' => 'Файл',
             'SendOnce' => 'Отправлять письмо участнику только один раз',
-            'ConditionLike' => 'Отправлять только для перечисленных RunetId (через запятую)',
+            'ConditionLike' => 'Отправлять только для перечисленных RunetId если удовлетворены все остальные условия (через запятую)',
             'ConditionLikeString' => '',
             'ConditionNotLike' => 'Игнорировать перечисленные RunetId (через запятую)',
             'ConditionNotLikeString' => '',
@@ -122,7 +123,7 @@ class Event extends ActiveRecord
     public function process(DeviceSignal $signal)
     {
         // Проверим, что мы действительно должны обработать сигнал с текущего устройства
-        if ($signal->Processed || false === in_array($signal, ArrayHelper::getColumn($this->DeviceLinks, 'DeviceId'))) {
+        if ($signal->Processed || false === in_array($signal->DeviceNumber, ArrayHelper::getColumn($this->DeviceLinks, 'DeviceId'))) {
             return true;
         }
 
@@ -141,7 +142,16 @@ class Event extends ActiveRecord
             }
         }
 
-        tgmsg($signal);
+        if (YII_DEBUG) {
+            tgmsg($signal);
+        }
+
+        MailBuilder::create()
+            ->setTo($signal->Participant->User)
+            ->setFrom('users@runet-id.com', 'RUNET-ID/Paperless')
+            ->setSubject($this->Subject)
+            ->setBody($this->Text)
+            ->send();
 
         $signal->Processed = true;
         $signal->ProcessedTime = date(RUNETID_TIME_FORMAT);

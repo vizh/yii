@@ -58,7 +58,10 @@ $this->setPageTitle(\Yii::t('app', 'Добавление материала'));
         </div>
     </div>
     <div class="panel-footer">
-        <?= \CHtml::submitButton($material->isNewRecord ? 'Создать' : 'Сохранить', ['class' => 'btn btn-primary']) ?>
+        <?=CHtml::submitButton($material->isNewRecord ? 'Создать' : 'Сохранить', ['class' => 'btn btn-primary'])?>
+        <?if(false === $material->getIsNewRecord()):?>
+            <?=CHtml::submitButton('Применить', ['name' => 'apply', 'class' => 'btn btn-default'])?>
+        <?endif?>
     </div>
 </div>
 <? $this->endWidget() ?>

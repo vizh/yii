@@ -28,7 +28,7 @@ class EditAction extends Action
                 ? $form->createActiveRecord()
                 : $form->updateActiveRecord();
 
-            if ($model !== null) {
+            if ($model !== null && Yii::app()->getRequest()->getParam('apply') === null) {
                 $this->getController()->redirect(['materialIndex']);
             }
         }

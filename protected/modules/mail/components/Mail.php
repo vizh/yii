@@ -6,10 +6,17 @@ use mail\models\Log;
 abstract class Mail
 {
     protected $mailer;
+    protected $attributes = [
+        'toName' => '',
+        'fromName' => 'RUNET-ID',
+        'subject' => '',
+        'attachments' => []
+    ];
 
-    public function __construct(Mailer $mailer)
+    public function __construct(Mailer $mailer, array $attributes = [])
     {
         $this->mailer = $mailer;
+        $this->attributes = array_merge($this->attributes, $attributes);
     }
 
     /**
@@ -30,7 +37,7 @@ abstract class Mail
      */
     public function getToName()
     {
-        return '';
+        return $this->attributes['toName'];
     }
 
     /**
@@ -39,7 +46,7 @@ abstract class Mail
      */
     public function getFromName()
     {
-        return 'RUNET-ID';
+        return $this->attributes['fromName'];
     }
 
     /**
@@ -48,7 +55,7 @@ abstract class Mail
      */
     public function getSubject()
     {
-        return '';
+        return $this->attributes['subject'];
     }
 
     /**
@@ -72,7 +79,7 @@ abstract class Mail
      */
     public function getAttachments()
     {
-        return [];
+        return $this->attributes['attachments'];
     }
 
     /**

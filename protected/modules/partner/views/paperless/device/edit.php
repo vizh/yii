@@ -48,7 +48,10 @@ $this->setPageTitle(\Yii::t('app', 'Добавление устройства'))
         </div>
     </div>
     <div class="panel-footer">
-        <?= \CHtml::submitButton($device->isNewRecord ? 'Создать' : 'Сохранить', ['class' => 'btn btn-primary']) ?>
+        <?=CHtml::submitButton($device->isNewRecord ? 'Создать' : 'Сохранить', ['class' => 'btn btn-primary'])?>
+        <?if(false === $device->isNewRecord):?>
+            <?=CHtml::submitButton('Применить', ['name' => 'apply', 'class' => 'btn btn-default'])?>
+        <?endif?>
     </div>
 </div>
 <? $this->endWidget() ?>

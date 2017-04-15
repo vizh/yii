@@ -67,7 +67,7 @@ class SignalAction extends \api\components\Action
         }
 
         // Необходимо сразу обработать событие?
-        if ($this->getRequestParamBool('Process', false)) {
+        if ($device->Active && $this->getRequestParamBool('Process', false)) {
             $events = Event::model()
                 ->byEventId($this->getEvent()->Id)
                 ->byActive()

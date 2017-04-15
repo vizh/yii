@@ -93,7 +93,10 @@ $possibleDevices = $form->getDevices();
         </div>
     </div>
     <div class="panel-footer">
-        <?= \CHtml::submitButton($event->isNewRecord ? 'Создать' : 'Сохранить', ['class' => 'btn btn-primary']) ?>
+        <?=CHtml::submitButton($event->isNewRecord ? 'Создать' : 'Сохранить', ['class' => 'btn btn-primary'])?>
+		<?if(false === $event->isNewRecord):?>
+            <?=CHtml::submitButton('Применить', ['name' => 'apply', 'class' => 'btn btn-default'])?>
+		<?endif?>
     </div>
 </div>
 <? $this->endWidget() ?>
