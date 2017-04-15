@@ -5,7 +5,7 @@ namespace partner\models\forms\paperless;
 use application\components\form\CreateUpdateForm;
 use application\helpers\Flash;
 use event\models\Event;
-use paperless\models\Device as DeviceModel;
+use application\models\paperless\Device as DeviceModel;
 
 class Device extends CreateUpdateForm
 {

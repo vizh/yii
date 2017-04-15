@@ -8,8 +8,8 @@ use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
-use paperless\models\Device;
-use paperless\models\DeviceSignal;
+use application\models\paperless\Device;
+use application\models\paperless\DeviceSignal;
 
 class SignalAction extends \api\components\Action
 {
@@ -45,7 +45,7 @@ class SignalAction extends \api\components\Action
             $device = new Device();
             $device->DeviceNumber = $this->getRequestParam('DeviceNumber');
             $device->EventId = $this->getEvent()->Id;
-            $device->Name = 'Безымянное новое устройство';
+            $device->Name = 'Новое устройство';
             $device->Type = (int)$this->getRequestParam('DeviceType', 2);
 
             if (false === $device->save(true)) {

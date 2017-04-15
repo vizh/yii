@@ -3,7 +3,7 @@ namespace partner\controllers\paperlessdevice;
 
 use partner\components\Action;
 use partner\models\forms\paperless\Device;
-use paperless\models\Device as DeviceModel;
+use application\models\paperless\Device as DeviceModel;
 
 class EditAction extends Action
 {

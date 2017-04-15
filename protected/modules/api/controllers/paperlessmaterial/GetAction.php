@@ -7,7 +7,7 @@ use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
-use paperless\models\Material;
+use application\models\paperless\Material;
 
 class GetAction extends \api\components\Action
 {

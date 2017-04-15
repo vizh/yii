@@ -4,10 +4,10 @@ namespace partner\models\forms\paperless;
 
 use application\components\form\CreateUpdateForm;
 use application\helpers\Flash;
-use paperless\models\Device;
-use paperless\models\Event as EventModel;
-use paperless\models\EventLinkDevice;
-use paperless\models\EventLinkRole;
+use application\models\paperless\Device;
+use application\models\paperless\Event as EventModel;
+use application\models\paperless\EventLinkDevice;
+use application\models\paperless\EventLinkRole;
 
 class Event extends CreateUpdateForm
 {

@@ -3,7 +3,7 @@
 namespace partner\models\search;
 
 use application\components\form\SearchFormModel;
-use paperless\models\Event;
+use application\models\paperless\Event;
 
 class PaperlessEvent extends SearchFormModel
 {

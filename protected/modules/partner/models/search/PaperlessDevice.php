@@ -4,7 +4,7 @@ namespace partner\models\search;
 
 use application\components\form\SearchFormModel;
 use event\models\Event;
-use paperless\models\Device;
+use application\models\paperless\Device;
 
 class PaperlessDevice extends SearchFormModel
 {

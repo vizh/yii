@@ -1,6 +1,6 @@
 <?php
 
-use paperless\models\Device;
+use application\models\paperless\Device;
 use partner\components\Controller;
 
 /**

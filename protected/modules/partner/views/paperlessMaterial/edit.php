@@ -1,7 +1,7 @@
 <?php
 
 use application\helpers\Flash;
-use paperless\models\Material;
+use application\models\paperless\Material;
 
 /**
  * @var \partner\models\forms\paperless\Material $form

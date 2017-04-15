@@ -1,6 +1,6 @@
 <?php
 
-namespace paperless\models;
+namespace application\models\paperless;
 
 use application\components\ActiveRecord;
 use event\models\Role;

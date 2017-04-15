@@ -1,7 +1,7 @@
 <?php
 namespace partner\controllers\paperlessevent;
 
-use paperless\models\Event as EventModel;
+use application\models\paperless\Event as EventModel;
 use partner\components\Action;
 
 class DeleteAction extends Action
@@ -15,4 +15,4 @@ class DeleteAction extends Action
 
         $device->delete();
     }
-} 
+}

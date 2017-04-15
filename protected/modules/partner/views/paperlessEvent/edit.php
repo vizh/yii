@@ -1,7 +1,7 @@
 <?php
 
 use application\helpers\Flash;
-use paperless\models\Event;
+use application\models\paperless\Event;
 
 /**
  * @var \partner\models\forms\paperless\Event $form

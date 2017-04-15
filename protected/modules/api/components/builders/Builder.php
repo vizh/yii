@@ -18,7 +18,7 @@ use event\models\section\Hall;
 use event\models\section\LinkUser;
 use event\models\UserData;
 use oauth\models\Permission;
-use paperless\models\Material;
+use application\models\paperless\Material;
 use raec\models\CompanyUser;
 use user\models\Document;
 use user\models\DocumentType;

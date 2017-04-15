@@ -3,7 +3,7 @@ namespace partner\controllers\paperlessevent;
 
 use partner\components\Action;
 use partner\models\forms\paperless\Event;
-use paperless\models\Event as EventModel;
+use application\models\paperless\Event as EventModel;
 
 class EditAction extends Action
 {

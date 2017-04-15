@@ -1,7 +1,7 @@
 <?php
 namespace partner\controllers\paperlessmaterial;
 
-use paperless\models\Material as MaterialModel;
+use application\models\paperless\Material as MaterialModel;
 use partner\components\Action;
 
 class DeleteAction extends Action
@@ -15,4 +15,4 @@ class DeleteAction extends Action
 
         $device->delete();
     }
-} 
+}

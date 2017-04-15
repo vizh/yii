@@ -5,8 +5,8 @@ namespace partner\models\forms\paperless;
 use application\components\form\CreateUpdateForm;
 use application\helpers\Flash;
 use event\models\Event;
-use paperless\models\Material as MaterialModel;
-use paperless\models\MaterialLinkRole;
+use application\models\paperless\Material as MaterialModel;
+use application\models\paperless\MaterialLinkRole;
 
 class Material extends CreateUpdateForm
 {

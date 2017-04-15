@@ -3,7 +3,7 @@ namespace partner\controllers\paperlessmaterial;
 
 use partner\components\Action;
 use partner\models\forms\paperless\Material;
-use paperless\models\Material as MaterialModel;
+use application\models\paperless\Material as MaterialModel;
 
 class EditAction extends Action
 {

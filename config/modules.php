@@ -31,7 +31,6 @@ $modules = [
     'iri',
     'ict',
     'connect',
-    'paperless',
 
     /** Технические модули */
     'mytest',
