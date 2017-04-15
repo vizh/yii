@@ -121,9 +121,9 @@ return [
         'defaultParams' => ['social' => 22]],
 
     /** API Module Rules */
-    'http://api.'.RUNETID_HOST.'/paperless/materials/get' => 'api/paperlessmaterial/get',
-    'http://api.'.RUNETID_HOST.'/paperless/materials/search' => 'api/paperlessmaterial/search',
-    'http://api.'.RUNETID_HOST.'/paperless/event' => 'api/paperlessmaterial/signal',
+    'http://api.'.RUNETID_HOST.'/paperless/materials/get' => 'api/paperless/materialGet',
+    'http://api.'.RUNETID_HOST.'/paperless/materials/search' => 'api/paperless/materialSearch',
+    'http://api.'.RUNETID_HOST.'/paperless/event' => 'api/paperless/signal',
 
     'http://api.'.RUNETID_HOST.'/event/section/<action>' => 'api/section/<action>',
     'http://api.'.RUNETID_HOST.'/event/role/list' => 'api/event/roles',

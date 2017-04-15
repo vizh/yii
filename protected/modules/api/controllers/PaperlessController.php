@@ -36,7 +36,15 @@ use nastradamus39\slate\annotations\ApiObject;
  *     }
  * )
  */
-class PaperlessmaterialController extends \api\components\Controller
+class PaperlessController extends \api\components\Controller
 {
+    public function actions()
+    {
+        return [
+            'signal' => '\api\controllers\paperless\SignalAction',
+            'materialGet' => '\api\controllers\paperless\material\GetAction',
+            'materialSearch' => '\api\controllers\paperless\material\SearchAction'
+        ];
+    }
 
 }

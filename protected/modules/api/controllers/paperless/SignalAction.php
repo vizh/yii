@@ -1,6 +1,6 @@
 <?php
 
-namespace api\controllers\paperlessmaterial;
+namespace api\controllers\paperless;
 
 use api\components\Exception;
 use nastradamus39\slate\annotations\Action\Param;

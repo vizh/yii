@@ -99,7 +99,7 @@ return [
         'allow',
         'roles' => ['Admin'],
         'module' => 'partner',
-        'controllers' => ['paperlessDevice', 'paperlessMaterial', 'paperlessEvent'],
+        'controllers' => ['paperless'],
     ],
     [
         'allow',

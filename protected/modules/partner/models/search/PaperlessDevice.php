@@ -32,7 +32,9 @@ class PaperlessDevice extends SearchFormModel
 
     public function getDataProvider()
     {
-        $model = Device::model()->byEventId($this->event->Id);
+        $model = Device::model()
+            ->byEventId($this->event->Id);
+
         return new \CActiveDataProvider($model, [
             'criteria' => $this->getCriteria(),
             'sort' => false

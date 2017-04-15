@@ -37,7 +37,8 @@ class Device extends CreateUpdateForm
     public function rules()
     {
         return [
-            ['Id,DeviceNumber,Name,Type,Active', 'required'],
+            ['DeviceNumber,Name,Type,Active', 'required'],
+            ['DeviceNumber,Name,Type,Active', 'required'],
             ['Comment', 'safe'],
             ['Active', 'boolean']
         ];

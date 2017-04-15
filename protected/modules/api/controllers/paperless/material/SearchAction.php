@@ -1,6 +1,6 @@
 <?php
 
-namespace api\controllers\paperlessmaterial;
+namespace api\controllers\paperless\material;
 
 use api\components\Exception;
 use event\models\Participant;

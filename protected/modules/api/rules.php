@@ -34,7 +34,7 @@ return [
     [
         'allow',
         'roles' => [Account::ROLE_OFFLINE],
-        'controllers' => ['paperlessmaterial'],
+        'controllers' => ['paperless'],
         'actions' => ['signal']
     ],
     /*** END OFFLINE BLOCK ***/
@@ -112,8 +112,8 @@ return [
     [
         'allow',
         'roles' => [Account::ROLE_BASE],
-        'controllers' => ['paperlessmaterial'],
-        'actions' => ['get', 'search']
+        'controllers' => ['paperless'],
+        'actions' => ['materialGet', 'materialSearch']
     ],
 
     /*** MBLT ***/
