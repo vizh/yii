@@ -1,6 +1,7 @@
 <?php
 namespace api\components;
 
+use application\components\helpers\ArrayHelper;
 use connect\models\Meeting;
 use pay\models\OrderItem;
 use pay\models\Product;
@@ -183,7 +184,7 @@ class Action extends \CAction
     {
         $users = [];
 
-        foreach (array_filter(explode(',', $this->getRequestParam('RunetId')), 'intval') as $id) {
+        foreach (ArrayHelper::str2nums($this->getRequestParam('RunetId')) as $id) {
             $user = User::model()
                 ->byRunetId($id)
                 ->find();

@@ -2,6 +2,7 @@
 namespace ruvents\controllers\product;
 
 
+use application\components\helpers\ArrayHelper;
 use pay\models\OrderItem;
 use ruvents\components\Exception;
 use user\models\User;
@@ -13,8 +14,7 @@ class ChangepaidAction extends \ruvents\components\Action
         $request = \Yii::app()->getRequest();
         $fromRunetId = $request->getParam('FromRunetId', null);
         $toRunetId = $request->getParam('ToRunetId', null);
-        $orderItemIdList = $request->getParam('orderItemIdList', '');
-        $orderItemIdList = explode(',', $orderItemIdList);
+        $orderItemIdList = ArrayHelper::str2nums($request->getParam('orderItemIdList'));
 
         if (count($orderItemIdList) === 0)
             throw new Exception(408);

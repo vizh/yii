@@ -1,6 +1,7 @@
 <?php
 namespace pay\components\managers;
 
+use application\components\helpers\ArrayHelper;
 use mail\components\Mail;
 use mail\components\mailers\SESMailer;
 use pay\components\CodeException;
@@ -437,10 +438,9 @@ abstract class BaseProductManager
             return;
         }
 
-        $products = explode(',', $this->LinkProducts);
-        $selectedProducts = $parentOrderItem->getItemAttribute('SelectedLinkProducts') !== null ? explode(',', $parentOrderItem->getItemAttribute('SelectedLinkProducts')) : null;
-        foreach ($products as $id) {
-            if ($selectedProducts !== null && !in_array($id, $selectedProducts)) {
+        $selectedProducts = ArrayHelper::str2nums($parentOrderItem->getItemAttribute('SelectedLinkProducts'));
+        foreach (ArrayHelper::str2nums($this->LinkProducts) as $id) {
+            if (false === in_array($id, $selectedProducts)) {
                 continue;
             }
 
