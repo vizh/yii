@@ -24,6 +24,7 @@ use Yii;
  * @property \event\models\Event $Event
  * @property EventLinkDevice[] $DeviceLinks
  * @property EventLinkRole[] $RoleLinks
+ * @property EventLinkMaterial[] $MaterialLinks
  *
  * Описание вспомогательных методов
  * @method Event   with($condition = '')
@@ -68,18 +69,19 @@ class Event extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'Subject' => 'Тема письма',
-            'Text' => 'Содержание письма',
-            'File' => 'Файл',
-            'SendOnce' => 'Отправлять письмо участнику только один раз',
-            'ConditionLike' => 'Отправлять только для перечисленных RunetId если удовлетворены все остальные условия (через запятую)',
+            'Subject' => 'Тема',
+            'Text' => 'Содержание',
+            'File' => 'Приложение',
+            'SendOnce' => 'Блокировка повторных прикладываний',
+            'ConditionLike' => 'Только для перечисленных RunetId (через запятую)',
             'ConditionLikeString' => '',
-            'ConditionNotLike' => 'Игнорировать перечисленные RunetId (через запятую)',
+            'ConditionNotLike' => 'Исключить перечисленные RunetId (через запятую)',
             'ConditionNotLikeString' => '',
-            'Active' => 'Событие активно',
+            'Active' => 'Активность',
             'activeLabel' => 'Событие активно',
             'Devices' => 'Устройства',
-            'Roles' => 'Статусы',
+            'Roles' => 'Статусы участия',
+            'Materials' => 'Предоставить доступ к материалам'
         ];
     }
 
@@ -92,6 +94,7 @@ class Event extends ActiveRecord
             'Event' => [self::BELONGS_TO, \event\models\Event::className(), ['EventId']],
             'DeviceLinks' => [self::HAS_MANY, EventLinkDevice::className(), ['EventId']],
             'RoleLinks' => [self::HAS_MANY, EventLinkRole::className(), ['EventId']],
+            'MaterialLinks' => [self::HAS_MANY, EventLinkMaterial::className(), ['EventId']],
         ];
     }
 
@@ -122,10 +125,12 @@ class Event extends ActiveRecord
      */
     public function process(DeviceSignal $signal)
     {
-        // Фильтр ограничения по устройствам
-        if ($signal->Processed || false === in_array($signal->DeviceNumber, ArrayHelper::getColumn($this->DeviceLinks, 'DeviceId'))) {
+        if ($signal->Processed || !$this->Active)
             return true;
-        }
+
+        // Фильтр ограничения по устройствам
+        if (!in_array($signal->DeviceNumber, ArrayHelper::getColumn($this->DeviceLinks, 'DeviceId')))
+            return true;
 
         // Фильтр повторных отправок
         if ($this->SendOnce) {
@@ -147,7 +152,7 @@ class Event extends ActiveRecord
             ->User;
 
         // Фильтр ограничения по статусам участия
-        if ($this->RoleLinks && !in_array($signal->Participant->RoleId, ArrayHelper::getColumn($this->RoleLinks, 'RoleId'))) {
+        if (!in_array($signal->Participant->RoleId, ArrayHelper::getColumn($this->RoleLinks, 'RoleId'))) {
             Yii::log(sprintf('Отсеиваем сигнал с устройства %d о прикладывании бейджа %d из-за ограничения по статусам участия.', $signal->DeviceNumber, $signal->BadgeUID), CLogger::LEVEL_INFO, 'paperless');
             return true;
         }
@@ -171,6 +176,11 @@ class Event extends ActiveRecord
             ->setBody($this->Text)
             ->addAttachment($this->getFilePath().'/'.$this->File)
             ->send();
+
+        foreach (ArrayHelper::getColumn($this->MaterialLinks, 'Material') as $material) {
+            /** @var Material $material */
+            // toDo: Организовать форсирование отображения материала у посетителя
+        }
 
         $signal->Processed = true;
         $signal->ProcessedTime = date(RUNETID_TIME_FORMAT);
