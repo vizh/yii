@@ -14,6 +14,8 @@ use application\components\ActiveRecord;
  * @property bool $ProcessedTime
  * @property bool $CreatedTime
  *
+ * @property \event\models\Participant $Participant
+ *
  * Описание вспомогательных методов
  * @method DeviceSignal   with($condition = '')
  * @method DeviceSignal   find($condition = '', $params = [])
@@ -24,9 +26,9 @@ use application\components\ActiveRecord;
  *
  * @method DeviceSignal byId(int $id, bool $useAnd = true)
  * @method DeviceSignal byEventId(int $id, bool $useAnd = true)
- * @method DeviceSignal byDeviceNumber(int $uid, bool $useAnd = true)
+ * @method DeviceSignal byDeviceNumber(int|int[] $uid, bool $useAnd = true)
  * @method DeviceSignal byBadgeUID(int $id, bool $useAnd = true)
- * @method DeviceSignal byProcessed(bool $processed, bool $useAnd = true)
+ * @method DeviceSignal byProcessed(bool $processed = true, bool $useAnd = true)
  */
 class DeviceSignal extends ActiveRecord
 {
@@ -47,7 +49,15 @@ class DeviceSignal extends ActiveRecord
             ['Id', 'required', 'on' => 'update'],
             ['EventId,DeviceNumber,BadgeUID,BadgeTime', 'required'],
             ['EventId,DeviceNumber,BadgeUID', 'numerical'],
-            ['Processed', 'boolean']
+            ['Processed', 'boolean'],
+            ['ProcessedTime', 'date', 'format' => 'yyyy-MM-dd HH:mm:ss']
+        ];
+    }
+
+    public function relations()
+    {
+        return [
+            'Participant' => [self::HAS_ONE, '\event\models\Participant', ['BadgeUID' => 'BadgeUID'], 'with' => 'User']
         ];
     }
 

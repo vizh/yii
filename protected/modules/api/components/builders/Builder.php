@@ -216,8 +216,8 @@ class Builder
         $isOnePart = empty($this->account->Event->Parts);
         foreach ($user->Participants as $participant) {
             // Для оффлайн сервисов добавляем в выдачу идентификатор RFID-бейджа
-            if ($this->account->Role === Account::ROLE_OFFLINE && empty($participant->BadgeId) !== true) {
-                $this->user->BadgeId = $participant->BadgeId;
+            if ($this->account->Role === Account::ROLE_OFFLINE && empty($participant->BadgeUID) !== true) {
+                $this->user->BadgeUID = $participant->BadgeUID;
             }
             if ($participant->EventId == $this->account->EventId) {
                 if ($isOnePart) {

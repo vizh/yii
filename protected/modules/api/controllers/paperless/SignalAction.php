@@ -3,6 +3,7 @@
 namespace api\controllers\paperless;
 
 use api\components\Exception;
+use application\models\paperless\Event;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
@@ -29,6 +30,7 @@ class SignalAction extends \api\components\Action
      *              @Param(title="BadgeUID", mandatory="Y", description="Уникальный UID приложенного RFID-бейджа.")
      *              @Param(title="BadgeTime", mandatory="Y", description="Время прикладывания RFID-бейджа.")
      *              @Param(title="DeviceNumber", mandatory="Y", description="Номер устройства.")
+     *              @Param(title="Process", mandatory="N", description="Если передано true, то сигнал сразу же обрабатывается.")
      *          },
      *          response=@Response(body="['{$PAPERLESSMATERIAL}']")
      *     )
@@ -41,6 +43,7 @@ class SignalAction extends \api\components\Action
             ->byDeviceNumber($this->getRequestParam('DeviceNumber'))
             ->find();
 
+        // Обнаружено новое устройство
         if ($device === null) {
             $device = new Device();
             $device->DeviceNumber = $this->getRequestParam('DeviceNumber');
@@ -61,6 +64,21 @@ class SignalAction extends \api\components\Action
 
         if (false === $signal->save(true)) {
             throw new Exception($signal);
+        }
+
+        // Необходимо сразу обработать событие?
+        if ($this->getRequestParamBool('Process', false)) {
+            $events = Event::model()
+                ->byEventId($this->getEvent()->Id)
+                ->byActive()
+                ->with('DeviceLinks')
+                ->findAll();
+
+            foreach ($events as $event) {
+                if (false === $event->process($signal)) {
+                    throw new Exception($signal);
+                }
+            }
         }
 
         $this->setSuccessResult();

@@ -15,7 +15,7 @@ use user\models\User;
  * @property int $PartId
  * @property int $UserId
  * @property int $RoleId
- * @property int $BadgeId уникальный идентификатор UID для RFID-бейджа
+ * @property int $BadgeUID уникальный идентификатор UID для RFID-бейджа
  * @property string $CreationTime
  * @property string $UpdateTime
  *
@@ -36,6 +36,7 @@ use user\models\User;
  * @method Participant byEventId(int $id, $useAnd = true)
  * @method Participant byUserId(int $id, $useAnd = true)
  * @method Participant byRoleId(int $id, $useAnd = true)
+ * @method Participant byBadgeUID(int $uid, $useAnd = true)
  */
 class Participant extends ActiveRecord
 {

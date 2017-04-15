@@ -3,6 +3,9 @@
 namespace application\models\paperless;
 
 use application\components\ActiveRecord;
+use application\components\helpers\ArrayHelper;
+use CLogger;
+use Yii;
 
 /**
  * @property int $Id
@@ -35,7 +38,7 @@ use application\components\ActiveRecord;
  * @method Event bySendOnce(bool $once, bool $useAnd = true)
  * @method Event byConditionLike(bool $like, bool $useAnd = true)
  * @method Event byConditionNotLike(bool $notLike, bool $useAnd = true)
- * @method Event byActive(bool $active, bool $useAnd = true)
+ * @method Event byActive(bool $active = true, bool $useAnd = true)
  */
 class Event extends ActiveRecord
 {
@@ -106,6 +109,43 @@ class Event extends ActiveRecord
      */
     public function getFilePath()
     {
-        return \Yii::getPathOfAlias('webroot.paperless.event');
+        return Yii::getPathOfAlias('webroot.paperless.event');
+    }
+
+    /**
+     * Обработка сигнала. Возвращает true в случае уже обработанного или
+     * успешно обработанного сигнала. В случае ошибки возвращает false.
+     *
+     * @param DeviceSignal $signal
+     * @return bool
+     */
+    public function process(DeviceSignal $signal)
+    {
+        // Проверим, что мы действительно должны обработать сигнал с текущего устройства
+        if ($signal->Processed || false === in_array($signal, ArrayHelper::getColumn($this->DeviceLinks, 'DeviceId'))) {
+            return true;
+        }
+
+        // Не обрабатываем, если уже имеется аналогичный обработанный сигнал
+        if ($this->SendOnce) {
+            $isProcessed = DeviceSignal::model()
+                ->byEventId($signal->EventId)
+                ->byDeviceNumber(ArrayHelper::getColumn($this->DeviceLinks, 'DeviceId'))
+                ->byBadgeUID($signal->BadgeUID)
+                ->byProcessed()
+                ->exists();
+
+            if ($isProcessed) {
+                Yii::log(sprintf('Аналогичный сигнал с устройства %d о прикладывании бейджа %d уже был обработан ранее. Настройки события не позволяют повторную обработку.', $signal->DeviceNumber, $signal->BadgeUID), CLogger::LEVEL_INFO, 'paperless');
+                return true;
+            }
+        }
+
+        tgmsg($signal);
+
+        $signal->Processed = true;
+        $signal->ProcessedTime = date(RUNETID_TIME_FORMAT);
+
+        return $signal->save(true);
     }
 }

@@ -4,7 +4,6 @@
 // '<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 // '<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 
-define('SCHEMA', YII_DEBUG ? 'http' : 'https');
 return [
     /** PHDays2014 */
     SCHEMA.'://phdays2014.'.RUNETID_HOST.'/' => ['event/view/index/', 'defaultParams' => ['idName' => 'phdays2014']],

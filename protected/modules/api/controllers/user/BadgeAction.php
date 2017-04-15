@@ -40,7 +40,7 @@ class BadgeAction extends Action
             throw new Exception(304);
         }
 
-        $participant->BadgeId = (int)$this->getRequestParam('BadgeId');
+        $participant->BadgeUID = (int)$this->getRequestParam('BadgeId');
         $participant->save();
 
         $this->setResult(['Success' => true]);
