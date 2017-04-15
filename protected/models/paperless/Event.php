@@ -142,6 +142,22 @@ class Event extends ActiveRecord
             }
         }
 
+        $user = $signal
+            ->Participant
+            ->User;
+
+        // Если активен и определён фильтр по RunetId
+        if ($this->ConditionLikeString && !in_array($user->RunetId, ArrayHelper::str2nums($this->ConditionLike))) {
+            Yii::log(sprintf('Отсеиваем сигнал с устройства %d о прикладывании бейджа %d так как определён список конкретных RunetId и приложивший в нём отсутствует.', $signal->DeviceNumber, $signal->BadgeUID), CLogger::LEVEL_INFO, 'paperless');
+            return true;
+        }
+
+        // Если необходимо исключить некоторые RunetId
+        if ($this->ConditionNotLike && in_array($user->RunetId, ArrayHelper::str2nums($this->ConditionNotLikeString))) {
+            Yii::log(sprintf('Отсеиваем сигнал с устройства %d о прикладывании бейджа %d так как данный пользователь указан в списке исключений.', $signal->DeviceNumber, $signal->BadgeUID), CLogger::LEVEL_INFO, 'paperless');
+            return true;
+        }
+
         if (YII_DEBUG) {
             tgmsg($signal);
         }

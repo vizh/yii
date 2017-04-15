@@ -643,4 +643,22 @@ class ArrayHelper
     {
         return array_map($callback, $array, array_keys($array));
     }
+
+    /**
+     * Извлекает массив чисел из строки с запятой в качестве разделителя.
+     *
+     * @param $str
+     * @return array
+     */
+    public static function str2nums($str)
+    {
+        $str = trim($str);
+
+        if (empty($str))
+            return [];
+
+        return array_filter(ArrayHelper::each(explode(',', $str), function ($v) {
+            return (int)trim($v);
+        }));
+    }
 }
