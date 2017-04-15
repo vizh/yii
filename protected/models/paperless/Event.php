@@ -122,12 +122,12 @@ class Event extends ActiveRecord
      */
     public function process(DeviceSignal $signal)
     {
-        // Проверим, что мы действительно должны обработать сигнал с текущего устройства
+        // Фильтр ограничения по устройствам
         if ($signal->Processed || false === in_array($signal->DeviceNumber, ArrayHelper::getColumn($this->DeviceLinks, 'DeviceId'))) {
             return true;
         }
 
-        // Не обрабатываем, если уже имеется аналогичный обработанный сигнал
+        // Фильтр повторных отправок
         if ($this->SendOnce) {
             $isProcessed = DeviceSignal::model()
                 ->byEventId($signal->EventId)
@@ -137,7 +137,7 @@ class Event extends ActiveRecord
                 ->exists();
 
             if ($isProcessed) {
-                Yii::log(sprintf('Аналогичный сигнал с устройства %d о прикладывании бейджа %d уже был обработан ранее. Настройки события не позволяют повторную обработку.', $signal->DeviceNumber, $signal->BadgeUID), CLogger::LEVEL_INFO, 'paperless');
+                Yii::log(sprintf('Аналогичный сигнал с устройства %d о прикладывании бейджа %d из-за ограничения на повторную отправку.', $signal->DeviceNumber, $signal->BadgeUID), CLogger::LEVEL_INFO, 'paperless');
                 return true;
             }
         }
@@ -146,15 +146,21 @@ class Event extends ActiveRecord
             ->Participant
             ->User;
 
-        // Если активен и определён фильтр по RunetId
-        if ($this->ConditionLikeString && !in_array($user->RunetId, ArrayHelper::str2nums($this->ConditionLike))) {
-            Yii::log(sprintf('Отсеиваем сигнал с устройства %d о прикладывании бейджа %d так как определён список конкретных RunetId и приложивший в нём отсутствует.', $signal->DeviceNumber, $signal->BadgeUID), CLogger::LEVEL_INFO, 'paperless');
+        // Фильтр ограничения по статусам участия
+        if ($this->RoleLinks && !in_array($signal->Participant->RoleId, ArrayHelper::getColumn($this->RoleLinks, 'RoleId'))) {
+            Yii::log(sprintf('Отсеиваем сигнал с устройства %d о прикладывании бейджа %d из-за ограничения по статусам участия.', $signal->DeviceNumber, $signal->BadgeUID), CLogger::LEVEL_INFO, 'paperless');
             return true;
         }
 
-        // Если необходимо исключить некоторые RunetId
+        // Фильтр ограничения по RunetId
+        if ($this->ConditionLikeString && !in_array($user->RunetId, ArrayHelper::str2nums($this->ConditionLike))) {
+            Yii::log(sprintf('Отсеиваем сигнал с устройства %d о прикладывании бейджа %d из-за ограничения по RunetId.', $signal->DeviceNumber, $signal->BadgeUID), CLogger::LEVEL_INFO, 'paperless');
+            return true;
+        }
+
+        // Фильтр исключения по RunetId
         if ($this->ConditionNotLike && in_array($user->RunetId, ArrayHelper::str2nums($this->ConditionNotLikeString))) {
-            Yii::log(sprintf('Отсеиваем сигнал с устройства %d о прикладывании бейджа %d так как данный пользователь указан в списке исключений.', $signal->DeviceNumber, $signal->BadgeUID), CLogger::LEVEL_INFO, 'paperless');
+            Yii::log(sprintf('Отсеиваем сигнал с устройства %d о прикладывании бейджа %d из-за исключения по RunetId.', $signal->DeviceNumber, $signal->BadgeUID), CLogger::LEVEL_INFO, 'paperless');
             return true;
         }
 
@@ -163,7 +169,7 @@ class Event extends ActiveRecord
         }
 
         MailBuilder::create()
-            ->setTo($signal->Participant->User)
+            ->setTo($user)
             ->setFrom('users@runet-id.com', 'RUNET-ID/Paperless')
             ->setSubject($this->Subject)
             ->setBody($this->Text)

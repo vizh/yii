@@ -71,7 +71,7 @@ class SignalAction extends \api\components\Action
             $events = Event::model()
                 ->byEventId($this->getEvent()->Id)
                 ->byActive()
-                ->with('DeviceLinks')
+                ->with('DeviceLinks', 'RoleLinks')
                 ->findAll();
 
             foreach ($events as $event) {
