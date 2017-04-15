@@ -3,6 +3,7 @@
 namespace api\controllers\paperless\material;
 
 use api\components\Exception;
+use application\components\CDbCriteria;
 use event\models\Participant;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
@@ -27,7 +28,7 @@ class SearchAction extends \api\components\Action
      *          body="",
      *          params={
      *              @Param(title="RunetId", mandatory="N", description="RUNET-ID посетителя для выборки доступных ему материалов.")
-     *              @Param(title="RoleId", mandatory="N", description="Один или несколько статусов участия на мероприятии для выборки доступных им материалов.")
+     *              @Param(title="RoleId", mandatory="N", description="Один или несколько статусов участия на мероприятии для выборки доступных им материалов. Внимание! Данное условие перекрывает результаты фильтрации по RunetId. Совместное использование параметров RunetId и RoleId не проектировалось.")
      *          },
      *          response=@Response(body="['{$PAPERLESSMATERIAL}']")
      *     )
@@ -51,7 +52,15 @@ class SearchAction extends \api\components\Action
                 throw new Exception(304);
             }
 
-            $materials->byRoleId($participant->RoleId);
+            $materials->getDbCriteria()->mergeWith(
+                CDbCriteria::create()
+                    ->setWith(['UserLinks', 'RoleLinks'])
+                    ->addCondition('"UserLinks"."UserId" = :UserId OR "RoleLinks"."RoleId" = :RoleId')
+                    ->addParams([
+                        'UserId' => $participant->UserId,
+                        'RoleId' => $participant->RoleId
+                    ])
+            );
         }
 
         if ($this->hasRequestParam('RoleId')) {

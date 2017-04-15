@@ -20,6 +20,7 @@ use event\models\Event;
  *
  * @property Event $Event
  * @property MaterialLinkRole[] $RoleLinks
+ * @property MaterialLinkUser[] $UserLinks
  *
  * Описание вспомогательных методов
  * @method Material   with($condition = '')
@@ -87,6 +88,7 @@ class Material extends ActiveRecord
         return [
             'Event' => [self::BELONGS_TO, Event::className(), ['EventId']],
             'RoleLinks' => [self::HAS_MANY, MaterialLinkRole::className(), ['MaterialId']],
+            'UserLinks' => [self::HAS_MANY, MaterialLinkUser::className(), ['MaterialId']],
         ];
     }
 
@@ -157,6 +159,23 @@ class Material extends ActiveRecord
             CDbCriteria::create()
                 ->setWith(['RoleLinks' => ['together' => true]])
                 ->addInCondition('"RoleLinks"."RoleId"', $roleids, $useAnd ? 'AND' : 'OR')
+        );
+    }
+
+    /**
+     * @param int|array $userids
+     * @param bool $useAnd
+     */
+    public function byUserId($userids, $useAnd = true)
+    {
+        if (false === is_array($userids)) {
+            $userids = [$userids];
+        }
+
+        $this->getDbCriteria()->mergeWith(
+            CDbCriteria::create()
+                ->setWith(['UserLinks' => ['together' => true]])
+                ->addInCondition('"UserLinks"."UserId"', $userids, $useAnd ? 'AND' : 'OR')
         );
     }
 }

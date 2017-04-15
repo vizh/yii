@@ -179,6 +179,12 @@ class Event extends ActiveRecord
 
         foreach (ArrayHelper::getColumn($this->MaterialLinks, 'Material') as $material) {
             /** @var Material $material */
+            if (false === in_array($user->Id, ArrayHelper::getColumn($material->UserLinks, 'UserId'))) {
+                $userLink = new MaterialLinkUser();
+                $userLink->MaterialId = $material->Id;
+                $userLink->UserId = $user->Id;
+                $userLink->save(false);
+            }
             // toDo: Организовать форсирование отображения материала у посетителя
         }
 
