@@ -110,7 +110,7 @@ class Event extends ActiveRecord
      */
     public function getFilePath()
     {
-        return Yii::getPathOfAlias('webroot.paperless.event');
+        return Yii::getPathOfAlias('webroot.files.paperless.event');
     }
 
     /**
@@ -153,7 +153,7 @@ class Event extends ActiveRecord
         }
 
         // Фильтр ограничения по RunetId
-        if ($this->ConditionLikeString && !in_array($user->RunetId, ArrayHelper::str2nums($this->ConditionLike))) {
+        if ($this->ConditionLikeString && !in_array($user->RunetId, ArrayHelper::str2nums($this->ConditionLikeString))) {
             Yii::log(sprintf('Отсеиваем сигнал с устройства %d о прикладывании бейджа %d из-за ограничения по RunetId.', $signal->DeviceNumber, $signal->BadgeUID), CLogger::LEVEL_INFO, 'paperless');
             return true;
         }
@@ -164,15 +164,12 @@ class Event extends ActiveRecord
             return true;
         }
 
-        if (YII_DEBUG) {
-            tgmsg($signal);
-        }
-
         MailBuilder::create()
             ->setTo($user)
             ->setFrom('users@runet-id.com', 'RUNET-ID/Paperless')
             ->setSubject($this->Subject)
             ->setBody($this->Text)
+            ->addAttachment($this->getFilePath().'/'.$this->File)
             ->send();
 
         $signal->Processed = true;

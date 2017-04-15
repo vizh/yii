@@ -88,4 +88,26 @@ class MailBuilder
 
         return $this;
     }
+
+    /**
+     * Добавляет вложение к письму, если оно указано, существует и является файлом.
+     *
+     * @param string $file
+     * @param string|null $name
+     * @return MailBuilder
+     */
+    public function addAttachment($file, $name = null)
+    {
+        if ($file && is_file($file)) {
+            if ($name === null)
+                $name = basename($file);
+
+            $this->attributes['attachments'][$name] = [
+                mime_content_type($file),
+                $file
+            ];
+        }
+
+        return $this;
+    }
 }
