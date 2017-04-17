@@ -34,6 +34,9 @@ $foodOrderItems = OrderItem::model()->with('Product')->byEventId(/*$event->Id*/
     3016)->byPaid(true)->byAnyOwnerId($user->Id)->findAll($criteria);
 
 $productIds = [
+    '18' => [
+        'ужин' => '7246',
+    ],
     '19' => [
         'завтрак' => '7247',
         'обед' => '7248',
@@ -490,75 +493,121 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
         <? endif ?>
         <div class="hr"></div>
 
-        <table class="food" style="width: 100%;margin-top: 24px;font-size: 2.6mm">
-            <thead>
-            <tr style="">
-                <th style="padding-bottom: 17px;padding-left:10px;font-weight: 300;font-size: 7.5mm;text-align: left">
-                    19/04<span style="margin-left:5px;font-size: 2.6mm">  Среда</span></th>
-                <th style="padding-bottom: 17px;padding-left:10px;font-weight: 300;font-size: 7.5mm;text-align: left">
-                    20/04<span style="margin-left:5px;font-size: 2.6mm">  Четверг</span></th>
-                <th style="padding-bottom: 17px;padding-left:10px;font-weight: 300;font-size: 7.5mm;text-align: left">
-                    21/04<span style="margin-left:5px;font-size: 2.6mm">  Пятница</span></th>
-            </tr>
-            </thead>
-            <tbody>
-            <!--<tr class="bg-grey" style="margin-top: 15px">
-                <td style="font-size: 2.6mm">Проживание</td>
-                <td style="font-size: 2.6mm">Проживание</td>
-                <td style="font-size: 2.6mm">Проживание</td>
-            </tr>
-            <tr>
-                <? /* foreach ([18, 19, 20] as $date) : */ ?>
-                    <? /* if (in_array($date, $dates)) : */ ?>
-                        <td>Пансионат &laquo;<? /*= $roomProductManager->Hotel */ ?> &raquo;<br>
-                            <? /*= $roomProductManager->Housing */ ?>, номер <? /*= $roomProductManager->Number */ ?>
-                        </td>
-                    <? /* else : */ ?>
-                        <td>-</td>
-                    <? /* endif */ ?>
-                <? /* endforeach; */ ?>
-            </tr>-->
-            <tr class="bg-grey">
-                <?php if (!empty($foodOrderItems)) : ?>
-                    <? foreach ($productIds as $day => $meals) : ?>
-                        <? $payedMeals = 'не оплачено';
-                        $i = 0;
-                        foreach ($meals as $mealName => $mealId) {
-                            if (in_array($mealId, $userFoodProductIds)) {
-                                if (!$i) {
-                                    $payedMeals = $mealName;
-                                } else {
-                                    $payedMeals .= ', ' . $mealName;
+        <? if($roomProductManager->Hotel === 'ЛЕСНЫЕ ДАЛИ' || !$roomProductManager->Hotel) :?>
+            <table class="food" style="width: 100%;margin-top: 24px;font-size: 2.6mm">
+                <thead>
+                <tr style="">
+                    <th style="padding-bottom: 17px;padding-left:10px;font-weight: 300;font-size: 7.5mm;text-align: left">
+                        18/04<span style="margin-left:5px;font-size: 2.6mm">  Вторник</span></th>
+                    <th style="padding-bottom: 17px;padding-left:10px;font-weight: 300;font-size: 7.5mm;text-align: left">
+                        19/04<span style="margin-left:5px;font-size: 2.6mm">  Среда</span></th>
+                    <th style="padding-bottom: 17px;padding-left:10px;font-weight: 300;font-size: 7.5mm;text-align: left">
+                        20/04<span style="margin-left:5px;font-size: 2.6mm">  Четверг</span></th>
+                    <th style="padding-bottom: 17px;padding-left:10px;font-weight: 300;font-size: 7.5mm;text-align: left">
+                        21/04<span style="margin-left:5px;font-size: 2.6mm">  Пятница</span></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="bg-grey">
+                    <?php if (!empty($foodOrderItems)) : ?>
+                        <? foreach ($productIds as $day => $meals) : ?>
+                            <? $payedMeals = 'не оплачено';
+                            $i = 0;
+                            foreach ($meals as $mealName => $mealId) {
+                                if (in_array($mealId, $userFoodProductIds)) {
+                                    if (!$i) {
+                                        $payedMeals = $mealName;
+                                    } else {
+                                        $payedMeals .= ', ' . $mealName;
+                                    }
+                                    $i++;
                                 }
-                                $i++;
-                            }
-                        } ?>
-                        <td style="font-size: 2.6mm">Питание (<?= $payedMeals ?>)</td>
-                    <? endforeach; ?>
-                <? else : ?>
-                    <td style="font-size: 2.6mm">Питание (не оплачено)</td>
-                    <td style="font-size: 2.6mm">Питание (не оплачено)</td>
-                    <td style="font-size: 2.6mm">Питание (не оплачено)</td>
-                <? endif ?>
-            </tr>
-            <tr>
-                <td style="vertical-align: top">Завтрак / 8:30 - 10:00<br>
-                    Обед / 13:30 - 15:00<br>
-                    Ланчбокс / 15:00 - 16:00<br>
-                    Ужин / 18:30 - 20:00<br><br>
-                </td>
-                <td style="vertical-align: top">Завтрак / 8:30 - 10:00<br>
-                    Обед / 13:30 - 15:00<br>
-                    Ланчбокс / 15:00 - 16:00<br>
-                    Ужин / 18:30 - 20:00<br><br>
-                </td>
-                <td style="vertical-align: top">Завтрак / 8:30 - 10:00<br>
-                    Обед / 13:30 - 15:00<br>
-                    Ланчбокс / 15:00 - 16:00<br>
-                    Ужин / 18:30 - 20:00<br><br>
-            </tr>
-            </tbody>
-        </table>
+                            } ?>
+                            <td style="font-size: 2.6mm">Питание (<?= $payedMeals ?>)</td>
+                        <? endforeach; ?>
+                    <? else : ?>
+                        <td style="font-size: 2.6mm">Питание (не оплачено)</td>
+                        <td style="font-size: 2.6mm">Питание (не оплачено)</td>
+                        <td style="font-size: 2.6mm">Питание (не оплачено)</td>
+                        <td style="font-size: 2.6mm">Питание (не оплачено)</td>
+                    <? endif ?>
+                </tr>
+                <tr>
+                    <td style="vertical-align: top">
+                        Ужин / 20:30 - 22:00<br><br>
+                    </td>
+                    <td style="vertical-align: top">
+                        Завтрак / 8:30 - 10:00<br>
+                        Обед / 14:30 - 15:30<br>
+                        Ужин / 20:00 - 21:30<br><br>
+                    </td>
+                    <td style="vertical-align: top">
+                        Завтрак / 8:30 - 10:00<br>
+                        Обед / 14:30 - 16:00<br>
+                        Ужин / 20:00 - 21:30<br><br>
+                    </td>
+                    <td style="vertical-align: top">
+                        Завтрак / 8:30 - 10:00<br>
+                        Обед / 14:30 - 16:00<br>
+                        Ужин / 19:00 - 20:30<br><br>
+                </tr>
+                </tbody>
+            </table>
+        <? else :?>
+            <table class="food" style="width: 100%;margin-top: 24px;font-size: 2.6mm">
+                <thead>
+                <tr style="">
+                    <th style="padding-bottom: 17px;padding-left:10px;font-weight: 300;font-size: 7.5mm;text-align: left">
+                        19/04<span style="margin-left:5px;font-size: 2.6mm">  Среда</span></th>
+                    <th style="padding-bottom: 17px;padding-left:10px;font-weight: 300;font-size: 7.5mm;text-align: left">
+                        20/04<span style="margin-left:5px;font-size: 2.6mm">  Четверг</span></th>
+                    <th style="padding-bottom: 17px;padding-left:10px;font-weight: 300;font-size: 7.5mm;text-align: left">
+                        21/04<span style="margin-left:5px;font-size: 2.6mm">  Пятница</span></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="bg-grey">
+                    <?php if (!empty($foodOrderItems)) : ?>
+                        <?
+                        unset($productIds['18']);
+                        foreach ($productIds as $day => $meals) : ?>
+                            <? $payedMeals = 'не оплачено';
+                            $i = 0;
+                            foreach ($meals as $mealName => $mealId) {
+                                if (in_array($mealId, $userFoodProductIds)) {
+                                    if (!$i) {
+                                        $payedMeals = $mealName;
+                                    } else {
+                                        $payedMeals .= ', ' . $mealName;
+                                    }
+                                    $i++;
+                                }
+                            } ?>
+                            <td style="font-size: 2.6mm">Питание (<?= $payedMeals ?>)</td>
+                        <? endforeach; ?>
+                    <? else : ?>
+                        <td style="font-size: 2.6mm">Питание (не оплачено)</td>
+                        <td style="font-size: 2.6mm">Питание (не оплачено)</td>
+                        <td style="font-size: 2.6mm">Питание (не оплачено)</td>
+                    <? endif ?>
+                </tr>
+                <tr>
+                    <td style="vertical-align: top">Завтрак / 8:30 - 10:00<br>
+                        Обед / 13:30 - 15:00<br>
+                        Ужин / 18:30 - 20:00<br><br>
+                    </td>
+                    <td style="vertical-align: top">Завтрак / 8:30 - 10:00<br>
+                        Обед / 13:30 - 15:00<br>
+                        Ужин / 18:30 - 20:00<br><br>
+                    </td>
+                    <td style="vertical-align: top">Завтрак / 8:30 - 10:00<br>
+                        Обед / 13:30 - 15:00<br>
+                        Ужин / 18:30 - 20:00<br><br>
+                </tr>
+                </tbody>
+            </table>
+        <? endif?>
+
 
         <div class="col-12">
         </div>
