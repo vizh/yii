@@ -776,6 +776,9 @@ if (!empty($eventSections)) {
         if (!empty($totalDates)) {
             $image->text(implode(',', $totalDates), 100, 500, 1360);
             $image->save(\Yii::getPathOfAlias('webroot') . $path);
+        } else {
+            $image->text('19, 20, 21', 100, 500, 1360);
+            $image->save(\Yii::getPathOfAlias('webroot') . $path);
         }
         ?>
         <pagebreak/>
