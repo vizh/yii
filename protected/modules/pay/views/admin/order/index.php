@@ -32,13 +32,7 @@
   <div class="row-fluid">
     <div class="span8">
       <?=CHtml::activeLabel($form, 'Company')?>
-      <?$this->widget('\application\widgets\AutocompleteInput', [
-        'model' => $form,
-        'attribute' => 'Company',
-        'label' => $form->Company,
-        'htmlOptions' => ['class' => 'span12'],
-        'source' => $this->createUrl('autocomplete'),
-      ])?>
+      <?=CHtml::activeTextField($form, 'Company', ['placeholder' => '', 'class' => 'span12'])?>
     </div>
     <div class="span3 offset1">
       <button class="btn btn-large" type="submit" style="margin-top:10px"><i class="icon-search"></i> Искать</button>
