@@ -7,11 +7,11 @@ class FoodAction extends \CAction
 {
     public function run()
     {
-        $dates = ['2017-04-19', '2017-04-20', '2017-04-21'];
+        $dates = ['2017-04-18', '2017-04-19', '2017-04-20', '2017-04-21'];
         $food = [
-            'breakfast' => [7247, 7250, 7253],
-            'lunch'     => [7248, 7251, 7254],
-            'dinner'    => [7249, 7252, 7255],
+            'breakfast' => [0, 7247, 7250, 7253],
+            'lunch'     => [0, 7248, 7251, 7254],
+            'dinner'    => [7246, 7249, 7252, 7255],
         ];
 
         $users = Rif::getUsersByHotel();
