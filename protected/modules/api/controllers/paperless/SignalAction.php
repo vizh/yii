@@ -51,7 +51,7 @@ class SignalAction extends \api\components\Action
             $device->Name = 'Новое устройство';
             $device->Type = (int)$this->getRequestParam('DeviceType', 2);
 
-            if (false === $device->save(true)) {
+            if (false === $device->save()) {
                 throw new Exception($device);
             }
         }
@@ -62,7 +62,7 @@ class SignalAction extends \api\components\Action
         $signal->BadgeUID = (int)$this->getRequestParam('BadgeUID');
         $signal->BadgeTime = $this->getRequestParam('BadgeTime');
 
-        if (false === $signal->save(true)) {
+        if (false === $signal->save()) {
             throw new Exception($signal);
         }
 
