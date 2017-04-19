@@ -1,4 +1,6 @@
 <?php
+use application\components\helpers\ArrayHelper;
+
 /**
  * @var $import \pay\models\Import
  * @var $this \pay\components\Controller
@@ -13,23 +15,54 @@ $this->setPageTitle(\Yii::t('app', 'Импорт выписки из банка'
         <table class="table">
             <thead>
             <tr>
-                <th>Номер счета</th>
                 <th>Дата поступления</th>
                 <th>ИНН плательщика</th>
                 <th>Наименование плательщика</th>
                 <th>Сумма платежа</th>
-                <th>Номер счета</th>
-                <th>Дата выставления счета</th>
-                <th>ИНН плательщика</th>
-                <th>Наименование плательщик</th>
-                <th>Сумма счета</th>
-                <th>Статус</th>
+                <th>Детали</th>
             </tr>
             </thead>
             <tbody>
-            <?foreach($import->orders as $order) {
-                $this->renderPartial('row', ['order' => $order]);
-            }?>
+            <?php foreach ($import->entries as $entry): ?>
+                <tr id="entry-<?= $entry->Id; ?>">
+                    <td><?= ArrayHelper::getValue($entry, 'Data.Дата') ?></td>
+                    <td><?= ArrayHelper::getValue($entry, 'Data.ПлательщикИНН') ?></td>
+                    <td><?= ArrayHelper::getValue($entry, 'Data.Плательщик') ?></td>
+                    <td><?= ArrayHelper::getValue($entry, 'Data.Сумма') ?></td>
+                    <td>
+                        <?php
+                        $this->beginWidget('\application\widgets\bootstrap\Modal', [
+                            'header' => 'Детали платежа',
+                            'toggleButton' => ['label' => '<i class="icon-search"></i>', 'class' => 'btn btn-default']
+                        ]);
+                        $this->renderPartial('modal', ['entry' => $entry]);
+                        $this->endWidget();
+                        ?>
+                    </td>
+                </tr>
+                <tr id="entry-orders-<?= $entry->Id ?>">
+                    <td colspan="4">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Номер счета</th>
+                                <th>Дата выставления счета</th>
+                                <th>ИНН плательщика</th>
+                                <th>Наименование плательщик</th>
+                                <th>Сумма счета</th>
+                                <th>Статус</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($entry->orders as $order) {
+                                $this->renderPartial('order', ['order' => $order]);
+                            } ?>
+                            </tbody>
+                        </table>
+
+                    </td>
+                </tr>
+            <?php endforeach; ?>
             </tbody>
         </table>
     </div>
