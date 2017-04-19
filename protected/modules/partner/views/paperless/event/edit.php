@@ -1,6 +1,7 @@
 <?php
 
 use application\helpers\Flash;
+use application\models\paperless\Device;
 use application\models\paperless\Event;
 
 /**
@@ -42,7 +43,7 @@ $possibleMaterials = $form->getMaterials();
 				<div class="form-group">
 					<h4><?=$activeForm->label($form, 'Devices')?><br></h4>
                     <?if(!empty($possibleDevices)):?>
-                        <?=$activeForm->checkBoxList($form, 'Devices', CHtml::listData($possibleDevices, 'Id', 'Name'))?>
+                        <?=$activeForm->checkBoxList($form, 'Devices', CHtml::listData($possibleDevices, 'Id', function (Device $device) { return "{$device->Name} #{$device->DeviceNumber}".($device->Active ? '' : ' <font color="silver">(неактивно)</font>'); }))?>
                     <?else:?>
 						<div class="alert">На мероприятии не найдено ни одного устройства. Добавьте их, или приложите к ним бейдж.</div>
                     <?endif?>
@@ -97,7 +98,12 @@ $possibleMaterials = $form->getMaterials();
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-					<h4><label>Отправить письмо:</label></h4>
+					<div class="form-group">
+						<div class="checkbox">
+							<?=$activeForm->checkBox($form, 'Send')?>
+							<h4><?=$form->getAttributeLabel('Send')?></h4>
+						</div>
+					</div>
 					<div class="form-group">
                         <?=$activeForm->label($form, 'Subject')?>
                         <?=$activeForm->textField($form, 'Subject', ['class' => 'form-control'])?>

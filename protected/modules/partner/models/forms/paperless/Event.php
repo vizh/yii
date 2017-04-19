@@ -2,6 +2,7 @@
 
 namespace partner\models\forms\paperless;
 
+use application\components\CDbCriteria;
 use application\components\form\CreateUpdateForm;
 use application\components\helpers\ArrayHelper;
 use application\helpers\Flash;
@@ -17,6 +18,7 @@ class Event extends CreateUpdateForm
     public $Id;
     public $Subject;
     public $Text;
+    public $Send;
     public $SendOnce;
     public $ConditionLike;
     public $ConditionLikeString;
@@ -54,7 +56,7 @@ class Event extends CreateUpdateForm
     {
         return [
             ['Subject, Text', 'required'],
-            ['SendOnce, ConditionLike, ConditionNotLike, Active', 'boolean'],
+            ['Send, SendOnce, ConditionLike, ConditionNotLike, Active', 'boolean'],
             ['ConditionLikeString, ConditionNotLikeString, Devices, Roles, Materials', 'safe'],
             ['File', 'file', 'allowEmpty' => true],
         ];
@@ -86,6 +88,7 @@ class Event extends CreateUpdateForm
         try {
             $this->model->Subject = $this->Subject;
             $this->model->Text = $this->Text;
+            $this->model->Send = $this->Send;
             $this->model->SendOnce = $this->SendOnce;
             $this->model->ConditionLike = $this->ConditionLike;
             $this->model->ConditionLikeString = $this->ConditionLikeString;
@@ -111,8 +114,7 @@ class Event extends CreateUpdateForm
             $this->model->save(false);
 
             EventLinkDevice::model()
-                ->byEventId($this->model->Id)
-                ->deleteAll();
+                ->deleteAll(CDbCriteria::create()->addColumnCondition(['"EventId"' => $this->model->Id]));
 
             if (false === empty($this->Devices)) {
                 foreach ($this->Devices as $device) {
@@ -124,8 +126,7 @@ class Event extends CreateUpdateForm
             }
 
             EventLinkRole::model()
-                ->byEventId($this->model->Id)
-                ->deleteAll();
+                ->deleteAll(CDbCriteria::create()->addColumnCondition(['"EventId"' => $this->model->Id]));
 
             if (false === empty($this->Roles)) {
                 foreach ($this->Roles as $role) {
@@ -137,8 +138,7 @@ class Event extends CreateUpdateForm
             }
 
             EventLinkMaterial::model()
-                ->byEventId($this->model->Id)
-                ->deleteAll();
+                ->deleteAll(CDbCriteria::create()->addColumnCondition(['"EventId"' => $this->model->Id]));
 
             if (false === empty($this->Materials)) {
                 foreach ($this->Materials as $material) {

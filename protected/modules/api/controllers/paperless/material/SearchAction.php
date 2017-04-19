@@ -39,8 +39,7 @@ class SearchAction extends \api\components\Action
     {
         $materials = Material::model()
             ->byEventId($this->getEvent()->Id)
-            ->byActive()
-            ->byVisible();
+            ->byActive();
 
         if ($this->hasRequestParam('RunetId')) {
             $participant = Participant::model()
@@ -55,7 +54,7 @@ class SearchAction extends \api\components\Action
             $materials->getDbCriteria()->mergeWith(
                 CDbCriteria::create()
                     ->setWith(['UserLinks', 'RoleLinks'])
-                    ->addCondition('"UserLinks"."UserId" = :UserId OR "RoleLinks"."RoleId" = :RoleId')
+                    ->addCondition('"UserLinks"."UserId" = :UserId OR ("t"."Visible" AND "RoleLinks"."RoleId" = :RoleId)')
                     ->addParams([
                         'UserId' => $participant->UserId,
                         'RoleId' => $participant->RoleId

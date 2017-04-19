@@ -20,7 +20,6 @@ use application\components\ActiveRecord;
  * @method EventLinkDevice[] findAll($condition = '', $params = [])
  * @method EventLinkDevice[] findAllByAttributes($attributes, $condition = '', $params = [])
  *
- * @method EventLinkDevice byId(int $id, bool $useAnd = true)
  * @method EventLinkDevice byEventId(int $id, bool $useAnd = true)
  * @method EventLinkDevice byDeviceId(int $id, bool $useAnd = true)
  */
