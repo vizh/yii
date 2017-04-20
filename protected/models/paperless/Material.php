@@ -4,7 +4,7 @@ namespace application\models\paperless;
 
 use application\components\ActiveRecord;
 use application\components\CDbCriteria;
-use event\models\Event;
+use event\models\Event as BaseEvent;
 
 /**
  * @property integer $Id
@@ -18,7 +18,7 @@ use event\models\Event;
  * @property string $PartnerSite
  * @property string $PartnerLogo
  *
- * @property Event $Event
+ * @property BaseEvent $Event
  * @property MaterialLinkRole[] $RoleLinks
  * @property MaterialLinkUser[] $UserLinks
  *
@@ -86,7 +86,7 @@ class Material extends ActiveRecord
     public function relations()
     {
         return [
-            'Event' => [self::BELONGS_TO, Event::className(), ['EventId']],
+            'Event' => [self::BELONGS_TO, BaseEvent::className(), ['EventId']],
             'RoleLinks' => [self::HAS_MANY, MaterialLinkRole::className(), ['MaterialId']],
             'UserLinks' => [self::HAS_MANY, MaterialLinkUser::className(), ['MaterialId']],
         ];
