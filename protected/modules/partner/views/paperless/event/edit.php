@@ -2,11 +2,11 @@
 
 use application\helpers\Flash;
 use application\models\paperless\Device;
-use application\models\paperless\Event;
 
 /**
  * @var \partner\models\forms\paperless\Event $form
- * @var Event $event
+ * @var \application\models\paperless\Event $event
+ * @var \application\models\paperless\DeviceSignal[] $signals
  * @var $this \partner\components\Controller
  * @var $activeForm CActiveForm
  */
@@ -132,6 +132,46 @@ $possibleMaterials = $form->getMaterials();
                 </div>
             </div>
         </div>
+    </div>
+    <div class="panel-footer">
+        <?=CHtml::submitButton($event->isNewRecord ? 'Создать' : 'Сохранить', ['class' => 'btn btn-primary'])?>
+		<?if(false === $event->isNewRecord):?>
+            <?=CHtml::submitButton('Применить', ['name' => 'apply', 'class' => 'btn btn-default'])?>
+		<?endif?>
+    </div>
+</div>
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <span class="panel-title"><span class="fa fa-plus"></span> <?=Yii::t('app', 'Обработанные сигналы')?></span>
+    </div>
+    <div class="panel-body">
+		<table class="table">
+			<tr>
+				<th style="text-align:center">##</th>
+				<th style="text-align:center">Обработано</th>
+				<th style="text-align:center">RUNET-ID</th>
+				<th>Ф.И.О.</th>
+				<th>Email</th>
+				<th>Телефон</th>
+			</tr>
+			<?foreach($signals as $signal):?>
+				<?if($signal->Participant !== null):?>
+					<?$user = $signal->Participant->User?>
+					<tr>
+						<td style="text-align:right;color:silver">#<?=$signal->Id?></td>
+						<td style="text-align:right;color:silver">
+							<?=$signal->Processed ? '✉️' : ''?>
+							<?=$signal->ProcessedTime?>
+						</td>
+						<td><a href="/user/edit/?id=<?=$user->RunetId?>" target="_blank"><?=$user->RunetId?></a></td>
+						<td style="text-align:left"><?=$user->getFullName()?></td>
+						<td style="text-align:left"><a href="mailto:<?=$user->Email?>"><?=$user->Email?></a></td>
+						<td style="text-align:left"><?=$user->getPhone()?></td>
+					</tr>
+                <?endif?>
+			<?endforeach?>
+		</table>
     </div>
     <div class="panel-footer">
         <?=CHtml::submitButton($event->isNewRecord ? 'Создать' : 'Сохранить', ['class' => 'btn btn-primary'])?>
