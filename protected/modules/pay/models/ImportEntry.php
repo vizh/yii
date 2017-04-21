@@ -80,12 +80,12 @@ class ImportEntry extends ActiveRecord
     protected function extractOrderIds($text)
     {
         $ids = [];
-        $parts = array_filter(preg_split('/[\s*]/', $text));
+        $parts = array_filter(preg_split('/[\s*]|счету|№/i', $text));
         foreach ($parts as $part) {
             $ids[] = $this->findOrder($part);
         }
         $ids = array_filter($ids);
-        return array_filter($ids);
+        return $ids;
     }
 
     protected function findOrder($number)
