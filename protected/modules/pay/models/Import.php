@@ -95,6 +95,5 @@ class Import extends ActiveRecord
             $entry->save();
             $entry->matchOrders();
         }, $entries);
-//        exit;
     }
 }
