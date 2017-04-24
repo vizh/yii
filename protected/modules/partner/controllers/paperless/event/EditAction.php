@@ -38,7 +38,7 @@ class EditAction extends Action
 
         $signals = DeviceSignal::model()
             ->byDeviceNumber(ArrayHelper::getColumn($event->DeviceLinks, 'DeviceId'))
-            ->with(['Participant' => ['with' => 'User']])
+            ->with(['Participant' => ['with' => ['User' => ['with' => ['Employments', 'Settings', 'LinkPhones']]]]])
             ->orderBy(['"t"."Id"' => SORT_DESC])
             ->findAll();
 
