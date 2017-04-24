@@ -143,7 +143,11 @@ $possibleMaterials = $form->getMaterials();
 
 <div class="panel panel-info">
     <div class="panel-heading">
-        <span class="panel-title"><span class="fa fa-plus"></span> <?=Yii::t('app', 'Обработанные сигналы')?></span>
+        <span class="panel-title">
+			<span class="fa fa-plus"></span>
+			<?=Yii::t('app', 'Обработанные сигналы')?>
+            <?=CHtml::link('Экспорт', ['eventExport', 'id' => $event->Id], ['class' => 'btn btn-primary btn-labeled pull-right', 'style' => 'position:relative;top:-.5em;right:-1em'])?>
+		</span>
     </div>
     <div class="panel-body">
 		<table class="table">
@@ -157,17 +161,28 @@ $possibleMaterials = $form->getMaterials();
 			</tr>
 			<?foreach($signals as $signal):?>
 				<?if($signal->Participant !== null):?>
-					<?$user = $signal->Participant->User?>
+					<?php
+						$user = $signal->Participant->User;
+						$work = $user->getEmploymentPrimary();
+					?>
 					<tr>
 						<td style="text-align:right;color:silver">#<?=$signal->Id?></td>
-						<td style="text-align:right;color:silver">
+						<td style="text-align:right;color:silver" nowrap>
 							<?=$signal->Processed ? '✉️' : ''?>
 							<?=$signal->ProcessedTime?>
 						</td>
 						<td><a href="/user/edit/?id=<?=$user->RunetId?>" target="_blank"><?=$user->RunetId?></a></td>
-						<td style="text-align:left"><?=$user->getFullName()?></td>
+						<td style="text-align:left">
+							<?=$user->getFullName()?>
+							<?if($work !== null):?>
+								<br>
+								<font color="silver">
+									<?=implode(' / ', array_filter([$work->Company->Name, $work->Position]))?>
+								</font>
+                            <?endif?>
+						</td>
 						<td style="text-align:left"><a href="mailto:<?=$user->Email?>"><?=$user->Email?></a></td>
-						<td style="text-align:left"><?=$user->getPhone()?></td>
+						<td style="text-align:left" nowrap><?=$user->getPhone()?></td>
 					</tr>
                 <?endif?>
 			<?endforeach?>

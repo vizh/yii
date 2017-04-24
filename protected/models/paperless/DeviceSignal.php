@@ -11,7 +11,7 @@ use application\components\ActiveRecord;
  * @property int $BadgeUID
  * @property int $BadgeTime
  * @property bool $Processed
- * @property bool $ProcessedTime
+ * @property string $ProcessedTime
  * @property bool $CreatedTime
  *
  * @property \event\models\Participant $Participant

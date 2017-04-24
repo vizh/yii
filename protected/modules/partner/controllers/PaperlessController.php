@@ -20,6 +20,7 @@ class PaperlessController extends \partner\components\Controller
             'eventCreate' => 'partner\controllers\paperless\event\CreateAction',
             'eventEdit' => 'partner\controllers\paperless\event\EditAction',
             'eventDelete' => 'partner\controllers\paperless\event\DeleteAction',
+            'eventExport' => 'partner\controllers\paperless\event\ExportAction',
         ];
     }
 }
