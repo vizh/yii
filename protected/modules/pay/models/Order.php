@@ -234,7 +234,7 @@ class Order extends ActiveRecord
         if ($this->Event->IdName === 'startupvillage17') {
             (new Client())->post('https://startupvillage.ru/runet-id/payed', [
                 'json' => [
-                    'RunetId' => $this->Payer->RunetId,
+                    'PayerId' => $this->Payer->RunetId,
                     'OrderId' => $this->Id
                 ]
             ]);
