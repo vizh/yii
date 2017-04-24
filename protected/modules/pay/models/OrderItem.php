@@ -2,6 +2,7 @@
 namespace pay\models;
 
 use application\components\ActiveRecord;
+use Guzzle\Http\Client;
 use pay\components\Exception;
 use pay\components\MessageException;
 use user\models\User;
@@ -321,6 +322,17 @@ class OrderItem extends ActiveRecord
         if ($this->Product->getManager()->changeOwner($fromOwner, $newOwner)) {
             $this->ChangedOwnerId = $newOwner->Id;
             $this->save();
+
+            if ($this->Event->IdName === 'startupvillage17') {
+                (new Client())->post('https://startupvillage.ru/runet-id/redirect', [
+                    'json' => [
+                        'PayerId' => $this->Payer->RunetId,
+                        'NewOwnerId' => $newOwner->RunetId,
+                        'OldOwnerId' => $fromOwner->RunetId,
+                        'OrderItemId' => $this->Id
+                    ]
+                ]);
+            }
 
             return true;
         }
