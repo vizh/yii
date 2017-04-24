@@ -38,7 +38,7 @@ class Import extends ActiveRecord
     public function relations()
     {
         return [
-            'entries' => [self::HAS_MANY, ImportEntry::className(), 'ImportId']
+            'entries' => [self::HAS_MANY, ImportEntry::className(), 'ImportId', 'order' => 'entries."Id"']
         ];
     }
 

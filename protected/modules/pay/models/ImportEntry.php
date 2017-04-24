@@ -65,7 +65,7 @@ class ImportEntry extends ActiveRecord
     public function matchOrders()
     {
         $orders = [];
-        $ids = $this->extractOrderIds(ArrayHelper::getValue($this->Data, 'НазначениеПлатежа', ''));
+        $ids = $this->extractOrderIds(ArrayHelper::getValue($this->Data, 'НазначениеПлатежа', ''), ArrayHelper::getValue($this->Data, 'ПлательщикИНН', ''));
         foreach ($ids as $id) {
             $order = new ImportOrder();
             $order->EntryId = $this->Id;
@@ -77,21 +77,29 @@ class ImportEntry extends ActiveRecord
         $this->orders = $orders;
     }
 
-    protected function extractOrderIds($text)
+    protected function extractOrderIds($text, $inn)
     {
         $ids = [];
         $parts = array_filter(preg_split('/[\s*]|счету|№/i', $text));
         foreach ($parts as $part) {
-            $ids[] = $this->findOrder($part);
+            $ids[] = $this->findOrder($part, $inn);
         }
         $ids = array_filter($ids);
         return $ids;
     }
 
-    protected function findOrder($number)
+    protected function findOrder($number, $inn)
     {
         $number = trim($number, '№');
-        $orders = Order::model()->findAll('"Number" = :number', [':number' => $number]);
+
+        $criteria = new \CDbCriteria();
+        $criteria->with[] = 'OrderJuridical';
+        $criteria->addColumnCondition([
+            '"Number"' => $number,
+            '"OrderJuridical"."INN"' => $inn
+        ]);
+
+        $orders = Order::model()->findAll($criteria);
         if (count($orders) == 1) {
             return $orders[0]->Id;
         }

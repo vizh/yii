@@ -24,7 +24,7 @@ $this->setPageTitle(\Yii::t('app', 'Импорт выписки из банка'
             </thead>
             <tbody>
             <?php foreach ($import->entries as $entry): ?>
-                <tr id="entry-<?= $entry->Id; ?>">
+                <tr id="entry-<?= $entry->Id; ?>" class="info">
                     <td><?= ArrayHelper::getValue($entry, 'Data.Дата') ?></td>
                     <td><?= ArrayHelper::getValue($entry, 'Data.ПлательщикИНН') ?></td>
                     <td><?= ArrayHelper::getValue($entry, 'Data.Плательщик') ?></td>
@@ -40,9 +40,12 @@ $this->setPageTitle(\Yii::t('app', 'Импорт выписки из банка'
                         ?>
                     </td>
                 </tr>
+                <tr id="entry-detail-<?= $entry->Id ?>" class="info">
+                    <td colspan="5"><?= ArrayHelper::getValue($entry, 'Data.НазначениеПлатежа') ?></td>
+                </tr>
                 <tr id="entry-orders-<?= $entry->Id ?>">
-                    <td colspan="4">
-                        <table class="table table-bordered">
+                    <td colspan="5">
+                        <table class="table table-bordered table-condensed">
                             <thead>
                             <tr>
                                 <th>Номер счета</th>
@@ -59,7 +62,6 @@ $this->setPageTitle(\Yii::t('app', 'Импорт выписки из банка'
                             } ?>
                             </tbody>
                         </table>
-
                     </td>
                 </tr>
             <?php endforeach; ?>
