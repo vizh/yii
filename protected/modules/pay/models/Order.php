@@ -480,6 +480,7 @@ class Order extends ActiveRecord
             (new Client())->post('https://startupvillage.ru/runet-id/refunded', [
                 'json' => [
                     'PayerId' => $this->Payer->RunetId,
+                    'OwnerId' => $orderItem->Owner->RunetId,
                     'OrderId' => $this->Id,
                     'OrderItemId' => $orderItem->Id
                 ]
