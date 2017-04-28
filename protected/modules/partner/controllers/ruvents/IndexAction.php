@@ -5,6 +5,7 @@ use application\models\attribute\Definition;
 use event\models\UserData;
 use ruvents\models\Badge;
 use ruvents\models\Visit;
+use Yii;
 
 class IndexAction extends \partner\components\Action
 {
@@ -21,6 +22,26 @@ class IndexAction extends \partner\components\Action
         $stat->CountBadges = Badge::model()
             ->byEventId($event->Id)
             ->count();
+
+        $badgesSql = /** @lang PostgreSQL */'
+            WITH
+                "BadgesAll" AS (SELECT "RoleId", count("UserId") AS "Count" FROM "RuventsBadge" WHERE "EventId" = :EventId GROUP BY "RoleId"),
+                "BadgesUnique" AS (SELECT "RoleId", count(DISTINCT "UserId") AS "Count" FROM "RuventsBadge" WHERE "EventId" = :EventId GROUP BY "RoleId")
+            SELECT
+                "EventRole"."Title",
+                "BadgesUnique"."Count",
+                "BadgesAll"."Count"
+            FROM "BadgesAll"
+                LEFT JOIN "BadgesUnique" ON "BadgesUnique"."RoleId" = "BadgesAll"."RoleId"
+                LEFT JOIN "EventRole" ON "BadgesUnique"."RoleId" = "EventRole"."Id"
+            ORDER BY "BadgesUnique"."Count" DESC';
+
+        $stat->BadgesByRole = Yii::app()
+            ->getDb()
+            ->createCommand($badgesSql)
+            ->queryAll(false, [
+                'EventId' => $event->Id
+            ]);
 
         // Список ролей на мероприятии
         $criteria = new \CDbCriteria();
@@ -134,7 +155,7 @@ class IndexAction extends \partner\components\Action
 
     private function getUserStatistics()
     {
-        $logs = \Yii::app()->db->createCommand()
+        $logs = Yii::app()->db->createCommand()
             ->select('"RoleId", CAST("CreationTime" AS DATE) as "Date", count("UserId") AS "Count"')
             ->from('(SELECT DISTINCT ON ("UserId") "UserId", "CreationTime", "RoleId" FROM "RuventsBadge"
                 WHERE "EventId" = :EventId ORDER BY "UserId", "CreationTime") p')
