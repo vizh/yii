@@ -61,6 +61,9 @@ use Yii;
  * @property PayAccount $PayAccount
  * @property Setting $RuventsSettings
  *
+ * Internal attributes
+ * @property string $MailRegister
+ *
  * @property LinkWidget[] $Widgets
  * @property Attribute[] $Attributes
  * @property Partner[] $Partners

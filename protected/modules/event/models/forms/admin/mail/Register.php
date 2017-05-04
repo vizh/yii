@@ -4,9 +4,9 @@ namespace event\models\forms\admin\mail;
 use application\components\form\EventItemCreateUpdateForm;
 use event\models\Event;
 use event\models\MailRegister;
-use event\models\Role;
 use mail\components\MailBodyFieldsTranslator;
 use \mail\models\Layout;
+use Yii;
 
 /**
  * Class Register
@@ -32,16 +32,20 @@ class Register extends EventItemCreateUpdateForm
 
     /**
      * @param Event $event
-     * @param string $id ID редактируемого письма
+     * @param string $idMail ID редактируемого письма
      * @throws \CHttpException
      */
-    public function __construct(Event $event, $id = null)
+    public function __construct(Event $event, $idMail = null)
     {
         parent::__construct($event, null);
-        $this->initRegisterMails();
-        if ($id !== null) {
+
+        $this->mails = isset($this->event->MailRegister)
+            ? unserialize(base64_decode($this->event->MailRegister))
+            : [];
+
+        if ($idMail !== null) {
             foreach ($this->mails as $mail) {
-                if ($mail->Id == $id) {
+                if ($mail->Id == $idMail) {
                     $this->model = $mail;
                 }
             }
@@ -49,6 +53,7 @@ class Register extends EventItemCreateUpdateForm
             if ($this->model === null) {
                 throw new \CHttpException(500);
             }
+
             $this->loadData();
         }
     }
@@ -86,13 +91,13 @@ class Register extends EventItemCreateUpdateForm
     public function attributeLabels()
     {
         return [
-            'Subject' => \Yii::t('app', 'Тема письма'),
-            'Body' => \Yii::t('app', 'Тело письма'),
-            'Roles' => \Yii::t('app', 'Роли'),
-            'RolesExcept' => \Yii::t('app', 'Исключая роли'),
-            'SendPassbook' => \Yii::t('app', 'Отправлять Passbook файл'),
-            'SendTicket' => \Yii::t('app', 'Отправлять билет'),
-            'Layout' => \Yii::t('app', 'Шаблон')
+            'Subject' => Yii::t('app', 'Тема письма'),
+            'Body' => Yii::t('app', 'Тело письма'),
+            'Roles' => Yii::t('app', 'Роли'),
+            'RolesExcept' => Yii::t('app', 'Исключая роли'),
+            'SendPassbook' => Yii::t('app', 'Отправлять Passbook файл'),
+            'SendTicket' => Yii::t('app', 'Отправлять билет'),
+            'Layout' => Yii::t('app', 'Шаблон')
         ];
     }
 
@@ -114,12 +119,11 @@ class Register extends EventItemCreateUpdateForm
     public function getLayoutData()
     {
         return [
-            Layout::None => \Yii::t('app', 'Без шаблона'),
-            Layout::OneColumn => \Yii::t('app', 'Одноколоночный'),
-            Layout::TwoColumn => \Yii::t('app', 'Двухколоночный')
+            Layout::None => Yii::t('app', 'Без шаблона'),
+            Layout::OneColumn => Yii::t('app', 'Одноколоночный'),
+            Layout::TwoColumn => Yii::t('app', 'Двухколоночный')
         ];
     }
-
 
     /**
      * @inheritdoc
@@ -127,21 +131,21 @@ class Register extends EventItemCreateUpdateForm
     public function initBodyFields()
     {
         return [
-            'User.FullName'       => [\Yii::t('app', 'Полное имя пользователя'), '<?=$user->getFullName()?>'],
-            'User.ShortName'      => [\Yii::t('app', 'Краткое имя пользователя. Имя или имя + отчество'), '<?=$user->getShortName()?>'],
-            'User.RunetId'        => [\Yii::t('app', 'RUNET-ID пользователя'), '<?=$user->RunetId?>'],
-            'Event.Title'         => [\Yii::t('app', 'Название меропрития'), '<?=$event->Title?>'],
-            'TicketUrl'           => [\Yii::t('app', 'Ссылка на пригласительный'), '<?=$participant->getTicketUrl()?>'],
-            'Role.Title'          => [\Yii::t('app', 'Роль на меропритие'), '<?=$role->Title?>'],
-            'ParticipantMessage:label'  => [\Yii::t('app', 'Сообщение лога'), '
-            <?php
-                $log = \event\models\ParticipantLog::model()->byParticipant($participant)->find();
-                if (!empty($log) && !empty($log->Message)) {
-                    echo \'$_1: \' . $log->Message;
-                }
-           ?>
-            '],
-            'CalendarLinks'       => [\Yii::t('app', 'Добавление в календарь'), '<?$this->renderPartial(\'event.views.mail.register.parts.calendar\', [\'event\' => $event])?>']
+            'User.FullName'            => [Yii::t('app', 'Полное имя пользователя'), '<?=$user->getFullName()?>'],
+            'User.ShortName'           => [Yii::t('app', 'Краткое имя пользователя. Имя или имя + отчество'), '<?=$user->getShortName()?>'],
+            'User.RunetId'             => [Yii::t('app', 'RUNET-ID пользователя'), '<?=$user->RunetId?>'],
+            'Event.Title'              => [Yii::t('app', 'Название меропрития'), '<?=$event->Title?>'],
+            'TicketUrl'                => [Yii::t('app', 'Ссылка на пригласительный'), '<?=$participant->getTicketUrl()?>'],
+            'Role.Title'               => [Yii::t('app', 'Роль на меропритие'), '<?=$role->Title?>'],
+            'CalendarLinks'            => [Yii::t('app', 'Добавление в календарь'), '<?$this->renderPartial(\'event.views.mail.register.parts.calendar\', [\'event\' => $event])?>'],
+            'ParticipantMessage:label' => [Yii::t('app', 'Сообщение лога'), '
+                <?php
+                    $log = \event\models\ParticipantLog::model()->byParticipant($participant)->find();
+                    if (!empty($log) && !empty($log->Message)) {
+                        echo \'$_1: \' . $log->Message;
+                    }
+                ?>
+            ']
         ];
     }
 
@@ -152,7 +156,7 @@ class Register extends EventItemCreateUpdateForm
     {
         $this->model = new MailRegister($this->event);
         $this->mails[] = $this->model;
-        return self::updateActiveRecord();
+        return $this->updateActiveRecord();
     }
 
     /**
@@ -164,7 +168,7 @@ class Register extends EventItemCreateUpdateForm
             return null;
         }
 
-        if ($this->Delete == 1) {
+        if ($this->Delete) {
             foreach ($this->mails as $k => $mail) {
                 if ($mail->Id === $this->model->Id) {
                     unset($this->mails[$k]);
@@ -184,19 +188,8 @@ class Register extends EventItemCreateUpdateForm
         return $this->model;
     }
 
-    /**
-     * @return MailRegister[]
-     */
-    public function initRegisterMails()
-    {
-        $this->mails = isset($this->event->MailRegister) ? unserialize(base64_decode($this->event->MailRegister)) : [];
-    }
-
     public function isUpdateMode()
     {
-        if (empty($this->model)) {
-            return false;
-        }
-        return true;
+        return !empty($this->model);
     }
 }

@@ -5,14 +5,10 @@ trait MailBodyFieldsTranslator
 {
     /**
      * Инициализирует массив полей, используемых в теле письма
-     * Должен возвращать массив ввиде:
-     * [
-     *      'FieldName' => ['FieldTitle', 'PhpCode']
-     * ]
+     * Должен возвращать массив ввиде: ['FieldName' => ['FieldTitle', 'PhpCode']]
      * @return array
      */
     abstract public function initBodyFields();
-
 
     /**
      * Переводит контект со вставками в инсполняемый php код
@@ -23,18 +19,18 @@ trait MailBodyFieldsTranslator
     {
         foreach ($this->initBodyFields() as $name => $field) {
             preg_match($this->getFieldNameRegexPattern($name), $content, $matches);
-            if (empty($matches)) {
-                continue;
-            }
-            if (sizeof($matches) > 1) {
-                $vars = [];
-                foreach (explode(';', $matches[1]) as $key => $value) {
-                    $vars['$_' . ($key + 1)] = $value;
+            if (false === empty($matches)) {
+                if (count($matches) > 1) {
+                    $vars = [];
+                    foreach (explode(';', $matches[1]) as $key => $value) {
+                        $vars['$_'.($key + 1)] = $value;
+                    }
+                    $field[1] = strtr($field[1], $vars);
                 }
-                $field[1] = strtr($field[1], $vars);
+                $content = str_replace($matches[0], $field[1], $content);
             }
-            $content = str_replace($matches[0], $field[1], $content);
         }
+
         return $content;
     }
 
@@ -52,9 +48,9 @@ trait MailBodyFieldsTranslator
                 continue;
             }
             if (!empty($result['vars'])) {
-                $name = $this->getClearFieldName($name) . ':' . implode(';', $result['vars']);
+                $name = $this->getClearFieldName($name).':'.implode(';', $result['vars']);
             }
-            $content = str_replace($result['content'], ('{' . $name . '}'), $content);
+            $content = str_replace($result['content'], ('{'.$name.'}'), $content);
         }
         return $content;
     }
