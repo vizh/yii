@@ -5,37 +5,35 @@ use api\components\Exception;
 use api\models\Account;
 use api\models\ExternalUser;
 use api\models\forms\user\Edit;
-use event\models\Participant;
 use event\models\UserData;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\ApiAction;
-use oauth\models\Permission;
 use user\models\User;
 use Yii;
 
-/**
- * @ApiAction(
- *     controller="User",
- *     title="Создание",
- *     description="Редактирует пользователя.",
- *     request=@Request(
- *          method="POST",
- *          url="/user/edit",
- *          body="",
- *          params={
- *              @Param(title="Email", type="Строка", defaultValue="", description="Email."),
- *              @Param(title="LastName", type="Строка", defaultValue="", description="Фамилия."),
- *              @Param(title="FirstName", type="Строка", defaultValue="", description="Имя."),
- *              @Param(title="FatherName", type="Строка", defaultValue="", description="Отчество."),
- *              @Param(title="Attributes", type="Массив", defaultValue="", description="Расширенные атрибуты пользователя."),
- *              @Param(title="ExternalId", type="Строка", defaultValue="", description="Внешний идентификатор пользователя для привязки его профиля к сторонним сервисам.")
- *          }
- *     )
- * )
- */
 class EditAction extends \api\components\Action
 {
+    /**
+     * @ApiAction(
+     *     controller="User",
+     *     title="Создание",
+     *     description="Редактирует пользователя.",
+     *     request=@Request(
+     *          method="POST",
+     *          url="/user/edit",
+     *          body="",
+     *          params={
+     *              @Param(title="Email", type="Строка", defaultValue="", description="Email."),
+     *              @Param(title="LastName", type="Строка", defaultValue="", description="Фамилия."),
+     *              @Param(title="FirstName", type="Строка", defaultValue="", description="Имя."),
+     *              @Param(title="FatherName", type="Строка", defaultValue="", description="Отчество."),
+     *              @Param(title="Attributes", type="Массив", defaultValue="", description="Расширенные атрибуты пользователя."),
+     *              @Param(title="ExternalId", type="Строка", defaultValue="", description="Внешний идентификатор пользователя для привязки его профиля к сторонним сервисам.")
+     *          }
+     *     )
+     * )
+     */
     public function run()
     {
         $user = $this->getRequestedUser();

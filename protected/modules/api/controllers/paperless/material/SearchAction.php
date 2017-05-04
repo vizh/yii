@@ -27,7 +27,7 @@ class SearchAction extends \api\components\Action
      *          url="/paperless/materials/search",
      *          body="",
      *          params={
-     *              @Param(title="RunetId", mandatory="N", description="RUNET-ID посетителя для выборки доступных ему материалов.")
+     *              @Param(title="RunetId", mandatory="N", description="RUNET-ID посетителя для выборки доступных ему материалов."),
      *              @Param(title="RoleId", mandatory="N", description="Один или несколько статусов участия на мероприятии для выборки доступных им материалов. Внимание! Данное условие перекрывает результаты фильтрации по RunetId. Совместное использование параметров RunetId и RoleId не проектировалось.")
      *          },
      *          response=@Response(body="['{$PAPERLESSMATERIAL}']")

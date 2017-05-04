@@ -27,12 +27,11 @@ class SignalAction extends \api\components\Action
      *          url="/paperless/materials/search",
      *          body="",
      *          params={
-     *              @Param(title="BadgeUID", mandatory="Y", description="Уникальный UID приложенного RFID-бейджа.")
-     *              @Param(title="BadgeTime", mandatory="Y", description="Время прикладывания RFID-бейджа.")
-     *              @Param(title="DeviceNumber", mandatory="Y", description="Номер устройства.")
+     *              @Param(title="BadgeUID", mandatory="Y", description="Уникальный UID приложенного RFID-бейджа."),
+     *              @Param(title="BadgeTime", mandatory="Y", description="Время прикладывания RFID-бейджа."),
+     *              @Param(title="DeviceNumber", mandatory="Y", description="Номер устройства."),
      *              @Param(title="Process", mandatory="N", description="Если передано true, то сигнал сразу же обрабатывается.")
-     *          },
-     *          response=@Response(body="['{$PAPERLESSMATERIAL}']")
+     *          }
      *     )
      * )
      */
