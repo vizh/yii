@@ -4,7 +4,7 @@ use application\components\controllers\MainController;
 use application\components\traits\LoadModelTrait;
 use geo\models\City;
 use geo\models\Region;
-use application\components\utility\Texts;
+use contact\models\Address;
 
 class AjaxController extends MainController
 {
@@ -55,5 +55,33 @@ class AjaxController extends MainController
             $result[] = $region->jsonSerialize();
         }
         $this->returnJSON($result);
+    }
+
+
+    /**
+     * Получение координат на карте по адресу-строке
+     */
+    public function actionGetCoordinatesByAddress()
+    {
+        $request = \Yii::app()->getRequest();
+
+        $geocode = null;
+        if ($request->isPostRequest) {
+            $geocode = $request->getParam('geocode');
+            if (!empty($geocode)) {
+                $geoCoordinates = Address::defineGeoPointCoordinates($geocode);
+            }
+
+            if (empty($geoCoordinates)) {
+                $res = ['status' => 'error', 'msg' => \Yii::t('app', 'Не удается получить координаты места автоматически. ' .
+                    'Пожалуйста, отметьте маркером место вручную.')];
+            } else {
+                $res = ['status' => 'success', 'coordinates' => [$geoCoordinates[1], $geoCoordinates[0]]];
+            }
+
+        } else {
+            $res = ['status' => 'error', 'msg' => \Yii::t('app', 'Не задан адрес для получения координат')];
+        }
+        echo CJSON::encode($res);
     }
 }

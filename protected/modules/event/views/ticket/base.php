@@ -128,5 +128,5 @@ if (!empty($event->LinkEmails)) {
 </div>
 <div style="background: url('/img/ticket/pdf/base/cutting-line.png') center center; height: 1mm; background-image-resolution: 100dpi; margin: 5mm 0;"></div>
 <div style="text-align: center; margin: 0 5mm; overflow: hidden;">
-    <img src="http://maps.googleapis.com/maps/api/staticmap?zoom=12&size=900x260&scale=2&maptype=roadmap&markers=color:blue%7C<?=$event->getContactAddress()->getLatitude()?>,<?=$event->getContactAddress()->getLongitude()?>&sensor=false&language=ru" />
+    <img src="http://maps.googleapis.com/maps/api/staticmap?zoom=<?=$event->getContactAddress()->getMapScale()?>&size=900x260&scale=2&maptype=roadmap&markers=color:blue%7C<?=$event->getContactAddress()->getLatitude()?>,<?=$event->getContactAddress()->getLongitude()?>&sensor=false&language=ru" />
 </div>

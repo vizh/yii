@@ -18,6 +18,10 @@ class AddressControls extends \CWidget
     public function init()
     {
         \Yii::app()->clientScript->registerScriptFile(
+            \Yii::app()->getAssetManager()->publish(\Yii::getPathOfAlias('contact.widgets.assets.js').'/google-map-util.js'), \CClientScript::POS_HEAD
+        );
+
+        \Yii::app()->clientScript->registerScriptFile(
             \Yii::app()->getAssetManager()->publish(\Yii::getPathOfAlias('contact.widgets.assets.js').'/addresscontrols.js'), \CClientScript::POS_HEAD
         );
     }

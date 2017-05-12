@@ -87,7 +87,8 @@ class Address extends CreateUpdateForm
             'Place' => \Yii::t('app', 'Место'),
             'Apartment' => \Yii::t('app', 'Офис'),
             'Latitude' => \Yii::t('app', 'Широта'),
-            'Longitude' => \Yii::t('app', 'Долгота')
+            'Longitude' => \Yii::t('app', 'Долгота'),
+            'MapScale' => \Yii::t('app', 'Масштаб карты')
         );
     }
 
