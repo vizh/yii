@@ -55,6 +55,9 @@
 
             ]) ?>
         </div>
+        <div class="controls m-top_5 text-center">
+            ИЛИ отметить место маркером на карте
+        </div>
         <div class="controls m-top_5">
 
             <?= \CHtml::textField(
@@ -89,7 +92,7 @@
                 ]
             ) ?>
         </div>
-        <div class="controls m-top_5" style="width: 390px;height: 350px;">
+        <div class="controls m-top_5" style="width: 390px;height: 390px;">
             <div style="margin: 10px 0; color: #666;">Для указания координат места проведения мероприятия установите
                 маркер на карте лев. кн. мыши.<br>
                 Важно: масштаб карты сохраняется и используется для карты в билете!

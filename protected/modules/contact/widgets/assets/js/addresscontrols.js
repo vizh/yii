@@ -91,15 +91,15 @@ $(function () {
   });
 
   function setInputGeoCoordinates(lat, lng, scale) {
-    document.getElementById('GeoPointCoordinatesLatitude').setAttribute('value', lat);
-    document.getElementById('GeoPointCoordinatesLongitude').setAttribute('value', lng);
+    $('#GeoPointCoordinatesLatitude').val(lat);
+    $('#GeoPointCoordinatesLongitude').val(lng);
     if (scale) {
-      window.setInputMapScale(scale);
+      setInputMapScale(scale);
     }
   }
 
   function setInputMapScale(scale) {
-    document.getElementById('GeoPointCoordinatesMapScale').setAttribute('value', scale);
+    $('#GeoPointCoordinatesMapScale').val(scale);
   }
 
   window.addGeocode = function (geocode, el, before) {

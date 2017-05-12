@@ -83,7 +83,7 @@ GoogleMapsUtil.prototype.bindEvents = function () {
 
     this.map.addListener('center_changed', function () {
         window.setTimeout(function () {
-            self.map.panTo(marker.getPosition());
+            self.map.panTo(self.marker.getPosition());
         }, 3000);
     });
 
