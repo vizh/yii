@@ -3,6 +3,7 @@ namespace api\controllers\user;
 
 use api\components\builders\Builder;
 
+use application\components\CDbCriteria;
 use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
@@ -22,6 +23,7 @@ class SearchAction extends \api\components\Action
      *          body="",
      *          params={
      *              @Param(title="Query", type="Строка", defaultValue="", description="может принимать значения Email, RunetId, список RunetId через запятую, Фамилия, Фамилия Имя, Имя Фамилия")
+     *              @Param(title="EventId", type="Число", defaultValue="", description="если указан, то поиск происходит только среди посетителей указанного мероприятия")
      *          },
      *          response=@Response(body="{'Users': 'массив пользователей','NextPageToken':  'указатель на следующую страницу'}")
      *     )
@@ -47,6 +49,11 @@ class SearchAction extends \api\components\Action
         } else {
             $criteria->limit = $maxResults;
             $criteria->offset = $this->getController()->parsePageToken($pageToken);
+        }
+
+        if ($this->hasRequestParam('EventId')) {
+            $criteria->addCondition('"t"."Id" IN (SELECT "EventParticipant"."UserId" FROM "EventParticipant" WHERE "EventParticipant"."EventId" = :EventId)');
+            $criteria->params['EventId'] = $this->getRequestParam('EventId');
         }
 
         $with = [
