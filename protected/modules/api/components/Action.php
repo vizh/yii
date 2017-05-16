@@ -90,6 +90,15 @@ class Action extends \CAction
     }
 
     /**
+     * @param $role string
+     * @return bool
+     */
+    protected function hasAccountRole($role)
+    {
+        return $this->getAccount()->Role === $role;
+    }
+
+    /**
      * @return int
      */
     protected function getMaxResults()

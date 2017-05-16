@@ -3,7 +3,7 @@ namespace api\controllers\user;
 
 use api\components\builders\Builder;
 
-use application\components\CDbCriteria;
+use api\models\Account;
 use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
@@ -24,6 +24,7 @@ class SearchAction extends \api\components\Action
      *          params={
      *              @Param(title="Query", type="Строка", defaultValue="", description="может принимать значения Email, RunetId, список RunetId через запятую, Фамилия, Фамилия Имя, Имя Фамилия")
      *              @Param(title="EventId", type="Число", defaultValue="", description="если указан, то поиск происходит только среди посетителей указанного мероприятия")
+     *              @Param(title="Visible", type="Число", defaultValue="", description="Только для собственных мероприятий! Возможность искать по скрытым пользователям, если Visible = 0")
      *          },
      *          response=@Response(body="{'Users': 'массив пользователей','NextPageToken':  'указатель на следующую страницу'}")
      *     )
@@ -73,7 +74,12 @@ class SearchAction extends \api\components\Action
 
         $model = \user\models\User::model();
         if (filter_var($query, FILTER_VALIDATE_EMAIL)) {
-            $model->byEmail($query)->byVisible();
+            $model
+                ->byEmail($query)
+                ->byVisible($this->hasAccountRole(Account::ROLE_OWN)
+                    ? $this->getRequestParamBool('Visible', true)
+                    : true
+                );
         } else {
             $model->bySearch($query);
         }
