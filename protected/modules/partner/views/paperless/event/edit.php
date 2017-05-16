@@ -17,7 +17,23 @@ $possibleRoles = $form->getRoles();
 $possibleDevices = $form->getDevices();
 $possibleMaterials = $form->getMaterials();
 
+Yii::app()
+	->getClientScript()
+	->registerPackage('runetid.ckeditor');
+
 ?>
+
+<script>
+    $(function () {
+        var textarea = $('textarea[name*="Event[Text]"]');
+        if (textarea.length > 0) {
+            CKEDITOR.replace(textarea.prop('id'), {
+                customConfig:'config_mail_template.js',
+                height:500
+            })
+        }
+    })
+</script>
 
 <? $activeForm = $this->beginWidget('CActiveForm', ['htmlOptions' => ['enctype' => 'multipart/form-data']]) ?>
 <div class="panel panel-info">
@@ -96,7 +112,7 @@ $possibleMaterials = $form->getMaterials();
     </div>
     <div class="panel-body">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <div class="form-group">
 					<div class="form-group">
 						<div class="checkbox">
@@ -118,7 +134,7 @@ $possibleMaterials = $form->getMaterials();
 					</div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="form-group">
 					<h4><?=$activeForm->label($form, 'Materials')?>:</h4>
 					<div class="alert alert-light-green">При удовлетворении всех условий обработки, отображение выбранных материалов в личном кабинете будет форсировано.</div>
