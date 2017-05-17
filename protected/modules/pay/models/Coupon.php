@@ -8,6 +8,7 @@ use pay\components\coupon\managers\Base as BaseDiscountManager;
 use pay\components\Exception;
 use pay\components\MessageException;
 use user\models\User;
+use Yii;
 
 /**
  * @property int $Id
@@ -185,26 +186,32 @@ class Coupon extends ActiveRecord
      */
     protected function activate100($payer, $owner, $product)
     {
-        $product = $this->getActivate100Product($product);
-        $transaction = \Yii::app()->getDb()->beginTransaction();
+        $transaction = Yii::app()
+            ->getDb()
+            ->beginTransaction();
+
+        $product = $this->getActivatedProduct($product);
+
         try {
-            $this->cleanActivate100MultipleProduct($owner, $product);
+            $this->cleanActivations($owner, $product);
 
             $item = OrderItem::model()
                 ->byProductId($product->Id)
-                ->byPayerId($payer->Id)->byOwnerId($owner->Id)
-                ->byDeleted(false)->find();
+                ->byPayerId($payer->Id)
+                ->byOwnerId($owner->Id)
+                ->byDeleted(false)
+                ->find();
+
             if ($item === null) {
                 $item = new OrderItem();
                 $item->ProductId = $product->Id;
                 $item->PayerId = $payer->Id;
                 $item->OwnerId = $owner->Id;
             }
-            if ($item->activate()) {
-                $activation = $this->createActivation($owner);
 
+            if ($item->activate()) {
                 $link = new CouponActivationLinkOrderItem();
-                $link->CouponActivationId = $activation->Id;
+                $link->CouponActivationId = $this->createActivation($owner)->Id;
                 $link->OrderItemId = $item->Id;
                 $link->save();
             } else {
@@ -226,7 +233,7 @@ class Coupon extends ActiveRecord
      * @throws \pay\components\Exception
      * @return Product
      */
-    protected function getActivate100Product($product)
+    protected function getActivatedProduct($product)
     {
         if (count($this->Products) === 0) {
             throw new CodeException(CodeException::NO_PRODUCT_FOR_COUPON_100);
@@ -248,7 +255,7 @@ class Coupon extends ActiveRecord
      * @param Product $product
      * @throws \pay\components\MessageException
      */
-    protected function cleanActivate100MultipleProduct($owner, $product)
+    protected function cleanActivations($owner, $product)
     {
         if (count($this->Products) === 1) {
             return;

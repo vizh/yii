@@ -378,9 +378,7 @@ class OrderItem extends ActiveRecord
             }
         }
 
-        $price = min($prices);
-
-        return (int)round($price);
+        return (int)round(min($prices));
     }
 
     /**
