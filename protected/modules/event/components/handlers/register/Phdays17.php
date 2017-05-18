@@ -7,7 +7,7 @@ class Phdays17 extends Base
 
     public function getFromName()
     {
-        return 'PHDays VII';
+        return 'PHDays 7';
     }
 
 }
