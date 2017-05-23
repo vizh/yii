@@ -179,7 +179,7 @@ $total = 0;
             <?if(!empty($account->CabinetHasRecentPaidItemsMessage)):?>
                 <?=$account->CabinetHasRecentPaidItemsMessage?>
             <?else:?>
-                <?=\Yii::t('app', 'Вы недавно оплатили участие или активировали промо-код. Вам выслано письмо на '.Yii::app()->user->currentUser->Email.' с подробной информацией.')?>
+                <?=\Yii::t('app', 'Вы недавно оплатили участие или активировали промо-код.')?>
             <?endif?>
         </div>
     <?endif?>
