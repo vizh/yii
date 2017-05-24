@@ -97,7 +97,7 @@ return [
     ],
     [
         'allow',
-        'roles' => ['AdminExtended'],
+        'roles' => ['Admin'],
         'module' => 'partner',
         'controllers' => ['paperless']
     ],
