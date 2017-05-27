@@ -173,12 +173,17 @@ class Event extends ActiveRecord
         }
 
         if ($this->Send) {
+            $device = Device::model()
+                ->byEventId($signal->EventId)
+                ->byDeviceNumber($signal->DeviceNumber)
+                ->find();
+
             MailBuilder::create()
                 ->setTo($user)
                 ->setFrom('users@runet-id.com', 'RUNET-ID/Paperless')
                 ->setSubject($this->Subject)
-                ->setBody($this->Text)
                 ->addAttachment($this->getFilePath().'/'.$this->File)
+                ->setTemplatedBody($this->Text, ['User' => $user, 'Event' => $this->Event, 'Device' => $device])
                 ->send();
         }
 

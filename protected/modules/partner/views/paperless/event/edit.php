@@ -127,6 +127,13 @@ Yii::app()
 					<div class="form-group">
                         <?=$activeForm->label($form, 'Text')?>
                         <?=$activeForm->textArea($form, 'Text', ['class' => 'form-control', 'rows' => '17'])?>
+						<br>
+						<label>Доступные переменные Twig:</label>
+						<ul>
+							<li><b>{{Event}}</b> текущеее мероприятие</li>
+							<li><b>{{User}}</b> пользователь, приложивший бейдж</li>
+							<li><b>{{Device}}</b> устройство к которому был приложен бейдж</li>
+						</ul>
 					</div>
 					<div class="form-group">
                         <?=$activeForm->label($form, 'File')?>

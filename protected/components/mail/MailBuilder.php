@@ -2,7 +2,11 @@
 
 namespace application\components\mail;
 
+use api\models\Account;
 use mail\components\mailers\SESMailer;
+use Twig_Environment;
+use Twig_Loader_Array;
+use Twig_SimpleFilter;
 use user\models\User;
 
 class MailBuilder
@@ -85,6 +89,28 @@ class MailBuilder
     public function setBody($body)
     {
         $this->attributes['body'] = $body;
+
+        return $this;
+    }
+
+    /**
+     * @param string $body
+     * @param array $params
+     * @return MailBuilder
+     */
+    public function setTemplatedBody($body, array $params = [])
+    {
+        $twig = new Twig_Environment(new Twig_Loader_Array(['index' => $body]));
+        $twig->addFilter(new Twig_SimpleFilter('registrationHash', function (User $user, $accountApiKey) {
+                $account = Account::model()
+                    ->byKey($accountApiKey)
+                    ->find();
+
+                return substr(md5($user->RunetId.$account->Secret), 0, 16);
+            })
+        );
+
+        $this->attributes['body'] = $twig->render('index', $params);
 
         return $this;
     }

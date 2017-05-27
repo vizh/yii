@@ -72,7 +72,7 @@ class DeviceSignal extends ActiveRecord
             'DeviceNumber' => 'Номер устройства',
             'BadgeUID' => 'Уникальный идентификатор бейджа',
             'BadgeTime' => 'Время прикладывания бейджа',
-            'Processed' => 'Флаг обработки сигнала',
+            'Processed' => 'Флаг обработки сигнала'
         ];
     }
 }
