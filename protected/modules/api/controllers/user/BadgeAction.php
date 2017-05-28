@@ -4,6 +4,8 @@ namespace api\controllers\user;
 
 use api\components\Action;
 use api\components\Exception;
+use application\models\paperless\DeviceSignal;
+use application\models\paperless\Event;
 use event\models\Participant;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
@@ -41,7 +43,33 @@ class BadgeAction extends Action
         }
 
         $participant->BadgeUID = (int)$this->getRequestParam('BadgeId');
-        $participant->save();
+
+        if (false === $participant->save()) {
+            throw new Exception($participant);
+        }
+
+        // Проверим, есть ли необработанные сигналы, связанные с текущим бейджем
+        $signals = DeviceSignal::model()
+            ->byEventId($this->getEvent()->Id)
+            ->byBadgeUID($participant->BadgeUID)
+            ->byProcessed(false)
+            ->findAll();
+
+        if (false === empty($signals)) {
+            $events = Event::model()
+                ->byEventId($this->getEvent()->Id)
+                ->byActive()
+                ->with(['DeviceLinks', 'RoleLinks', 'MaterialLinks' => ['with' => ['Material']]])
+                ->findAll();
+
+            foreach ($signals as $signal) {
+                foreach ($events as $event) {
+                    if (false === $event->process($signal)) {
+                        throw new Exception($signal);
+                    }
+                }
+            }
+        }
 
         $this->setResult(['Success' => true]);
     }
