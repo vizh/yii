@@ -3,15 +3,15 @@ $routes = [
     [
         'class' => 'CFileLogRoute',
         'levels' => 'error, warning, info',
-        'except' => 'exception.CHttpException.404',
-    ],
+        'except' => 'exception.CHttpException.404'
+    ]
 ];
 
 if (YII_DEBUG) {
     $routes[] = [
         'class' => 'CWebLogRoute',
         'categories' => 'application',
-        'levels' => 'error, warning, info',
+        'levels' => 'error, warning, info'
     ];
     $routes[] = [
         'class' => 'CFileLogRoute',
@@ -29,7 +29,7 @@ if (YII_DEBUG) {
         'emails' => ['error.runetid@ruvents.com'],
         'subject' => 'RUNET-ID Exception',
         'sentFrom' => 'yii@runet-id.com',
-        'utf8' => true,
+        'utf8' => true
     ];
 }
 
@@ -39,6 +39,11 @@ $routes[] = [
     'logFile' => 'user.log',
     'maxFileSize' => 1024,
     'maxLogFiles' => 10
+];
+
+$routes[] = [
+    'class' => '\application\components\logging\TelegramLogRoute',
+    'categories' => ['paperless.*']
 ];
 
 return $routes;
