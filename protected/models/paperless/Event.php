@@ -131,6 +131,12 @@ class Event extends ActiveRecord
         if ($signal->Processed || !$this->Active)
             return true;
 
+        // Проверим, найдена ли привязка сигнала к посетителю
+        if ($signal->Participant === null) {
+            Yii::log(sprintf('Обнаружено прикладывание бейджа UID:%d для которого нет соответствия с посетителем мероприятия.', $signal->BadgeUID), CLogger::LEVEL_INFO, 'paperless.'.$this->Event->IdName);
+            return true;
+        }
+
         // Фильтр ограничения по устройствам
         if (!in_array($signal->DeviceNumber, ArrayHelper::getColumn($this->DeviceLinks, 'DeviceId')))
             return true;
@@ -145,7 +151,7 @@ class Event extends ActiveRecord
                 ->exists();
 
             if ($isProcessed) {
-                Yii::log(sprintf('Аналогичный сигнал с устройства %d о прикладывании бейджа %d из-за ограничения на повторную отправку.', $signal->DeviceNumber, $signal->BadgeUID), CLogger::LEVEL_INFO, 'paperless');
+                Yii::log(sprintf('Аналогичный сигнал с устройства %d о прикладывании бейджа %d из-за ограничения на повторную отправку.', $signal->DeviceNumber, $signal->BadgeUID), CLogger::LEVEL_INFO, 'paperless.'.$this->Event->IdName);
                 return true;
             }
         }
@@ -156,19 +162,19 @@ class Event extends ActiveRecord
 
         // Фильтр ограничения по статусам участия
         if (!in_array($signal->Participant->RoleId, ArrayHelper::getColumn($this->RoleLinks, 'RoleId'))) {
-            Yii::log(sprintf('Отсеиваем сигнал с устройства %d о прикладывании бейджа %d из-за ограничения по статусам участия.', $signal->DeviceNumber, $signal->BadgeUID), CLogger::LEVEL_INFO, 'paperless');
+            Yii::log(sprintf('Отсеиваем сигнал с устройства %d о прикладывании бейджа %d из-за ограничения по статусам участия.', $signal->DeviceNumber, $signal->BadgeUID), CLogger::LEVEL_INFO, 'paperless.'.$this->Event->IdName);
             return true;
         }
 
         // Фильтр ограничения по RunetId
         if ($this->ConditionLikeString && !in_array($user->RunetId, ArrayHelper::str2nums($this->ConditionLikeString))) {
-            Yii::log(sprintf('Отсеиваем сигнал с устройства %d о прикладывании бейджа %d из-за ограничения по RunetId.', $signal->DeviceNumber, $signal->BadgeUID), CLogger::LEVEL_INFO, 'paperless');
+            Yii::log(sprintf('Отсеиваем сигнал с устройства %d о прикладывании бейджа %d из-за ограничения по RunetId.', $signal->DeviceNumber, $signal->BadgeUID), CLogger::LEVEL_INFO, 'paperless.'.$this->Event->IdName);
             return true;
         }
 
         // Фильтр исключения по RunetId
         if ($this->ConditionNotLike && in_array($user->RunetId, ArrayHelper::str2nums($this->ConditionNotLikeString))) {
-            Yii::log(sprintf('Отсеиваем сигнал с устройства %d о прикладывании бейджа %d из-за исключения по RunetId.', $signal->DeviceNumber, $signal->BadgeUID), CLogger::LEVEL_INFO, 'paperless');
+            Yii::log(sprintf('Отсеиваем сигнал с устройства %d о прикладывании бейджа %d из-за исключения по RunetId.', $signal->DeviceNumber, $signal->BadgeUID), CLogger::LEVEL_INFO, 'paperless.'.$this->Event->IdName);
             return true;
         }
 
