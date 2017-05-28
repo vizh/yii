@@ -78,8 +78,8 @@ $this->setPageTitle(\Yii::t('app', 'Добавление устройства'))
             <?foreach($signals as $signal):?>
                 <?if($signal->Participant !== null):?>
                     <?php
-                    $user = $signal->Participant->User;
-                    $work = $user->getEmploymentPrimary();
+                    	$user = $signal->Participant->User;
+                    	$work = $user->getEmploymentPrimary();
                     ?>
 					<tr>
 						<td style="text-align:right;color:silver">#<?=$signal->Id?></td>
