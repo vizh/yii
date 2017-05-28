@@ -128,14 +128,8 @@ class Event extends ActiveRecord
      */
     public function process(DeviceSignal $signal)
     {
-        if ($signal->Processed || !$this->Active)
+        if ($signal->Processed || !$this->Active || $signal->Participant === null)
             return true;
-
-        // Проверим, найдена ли привязка сигнала к посетителю
-        if ($signal->Participant === null) {
-            Yii::log(sprintf('Обнаружено прикладывание бейджа UID:%d для которого нет соответствия с посетителем мероприятия.', $signal->BadgeUID), CLogger::LEVEL_INFO, 'paperless.'.$this->Event->IdName);
-            return true;
-        }
 
         // Фильтр ограничения по устройствам
         if (!in_array($signal->DeviceNumber, ArrayHelper::getColumn($this->DeviceLinks, 'DeviceId')))
@@ -151,7 +145,7 @@ class Event extends ActiveRecord
                 ->exists();
 
             if ($isProcessed) {
-                Yii::log(sprintf('Аналогичный сигнал с устройства %d о прикладывании бейджа %d из-за ограничения на повторную отправку.', $signal->DeviceNumber, $signal->BadgeUID), CLogger::LEVEL_INFO, 'paperless.'.$this->Event->IdName);
+                Yii::log(sprintf('Отсеиваем сигнал с устройства %d о прикладывании бейджа %d из-за ограничения на повторную отправку.', $signal->DeviceNumber, $signal->BadgeUID), CLogger::LEVEL_INFO, 'paperless.'.$this->Event->IdName);
                 return true;
             }
         }

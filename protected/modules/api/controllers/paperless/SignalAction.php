@@ -4,6 +4,7 @@ namespace api\controllers\paperless;
 
 use api\components\Exception;
 use application\models\paperless\Event;
+use CLogger;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
@@ -11,6 +12,7 @@ use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
 use application\models\paperless\Device;
 use application\models\paperless\DeviceSignal;
+use Yii;
 
 class SignalAction extends \api\components\Action
 {
@@ -63,6 +65,11 @@ class SignalAction extends \api\components\Action
 
         if (false === $signal->save()) {
             throw new Exception($signal);
+        }
+
+        // Сообщим о прикладывании бейджа не имеющего привязку к посетителю
+        if ($signal->Participant === null) {
+            Yii::log(sprintf('Обнаружено прикладывание бейджа UID:%d к шайбе %d не имеющего привязки к посетиелю. Событие будет обработано в момент привязки.', $signal->BadgeUID, $device->DeviceNumber), CLogger::LEVEL_INFO, 'paperless.'.$this->getEvent()->IdName);
         }
 
         // Необходимо сразу обработать событие?
