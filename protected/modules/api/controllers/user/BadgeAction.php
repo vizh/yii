@@ -11,6 +11,7 @@ use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\ApiAction;
+use Yii;
 
 class BadgeAction extends Action
 {
@@ -48,6 +49,8 @@ class BadgeAction extends Action
             throw new Exception($participant);
         }
 
+        Yii::log("Привязка бейджа для RunetId:{$this->getRequestedUser()->Id} к UID:{$this->getRequestParam('BadgeId')}");
+
         // Проверим, есть ли необработанные сигналы, связанные с текущим бейджем
         $signals = DeviceSignal::model()
             ->byEventId($this->getEvent()->Id)
@@ -61,6 +64,8 @@ class BadgeAction extends Action
                 ->byActive()
                 ->with(['DeviceLinks', 'RoleLinks', 'MaterialLinks' => ['with' => ['Material']]])
                 ->findAll();
+
+            Yii::log("Выполнение отложенных сигналов для бейджа RunetId:{$this->getRequestedUser()->Id} и UID:{$this->getRequestParam('BadgeId')}");
 
             foreach ($signals as $signal) {
                 foreach ($events as $event) {
