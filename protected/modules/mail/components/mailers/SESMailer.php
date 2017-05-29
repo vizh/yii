@@ -149,8 +149,6 @@ class SESMailer extends Mailer
             return;
         }
 
-        Yii::log('Mail via SESMailer');
-
         $client = $this->getSesClient();
 
         foreach ($mails as $mail) {

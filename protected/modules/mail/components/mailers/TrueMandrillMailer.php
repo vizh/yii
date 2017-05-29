@@ -17,8 +17,6 @@ class TrueMandrillMailer extends \mail\components\Mailer
      */
     public function internalSend($mails)
     {
-        Yii::log('Mail via TrueMandrillMailer');
-
         $to = [];
         $vars = [];
         $attachments = [];
