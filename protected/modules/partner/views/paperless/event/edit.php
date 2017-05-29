@@ -177,7 +177,7 @@ Yii::app()
 			<tr>
 				<th style="text-align:center">##</th>
 				<th style="text-align:center">Обработано</th>
-				<th style="text-align:center">RUNET-ID</th>
+				<th style="text-align:center" nowrap>RUNET-ID</th>
 				<th>Ф.И.О.</th>
 				<th>Email</th>
 				<th>Телефон</th>

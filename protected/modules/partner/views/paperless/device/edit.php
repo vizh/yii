@@ -70,37 +70,50 @@ $this->setPageTitle(\Yii::t('app', 'Добавление устройства'))
 			<tr>
 				<th style="text-align:center">##</th>
 				<th style="text-align:center">Обработано</th>
-				<th style="text-align:center">RUNET-ID</th>
+				<th style="text-align:center" nowrap>RUNET-ID</th>
 				<th>Ф.И.О.</th>
-				<th>Email</th>
-				<th>Телефон</th>
+				<th>Контакты</th>
 			</tr>
             <?foreach($signals as $signal):?>
-                <?if($signal->Participant !== null):?>
-                    <?php
-                    	$user = $signal->Participant->User;
-                    	$work = $user->getEmploymentPrimary();
-                    ?>
+				<?if($signal->Participant === null):?>
+					<tr>
+						<td style="text-align:right;color:silver">#<?=$signal->Id?></td>
+						<td></td>
+						<td>⁉️</td>
+						<td colspan="2" style="text-align:left">
+							<b>Время прикладывания</b>: <?=$signal->BadgeTime?><br>
+							<b>Идентификатор</b>: <?=$signal->BadgeUID?>
+						</td>
+					</tr>
+				<?else:?>
+					<?php
+						$user = $signal->Participant->User;
+						$work = $user->getEmploymentPrimary();
+					?>
 					<tr>
 						<td style="text-align:right;color:silver">#<?=$signal->Id?></td>
 						<td style="text-align:right;color:silver" nowrap>
-                            <?=$signal->Processed ? '✉️' : ''?>
-                            <?=$signal->ProcessedTime?>
+							<?=$signal->Processed ? '✉️' : ''?>
+							<?=$signal->ProcessedTime?>
 						</td>
-						<td><a href="/user/edit/?id=<?=$user->RunetId?>" target="_blank"><?=$user->RunetId?></a></td>
+						<td>
+							<a href="/user/edit/?id=<?=$user->RunetId?>" target="_blank"><?=$user->RunetId?></a>
+						</td>
 						<td style="text-align:left">
-                            <?=$user->getFullName()?>
-                            <?if($work !== null):?>
+							<?=$user->getFullName()?>
+							<?if($work !== null):?>
 								<br>
 								<font color="silver">
-                                    <?=implode(' / ', array_filter([$work->Company->Name, $work->Position]))?>
+									<?=implode(' / ', array_filter([$work->Company->Name, $work->Position]))?>
 								</font>
-                            <?endif?>
+							<?endif?>
 						</td>
-						<td style="text-align:left"><a href="mailto:<?=$user->Email?>"><?=$user->Email?></a></td>
-						<td style="text-align:left" nowrap><?=$user->getPhone()?></td>
+						<td style="text-align:left">
+							<?=$user->getPhone()?><br>
+							<a href="mailto:<?=$user->Email?>"><?=$user->Email?></a>
+						</td>
 					</tr>
-                <?endif?>
+				<?endif?>
             <?endforeach?>
 		</table>
 	</div>
