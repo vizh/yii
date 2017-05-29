@@ -88,6 +88,7 @@ class MailBuilder
      */
     public function setBody($body)
     {
+        $this->attributes['html'] = true;
         $this->attributes['body'] = $body;
 
         return $this;
@@ -101,6 +102,7 @@ class MailBuilder
     public function setTemplatedBody($body, array $params = [])
     {
         $twig = new Twig_Environment(new Twig_Loader_Array(['index' => $body]));
+        // Функционал генерации ссылок на быструю регистрацию
         $twig->addFilter(new Twig_SimpleFilter('registrationHash', function (User $user, $accountApiKey) {
                 $account = Account::model()
                     ->byKey($accountApiKey)
@@ -110,7 +112,7 @@ class MailBuilder
             })
         );
 
-        $this->attributes['body'] = $twig->render('index', $params);
+        $this->setBody($twig->render('index', $params));
 
         return $this;
     }
