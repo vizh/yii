@@ -76,7 +76,7 @@ if (is_array($participant)) {
 
 <div style="position: fixed; top: 80mm; left: 20mm;">
     <div style="border: 1px solid #000">
-    <?=\CHtml::image(\ruvents\components\QrCode::getAbsoluteUrl($user->RunetId, 115))?>
+    <?=\CHtml::image(\ruvents\components\QrCode::getAbsoluteUrl($user, 117, true))?>
     </div>
 </div>
 
