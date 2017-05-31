@@ -6,11 +6,10 @@ use nastradamus39\slate\annotations\ApiObject;
 
 /**
  * @ApiController(
- *     controller="Iri",
- *     title="ИРИ",
- *     description=""
+ *     controller="Ict",
+ *     title="ICT"
  * )
  */
 class IctController extends \api\components\Controller {
 
-} 
+}

@@ -58,6 +58,27 @@ $dateEnd = new DateTime($event->EndYear.'-'.$event->EndMonth.'-'.$event->EndDay)
                 </tbody>
             </table>
         </div>
+
+        <div class="table-info">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th><?=Yii::t('app', 'Статус')?></th>
+                        <th><?=Yii::t('app', 'Кол-во печатей')?></th>
+                        <th><?=Yii::t('app', 'Кол-во печатей (с повторами)')?></th>
+                    </tr>
+                </thead>
+                <tbody>
+					<?foreach($stat->BadgesByRole as $row):?>
+						<tr>
+							<td><?=$row[0]?></td>
+							<td><?=$row[1]?></td>
+							<td><?=$row[2]?></td>
+						</tr>
+					<?endforeach?>
+                </tbody>
+            </table>
+        </div>
     </div> <!-- / .panel-body -->
 </div>
 

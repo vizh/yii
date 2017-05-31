@@ -2,10 +2,12 @@
 
 use application\helpers\Flash;
 use application\models\paperless\Device;
+use application\models\paperless\DeviceSignal;
 
 /**
  * @var \partner\models\forms\paperless\Device $form
  * @var Device $device
+ * @var DeviceSignal[] $signals
  * @var $this \partner\components\Controller
  * @var $activeForm CActiveForm
  */
@@ -17,7 +19,7 @@ $this->setPageTitle(\Yii::t('app', 'Добавление устройства'))
 <div class="panel panel-info">
     <div class="panel-heading">
         <span class="panel-title"><span class="fa fa-plus"></span> <?= \Yii::t('app', 'Добавление устройства') ?></span>
-    </div> <!-- / .panel-heading -->
+    </div>
     <div class="panel-body">
         <?=$activeForm->errorSummary($form, '<div class="alert alert-danger">', '</div>')?>
 		<?=$activeForm->hiddenField($form, 'Id')?>
@@ -54,4 +56,66 @@ $this->setPageTitle(\Yii::t('app', 'Добавление устройства'))
         <?endif?>
     </div>
 </div>
-<? $this->endWidget() ?>
+
+<div class="panel panel-info">
+	<div class="panel-heading">
+        <span class="panel-title">
+			<span class="fa fa-plus"></span>
+            <?=Yii::t('app', 'Обработанные сигналы')?>
+            <?//CHtml::link('Экспорт', ['eventExport', 'id' => $event->Id], ['class' => 'btn btn-primary btn-labeled pull-right', 'style' => 'position:relative;top:-.5em;right:-1em'])?>
+		</span>
+	</div>
+	<div class="panel-body">
+		<table class="table">
+			<tr>
+				<th style="text-align:center">##</th>
+				<th style="text-align:center">Обработано</th>
+				<th style="text-align:center" nowrap>RUNET-ID</th>
+				<th>Ф.И.О.</th>
+				<th>Контакты</th>
+			</tr>
+            <?foreach($signals as $signal):?>
+				<?if($signal->Participant === null):?>
+					<tr>
+						<td style="text-align:right;color:silver">#<?=$signal->Id?></td>
+						<td></td>
+						<td>⁉️</td>
+						<td colspan="2" style="text-align:left">
+							<b>Время прикладывания</b>: <?=$signal->BadgeTime?><br>
+							<b>Идентификатор</b>: <?=$signal->BadgeUID?>
+						</td>
+					</tr>
+				<?else:?>
+					<?php
+						$user = $signal->Participant->User;
+						$work = $user->getEmploymentPrimary();
+					?>
+					<tr>
+						<td style="text-align:right;color:silver">#<?=$signal->Id?></td>
+						<td style="text-align:right;color:silver" nowrap>
+							<?=$signal->Processed ? '✉️' : ''?>
+							<?=$signal->ProcessedTime?>
+						</td>
+						<td>
+							<a href="/user/edit/?id=<?=$user->RunetId?>" target="_blank"><?=$user->RunetId?></a>
+						</td>
+						<td style="text-align:left">
+							<?=$user->getFullName()?>
+							<?if($work !== null):?>
+								<br>
+								<font color="silver">
+									<?=implode(' / ', array_filter([$work->Company->Name, $work->Position]))?>
+								</font>
+							<?endif?>
+						</td>
+						<td style="text-align:left">
+							<?=$user->getPhone()?><br>
+							<a href="mailto:<?=$user->Email?>"><?=$user->Email?></a>
+						</td>
+					</tr>
+				<?endif?>
+            <?endforeach?>
+		</table>
+	</div>
+</div>
+<?$this->endWidget()?>

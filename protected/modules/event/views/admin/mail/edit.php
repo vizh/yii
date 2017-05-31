@@ -2,6 +2,7 @@
 /**
  * @var \event\models\forms\admin\mail\Register $form
  * @var \event\models\Event $event
+ * @var string $idMail
  * @var \application\components\controllers\AdminMainController $this
  * @var \application\widgets\ActiveForm $activeForm
  */
@@ -86,11 +87,18 @@ $this->setPageTitle(\Yii::t('app', 'Редактирование регистр�
         <div class="control-group">
             <div class="controls clearfix">
                 <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success'])?>
+				<a target="_blank" href="<?=$this->createUrl('view', ['idEvent' => $event->Id, 'idMail' => $idMail])?>" class="btn btn-dark-gray"><?=Yii::t('app', 'Просмотр')?></a>
                 <?=$activeForm->submitButton($form, 'Delete', \Yii::t('app', 'Удалить'), ['class' => 'btn btn-danger pull-right', 'value' => 1])?>
             </div>
         </div>
         <div class="control-group muted">
             <div class="controls">
+                <h4><?=\Yii::t('app', 'Доступный функционал Twig')?></h4>
+                <ul>
+					<li><b>{{user}}</b> - Пользователь. Например, {{user.shortName}}.</li>
+					<li><b>{{event}}</b> - Мероприятие.</li>
+					<li><b>http://some.host/?runetid={{user.RunetId}}&hash={{user|registrationHash('apiKey')}}</b></li>
+				</ul>
                 <h4><?=\Yii::t('app', 'Доступные поля')?></h4>
                 <?=$form->getBodyFieldsNote()?>
             </div>

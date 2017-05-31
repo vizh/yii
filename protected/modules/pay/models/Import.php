@@ -38,7 +38,7 @@ class Import extends ActiveRecord
     public function relations()
     {
         return [
-            'orders' => [self::HAS_MANY, '\pay\models\ImportOrder', 'ImportId']
+            'entries' => [self::HAS_MANY, ImportEntry::className(), 'ImportId', 'order' => 'entries."Id"']
         ];
     }
 
@@ -60,40 +60,40 @@ class Import extends ActiveRecord
         $file = $this->getFileName();
         $content = iconv('windows-1251', 'utf-8', file_get_contents($file));
 
-        //разделить записи по пустым строкам
-        $orders = explode("\r\n\r\n", $content);
-
-        //разбить записи на массивы строк
-        $orders = array_map(function ($order) {
-            return explode("\r\n", $order);
-        }, $orders);
-
-        //разбить строки по "=" на пары ключ-значение
-        $orders = array_map(function ($order) {
-            $result = [];
-            foreach ($order as $row) {
-                $keyvalue = explode('=', $row);
-                if (count($keyvalue) != 2) {
+        $lines = explode("\r\n", $content);
+        $entries = [];
+        $entry = null;
+        foreach ($lines as $line) {
+            if ($line == 'СекцияРасчСчет' || mb_strpos($line, 'СекцияДокумент') === 0){
+                $entry = [];
+                continue;
+            }
+            if ($line == 'КонецРасчСчет' || $line == 'КонецДокумента'){
+                $entries[] = $entry;
+                $entry = null;
+                continue;
+            }
+            if (is_array($entry)){
+                $keyvalue = explode('=', $line);
+                if (count($keyvalue) != 2){
                     continue;
                 }
                 list($key, $value) = $keyvalue;
-                $result[$key] = $value;
+                $entry[$key] = $value;
             }
-
-            return $result;
-        }, $orders);
+        }
 
         //отфильтровать платежи - получатель = ООО "РУВЕНТС"
-        $orders = array_filter($orders, function ($order) {
-            return ArrayHelper::getValue($order, 'ПолучательИНН') == '7703806326';
+        $entries = array_filter($entries, function ($entry) {
+            return ArrayHelper::getValue($entry, 'ПолучательИНН') == '7703806326';
         });
 
-        $this->orders = array_map(function ($data) {
-            $order = new ImportOrder();
-            $order->ImportId = $this->Id;
-            $order->Data = $data;
-            $order->matchOrder();
-            $order->save();
-        }, $orders);
+        $this->entries = array_map(function ($data) {
+            $entry = new ImportEntry();
+            $entry->ImportId = $this->Id;
+            $entry->Data = $data;
+            $entry->save();
+            $entry->matchOrders();
+        }, $entries);
     }
 }

@@ -377,6 +377,12 @@ input[type="text"], input[type="password"] {
   line-height: 1.5em;
   margin: 0;
 }
+.modal.fade {
+  display: none;
+}
+.modal.fade.in {
+  display: block;
+ }
 .search-well form {
   margin: 1em 0 1.5em;
 }

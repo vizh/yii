@@ -4,6 +4,7 @@ namespace api\controllers\paperless;
 
 use api\components\Exception;
 use application\models\paperless\Event;
+use CLogger;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
@@ -11,6 +12,7 @@ use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
 use application\models\paperless\Device;
 use application\models\paperless\DeviceSignal;
+use Yii;
 
 class SignalAction extends \api\components\Action
 {
@@ -27,12 +29,11 @@ class SignalAction extends \api\components\Action
      *          url="/paperless/materials/search",
      *          body="",
      *          params={
-     *              @Param(title="BadgeUID", mandatory="Y", description="Уникальный UID приложенного RFID-бейджа.")
-     *              @Param(title="BadgeTime", mandatory="Y", description="Время прикладывания RFID-бейджа.")
-     *              @Param(title="DeviceNumber", mandatory="Y", description="Номер устройства.")
+     *              @Param(title="BadgeUID", mandatory="Y", description="Уникальный UID приложенного RFID-бейджа."),
+     *              @Param(title="BadgeTime", mandatory="Y", description="Время прикладывания RFID-бейджа."),
+     *              @Param(title="DeviceNumber", mandatory="Y", description="Номер устройства."),
      *              @Param(title="Process", mandatory="N", description="Если передано true, то сигнал сразу же обрабатывается.")
-     *          },
-     *          response=@Response(body="['{$PAPERLESSMATERIAL}']")
+     *          }
      *     )
      * )
      */
@@ -51,7 +52,7 @@ class SignalAction extends \api\components\Action
             $device->Name = 'Новое устройство';
             $device->Type = (int)$this->getRequestParam('DeviceType', 2);
 
-            if (false === $device->save(true)) {
+            if (false === $device->save()) {
                 throw new Exception($device);
             }
         }
@@ -62,8 +63,13 @@ class SignalAction extends \api\components\Action
         $signal->BadgeUID = (int)$this->getRequestParam('BadgeUID');
         $signal->BadgeTime = $this->getRequestParam('BadgeTime');
 
-        if (false === $signal->save(true)) {
+        if (false === $signal->save()) {
             throw new Exception($signal);
+        }
+
+        // Сообщим о прикладывании бейджа не имеющего привязку к посетителю
+        if ($signal->Participant === null) {
+            Yii::log(sprintf('Обнаружено прикладывание бейджа UID:%d к шайбе %d не имеющего привязки к посетиелю. Событие будет обработано в момент привязки.', $signal->BadgeUID, $device->DeviceNumber), CLogger::LEVEL_INFO, 'paperless.'.$this->getEvent()->IdName);
         }
 
         // Необходимо сразу обработать событие?

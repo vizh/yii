@@ -6,6 +6,7 @@ use api\models\AccoutQuotaByUserLog;
 use api\models\ExternalUser;
 use application\components\helpers\ArrayHelper;
 use application\components\utility\Texts;
+use application\models\paperless\Material;
 use application\models\translation\ActiveRecord;
 use company\models\Company;
 use competence\models\Question;
@@ -18,7 +19,6 @@ use event\models\section\Hall;
 use event\models\section\LinkUser;
 use event\models\UserData;
 use oauth\models\Permission;
-use application\models\paperless\Material;
 use raec\models\CompanyUser;
 use user\models\Document;
 use user\models\DocumentType;
@@ -215,11 +215,11 @@ class Builder
     {
         $isOnePart = empty($this->account->Event->Parts);
         foreach ($user->Participants as $participant) {
-            // Для оффлайн сервисов добавляем в выдачу идентификатор RFID-бейджа
-            if ($this->account->Role === Account::ROLE_OFFLINE && empty($participant->BadgeUID) !== true) {
-                $this->user->BadgeUID = $participant->BadgeUID;
-            }
             if ($participant->EventId == $this->account->EventId) {
+                // Для оффлайн сервисов добавляем в выдачу идентификатор RFID-бейджа
+                if ($this->account->Role === Account::ROLE_OFFLINE && empty($participant->BadgeUID) !== true) {
+                    $this->user->BadgeUID = $participant->BadgeUID;
+                }
                 if ($isOnePart) {
                     $this->user->Status = new \stdClass();
                     $this->user->Status->RoleId = $participant->RoleId;

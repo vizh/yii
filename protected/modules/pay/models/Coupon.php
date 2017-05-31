@@ -2,11 +2,13 @@
 namespace pay\models;
 
 use application\components\ActiveRecord;
+use Guzzle\Http\Client;
 use pay\components\CodeException;
 use pay\components\coupon\managers\Base as BaseDiscountManager;
 use pay\components\Exception;
 use pay\components\MessageException;
 use user\models\User;
+use Yii;
 
 /**
  * @property int $Id
@@ -160,6 +162,16 @@ class Coupon extends ActiveRecord
             $this->processOldActivations($owner);
             $this->createActivation($owner);
         }
+        // toDo: Заменить на калбек из настроек мероприятия
+        if ($this->EventId === 3061) {
+            (new Client())->post('https://startupvillage.ru/runet-id/coupon', [
+                'json' => array_merge($this->attributes, [
+                    'PayerId' => $payer->RunetId,
+                    'OwnerId' => $owner->RunetId,
+                    'ProductId' => $product === null ? null : $product->Id
+                ])
+            ]);
+        }
     }
 
     /**
@@ -174,26 +186,32 @@ class Coupon extends ActiveRecord
      */
     protected function activate100($payer, $owner, $product)
     {
-        $product = $this->getActivate100Product($product);
-        $transaction = \Yii::app()->getDb()->beginTransaction();
+        $transaction = Yii::app()
+            ->getDb()
+            ->beginTransaction();
+
+        $product = $this->getActivatedProduct($product);
+
         try {
-            $this->cleanActivate100MultipleProduct($owner, $product);
+            $this->cleanActivations($owner, $product);
 
             $item = OrderItem::model()
                 ->byProductId($product->Id)
-                ->byPayerId($payer->Id)->byOwnerId($owner->Id)
-                ->byDeleted(false)->find();
+                ->byPayerId($payer->Id)
+                ->byOwnerId($owner->Id)
+                ->byDeleted(false)
+                ->find();
+
             if ($item === null) {
                 $item = new OrderItem();
                 $item->ProductId = $product->Id;
                 $item->PayerId = $payer->Id;
                 $item->OwnerId = $owner->Id;
             }
-            if ($item->activate()) {
-                $activation = $this->createActivation($owner);
 
+            if ($item->activate()) {
                 $link = new CouponActivationLinkOrderItem();
-                $link->CouponActivationId = $activation->Id;
+                $link->CouponActivationId = $this->createActivation($owner)->Id;
                 $link->OrderItemId = $item->Id;
                 $link->save();
             } else {
@@ -215,7 +233,7 @@ class Coupon extends ActiveRecord
      * @throws \pay\components\Exception
      * @return Product
      */
-    protected function getActivate100Product($product)
+    protected function getActivatedProduct($product)
     {
         if (count($this->Products) === 0) {
             throw new CodeException(CodeException::NO_PRODUCT_FOR_COUPON_100);
@@ -237,7 +255,7 @@ class Coupon extends ActiveRecord
      * @param Product $product
      * @throws \pay\components\MessageException
      */
-    protected function cleanActivate100MultipleProduct($owner, $product)
+    protected function cleanActivations($owner, $product)
     {
         if (count($this->Products) === 1) {
             return;
@@ -246,20 +264,24 @@ class Coupon extends ActiveRecord
         $criteria = new \CDbCriteria();
         $criteria->condition = '"OrderItem"."Paid" AND NOT "OrderItem"."Deleted"';
         $criteria->with = ['OrderItemLinks.OrderItem' => ['together' => true]];
-        /** @var CouponActivation $couponActivation */
-        $couponActivation = CouponActivation::model()->byCouponId($this->Id)->byUserId($owner->Id)->find($criteria);
-        if ($couponActivation === null) {
+
+        $activation = CouponActivation::model()
+            ->byCouponId($this->Id)
+            ->byUserId($owner->Id)
+            ->find($criteria);
+
+        if ($activation === null) {
             return;
         }
 
-        $orderItem = $couponActivation->OrderItemLinks[0]->OrderItem;
+        $orderItem = $activation->OrderItemLinks[0]->OrderItem;
         if ($orderItem->ProductId === $product->Id) {
             throw new MessageException('Вы уже активировали 100% промо-код для этого товара ранее');
         }
 
         $orderItem->deactivate();
-        $couponActivation->OrderItemLinks[0]->delete();
-        $couponActivation->delete();
+        $activation->OrderItemLinks[0]->delete();
+        $activation->delete();
     }
 
     /**
@@ -286,14 +308,14 @@ class Coupon extends ActiveRecord
         $activation = CouponActivation::model()
             ->byUserId($owner->Id)
             ->byEventId($this->EventId)
-            ->byEmptyLinkOrderItem()->find();
+            ->byEmptyLinkOrderItem()
+            ->find();
 
         if ($activation !== null) {
             if ($activation->Coupon->contains($this)) {
                 throw new CodeException(302);
-            } else {
-                $activation->delete();
             }
+            $activation->delete();
         }
     }
 
@@ -306,24 +328,21 @@ class Coupon extends ActiveRecord
      */
     public function contains(Coupon $coupon)
     {
-        if (empty($this->Products)) {
-            return $this->compare($coupon) >= 0;
-        }
-
-        if (empty($coupon->Products)) {
-            return true;
-        }
-
-        foreach ($coupon->Products as $product1) {
-            $hasPair = false;
-            foreach ($this->Products as $product2) {
-                if ($product1->Id == $product2->Id) {
-                    $hasPair = true;
-                    continue;
-                }
+        if (false === empty($this->Products)) {
+            if (empty($coupon->Products)) {
+                return true;
             }
-            if (!$hasPair) {
-                return false;
+
+            foreach ($coupon->Products as $product1) {
+                $hasPair = false;
+                foreach ($this->Products as $product2) {
+                    if ($product1->Id == $product2->Id) {
+                        $hasPair = true;
+                    }
+                }
+                if ($hasPair === false) {
+                    return false;
+                }
             }
         }
 

@@ -234,7 +234,7 @@ class Order extends ActiveRecord
         if ($this->Event->IdName === 'startupvillage17') {
             (new Client())->post('https://startupvillage.ru/runet-id/payed', [
                 'json' => [
-                    'RunetId' => $this->Payer->RunetId,
+                    'PayerId' => $this->Payer->RunetId,
                     'OrderId' => $this->Id
                 ]
             ]);
@@ -467,7 +467,7 @@ class Order extends ActiveRecord
             $count++;
         }
 
-        if ($count == 1) {
+        if ($count === 1) {
             $this->Paid = false;
             $this->Total = null;
             $this->Deleted = true;
@@ -475,6 +475,17 @@ class Order extends ActiveRecord
         }
 
         $this->save();
+
+        if ($this->Event->IdName === 'startupvillage17') {
+            (new Client())->post('https://startupvillage.ru/runet-id/refunded', [
+                'json' => [
+                    'PayerId' => $this->Payer->RunetId,
+                    'OwnerId' => $orderItem->Owner->RunetId,
+                    'OrderId' => $this->Id,
+                    'OrderItemId' => $orderItem->Id
+                ]
+            ]);
+        }
 
         return true;
     }

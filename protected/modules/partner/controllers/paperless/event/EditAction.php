@@ -3,9 +3,12 @@
 namespace partner\controllers\paperless\event;
 
 use application\components\Exception;
+use application\components\helpers\ArrayHelper;
+use application\models\paperless\DeviceSignal;
 use application\models\paperless\Event as EventModel;
+use application\models\paperless\Event;
 use partner\components\Action;
-use partner\models\forms\paperless\Event;
+use partner\models\forms\paperless\Event as EventForm;
 use Yii;
 
 class EditAction extends Action
@@ -20,7 +23,7 @@ class EditAction extends Action
             throw new Exception(404);
         }
 
-        $form = new Event($this->getEvent(), $event);
+        $form = new EventForm($this->getEvent(), $event);
 
         if (Yii::app()->getRequest()->getIsPostRequest()) {
             $form->fillFromPost();
@@ -33,9 +36,16 @@ class EditAction extends Action
             }
         }
 
+        $signals = DeviceSignal::model()
+            ->byDeviceNumber(ArrayHelper::getColumn($event->DeviceLinks, 'DeviceId'))
+            ->with(['Participant' => ['with' => ['User' => ['with' => ['Employments', 'Settings', 'LinkPhones']]]]])
+            ->orderBy(['"t"."Id"' => SORT_DESC])
+            ->findAll();
+
         $this->getController()->render('event/edit', [
             'form' => $form,
-            'event' => $event
+            'event' => $event,
+            'signals' => $signals
         ]);
     }
 }

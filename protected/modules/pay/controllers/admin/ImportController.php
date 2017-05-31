@@ -8,6 +8,7 @@ class ImportController extends \application\components\controllers\AdminMainCont
             'index' => '\pay\controllers\admin\import\IndexAction',
             'result' => '\pay\controllers\admin\import\ResultAction',
             'pay' => '\pay\controllers\admin\import\PayAction',
+            'edit' => '\pay\controllers\admin\import\EditAction',
         ];
     }
 

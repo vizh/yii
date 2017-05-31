@@ -11,7 +11,7 @@ use application\components\ActiveRecord;
  * @property int $BadgeUID
  * @property int $BadgeTime
  * @property bool $Processed
- * @property bool $ProcessedTime
+ * @property string $ProcessedTime
  * @property bool $CreatedTime
  *
  * @property \event\models\Participant $Participant
@@ -72,7 +72,7 @@ class DeviceSignal extends ActiveRecord
             'DeviceNumber' => 'Номер устройства',
             'BadgeUID' => 'Уникальный идентификатор бейджа',
             'BadgeTime' => 'Время прикладывания бейджа',
-            'Processed' => 'Флаг обработки сигнала',
+            'Processed' => 'Флаг обработки сигнала'
         ];
     }
 }

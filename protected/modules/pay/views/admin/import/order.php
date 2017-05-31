@@ -7,20 +7,16 @@
 use application\components\helpers\ArrayHelper;
 ?>
 <tr id="order-<?=$order->Id?>">
-    <td><?=ArrayHelper::getValue($order, 'OrderNumber')?></td>
-    <td><?=ArrayHelper::getValue($order, 'Data.Дата')?></td>
-    <td><?=ArrayHelper::getValue($order, 'Data.ПлательщикИНН')?></td>
-    <td><?=ArrayHelper::getValue($order, 'Data.Плательщик')?></td>
-    <td><?=ArrayHelper::getValue($order, 'Data.Сумма')?></td>
+
     <td><?=ArrayHelper::getValue($order, 'order.Number')?></td>
     <td><?=ArrayHelper::getValue($order, 'order.CreationTime')?></td>
     <td><?=ArrayHelper::getValue($order, 'order.OrderJuridical.INN')?></td>
     <td><?=ArrayHelper::getValue($order, 'order.OrderJuridical.Name')?></td>
     <td><?=ArrayHelper::getValue($order, 'order.price')?></td>
     <td>
-        <?if($order->order && !$order->order->Paid) {
+        <?if(!$order->order->Paid) {
             echo CHtml::ajaxLink(
-                '<i class="icon-ok icon-white"></i>',
+                '<i class="icon-ok icon-white"></i> Оплатить',
                 array('/pay/admin/import/pay', 'orderId' => $order->Id),
                 [
                     'method' => 'post',
@@ -32,11 +28,11 @@ use application\components\helpers\ArrayHelper;
                 ],
                 [
                     'confirm' => 'Вы уверены, что хотите отметить данный счет оплаченным?',
-                    'class' => 'btn btn-success'
+                    'class' => 'btn btn-default'
                 ]
             );
         } else {?>
-            <i class="icon-ok" title="счет уже оплачен!"></i>
+            Оплачен
         <?php }?>
     </td>
 </tr>

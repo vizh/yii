@@ -62,10 +62,17 @@ class Menu extends \CMenu
             }
 
             $menu = $this->renderMenuItem($item);
+
+            // Если текущий пункт меню является разделом, то рендерим его дочерние пункты
             if (!empty($item['items'])) {
                 $class = 'mm-dropdown' . ($item['active'] ? ' open' : '');
                 $options['class'] = isset($options['class']) ? $options['class'] . ' ' . $class : $class;
-                $menu .= CHtml::tag('ul', [], $this->renderMenuRecursive($item['items']));
+                $childs = $this->renderMenuRecursive($item['items']);
+                // Если текущий пользователь не имеет доступа ко всем дочерним элементам, или их просто нет, то не отображаем родителя
+                if (empty($childs))
+                    continue;
+                // Добавляем к текущему пункту меню разметку его дочерних пунктов
+                $menu .= CHtml::tag('ul', [], $childs);
             }
             $lines[] = CHtml::tag($tag, $options, $menu);
         }

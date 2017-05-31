@@ -32,7 +32,7 @@ class Fix extends Base
      */
     public function calcDiscountPrice($price)
     {
-        return $price - $this->coupon->Discount;
+        return ($price -= $this->coupon->Discount) < 0 ? 0 : $price;
     }
 
     /**

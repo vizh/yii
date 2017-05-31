@@ -18,7 +18,7 @@ return [
         'allow',
         'roles' => ['Admin'],
         'module' => 'partner',
-        'controllers' => ['user'],
+        'controllers' => ['user']
     ],
     [
         'allow',
@@ -52,7 +52,7 @@ return [
         'allow',
         'roles' => ['PartnerLimited'],
         'module' => 'partner',
-        'controllers' => ['main', 'coupon', 'userEdit', 'utility', 'special'],
+        'controllers' => ['main', 'coupon', 'userEdit', 'utility', 'special']
     ],
     [
         'allow',
@@ -65,7 +65,7 @@ return [
         'allow',
         'roles' => ['PartnerLimited'],
         'module' => 'partner',
-        'controllers' => ['ajax'],
+        'controllers' => ['ajax']
     ],
     [
         'allow',
@@ -99,7 +99,13 @@ return [
         'allow',
         'roles' => ['Admin'],
         'module' => 'partner',
-        'controllers' => ['paperless'],
+        'controllers' => ['paperless/event', 'paperless/material']
+    ],
+    [
+        'allow',
+        'roles' => ['AdminExtended'],
+        'module' => 'partner',
+        'controllers' => ['paperless']
     ],
     [
         'allow',
@@ -197,13 +203,13 @@ return [
         'allow',
         'roles' => ['Statistics'],
         'module' => 'partner',
-        'controllers' => ['user', 'main'],
+        'controllers' => ['user', 'main']
     ],
     [
         'allow',
         'roles' => ['moderator'],
         'module' => 'partner',
-        'controllers' => ['auth'],
+        'controllers' => ['auth']
     ],
     [
         'allow',
@@ -230,7 +236,7 @@ return [
         'allow',
         'roles' => ['Approve'],
         'module' => 'partner',
-        'controllers' => ['coupon'],
+        'controllers' => ['coupon']
     ],
     [
         'allow',

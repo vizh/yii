@@ -34,6 +34,8 @@ class FilterListAction extends Action
      */
     public function run()
     {
+//        tgmsg($_POST);
+
         $request = \Yii::app()->getRequest();
         $manager = $request->getParam('Manager');
         $params = $request->getParam('Params', []);

@@ -10,6 +10,7 @@ abstract class Mail
         'toName' => '',
         'fromName' => 'RUNET-ID',
         'subject' => '',
+        'html' => false,
         'attachments' => []
     ];
 
@@ -64,7 +65,7 @@ abstract class Mail
      */
     public function isHtml()
     {
-        return false;
+        return $this->attributes['html'];
     }
 
     /**

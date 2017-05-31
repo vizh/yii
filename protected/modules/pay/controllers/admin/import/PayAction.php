@@ -4,9 +4,6 @@ namespace pay\controllers\admin\import;
 
 class PayAction extends \CAction
 {
-    public $error = false;
-    public $result = false;
-
     public function run($orderId)
     {
         /** @var $order \pay\models\ImportOrder */
@@ -23,7 +20,7 @@ class PayAction extends \CAction
             $order->order->activate();
             $order->Approved = true;
             $order->save();
-            $this->getController()->renderPartial('row', ['order' => $order]);
+            $this->getController()->renderPartial('order', ['order' => $order]);
         }
     }
 }

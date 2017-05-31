@@ -27,7 +27,7 @@ class SearchAction extends \api\components\Action
      *          url="/paperless/materials/search",
      *          body="",
      *          params={
-     *              @Param(title="RunetId", mandatory="N", description="RUNET-ID посетителя для выборки доступных ему материалов.")
+     *              @Param(title="RunetId", mandatory="N", description="RUNET-ID посетителя для выборки доступных ему материалов."),
      *              @Param(title="RoleId", mandatory="N", description="Один или несколько статусов участия на мероприятии для выборки доступных им материалов. Внимание! Данное условие перекрывает результаты фильтрации по RunetId. Совместное использование параметров RunetId и RoleId не проектировалось.")
      *          },
      *          response=@Response(body="['{$PAPERLESSMATERIAL}']")
@@ -39,8 +39,7 @@ class SearchAction extends \api\components\Action
     {
         $materials = Material::model()
             ->byEventId($this->getEvent()->Id)
-            ->byActive()
-            ->byVisible();
+            ->byActive();
 
         if ($this->hasRequestParam('RunetId')) {
             $participant = Participant::model()
@@ -55,7 +54,7 @@ class SearchAction extends \api\components\Action
             $materials->getDbCriteria()->mergeWith(
                 CDbCriteria::create()
                     ->setWith(['UserLinks', 'RoleLinks'])
-                    ->addCondition('"UserLinks"."UserId" = :UserId OR "RoleLinks"."RoleId" = :RoleId')
+                    ->addCondition('"UserLinks"."UserId" = :UserId OR ("t"."Visible" AND "RoleLinks"."RoleId" = :RoleId)')
                     ->addParams([
                         'UserId' => $participant->UserId,
                         'RoleId' => $participant->RoleId
