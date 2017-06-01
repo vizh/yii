@@ -71,7 +71,7 @@ if (is_array($participant)) {
 <div style="position: fixed; top: 103mm; left: 60mm;  color: #000; font-family: Arial; font-size: 5.8mm">
     <?=$user->employmentPrimary->Company->Name?>
 </div>
-<div style="position: fixed; top: 149mm; left: 95mm;  color: #000; font-family: Arial; font-size: 2.8mm; text-transform: uppercase">
+<div style="position: fixed; top: 145mm; left: 95mm;  color: #000; font-family: Arial; font-size: 2.8mm; text-transform: uppercase">
     <?=$participant->Role->Title?>
 </div>
 
