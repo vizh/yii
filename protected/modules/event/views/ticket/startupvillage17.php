@@ -51,6 +51,11 @@ if (is_array($participant)) {
         background: url("/img/ticket/startupvillage17/5.png") no-repeat;
         background-size: contain;
     }
+    .page6{
+
+        background: url("/img/ticket/startupvillage17/6.png") no-repeat;
+        background-size: contain;
+    }
 
     p{
         color:#fff;
@@ -85,3 +90,4 @@ if (is_array($participant)) {
 <div class="page page3"></div>
 <div class="page page4"></div>
 <div class="page page5"></div>
+<div class="page page6"></div>
