@@ -13,6 +13,8 @@ use event\models\Participant;
 if (is_array($participant)) {
     $participant = $participant[0];
 }
+
+$lang = Yii::app()->language;
 ?>
 
 
@@ -27,33 +29,56 @@ if (is_array($participant)) {
 
 
     .page1{
-
-        background: url("/img/ticket/startupvillage17/1.png") no-repeat;
+        <?php if ($lang === 'en') :?>
+            background: url("/img/ticket/startupvillage17/1.en.png") no-repeat;
+        <?else:?>
+            background: url("/img/ticket/startupvillage17/1.png") no-repeat;
+        <?endif;?>
         background-size: contain;
     }
     .page2{
 
-        background: url("/img/ticket/startupvillage17/2.png") no-repeat;
+        <?php if ($lang === 'en') :?>
+            background: url("/img/ticket/startupvillage17/2.en.png") no-repeat;
+        <?else:?>
+            background: url("/img/ticket/startupvillage17/2.png") no-repeat;
+        <?endif;?>
         background-size: contain;
     }
     .page3{
 
-        background: url("/img/ticket/startupvillage17/3.png") no-repeat;
+        <?php if ($lang === 'en') :?>
+            background: url("/img/ticket/startupvillage17/3.en.png") no-repeat;
+        <?else:?>
+            background: url("/img/ticket/startupvillage17/3.png") no-repeat;
+        <?endif;?>
         background-size: contain;
     }
     .page4{
 
+    <?php if ($lang === 'en') :?>
+        background: url("/img/ticket/startupvillage17/4.en.png") no-repeat;
+    <?else:?>
         background: url("/img/ticket/startupvillage17/4.png") no-repeat;
+    <?endif;?>
         background-size: contain;
     }
     .page5{
 
+    <?php if ($lang === 'en') :?>
+        background: url("/img/ticket/startupvillage17/5.en.png") no-repeat;
+    <?else:?>
         background: url("/img/ticket/startupvillage17/5.png") no-repeat;
+    <?endif;?>
         background-size: contain;
     }
     .page6{
 
+    <?php if ($lang === 'en') :?>
+        background: url("/img/ticket/startupvillage17/6.en.png") no-repeat;
+    <?else:?>
         background: url("/img/ticket/startupvillage17/6.png") no-repeat;
+    <?endif;?>
         background-size: contain;
     }
 
@@ -76,7 +101,7 @@ if (is_array($participant)) {
 </div>
 
 <div style="position: fixed; top: 137mm; left: 20mm;  color: #000; font-family: Arial; font-size: 5.8mm; ">
-    СТАТУС
+    <?=$lang === 'en'? 'STATUS' : 'СТАТУС'?>
 </div>
 
 <div style="position: fixed; top: 80mm; left: 20mm;">
