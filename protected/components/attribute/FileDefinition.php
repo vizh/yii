@@ -11,6 +11,8 @@ namespace application\components\attribute;
 use application\components\AbstractDefinition;
 use application\components\utility\Texts;
 use event\components\UserDataManager;
+use CHtml;
+use Yii;
 
 class FileDefinition extends AbstractDefinition
 {
@@ -22,7 +24,7 @@ class FileDefinition extends AbstractDefinition
     public function rules()
     {
         return [
-            [$this->name, 'file', 'types' => $this->types, 'allowEmpty' => (!$this->required || !$this->public)]
+            [$this->name, 'file', 'types' => $this->types, 'allowEmpty' => !$this->required]
         ];
     }
 
@@ -52,9 +54,9 @@ class FileDefinition extends AbstractDefinition
         $class = get_class($container);
         $class = substr($class, strrpos($class, '\\') + 1);
         $name = Texts::GenerateString(10, true).'.'.$value->getExtensionName();
-        $path = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR;
+        $path = Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR;
         $path .= 'data'.DIRECTORY_SEPARATOR.strtolower($class).DIRECTORY_SEPARATOR.substr($name, 0, 3);
-        if (!is_dir($path)) {
+        if (false === is_dir($path)) {
             mkdir($path, 0777, true);
         }
         $path .= DIRECTORY_SEPARATOR.$name;
@@ -67,9 +69,11 @@ class FileDefinition extends AbstractDefinition
      */
     public function getPrintValue(UserDataManager $manager, $useHtml = false)
     {
-        if (!empty($manager->{$this->name})) {
-            return \CHtml::link(\Yii::t('app', 'Скачать'),
-                ['/partner/user/viewdatafile', 'id' => $manager->model()->Id, 'attribute' => $this->name]);
+        if (false === empty($manager->{$this->name})) {
+            return CHtml::link(Yii::t('app', 'Скачать'), ['/partner/user/viewdatafile',
+                'id' => $manager->model()->Id,
+                'attribute' => $this->name
+            ]);
         }
 
         return '';
@@ -91,6 +95,6 @@ class FileDefinition extends AbstractDefinition
         $htmlOptions['class'] = $this->cssClass.(isset($htmlOptions['class']) ? $htmlOptions['class'] : '');
         $htmlOptions['style'] = $this->cssStyle.(isset($htmlOptions['style']) ? $htmlOptions['style'] : '');
 
-        return \CHtml::activeFileField($container, $this->name, $htmlOptions);
+        return CHtml::activeFileField($container, $this->name, $htmlOptions);
     }
 }
