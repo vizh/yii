@@ -76,21 +76,23 @@ class Rif14Controller extends CController
         $user = User::model()
             ->byRunetId($runetId)
             ->find();
-        
-        if ($user == null)
+
+        if ($user == null) {
             throw new Exception(202, $runetId);
+        }
 
         $product = Product::model()
             ->findByPk($productId);
-        
-        if ($product == null)
+
+        if ($product == null) {
             throw new Exception(401, $productId);
+        }
 
         $get = ProductGet::model()
             ->byUserId($user->Id)
             ->byProductId($product->Id)
             ->find();
-        
+
         if ($get == null) {
             $get = new ProductGet();
             $get->UserId = $user->Id;
@@ -109,16 +111,18 @@ class Rif14Controller extends CController
         $criteria->order = '"t"."CreationTime" ASC';
 
         $product = Product::model()->findByPk($productId);
-        if ($product === null)
+        if ($product === null) {
             throw new Exception(401, $productId);
+        }
 
         $criteria->addCondition('"t"."ProductId" = :ProductId');
         $criteria->params['ProductId'] = $product->Id;
 
         if (!empty($fromTime)) {
             $datetime = DateTime::createFromFormat('Y-m-d H:i:s', $fromTime);
-            if ($datetime === false)
+            if ($datetime === false) {
                 throw new Exception(900, 'FromUpdateTime');
+            }
 
             $criteria->addCondition('"t"."CreationTime" >= :Time');
             $criteria->params['Time'] = $datetime->format('Y-m-d H:i:s');
@@ -140,7 +144,7 @@ class Rif14Controller extends CController
     {
         $command = Yii::app()->getDb()->createCommand();
         $command->select('Id')->from('User');
-        $command->where('"RunetId" IN (' . implode(',', $runetIdList) . ')');
+        $command->where('"RunetId" IN ('.implode(',', $runetIdList).')');
 
         $rows = $command->queryAll();
         $result = [];

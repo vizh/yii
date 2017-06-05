@@ -1,5 +1,6 @@
-UPDATE "User" as u SET "Visible" = us."Visible"
+UPDATE "User" AS u
+SET "Visible" = us."Visible"
 
-FROM "UserSettings" as us
+FROM "UserSettings" AS us
 
 WHERE u."Id" = us."UserId"

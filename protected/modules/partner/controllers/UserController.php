@@ -1,6 +1,5 @@
 <?php
-use \partner\components\Controller;
-use partner\models\Export;
+use partner\components\Controller;
 
 class UserController extends Controller
 {

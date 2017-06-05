@@ -2,7 +2,6 @@
 
 namespace user\models\forms\edit;
 
-use user\models\forms\edit\Base;
 use user\models\Gender;
 
 /**
@@ -23,7 +22,9 @@ class Main extends Base
     public function rules()
     {
         return [
-            ['LastName, FirstName, FatherName, Birthday, Gender', 'filter',
+            [
+                'LastName, FirstName, FatherName, Birthday, Gender',
+                'filter',
                 'filter' => [$this, 'filterPurify']
             ],
             ['LastName, FirstName', 'required'],

@@ -2,7 +2,6 @@
 namespace connect\models\forms;
 
 use application\components\form\CreateUpdateForm;
-use connect\models\Meeting as MeetingAR;
 use connect\models\MeetingLinkUser;
 use user\models\User;
 use Yii;
@@ -25,7 +24,7 @@ class Signup extends CreateUpdateForm
     public function validateUser($attr, $params)
     {
         $this->User = User::model()->findByAttributes(['RunetId' => $this->UserId]);
-        if (!$this->User){
+        if (!$this->User) {
             $this->addError('UserId', 'Не найден пользователь с RUNET-ID: '.$this->UserId);
         }
     }

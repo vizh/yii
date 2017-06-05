@@ -14,12 +14,12 @@ class Linkedin implements ISocial
 
     protected $redirectUrl;
 
-    public static $CURL_OPTS = array(
+    public static $CURL_OPTS = [
         CURLOPT_CONNECTTIMEOUT => 10,
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT        => 60,
-        CURLOPT_USERAGENT      => 'runetid-php',
-    );
+        CURLOPT_TIMEOUT => 60,
+        CURLOPT_USERAGENT => 'runetid-php',
+    ];
 
     public function __construct($redirectUrl = null)
     {
@@ -32,20 +32,21 @@ class Linkedin implements ISocial
      */
     public function getOAuthUrl()
     {
-        $params = array(
-            'response_type'=> 'code',
+        $params = [
+            'response_type' => 'code',
             'client_id' => self::APIKey,
             'state' => self::State,
             'redirect_uri' => $this->makeRedirectUrl()
-        );
-        return self::LinkedInOauthUrl.'?' . http_build_query($params);
+        ];
+        return self::LinkedInOauthUrl.'?'.http_build_query($params);
     }
 
     /**
      * Генерирует redirect_url
      * @return string
      */
-    private function makeRedirectUrl(){
+    private function makeRedirectUrl()
+    {
         return \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect');
     }
 
@@ -58,11 +59,9 @@ class Linkedin implements ISocial
     {
         $code = \Yii::app()->getRequest()->getParam('code', null);
         $accessToken = $this->getAccessToken();
-        if (empty($accessToken) && !empty($code))
-        {
+        if (empty($accessToken) && !empty($code)) {
             $accessToken = $this->requestAccessToken($code);
-            if (isset($accessToken->error))
-            {
+            if (isset($accessToken->error)) {
                 throw new \CHttpException(400, 'Сервис авторизации LinkedIn не отвечает');
             }
             \Yii::app()->getSession()->add('LI_access_token', $accessToken);
@@ -77,21 +76,20 @@ class Linkedin implements ISocial
      * @return mixed
      * @throws \CHttpException
      */
-    protected function makeRequest($url, $params = array())
+    protected function makeRequest($url, $params = [])
     {
         $ch = curl_init();
 
         $opts = self::$CURL_OPTS;
         $authString = 'Authorization: '.$params['Authorization'];
-        $headers = array($authString);
+        $headers = [$authString];
         $opts[CURLOPT_HTTPHEADER] = $headers;
         $opts[CURLOPT_URL] = $url;
         curl_setopt_array($ch, $opts);
         $result = curl_exec($ch);
 
-        if (curl_errno($ch) !== 0)
-        {
-          throw new \CHttpException(400, 'Сервис авторизации LinkedIn не отвечает');
+        if (curl_errno($ch) !== 0) {
+            throw new \CHttpException(400, 'Сервис авторизации LinkedIn не отвечает');
         }
         return json_decode($result);
     }
@@ -103,7 +101,7 @@ class Linkedin implements ISocial
      * @return mixed
      * @throws \CHttpException
      */
-    protected function makePostRequest($url, $params = array())
+    protected function makePostRequest($url, $params = [])
     {
         $ch = curl_init();
         $opts = self::$CURL_OPTS;
@@ -111,8 +109,7 @@ class Linkedin implements ISocial
         $opts[CURLOPT_URL] = $url;
         curl_setopt_array($ch, $opts);
         $result = curl_exec($ch);
-        if (curl_errno($ch) !== 0)
-        {
+        if (curl_errno($ch) !== 0) {
             throw new \CHttpException(400, 'Сервис авторизации LinkedIn не отвечает');
         }
         return json_decode($result);
@@ -137,13 +134,13 @@ class Linkedin implements ISocial
 
     protected function requestAccessToken($code)
     {
-        $params = array(
+        $params = [
             'grant_type' => 'authorization_code',
             'client_id' => self::APIKey,
             'code' => $code,
-            'client_secret'=>self::Secret,
+            'client_secret' => self::Secret,
             'redirect_uri' => $this->makeRedirectUrl()
-        );
+        ];
         return $this->makePostRequest('https://www.linkedin.com/uas/oauth2/accessToken', $params);
     }
 
@@ -156,8 +153,7 @@ class Linkedin implements ISocial
         $accessToken = $this->getAccessToken();
         $params['Authorization'] = 'Bearer '.$accessToken->access_token;
         $response = $this->makeRequest('https://api.linkedin.com/v1/people/~?format=json', $params);
-        if (isset($response->errorCode))
-        {
+        if (isset($response->errorCode)) {
             throw new \CHttpException(400, 'Сервис авторизации LinkedIn отвечает '.$response->message);
         }
         $data = new Data();
@@ -175,8 +171,8 @@ class Linkedin implements ISocial
     }
 
     /**
-   * @return void
-   */
+     * @return void
+     */
     public function renderScript()
     {
         echo '<script>
@@ -189,8 +185,8 @@ class Linkedin implements ISocial
     }
 
     /**
-   * @return string
-   */
+     * @return string
+     */
     public function getSocialTitle()
     {
         return 'Linkedin';

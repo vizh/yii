@@ -1,110 +1,120 @@
 #widget-registration table th {
-  background: #EBEBEB;
-  border-bottom-width: 1px;
+    background: #EBEBEB;
+    border-bottom-width: 1px;
 }
 
 #widget-registration table th h4 {
-  padding: 0;
-  margin: 0;
+    padding: 0;
+    margin: 0;
 }
 
 #widget-registration td .discount {
-  padding-top: 8px;
-  white-space: nowrap;
+    padding-top: 8px;
+    white-space: nowrap;
 }
 
 #widget-registration table.thead-actual {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 #widget-registration table.thead-actual th {
-  color: #999;
-  font-size: 11px;
-  white-space: nowrap;
-  background: #fff;
+    color: #999;
+    font-size: 11px;
+    white-space: nowrap;
+    background: #fff;
 }
 
 #widget-registration table.orders {
-  border-collapse: collapse;
+    border-collapse: collapse;
 }
+
 #widget-registration table.orders th {
-  background: #4BB1D0;
-  border: 1px solid #3da1bf;
-  border-bottom-width: 2px;
+    background: #4BB1D0;
+    border: 1px solid #3da1bf;
+    border-bottom-width: 2px;
 }
+
 #widget-registration table.paid-items th {
-  background: #53a953;
-  border: 1px solid #518d51;
-  border-bottom-width: 2px;
+    background: #53a953;
+    border: 1px solid #518d51;
+    border-bottom-width: 2px;
 }
+
 #widget-registration table.orders th h4,
-#widget-registration table.paid-items th h4{
-  color: #fff;
+#widget-registration table.paid-items th h4 {
+    color: #fff;
 }
+
 #widget-registration table.orders tr td,
 #widget-registration table.paid-items tr td {
-  border-bottom: 1px solid #e4e4e4;
+    border-bottom: 1px solid #e4e4e4;
 }
+
 #widget-registration table.orders tr td:first-child,
 #widget-registration table.paid-items tr td:first-child {
-  border-left: 1px solid #e4e4e4;
+    border-left: 1px solid #e4e4e4;
 }
+
 #widget-registration table.orders tr td:last-child,
-#widget-registration table.paid-items tr td:last-child{
-  border-right: 1px solid #e4e4e4;
+#widget-registration table.paid-items tr td:last-child {
+    border-right: 1px solid #e4e4e4;
 }
 
 #widget-registration .ui-autocomplete li.ui-menu-item {
-  color: #333;
-  font-size: 13px;
-  padding: 6px 0px;
-  position: relative;
-  text-decoration: none;
-  border-bottom: 1px solid #e6e6e6;
+    color: #333;
+    font-size: 13px;
+    padding: 6px 0px;
+    position: relative;
+    text-decoration: none;
+    border-bottom: 1px solid #e6e6e6;
 }
+
 #widget-registration .ui-autocomplete li.ui-menu-item a {
-  color: #333;
-  text-decoration: none;
-  cursor: pointer;
+    color: #333;
+    text-decoration: none;
+    cursor: pointer;
 }
+
 #widget-registration .ui-autocomplete li.ui-menu-item:first-child {
-  padding-top: 0;
+    padding-top: 0;
 }
+
 #widget-registration .ui-autocomplete li.ui-menu-item:last-child {
-  border-bottom: 0;
-  padding-bottom: 0;
+    border-bottom: 0;
+    padding-bottom: 0;
 }
 
 #widget-registration .ui-autocomplete li.ui-menu-item p {
-  margin-bottom: 0;
-  margin-left: 60px;
+    margin-bottom: 0;
+    margin-left: 60px;
 }
+
 #widget-registration .ui-autocomplete {
-  background: #fff none repeat scroll 0 0;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
-  list-style-type: none;
-  margin: 0;
-  padding: 10px;
-  width: 0;
+    background: #fff none repeat scroll 0 0;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+    list-style-type: none;
+    margin: 0;
+    padding: 10px;
+    width: 0;
 }
 
 #widget-registration .ui-autocomplete li.ui-menu-item img {
-  border: 1px solid #e6e6e6;
-  float: left;
+    border: 1px solid #e6e6e6;
+    float: left;
 }
 
 #widget-registration .alert.alert-danger {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 #widget-registration .user-data h4.group-title {
-  border-bottom: 1px solid #e6e6e6;
-  padding-bottom: 5px;
-  font-size: 16px;
+    border-bottom: 1px solid #e6e6e6;
+    padding-bottom: 5px;
+    font-size: 16px;
 }
 
 @media (max-width: 700px) {
-  #widget-registration table th h4 {
-    font-size: 14px;
-  }
+    #widget-registration table th h4 {
+        font-size: 14px;
+    }
 }

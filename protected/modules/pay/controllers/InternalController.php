@@ -1,10 +1,10 @@
 <?php
 
+use application\components\parsing\CsvParser;
 use application\components\utility\Texts;
+use pay\components\managers\RoomProductManager;
 use pay\models\OrderItem;
 use pay\models\Product;
-use application\components\parsing\CsvParser;
-use pay\components\managers\RoomProductManager;
 use pay\models\ProductPrice;
 
 /**
@@ -90,11 +90,11 @@ class InternalController extends \application\components\controllers\PublicMainC
 
         ini_set('max_execution_time', self::MAX_EXECUTION_TIME);
 
-        $parser = new CsvParser($_SERVER['DOCUMENT_ROOT'] . '/files/additional-numbers.csv');
+        $parser = new CsvParser($_SERVER['DOCUMENT_ROOT'].'/files/additional-numbers.csv');
         $parser->SetInEncoding('utf-8');
         $parser->SetDelimeter(';');
         $results = $parser->Parse($this->fieldMap, false);
-			
+
         //$results = array_slice($results, 200, 300); // TODO: если файл большой
         echo '<pre>';
         print_r($results);
@@ -149,7 +149,6 @@ class InternalController extends \application\components\controllers\PublicMainC
                         $product->getManager()->$key = trim($result->$key);
                 }
             }
-
         }
 
         echo 'done';
@@ -184,7 +183,7 @@ class InternalController extends \application\components\controllers\PublicMainC
     public function actionCreatefood()
     {
         return;
-        $foods = array(
+        $foods = [
             'Участие в объединенной конференции РИФ+КИБ 2013 с питанием: 16 апреля, обед (пансионат)' => 600,
             'Участие в объединенной конференции РИФ+КИБ 2013 с питанием: 16 апреля, ужин' => 500,
 
@@ -203,7 +202,7 @@ class InternalController extends \application\components\controllers\PublicMainC
             'Участие в объединенной конференции РИФ+КИБ 2013 с питанием: 19 апреля, обед (пансионат)' => 600,
             'Участие в объединенной конференции РИФ+КИБ 2013 с питанием: 19 апреля, обед (Андерсон)' => 800,
             'Участие в объединенной конференции РИФ+КИБ 2013 с питанием: 19 апреля, ужин' => 500,
-        );
+        ];
 
         foreach ($foods as $title => $price) {
             $product = new \pay\models\Product();
@@ -234,7 +233,7 @@ class InternalController extends \application\components\controllers\PublicMainC
 
         foreach ($orderItems as $item) {
             if ($item->delete()) {
-                echo $item->Id . ' ' . $item->CreationTime . ' Booked to ' . $item->Booked . '<br>';
+                echo $item->Id.' '.$item->CreationTime.' Booked to '.$item->Booked.'<br>';
             }
         }
     }
@@ -259,8 +258,7 @@ class InternalController extends \application\components\controllers\PublicMainC
 
             if ($manager->Hotel == 'СОСНЫ') {
                 $manager->AdditionalPrice = 710;
-            }
-            else {
+            } else {
                 $manager->AdditionalPrice = 500;
             }
         }

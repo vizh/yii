@@ -3,8 +3,8 @@ namespace application\models\attribute\forms;
 
 use application\components\form\CreateUpdateForm;
 use application\models\attribute\Definition;
-use application\models\attribute\Group as GroupModel;
 use application\models\attribute\forms\Definition as DefinitionForm;
+use application\models\attribute\Group as GroupModel;
 
 /**
  * Class Group
@@ -34,12 +34,15 @@ abstract class Group extends CreateUpdateForm
             ['Title', 'required'],
             ['Order', 'numerical', 'integerOnly' => true],
             ['Delete', 'boolean'],
-            ['Definitions', 'application\components\validators\MultipleFormValidator', 'when' => function (DefinitionForm $form) {
-                return $form->isNotEmpty();
-            }]
+            [
+                'Definitions',
+                'application\components\validators\MultipleFormValidator',
+                'when' => function (DefinitionForm $form) {
+                    return $form->isNotEmpty();
+                }
+            ]
         ];
     }
-
 
     /**
      * Загружает данные из модели в модель формы
@@ -79,7 +82,6 @@ abstract class Group extends CreateUpdateForm
         $this->Definitions = $definitions;
     }
 
-
     /**
      * Создает запись в базе
      * @return \CActiveRecord|null
@@ -90,7 +92,6 @@ abstract class Group extends CreateUpdateForm
         $this->model = new GroupModel();
         return $this->updateActiveRecord();
     }
-
 
     /**
      * Обновляет запись в базе

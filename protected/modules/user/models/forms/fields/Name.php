@@ -18,7 +18,7 @@ use application\components\form\FormModel;
  */
 class Name extends FormModel
 {
-    /** @var string Имя  */
+    /** @var string Имя */
     public $FirstName;
 
     /** @var string Фамилия */
@@ -45,9 +45,9 @@ class Name extends FormModel
     public function attributeLabels()
     {
         return [
-            'FirstName'  => \Yii::t('app', 'Имя'),
-            'LastName'   =>  \Yii::t('app', 'Фамилия'),
-            'FatherName' =>  \Yii::t('app', 'Отчество')
+            'FirstName' => \Yii::t('app', 'Имя'),
+            'LastName' => \Yii::t('app', 'Фамилия'),
+            'FatherName' => \Yii::t('app', 'Отчество')
         ];
     }
 }

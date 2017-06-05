@@ -1,16 +1,16 @@
 table#rooms th, table#rooms td {
-  text-align: center;
-  vertical-align: middle;
+    text-align: center;
+    vertical-align: middle;
 
-  -webkit-border-top-left-radius: 0px;
-  -moz-border-radius-topleft: 0px;
-  border-top-left-radius: 0px;
+    -webkit-border-top-left-radius: 0px;
+    -moz-border-radius-topleft: 0px;
+    border-top-left-radius: 0px;
 }
 
 .hidden-room {
-  background-color: #f3f3f3;
+    background-color: #f3f3f3;
 }
 
 .exclude-room {
-  background-color: #ffd0d0;
+    background-color: #ffd0d0;
 }

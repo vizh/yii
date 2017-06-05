@@ -3,21 +3,20 @@ namespace partner\components;
 
 class PhpAuthManager extends \CPhpAuthManager
 {
-  public function init(){
-    \Yii::app()->partner->loginUrl = \Yii::app()->createUrl('/partner/auth/index');
-
-    // Иерархию ролей расположим в файле auth.php в директории config приложения
-    if($this->authFile === null)
+    public function init()
     {
-      $this->authFile = \Yii::getPathOfAlias('partner.auth').'.php';
-    }
+        \Yii::app()->partner->loginUrl = \Yii::app()->createUrl('/partner/auth/index');
 
-    parent::init();
+        // Иерархию ролей расположим в файле auth.php в директории config приложения
+        if ($this->authFile === null) {
+            $this->authFile = \Yii::getPathOfAlias('partner.auth').'.php';
+        }
 
-    // Для гостей у нас и так роль по умолчанию guest.
-    if(!\Yii::app()->partner->getIsGuest())
-    {
-      $this->assign(\Yii::app()->partner->getRole(), \Yii::app()->partner->getId());
+        parent::init();
+
+        // Для гостей у нас и так роль по умолчанию guest.
+        if (!\Yii::app()->partner->getIsGuest()) {
+            $this->assign(\Yii::app()->partner->getRole(), \Yii::app()->partner->getId());
+        }
     }
-  }
 }

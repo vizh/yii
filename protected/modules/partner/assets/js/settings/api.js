@@ -5,20 +5,19 @@ var CApiSettings = function (attributes) {
     this.init();
 }
 CApiSettings.prototype = {
-    'init' : function () {
+    'init':function () {
         var self = this;
-        PartnerApp.controller('ApiSettingsController', function($scope, $http) {
+        PartnerApp.controller('ApiSettingsController', function ($scope, $http) {
             $scope.domains = [];
             $.each(self.attributes.Domains, function (i, domain) {
-                $scope.domains.push({'domain' : domain});
+                $scope.domains.push({'domain':domain});
             });
-
 
             $scope.removeDomain = function ($index) {
                 $scope.domains.splice($index, 1);
             }
             $scope.addDomain = function () {
-                $scope.domains.push({'domain' : ''});
+                $scope.domains.push({'domain':''});
             }
         });
     }

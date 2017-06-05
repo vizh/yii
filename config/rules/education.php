@@ -5,6 +5,6 @@ return [
         'allow',
         'users' => ['*'],
         'module' => 'education',
-        'controllers' => ['ajax'],
-    ],
+        'controllers' => ['ajax']
+    ]
 ];

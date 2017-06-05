@@ -28,7 +28,7 @@ class Exception extends \CException
         parent::__construct($msg, $code, $previous);
     }
 
-    private $codes = array(
+    private $codes = [
         /** Yii Exception */
         100 => /*'Обработана ошибка Yii: */
             '%s',
@@ -72,11 +72,9 @@ class Exception extends \CException
         230 => 'Нет доступа для редактирования пользователя с RUNET-ID: %s',
         231 => 'Нет доступа для получения профиля пользователя с RUNET-ID: %s',
 
-
         241 => 'Не найдена компания с ID: %s',
 
         251 => 'Возникла ошибка при работе с аттрибутами пользователя: "%s"',
-
 
         /* Ошибки работы с модулем Event */
         301 => 'Не найдено мероприятие для текущего аккаунта',
@@ -91,7 +89,6 @@ class Exception extends \CException
 
         310 => 'Не найдена секция с идентификатором %s',
         311 => 'Идентификатор запрашиваемой секции не соответствует мероприятию',
-
 
         /* Ошибки работы с модулем Pay */
         401 => 'Не найден продукт с id: %s',
@@ -110,7 +107,6 @@ class Exception extends \CException
         410 => 'Ошибка при удалении. Попытка удалить заказ, принадлежащий другому пользователю',
         411 => 'Данный элемент заказ уже оплачен. Вы не можете удалить уже оплаченые товары',
         412 => 'Данный элемент заказа включен в выписанный счет и не может быть удален',
-
 
         420 => 'Не найдено ни одного продукта с заданными параметрами',
 
@@ -153,14 +149,14 @@ class Exception extends \CException
         /* ОШибки работы с модулем деловых встреч */
         4001 => 'Не найдена встреча c ID: %s',
         4002 => 'Не удалось зарезервировать переговорную комнату'
-    );
+    ];
 
     /**
      * @param int $code
      * @param array $params
      * @return string
      */
-    protected function getErrorMessage($code, $params = array())
+    protected function getErrorMessage($code, $params = [])
     {
         $message = isset($this->codes[$code])
             ? \Yii::t('api', $this->codes[$code])

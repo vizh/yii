@@ -19,11 +19,12 @@ class FastPaidItemsAction extends \ruvents\components\Action
             'Owner',
             'ChangedOwner'
         ];
-        
+
         if (!empty($fromTime)) {
             $datetime = \DateTime::createFromFormat('Y-m-d H:i:s', $fromTime);
-            if ($datetime === false)
+            if ($datetime === false) {
                 throw new Exception(900, ['FromUpdateTime']);
+            }
 
             $criteria->addCondition('"t"."CreationTime" >= :Time');
             $criteria->params['Time'] = $datetime->format('Y-m-d H:i:s');
@@ -38,8 +39,9 @@ class FastPaidItemsAction extends \ruvents\components\Action
             $owner = $item->ChangedOwnerId != null ? $item->ChangedOwner : $item->Owner;
             $result[] = $owner->RunetId;
 
-            if ($item->CreationTime > $maxCreationTime)
+            if ($item->CreationTime > $maxCreationTime) {
                 $maxCreationTime = $item->CreationTime;
+            }
         }
 
         $data = new \stdClass();

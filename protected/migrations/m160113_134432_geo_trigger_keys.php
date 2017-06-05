@@ -39,7 +39,7 @@ class m160113_134432_geo_trigger_keys extends CDbMigration
         ');
 
         $this->addColumn('GeoRegion', 'SearchName', 'tsvector');
-        $this->execute('CREATE INDEX "GeoRegion_SearchName_idx" ON "GeoRegion" USING gin("SearchName")');
+        $this->execute('CREATE INDEX "GeoRegion_SearchName_idx" ON "GeoRegion" USING GIN("SearchName")');
 
         $command = \Yii::app()->getDb()->createCommand();
         $command->from('GeoRegion');
@@ -56,8 +56,8 @@ class m160113_134432_geo_trigger_keys extends CDbMigration
                 }
             }
             $this->update('GeoRegion', [
-                'SearchName' => new \CDbExpression('to_tsvector(\'' . implode(' ', $result) . '\')'),
-            ], '"Id" = ' . $region['Id']);
+                'SearchName' => new \CDbExpression('to_tsvector(\''.implode(' ', $result).'\')'),
+            ], '"Id" = '.$region['Id']);
         }
 
         $this->addForeignKey('ContactAddress_CountryId_fkey', 'ContactAddress', 'CountryId', 'GeoCountry', 'Id', 'RESTRICT', 'RESTRICT');

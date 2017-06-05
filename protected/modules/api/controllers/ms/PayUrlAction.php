@@ -1,9 +1,9 @@
 <?php
 namespace api\controllers\ms;
 
+use api\components\Action;
 use api\components\Exception;
 use api\models\ExternalUser;
-use api\components\Action;
 
 /**
  * Class CreateUserAction
@@ -21,9 +21,8 @@ class PayUrlAction extends Action
             throw new Exception(3003, [$id]);
         }
         $this->setResult([
-            'PayUrl' => 'http://msdevcon16.runet-id.com/fastauth?id=' . $account->User->RunetId . '&hash=' . $account->User->getHash()
+            'PayUrl' => 'http://msdevcon16.runet-id.com/fastauth?id='.$account->User->RunetId.'&hash='.$account->User->getHash()
         ]);
     }
-
 
 }

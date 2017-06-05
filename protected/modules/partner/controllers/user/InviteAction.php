@@ -2,9 +2,9 @@
 namespace partner\controllers\user;
 
 use event\models\Approved;
+use event\models\InviteRequest as InviteRequestModel;
 use event\models\Role;
 use partner\models\search\InviteRequest;
-use \event\models\InviteRequest as InviteRequestModel;
 
 class InviteAction extends \partner\components\Action
 {
@@ -27,7 +27,7 @@ class InviteAction extends \partner\components\Action
         $search = new InviteRequest($this->getEvent());
         $this->getController()->render('invite', [
             'search' => $search,
-            'event'  => $this->getEvent()
+            'event' => $this->getEvent()
         ]);
     }
 
@@ -39,7 +39,7 @@ class InviteAction extends \partner\components\Action
     private function processApproved($approved)
     {
         $request = \Yii::app()->getRequest();
-        $inviteRequest  = InviteRequestModel::model()->byEventId($this->getEvent()->Id)->findByPk($request->getParam('InviteId'));
+        $inviteRequest = InviteRequestModel::model()->byEventId($this->getEvent()->Id)->findByPk($request->getParam('InviteId'));
         if ($inviteRequest == null) {
             throw new \CHttpException(404);
         }

@@ -16,9 +16,10 @@ class ListAction extends \ruvents\components\Action
 
         $event = $this->getEvent();
         $user = \user\models\User::model()->byRunetId($runetId)->find();
-        
-        if ($user === null)
+
+        if ($user === null) {
             throw new Exception(202, $runetId);
+        }
 
         $badge = \ruvents\models\Badge::model()->byEventId($event->Id)->byUserId($user->Id);
         if (sizeof($event->Parts) > 0) {

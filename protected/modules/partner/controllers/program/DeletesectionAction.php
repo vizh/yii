@@ -1,7 +1,6 @@
 <?php
 namespace partner\controllers\program;
 
-use event\models\section\LinkHall;
 use event\models\section\Section;
 use partner\components\Action;
 
@@ -25,6 +24,5 @@ class DeleteSectionAction extends Action
             $transaction->rollBack();
         }
         $this->getController()->redirect(['index']);
-
     }
 }

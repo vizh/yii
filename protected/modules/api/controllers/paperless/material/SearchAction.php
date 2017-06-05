@@ -4,13 +4,13 @@ namespace api\controllers\paperless\material;
 
 use api\components\Exception;
 use application\components\CDbCriteria;
+use application\models\paperless\Material;
 use event\models\Participant;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
-use application\models\paperless\Material;
 
 class SearchAction extends \api\components\Action
 {

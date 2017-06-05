@@ -1,6 +1,6 @@
 <?php
 
-use \partner\components\Controller;
+use partner\components\Controller;
 
 class ProgramController extends Controller
 {

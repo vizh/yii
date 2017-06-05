@@ -33,13 +33,12 @@ class PartnerOrder extends BasePartnerOrder
         $number = RoomPartnerOrder::model()->byEventId($eventId)->count() + 1;
 
         $order = new RoomPartnerOrder();
-        $order->Number  = ('RIF17/' . str_pad($number, 3, '0', STR_PAD_LEFT));
+        $order->Number = ('RIF17/'.str_pad($number, 3, '0', STR_PAD_LEFT));
         $order->EventId = $eventId;
         $this->model = $order;
 
         return $this->updateActiveRecord();
     }
-
 
     /**
      * @return \CActiveRecord|null
@@ -79,8 +78,7 @@ class PartnerOrder extends BasePartnerOrder
         $valid = true;
         if (!is_array($value)) {
             $valid = false;
-        }
-        else {
+        } else {
             foreach ($value as $id) {
                 $booking = RoomPartnerBooking::model()->byOwner($this->owner)->byDeleted(false)->findByPk($id);
                 if ($booking == null) {

@@ -1,5 +1,6 @@
 <?php
 namespace event\widgets;
+
 use event\components\Widget;
 
 /**
@@ -9,33 +10,32 @@ use event\components\Widget;
 class Program extends Widget
 {
 
-  /**
-   * @return \string[]
-   */
-  public function getAttributeNames()
-  {
-    return array('ProgramHead', 'ProgramText');
-  }
+    /**
+     * @return \string[]
+     */
+    public function getAttributeNames()
+    {
+        return ['ProgramHead', 'ProgramText'];
+    }
 
+    public function run()
+    {
+        $this->render('program', []);
+    }
 
-  public function run()
-  {
-    $this->render('program', array());
-  }
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return \Yii::t('app', 'Программа мероприятия');
+    }
 
-  /**
-   * @return string
-   */
-  public function getTitle()
-  {
-    return \Yii::t('app', 'Программа мероприятия');
-  }
-
-  /**
-   * @return string
-   */
-  public function getPosition()
-  {
-    return \event\components\WidgetPosition::Tabs;
-  }
+    /**
+     * @return string
+     */
+    public function getPosition()
+    {
+        return \event\components\WidgetPosition::Tabs;
+    }
 }

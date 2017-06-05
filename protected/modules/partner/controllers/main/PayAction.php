@@ -9,7 +9,7 @@ use pay\models\Product;
 
 class PayAction extends \partner\components\Action
 {
-    /** @var PayStatistics  */
+    /** @var PayStatistics */
     public $statistics;
 
     public function run()
@@ -28,7 +28,6 @@ class PayAction extends \partner\components\Action
         $this->fillTotalUsers();
 
         $productStatistics = $this->getProductStatistics();
-
 
         $this->getController()->render('pay', [
             'statistics' => $this->statistics,
@@ -55,30 +54,30 @@ class PayAction extends \partner\components\Action
 
         $criteria = new \CDbCriteria();
         $criteria->addCondition('not "OrderItem"."Deleted"');
-        if ($type == 'Paypal'){
+        if ($type == 'Paypal') {
             $criteria->addCondition('"System" = \'paypal\'');
         }
-        if ($type == 'PaySystem'){
+        if ($type == 'PaySystem') {
             $criteria->addCondition('"System" is null or "System" != \'paypal\'');
         }
         $orders = $orders->findAll($criteria);
 
-        $this->statistics->{'total'.$type} = array_reduce($orders, function($carry, $order){
+        $this->statistics->{'total'.$type} = array_reduce($orders, function ($carry, $order) {
             return $carry + $order->price;
         }, 0);
         $this->statistics->{'count'.$type.'Orders'} = count($orders);
 
-        $this->statistics->{'totalPaid'.$type} = array_reduce($orders, function($carry, $order){
+        $this->statistics->{'totalPaid'.$type} = array_reduce($orders, function ($carry, $order) {
             return $order->Paid ? $carry + $order->price : $carry;
         }, 0);
-        $this->statistics->{'countPaid'.$type.'Orders'} = array_reduce($orders, function($carry, $order){
+        $this->statistics->{'countPaid'.$type.'Orders'} = array_reduce($orders, function ($carry, $order) {
             return $order->Paid ? $carry + 1 : $carry;
         }, 0);
 
-        $this->statistics->{'count'.$type.'Users'} = array_reduce($orders, function($carry, $order){
+        $this->statistics->{'count'.$type.'Users'} = array_reduce($orders, function ($carry, $order) {
             return $carry + count($order->ItemLinks);
         }, 0);
-        $this->statistics->{'countPaid'.$type.'Users'} = array_reduce($orders, function($carry, $order){
+        $this->statistics->{'countPaid'.$type.'Users'} = array_reduce($orders, function ($carry, $order) {
             return $order->Paid ? $carry + count($order->ItemLinks) : $carry;
         }, 0);
     }
@@ -126,50 +125,51 @@ class PayAction extends \partner\components\Action
         $criteria->params = ['ManagerName' => 'RoomProductManager'];
 
         $products = Product::model()->byEventId($this->getEvent()->Id)->ordered()->findAll($criteria);
-        return ArrayHelper::toArray($products, [Product::className() => [
-            'id' => 'Id',
-            'title' => 'Title',
-            'paid' => function (Product $product) {
-                $query = OrderItem::model()
-                    ->with(['OrderLinks.Order'])
-                    ->byProductId($product->Id)
-                    ->byDeleted(false)
-                    ->byPaid(true);
-                $criteria = $query->getDbCriteria();
-                $criteria->addCondition('not "Order"."Deleted" and "Order"."Paid"');
-                return $query->count();
-            },
-            'coupon' => function (Product $product) {
-                return OrderItem::model()->with(['OrderLinks'])->byProductId($product->Id)->byDeleted(false)->byPaid(true)->count(['condition' => '"OrderLinks"."Id" IS NULL']);
-            },
-            'total' => function (Product $product) {
-                $total = 0;
-                $orderItems = OrderItem::model()
-                    ->with(['OrderLinks.Order'])
-                    ->byProductId($product->Id)
-                    ->byDeleted(false)
-                    ->byPaid(true);
-                $orderItems->getDbCriteria()->addCondition('not "Order"."Deleted" and "Order"."Paid"');
-                $orderItems = $orderItems->findAll();
+        return ArrayHelper::toArray($products, [
+            Product::className() => [
+                'id' => 'Id',
+                'title' => 'Title',
+                'paid' => function (Product $product) {
+                    $query = OrderItem::model()
+                        ->with(['OrderLinks.Order'])
+                        ->byProductId($product->Id)
+                        ->byDeleted(false)
+                        ->byPaid(true);
+                    $criteria = $query->getDbCriteria();
+                    $criteria->addCondition('not "Order"."Deleted" and "Order"."Paid"');
+                    return $query->count();
+                },
+                'coupon' => function (Product $product) {
+                    return OrderItem::model()->with(['OrderLinks'])->byProductId($product->Id)->byDeleted(false)->byPaid(true)->count(['condition' => '"OrderLinks"."Id" IS NULL']);
+                },
+                'total' => function (Product $product) {
+                    $total = 0;
+                    $orderItems = OrderItem::model()
+                        ->with(['OrderLinks.Order'])
+                        ->byProductId($product->Id)
+                        ->byDeleted(false)
+                        ->byPaid(true);
+                    $orderItems->getDbCriteria()->addCondition('not "Order"."Deleted" and "Order"."Paid"');
+                    $orderItems = $orderItems->findAll();
 
-                foreach ($orderItems as $orderItem) {
-                    $order = $orderItem->getPaidOrder();
-                    if (empty($order)) {
-                        continue;
-                    }
-                    $collection = OrderItemCollection::createByOrder($order);
-                    foreach ($collection as $item) {
-                        if ($orderItem->Id === $item->getOrderItem()->Id) {
-                            $total += $item->getPriceDiscount();
+                    foreach ($orderItems as $orderItem) {
+                        $order = $orderItem->getPaidOrder();
+                        if (empty($order)) {
+                            continue;
+                        }
+                        $collection = OrderItemCollection::createByOrder($order);
+                        foreach ($collection as $item) {
+                            if ($orderItem->Id === $item->getOrderItem()->Id) {
+                                $total += $item->getPriceDiscount();
+                            }
                         }
                     }
+                    return $total;
                 }
-                return $total;
-            }
-        ]]);
+            ]
+        ]);
     }
 }
-
 
 class PayStatistics
 {
@@ -204,7 +204,6 @@ class PayStatistics
     public $totalPaypal = 0;
     public $countPaypalOrders = 0;
     public $countPaypalUsers = 0;
-
 
     public $countParticipants = 0;
 

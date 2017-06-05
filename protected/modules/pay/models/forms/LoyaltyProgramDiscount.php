@@ -3,7 +3,7 @@ namespace pay\models\forms;
 
 use application\components\form\CreateUpdateForm;
 use event\models\Event;
-use \pay\models\LoyaltyProgramDiscount as LoyaltyProgramDiscountModel;
+use pay\models\LoyaltyProgramDiscount as LoyaltyProgramDiscountModel;
 
 class LoyaltyProgramDiscount extends CreateUpdateForm
 {
@@ -15,7 +15,7 @@ class LoyaltyProgramDiscount extends CreateUpdateForm
 
     public $EndDate;
 
-    /** @var Event  */
+    /** @var Event */
     private $event;
 
     /**
@@ -53,7 +53,6 @@ class LoyaltyProgramDiscount extends CreateUpdateForm
             'EndDate' => \Yii::t('app', 'Дата окончания')
         ];
     }
-
 
     public function validateDate($attribute)
     {
@@ -97,8 +96,7 @@ class LoyaltyProgramDiscount extends CreateUpdateForm
     {
         $data = ['' => \Yii::t('app', 'Все продукты')];
         $products = \pay\models\Product::model()->byEventId($this->event->Id)->byPublic(true)->findAll();
-        foreach ($products as $product)
-        {
+        foreach ($products as $product) {
             $data[$product->Id] = $product->Title;
         }
         return $data;
@@ -126,6 +124,5 @@ class LoyaltyProgramDiscount extends CreateUpdateForm
         $model->save();
         return $model;
     }
-
 
 }

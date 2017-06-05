@@ -1,10 +1,10 @@
 var CRegistrationProgram = function () {
     this.sentRequest = false;
     this.cssClasses = {
-        'orderItemExists' : 'bg-warning',
-        'orderItemPaid' : 'bg-success',
-        'notForSale' : 'bg-muted muted',
-        'disabled' : 'bg-muted'
+        'orderItemExists':'bg-warning',
+        'orderItemPaid':'bg-success',
+        'notForSale':'bg-muted muted',
+        'disabled':'bg-muted'
     };
     this.$widget = $('#event_widgets_registration_Program');
     this.$tabs = this.$widget.find('.tabs');
@@ -15,7 +15,7 @@ var CRegistrationProgram = function () {
     this.isInitialized = false;
 }
 CRegistrationProgram.prototype = {
-    'init' : function () {
+    'init':function () {
         var self = this;
 
         self.initTabs();
@@ -51,20 +51,20 @@ CRegistrationProgram.prototype = {
         });
 
         self.$total.pin({
-            'padding': self.getPinPadding(),
-            'containerSelector' : '#' + self.$widget.attr('id')
+            'padding':self.getPinPadding(),
+            'containerSelector':'#' + self.$widget.attr('id')
         });
 
         self.calcTotal();
     },
 
-    'initTabs' : function () {
+    'initTabs':function () {
         var self = this;
         self.$tabs.find('.nav a').off('click');
         self.$tabs.tabs();
     },
 
-    'addOrderItem' : function ($section) {
+    'addOrderItem':function ($section) {
         var self = this,
             product = $section.data('product');
 
@@ -77,7 +77,7 @@ CRegistrationProgram.prototype = {
         }
 
         self.showLoader();
-        $.get('/pay/ajax/addorderitem', {'productId' : product, 'ownerRunetId' : self.$widget.data('user')}, function (response) {
+        $.get('/pay/ajax/addorderitem', {'productId':product, 'ownerRunetId':self.$widget.data('user')}, function (response) {
             if (response.success == true) {
                 $section.data('price', response.price).data('orderitem', response.orderItemId);
                 $section.removeClass(self.cssClasses.itemHover);
@@ -94,13 +94,13 @@ CRegistrationProgram.prototype = {
         }, 'json');
     },
 
-    'deleteOrderItem' : function ($section) {
+    'deleteOrderItem':function ($section) {
         var self = this;
         if (self.sentRequest) {
             return;
         }
         self.showLoader();
-        $.get('/pay/ajax/deleteorderitem', {'id' : $section.data('orderitem')}, function (response) {
+        $.get('/pay/ajax/deleteorderitem', {'id':$section.data('orderitem')}, function (response) {
             if (response.success == true) {
                 $section.removeData('orderitem').removeAttr('data-orderitem');
                 $section.removeClass(self.cssClasses.orderItemExists);
@@ -116,12 +116,12 @@ CRegistrationProgram.prototype = {
         }, 'json');
     },
 
-    'showErrorMessage' : function (response) {
+    'showErrorMessage':function (response) {
         var self = this,
-            $modal = $('<div/>', {'class' : 'modal'});
+            $modal = $('<div/>', {'class':'modal'});
 
         $modal.html(
-            '<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h3>Ошибка!</h3></div>'+
+            '<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h3>Ошибка!</h3></div>' +
             '<div class="modal-body"><h4 class="text-error text-center">' + response.message + '</h4></div>' +
             '<div class="modal-footer"><a href="#" class="btn" data-dismiss="modal">Закрыть</a></div>'
         );
@@ -131,7 +131,7 @@ CRegistrationProgram.prototype = {
         $modal.modal('show');
     },
 
-    'calcTotal' : function () {
+    'calcTotal':function () {
         var self = this,
             totalPrice = 0,
             allSectionCount = 0,
@@ -139,7 +139,7 @@ CRegistrationProgram.prototype = {
 
         var $button = self.$total.find('a.btn-success');
 
-        self.$grid.find('[data-orderitem], :data(orderitem)').each(function() {
+        self.$grid.find('[data-orderitem], :data(orderitem)').each(function () {
             if ($(this).data('paid') != 1) {
                 newSectionCount++;
                 totalPrice += $(this).data('price');
@@ -157,17 +157,17 @@ CRegistrationProgram.prototype = {
         self.$total.find('#total-price').text(totalPrice);
     },
 
-    'showLoader' : function () {
+    'showLoader':function () {
         self.sentRequest = true;
         this.$widget.css('opacity', 0.2);
     },
 
-    'hideLoader' : function () {
+    'hideLoader':function () {
         this.sentRequest = false;
         this.$widget.css('opacity', 1);
     },
 
-    hoverSection : function ($section) {
+    hoverSection:function ($section) {
         var $registration = $section.find('.registration-block');
         $registration.find('.btn:not([data-toggle])').addClass('hide');
         if (!$section.hasClass(this.cssClasses.notForSale) && !$section.hasClass(this.cssClasses.orderItemPaid)) {
@@ -185,12 +185,12 @@ CRegistrationProgram.prototype = {
         }
     },
 
-    changeLimit : function($section, $opeation) {
+    changeLimit:function ($section, $opeation) {
         var $limit
     },
 
-    getPinPadding : function () {
-        var padding = {'top' : 0};
+    getPinPadding:function () {
+        var padding = {'top':0};
         var $navbar = $('header#header .navbar');
         if ($navbar.is(':visible')) {
             padding.top = $navbar.height();
@@ -201,6 +201,7 @@ CRegistrationProgram.prototype = {
 
 $(function () {
     var registrationProgram = new CRegistrationProgram();
+
     function initRegistrationProgram() {
         if (!registrationProgram.isInitialized && registrationProgram.$widget.is(':visible')) {
             registrationProgram.init();
@@ -208,7 +209,7 @@ $(function () {
     }
 
     initRegistrationProgram();
-    $('#event-tabs').on('tabsactivate', function( event, ui ) {
+    $('#event-tabs').on('tabsactivate', function (event, ui) {
         initRegistrationProgram();
     });
 });

@@ -8,7 +8,6 @@
 
 namespace event\components\handlers\register;
 
-
 use mail\models\Layout;
 
 class Iri15 extends Base
@@ -17,7 +16,6 @@ class Iri15 extends Base
     {
         return 'Вас пригласили в ИРИ';
     }
-
 
     public function getBody()
     {
@@ -50,6 +48,5 @@ class Iri15 extends Base
     {
         return 'iri@runet-id.com';
     }
-
 
 }

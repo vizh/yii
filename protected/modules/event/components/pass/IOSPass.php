@@ -1,17 +1,16 @@
 <?php
 namespace event\components\pass;
 
+use event\models\Event;
 use event\models\Participant;
+use event\models\Role;
 use Passbook\Pass\Barcode;
 use Passbook\Pass\Field;
 use Passbook\Pass\Image;
 use Passbook\Pass\Structure;
 use Passbook\PassFactory;
-use Passbook\PassValidator;
 use Passbook\Type\EventTicket;
 use user\models\User;
-use event\models\Event;
-use event\models\Role;
 
 class IOSPass
 {
@@ -37,8 +36,8 @@ class IOSPass
     public function __construct(Participant $participant)
     {
         $this->event = $participant->Event;
-        $this->user  = $participant->User;
-        $this->role  = $participant->Role;
+        $this->user = $participant->User;
+        $this->role = $participant->Role;
         $this->init();
     }
 
@@ -76,20 +75,20 @@ class IOSPass
         $field->setLabel(\Yii::t('app', 'О мероприятии'));
         $structure->addBackField($field);
 
-        $field = new Field('address', (string) $this->event->getContactAddress());
+        $field = new Field('address', (string)$this->event->getContactAddress());
         $field->setLabel(\Yii::t('app', 'Адрес'));
         $structure->addBackField($field);
 
         $pass->setStructure($structure);
 
-        $path = \Yii::getPathOfAlias('webroot.images.pkpass') . '/';
-        $image = new Image($path . 'icon.png', 'icon');
+        $path = \Yii::getPathOfAlias('webroot.images.pkpass').'/';
+        $image = new Image($path.'icon.png', 'icon');
         $pass->addImage($image);
 
-        $image = new Image($path . 'background.png', 'background');
+        $image = new Image($path.'background.png', 'background');
         $pass->addImage($image);
 
-        $image = new Image($path . 'logo.png', 'logo');
+        $image = new Image($path.'logo.png', 'logo');
         $pass->addImage($image);
 
         $barcode = new Barcode(Barcode::TYPE_QR, $this->user->getRuventsCode());
@@ -103,7 +102,7 @@ class IOSPass
      */
     private function getNumber()
     {
-        return $this->event->Id . $this->user->RunetId;
+        return $this->event->Id.$this->user->RunetId;
     }
 
     /**
@@ -111,8 +110,8 @@ class IOSPass
      */
     private function getOutputPath()
     {
-        $path = \Yii::getPathOfAlias('application') . '/../data/pass/';
-        $path.= substr($this->getNumber(), -4, 2);
+        $path = \Yii::getPathOfAlias('application').'/../data/pass/';
+        $path .= substr($this->getNumber(), -4, 2);
         return $path;
     }
 
@@ -125,9 +124,9 @@ class IOSPass
             static::PASS_TYPE_IDENTIFIER,
             static::TEAM_IDENTIFIER,
             static::ORGANIZATION_NAME,
-            __DIR__ . '/certificates/pass-certificate.p12',
+            __DIR__.'/certificates/pass-certificate.p12',
             'nws3BB5XwAeFdEcnY3',
-            __DIR__ . '/certificates/AppleWWDRCA.pem'
+            __DIR__.'/certificates/AppleWWDRCA.pem'
         );
 
         $factory->setOverwrite(true);

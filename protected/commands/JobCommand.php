@@ -11,8 +11,7 @@ class JobCommand extends BaseConsoleCommand
         $vacanciesData = file_get_contents(Yii::app()->getParams()['BuduGuru.jobsExportUrl']);
         $vacanciesData = json_decode($vacanciesData, true);
 
-        foreach ($vacanciesData as $vacancyData)
-        {
+        foreach ($vacanciesData as $vacancyData) {
             $vacancy = Job::model()
                 ->byUrl($vacancyData['url'])
                 ->find();
@@ -21,8 +20,9 @@ class JobCommand extends BaseConsoleCommand
                 ->byName($vacancyData['companyName'])
                 ->find();
 
-            if ($vacancy === null)
+            if ($vacancy === null) {
                 $vacancy = new Job();
+            }
 
             if ($company === null) {
                 $company = new Company();

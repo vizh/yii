@@ -35,7 +35,6 @@ class Generate extends CreateUpdateForm
         parent::__construct(null);
     }
 
-
     /**
      * @return array
      */
@@ -80,8 +79,9 @@ class Generate extends CreateUpdateForm
      * @param $attribute
      * @return bool
      */
-    public function validateDiscount($attribute) {
-        $value = (int) $this->$attribute;
+    public function validateDiscount($attribute)
+    {
+        $value = (int)$this->$attribute;
         if ($value === 100 && empty($this->Products)) {
             $this->addError($attribute, \Yii::t('app', 'Для промо-кодов со скидкой 100% должен быть {label}.', ['{label}' => $this->getAttributeLabel('Products')]));
             return false;
@@ -130,7 +130,7 @@ class Generate extends CreateUpdateForm
                 $this->fillAndSaveModel($coupon);
                 $coupons[] = $coupon;
             } else {
-                for ($i=0; $i < $this->Count; $i++) {
+                for ($i = 0; $i < $this->Count; $i++) {
                     $coupon = new Coupon();
                     $this->fillAndSaveModel($coupon);
                     $coupons[] = $coupon;
@@ -154,7 +154,7 @@ class Generate extends CreateUpdateForm
         $coupon->Discount = $this->Discount;
         $coupon->Code = !empty($this->Code) && $this->IsMultiple == 1 ? $this->Code : $coupon->generateCode();
         if (!empty($this->EndTime)) {
-            $coupon->EndTime = date('Y-m-d', strtotime($this->EndTime)) . ' 23:59:59';
+            $coupon->EndTime = date('Y-m-d', strtotime($this->EndTime)).' 23:59:59';
         }
         $coupon->save();
         if (!empty($this->Products)) {
@@ -162,7 +162,6 @@ class Generate extends CreateUpdateForm
             $coupon->addProductLinks($products);
         }
     }
-
 
     /**
      * @return array

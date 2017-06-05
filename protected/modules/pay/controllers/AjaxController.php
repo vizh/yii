@@ -1,12 +1,12 @@
 <?php
-use \pay\components\Controller;
-use pay\models\Product;
-use user\models\User;
+use application\components\controllers\AjaxController as TraitAjaxController;
+use event\models\UserData;
 use pay\components\CodeException as PayCodeException;
+use pay\components\Controller;
 use pay\components\Exception as PayException;
 use pay\models\OrderItem;
-use \application\components\controllers\AjaxController as TraitAjaxController;
-use event\models\UserData;
+use pay\models\Product;
+use user\models\User;
 
 class AjaxController extends Controller
 {
@@ -14,12 +14,12 @@ class AjaxController extends Controller
 
     public function actions()
     {
-        return array(
+        return [
             'couponactivate' => '\pay\controllers\ajax\CouponActivateAction',
             'couponinfo' => '\pay\controllers\ajax\CouponInfoAction',
             'userdata' => '\pay\controllers\ajax\UserDataAction',
             'edituserdata' => '\pay\controllers\ajax\EditUserDataAction',
-        );
+        ];
     }
 
     /**
@@ -58,7 +58,8 @@ class AjaxController extends Controller
      * @param int $id
      * @return string
      */
-    public function actionDeleteOrderItem($id) {
+    public function actionDeleteOrderItem($id)
+    {
         $result = new \stdClass();
         try {
             $orderItem = OrderItem::model()->byPayerId($this->getUser()->Id)->byPaid(false)->findByPk($id);
@@ -75,7 +76,7 @@ class AjaxController extends Controller
     }
 
     /**
-     * @param RUNET-ID пользователя $id
+     * @param RUNET -ID пользователя $id
      * @throws CHttpException
      */
     public function actionCheckUserData($id)
@@ -134,7 +135,7 @@ class AjaxController extends Controller
             $data->save(false);
         } else {
             $result->success = false;
-            $result->errors  = $manager->getErrors();
+            $result->errors = $manager->getErrors();
         }
         $this->returnJSON($result);
     }

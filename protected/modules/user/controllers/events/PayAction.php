@@ -2,12 +2,12 @@
 namespace user\controllers\events;
 
 use event\models\Event;
+use pay\components\Exception as PayException;
 use pay\components\OrderItemCollection;
 use pay\models\Order;
 use pay\models\OrderItem;
 use pay\models\OrderType;
 use pay\models\Product;
-use pay\components\Exception as PayException;
 
 class PayAction extends \CAction
 {
@@ -18,7 +18,6 @@ class PayAction extends \CAction
         $criteria = clone OrderItem::model()->byPayerId($user->Id)->byDeleted(false)->with(
             ['Product', 'Product.Event', 'OrderLinks' => ['with' => ['Order'], 'together' => false]]
         )->orderBy('"t"."CreationTime"')->getDbCriteria();
-
 
         $waitOrderItems = OrderItem::model()->byPaid(false)->findAll($criteria);
         $paidOrderItems = OrderItem::model()->byPaid(true)->findAll($criteria);
@@ -89,6 +88,7 @@ class EventPayItem
 
     /** @var EventPayItemProduct[] */
     private $products = [];
+
     /**
      * @param Event $event
      */
@@ -155,7 +155,7 @@ class EventPayItemProduct
     /** @var int */
     public $Count = 0;
 
-    /** @var int  */
+    /** @var int */
     public $Total = 0;
 
     /**
@@ -166,6 +166,5 @@ class EventPayItemProduct
     {
         $this->Title = $product->getManager()->getTitle($orderItem);
     }
-
 
 }

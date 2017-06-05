@@ -31,7 +31,7 @@ class Vkontakte implements ISocial
             'redirect_uri' => $this->getRedirectUrl()
         ];
 
-        return self::OauthBaseUrl . http_build_query($params);
+        return self::OauthBaseUrl.http_build_query($params);
     }
 
     /**
@@ -40,10 +40,10 @@ class Vkontakte implements ISocial
      */
     public function getRedirectUrl()
     {
-        if( is_null($this->redirectUrl) ) {
+        if (is_null($this->redirectUrl)) {
 
             $redirectUrlParams = [
-                'social'=>self::getSocialId()
+                'social' => self::getSocialId()
             ];
 
             if (\Iframe::isFrame()) {
@@ -51,7 +51,6 @@ class Vkontakte implements ISocial
             }
 
             $this->redirectUrl = \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect', $redirectUrlParams);
-
         }
 
         return $this->redirectUrl;
@@ -71,16 +70,16 @@ class Vkontakte implements ISocial
         return !empty($code) || !empty($accessToken);
     }
 
-    public static $CURL_OPTS = array(
+    public static $CURL_OPTS = [
         CURLOPT_CONNECTTIMEOUT => 10,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_TIMEOUT => 60,
         CURLOPT_USERAGENT => 'runetid-php',
         CURLOPT_SSL_VERIFYHOST => false,
         CURLOPT_SSL_VERIFYPEER => false
-    );
+    ];
 
-    protected function makeRequest($url, $params = array())
+    protected function makeRequest($url, $params = [])
     {
         $ch = curl_init();
 
@@ -116,14 +115,14 @@ class Vkontakte implements ISocial
      */
     protected function requestAccessToken($code)
     {
-        $params = array(
+        $params = [
             'client_id' => self::AppId,
             'client_secret' => self::Secret,
             'code' => $code
-        );
+        ];
         \Iframe::isFrame() ? $returnUrlParams['frame'] = 'true' : '';
         $params['redirect_uri'] = $this->getRedirectUrl();
-        return $this->makeRequest('https://oauth.vk.com/access_token?' . http_build_query($params));
+        return $this->makeRequest('https://oauth.vk.com/access_token?'.http_build_query($params));
     }
 
     /**
@@ -139,7 +138,7 @@ class Vkontakte implements ISocial
         $params['fields'] = 'first_name,last_name,nickname,screen_name,sex,bdate,timezone,photo_rec,photo_big';
         $params['access_token'] = $accessToken->access_token;
 
-        $response = $this->makeRequest('https://api.vk.com/method/getProfiles?' . http_build_query($params));
+        $response = $this->makeRequest('https://api.vk.com/method/getProfiles?'.http_build_query($params));
         if (!isset($response->response[0])) {
             throw new \CHttpException(400, 'Сервис авторизации Vkontakte не отвечает');
         }

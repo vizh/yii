@@ -1,8 +1,8 @@
-$(function(){
+$(function () {
     $('input[name*="Generate[IsMultiple]"]').switcher({
-        on_state_content : '<span class="fa fa-users"></span>',
-        off_state_content: '<span class="fa fa-user"></span>',
-        theme: 'square'
+        on_state_content:'<span class="fa fa-users"></span>',
+        off_state_content:'<span class="fa fa-user"></span>',
+        theme:'square'
     }).change(function (e) {
         var $target = $(e.currentTarget);
         if ($target.is(':checked')) {
@@ -15,14 +15,13 @@ $(function(){
     }).trigger('change');
 
     $('input[name*="Generate[EndTime]"]').datepicker({
-        format: 'dd.mm.yyyy',
-        language: 'ru'
+        format:'dd.mm.yyyy',
+        language:'ru'
     });
 
-
     var products = {
-        all  : $('input[name*="Generate[ProductsAll]"]'),
-        list : $('input[name*="Generate[Products]"]')
+        all:$('input[name*="Generate[ProductsAll]"]'),
+        list:$('input[name*="Generate[Products]"]')
     }
 
     products.all.change(function (e) {

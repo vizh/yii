@@ -39,7 +39,7 @@ class Count extends Base
                 $min = $item->getOrderItem()->getPrice();
             }
         }
-        
+
         return $min;
     }
 
@@ -52,7 +52,7 @@ class Count extends Base
         if ($count >= $this->Minimum) {
             return $this->getMinPrice($collection) / 100 * $this->coupon->Discount;
         }
-        
+
         return 0;
     }
 }

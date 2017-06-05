@@ -75,7 +75,7 @@ class User extends ActiveRecord
         //TODO: Доработать. когда придумаем что делать со статусами
         $result = $this->Role->Title;
 //        if (!empty($this->ProfessionalInterest)) {
-            $result .= ' клуба ИТ-лидеров Москвы';
+        $result .= ' клуба ИТ-лидеров Москвы';
 //        }
 
         return $result;

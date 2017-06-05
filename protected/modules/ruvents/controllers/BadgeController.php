@@ -1,6 +1,5 @@
 <?php
 
-
 class BadgeController extends ruvents\components\Controller
 {
 

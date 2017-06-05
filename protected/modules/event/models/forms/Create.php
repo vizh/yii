@@ -1,129 +1,127 @@
 <?php
 namespace event\models\forms;
 
-use event\models\Event;
-use ext\translator\Translite;
 use contact\models\Address;
-use event\models\LinkAddress;
-use event\models\Attribute;
-use mail\components\mailers\PhpMailer;
 use event\components\handlers\Create as HandlerCreate;
 use event\components\handlers\Ruvents;
+use event\models\Attribute;
+use event\models\Event;
+use event\models\LinkAddress;
+use ext\translator\Translite;
+use mail\components\mailers\PhpMailer;
 
 class Create extends \CFormModel
 {
-  public $ContactName;
-  public $ContactPhone;
-  public $ContactEmail;
-  public $Title;
-  public $Place;
-  public $City;
-  public $LogoSource;
-  public $StartDate;
-  public $EndDate;
-  public $OneDayDate;
-  public $StartTimestamp;
-  public $EndTimestamp;
-  public $Url;
-  public $Info;
-  public $FullInfo;
-  public $Options = array();
-  public $PlannedParticipants;
-  public $Company;
+    public $ContactName;
+    public $ContactPhone;
+    public $ContactEmail;
+    public $Title;
+    public $Place;
+    public $City;
+    public $LogoSource;
+    public $StartDate;
+    public $EndDate;
+    public $OneDayDate;
+    public $StartTimestamp;
+    public $EndTimestamp;
+    public $Url;
+    public $Info;
+    public $FullInfo;
+    public $Options = [];
+    public $PlannedParticipants;
+    public $Company;
 
-  public function rules()
-  {
-    return [
-      ['ContactName, ContactPhone, ContactEmail, Title, City, Place, StartDate, EndDate, Info, FullInfo, Company', 'required'],
-      ['ContactEmail', 'filter', 'filter' => 'trim'],
-      ['FullInfo', 'filter', 'filter' => [$this, 'filterFullInfo']],
-      ['Info, Options, OneDayDate, LogoSource', 'safe'],
-      ['LogoSource', 'file', 'allowEmpty' => false],
-      ['Url', 'url', 'allowEmpty' => false],
-      ['ContactEmail', 'email'],
-      ['StartDate', 'date', 'format' => 'dd.MM.yyyy', 'timestampAttribute' => 'StartTimestamp'],
-      ['EndDate', 'date', 'format' => 'dd.MM.yyyy', 'timestampAttribute' => 'EndTimestamp'],
-      ['PlannedParticipants', 'filter', 'filter' => [$this, 'filterPlannedParticipants']],
-    ];
-  }
-
-  public function filterFullInfo($value)
-  {
-    $purifier = new \CHtmlPurifier();
-    $purifier->options = [
-      'HTML.AllowedElements' => ['p', 'span', 'ol', 'li', 'strong', 'a', 'em', 's', 'ul', 'br', 'u', 'table', 'tbody', 'tr', 'td', 'thead', 'th', 'caption', 'h1', 'h2', 'h3', 'h4', 'h5', 'img', 'div'],
-      'HTML.AllowedAttributes' => ['style', 'a.href', 'a.target', 'table.cellpadding', 'table.cellspacing', 'th.scope', 'table.border', 'img.alt', 'img.src', 'class'],
-      'Attr.AllowedFrameTargets' => ['_blank', '_self']
-    ];
-    return $purifier->purify($value);
-  }
-
-  protected function beforeValidate()
-  {
-    $attributes = $this->attributes;
-    if ($attributes['OneDayDate'] == 1)
+    public function rules()
     {
-      $attributes['EndDate'] = $attributes['StartDate'];
+        return [
+            ['ContactName, ContactPhone, ContactEmail, Title, City, Place, StartDate, EndDate, Info, FullInfo, Company', 'required'],
+            ['ContactEmail', 'filter', 'filter' => 'trim'],
+            ['FullInfo', 'filter', 'filter' => [$this, 'filterFullInfo']],
+            ['Info, Options, OneDayDate, LogoSource', 'safe'],
+            ['LogoSource', 'file', 'allowEmpty' => false],
+            ['Url', 'url', 'allowEmpty' => false],
+            ['ContactEmail', 'email'],
+            ['StartDate', 'date', 'format' => 'dd.MM.yyyy', 'timestampAttribute' => 'StartTimestamp'],
+            ['EndDate', 'date', 'format' => 'dd.MM.yyyy', 'timestampAttribute' => 'EndTimestamp'],
+            ['PlannedParticipants', 'filter', 'filter' => [$this, 'filterPlannedParticipants']],
+        ];
     }
-    $this->setAttributes($attributes);
-    return parent::beforeValidate();
-  }
 
-  public function attributeLabels()
-  {
-    return array(
-      'ContactName' => \Yii::t('app', 'ФИО'),
-      'ContactPhone' => \Yii::t('app', 'Контактный телефон'),
-      'ContactEmail' => \Yii::t('app', 'Контактный email'),
-      'Title' => \Yii::t('app', 'Название мероприятия'),
-      'Place' => \Yii::t('app', 'Место проведения'),
-      'Date' => \Yii::t('app', 'Дата проведения'),
-      'Url' => \Yii::t('app', 'Сайт мероприятия'),
-      'Info' => \Yii::t('app', 'Краткое описание'),
-      'LogoSource' => \Yii::t('app', 'Логотип'),
-      'FullInfo' => \Yii::t('app', 'Подробное описание'),
-      'Options' => \Yii::t('app', 'Дополнительные опции'),
-      'StartDate' => \Yii::t('app', 'Дата начала'),
-      'EndDate' => \Yii::t('app', 'Дата окончания'),
-      'OneDayDate' => \Yii::t('app', 'один день'),
-      'PlannedParticipants' => \Yii::t('app', 'Планируемое кол-во участников'),
-      'City' => \Yii::t('app', 'Город'),
-      'Company' => \Yii::t('app', 'Компания организатор')
-    );
-  }
-  
-  public function getOptionsData()
-  {
-    return array(
-      1 => \Yii::t('app', 'размещение информации в календаре'),
-      2 => \Yii::t('app', 'регистрация участников'),
-      3 => \Yii::t('app', 'прием оплаты'),
-      5 => \Yii::t('app', 'реклама и маркетинг'),
-      6 => \Yii::t('app', 'оффлайн регистрация')
-    );
-  }
-  
-  public function getOptionValue($id)
-  {
-    $optionsData = $this->getOptionsData();
-    return $optionsData[$id];
-  }
-  
-  public function filterPlannedParticipants($value)
-  {
-    if (in_array(6, $this->Options) && empty($this->PlannedParticipants))
+    public function filterFullInfo($value)
     {
-      $this->addError('PlannedParticipants', \Yii::t('app', 'Необходимо заполнить поле Планируемое кол-во участников'));
+        $purifier = new \CHtmlPurifier();
+        $purifier->options = [
+            'HTML.AllowedElements' => ['p', 'span', 'ol', 'li', 'strong', 'a', 'em', 's', 'ul', 'br', 'u', 'table', 'tbody', 'tr', 'td', 'thead', 'th', 'caption', 'h1', 'h2', 'h3', 'h4', 'h5', 'img', 'div'],
+            'HTML.AllowedAttributes' => ['style', 'a.href', 'a.target', 'table.cellpadding', 'table.cellspacing', 'th.scope', 'table.border', 'img.alt', 'img.src', 'class'],
+            'Attr.AllowedFrameTargets' => ['_blank', '_self']
+        ];
+        return $purifier->purify($value);
     }
-    return $value;
-  }
 
-  public function save($form){
+    protected function beforeValidate()
+    {
+        $attributes = $this->attributes;
+        if ($attributes['OneDayDate'] == 1) {
+            $attributes['EndDate'] = $attributes['StartDate'];
+        }
+        $this->setAttributes($attributes);
+        return parent::beforeValidate();
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'ContactName' => \Yii::t('app', 'ФИО'),
+            'ContactPhone' => \Yii::t('app', 'Контактный телефон'),
+            'ContactEmail' => \Yii::t('app', 'Контактный email'),
+            'Title' => \Yii::t('app', 'Название мероприятия'),
+            'Place' => \Yii::t('app', 'Место проведения'),
+            'Date' => \Yii::t('app', 'Дата проведения'),
+            'Url' => \Yii::t('app', 'Сайт мероприятия'),
+            'Info' => \Yii::t('app', 'Краткое описание'),
+            'LogoSource' => \Yii::t('app', 'Логотип'),
+            'FullInfo' => \Yii::t('app', 'Подробное описание'),
+            'Options' => \Yii::t('app', 'Дополнительные опции'),
+            'StartDate' => \Yii::t('app', 'Дата начала'),
+            'EndDate' => \Yii::t('app', 'Дата окончания'),
+            'OneDayDate' => \Yii::t('app', 'один день'),
+            'PlannedParticipants' => \Yii::t('app', 'Планируемое кол-во участников'),
+            'City' => \Yii::t('app', 'Город'),
+            'Company' => \Yii::t('app', 'Компания организатор')
+        ];
+    }
+
+    public function getOptionsData()
+    {
+        return [
+            1 => \Yii::t('app', 'размещение информации в календаре'),
+            2 => \Yii::t('app', 'регистрация участников'),
+            3 => \Yii::t('app', 'прием оплаты'),
+            5 => \Yii::t('app', 'реклама и маркетинг'),
+            6 => \Yii::t('app', 'оффлайн регистрация')
+        ];
+    }
+
+    public function getOptionValue($id)
+    {
+        $optionsData = $this->getOptionsData();
+        return $optionsData[$id];
+    }
+
+    public function filterPlannedParticipants($value)
+    {
+        if (in_array(6, $this->Options) && empty($this->PlannedParticipants)) {
+            $this->addError('PlannedParticipants', \Yii::t('app', 'Необходимо заполнить поле Планируемое кол-во участников'));
+        }
+        return $value;
+    }
+
+    public function save($form)
+    {
         $event = new Event();
         $event->Title = $form->Title;
         $event->Info = $form->Info;
-        if (!empty($form->FullInfo))
-        {
+        if (!empty($form->FullInfo)) {
             $event->FullInfo = $form->FullInfo;
         }
         $event->External = true;
@@ -144,18 +142,16 @@ class Create extends \CFormModel
 
         $event->LogoSource = \CUploadedFile::getInstance($form, 'LogoSource');
 
-        if ($event->save())
-        {
+        if ($event->save()) {
             $LogoSource_path = $event->getPath($event->LogoSource, true);
 
-
-            if (!file_exists(dirname($LogoSource_path)))
+            if (!file_exists(dirname($LogoSource_path))) {
                 mkdir(dirname($LogoSource_path));
+            }
 
             $event->LogoSource->saveAs($LogoSource_path);
 
-            if (!empty($form->Url))
-            {
+            if (!empty($form->Url)) {
                 $parseUrl = parse_url($form->Url);
                 $url = $parseUrl['host'].(!empty($parseUrl['path']) ? rtrim($parseUrl['path'], '/').'/' : '').(!empty($parseUrl['query']) ? '?'.$parseUrl['query'] : '');
                 $event->setContactSite($url, ($parseUrl['scheme'] == 'https' ? true : false));
@@ -178,9 +174,9 @@ class Create extends \CFormModel
             $attribute = new Attribute();
             $attribute->Name = 'ContactPerson';
             $attributeValue = [
-                'Name'    => $form->ContactName,
-                'Email'   => $form->ContactEmail,
-                'Phone'   => $form->ContactPhone,
+                'Name' => $form->ContactName,
+                'Email' => $form->ContactEmail,
+                'Phone' => $form->ContactPhone,
                 'RunetId' => \Yii::app()->getUser()->getCurrentUser()->RunetId,
             ];
             $attribute->Value = serialize($attributeValue);
@@ -188,13 +184,11 @@ class Create extends \CFormModel
             $attribute->save();
 
             $attribute = new Attribute();
-            $attribute->Name  = 'Options';
-            $attributeValue = array();
-            foreach($form->Options as $option)
-            {
+            $attribute->Name = 'Options';
+            $attributeValue = [];
+            foreach ($form->Options as $option) {
                 $value = $form->getOptionValue($option);
-                if ($option == 6 && !empty($form->PlannedParticipants))
-                {
+                if ($option == 6 && !empty($form->PlannedParticipants)) {
                     $value .= ', '.$form->PlannedParticipants.' чел.';
                 }
                 $attributeValue[] = $value;
@@ -210,8 +204,7 @@ class Create extends \CFormModel
             $mail2 = new HandlerCreate($mailer, $form, $event);
             $mail2->setTo('chertilov@internetmediaholding.com');
             $mail2->send();
-            if (in_array(6, $form->Options))
-            {
+            if (in_array(6, $form->Options)) {
                 $mail = new Ruvents($mailer, $form);
                 $mail->send();
             }

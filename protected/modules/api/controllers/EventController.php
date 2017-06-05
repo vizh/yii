@@ -26,35 +26,35 @@ use nastradamus39\slate\annotations\ApiObject;
  *     code="EVENT",
  *     title="Мероприятие",
  *     json="{
-            'EventId': 3206,
-            'IdName': 'Meropriyatiegoda',
-            'Name': 'Мероприятие 2017 года',
-            'Title': 'Мероприятие 2017 года',
-            'Info': 'Краткое описание мероприятия 2017',
-            'Place': 'г. Волгоград, пр-т Ленина, д. 123',
-            'Url': 'http://www.runet-id.com',
-            'UrlRegistration': '',
-            'UrlProgram': '',
-            'StartYear': 2017,
-            'StartMonth': 2,
-            'StartDay': 22,
-            'EndYear': 2017,
-            'EndMonth': 2,
-            'EndDay': 22,
-            'Image': {
-                'Mini': 'http://runet-id.dev/files/event/Meropriyatiegoda/50.png',
-                'MiniSize': { 'Width': 50, 'Height': 50 },
-                'Normal': 'http://runet-id.dev/files/event/Meropriyatiegoda/120.png',
-                'NormalSize': { 'Width': 120, 'Height': 120 }
-            },
-            'GeoPoint': [ '', '' ],
-            'Address': 'г. Волгоград, пр-т Ленина, д. 123',
-            'Menu': [{'Type': 'program', 'Title': 'Программа' }],
-            'Statistics': {
-                'Participants': { 'ByRole': {'24': 1 }, 'TotalCount': 1 }
-            },
-            'FullInfo': '<p>Подробное описание мероприятия 2017</p>\r\n'
-        }",
+'EventId': 3206,
+'IdName': 'Meropriyatiegoda',
+'Name': 'Мероприятие 2017 года',
+'Title': 'Мероприятие 2017 года',
+'Info': 'Краткое описание мероприятия 2017',
+'Place': 'г. Волгоград, пр-т Ленина, д. 123',
+'Url': 'http://www.runet-id.com',
+'UrlRegistration': '',
+'UrlProgram': '',
+'StartYear': 2017,
+'StartMonth': 2,
+'StartDay': 22,
+'EndYear': 2017,
+'EndMonth': 2,
+'EndDay': 22,
+'Image': {
+'Mini': 'http://runet-id.dev/files/event/Meropriyatiegoda/50.png',
+'MiniSize': { 'Width': 50, 'Height': 50 },
+'Normal': 'http://runet-id.dev/files/event/Meropriyatiegoda/120.png',
+'NormalSize': { 'Width': 120, 'Height': 120 }
+},
+'GeoPoint': [ '', '' ],
+'Address': 'г. Волгоград, пр-т Ленина, д. 123',
+'Menu': [{'Type': 'program', 'Title': 'Программа' }],
+'Statistics': {
+'Participants': { 'ByRole': {'24': 1 }, 'TotalCount': 1 }
+},
+'FullInfo': '<p>Подробное описание мероприятия 2017</p>\r\n'
+}",
  *     description="Информация о мероприятии.",
  *     params={
  *          "EventId" : "Идентификатор мероприятия",
@@ -94,6 +94,5 @@ use nastradamus39\slate\annotations\ApiObject;
  */
 class EventController extends \api\components\Controller
 {
-
 
 }

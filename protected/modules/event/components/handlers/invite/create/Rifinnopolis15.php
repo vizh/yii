@@ -12,7 +12,7 @@ class Rifinnopolis15 extends MailLayout
     {
         parent::__construct($mailer);
         $this->event = $event->params['event'];
-        $this->user  = $event->params['user'];
+        $this->user = $event->params['user'];
     }
 
     /**
@@ -35,7 +35,6 @@ class Rifinnopolis15 extends MailLayout
     {
         return 'Ваша заявка на регистрацию в РИФ.Иннополис получена';
     }
-
 
     /**
      * @return string
@@ -70,6 +69,5 @@ class Rifinnopolis15 extends MailLayout
     {
         return false;
     }
-
 
 }

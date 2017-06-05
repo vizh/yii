@@ -9,7 +9,7 @@ class Resume extends \CFormModel
     public $ProfessionalInterest = [];
     public $Customers;
     public $Progress;
-	public $Employees;
+    public $Employees;
     public $Additional;
 
     public function rules()
@@ -62,7 +62,8 @@ class Resume extends \CFormModel
             $valid = false;
         }
 
-        if (!$valid)
+        if (!$valid) {
             $this->addError($attribute, \Yii::t('app', '{label} отсутствует в списке.', ['{label}' => $this->getAttributeLabel($attribute)]));
+        }
     }
 } 

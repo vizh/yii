@@ -1,18 +1,16 @@
 <?php
+
 namespace application\widgets;
 
 class Paginator extends \CWidget
 {
-  /** @var \application\components\utility\Paginator */
-  public $paginator = null;
+    /** @var \application\components\utility\Paginator */
+    public $paginator;
 
-  public function run()
-  {
-    $count = $this->paginator->getCountPages();
-    if ($count < 2)
+    public function run()
     {
-      return;
+        if ($this->paginator->getCountPages() >= 2) {
+            $this->render('paginator');
+        }
     }
-    $this->render('paginator');
-  }
 }

@@ -29,7 +29,6 @@ abstract class BasePartnerOrder extends CreateUpdateForm
 
     private $owner;
 
-
     /**
      * @param string $owner
      * @param \CActiveRecord $model

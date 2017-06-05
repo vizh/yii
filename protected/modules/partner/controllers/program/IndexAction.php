@@ -8,7 +8,7 @@
 
 namespace partner\controllers\program;
 
-use \event\models\section\Section;
+use event\models\section\Section;
 use partner\components\Action;
 
 class IndexAction extends Action
@@ -53,4 +53,4 @@ class IndexAction extends Action
         sort($intervals);
         return $intervals;
     }
-} 
+}

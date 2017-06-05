@@ -6,13 +6,13 @@ class RolesAction extends \partner\components\Action
     public function run($id)
     {
         $import = \partner\models\Import::model()->findByPk($id);
-        if ($import == null || $import->EventId != $this->getEvent()->Id)
+        if ($import == null || $import->EventId != $this->getEvent()->Id) {
             throw new \CHttpException(404);
+        }
 
         $request = \Yii::app()->getRequest();
         $roleNames = $this->getRoleNames($import);
         $values = $request->getParam('values', []);
-
 
         $check = true;
         if ($request->getIsPostRequest() && $check = $this->checkRoleValues($values)) {
@@ -49,8 +49,9 @@ class RolesAction extends \partner\components\Action
     private function checkRoleValues($values)
     {
         foreach ($values as $key => $value) {
-            if ($value == 0)
+            if ($value == 0) {
                 return false;
+            }
         }
         return true;
     }

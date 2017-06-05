@@ -43,9 +43,9 @@ class LinkSite extends ActiveRecord
 
     public function relations()
     {
-        return array(
-            'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId'),
-            'Site' => array(self::BELONGS_TO, '\contact\models\Site', 'SiteId'),
-        );
+        return [
+            'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
+            'Site' => [self::BELONGS_TO, '\contact\models\Site', 'SiteId'],
+        ];
     }
 }

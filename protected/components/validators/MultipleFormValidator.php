@@ -1,7 +1,6 @@
 <?php
 namespace application\components\validators;
 
-
 class MultipleFormValidator extends \CValidator
 {
     public $when = null;

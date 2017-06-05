@@ -1,9 +1,9 @@
 <?php
 namespace contact\models\forms;
 
-use contact\models\PhoneType;
 use application\components\form\CreateUpdateForm;
 use contact\models\Phone as PhoneModel;
+use contact\models\PhoneType;
 
 class Phone extends CreateUpdateForm
 {
@@ -42,7 +42,6 @@ class Phone extends CreateUpdateForm
         return false;
     }
 
-
     public function rules()
     {
         return [
@@ -64,12 +63,13 @@ class Phone extends CreateUpdateForm
     {
         $valid = true;
         if ($this->getScenario() == self::ScenarioOneField) {
-            if ((!empty($this->OriginalPhone) && $this->getIsEmpty()) || (!empty($this->CountryCode) && empty($this->Phone)) || (empty($this->CountryCode) && !empty($this->Phone)))
+            if ((!empty($this->OriginalPhone) && $this->getIsEmpty()) || (!empty($this->CountryCode) && empty($this->Phone)) || (empty($this->CountryCode) && !empty($this->Phone))) {
                 $valid = false;
+            }
         } elseif ($this->getScenario() == self::ScenarioOneFieldRequired) {
-            if (empty($this->CountryCode) || empty($this->Phone))
+            if (empty($this->CountryCode) || empty($this->Phone)) {
                 $valid = false;
-
+            }
         }
         if (!$valid) {
             $this->addError('Phone', \Yii::t('app', 'Необходимо заполнить поле Номер телефона.'));
@@ -101,12 +101,12 @@ class Phone extends CreateUpdateForm
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'CountryCode' => \Yii::t('app', 'Код страны'),
             'CityCode' => \Yii::t('app', 'Код города'),
             'Phone' => \Yii::t('app', 'Телефон'),
             'Type' => \Yii::t('app', 'Тип телефона')
-        );
+        ];
     }
 
     /**

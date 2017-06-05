@@ -16,7 +16,7 @@ class Base extends MailLayout
     /** @var Event */
     protected $event;
 
-    /** @var int  */
+    /** @var int */
     protected $total;
 
     public function __construct(\mail\components\Mailer $mailer, \CEvent $event)
@@ -40,20 +40,18 @@ class Base extends MailLayout
 
     public function getSubject()
     {
-        if ($this->order->Type != \pay\models\OrderType::Receipt)
-        {
+        if ($this->order->Type != \pay\models\OrderType::Receipt) {
             return 'Счет на оплату '.$this->event->Title;
-        }
-        else
-        {
+        } else {
             return 'Квитанция на оплату '.$this->event->Title;
         }
     }
 
     public function getBody()
     {
-        if (!(\Yii::app()->getController() instanceof \CController))
+        if (!(\Yii::app()->getController() instanceof \CController)) {
             return null;
+        }
 
         return $this->renderBody($this->getViewPath(), [
             'order' => $this->order,
@@ -68,8 +66,8 @@ class Base extends MailLayout
      */
     protected function getViewPath()
     {
-        $alias = 'pay.views.mail.orderjuridical.create.' . strtolower($this->event->IdName);
-        $path  =  \Yii::getPathOfAlias($alias) . '.php';
+        $alias = 'pay.views.mail.orderjuridical.create.'.strtolower($this->event->IdName);
+        $path = \Yii::getPathOfAlias($alias).'.php';
         if (file_exists($path)) {
             return $alias;
         }

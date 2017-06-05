@@ -12,9 +12,8 @@ class AuthCode extends Base
     public function __construct(Mailer $mailer, User $user, $code)
     {
         parent::__construct($mailer, $user);
-        $this->code= $code;
+        $this->code = $code;
     }
-
 
     /**
      * @inheritdoc

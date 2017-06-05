@@ -1,7 +1,7 @@
 <?php
 namespace ruvents\components;
 
-use \ruvents\models\AccountRole;
+use ruvents\models\AccountRole;
 
 class WebUser extends \CWebUser
 {
@@ -51,8 +51,9 @@ class WebUser extends \CWebUser
             /** @var \ruvents\models\Operator $operator */
             $operator = \ruvents\models\Operator::model()->findByPk($operatorId);
             if ($operator !== null) {
-                if ($operator->EventId != $this->getAccount()->EventId)
+                if ($operator->EventId != $this->getAccount()->EventId) {
                     throw new Exception(103);
+                }
                 $this->operator = $operator;
             }
             $this->alreadyTryLoad = true;
@@ -85,10 +86,11 @@ class WebUser extends \CWebUser
 
     public function checkAccess($operation, $params = [], $allowCaching = true)
     {
-        if ($allowCaching && $params === [] && isset($this->_access[$operation]))
+        if ($allowCaching && $params === [] && isset($this->_access[$operation])) {
             return $this->_access[$operation];
-        else
+        } else {
             return $this->_access[$operation] = \Yii::app()->ruventsAuthManager->checkAccess($operation, $this->getId(), $params);
+        }
     }
 
     public function getIsGuest()
@@ -98,9 +100,10 @@ class WebUser extends \CWebUser
 
     public function getId()
     {
-        if ($this->getAccount() === null)
+        if ($this->getAccount() === null) {
             return null;
+        }
 
-        return $this->getOperator() !== null ? $this->getOperator()->Id : 'acc' . $this->getAccount()->Id;
+        return $this->getOperator() !== null ? $this->getOperator()->Id : 'acc'.$this->getAccount()->Id;
     }
 }

@@ -1,5 +1,6 @@
 <?php
+
 class PageModule extends \CWebModule
 {
-  //put your code here
+    //put your code here
 }

@@ -8,12 +8,10 @@
 
 namespace event\components\handlers\register;
 
-
 use mail\models\Layout;
 
 class Mpsf16 extends Base
 {
-
 
     public function getLayoutName()
     {

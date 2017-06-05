@@ -1,8 +1,6 @@
 <?php
 namespace mail\components\mailers;
 
-use Yii;
-
 /**
  * Class TrueMandrillMailer performs sending by using Mandrill
  */
@@ -84,7 +82,7 @@ class TrueMandrillMailer extends \mail\components\Mailer
 
     private function getBaseMessage()
     {
-        $message = array(
+        $message = [
             'html' => $this->getTagMailBody(),
             'text' => null,
             'subject' => '',
@@ -116,7 +114,7 @@ class TrueMandrillMailer extends \mail\components\Mailer
             'recipient_metadata' => [],
             'attachments' => [],
             'images' => []
-        );
+        ];
         return $message;
     }
 }

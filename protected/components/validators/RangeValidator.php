@@ -8,17 +8,18 @@
 
 namespace application\components\validators;
 
-
 class RangeValidator extends \CRangeValidator
 {
     protected function validateAttribute($object, $attribute)
     {
         $value = $object->$attribute;
-        if ($this->allowEmpty && $this->isEmpty($value))
+        if ($this->allowEmpty && $this->isEmpty($value)) {
             return;
+        }
 
-        if (!is_array($this->range))
+        if (!is_array($this->range)) {
             throw new \CException(\Yii::t('yii', 'The "range" property must be specified with a list of values.'));
+        }
 
         if (!is_array($value)) {
             $value = [$value];

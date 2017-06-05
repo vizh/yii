@@ -16,8 +16,9 @@ class WebUser extends \CWebUser
      */
     public static function Instance()
     {
-        if (self::$instance === null)
+        if (self::$instance === null) {
             self::$instance = new WebUser();
+        }
 
         return self::$instance;
     }
@@ -54,17 +55,21 @@ class WebUser extends \CWebUser
                     ->with('Event', 'Ips')
                     ->find();
 
-                if ($account === null)
+                if ($account === null) {
                     throw new Exception(101);
+                }
 
-                if ($account->checkHash($hash, $timestamp) === false)
+                if ($account->checkHash($hash, $timestamp) === false) {
                     throw new Exception(102);
+                }
 
-                if ($account->Blocked)
+                if ($account->Blocked) {
                     throw new Exception(105);
+                }
 
-                if ($account->checkIp($request->getUserHostAddress()) === false)
+                if ($account->checkIp($request->getUserHostAddress()) === false) {
                     throw new Exception(103, [$key, $request->getUserHostAddress()]);
+                }
 
                 Yii::app()
                     ->getCache()
@@ -78,8 +83,9 @@ class WebUser extends \CWebUser
                 $account->EventId = $request->getParam('EventId');
                 // Параметр EventId обязателен для отправки запроса из под мультиаккаунта
                 /** @noinspection NotOptimalIfConditionsInspection */
-                if ($account->EventId === null)
+                if ($account->EventId === null) {
                     throw new Exception(109, ['EventId']);
+                }
                 // В случае мультиаккаунтов, связи в моделях работать не будут. Помогаем им.
                 $account->Event = Event::model()->findByPk($account->EventId);
             }
@@ -100,8 +106,9 @@ class WebUser extends \CWebUser
      */
     public function getRole()
     {
-        if ($this->account !== null || $this->getAccount() !== null)
+        if ($this->account !== null || $this->getAccount() !== null) {
             return $this->account->Role;
+        }
 
         return null;
     }
@@ -110,11 +117,12 @@ class WebUser extends \CWebUser
 
     public function checkAccess($operation, $params = [], $allowCaching = true)
     {
-        if ($allowCaching && $params === [] && isset($this->_access[$operation]))
+        if ($allowCaching && $params === [] && isset($this->_access[$operation])) {
             return $this->_access[$operation];
-        else
+        } else {
             return $this->_access[$operation] = Yii::app()->apiAuthManager->checkAccess($operation, $this->getId(),
                 $params);
+        }
     }
 
     public function getIsGuest()

@@ -3,7 +3,6 @@
 use api\models\Account;
 use api\models\ExternalUser;
 use application\components\controllers\PublicMainController;
-use competence\models\Result;
 use event\models\Participant;
 use user\models\User;
 
@@ -35,20 +34,19 @@ class InfoController extends PublicMainController
 
         $sql = 'SELECT t."UserId" FROM "EventSectionVote" t
             LEFT JOIN "EventSection" ON "EventSection"."Id" = t."SectionId"
-            WHERE "UserId" IN (%s) AND "EventSection"."EventId" = :EventId
+            WHERE "UserId" IN (%S) AND "EventSection"."EventId" = :EventId
             AND :StartTime < t."CreationTime" AND t."CreationTime" < :EndTime
             AND (t."SpeakerSkill" IS NOT NULL OR t."ReportInteresting" IS NOT NULL)';
         $command = Yii::app()->getDb()->createCommand(sprintf($sql, implode(',', $userIds)));
         $command->bindValue('EventId', $eventId);
-        $command->bindValue('StartTime', $date . $time . ':00');
-        $command->bindValue('EndTime', $date . $times[$time] . ':00');
+        $command->bindValue('StartTime', $date.$time.':00');
+        $command->bindValue('EndTime', $date.$times[$time].':00');
         $userIds = $command->queryColumn();
 
         $criteria = new CDbCriteria();
         $criteria->addInCondition('t."Id"', $userIds);
         $criteria->order = 't."RunetId"';
         $users = User::model()->findAll($criteria);
-
 
         $this->render('appday14', [
             'times' => $times,

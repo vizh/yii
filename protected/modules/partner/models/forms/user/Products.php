@@ -8,7 +8,6 @@
 
 namespace partner\models\forms\user;
 
-
 use application\components\form\EventItemCreateUpdateForm;
 use event\models\Event;
 use pay\models\OrderItem;

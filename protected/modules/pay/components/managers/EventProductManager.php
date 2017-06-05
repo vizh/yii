@@ -40,7 +40,7 @@ class EventProductManager extends BaseProductManager
      * @param array $params
      * @return bool
      */
-    public function checkProduct($user, $params = array())
+    public function checkProduct($user, $params = [])
     {
         $this->participant = Participant::model()
             ->byUserId($user->Id)
@@ -153,7 +153,7 @@ class EventProductManager extends BaseProductManager
      */
     public function filter($params, $filter)
     {
-        return array();
+        return [];
     }
 
     /**

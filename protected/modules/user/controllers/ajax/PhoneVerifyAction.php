@@ -1,7 +1,6 @@
 <?php
 namespace user\controllers\ajax;
 
-use ext\littlesms\LittleSMS;
 use sms\components\gates\SmsRu;
 use user\components\handlers\PhoneVerify;
 use user\models\User;
@@ -17,14 +16,17 @@ class PhoneVerifyAction extends \CAction
     {
         $this->user = \Yii::app()->getUser()->getCurrentUser();
 
-        if (empty($this->user->PrimaryPhone) || $this->user->PrimaryPhoneVerify)
+        if (empty($this->user->PrimaryPhone) || $this->user->PrimaryPhoneVerify) {
             throw new \CHttpException(404);
+        }
 
         $request = \Yii::app()->getRequest();
         switch ($request->getParam('action')) {
-            case 'send': $result = $this->send();
+            case 'send':
+                $result = $this->send();
                 break;
-            case 'verify': $result = $this->verify();
+            case 'verify':
+                $result = $this->verify();
                 break;
         }
         echo json_encode($result);
@@ -33,7 +35,7 @@ class PhoneVerifyAction extends \CAction
 
     private function send()
     {
-        if ($this->user->PrimaryPhoneVerifyTime !== null && (time()-strtotime($this->user->PrimaryPhoneVerifyTime)) < self::VERIFY_SEND_DELAY) {
+        if ($this->user->PrimaryPhoneVerifyTime !== null && (time() - strtotime($this->user->PrimaryPhoneVerifyTime)) < self::VERIFY_SEND_DELAY) {
             return ['error' => \Yii::t('app', 'Повторное отправление кода возможно только через {delay} секунд', ['{delay}' => self::VERIFY_SEND_DELAY])];
         }
 

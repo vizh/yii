@@ -1,74 +1,99 @@
-@media only screen and (max-device-height: 850px){
-  form fieldset p, form div.social p {
-    display: none;
-  }
+@media only screen and (max-device-height: 850px) {
+    form fieldset p, form div.social p {
+        display: none;
+    }
 }
 
 /* BOOTSTRAP
 ---------------------------------------------------------------------------------------------------- */
-label.checkbox {margin-bottom: 10px;}
-
-legend {
-  border: none;
-  line-height: 1.5;
+label.checkbox {
+    margin-bottom: 10px;
 }
 
-.control-group {margin-bottom: 0;}
+legend {
+    border: none;
+    line-height: 1.5;
+}
+
+.control-group {
+    margin-bottom: 0;
+}
 
 /* STYLES
 ---------------------------------------------------------------------------------------------------- */
-.tx-c {text-align: center;}
-
-.nowrap {white-space: nowrap;}
-
-.alert ul{
-  margin: 0;
-  list-style: none outside none;
-}
-.alert ul li{
-  margin-bottom: 7px;
-}
-.alert ul li:last-child{
-  margin-bottom: 0;
+.tx-c {
+    text-align: center;
 }
 
-.alert.alert-success, .alert.alert-warning{
-  margin-top: 15px;
+.nowrap {
+    white-space: nowrap;
+}
+
+.alert ul {
+    margin: 0;
+    list-style: none outside none;
+}
+
+.alert ul li {
+    margin-bottom: 7px;
+}
+
+.alert ul li:last-child {
+    margin-bottom: 0;
+}
+
+.alert.alert-success, .alert.alert-warning {
+    margin-top: 15px;
 }
 
 /* ICONS
 ---------------------------------------------------------------------------------------------------- */
 .ico16 {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  line-height: 16px;
-  vertical-align: text-top;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    vertical-align: text-top;
 }
 
 .ico16_social {
-  background-image: url('/img/ico_social.png');
-  background-repeat: no-repeat;
+    background-image: url('/img/ico_social.png');
+    background-repeat: no-repeat;
 }
 
-.ico16_social__facebook  {background-position: 0 0;}
-.ico16_social__twitter   {background-position: -16px 0;}
-.ico16_social__vkontakte {background-position: -32px 0;}
-.ico16_social__google    {background-position: -48px 0;}
-.ico16_social__paypal    {background-position: -64px 0;}
+.ico16_social__facebook {
+    background-position: 0 0;
+}
+
+.ico16_social__twitter {
+    background-position: -16px 0;
+}
+
+.ico16_social__vkontakte {
+    background-position: -32px 0;
+}
+
+.ico16_social__google {
+    background-position: -48px 0;
+}
+
+.ico16_social__paypal {
+    background-position: -64px 0;
+}
 
 /* BLOCK
 ---------------------------------------------------------------------------------------------------- */
 .block {
-  position: relative;
-  z-index: 1000;
-  margin: 40px 0;
-  padding: 40px 0;
-  border: 1px solid #ddd;
-  -webkit-border-radius: 2px;
-          border-radius: 2px;
+    position: relative;
+    z-index: 1000;
+    margin: 40px 0;
+    padding: 40px 0;
+    border: 1px solid #ddd;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
 }
-  .block_t {
+
+.block_t {
     position: absolute;
     top: -11px;
     left: 15px;
@@ -78,32 +103,36 @@ legend {
     color: #ddd;
     font-weight: 700;
     text-transform: uppercase;
-  }
+}
 
 /* SOCIAL
 ---------------------------------------------------------------------------------------------------- */
-.social {}
-  .social_btn {font-size: 22px; margin-bottom: 5px;}
+.social {
+}
 
+.social_btn {
+    font-size: 22px;
+    margin-bottom: 5px;
+}
 
-
-.page_registration .agreement{
-  font-size: 11px;
-  line-height: 13px;
-  margin-bottom: 15px;
+.page_registration .agreement {
+    font-size: 11px;
+    line-height: 13px;
+    margin-bottom: 15px;
 }
 
 @media (max-width: 400px) {
-    .restore-password    {
+    .restore-password {
         text-align: left;
-        float:none !important;
+        float: none !important;
     }
-    .remember-me{
-        float:none !important;
+
+    .remember-me {
+        float: none !important;
 
     }
 }
 
-.restore-password{
+.restore-password {
     margin: 10px 0;
 }

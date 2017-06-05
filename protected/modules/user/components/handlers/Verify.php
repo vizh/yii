@@ -8,10 +8,8 @@
 
 namespace user\components\handlers;
 
-
 use mail\components\Mailer;
 use mail\components\MailLayout;
-use mail\models\Layout;
 use user\models\User;
 
 class Verify extends MailLayout
@@ -32,7 +30,6 @@ class Verify extends MailLayout
     {
         return \Yii::t('app', 'Активируйте аккаунт в сервисе');
     }
-
 
     /**
      * @inheritdoc

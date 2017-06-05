@@ -56,7 +56,6 @@ class Promo extends CreateUpdateForm
         ];
     }
 
-
     /**
      * Обновляет запись в базе
      * @return Event|null
@@ -79,25 +78,25 @@ class Promo extends CreateUpdateForm
      */
     private function buildStyleString()
     {
-        $path = '.event_widget_Promo.' . $this->model->IdName;
+        $path = '.event_widget_Promo.'.$this->model->IdName;
         $styles = '';
         if ($this->model->getPromoBackgroundImage()->exists() || !empty($this->BackgroundColor)) {
-            $styles .= $path . '{background:';
+            $styles .= $path.'{background:';
             if ($this->model->getPromoBackgroundImage()->exists()) {
-                $styles .= 'url(\'' . $this->model->getPromoBackgroundImage()->original() . '\') center center ' . ($this->BackgroundNoRepeat ? 'no-' : '') . 'repeat ';
+                $styles .= 'url(\''.$this->model->getPromoBackgroundImage()->original().'\') center center '.($this->BackgroundNoRepeat ? 'no-' : '').'repeat ';
             }
             if (!empty($this->BackgroundColor)) {
-                $styles .= '#' . $this->BackgroundColor;
+                $styles .= '#'.$this->BackgroundColor;
             }
             $styles .= ' !important;}';
         }
 
         if (!empty($this->TextColor)) {
-            $styles .= $path . ', ' . $path . ' p,' . $path . ' small'. ' {color: #' . $this->TextColor . ' !important;}';
+            $styles .= $path.', '.$path.' p,'.$path.' small'.' {color: #'.$this->TextColor.' !important;}';
         }
 
         if (!empty($this->TitleColor)) {
-            $styles .= $path .' h1,' . $path . ' h2,' . $path . ' h3,' . $path . ' h4,' . $path .' h1 a,' . $path . ' h2 a,' . $path . ' h3 a,' . $path . ' h4 a {color: #' . $this->TitleColor . ' !important;}';
+            $styles .= $path.' h1,'.$path.' h2,'.$path.' h3,'.$path.' h4,'.$path.' h1 a,'.$path.' h2 a,'.$path.' h3 a,'.$path.' h4 a {color: #'.$this->TitleColor.' !important;}';
         };
         return $styles;
     }
@@ -110,6 +109,5 @@ class Promo extends CreateUpdateForm
         $this->BackgroundImage = \CUploadedFile::getInstance($this, 'BackgroundImage');
         parent::fillFromPost();
     }
-
 
 }

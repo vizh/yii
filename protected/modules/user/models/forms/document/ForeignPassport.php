@@ -62,5 +62,4 @@ class ForeignPassport extends BaseDocument
         return parent::loadData();
     }
 
-
 }

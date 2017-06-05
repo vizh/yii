@@ -11,7 +11,7 @@ class SaveCropAction extends Action
 {
     /**
      * DO something
-     * 
+     *
      * @param int $id
      * @throws \CHttpException
      */
@@ -20,7 +20,7 @@ class SaveCropAction extends Action
         if (!$user = User::model()->findByPk($id)) {
             throw new \CHttpException(404, 'User is not found');
         }
-        
+
         if (!$user->getPhoto()->hasImage()) {
             throw new \CHttpException(404, 'User\'s image is not found');
         }
@@ -30,14 +30,14 @@ class SaveCropAction extends Action
         $y = $request->getParam('y');
         $width = $request->getParam('width');
         $height = $request->getParam('height');
-        
+
         if (is_null($x) || is_null($y) || is_null($width) || is_null($height)) {
             throw new \CHttpException(400, 'Invalid data');
         }
-        
+
         $x = $x < 0 ? 0 : $x;
         $y = $y < 0 ? 0 : $y;
-        
+
         $user->getPhoto()->crop($x, $y, $width, $height);
         $user->refreshUpdateTime(true);
     }

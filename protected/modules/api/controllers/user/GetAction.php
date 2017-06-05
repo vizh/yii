@@ -93,8 +93,9 @@ class GetAction extends \api\components\Action
                 ->byDeleted(false)
                 ->exists();
 
-            if ($isSectionSpeaker === false)
+            if ($isSectionSpeaker === false) {
                 throw new Exception(231, [$user->RunetId]);
+            }
         }
 
         $user = empty($user->MergeUserId)

@@ -1,11 +1,10 @@
 <?php
 namespace api\controllers\event;
 
-use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
-use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
+use nastradamus39\slate\annotations\ApiAction;
 
 class StatisticsAction extends \api\components\Action
 {
@@ -23,11 +22,11 @@ class StatisticsAction extends \api\components\Action
      *          url="/event/statistics",
      *          response=@Response(body="{
     'Roles': [
-        { 'RoleId': 25, 'Name': 'Эксперт ПК', 'Priority': 72, 'Count': 32 },
-        { 'RoleId': 26, 'Name': 'Видеоучастник', 'Priority': 15, 'Count': 4 }
+    { 'RoleId': 25, 'Name': 'Эксперт ПК', 'Priority': 72, 'Count': 32 },
+    { 'RoleId': 26, 'Name': 'Видеоучастник', 'Priority': 15, 'Count': 4 }
     ],
     'Total': 36
-}"))
+    }"))
      * )
      */
     public function run()
@@ -39,7 +38,6 @@ class StatisticsAction extends \api\components\Action
             $criteria->condition = '"t"."EventId" = :EventId';
             $criteria->params['EventId'] = $this->getEvent()->Id;
             $criteria->group = '"t"."RoleId"';
-
 
             $participants = \event\models\Participant::model()->findAll($criteria);
             $statistics['Total'] = 0;

@@ -35,7 +35,6 @@ class ParticipantData extends SearchFormModel
         parent::init();
     }
 
-
     /**
      * @inheritDoc
      */
@@ -57,7 +56,6 @@ class ParticipantData extends SearchFormModel
         }
         return parent::__set($name, $value);
     }
-
 
     /**
      * @inheritDoc
@@ -106,8 +104,8 @@ class ParticipantData extends SearchFormModel
 
             foreach ($this->values as $name => $value) {
                 if (!empty($value)) {
-                    $criteria->addCondition('"t"."Attributes"::TEXT ILIKE :' . $name);
-                    $criteria->params[$name] = '%"' . $name . '":"%' . $value . '%"%';
+                    $criteria->addCondition('"t"."Attributes"::TEXT ILIKE :'.$name);
+                    $criteria->params[$name] = '%"'.$name.'":"%'.$value.'%"%';
                 }
             }
         }
@@ -122,7 +120,7 @@ class ParticipantData extends SearchFormModel
         $sort = new \CSort();
         $sort->attributes = [
             'User' => [
-                'asc'  => '"User"."RunetId" ASC',
+                'asc' => '"User"."RunetId" ASC',
                 'desc' => '"User"."RunetId" DESC'
             ],
             'CreationTime'
@@ -171,7 +169,7 @@ class ParticipantData extends SearchFormModel
                     }
                     return null;
                 },
-                'width' => (60 / sizeof($this->definitions)) . '%'
+                'width' => (60 / sizeof($this->definitions)).'%'
             ];
             if ($definition instanceof ListDefinition) {
                 $column['filter'] = $definition->data;

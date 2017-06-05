@@ -1,152 +1,175 @@
-h1, h2, h3, h4, h5, h6{
-  font-weight: normal;
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
 }
-h3{
-  line-height: normal;
-  margin-bottom: 15px;
+
+h3 {
+    line-height: normal;
+    margin-bottom: 15px;
 }
-.container.interview{
-  border: 1px solid #e6e6e6;
-  padding: 10px 0;
+
+.container.interview {
+    border: 1px solid #e6e6e6;
+    padding: 10px 0;
 }
-.interview h3{
-  font-weight: 500;
-  line-height: 26px;
-  margin-bottom: 30px;
+
+.interview h3 {
+    font-weight: 500;
+    line-height: 26px;
+    margin-bottom: 30px;
 }
-.interview h3 span{
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 22px;
-  color: #666666;
+
+.interview h3 span {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    color: #666666;
 }
-.interview h3 strong{
-  color: #3399cc;
+
+.interview h3 strong {
+    color: #3399cc;
 }
-.interview h4{
-  font-size: 18px;
+
+.interview h4 {
+    font-size: 18px;
 }
-.interview h4.subtitle{
-  margin-bottom: 40px;
-  color: #999999;
-  text-align: center;
-  font-size: 18px;
-  width: 620px;
+
+.interview h4.subtitle {
+    margin-bottom: 40px;
+    color: #999999;
+    text-align: center;
+    font-size: 18px;
+    width: 620px;
 }
-.interview ul li{
-  margin-bottom: 15px;
+
+.interview ul li {
+    margin-bottom: 15px;
 }
+
 .interview .errorSummary li {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
-.interview-controls{
-  margin-top: 50px;
+.interview-controls {
+    margin-top: 50px;
 }
 
-ul.interview-photo{
+ul.interview-photo {
 
 }
-ul.interview-photo li{
-  float: left;
-  margin: 0 6px 6px 0;
-  width: 130px;
-  height: 226px;
-  border: 4px solid #cccccc;
-  background: #cccccc;
-  cursor: pointer;
-  text-align: center;
-}
-ul.interview-photo li img{
-  display: block;
-}
-ul.interview-photo li.know{
-  border-color: #66cc66;
-  background-color: #66cc66;
-}
-ul.interview-photo li.unknow{
-  border-color: #cc3333;
-  background-color: #cc3333;
-}
-ul.interview-photo li span{
-  font-size: 18px;
-  display: inline-block;
-  margin-top: 8px;
-  color: #333333;
-}
-ul.interview-photo li span.select{
-  display: none;
-}
-ul.interview-photo li.know span.select{
-  display: inline-block;
-}
-ul.interview-photo li.know span.notselect{
-  display: none;
-}
-ul.interview-photo li span.unknow{
-  font-size: 13px;
-  line-height: 14px;
-  font-weight: bold;
-  margin-top: 5px;
-}
-ul.interview-photo li.know span, ul.interview-photo li.unknow span{
-  color: #ffffff;
+
+ul.interview-photo li {
+    float: left;
+    margin: 0 6px 6px 0;
+    width: 130px;
+    height: 226px;
+    border: 4px solid #cccccc;
+    background: #cccccc;
+    cursor: pointer;
+    text-align: center;
 }
 
-div.interview-photo-short{
-  margin: 0 6px 6px 0;
-  width: 130px;
-  border: 4px solid #cccccc;
-  background: #cccccc;
-  text-align: center;
-}
-div.interview-photo-short img{
-  display: block;
+ul.interview-photo li img {
+    display: block;
 }
 
-div.interview-photo-inputs input[type="text"]{
-  width: 180px;
+ul.interview-photo li.know {
+    border-color: #66cc66;
+    background-color: #66cc66;
 }
 
-ul.interview-list{
-
-}
-ul.interview-list li{
-  cursor: pointer;
-  background: #cccccc;
-  padding: 5px 0 5px 10px;
+ul.interview-photo li.unknow {
+    border-color: #cc3333;
+    background-color: #cc3333;
 }
 
-ul.interview-photo li span.name{
-  font-size: 12px;
-  line-height: 14px;
-  margin-top: 3px;
+ul.interview-photo li span {
+    font-size: 18px;
+    display: inline-block;
+    margin-top: 8px;
+    color: #333333;
 }
 
-ul.company-interest-list > li{
-  float: left;
-  margin-right: 100px;
+ul.interview-photo li span.select {
+    display: none;
 }
 
-.interview h4.company-large-list{
-  font-weight: normal;
-  font-size: 18px;
+ul.interview-photo li.know span.select {
+    display: inline-block;
 }
 
-p.personal-info{
-  color: #ff9900;
-  width: 620px;
-  text-align: center;
+ul.interview-photo li.know span.notselect {
+    display: none;
+}
+
+ul.interview-photo li span.unknow {
+    font-size: 13px;
+    line-height: 14px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+ul.interview-photo li.know span, ul.interview-photo li.unknow span {
+    color: #ffffff;
+}
+
+div.interview-photo-short {
+    margin: 0 6px 6px 0;
+    width: 130px;
+    border: 4px solid #cccccc;
+    background: #cccccc;
+    text-align: center;
+}
+
+div.interview-photo-short img {
+    display: block;
+}
+
+div.interview-photo-inputs input[type="text"] {
+    width: 180px;
+}
+
+ul.interview-list {
+
+}
+
+ul.interview-list li {
+    cursor: pointer;
+    background: #cccccc;
+    padding: 5px 0 5px 10px;
+}
+
+ul.interview-photo li span.name {
+    font-size: 12px;
+    line-height: 14px;
+    margin-top: 3px;
+}
+
+ul.company-interest-list > li {
+    float: left;
+    margin-right: 100px;
+}
+
+.interview h4.company-large-list {
+    font-weight: normal;
+    font-size: 18px;
+}
+
+p.personal-info {
+    color: #ff9900;
+    width: 620px;
+    text-align: center;
 }
 
 .interview .value-description {
-  padding-bottom: 10px;
-  font-size: 13px;
-  color: #666666;
+    padding-bottom: 10px;
+    font-size: 13px;
+    color: #666666;
 }
+
 .interview .value-description ul {
-  list-style: disc outside none;
+    list-style: disc outside none;
 }
+
 .interview .value-description ul li {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }

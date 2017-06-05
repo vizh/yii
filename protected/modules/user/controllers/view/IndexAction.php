@@ -19,15 +19,14 @@ class IndexAction extends \CAction
             $professionalInterests[] = $interest->ProfessionalInterest->Title;
         }
 
-        $this->getController()->render('index', array(
+        $this->getController()->render('index', [
             'user' => $this->user,
             'participation' => $this->getParticipation(),
             'professionalInterests' => $professionalInterests,
             'recommendedEvents' => $this->getRecommendedEvents(),
             'employmentHistory' => $this->getEmploymentHistory()
-        ));
+        ]);
     }
-
 
     protected function initUser($runetId)
     {
@@ -56,8 +55,9 @@ class IndexAction extends \CAction
             'LinkProfessionalInterests.ProfessionalInterest'
         ];
         $this->user = User::model()->byRunetId($runetId)->byVisible()->find($criteria);
-        if ($this->user == null)
+        if ($this->user == null) {
             throw new \CHttpException(404);
+        }
     }
 
     private function getParticipation()
@@ -69,12 +69,10 @@ class IndexAction extends \CAction
         $linkUsers = LinkUser::model()->byUserId($this->user->Id)->byDeleted(false)->findAll($criteria);
 
         $collection = new ParticipantCollection($this->user);
-        foreach ($this->user->Participants as $participant)
-        {
+        foreach ($this->user->Participants as $participant) {
             $collection->parseParticipant($participant);
         }
-        foreach ($linkUsers as $linkUser)
-        {
+        foreach ($linkUsers as $linkUser) {
             $collection->parseSection($linkUser);
         }
         $collection->finalCalc();
@@ -87,16 +85,14 @@ class IndexAction extends \CAction
      */
     private function getRecommendedEvents()
     {
-        $result = array();
-        if (!empty($this->user->LinkProfessionalInterests))
-        {
-            $professionalInterestListId = array();
-            foreach ($this->user->LinkProfessionalInterests as $linkProfessionalInterest)
-            {
+        $result = [];
+        if (!empty($this->user->LinkProfessionalInterests)) {
+            $professionalInterestListId = [];
+            foreach ($this->user->LinkProfessionalInterests as $linkProfessionalInterest) {
                 $professionalInterestListId[] = $linkProfessionalInterest->ProfessionalInterestId;
             }
             $criteria = new \CDbCriteria();
-            $criteria->with  = array('LinkProfessionalInterests' => array('together' => true));
+            $criteria->with = ['LinkProfessionalInterests' => ['together' => true]];
             $criteria->limit = \Yii::app()->params['UserViewMaxRecommendedEvents'];
             $criteria->addInCondition('"LinkProfessionalInterests"."ProfessionalInterestId"', $professionalInterestListId);
             $events = \event\models\Event::model()
@@ -105,15 +101,12 @@ class IndexAction extends \CAction
             $result = array_merge($result, $events);
         }
 
-        if (sizeof($result) < \Yii::app()->params['UserViewMaxRecommendedEvents'])
-        {
+        if (sizeof($result) < \Yii::app()->params['UserViewMaxRecommendedEvents']) {
             $criteria = new \CDbCriteria();
             $criteria->limit = \Yii::app()->params['UserViewMaxRecommendedEvents'] - sizeof($result);
-            if (!empty($result))
-            {
-                $excludedEventIdList = array();
-                foreach ($result as $event)
-                {
+            if (!empty($result)) {
+                $excludedEventIdList = [];
+                foreach ($result as $event) {
                     $excludedEventIdList[] = $event->Id;
                 }
                 $criteria->addNotInCondition('"t"."Id"', $excludedEventIdList);
@@ -134,10 +127,8 @@ class IndexAction extends \CAction
         $result = [];
         $i = 0;
         $lastCompanyName = null;
-        foreach ($this->user->Employments as $employment)
-        {
-            if ($employment->Company->Name !== $lastCompanyName)
-            {
+        foreach ($this->user->Employments as $employment) {
+            if ($employment->Company->Name !== $lastCompanyName) {
                 $i++;
             }
             $result[$i][] = $employment;
@@ -151,33 +142,28 @@ class IndexAction extends \CAction
      */
     private function iniPageProperties()
     {
-        $this->getController()->setPageTitle($this->user->getFullName() . ' / RUNET-ID');
+        $this->getController()->setPageTitle($this->user->getFullName().' / RUNET-ID');
         \Yii::app()->getClientScript()->registerPackage('runetid.charts');
-        if (!$this->user->Settings->IndexProfile)
-        {
-            \Yii::app()->getClientScript()->registerMetaTag('noindex,noarchive','robots');
+        if (!$this->user->Settings->IndexProfile) {
+            \Yii::app()->getClientScript()->registerMetaTag('noindex,noarchive', 'robots');
         }
         $description = '';
 
-        $employment  = $this->user->getEmploymentPrimary();
-        if ($employment !== null)
-        {
-            $description .= !empty($employment->Position) ? ($employment->Position . ' ' . \Yii::t('app','в') . ' ' . $employment->Company->Name) : (\Yii::t('app','В') . ' ' . $employment->Company->Name);
-            if (!empty($employment->StartYear))
-            {
-                $description.=' ' . \Yii::t('app', 'c') . ' ' . $employment->StartYear . ' ' . \Yii::t('app', 'года');
+        $employment = $this->user->getEmploymentPrimary();
+        if ($employment !== null) {
+            $description .= !empty($employment->Position) ? ($employment->Position.' '.\Yii::t('app', 'в').' '.$employment->Company->Name) : (\Yii::t('app', 'В').' '.$employment->Company->Name);
+            if (!empty($employment->StartYear)) {
+                $description .= ' '.\Yii::t('app', 'c').' '.$employment->StartYear.' '.\Yii::t('app', 'года');
             }
-            $description.='.';
+            $description .= '.';
         }
 
         $interests = [];
-        foreach ($this->user->LinkProfessionalInterests as $link)
-        {
+        foreach ($this->user->LinkProfessionalInterests as $link) {
             $interests[] = $link->ProfessionalInterest->Title;
         }
-        if (!empty($interests))
-        {
-            $description .= (!empty($description) ? ' ' : '').\Yii::t('app','Профессиональные интересы: ').' '.implode(', ', $interests);
+        if (!empty($interests)) {
+            $description .= (!empty($description) ? ' ' : '').\Yii::t('app', 'Профессиональные интересы: ').' '.implode(', ', $interests);
         }
 
         \Yii::app()->getClientScript()->registerMetaTag($this->user->getFullName(), 'og:title');
@@ -186,7 +172,7 @@ class IndexAction extends \CAction
         \Yii::app()->getClientScript()->registerMetaTag($description, 'description');
         \Yii::app()->getClientScript()->registerMetaTag($this->user->getUrl(), 'og:url');
 
-        $photoUrl = 'http://' . RUNETID_HOST . $this->user->getPhoto()->getOriginal();
+        $photoUrl = 'http://'.RUNETID_HOST.$this->user->getPhoto()->getOriginal();
         \Yii::app()->getClientScript()->registerMetaTag($photoUrl, 'og:image');
         \Yii::app()->getClientScript()->registerLinkTag('image_src', null, $photoUrl);
     }
@@ -194,7 +180,7 @@ class IndexAction extends \CAction
 
 class ParticipantCollection
 {
-    /** @var ParticipantDetail[]  */
+    /** @var ParticipantDetail[] */
     public $participants = [];
 
     /** @var int[] */
@@ -217,14 +203,14 @@ class ParticipantCollection
      */
     public function parseParticipant($participant)
     {
-        if (!$participant->Event->Visible){
+        if (!$participant->Event->Visible) {
             $participant->Event = null;
         }
         $eventId = $participant->EventId;
-        if ($participant->Event == null)
+        if ($participant->Event == null) {
             return;
-        if (!isset($this->participants[$eventId]))
-        {
+        }
+        if (!isset($this->participants[$eventId])) {
             $this->participants[$eventId] = new ParticipantDetail();
         }
         $this->participants[$eventId]->addParticipant($participant);
@@ -237,18 +223,15 @@ class ParticipantCollection
     public function parseSection($linkUser)
     {
         $eventId = $linkUser->Section->EventId;
-        if (isset($this->participants[$eventId]))
-        {
+        if (isset($this->participants[$eventId])) {
             $this->participants[$eventId]->addSectionLinkUser($linkUser);
         }
     }
 
     public function finalCalc()
     {
-        foreach ($this->participants as $participant)
-        {
-            if (!isset($this->count[$participant->roleType]))
-            {
+        foreach ($this->participants as $participant) {
+            if (!isset($this->count[$participant->roleType])) {
                 $this->count[$participant->roleType] = 0;
             }
             $this->count[$participant->roleType]++;
@@ -278,13 +261,10 @@ class ParticipantDetail
      */
     public function addParticipant($participant)
     {
-        if (empty($this->event))
-        {
+        if (empty($this->event)) {
             $this->event = $participant->Event;
             $this->role = $participant->Role;
-        }
-        elseif ($participant->Role->Priority > $this->role->Priority)
-        {
+        } elseif ($participant->Role->Priority > $this->role->Priority) {
             $this->role = $participant->Role;
         }
         $this->roleType = \event\models\RoleType::compare($this->roleType, $this->role->Type);
@@ -295,8 +275,7 @@ class ParticipantDetail
      */
     public function addSectionLinkUser($linkUser)
     {
-        if (empty($this->sectionRoleDetails[$linkUser->RoleId]))
-        {
+        if (empty($this->sectionRoleDetails[$linkUser->RoleId])) {
             $this->sectionRoleDetails[$linkUser->RoleId] = new RoleDetail();
         }
         $this->sectionRoleDetails[$linkUser->RoleId]->addSectionUserLink($linkUser);
@@ -309,7 +288,7 @@ class RoleDetail
     /** @var  \event\models\section\Role */
     public $role;
 
-    /** @var \event\models\section\LinkUser[]  */
+    /** @var \event\models\section\LinkUser[] */
     public $sectionLinkUsers = [];
 
     /**
@@ -317,8 +296,7 @@ class RoleDetail
      */
     public function addSectionUserLink($linkUser)
     {
-        if (empty($this->role))
-        {
+        if (empty($this->role)) {
             $this->role = $linkUser->Role;
         }
         $this->sectionLinkUsers[] = $linkUser;

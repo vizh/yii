@@ -14,11 +14,10 @@ class InNumbersProductManager extends BaseProductManager
      * @param array $params
      * @return bool
      */
-    public function checkProduct($user, $params = array())
+    public function checkProduct($user, $params = [])
     {
         return true;
     }
-
 
     /**
      * @param \user\models\User $user
@@ -27,10 +26,10 @@ class InNumbersProductManager extends BaseProductManager
      *
      * @return bool
      */
-    public function internalBuy($user, $orderItem = null, $params = array())
+    public function internalBuy($user, $orderItem = null, $params = [])
     {
 
-        $external = array();
+        $external = [];
         $external['OrderItemId'] = $orderItem->Id;
         $external['RunetId'] = $user->RunetId;
         $external['Key'] = self::PrivateKey;
@@ -41,7 +40,7 @@ class InNumbersProductManager extends BaseProductManager
         \Yii::log(http_build_query($external), \CLogger::LEVEL_ERROR);
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, self::CallbackUrl . '?' . http_build_query($external));
+        curl_setopt($ch, CURLOPT_URL, self::CallbackUrl.'?'.http_build_query($external));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
@@ -62,7 +61,7 @@ class InNumbersProductManager extends BaseProductManager
      */
     public function filter($params, $filter)
     {
-        return array();
+        return [];
     }
 
     /**
@@ -90,7 +89,7 @@ class InNumbersProductManager extends BaseProductManager
      *
      * @return bool
      */
-    public function internalChangeOwner($fromUser, $toUser, $params = array())
+    public function internalChangeOwner($fromUser, $toUser, $params = [])
     {
         return false;
     }

@@ -43,7 +43,6 @@ class InviteRequest extends SearchFormModel
         ];
     }
 
-
     /**
      *
      * @return \CDbCriteria
@@ -51,7 +50,7 @@ class InviteRequest extends SearchFormModel
     private function getCriteria()
     {
         $criteria = new \CDbCriteria();
-        $criteria->with  = ['Owner', 'Sender'];
+        $criteria->with = ['Owner', 'Sender'];
         $criteria->addCondition('"t"."EventId" = :EventId');
         $criteria->params['EventId'] = $this->event->Id;
 
@@ -95,11 +94,11 @@ class InviteRequest extends SearchFormModel
             'CreationTime',
             'Approved',
             'Sender' => [
-                'asc'  => '"Sender"."RunetId" ASC',
+                'asc' => '"Sender"."RunetId" ASC',
                 'desc' => '"Sender"."RunetId" DESC'
             ],
             'Owner' => [
-                'asc'  => '"Owner"."RunetId" ASC',
+                'asc' => '"Owner"."RunetId" ASC',
                 'desc' => '"Owner"."RunetId" DESC'
             ],
         ];

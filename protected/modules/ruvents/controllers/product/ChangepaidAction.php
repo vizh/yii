@@ -1,7 +1,6 @@
 <?php
 namespace ruvents\controllers\product;
 
-
 use application\components\helpers\ArrayHelper;
 use pay\models\OrderItem;
 use ruvents\components\Exception;
@@ -16,22 +15,25 @@ class ChangepaidAction extends \ruvents\components\Action
         $toRunetId = $request->getParam('ToRunetId', null);
         $orderItemIdList = ArrayHelper::str2nums($request->getParam('orderItemIdList'));
 
-        if (count($orderItemIdList) === 0)
+        if (count($orderItemIdList) === 0) {
             throw new Exception(408);
+        }
 
         $fromUser = User::model()
             ->byRunetId($fromRunetId)
             ->find();
 
-        if ($fromUser === null)
+        if ($fromUser === null) {
             throw new Exception(202, $fromRunetId);
+        }
 
         $toUser = User::model()
             ->byRunetId($toRunetId)
             ->find();
 
-        if ($toUser === null)
+        if ($toUser === null) {
             throw new Exception(202, $toRunetId);
+        }
 
         $criteria = new \CDbCriteria();
         $criteria->addInCondition('"t"."Id"', $orderItemIdList);
@@ -40,8 +42,9 @@ class ChangepaidAction extends \ruvents\components\Action
             ->byEventId($this->getEvent()->Id)
             ->findAll($criteria);
 
-        if (sizeof($orderItems) == 0)
+        if (sizeof($orderItems) == 0) {
             throw new Exception(409, implode(',', $orderItemIdList));
+        }
 
         if (sizeof($orderItems) < sizeof($orderItemIdList)) {
             $errorId = [];
@@ -78,7 +81,6 @@ class ChangepaidAction extends \ruvents\components\Action
         echo json_encode(['Success' => true]);
     }
 
-
     /**
      * @param OrderItem[] $orderItems
      * @param User $user
@@ -96,8 +98,9 @@ class ChangepaidAction extends \ruvents\components\Action
             }
         }
 
-        if (count($errorId) > 0)
+        if (count($errorId) > 0) {
             throw new Exception(413, implode(',', $errorId));
+        }
     }
 
     /**
@@ -110,11 +113,14 @@ class ChangepaidAction extends \ruvents\components\Action
     {
         $errorId = [];
 
-        foreach ($orderItems as $item)
-            if (!$item->Product->getManager()->checkProduct($user))
+        foreach ($orderItems as $item) {
+            if (!$item->Product->getManager()->checkProduct($user)) {
                 $errorId[] = $item->Id;
+            }
+        }
 
-        if (count($errorId) > 0)
+        if (count($errorId) > 0) {
             throw new Exception(414, implode(',', $errorId));
+        }
     }
 }

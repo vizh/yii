@@ -1,7 +1,6 @@
 <?php
 namespace api\components;
 
-use api\components\WebUser;
 use Yii;
 
 class Controller extends \application\components\controllers\BaseController

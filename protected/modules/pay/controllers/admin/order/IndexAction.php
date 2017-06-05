@@ -7,89 +7,79 @@ use pay\models\Order;
 
 class IndexAction extends \CAction
 {
-  public function run()
-  {
-    $this->getController()->setPageTitle('Поиск счетов');
-
-    $form = new OrderSearch();
-    $form->attributes = \Yii::app()->getRequest()->getParam(get_class($form));
-    $criteria = $this->getCriteria($form);
-    $count = Order::model()->count($criteria);
-
-
-    $paginator = new Paginator($count);
-    $paginator->perPage = \Yii::app()->params['PartnerOrderPerPage'];
-    $criteria->mergeWith($paginator->getCriteria());
-    $criteria->order = '"t"."CreationTime" DESC';
-
-    $orders = Order::model()->findAll($criteria);
-
-    $this->getController()->render('index',
-      array(
-        'form' => $form,
-        'orders' => $orders,
-        'paginator' => $paginator
-      )
-    );
-  }
-
-  /**
-   * @param OrderSearch $form
-   *
-   * @return \CDbCriteria
-   */
-  protected function getCriteria($form)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->with = array(
-      'ItemLinks.OrderItem' => array('together' => false)
-    );
-
-    if (!empty($form->Order))
+    public function run()
     {
-      $criteria->addCondition('"t"."Number" ilike :OrderNumber');
-      $criteria->params['OrderNumber'] ='%'.$form->Order.'%';
+        $this->getController()->setPageTitle('Поиск счетов');
+
+        $form = new OrderSearch();
+        $form->attributes = \Yii::app()->getRequest()->getParam(get_class($form));
+        $criteria = $this->getCriteria($form);
+        $count = Order::model()->count($criteria);
+
+        $paginator = new Paginator($count);
+        $paginator->perPage = \Yii::app()->params['PartnerOrderPerPage'];
+        $criteria->mergeWith($paginator->getCriteria());
+        $criteria->order = '"t"."CreationTime" DESC';
+
+        $orders = Order::model()->findAll($criteria);
+
+        $this->getController()->render('index',
+            [
+                'form' => $form,
+                'orders' => $orders,
+                'paginator' => $paginator
+            ]
+        );
     }
 
-    if ((int)$form->Order !== 0)
+    /**
+     * @param OrderSearch $form
+     *
+     * @return \CDbCriteria
+     */
+    protected function getCriteria($form)
     {
-      $criteria->addCondition('"t"."Id" = :OrderId', 'OR');
-      $criteria->params['OrderId'] =(int)$form->Order;
-    }
+        $criteria = new \CDbCriteria();
+        $criteria->with = [
+            'ItemLinks.OrderItem' => ['together' => false]
+        ];
 
-    if (!$form->Paid){
-      $criteria->addCondition('not "t"."Paid"');
-    }
-    if (!$form->Deleted){
-      $criteria->addCondition('not "t"."Deleted"');
-    }
+        if (!empty($form->Order)) {
+            $criteria->addCondition('"t"."Number" ilike :OrderNumber');
+            $criteria->params['OrderNumber'] = '%'.$form->Order.'%';
+        }
 
-    if ($form->Company != '')
-    {
-      $criteria->with['OrderJuridical'] = array('together' => true);
-      if ($form->Company != '')
-      {
-          $criteria->addCondition('to_tsvector("OrderJuridical"."Name") @@ plainto_tsquery(:Company) or "OrderJuridical"."INN" = :Company');
-          $criteria->params['Company'] = $form->Company;
-      }
-    }
-    else
-    {
-      $criteria->with[] = 'OrderJuridical';
-    }
+        if ((int)$form->Order !== 0) {
+            $criteria->addCondition('"t"."Id" = :OrderId', 'OR');
+            $criteria->params['OrderId'] = (int)$form->Order;
+        }
 
-    if ((int)$form->Payer !== 0)
-    {
-      $criteria->with['Payer'] = array('together' => true);
-      $criteria->addCondition('"Payer"."RunetId" = :RunetId');
-      $criteria->params['RunetId'] = $form->Payer;
-    }
-    else
-    {
-      $criteria->with[] = 'Payer';
-    }
-    $criteria->with['Payer.LinkPhones.Phone'] = array('together' => false);
+        if (!$form->Paid) {
+            $criteria->addCondition('not "t"."Paid"');
+        }
+        if (!$form->Deleted) {
+            $criteria->addCondition('not "t"."Deleted"');
+        }
 
-    return $criteria;
-  }
+        if ($form->Company != '') {
+            $criteria->with['OrderJuridical'] = ['together' => true];
+            if ($form->Company != '') {
+                $criteria->addCondition('to_tsvector("OrderJuridical"."Name") @@ plainto_tsquery(:Company) or "OrderJuridical"."INN" = :Company');
+                $criteria->params['Company'] = $form->Company;
+            }
+        } else {
+            $criteria->with[] = 'OrderJuridical';
+        }
+
+        if ((int)$form->Payer !== 0) {
+            $criteria->with['Payer'] = ['together' => true];
+            $criteria->addCondition('"Payer"."RunetId" = :RunetId');
+            $criteria->params['RunetId'] = $form->Payer;
+        } else {
+            $criteria->with[] = 'Payer';
+        }
+        $criteria->with['Payer.LinkPhones.Phone'] = ['together' => false];
+
+        return $criteria;
+    }
 }

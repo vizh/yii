@@ -43,7 +43,6 @@ class EditAction extends Action
             $payer = $order->Payer;
         }
 
-
         $form = new Juridical($this->getEvent(), $payer, $order);
         if (\Yii::app()->getRequest()->getIsPostRequest()) {
             $form->fillFromPost();
@@ -54,4 +53,4 @@ class EditAction extends Action
         }
         $this->getController()->render('edit', ['form' => $form]);
     }
-} 
+}

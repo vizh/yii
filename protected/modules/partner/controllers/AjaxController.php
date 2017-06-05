@@ -1,17 +1,17 @@
 <?php
 
-use \partner\components\Controller;
 use application\components\controllers\AjaxController as AjaxControllerTrait;
-use pay\components\collection\Finder;
 use application\components\helpers\ArrayHelper;
-use user\models\User;
+use partner\components\Controller;
 use pay\components\CodeException as PayCodeException;
-use pay\models\Product;
+use pay\components\collection\Finder;
 use pay\components\Exception as PayException;
-use pay\models\OrderItem;
+use pay\components\OrderItemCollection;
 use pay\models\Order;
-use \pay\components\OrderItemCollection;
+use pay\models\OrderItem;
 use pay\models\OrderLinkOrderItem;
+use pay\models\Product;
+use user\models\User;
 
 class AjaxController extends Controller
 {
@@ -132,20 +132,18 @@ class AjaxController extends Controller
         $model->limit(10);
 
         $result = [];
-        foreach ($model->findAll() as $user)
-        {
+        foreach ($model->findAll() as $user) {
             $employment = $user->getEmploymentPrimary();
 
             $result[] = [
                 'value' => $user->RunetId,
-                'label' => $user->getFullName() . ($employment !== null ? ' (' . $employment . ')' : '')
+                'label' => $user->getFullName().($employment !== null ? ' ('.$employment.')' : '')
             ];
         }
         $this->returnJSON($result);
     }
 
-
-    /** @var bool|null|Order  */
+    /** @var bool|null|Order */
     private $order = false;
 
     /**
@@ -168,7 +166,7 @@ class AjaxController extends Controller
         return $this->order;
     }
 
-    /** @var null|Order  */
+    /** @var null|Order */
     private $payer = null;
 
     /**

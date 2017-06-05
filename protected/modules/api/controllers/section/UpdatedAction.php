@@ -1,11 +1,10 @@
 <?php
 namespace api\controllers\section;
 
-use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
-use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
+use nastradamus39\slate\annotations\ApiAction;
 
 class UpdatedAction extends \api\components\Action
 {
@@ -27,15 +26,14 @@ class UpdatedAction extends \api\components\Action
      *     )
      * )
      */
-  public function run()
-  {
-    $sections = $this->getEvent()->Sections(array('with' => array('LinkHalls.Hall', 'Attributes')));
-
-    $result = array();
-    foreach ($sections as $section)
+    public function run()
     {
-      $result[] = $this->getAccount()->getDataBuilder()->createSection($section);
+        $sections = $this->getEvent()->Sections(['with' => ['LinkHalls.Hall', 'Attributes']]);
+
+        $result = [];
+        foreach ($sections as $section) {
+            $result[] = $this->getAccount()->getDataBuilder()->createSection($section);
+        }
+        $this->setResult($result);
     }
-    $this->setResult($result);
-  }
 }

@@ -29,12 +29,11 @@ class Devcon16 extends Base
         return 'DevCon 2016';
     }
 
-
     protected function getViewPath()
     {
         return 'pay.views.mail.orderjuridical.notify.notpaid.devcon16';
     }
-    
+
     /**
      * @inheritdoc
      */

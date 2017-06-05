@@ -1,87 +1,108 @@
 #event_widgets_registration_Program {
-  position: relative;
-}
-#event_widgets_registration_Program .nav {
-  margin: 20px 0;
-}
-#event_widgets_registration_Program .nav li {
-  margin: 0 10px;
-}
-#event_widgets_registration_Program .nav li a {
-  font-size: 18px;
-  line-height: 20px;
-  color: #999;
-}
-#event_widgets_registration_Program .nav li a.pseudo-link {
-  border-color: #999;
-}
-#event_widgets_registration_Program .nav li.ui-state-active a {
-  color: #000;
+    position: relative;
 }
 
-#event_widgets_registration_Program .total{
-  border-bottom: 2px solid #ddd;
-  background-color: #fff;
+#event_widgets_registration_Program .nav {
+    margin: 20px 0;
 }
+
+#event_widgets_registration_Program .nav li {
+    margin: 0 10px;
+}
+
+#event_widgets_registration_Program .nav li a {
+    font-size: 18px;
+    line-height: 20px;
+    color: #999;
+}
+
+#event_widgets_registration_Program .nav li a.pseudo-link {
+    border-color: #999;
+}
+
+#event_widgets_registration_Program .nav li.ui-state-active a {
+    color: #000;
+}
+
+#event_widgets_registration_Program .total {
+    border-bottom: 2px solid #ddd;
+    background-color: #fff;
+}
+
 #event_widgets_registration_Program .total #total-caption {
-  padding: 6px 0 0 10px;
-  display: inline-block;
+    padding: 6px 0 0 10px;
+    display: inline-block;
 }
-#event_widgets_registration_Program .total >div {
-  padding: 10px 0;
-  height: 30px;
+
+#event_widgets_registration_Program .total > div {
+    padding: 10px 0;
+    height: 30px;
 }
+
 #event_widgets_registration_Program .total .btn {
-  margin-right: 10px;
+    margin-right: 10px;
 }
+
 #event_widgets_registration_Program > h4 {
-  text-align: center;
-  text-transform: uppercase;
+    text-align: center;
+    text-transform: uppercase;
 }
+
 #event_widgets_registration_Program .table {
-  font-size: 12px;
+    font-size: 12px;
 }
+
 #event_widgets_registration_Program .table th {
-  text-align: center;
+    text-align: center;
 }
+
 #event_widgets_registration_Program .table h4 {
-  font-weight: 500;
-  margin-top: 0;
+    font-weight: 500;
+    margin-top: 0;
 }
+
 #event_widgets_registration_Program .table ul li {
-  line-height: 16px;
+    line-height: 16px;
 }
+
 #event_widgets_registration_Program .table b {
-  font-weight: 500;
+    font-weight: 500;
 }
+
 #event_widgets_registration_Program .table td.time {
-  white-space: nowrap;
-  width: 1px;
+    white-space: nowrap;
+    width: 1px;
 }
+
 #event_widgets_registration_Program .table td {
-  border-right: 1px solid #ddd;
+    border-right: 1px solid #ddd;
 }
+
 #event_widgets_registration_Program .table td.hover {
-  background-color: #FDFBEE;
+    background-color: #FDFBEE;
 }
 
 #event_widgets_registration_Program .table td .registration-block {
-  margin-top: 20px;
-  border-top: 1px solid #ccc;
-  padding-top: 10px;
-  display: none;
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    display: none;
 }
+
 #event_widgets_registration_Program .table td .registration-block .btn-register,
 #event_widgets_registration_Program .table td .registration-block .btn-unregister {
-  margin-bottom: 5px;
+    margin-bottom: 5px;
 }
+
 #event_widgets_registration_Program .table td .registration-block .limit {
-  margin: 0 0 5px;
-  font-size: 11px;
+    margin: 0 0 5px;
+    font-size: 11px;
 }
+
 #event_widgets_registration_Program .modal {
-  font-size: 12px;
+    font-size: 12px;
 }
-#event_widgets_registration_Program .modal .modal-header h4{
-  margin: 0;
+
+#event_widgets_registration_Program .modal .modal-header h4 {
+    margin: 0;
 }

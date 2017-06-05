@@ -37,7 +37,6 @@ class Contacts extends SearchFormModel
         ];
     }
 
-
     /**
      * @return \CDataProvider
      */

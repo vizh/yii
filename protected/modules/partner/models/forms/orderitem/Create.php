@@ -76,7 +76,7 @@ class Create extends CreateUpdateForm
         $payer = User::model()->byRunetId($this->Payer)->find();
         $owner = User::model()->byRunetId($this->Owner)->find();
 
-        try{
+        try {
             $product = Product::model()->findByPk($this->ProductId);
             return $product->getManager()->createOrderItem($payer, $owner);
         } catch (Exception $e) {
@@ -84,6 +84,5 @@ class Create extends CreateUpdateForm
             return null;
         }
     }
-
 
 }

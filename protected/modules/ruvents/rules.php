@@ -29,7 +29,6 @@ return [
         'actions' => ['list', 'createproductget', 'productgetlist', 'fastpaiditems']
     ],
 
-
     [
         'allow',
         'roles' => ['Server'],
@@ -72,7 +71,6 @@ return [
         'controllers' => ['utility'],
         'actions' => ['changes']
     ],
-
 
     [
         'allow',

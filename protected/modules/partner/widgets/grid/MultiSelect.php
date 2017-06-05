@@ -11,7 +11,6 @@ class MultiSelect extends FilterWidget
      */
     public $items = [];
 
-
     /**
      * @inheritdoc
      */
@@ -22,7 +21,6 @@ class MultiSelect extends FilterWidget
             'model' => $this->model,
             'attribute' => $this->attribute
         ]);
-
 
         $clientScript = \Yii::app()->getClientScript();
         $script = ArrayHelper::getColumn($clientScript->scripts, $widget->getId(), false)[0];
@@ -41,4 +39,4 @@ SCRIPT;
     {
         return 'initMultiSelectFilter_'.$this->getId();
     }
-} 
+}

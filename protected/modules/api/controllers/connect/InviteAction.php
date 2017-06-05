@@ -2,12 +2,11 @@
 namespace api\controllers\connect;
 
 use connect\models\forms\Meeting;
-
-use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
-use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Sample;
+use nastradamus39\slate\annotations\ApiAction;
 
 class InviteAction extends \api\components\Action
 {
@@ -35,10 +34,10 @@ class InviteAction extends \api\components\Action
      *              @Param(title="File",        description="Прилагаемый файл", mandatory="N")
      *          },
      *          response=@Response(body="{
-                    'Success': true,
-                    'Meeting': '{$MEETING}',
-                    'Errors': []
-                }")
+    'Success': true,
+    'Meeting': '{$MEETING}',
+    'Errors': []
+    }")
      *      )
      * )
      */

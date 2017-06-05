@@ -20,24 +20,24 @@ use nastradamus39\slate\annotations\ApiObject;
  *     code="MEETING",
  *     title="Встреча",
  *     json="{
-            'Id': 2817,
-            'Place': '{$PLACE}',
-            'Creator': '{$USER}',
-            'Users': [
-                {'Status': 1,'Response': '', 'User': '{$USER}'}
-            ],
-            'UserCount': 1,
-            'Start': '2009-02-15 00:00:00',
-            'Date': '2009-02-15',
-            'Time': '00:00',
-            'Type': 1,
-            'Purpose': '',
-            'Subject': '',
-            'File': '',
-            'CreateTime': '2017-02-12 23:12:34',
-            'Status': 2,
-            'CancelResponse': ''
-        }",
+'Id': 2817,
+'Place': '{$PLACE}',
+'Creator': '{$USER}',
+'Users': [
+{'Status': 1,'Response': '', 'User': '{$USER}'}
+],
+'UserCount': 1,
+'Start': '2009-02-15 00:00:00',
+'Date': '2009-02-15',
+'Time': '00:00',
+'Type': 1,
+'Purpose': '',
+'Subject': '',
+'File': '',
+'CreateTime': '2017-02-12 23:12:34',
+'Status': 2,
+'CancelResponse': ''
+}",
  *     description="Встреча.",
  *     params={
  *          "Id"        : "Идентификатор встречи",
@@ -59,5 +59,5 @@ use nastradamus39\slate\annotations\ApiObject;
  */
 class ConnectController extends \api\components\Controller
 {
-    
+
 }

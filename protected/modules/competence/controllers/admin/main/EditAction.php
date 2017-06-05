@@ -1,10 +1,10 @@
 <?php
 namespace competence\controllers\admin\main;
 
-use competence\models\Test;
 use competence\models\form\NewQuestion;
 use competence\models\Question;
 use competence\models\QuestionType;
+use competence\models\Test;
 
 /**
  * Class EditAction shoes the page fir editing questions

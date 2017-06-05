@@ -11,7 +11,6 @@ class PhoneControls extends \CWidget
     public $disabled = false;
     public $placeholder = 'Номер телефона';
 
-
     public function init()
     {
         \Yii::app()->getClientScript()->registerPackage('runetid.jquery.inputmask-multi');

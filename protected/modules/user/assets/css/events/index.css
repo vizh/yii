@@ -1,25 +1,26 @@
 #user-account-settings-tabs ul.nav {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
-.table tr:first-child td{
+
+.table tr:first-child td {
     border: none;
     border-spacing: 0;
     border-color: #fff;
 }
 
 .inner-tab .table th, .table td {
-  padding: 18px 8px;
-  vertical-align: middle;
+    padding: 18px 8px;
+    vertical-align: middle;
 }
 
-.inner-tab .table th, .table td:last-child img{
-  height: 40px;
+.inner-tab .table th, .table td:last-child img {
+    height: 40px;
 }
 
-.ticket{
+.ticket {
     opacity: 0.2;
 }
 
-.ticket:hover{
+.ticket:hover {
     opacity: 1;
 }

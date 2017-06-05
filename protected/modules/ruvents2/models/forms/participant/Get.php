@@ -28,8 +28,9 @@ class Get extends RequestForm
             $this->Fount = filter_var($this->Fount, FILTER_SANITIZE_STRING);
 
             /* Правильный Fount - восьмисимвольный */
-            if (strlen($this->Fount) !== 32)
+            if (strlen($this->Fount) !== 32) {
                 $this->addError($attribute, Exception::getCodeMessage(Exception::INVALID_PARAM, [$attribute, $this->Fount]));
+            }
 
             /* Нам не нужен Fount при отсутствующем или невалидном кеше */
             if (Yii::app()->getCache()->get('excerpt:participants:'.$this->Fount) === false) {

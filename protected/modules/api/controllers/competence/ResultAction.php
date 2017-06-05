@@ -5,13 +5,12 @@ namespace api\controllers\competence;
 use api\components\Action;
 use api\components\Exception;
 use competence\models\Result;
-use user\models\User;
-
-use nastradamus39\slate\annotations\ApiAction;
-use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
+use nastradamus39\slate\annotations\ApiAction;
+use user\models\User;
 
 class ResultAction extends Action
 {

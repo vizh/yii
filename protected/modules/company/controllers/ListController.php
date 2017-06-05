@@ -1,6 +1,6 @@
 <?php
-use \company\models\Company;
-use \application\components\utility\Paginator;
+use application\components\utility\Paginator;
+use company\models\Company;
 
 class ListController extends \application\components\controllers\PublicMainController
 {
@@ -29,20 +29,16 @@ class ListController extends \application\components\controllers\PublicMainContr
             ]
         ];
         $criteria->addCondition('"EmploymentsAll"."EndYear" IS NULL AND "t"."Name" != \'\'');
-        $criteria->group  = '"t"."Id"';
-        $criteria->order  = 'Count("EmploymentsAll".*) DESC, "t"."Name" ASC';
+        $criteria->group = '"t"."Id"';
+        $criteria->order = 'Count("EmploymentsAll".*) DESC, "t"."Name" ASC';
 
         $filter = new \company\models\form\ListFilterForm();
         $request = \Yii::app()->getRequest();
         $filter->attributes = $request->getParam('Filter');
-        if ($request->getParam('Filter') !== null && $filter->validate())
-        {
-            foreach ($filter->attributes as $attr => $value)
-            {
-                if (!empty($value))
-                {
-                    switch($attr)
-                    {
+        if ($request->getParam('Filter') !== null && $filter->validate()) {
+            foreach ($filter->attributes as $attr => $value) {
+                if (!empty($value)) {
+                    switch ($attr) {
                         case 'CityId':
                             $criteria->addCondition('"Address"."CityId" = :CityId');
                             $criteria->params['CityId'] = $value;
@@ -62,28 +58,26 @@ class ListController extends \application\components\controllers\PublicMainContr
         $companies = Company::model()->findAll($criteria);
         $companies = \CHtml::listData($companies, 'Id', null);
 
-
         $criteria = new \CDbCriteria();
         $criteria->addInCondition('"t"."Id"', array_keys($companies));
-        $criteria->with = array(
+        $criteria->with = [
             'LinkEmails.Email',
             'LinkSite.Site',
             'LinkPhones.Phone',
             'LinkAddress.Address.City',
             'Employments'
-        );
+        ];
 
-        foreach (Company::model()->findAll($criteria) as $company)
-        {
+        foreach (Company::model()->findAll($criteria) as $company) {
             $companies[$company->Id] = $company;
         }
 
         $this->bodyId = 'companies-list';
         $this->setPageTitle(\Yii::t('app', 'Компании'));
-        $this->render('index', array(
+        $this->render('index', [
             'companies' => $companies,
             'filter' => $filter,
             'paginator' => $paginator,
-        ));
+        ]);
     }
 }

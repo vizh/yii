@@ -35,7 +35,8 @@ class RoomProductManager extends BaseProductManager
      */
     public function getProductAttributeNames()
     {
-        return array_merge(['TechnicalNumber',
+        return array_merge([
+            'TechnicalNumber',
             'Hotel',
             'Housing',
             'Category',
@@ -58,7 +59,8 @@ class RoomProductManager extends BaseProductManager
      */
     public function getRequiredProductAttributeNames()
     {
-        return ['TechnicalNumber',
+        return [
+            'TechnicalNumber',
             'Hotel',
             'Housing',
             'Category',
@@ -72,9 +74,9 @@ class RoomProductManager extends BaseProductManager
             'DescriptionMore',
             'Price',
             'AdditionalPrice',
-            'Visible'];
+            'Visible'
+        ];
     }
-
 
     /**
      * Возвращает список необходимых параметров для OrderItem
@@ -148,10 +150,10 @@ class RoomProductManager extends BaseProductManager
             $productSql = sprintf('"p"."Id" IN (%s)', $productIdList);
             $filter = $filter[0];
 
-            $sql = 'SELECT count("p"."Id") as "Count", "pa"."Value", min("pp"."Price") as "MinPrice" FROM "PayProduct" as "p"
-              LEFT JOIN "PayProductAttribute" as "pa" ON ("p"."Id" = "pa"."ProductId")
-              LEFT JOIN "PayProductPrice" as "pp" ON ("p"."Id" = "pp"."ProductId")
-              WHERE ' . $productSql . ' AND "pa"."Name" = :Filter AND NOT "p"."Deleted"
+            $sql = 'SELECT count("p"."Id") AS "Count", "pa"."Value", min("pp"."Price") AS "MinPrice" FROM "PayProduct" AS "p"
+              LEFT JOIN "PayProductAttribute" AS "pa" ON ("p"."Id" = "pa"."ProductId")
+              LEFT JOIN "PayProductPrice" AS "pp" ON ("p"."Id" = "pp"."ProductId")
+              WHERE '.$productSql.' AND "pa"."Name" = :Filter AND NOT "p"."Deleted"
               GROUP BY "pa"."Value"';
 
             $command = \Yii::app()->getDb()->createCommand($sql);
@@ -160,7 +162,7 @@ class RoomProductManager extends BaseProductManager
 
             $result = $command->queryAll();
         } else {
-            $filterSql = '"Attributes"."Name" IN (\'' . implode('\',\'', $filter) . '\')';
+            $filterSql = '"Attributes"."Name" IN (\''.implode('\',\'', $filter).'\')';
             $model = Product::model()->with([
                 'Attributes' => [
                     'on' => $filterSql
@@ -237,9 +239,9 @@ class RoomProductManager extends BaseProductManager
     public function getTitle($orderItem)
     {
         $title = parent::GetTitle($orderItem);
-        $title .= ': пансионат ' . $this->Hotel . ', строение «' . $this->Housing .
-            '», категория «' . $this->Category . '», с ' . date('d.m.Y', strtotime($orderItem->getItemAttribute('DateIn'))) .
-            ' по ' . date('d.m.Y', strtotime($orderItem->getItemAttribute('DateOut')));
+        $title .= ': пансионат '.$this->Hotel.', строение «'.$this->Housing.
+            '», категория «'.$this->Category.'», с '.date('d.m.Y', strtotime($orderItem->getItemAttribute('DateIn'))).
+            ' по '.date('d.m.Y', strtotime($orderItem->getItemAttribute('DateOut')));
 
         return $title;
     }
@@ -252,7 +254,7 @@ class RoomProductManager extends BaseProductManager
      *
      * @return bool
      */
-    protected function internalBuy($user, $orderItem = null, $params = array())
+    protected function internalBuy($user, $orderItem = null, $params = [])
     {
         return true;
     }
@@ -276,9 +278,9 @@ class RoomProductManager extends BaseProductManager
 
         $bookSql = '1=1';
         if (!empty($orderAttributes) && sizeof($orderAttributes) == 2) {
-            $sql = 'SELECT "oi"."ProductId" FROM "PayOrderItem" as oi
-                INNER JOIN "PayProduct" as "p" ON "oi"."ProductId" = "p"."Id"
-                LEFT JOIN "PayOrderItemAttribute" as "oia" ON "oia"."OrderItemId" = "oi"."Id"
+            $sql = 'SELECT "oi"."ProductId" FROM "PayOrderItem" AS oi
+                INNER JOIN "PayProduct" AS "p" ON "oi"."ProductId" = "p"."Id"
+                LEFT JOIN "PayOrderItemAttribute" AS "oia" ON "oia"."OrderItemId" = "oi"."Id"
                 WHERE "p"."EventId" = :EventId AND "p"."ManagerName" = :ManagerName AND ("oi"."Paid" OR NOT "oi"."Deleted") AND
                 ("oia"."Name" = :Name1 AND ("oia"."Value" < :Value1 OR "oia"."Value" < :Value2)
                   OR "oia"."Name" = :Name2 AND ("oia"."Value" > :Value1 OR "oia"."Value" > :Value2))
@@ -330,8 +332,8 @@ class RoomProductManager extends BaseProductManager
             $i = 0;
             foreach ($productAttributes as $key => $value) {
                 $sql .= sprintf(' OR "pa"."Name" = :mkey%1$d AND "pa"."Value" = :mvalue%1$d', $i);
-                $params[':mkey' . $i] = $key;
-                $params[':mvalue' . $i] = $value;
+                $params[':mkey'.$i] = $key;
+                $params[':mvalue'.$i] = $value;
                 $i++;
             }
             $sql .= ')';
@@ -347,7 +349,7 @@ class RoomProductManager extends BaseProductManager
         $command->group('p.Id');
 
         if (!empty($productAttributes)) {
-            $command->having('count("pa"."Id") = :CountAttributes', array(':CountAttributes' => sizeof($productAttributes)));
+            $command->having('count("pa"."Id") = :CountAttributes', [':CountAttributes' => sizeof($productAttributes)]);
         }
 
         $result = $command->queryAll();
@@ -376,7 +378,7 @@ class RoomProductManager extends BaseProductManager
      *
      * @return bool
      */
-    public function internalChangeOwner($fromUser, $toUser, $params = array())
+    public function internalChangeOwner($fromUser, $toUser, $params = [])
     {
         return true;
     }

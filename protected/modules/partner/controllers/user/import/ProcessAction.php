@@ -1,9 +1,9 @@
 <?php
 namespace partner\controllers\user\import;
 
+use partner\components\ImportException;
 use partner\models\Import;
 use partner\models\ImportUser;
-use partner\components\ImportException;
 
 class ProcessAction extends \partner\components\Action
 {
@@ -38,10 +38,9 @@ class ProcessAction extends \partner\components\Action
                 }
             }
 
-            echo '<html><head><meta http-equiv="REFRESH" content="0; url=' .
-                \Yii::app()->createUrl('/partner/user/importprocess', ['id' => $import->Id]) .
+            echo '<html><head><meta http-equiv="REFRESH" content="0; url='.
+                \Yii::app()->createUrl('/partner/user/importprocess', ['id' => $import->Id]).
                 '"></head><body></body></html>';
-
         } else {
             $model = ImportUser::model()
                 ->byImportId($import->Id)

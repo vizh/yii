@@ -2,12 +2,12 @@
 
 use application\components\auth\identity\RunetId;
 use application\components\controllers\PublicMainController;
+use application\components\exception\AuthException;
+use competence\models\Question;
 use competence\models\Result;
 use competence\models\Test;
-use competence\models\Question;
 use event\models\Participant;
 use user\models\User;
-use application\components\exception\AuthException;
 
 /**
  * Class MainController

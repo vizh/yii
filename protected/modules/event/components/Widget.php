@@ -1,5 +1,6 @@
 <?php
 namespace event\components;
+
 use application\components\Exception;
 use application\components\web\Widget as CWidget;
 
@@ -23,40 +24,29 @@ abstract class Widget extends CWidget implements IWidget
 
     public function __get($name)
     {
-        if (in_array($name, $this->getAttributeNames()))
-        {
+        if (in_array($name, $this->getAttributeNames())) {
             $attribute = $this->event->getAttribute($name);
-            if ($attribute === null)
-            {
-                throw new Exception('Необходимо указать параметр ' . $name);
-            }
-            elseif (is_array($attribute))
-            {
-                $result = array();
-                foreach ($attribute as $attr)
-                {
+            if ($attribute === null) {
+                throw new Exception('Необходимо указать параметр '.$name);
+            } elseif (is_array($attribute)) {
+                $result = [];
+                foreach ($attribute as $attr) {
                     $result[] = $attr->Value;
                 }
                 return $result;
-            }
-            else
-            {
+            } else {
                 return $attribute->Value;
             }
-        }
-        else
-        {
+        } else {
             return parent::__get($name);
         }
     }
 
     public function __set($name, $value)
     {
-        if (in_array($name, $this->getAttributeNames()))
-        {
+        if (in_array($name, $this->getAttributeNames())) {
             $attribute = $this->getEvent()->getAttribute($name);
-            if ($attribute == null)
-            {
+            if ($attribute == null) {
                 $attribute = new \event\models\Attribute();
                 $attribute->Name = $name;
                 $attribute->EventId = $this->getEvent()->Id;
@@ -64,18 +54,14 @@ abstract class Widget extends CWidget implements IWidget
             }
             $attribute->Value = $value;
             $attribute->save();
-        }
-        else
-        {
+        } else {
             parent::__set($name, $value);
         }
     }
 
-
     public function __isset($name)
     {
-        if (in_array($name, $this->getAttributeNames()))
-        {
+        if (in_array($name, $this->getAttributeNames())) {
             $attribute = $this->getEvent()->getAttribute($name);
             return $attribute !== null;
         }
@@ -113,10 +99,10 @@ abstract class Widget extends CWidget implements IWidget
     }
 
     private $adminPanel = null;
+
     public function getAdminPanel()
     {
-        if ($this->adminPanel == null)
-        {
+        if ($this->adminPanel == null) {
             $this->adminPanel = $this->getInternalAdminPanel();
         }
         return $this->adminPanel;
@@ -125,7 +111,7 @@ abstract class Widget extends CWidget implements IWidget
     protected function getInternalAdminPanel()
     {
         $class = get_class($this);
-        $class = substr($class, mb_strrpos($class, 'widgets\\')+8,mb_strlen($class));
+        $class = substr($class, mb_strrpos($class, 'widgets\\') + 8, mb_strlen($class));
         $class = \Yii::getExistClass('\event\widgets\panels', $class, 'Base');
         return new $class($this);
     }
@@ -135,7 +121,6 @@ abstract class Widget extends CWidget implements IWidget
      */
     public function process()
     {
-
     }
 
     /**

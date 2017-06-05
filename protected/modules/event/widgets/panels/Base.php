@@ -8,13 +8,12 @@
 
 namespace event\widgets\panels;
 
-
 use event\models\Attribute;
 
 class Base extends \event\components\WidgetAdminPanel
 {
-    protected  $form;
-    protected  $showForm = true;
+    protected $form;
+    protected $showForm = true;
 
     public function __construct($widget)
     {
@@ -27,8 +26,7 @@ class Base extends \event\components\WidgetAdminPanel
                 foreach ($this->form->getLocaleList() as $locale) {
                     if ($attribute == null) {
                         $this->form->Attributes[$name][$locale] = '';
-                    }
-                    else {
+                    } else {
                         $attribute->setLocale($locale);
                         $attribute->setReturnTransliteIfEmpty(false);
                         $this->form->Attributes[$name][$locale] = $attribute->Value;
@@ -36,28 +34,23 @@ class Base extends \event\components\WidgetAdminPanel
                     }
                 }
             }
-        }
-        else
-        {
+        } else {
             $this->showForm = false;
             $this->addError(\Yii::t('app', 'У виджета нет настроек.'));
         }
     }
 
-
     public function process()
     {
         $request = \Yii::app()->getRequest();
         $this->form->attributes = $request->getParam(get_class($this->form));
-        if ($this->showForm && $this->form->validate())
-        {
-            foreach($this->getWidget()->getAttributeNames() as $name) {
+        if ($this->showForm && $this->form->validate()) {
+            foreach ($this->getWidget()->getAttributeNames() as $name) {
                 $attribute = $this->getAttributeActiveRecord($name);
                 $delete = false;
                 foreach ($this->form->getLocaleList() as $locale) {
                     $value = isset($this->form->Attributes[$name][$locale]) && strlen($this->form->Attributes[$name][$locale]) ? $this->form->Attributes[$name][$locale] : null;
-                    if ($locale == \Yii::app()->getLanguage() && $value == null)
-                    {
+                    if ($locale == \Yii::app()->getLanguage() && $value == null) {
                         if (!$attribute->getIsNewRecord()) {
                             $attribute->delete();
                         }
@@ -69,8 +62,7 @@ class Base extends \event\components\WidgetAdminPanel
                     $attribute->resetLocale();
                 }
 
-                if(!$delete)
-                {
+                if (!$delete) {
                     $attribute->save();
                 }
             }

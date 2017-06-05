@@ -12,9 +12,9 @@ namespace ruvents2\models;
  *
  * @property \event\models\Event $Event
  *
- * @method Account find($condition='',$params=array())
- * @method Account findByPk($pk,$condition='',$params=array())
- * @method Account[] findAll($condition='',$params=array())
+ * @method Account find($condition = '', $params = [])
+ * @method Account findByPk($pk, $condition = '', $params = [])
+ * @method Account[] findAll($condition = '', $params = [])
  */
 class Account extends \CActiveRecord
 {
@@ -23,7 +23,7 @@ class Account extends \CActiveRecord
      * @param string $className
      * @return Account
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

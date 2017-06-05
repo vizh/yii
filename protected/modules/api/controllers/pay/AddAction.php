@@ -3,17 +3,14 @@ namespace api\controllers\pay;
 
 use api\components\Action;
 use api\components\Exception;
-use pay\components\CodeException;
-use pay\components\MessageException;
+use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\ApiAction;
 use pay\components\OrderItemCollection;
 use pay\models\Coupon;
 use Throwable;
 use Yii;
-
-use nastradamus39\slate\annotations\ApiAction;
-use nastradamus39\slate\annotations\Action\Request;
-use nastradamus39\slate\annotations\Action\Param;
-use nastradamus39\slate\annotations\Action\Response;
 
 class AddAction extends Action
 {

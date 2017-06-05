@@ -1,7 +1,6 @@
 <?php
 namespace event\components\handlers\register\system;
 
-
 class Vilikesnow14 extends Base
 {
     public function getFrom()

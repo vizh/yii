@@ -11,16 +11,19 @@ class HttpRequest extends \CHttpRequest
     protected function normalizeRequest()
     {
         // normalize request
-        if(function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc())
-        {
-            if(isset($_GET))
-                $_GET=$this->stripSlashes($_GET);
-            if(isset($_POST))
-                $_POST=$this->stripSlashes($_POST);
-            if(isset($_REQUEST))
-                $_REQUEST=$this->stripSlashes($_REQUEST);
-            if(isset($_COOKIE))
-                $_COOKIE=$this->stripSlashes($_COOKIE);
+        if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
+            if (isset($_GET)) {
+                $_GET = $this->stripSlashes($_GET);
+            }
+            if (isset($_POST)) {
+                $_POST = $this->stripSlashes($_POST);
+            }
+            if (isset($_REQUEST)) {
+                $_REQUEST = $this->stripSlashes($_REQUEST);
+            }
+            if (isset($_COOKIE)) {
+                $_COOKIE = $this->stripSlashes($_COOKIE);
+            }
         }
     }
 
@@ -33,11 +36,11 @@ class HttpRequest extends \CHttpRequest
      */
     protected function createCsrfCookie()
     {
-        $cookie=new \CHttpCookie($this->csrfTokenName,sha1(uniqid(mt_rand(),true)), array('domain' => '.'.RUNETID_HOST));
-        if(is_array($this->csrfCookie))
-        {
-            foreach($this->csrfCookie as $name=>$value)
-                $cookie->$name=$value;
+        $cookie = new \CHttpCookie($this->csrfTokenName, sha1(uniqid(mt_rand(), true)), ['domain' => '.'.RUNETID_HOST]);
+        if (is_array($this->csrfCookie)) {
+            foreach ($this->csrfCookie as $name => $value) {
+                $cookie->$name = $value;
+            }
         }
         return $cookie;
     }
@@ -48,6 +51,6 @@ class HttpRequest extends \CHttpRequest
      */
     public function getSchema()
     {
-        return ($this->isSecureConnection ? 'https' : 'http') . '://';
+        return ($this->isSecureConnection ? 'https' : 'http').'://';
     }
-} 
+}

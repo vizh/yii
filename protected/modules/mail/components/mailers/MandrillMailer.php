@@ -1,7 +1,6 @@
 <?php
 namespace mail\components\mailers;
 
-
 class MandrillMailer extends \mail\components\Mailer
 {
     const ApiKey = 'trMZUlPTlLyIoUJRAQoFrw';
@@ -66,7 +65,7 @@ class MandrillMailer extends \mail\components\Mailer
             $mailer->AddAddress($mail->getTo());
             $mailer->SetFrom($mail->getFrom(), $mail->getFromName());
             $mailer->CharSet = 'utf-8';
-            $mailer->Subject = '=?UTF-8?B?' . base64_encode($mail->getSubject()) . '?=';
+            $mailer->Subject = '=?UTF-8?B?'.base64_encode($mail->getSubject()).'?=';
             $mailer->Mailer = 'mail';
             $mailer->IsHTML($mail->isHtml());
             if ($mail->isHtml()) {
@@ -100,7 +99,7 @@ class MandrillMailer extends \mail\components\Mailer
 
     private function getBaseMessage()
     {
-        $message = array(
+        $message = [
             'html' => $this->getTagMailBody(),
             'text' => null,
             'subject' => '',
@@ -132,7 +131,7 @@ class MandrillMailer extends \mail\components\Mailer
             'recipient_metadata' => [],
             'attachments' => [],
             'images' => []
-        );
+        ];
         return $message;
     }
 }

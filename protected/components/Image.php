@@ -22,9 +22,9 @@ class Image
      */
     function __construct(\CActiveRecord $model, $defaultImage = null, $folder = null)
     {
-        $cacheDir = 'upload/images/' . strtolower($model->tableName());
+        $cacheDir = 'upload/images/'.strtolower($model->tableName());
         if ($folder !== null) {
-            $cacheDir .= '/' . $folder;
+            $cacheDir .= '/'.$folder;
         }
 
         $this->cacheName = md5($model->getPrimaryKey());
@@ -36,7 +36,6 @@ class Image
             $this->image->fromFile($defaultImage);
         }
     }
-
 
     /**
      * @param \CUploadedFile $file
@@ -54,7 +53,7 @@ class Image
     {
         $this->delete();
         $this->image->setPrettyName(
-            $this->cacheName . self::ORIGINAL_PREFIX . time(),
+            $this->cacheName.self::ORIGINAL_PREFIX.time(),
             false
         );
         $this->image->fromFile($path)->guess(100);
@@ -89,11 +88,11 @@ class Image
 
         if ($this->existsOriginal()) {
             $this->image->setPrettyName(
-                $this->cacheName . '-' . $this->image->getHash('guess', self::QUALITY),
+                $this->cacheName.'-'.$this->image->getHash('guess', self::QUALITY),
                 false
             );
         }
-        return '/' . $this->image->guess(self::QUALITY);
+        return '/'.$this->image->guess(self::QUALITY);
     }
 
     /**
@@ -124,7 +123,6 @@ class Image
         return $this->operation('zoomCrop', ['x' => $x, 'y' => $y]);
     }
 
-
     /**
      * Применяет функцию {@link $callable} для всех закэшированных файлов
      * @param \Closure $callable
@@ -133,7 +131,7 @@ class Image
     {
         /** @var Cache $cache */
         $cache = $this->image->getCacheSystem();
-        $path = \Yii::getPathOfAlias('webroot') . DIRECTORY_SEPARATOR . dirname($cache->getCacheFile($this->cacheName));
+        $path = \Yii::getPathOfAlias('webroot').DIRECTORY_SEPARATOR.dirname($cache->getCacheFile($this->cacheName));
         if (file_exists($path)) {
             foreach (new \DirectoryIterator($path) as $file) {
                 if (!$file->isDot() && strpos($file->getBasename(), $this->cacheName) === 0 && $callable($file) === false) {
@@ -145,7 +143,6 @@ class Image
 
     /** @var bool|null|string */
     private $originalPath = false;
-
 
     /**
      * @return null|string

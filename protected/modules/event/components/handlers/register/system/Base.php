@@ -10,7 +10,7 @@ class Base extends \event\components\handlers\register\Base
 
     public function getSubject()
     {
-        return 'На ' . $this->event->Title . ' зарегистрировался новый пользователь';
+        return 'На '.$this->event->Title.' зарегистрировался новый пользователь';
     }
 
     public function getBody()

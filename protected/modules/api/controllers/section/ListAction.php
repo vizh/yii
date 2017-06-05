@@ -2,13 +2,12 @@
 namespace api\controllers\section;
 
 use event\models\section\Section;
-use Yii;
-
-use nastradamus39\slate\annotations\ApiAction;
-use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
+use nastradamus39\slate\annotations\ApiAction;
+use Yii;
 
 class ListAction extends \api\components\Action
 {
@@ -20,7 +19,7 @@ class ListAction extends \api\components\Action
      *     description="Список секций.",
      *     samples={
      *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
-     '{{API_URL}}/event/section/list")
+    '{{API_URL}}/event/section/list")
      *     },
      *     request=@Request(
      *          method="GET",
@@ -42,8 +41,9 @@ class ListAction extends \api\components\Action
         $model = Section::model()
             ->byEventId($this->getEvent()->Id);
 
-        if ($this->hasRequestParam('FromUpdateTime'))
+        if ($this->hasRequestParam('FromUpdateTime')) {
             $model->byUpdateTime($this->getRequestedDate());
+        }
 
         if (!$withDeleted) {
             $model->byDeleted(false);

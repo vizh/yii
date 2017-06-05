@@ -1,14 +1,14 @@
 <?php
 namespace api\components\ms\forms;
 
+use api\components\ms\callback\UpdateUser as UpdateUserCallback;
 use api\models\Account;
 use event\models\UserData;
 use user\models\User;
-use api\components\ms\callback\UpdateUser as UpdateUserCallback;
 
 class UpdateUser extends BaseUser
 {
-    /** @var User  */
+    /** @var User */
     protected $model;
 
     /**
@@ -49,8 +49,8 @@ class UpdateUser extends BaseUser
 
         $transaction = \Yii::app()->getDb()->beginTransaction();
         try {
-            $this->model->FirstName  =  $this->FirstName;
-            $this->model->LastName   = $this->LastName;
+            $this->model->FirstName = $this->FirstName;
+            $this->model->LastName = $this->LastName;
             $this->model->FatherName = $this->FatherName;
             if ($this->model->PrimaryPhone != $this->Phone) {
                 $this->model->PrimaryPhone = $this->Phone;
@@ -88,7 +88,5 @@ class UpdateUser extends BaseUser
         }
         return false;
     }
-
-
 
 }

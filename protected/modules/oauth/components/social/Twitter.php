@@ -31,7 +31,7 @@ class Twitter implements ISocial
     public function getOAuthUrl()
     {
         $connection = $this->createConnection();
-        $callBackUrl = \Yii::app()->request->hostInfo . \Yii::app()->request->url;
+        $callBackUrl = \Yii::app()->request->hostInfo.\Yii::app()->request->url;
         $temporaryCredentials = $connection->getRequestToken($callBackUrl);
 
         $this->checkResponse($connection, $temporaryCredentials);
@@ -71,7 +71,7 @@ class Twitter implements ISocial
         $data->Hash = $account->id;
         $data->UserName = $account->screen_name;
 
-        $nameParts =  explode(' ' , $account->name);
+        $nameParts = explode(' ', $account->name);
         $data->LastName = isset($nameParts[0]) ? $nameParts[0] : '';
         $data->FirstName = isset($nameParts[1]) ? $nameParts[1] : '';
         $data->Email = '';
@@ -86,11 +86,13 @@ class Twitter implements ISocial
 
     private function checkResponse($connection, $data)
     {
-        if (!empty($data) && isset($data->errors))
+        if (!empty($data) && isset($data->errors)) {
             throw new TwitterException('', $data->errors);
+        }
 
-        if ($connection->http_code != 200)
-            throw new TwitterException('Не верный http статус ответа: ' . $connection->http_code);
+        if ($connection->http_code != 200) {
+            throw new TwitterException('Не верный http статус ответа: '.$connection->http_code);
+        }
     }
 
     /**
@@ -120,4 +122,4 @@ class Twitter implements ISocial
     }
 }
 
-require dirname(__FILE__) . '/twitter/twitteroauth.php';
+require dirname(__FILE__).'/twitter/twitteroauth.php';

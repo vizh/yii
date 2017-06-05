@@ -6,33 +6,37 @@ return [
         'users' => ['?'],
         'module' => 'widget',
         'controllers' => ['link'],
-        'actions' => ['cabinet'],
+        'actions' => ['cabinet']
     ],
+
     [
         'allow',
         'users' => ['*'],
         'module' => 'widget',
-        'controllers' => ['pay', 'link', 'speaker', 'test', 'auth'],
+        'controllers' => ['pay', 'link', 'speaker', 'test', 'auth']
     ],
+
     [
         'allow',
         'users' => ['@'],
         'module' => 'widget',
         'controllers' => ['paybuttons'],
-        'actions' => ['index', 'juridical', 'success'],
+        'actions' => ['index', 'juridical', 'success']
     ],
+
     [
         'allow',
         'users' => ['*'],
         'module' => 'widget',
         'controllers' => ['registration'],
-        'actions' => ['index'],
+        'actions' => ['index']
     ],
+
     [
         'allow',
         'users' => ['@'],
         'module' => 'widget',
         'controllers' => ['registration'],
-        'actions' => ['participants', 'complete', 'pay', 'juridical'],
-    ],
+        'actions' => ['participants', 'complete', 'pay', 'juridical']
+    ]
 ];

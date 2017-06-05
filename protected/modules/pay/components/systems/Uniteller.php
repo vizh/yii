@@ -2,14 +2,13 @@
 namespace pay\components\systems;
 
 use pay\components\CodeException;
-use pay\components\Exception;
 
 class Uniteller extends Base
 {
-  const Url = 'https://wpay.uniteller.ru/pay/';
+    const Url = 'https://wpay.uniteller.ru/pay/';
 
-  private $shopId;
-  private $password;
+    private $shopId;
+    private $password;
 
     function __construct($addition = null, $shopId = null)
     {
@@ -17,13 +16,13 @@ class Uniteller extends Base
         $this->shopId = $shopId;
     }
 
-  /**
-   * @return array
-   */
-  public function getRequiredParams()
-  {
-    return array('Shop_IDP', 'Password');
-  }
+    /**
+     * @return array
+     */
+    public function getRequiredParams()
+    {
+        return ['Shop_IDP', 'Password'];
+    }
 
     protected function initRequiredParams($orderId)
     {
@@ -40,97 +39,92 @@ class Uniteller extends Base
         }
     }
 
-  protected function getClass()
-  {
-    return __CLASS__;
-  }
+    protected function getClass()
+    {
+        return __CLASS__;
+    }
 
-  /**
-   * Проверяет, может ли данный объект обработать callback платежной системы
-   * @return bool
-   */
-  public function check()
-  {
-    $request = \Yii::app()->getRequest();
-    $orderId = $request->getParam('Order_ID', false);
-    $signature = $request->getParam('Signature', false);
-    return $orderId !== false && $signature !== false;
-  }
+    /**
+     * Проверяет, может ли данный объект обработать callback платежной системы
+     * @return bool
+     */
+    public function check()
+    {
+        $request = \Yii::app()->getRequest();
+        $orderId = $request->getParam('Order_ID', false);
+        $signature = $request->getParam('Signature', false);
+        return $orderId !== false && $signature !== false;
+    }
 
     /**
      * Заполняет общие параметры всех платежных систем, для единой обработки платежей
      * @throws \pay\components\Exception
      * @return void
      */
-  public function fillParams()
-  {
-    $request = \Yii::app()->getRequest();
-    $orderId = $request->getParam('Order_ID');
-    $this->initRequiredParams($orderId);
-    $status = $request->getParam('Status');
-    $hash = strtoupper(md5($orderId . $status . $this->password));
-
-    if ($status != 'paid' && $status != 'authorized')
+    public function fillParams()
     {
-      throw new CodeException(903, [$status]);
+        $request = \Yii::app()->getRequest();
+        $orderId = $request->getParam('Order_ID');
+        $this->initRequiredParams($orderId);
+        $status = $request->getParam('Status');
+        $hash = strtoupper(md5($orderId.$status.$this->password));
+
+        if ($status != 'paid' && $status != 'authorized') {
+            throw new CodeException(903, [$status]);
+        }
+
+        if ($hash === $request->getParam('Signature')) {
+            $this->orderId = $orderId;
+            $this->total = null;
+        } else {
+            throw new CodeException(901);
+        }
     }
 
-    if ($hash === $request->getParam('Signature'))
+    /**
+     * Выполняет отправку пользователя на оплату в соответствующую платежную систему
+     * @param int $eventId
+     * @param string $orderId
+     * @param int $total
+     * @return void
+     */
+    public function processPayment($eventId, $orderId, $total)
     {
-      $this->orderId = $orderId;
-      $this->total = null;
+        $this->initRequiredParams($orderId);
+        $total = number_format($total, 2, '.', '');
+
+        $params = [];
+        $params['Shop_IDP'] = $this->shopId;
+        $params['Order_IDP'] = $orderId;
+        $params['Subtotal_P'] = $total;
+
+        $signature = strtoupper(md5(md5($this->shopId).'&'
+            .md5($orderId).'&'
+            .md5($total).'&'
+            .md5('').'&'
+            .md5('').'&'
+            .md5('').'&'
+            .md5('').'&'
+            .md5('').'&'
+            .md5('').'&'
+            .md5('').'&'
+            .md5($this->password)));
+
+        $params['Signature'] = $signature;
+        $params['Language'] = \Yii::app()->getLanguage() == 'en' ? 'en' : 'ru';
+        $params['URL_RETURN'] = \Yii::app()->createAbsoluteUrl('/pay/cabinet/return', ['eventIdName' => \event\models\Event::model()->findByPk($eventId)->IdName]);
+
+        \Yii::app()->getController()->redirect(self::Url.'?'.http_build_query($params));
     }
-    else
+
+    /**
+     * @return void
+     */
+    public function endParseSystem()
     {
-      throw new CodeException(901);
+        header('Status: 200');
+        echo 'OK';
+        exit();
     }
-  }
-
-  /**
-   * Выполняет отправку пользователя на оплату в соответствующую платежную систему
-   * @param int $eventId
-   * @param string $orderId
-   * @param int $total
-   * @return void
-   */
-  public function processPayment($eventId, $orderId, $total)
-  {
-    $this->initRequiredParams($orderId);
-    $total = number_format($total, 2, '.', '');
-
-    $params = array();
-    $params['Shop_IDP'] = $this->shopId;
-    $params['Order_IDP'] = $orderId;
-    $params['Subtotal_P'] = $total;
-
-    $signature = strtoupper(md5(md5($this->shopId) . '&'
-        . md5($orderId) . '&'
-        . md5($total) . '&'
-        . md5('') . '&'
-        . md5('') . '&'
-        . md5('') . '&'
-        . md5('') . '&'
-        . md5('') . '&'
-        . md5('') . '&'
-        . md5('') . '&'
-        . md5($this->password)));
-
-
-    $params['Signature'] = $signature;
-    $params['Language'] = \Yii::app()->getLanguage() == 'en' ? 'en' : 'ru';
-    $params['URL_RETURN'] = \Yii::app()->createAbsoluteUrl('/pay/cabinet/return', array('eventIdName' => \event\models\Event::model()->findByPk($eventId)->IdName));
-
-    \Yii::app()->getController()->redirect(self::Url . '?' . http_build_query($params));
-  }
-
-  /**
-   * @return void
-   */
-  public function endParseSystem()
-  {
-    header('Status: 200');
-    echo 'OK';
-    exit();
-  }
 
 }

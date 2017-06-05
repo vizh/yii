@@ -1,16 +1,16 @@
 <?php
-use widget\components\Controller;
+use pay\components\collection\Finder;
 use pay\models\Account;
-use \pay\components\collection\Finder;
-use  \pay\models\forms\Juridical as JuridicalForm;
+use pay\models\forms\Juridical as JuridicalForm;
 use pay\models\Order;
+use widget\components\Controller;
 
 class PayButtonsController extends Controller
 {
     protected $useBootstrap3 = true;
 
     /**
-     * Выбор способа оплаты
+     * пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
      * @throws \pay\components\MessageException
      */
     public function actionIndex()
@@ -27,9 +27,8 @@ class PayButtonsController extends Controller
         $this->render('index', ['account' => $account, 'total' => $total]);
     }
 
-
     /**
-     * Выставление Юр. счета
+     * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ. пїЅпїЅпїЅпїЅпїЅ
      */
     public function actionJuridical()
     {
@@ -38,7 +37,7 @@ class PayButtonsController extends Controller
         if (\Yii::app()->getRequest()->getIsPostRequest()) {
             $form->fillFromPost();
 
-            $form->user  = $this->getUser();
+            $form->user = $this->getUser();
             $form->event = $this->getEvent();
             if ($form->createActiveRecord() !== null) {
                 $this->redirect(['success', 'id' => $form->getActiveRecord()->OrderId, 'system' => 'juridical']);
@@ -48,8 +47,8 @@ class PayButtonsController extends Controller
     }
 
     /**
-     * Сообщение об успешной оплате счета
-     * @param int $id Id счета
+     * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+     * @param int $id Id пїЅпїЅпїЅпїЅпїЅ
      * @param string $system
      * @throws CHttpException
      */

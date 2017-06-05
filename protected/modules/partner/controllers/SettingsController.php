@@ -1,5 +1,5 @@
 <?php
-use \partner\components\Controller;
+use partner\components\Controller;
 
 class SettingsController extends Controller
 {
@@ -12,4 +12,4 @@ class SettingsController extends Controller
             'definitions' => '\partner\controllers\settings\DefinitionsAction'
         ];
     }
-} 
+}

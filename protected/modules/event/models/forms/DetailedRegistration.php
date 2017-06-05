@@ -4,15 +4,15 @@ namespace event\models\forms;
 use application\components\auth\identity\RunetId;
 use application\components\form\CreateUpdateForm;
 use application\components\utility\Texts;
+use contact\models\Address as AddressModel;
 use contact\models\forms\Address;
 use event\models\Event;
 use event\models\Role;
 use event\models\UserData;
+use event\widgets\DetailedRegistration as DetailedRegistrationWidget;
 use user\models\DocumentType;
 use user\models\forms\document\BaseDocument;
 use user\models\User;
-use event\widgets\DetailedRegistration as DetailedRegistrationWidget;
-use contact\models\Address as AddressModel;
 
 /**
  * Class DetailedRegistration Widget renders detailed registration form with possibility to specify additional
@@ -60,7 +60,7 @@ class DetailedRegistration extends CreateUpdateForm
     public function __construct(DetailedRegistrationWidget $widget, User $user = null)
     {
         $this->widget = $widget;
-        $this->event  = $widget->getEvent();
+        $this->event = $widget->getEvent();
         $this->initUsedAttributes();
 
         if (isset($this->widget->WidgetRegistrationSelectRoleIdList)) {
@@ -227,7 +227,11 @@ class DetailedRegistration extends CreateUpdateForm
                     $rules = array_merge($rules, [
                         [$attribute, 'filter', 'filter' => 'application\components\utility\Texts::getOnlyNumbers'],
                         [$attribute, 'required'],
-                        [$attribute, 'unique', 'className' => User::className(), 'attributeName' => 'PrimaryPhone',
+                        [
+                            $attribute,
+                            'unique',
+                            'className' => User::className(),
+                            'attributeName' => 'PrimaryPhone',
                             'criteria' => !$this->isUpdateMode() ? ['condition' => '"t"."PrimaryPhoneVerify"'] : ['condition' => '"t"."PrimaryPhoneVerify" AND "t"."Id" != :Id', 'params' => ['Id' => $this->model->Id]]
                         ],
                     ]);
@@ -255,8 +259,9 @@ class DetailedRegistration extends CreateUpdateForm
         $attributes = $this->getAttributes();
 
         foreach ($this->getAttributes() as $name => $value) {
-            if (is_object($value))
+            if (is_object($value)) {
                 continue;
+            }
             $attributes[$name] = Texts::clear($value);
         }
 
@@ -302,9 +307,9 @@ class DetailedRegistration extends CreateUpdateForm
             ->byVisible(true)
             ->find();
 
-        if ($user === null)
+        if ($user === null) {
             return true;
-        else {
+        } else {
             $this->addError('Email', \Yii::t('app', 'Пользователь с таким email уже существует. {link} или укажите другой email.', ['{link}' => \CHtml::link(\Yii::t('app', 'Авторизуйтесь'), '#', ['id' => 'PromoLogin'])]));
         }
 
@@ -317,8 +322,9 @@ class DetailedRegistration extends CreateUpdateForm
      */
     public function isDisabled($attribute)
     {
-        if ($this->model === null || $this->model->getIsNewRecord())
+        if ($this->model === null || $this->model->getIsNewRecord()) {
             return false;
+        }
 
         return !empty($this->model->$attribute);
     }
@@ -449,7 +455,6 @@ class DetailedRegistration extends CreateUpdateForm
         return $this->updateActiveRecord();
     }
 
-
     /**
      * @return \CActiveRecord|null|void
      */
@@ -500,7 +505,7 @@ class DetailedRegistration extends CreateUpdateForm
 
                 if (in_array('ContactAddress', $this->getUsedAttributes())) {
                     $address = $this->model->getContactAddress();
-                    if ($address === null){
+                    if ($address === null) {
                         $address = new AddressModel();
                     }
                     $address->setAttributes($this->ContactAddress->getAttributes(), false);

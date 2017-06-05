@@ -1,6 +1,6 @@
 <?php
 use application\components\utility\Paginator;
-use \event\models\Event;
+use event\models\Event;
 
 class ListController extends \application\components\controllers\AdminMainController
 {
@@ -10,15 +10,14 @@ class ListController extends \application\components\controllers\AdminMainContro
 
         $criteria = new \CDbCriteria();
         $criteria->order = '"t"."Id" DESC';
-        $criteria->with  = ['Type','Attributes','LinkProfessionalInterests'];
+        $criteria->with = ['Type', 'Attributes', 'LinkProfessionalInterests'];
 
         $searchQuery = \Yii::app()->getRequest()->getParam('Query', null);
         if (!empty($searchQuery)) {
             if (is_numeric($searchQuery)) {
                 $criteria->addCondition('"t"."Id" = :Query');
                 $criteria->params['Query'] = $searchQuery;
-            }
-            else {
+            } else {
                 $criteria->addCondition('"t"."IdName" ILIKE :Query OR "t"."Title" ILIKE :Query');
                 $criteria->params['Query'] = '%'.$searchQuery.'%';
             }
@@ -31,33 +30,36 @@ class ListController extends \application\components\controllers\AdminMainContro
         }
 
         $deleted = \Yii::app()->getRequest()->getParam('Deleted', null);
-        $criteria->addCondition(($deleted == null ? 'NOT ' : '') . '"t"."Deleted"');
+        $criteria->addCondition(($deleted == null ? 'NOT ' : '').'"t"."Deleted"');
 
         $paginator = new Paginator(Event::model()->count($criteria));
         $paginator->perPage = \Yii::app()->params['AdminEventPerPage'];
         $criteria->mergeWith($paginator->getCriteria());
         $events = Event::model()->findAll($criteria);
         $this->setPageTitle(\Yii::t('app', 'Список мероприятий'));
-        $this->render('index', array(
+        $this->render('index', [
             'events' => $events,
             'paginator' => $paginator,
-        ));
+        ]);
     }
 
     private function processAction()
     {
         $request = \Yii::app()->getRequest();
         $action = $request->getParam('Action');
-        if ($action == null)
+        if ($action == null) {
             return;
+        }
 
         $event = \event\models\Event::model()->findByPk($request->getParam('EventId'));
-        if ($event == null)
+        if ($event == null) {
             return;
+        }
 
         $backUrl = $request->getParam('BackUrl');
-        if ($backUrl == null)
+        if ($backUrl == null) {
             return;
+        }
 
         if ($action == 'Delete') {
             $event->Deleted = true;

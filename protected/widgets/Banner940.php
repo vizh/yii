@@ -1,7 +1,6 @@
 <?php
 namespace application\widgets;
 
-
 use application\components\web\Widget;
 
 class Banner940 extends Widget
@@ -18,7 +17,7 @@ class Banner940 extends Widget
             return;
         }
 
-        $i = rand(0, sizeof($this->banners)-1);
+        $i = rand(0, sizeof($this->banners) - 1);
         $banner = $this->banners[$i];
         echo \CHtml::link(
             \CHtml::image($banner[0], $banner[2], ['style' => 'height: auto; width: 100%;']),

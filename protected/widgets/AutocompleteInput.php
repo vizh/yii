@@ -15,6 +15,7 @@ class AutocompleteInput extends \CInputWidget
      * Имя поля, на который вешается автокомплит.
      * Можно указать имя поля и тогда его значение
      * будет попадать в POST
+     *
      * @var null
      */
     public $inputFieldName = null;
@@ -35,7 +36,7 @@ class AutocompleteInput extends \CInputWidget
             $this->htmlOptions['id'] = $this->getId();
         }
         $this->targetHtmlOptions['id'] = $this->htmlOptions['id'].'target';
-        $this->htmlOptions['data-target'] = '#' . $this->targetHtmlOptions['id'];
+        $this->htmlOptions['data-target'] = '#'.$this->targetHtmlOptions['id'];
 
         if (!isset($this->options['select'])) {
             $this->options['select'] = 'js:function (event, ui) {
@@ -50,6 +51,7 @@ class AutocompleteInput extends \CInputWidget
 
     /**
      * Регистрация ресурсов виджета
+     *
      * @throws \CException
      */
     protected function initResources()
@@ -59,7 +61,7 @@ class AutocompleteInput extends \CInputWidget
 
         $id = $this->htmlOptions['id'];
         $options = \CJavaScript::encode($this->options);
-        $clientScript->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').autocomplete($options);");
+        $clientScript->registerScript(__CLASS__.'#'.$id, "jQuery('#{$id}').autocomplete($options);");
     }
 
     /**
@@ -68,10 +70,11 @@ class AutocompleteInput extends \CInputWidget
     public function run()
     {
         $this->initResources();
-        if($this->hasModel())
+        if ($this->hasModel()) {
             echo \CHtml::activeHiddenField($this->model, $this->attribute, $this->targetHtmlOptions);
-        else
+        } else {
             echo \CHtml::hiddenField($this->name, $this->value, $this->targetHtmlOptions);
+        }
 
         $value = null;
         if (!empty($this->value)) {

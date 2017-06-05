@@ -2,8 +2,6 @@
 namespace application\components\controllers;
 
 use application\components\WebModule;
-use user\models\Referral;
-use user\models\User;
 
 /**
  * Class BaseController
@@ -68,15 +66,12 @@ abstract class BaseController extends \CController
     public function filterRegisterApis($filterChain)
     {
         $googleApis = $this->registeredGoogleApis();
-        if (!empty($googleApis))
-        {
+        if (!empty($googleApis)) {
             $cs = \Yii::app()->getClientScript();
             $cs->registerScriptFile('https:'.\CGoogleApi::$bootstrapUrl, \CClientScript::POS_HEAD);
             $i = 0;
-            foreach ($googleApis as $apiName => $config)
-            {
-                if (is_array($config))
-                {
+            foreach ($googleApis as $apiName => $config) {
+                if (is_array($config)) {
                     $cs->registerScript(
                         'init-api'.$i++,
                         \CGoogleApi::load(
@@ -86,9 +81,9 @@ abstract class BaseController extends \CController
                         ),
                         \CClientScript::POS_HEAD
                     );
-                }
-                else
+                } else {
                     $cs->registerScript('init-api'.$i++, \CGoogleApi::load($config), \CClientScript::POS_HEAD);
+                }
             }
         }
         $filterChain->run();
@@ -112,21 +107,18 @@ abstract class BaseController extends \CController
 
     protected function registerDefaultResources($resourcesType)
     {
-        $resourcesMap = array();
-        $assetsPath = \Yii::getPathOfAlias($this->module->name . '.assets.' . $resourcesType) . DIRECTORY_SEPARATOR;
-        $resourcesMap[] = $assetsPath . 'module.' . $resourcesType;
-        $resourcesMap[] = $assetsPath . $this->getId() . '.' . $resourcesType;
-        $resourcesMap[] = $assetsPath . $this->getId() . DIRECTORY_SEPARATOR . $this->action->getId() . '.' . $resourcesType;
+        $resourcesMap = [];
+        $assetsPath = \Yii::getPathOfAlias($this->module->name.'.assets.'.$resourcesType).DIRECTORY_SEPARATOR;
+        $resourcesMap[] = $assetsPath.'module.'.$resourcesType;
+        $resourcesMap[] = $assetsPath.$this->getId().'.'.$resourcesType;
+        $resourcesMap[] = $assetsPath.$this->getId().DIRECTORY_SEPARATOR.$this->action->getId().'.'.$resourcesType;
 
-        foreach ($resourcesMap as $path)
-        {
-            if (!file_exists($path))
-            {
+        foreach ($resourcesMap as $path) {
+            if (!file_exists($path)) {
                 continue;
             }
             $path = \Yii::app()->assetManager->publish($path);
-            switch ($resourcesType)
-            {
+            switch ($resourcesType) {
                 case 'js':
                     \Yii::app()->clientScript->registerScriptFile($path);
                     break;
@@ -157,7 +149,7 @@ abstract class BaseController extends \CController
      * @inheritdoc
      * @param bool|false $skipInit
      */
-    public function createWidget($className, $properties = array(), $skipInit = false)
+    public function createWidget($className, $properties = [], $skipInit = false)
     {
         $widget = \Yii::app()->getWidgetFactory()->createWidget($this, $className, $properties);
         if (!$skipInit) {
@@ -165,6 +157,5 @@ abstract class BaseController extends \CController
         }
         return $widget;
     }
-
 
 }

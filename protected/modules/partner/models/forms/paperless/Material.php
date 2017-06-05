@@ -4,9 +4,9 @@ namespace partner\models\forms\paperless;
 
 use application\components\form\CreateUpdateForm;
 use application\helpers\Flash;
-use event\models\Event;
 use application\models\paperless\Material as MaterialModel;
 use application\models\paperless\MaterialLinkRole;
+use event\models\Event;
 
 class Material extends CreateUpdateForm
 {
@@ -85,10 +85,10 @@ class Material extends CreateUpdateForm
 
             if ($this->File) {
                 $file = uniqid().'.'.$this->File->extensionName;
-                $this->File->saveAs($this->model->getFilePath() . '/' . $file);
+                $this->File->saveAs($this->model->getFilePath().'/'.$file);
 
-                if ($this->model->File && is_file($this->model->getFilePath() . '/' . $this->model->File)) {
-                    unlink($this->model->getFilePath() . '/' . $this->model->File);
+                if ($this->model->File && is_file($this->model->getFilePath().'/'.$this->model->File)) {
+                    unlink($this->model->getFilePath().'/'.$this->model->File);
                 }
 
                 $this->model->File = $file;
@@ -96,10 +96,10 @@ class Material extends CreateUpdateForm
 
             if ($this->PartnerLogo) {
                 $file = uniqid().'.'.$this->PartnerLogo->extensionName;
-                $this->PartnerLogo->saveAs($this->model->getPartnerLogoPath() . '/' . $file);
+                $this->PartnerLogo->saveAs($this->model->getPartnerLogoPath().'/'.$file);
 
-                if ($this->model->PartnerLogo && is_file($this->model->getPartnerLogoPath() . '/' . $this->model->PartnerLogo)) {
-                    unlink($this->model->getPartnerLogoPath() . '/' . $this->model->PartnerLogo);
+                if ($this->model->PartnerLogo && is_file($this->model->getPartnerLogoPath().'/'.$this->model->PartnerLogo)) {
+                    unlink($this->model->getPartnerLogoPath().'/'.$this->model->PartnerLogo);
                 }
 
                 $this->model->PartnerLogo = $file;

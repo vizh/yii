@@ -23,7 +23,8 @@ class IndexAction extends \partner\components\Action
             ->byEventId($event->Id)
             ->count();
 
-        $badgesSql = /** @lang PostgreSQL */'
+        $badgesSql = /** @lang PostgreSQL */
+            '
             WITH
                 "BadgesAll" AS (SELECT "RoleId", count("UserId") AS "Count" FROM "RuventsBadge" WHERE "EventId" = :EventId GROUP BY "RoleId"),
                 "BadgesUnique" AS (SELECT "RoleId", count(DISTINCT "UserId") AS "Count" FROM "RuventsBadge" WHERE "EventId" = :EventId GROUP BY "RoleId")

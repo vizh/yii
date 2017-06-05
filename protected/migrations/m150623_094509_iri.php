@@ -2,8 +2,8 @@
 
 class m150623_094509_iri extends CDbMigration
 {
-	public function safeUp()
-	{
+    public function safeUp()
+    {
         $this->createTable('IriRole', [
             'Id' => 'serial PRIMARY KEY',
             'Title' => 'varchar(255) NOT NULL',
@@ -30,14 +30,14 @@ class m150623_094509_iri extends CDbMigration
         $this->insert('IriRole', [
             'Title' => 'Эксперт ЭС ИРИ'
         ]);
-	}
+    }
 
-	public function safeDown()
-	{
+    public function safeDown()
+    {
         $this->dropForeignKey('IriUser_UserId_fkey', 'IriUser');
         $this->dropForeignKey('IriUser_RoleId_fkey', 'IriUser');
         $this->dropForeignKey('IriUser_ProfessionalInterestId_fkey', 'IriUser');
         $this->dropTable('IriRole');
         $this->dropTable('IriUser');
-	}
+    }
 }

@@ -2,8 +2,8 @@
 
 class m170409_160832_paperless_event extends CDbMigration
 {
-	public function safeUp()
-	{
+    public function safeUp()
+    {
         $this->createTable('PaperlessEvent', [
             'Id' => 'pk',
             'EventId' => 'integer not null',
@@ -36,12 +36,12 @@ class m170409_160832_paperless_event extends CDbMigration
         ]);
         $this->addForeignKey('fk_PaperlessEventLinkRole_Event', 'PaperlessEventLinkRole', 'EventId', 'PaperlessEvent', 'Id', 'cascade', 'cascade');
         $this->addForeignKey('fk_PaperlessEventLinkRole_Role', 'PaperlessEventLinkRole', 'RoleId', 'EventRole', 'Id', 'cascade', 'cascade');
-	}
+    }
 
-	public function safeDown()
-	{
+    public function safeDown()
+    {
         $this->dropTable('PaperlessEventLinkDevice');
         $this->dropTable('PaperlessEventLinkRole');
         $this->dropTable('PaperlessEvent');
-	}
+    }
 }

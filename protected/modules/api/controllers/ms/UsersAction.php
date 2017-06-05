@@ -8,7 +8,6 @@
 
 namespace api\controllers\ms;
 
-
 use api\components\Action;
 use api\models\ExternalUser;
 use event\models\Participant;
@@ -23,11 +22,11 @@ class UsersAction extends Action
             $externalUser = ExternalUser::model()->byUserId($participant->UserId)->find();
             if ($externalUser !== null) {
                 $item = new \stdClass();
-                $item->ID  = $externalUser->ExternalId;
+                $item->ID = $externalUser->ExternalId;
                 $item->SID = $externalUser->User->RunetId;
                 $result[] = $item;
             }
         }
         $this->setResult($result);
     }
-} 
+}

@@ -4,6 +4,6 @@ return [
     [
         'allow',
         'users' => ['*'],
-        'module' => 'news',
-    ],
+        'module' => 'news'
+    ]
 ];

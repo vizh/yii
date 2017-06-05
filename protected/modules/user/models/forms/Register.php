@@ -1,14 +1,7 @@
 <?php
 namespace user\models\forms;
 
-use application\components\form\CreateUpdateForm;
 use application\components\form\CreateUpdateFormCombiner;
-use application\components\utility\Texts;
-use application\helpers\Flash;
-use contact\models\forms\Address;
-use CText;
-use event\models\Event;
-use event\models\Role;
 use user\models\forms\fields\Email;
 use user\models\forms\fields\Employment;
 use user\models\forms\fields\Name;
@@ -56,7 +49,8 @@ abstract class Register extends CreateUpdateFormCombiner
      * @param array $params
      * @return bool|mixed
      */
-    public function validateEmail($attribute, $params) {
+    public function validateEmail($attribute, $params)
+    {
         if (!$this->isHiddenUser()) {
             return call_user_func_array($params['method'], [$attribute, $this->isEmailUnique()]);
         }

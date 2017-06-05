@@ -6,6 +6,8 @@ return [
         'allow',
         'roles' => ['admin'],
         'module' => 'catalog',
-        'controllers' => ['admin/company'],
-    ],
+        'controllers' => [
+            'admin/company'
+        ]
+    ]
 ];

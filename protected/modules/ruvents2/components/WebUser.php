@@ -35,15 +35,18 @@ class WebUser extends \CWebUser
         $operatorId = isset($headers['X-Ruvents-Operator']) ? $headers['X-Ruvents-Operator'] : null;
         if ($hash !== null) {
             $this->account = Account::model()->byHash($hash)->find();
-            if ($this->account === null)
+            if ($this->account === null) {
                 throw new Exception(Exception::INVALID_HASH);
+            }
         }
         if ($operatorId !== null && $this->account !== null) {
             $this->operator = Operator::model()->findByPk($operatorId);
-            if ($this->operator === null)
+            if ($this->operator === null) {
                 throw new Exception(Exception::INVALID_OPERATOR_ID, $operatorId);
-            if ($this->operator->EventId !== $this->account->EventId)
+            }
+            if ($this->operator->EventId !== $this->account->EventId) {
                 throw new Exception(Exception::INVALID_OPERATOR_EVENT, $this->operator->Id);
+            }
         }
     }
 
@@ -84,14 +87,14 @@ class WebUser extends \CWebUser
 
     public function getId()
     {
-        if ($this->getAccount() === null)
+        if ($this->getAccount() === null) {
             return null;
+        }
         return $this->getOperator() !== null ? $this->getOperator()->Id : 'account_'.$this->getAccount()->Id;
     }
 }
 
-if (!function_exists('getallheaders'))
-{
+if (!function_exists('getallheaders')) {
     function getallheaders()
     {
         $headers = '';

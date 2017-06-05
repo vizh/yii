@@ -16,8 +16,7 @@ class SocialController extends \oauth\components\Controller
     {
         $proxy = new Proxy($this->social);
 
-        if ($proxy->isHasAccess())
-        {
+        if ($proxy->isHasAccess()) {
             $social = Social::model()
                 ->byHash($proxy->getData()->Hash)
                 ->bySocialId($proxy->getSocialId())
@@ -27,41 +26,33 @@ class SocialController extends \oauth\components\Controller
              * Очень временное решение. РЕШИТЬ ПРОБЛЕМУ
              */
             // Значит есть дубли в таблице OAuthSocial. Ищем реального пользователя
-            if(count($social) > 1){
+            if (count($social) > 1) {
                 $uids = [];
-                foreach($social as $s){
+                foreach ($social as $s) {
                     $uids[] = $s->UserId;
                 }
                 $criteria = new CDbCriteria();
                 $criteria->addInCondition('"Id"', $uids);
                 $users = User::model()->findAll($criteria);
                 $social = $social[0];
-                $social->User=$users[0];
-            }else{
+                $social->User = $users[0];
+            } else {
                 $social = $social[0];
             }
 
-            if (!empty($social) && !empty($social->User))
-            {
+            if (!empty($social) && !empty($social->User)) {
                 $identity = new \application\components\auth\identity\RunetId($social->User->RunetId);
                 $identity->authenticate();
-                if ($identity->errorCode == \CUserIdentity::ERROR_NONE)
-                {
+                if ($identity->errorCode == \CUserIdentity::ERROR_NONE) {
                     \Yii::app()->user->login($identity, $identity->getExpire());
-                }
-                else
-                {
+                } else {
                     throw new CHttpException(400);
                 }
-                $this->redirect($this->createUrl('/oauth/main/dialog',['frame'=>true]));
+                $this->redirect($this->createUrl('/oauth/main/dialog', ['frame' => true]));
+            } else {
+                $this->redirect($this->createUrl('/oauth/main/register', ['frame' => true]));
             }
-            else
-            {
-                $this->redirect($this->createUrl('/oauth/main/register', ['frame'=>true]));
-            }
-        }
-        else
-        {
+        } else {
             $this->redirect($proxy->getOAuthUrl());
         }
     }
@@ -76,13 +67,10 @@ class SocialController extends \oauth\components\Controller
         {
             if (\Iframe::isFrame()) {
                 $socialProxy->renderScript();
-            }
-            else {
+            } else {
                 $this->actionRequest();
             }
-        }
-        else
-        {
+        } else {
             $this->redirect($socialProxy->getOAuthUrl());
         }
     }

@@ -1,20 +1,19 @@
 <?php
 namespace pay\controllers\admin\booking;
 
-use pay\models\RoomPartnerBooking;
-use pay\components\admin\Rif;
 use event\models\Participant;
+use pay\components\admin\Rif;
+use pay\models\forms\admin\TmpRifParking as TmpRifParkingForm;
 use pay\models\OrderItem;
-use user\models\User;
+use pay\models\RoomPartnerBooking;
 use pay\models\TmpRifParking;
-
-use \pay\models\forms\admin\TmpRifParking as TmpRifParkingForm;
+use user\models\User;
 
 /**
  * Class ParkingAction
  * @package pay\controllers\admin\booking
  * @property \pay\models\forms\admin\TmpRifParking $form
- * @property ParkingItem[]                         $parking
+ * @property ParkingItem[] $parking
  */
 class ParkingAction extends \CAction
 {

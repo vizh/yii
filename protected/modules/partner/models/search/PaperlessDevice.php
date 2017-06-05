@@ -3,8 +3,8 @@
 namespace partner\models\search;
 
 use application\components\form\SearchFormModel;
-use event\models\Event;
 use application\models\paperless\Device;
+use event\models\Event;
 
 class PaperlessDevice extends SearchFormModel
 {
@@ -52,7 +52,7 @@ class PaperlessDevice extends SearchFormModel
             $criteria->compare('"Id"', $this->Id);
             $criteria->compare('"Type"', $this->Type);
             $criteria->addSearchCondition('"Name"', $this->Name, true, 'and', 'ilike');
-            if ($this->activeLabel != ''){
+            if ($this->activeLabel != '') {
                 $criteria->addColumnCondition(['"Active"' => boolval($this->activeLabel)]);
             }
         }

@@ -60,9 +60,9 @@ abstract class Mailer
      */
     public static function createRawMail($to, $from, $subject, $body, $attachments = null, $replyTo = null)
     {
-        spl_autoload_unregister(array('YiiBase','autoload'));
+        spl_autoload_unregister(['YiiBase', 'autoload']);
         Yii::import('ext.swiftmailer.lib.swift_required', true);
-        spl_autoload_register(array('YiiBase','autoload'));
+        spl_autoload_register(['YiiBase', 'autoload']);
         $message = \Swift_Message::newInstance();
 
         $message->setFrom($from)

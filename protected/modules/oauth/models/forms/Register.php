@@ -11,10 +11,12 @@ namespace oauth\models\forms;
 use application\components\auth\identity\RunetId;
 use application\components\Exception;
 use contact\models\Address;
-use contact\models\forms\Address as AddressForm;;
+use contact\models\forms\Address as AddressForm;
 use oauth\components\social\Proxy;
 use user\models\forms\Register as BaseRegisterForm;
 use user\models\Log;
+
+;
 
 class Register extends BaseRegisterForm
 {
@@ -45,7 +47,7 @@ class Register extends BaseRegisterForm
      */
     public function rules()
     {
-        $rules =  parent::rules();
+        $rules = parent::rules();
         $rules[] = ['Phone', 'required'];
         $rules[] = ['Subscribe', 'boolean'];
         $rules[] = ['Captcha', 'validateCaptcha'];
@@ -72,7 +74,6 @@ class Register extends BaseRegisterForm
         parent::afterValidate();
     }
 
-
     /**
      * Валидация каптчи
      */
@@ -86,11 +87,13 @@ class Register extends BaseRegisterForm
                 'secret' => self::RECAPTCH_SECRET,
                 'response' => $response
             ]);
-            $opts = ['http' => [
-                'method' => 'POST',
-                'header' => 'Content-type: application/x-www-form-urlencoded',
-                'content' => $data
-            ]];
+            $opts = [
+                'http' => [
+                    'method' => 'POST',
+                    'header' => 'Content-type: application/x-www-form-urlencoded',
+                    'content' => $data
+                ]
+            ];
             $context = stream_context_create($opts);
             $response = file_get_contents('https://www.google.com/recaptcha/api/siteverify', false, $context);
             if (!$response) {
@@ -130,12 +133,11 @@ class Register extends BaseRegisterForm
                     Log::create($user);
                 }
             } else {
-                throw new Exception('Не удалось пройти авторизацию после регистрации. Код ошибки: ' . $identity->errorCode);
+                throw new Exception('Не удалось пройти авторизацию после регистрации. Код ошибки: '.$identity->errorCode);
             }
         }
         return $user;
     }
-
 
     /**
      * @inheritdoc

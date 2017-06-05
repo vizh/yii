@@ -4,12 +4,11 @@ namespace api\controllers\user;
 use api\components\Action;
 use api\components\Exception;
 use application\hacks\AbstractHack;
-use user\models\User;
-
-use nastradamus39\slate\annotations\ApiAction;
-use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\ApiAction;
+use user\models\User;
 
 class LoginAction extends Action
 {
@@ -41,7 +40,7 @@ class LoginAction extends Action
     'Phones': 'массив с телефонами пользователя, если заданы',
     'Work': 'объект с данными о месте работы пользователя',
     'Status': 'объект с данными о статусе пользователя на мероприятии'
-}")
+    }")
      *     )
      * )
      */

@@ -13,7 +13,7 @@ class UserDataAction extends \pay\components\Action
         }
 
         $definedAttributes = UserData::getDefinedAttributes($this->getEvent(), $user);
-        
+
         $editArea = $this->getController()->renderPartial(
             '/cabinet/register/templates/row-userdata',
             ['event' => $this->getEvent(), 'definedAttributes' => $definedAttributes],

@@ -40,7 +40,7 @@ class Base extends MailLayout
 
     public function getSubject()
     {
-        return 'Напоминание об оплате счета №' . $this->order->Id;
+        return 'Напоминание об оплате счета №'.$this->order->Id;
     }
 
     /**

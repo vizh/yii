@@ -167,8 +167,9 @@ trait JsonContainer
         if (is_array($value) === false) {
             $options = $this->getAttributesSettings();
             if ($options !== false && $options[$name]['Translatable'] === true) {
-                if (is_array($this->attributes[$name]) === false)
+                if (is_array($this->attributes[$name]) === false) {
                     $this->attributes[$name] = [];
+                }
                 $this->attributes[$name][Yii::app()->getLanguage()] = $value;
                 return;
             }

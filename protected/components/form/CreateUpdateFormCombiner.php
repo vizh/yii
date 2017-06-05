@@ -3,7 +3,7 @@ namespace application\components\form;
 
 use application\components\helpers\ArrayHelper;
 use application\helpers\Flash;
-use \CActiveRecord;
+use CActiveRecord;
 use user\models\User;
 
 /**
@@ -198,7 +198,7 @@ abstract class CreateUpdateFormCombiner extends CreateUpdateForm
      */
     protected final function registerForm($name, $args = [])
     {
-        $reflect  = new \ReflectionClass($name);
+        $reflect = new \ReflectionClass($name);
         if ($reflect->getParentClass()->name === CreateUpdateForm::className()) {
             array_push($args, $this->model);
         }
@@ -225,13 +225,11 @@ abstract class CreateUpdateFormCombiner extends CreateUpdateForm
         }
     }
 
-
     /**
      * @return mixed
      */
     protected function internalUpdateActiveRecord()
     {
-
     }
 
     /**
@@ -239,6 +237,5 @@ abstract class CreateUpdateFormCombiner extends CreateUpdateForm
      */
     protected function internalCreateActiveRecord()
     {
-
     }
 }

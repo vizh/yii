@@ -8,7 +8,6 @@
 
 namespace event\components\handlers\register;
 
-
 class Moinnovationday15 extends Base
 {
     /**

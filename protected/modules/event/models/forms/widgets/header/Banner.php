@@ -1,7 +1,6 @@
 <?php
 namespace event\models\forms\widgets\header;
 
-use event\components\Widget;
 use event\models\Event;
 
 /**
@@ -66,7 +65,6 @@ class Banner extends Header
 
         return $this->model;
     }
-
 
     /**
      * Заполняет параметры формы из POST запроса

@@ -2,9 +2,9 @@
 use application\components\controllers\AjaxController as TraitAjaxController;
 use application\components\controllers\MainController;
 use application\components\traits\LoadModelTrait;
+use contact\models\Address;
 use geo\models\City;
 use geo\models\Region;
-use contact\models\Address;
 
 class AjaxController extends MainController
 {
@@ -57,7 +57,6 @@ class AjaxController extends MainController
         $this->returnJSON($result);
     }
 
-
     /**
      * Получение координат на карте по адресу-строке
      */
@@ -73,12 +72,14 @@ class AjaxController extends MainController
             }
 
             if (empty($geoCoordinates)) {
-                $res = ['status' => 'error', 'msg' => \Yii::t('app', 'Не удается получить координаты места автоматически. ' .
-                    'Пожалуйста, отметьте маркером место вручную.')];
+                $res = [
+                    'status' => 'error',
+                    'msg' => \Yii::t('app', 'Не удается получить координаты места автоматически. '.
+                        'Пожалуйста, отметьте маркером место вручную.')
+                ];
             } else {
                 $res = ['status' => 'success', 'coordinates' => [$geoCoordinates[1], $geoCoordinates[0]]];
             }
-
         } else {
             $res = ['status' => 'error', 'msg' => \Yii::t('app', 'Не задан адрес для получения координат')];
         }

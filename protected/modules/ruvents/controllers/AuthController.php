@@ -12,8 +12,9 @@ class AuthController extends ruvents\components\Controller
             'Password' => Operator::generatePasswordHash($Password)
         ]);
 
-        if ($operator === null)
+        if ($operator === null) {
             throw new Exception(101);
+        }
 
         $master = Operator::model()->findByAttributes([
             'Password' => Operator::generatePasswordHash($MasterPassword),
@@ -21,8 +22,9 @@ class AuthController extends ruvents\components\Controller
             'Role' => Operator::RoleAdmin
         ]);
 
-        if ($master === null)
+        if ($master === null) {
             throw new Exception(102);
+        }
 
         $operator->LastLoginTime = date('Y-m-d H:i:s');
         $operator->save();

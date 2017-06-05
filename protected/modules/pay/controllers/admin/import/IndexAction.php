@@ -2,7 +2,6 @@
 namespace pay\controllers\admin\import;
 
 use pay\models\Import;
-use Yii;
 
 class IndexAction extends \pay\components\Action
 {

@@ -1,8 +1,6 @@
 <?php
 use application\components\controllers\PublicMainController;
 
-
-
 class Devcon16Controller extends PublicMainController
 {
     public function actionProducts()
@@ -22,10 +20,10 @@ class Devcon16Controller extends PublicMainController
                 return $account->ExternalId;
             },
             function (\event\models\Participant $participant) {
-                $devcon = [4015,4016,4017,4018];
+                $devcon = [4015, 4016, 4017, 4018];
 
                 $criteria = new \CDbCriteria();
-                $criteria->addInCondition('"t"."ProductId"', array_merge($devcon, [4013,4019]));
+                $criteria->addInCondition('"t"."ProductId"', array_merge($devcon, [4013, 4019]));
 
                 $orderItem = \pay\models\OrderItem::model()
                     ->byAnyOwnerId($participant->UserId)

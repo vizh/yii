@@ -8,13 +8,13 @@ class VKAPI
 {
     public static $baseApiUrl = 'https://api.vk.com/method/';
 
-    public static $CURL_OPTS = array(
+    public static $CURL_OPTS = [
         CURLOPT_CONNECTTIMEOUT => 60,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_TIMEOUT => 60,
         CURLOPT_USERAGENT => 'leaderid-php',
         CURLOPT_SSL_VERIFYPEER => false
-    );
+    ];
 
     /**
      * Возвращает список стран
@@ -26,15 +26,16 @@ class VKAPI
      */
     public static function databaseGetCountries($count, $offset = 0, $needAll = 1, $code = null)
     {
-        $opts[CURLOPT_URL] = self::$baseApiUrl . 'database.getCountries';
-        $params = array(
+        $opts[CURLOPT_URL] = self::$baseApiUrl.'database.getCountries';
+        $params = [
             'need_all' => $needAll,
             'count' => $count,
             'offset' => $offset,
             'code' => $code
-        );
-        if (is_string($code))
-            $params = array_merge($params, array('code' => $code));
+        ];
+        if (is_string($code)) {
+            $params = array_merge($params, ['code' => $code]);
+        }
 
         $countries = \CJSON::decode(self::makeRequest($opts, $params));
         self::checkErrors($countries);
@@ -52,14 +53,15 @@ class VKAPI
      */
     public static function databaseGetRegions($countryId, $count, $offset = 0, $q = null)
     {
-        $opts[CURLOPT_URL] = self::$baseApiUrl . 'database.getRegions';
-        $params = array(
+        $opts[CURLOPT_URL] = self::$baseApiUrl.'database.getRegions';
+        $params = [
             'country_id' => $countryId,
             'count' => $count,
             'offset' => $offset
-        );
-        if (is_string($q))
-            $params = array_merge($params, array('q' => $q));
+        ];
+        if (is_string($q)) {
+            $params = array_merge($params, ['q' => $q]);
+        }
 
         $regions = \CJSON::decode(self::makeRequest($opts, $params));
         self::checkErrors($regions);
@@ -79,18 +81,20 @@ class VKAPI
      */
     public static function databaseGetCities($countryId, $regionId, $count, $offset = 0, $needAll = 1, $q = null)
     {
-        $opts[CURLOPT_URL] = self::$baseApiUrl . 'database.getCities';
-        $params = array(
+        $opts[CURLOPT_URL] = self::$baseApiUrl.'database.getCities';
+        $params = [
             'country_id' => $countryId,
             'count' => $count,
             'offset' => $offset,
             'need_all' => $needAll
-        );
-        if (!empty($regionId))
-            $params = array_merge($params, array('region_id' => $regionId));
+        ];
+        if (!empty($regionId)) {
+            $params = array_merge($params, ['region_id' => $regionId]);
+        }
 
-        if (is_string($q))
-            $params = array_merge($params, array('q' => $q));
+        if (is_string($q)) {
+            $params = array_merge($params, ['q' => $q]);
+        }
 
         $cities = \CJSON::decode(self::makeRequest($opts, $params));
         self::checkErrors($cities);
@@ -109,16 +113,17 @@ class VKAPI
      */
     public static function databaseGetUniversities($countryId, $cityId, $count, $offset = 0, $q = null)
     {
-        $opts[CURLOPT_URL] = self::$baseApiUrl . 'database.getUniversities';
-        $params = array(
+        $opts[CURLOPT_URL] = self::$baseApiUrl.'database.getUniversities';
+        $params = [
             'country_id' => $countryId,
             'city_id' => $cityId,
             'count' => $count,
             'offset' => $offset
-        );
+        ];
 
-        if (is_string($q))
-            $params = array_merge($params, array('q' => $q));
+        if (is_string($q)) {
+            $params = array_merge($params, ['q' => $q]);
+        }
 
         $universities = \CJSON::decode(self::makeRequest($opts, $params));
         self::checkErrors($universities);
@@ -135,12 +140,12 @@ class VKAPI
      */
     public static function databaseGetFaculties($universityId, $count, $offset = 0)
     {
-        $opts[CURLOPT_URL] = self::$baseApiUrl . 'database.getFaculties';
-        $params = array(
+        $opts[CURLOPT_URL] = self::$baseApiUrl.'database.getFaculties';
+        $params = [
             'university_id' => $universityId,
             'count' => $count,
             'offset' => $offset
-        );
+        ];
 
         $faculties = \CJSON::decode(self::makeRequest($opts, $params));
         self::checkErrors($faculties);
@@ -150,7 +155,7 @@ class VKAPI
 
     public static function fetchResult($decodeResult)
     {
-        return array($decodeResult['response']['count'], $decodeResult['response']['items']);
+        return [$decodeResult['response']['count'], $decodeResult['response']['items']];
     }
 
     /**
@@ -179,8 +184,9 @@ class VKAPI
             } catch (\CException $e) {
                 curl_close($ch);
                 $exceptionTrown = true;
-                if (!$reExec || $reExecCount <= 0)
-                    throw new \CException('makeRequest Error: ' . $e->getMessage(), $e->getCode(), $e);
+                if (!$reExec || $reExecCount <= 0) {
+                    throw new \CException('makeRequest Error: '.$e->getMessage(), $e->getCode(), $e);
+                }
             }
         } while ($exceptionTrown && $reExec && $reExecCount-- > 0);
 
@@ -194,8 +200,9 @@ class VKAPI
      */
     public static function checkCUrlErrors($ch)
     {
-        if (($errornum = curl_errno($ch)) !== 0)
-            throw new \CHttpException(400, 'Сервис "ВКонтакте" не отвечает. Код ошибки = ' . $errornum . ' ' . curl_error($ch));
+        if (($errornum = curl_errno($ch)) !== 0) {
+            throw new \CHttpException(400, 'Сервис "ВКонтакте" не отвечает. Код ошибки = '.$errornum.' '.curl_error($ch));
+        }
     }
 
     /**
@@ -205,7 +212,8 @@ class VKAPI
      */
     public static function checkErrors($decodeResult)
     {
-        if (isset($decodeResult['error']))
-            throw new \CHttpException(400, 'Error code: ' . $decodeResult['error']['error_code'] . ' ' . $decodeResult['error']['error_msg']);
+        if (isset($decodeResult['error'])) {
+            throw new \CHttpException(400, 'Error code: '.$decodeResult['error']['error_code'].' '.$decodeResult['error']['error_msg']);
+        }
     }
 }

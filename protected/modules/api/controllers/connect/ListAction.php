@@ -4,12 +4,11 @@ namespace api\controllers\connect;
 use application\components\CDbCriteria;
 use application\components\helpers\ArrayHelper;
 use connect\models\Meeting;
-
-use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
-use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Sample;
+use nastradamus39\slate\annotations\ApiAction;
 
 class ListAction extends \api\components\Action
 {
@@ -35,9 +34,9 @@ class ListAction extends \api\components\Action
      *              @Param(title="Status", description="Сатус встречи. 1-открыта. 2-отменена.", mandatory="N")
      *          },
      *          response=@Response(body="{
-                    'Success': true,
-                    'Meetings': ['{$MEETING}']
-                }")
+    'Success': true,
+    'Meetings': ['{$MEETING}']
+    }")
      *      )
      * )
      */

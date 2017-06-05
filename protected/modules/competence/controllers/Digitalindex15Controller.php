@@ -1,11 +1,11 @@
 <?php
 
-use \application\components\controllers\PublicMainController;
-use \oauth\components\social\Proxy;
+use application\components\auth\identity\RunetId;
+use application\components\controllers\PublicMainController;
 use oauth\components\social\ISocial;
+use oauth\components\social\Proxy;
 use oauth\models\Social;
 use user\models\User;
-use application\components\auth\identity\RunetId;
 
 class Digitalindex15Controller extends PublicMainController
 {
@@ -31,8 +31,6 @@ class Digitalindex15Controller extends PublicMainController
             }
         }
 
-
-
         $this->render('index');
     }
 
@@ -54,7 +52,7 @@ class Digitalindex15Controller extends PublicMainController
             $user->LastName = $proxy->getData()->LastName;
             $email = $proxy->getData()->Email;
             if (empty($email)) {
-                $email =  \CText::generateFakeEmail('digitalindex15');
+                $email = \CText::generateFakeEmail('digitalindex15');
             } else {
                 $user->Visible = !User::model()->byEmail($email)->byVisible(true)->exists();
             }

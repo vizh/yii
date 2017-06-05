@@ -2,10 +2,8 @@
 namespace partner\controllers\user\import;
 
 use partner\components\Action;
-use application\components\utility\Texts;
-use partner\models\Import;
 use partner\models\forms\user\ImportPrepare;
-use partner\models\ImportUser;
+use partner\models\Import;
 
 \Yii::import('ext.PHPExcel.PHPExcel', true);
 

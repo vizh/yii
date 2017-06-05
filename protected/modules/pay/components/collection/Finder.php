@@ -1,8 +1,8 @@
 <?php
 namespace pay\components\collection;
 
-use pay\components\OrderItemCollection;
 use pay\components\OrderItemCollectable;
+use pay\components\OrderItemCollection;
 use pay\models\Order;
 use pay\models\OrderItem;
 
@@ -51,7 +51,6 @@ class Finder
 
     private function __clone()
     {
-
     }
 
     /**
@@ -144,7 +143,7 @@ class Finder
             $idList = [];
             foreach ($this->getPaidOrderCollections() as $collection) {
                 foreach ($collection as $item) {
-                    /** @var OrderItemCollectable $item  */
+                    /** @var OrderItemCollectable $item */
                     $idList[] = $item->getOrderItem()->Id;
                 }
             }

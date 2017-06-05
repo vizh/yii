@@ -6,7 +6,7 @@ abstract class FilterWidget extends \CWidget
     /** @var GridView */
     public $grid;
 
-    /** @var \CFormModel  */
+    /** @var \CFormModel */
     public $model;
 
     /** @var string */
@@ -14,9 +14,11 @@ abstract class FilterWidget extends \CWidget
 
     /**
      * Имя js функции, используемая для инициализации виджета
+     *
      * @return string|null
      */
-    public function getInitJsFunctionName() {
+    public function getInitJsFunctionName()
+    {
         return null;
     }
 } 

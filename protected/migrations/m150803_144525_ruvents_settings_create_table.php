@@ -2,9 +2,9 @@
 
 class m150803_144525_ruvents_settings_create_table extends CDbMigration
 {
-	// Use safeUp/safeDown to do migration with transaction
-	public function safeUp()
-	{
+    // Use safeUp/safeDown to do migration with transaction
+    public function safeUp()
+    {
         $this->execute('DROP TABLE IF EXISTS "RuventsSetting"');
         $this->createTable('RuventsSetting', [
             'Id' => 'serial PRIMARY KEY',
@@ -12,12 +12,11 @@ class m150803_144525_ruvents_settings_create_table extends CDbMigration
             'Attributes' => 'json NOT NULL',
         ]);
         $this->addForeignKey('RuventsSetting_EventId_fkey', 'RuventsSetting', 'EventId', 'Event', 'Id', 'RESTRICT', 'RESTRICT');
+    }
 
-	}
-
-	public function safeDown()
-	{
+    public function safeDown()
+    {
         $this->dropIndex('RuventsSetting_EventId_fkey', 'RuventsSetting');
         $this->dropTable('RuventsSetting');
-	}
+    }
 }

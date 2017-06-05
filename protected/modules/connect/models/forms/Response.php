@@ -15,7 +15,13 @@ class Response extends CreateUpdateForm
     {
         return [
             ['Status', 'in', 'range' => [MeetingLinkUser::STATUS_ACCEPTED, MeetingLinkUser::STATUS_DECLINED, MeetingLinkUser::STATUS_CANCELLED]],
-            ['Response', 'filter', 'filter' => function($value){ return (new \CHtmlPurifier())->purify($value); }]
+            [
+                'Response',
+                'filter',
+                'filter' => function ($value) {
+                    return (new \CHtmlPurifier())->purify($value);
+                }
+            ]
         ];
     }
 
@@ -64,7 +70,7 @@ class Response extends CreateUpdateForm
 
         $transaction = Yii::app()->db->beginTransaction();
 
-        try{
+        try {
             $this->fillActiveRecord();
 
             /** @var MeetingAR $meeting */
@@ -72,8 +78,8 @@ class Response extends CreateUpdateForm
 
             $saved = $this->model->save();
 
-            if ($saved){
-                if ($this->model->Status == MeetingLinkUser::STATUS_ACCEPTED){
+            if ($saved) {
+                if ($this->model->Status == MeetingLinkUser::STATUS_ACCEPTED) {
                     $meeting->reserveMeetingRoom();
 
                     $event = new \CEvent($meeting);
@@ -82,7 +88,7 @@ class Response extends CreateUpdateForm
                 }
                 if ($this->model->Status == MeetingLinkUser::STATUS_DECLINED
                     || $this->model->Status == MeetingLinkUser::STATUS_CANCELLED
-                ){
+                ) {
                     $event = new \CEvent($meeting);
                     $event->params['user'] = $this->model->User;
                     $event->params['response'] = $this->Response;
@@ -92,8 +98,7 @@ class Response extends CreateUpdateForm
 
             $transaction->commit();
             return $saved;
-        }
-        catch (\Exception $e){
+        } catch (\Exception $e) {
             $transaction->rollback();
             throw $e;
         }

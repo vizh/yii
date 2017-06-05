@@ -33,7 +33,7 @@ class MainController extends \oauth\components\Controller
     }
 
     /**
-     *@return mixed
+     * @return mixed
      *
      * Редиректит на главную страницу если не во фрейме
      * или закрывает окно фрэйма
@@ -80,14 +80,14 @@ class MainController extends \oauth\components\Controller
             $this->redirectWithToken();
         } elseif (Yii::app()->getRequest()->isPostRequest) {
             $permission = new Permission();
-            $permission->UserId  = $user->Id;
+            $permission->UserId = $user->Id;
             $permission->AccountId = $this->Account->Id;
             $permission->Verified = true;
             $permission->save();
             $this->redirectWithToken();
         }
 
-        $this->render('dialog', array('user' => $user, 'event' => $this->Account->Event));
+        $this->render('dialog', ['user' => $user, 'event' => $this->Account->Event]);
     }
 
     private function redirectWithToken()
@@ -96,15 +96,15 @@ class MainController extends \oauth\components\Controller
         $accessToken = new AccessToken();
         $accessToken->UserId = $user->Id;
         $accessToken->AccountId = $this->Account->Id;
-        $accessToken->EndingTime = date('Y-m-d H:i:s', time()+86400);
+        $accessToken->EndingTime = date('Y-m-d H:i:s', time() + 86400);
         $accessToken->createToken($this->Account);
         $accessToken->save();
 
         $urlParts = parse_url($this->url);
         $redirectUrl = $urlParts['scheme'].'://'.$urlParts['host'].(!empty($urlParts['path']) ? $urlParts['path'] : '');
-        $redirectUrl.= '?'.(!empty($urlParts['query']) ? $urlParts['query'].'&' : '').'token='.$accessToken->Token;
+        $redirectUrl .= '?'.(!empty($urlParts['query']) ? $urlParts['query'].'&' : '').'token='.$accessToken->Token;
         if (!empty($urlParts['fragment'])) {
-            $redirectUrl.= '#'.$urlParts['fragment'];
+            $redirectUrl .= '#'.$urlParts['fragment'];
         }
         $this->redirect($redirectUrl);
     }
@@ -136,8 +136,9 @@ class MainController extends \oauth\components\Controller
                 }
                 // Необходимо, сообщить диалогу авторизации о том, что вызов идёт с веб-приложения
                 $params = [];
-                if ($request->getParam('mobile') === 'true')
+                if ($request->getParam('mobile') === 'true') {
                     $params['mobile'] = 'true';
+                }
                 // Успешная авторизация
                 $this->redirect($this->createUrl('/oauth/main/dialog', $params));
             } else {
@@ -216,7 +217,7 @@ class MainController extends \oauth\components\Controller
                 $form->addError('EmailOrPhone', Yii::t('app', 'Ошибка! Пользователь не найден.'));
             }
         }
-        $this->render('recover', array('form' => $form));
+        $this->render('recover', ['form' => $form]);
     }
 
     public function actionError()

@@ -3,13 +3,13 @@ namespace mail\components\filter;
 
 class EmailCondition
 {
-  public $emails = [];
+    public $emails = [];
 
-  /**
-   * @param string[] $roles
-   */
-  function __construct($emails = [])
-  {
-    $this->emails = $emails;
-  }
-} 
+    /**
+     * @param string[] $roles
+     */
+    function __construct($emails = [])
+    {
+        $this->emails = $emails;
+    }
+}

@@ -36,14 +36,13 @@ class ActiveForm extends \CActiveForm
         return parent::run();
     }
 
-
     /**
      * @param FormModel $model
      * @param $attribute
      * @param array $htmlOptions
      * @return string
      */
-    public function help(FormModel $model,$attribute, $htmlOptions = [])
+    public function help(FormModel $model, $attribute, $htmlOptions = [])
     {
         $message = $model->getAttributeHelpMessage($attribute);
         if ($message === null) {

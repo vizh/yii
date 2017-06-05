@@ -20,7 +20,6 @@ class RegisterForm extends \CFormModel
     public $CityId;
     public $Visible = true;
 
-
     public function rules()
     {
         return [
@@ -38,11 +37,9 @@ class RegisterForm extends \CFormModel
 
     public function uniqueUser($attribute, $params)
     {
-        if (!empty($this->Email))
-        {
+        if (!empty($this->Email)) {
             $model = \user\models\User::model()->byEmail($this->Email)->byVisible(true);
-            if ($this->Visible && $model->exists())
-            {
+            if ($this->Visible && $model->exists()) {
                 $this->addError('Email', Yii::t('app', 'Пользователь с таким Email уже существует.'));
             }
         }
@@ -51,8 +48,7 @@ class RegisterForm extends \CFormModel
     public function checkPosition($attribute, $params)
     {
         $event = $this->getEvent();
-        if ($event !== null && isset($event->PositionRequired) && $event->PositionRequired && empty($this->Position))
-        {
+        if ($event !== null && isset($event->PositionRequired) && $event->PositionRequired && empty($this->Position)) {
             $this->addError('Position', Yii::t('app', 'Необходимо заполнить поле Должность.'));
         }
     }
@@ -64,8 +60,9 @@ class RegisterForm extends \CFormModel
      */
     private function getEvent()
     {
-        if ($this->event == null)
+        if ($this->event == null) {
             $this->event = \event\models\Event::model()->findByPk($this->EventId);
+        }
 
         return $this->event;
     }
@@ -83,8 +80,7 @@ class RegisterForm extends \CFormModel
         $user->Visible = $this->Visible;
         $user->register($this->Visible);
 
-        if (!$this->Visible)
-        {
+        if (!$this->Visible) {
             $user->Settings->UnsubscribeAll = true;
             $user->Settings->save();
         }
@@ -101,8 +97,7 @@ class RegisterForm extends \CFormModel
      */
     private function setEmployment($user)
     {
-        if (!empty($this->Company))
-        {
+        if (!empty($this->Company)) {
             $user->setEmployment($this->Company, $this->Position);
         }
     }
@@ -130,21 +125,20 @@ class RegisterForm extends \CFormModel
      */
     private function setPhone($user)
     {
-        if (!empty($this->Phone))
-        {
+        if (!empty($this->Phone)) {
             $user->setContactPhone($this->Phone);
         }
     }
 
     public function attributeLabels()
     {
-        return array(
+        return [
             'LastName' => Yii::t('app', 'Фамилия'),
             'FirstName' => Yii::t('app', 'Имя'),
             'FatherName' => Yii::t('app', 'Отчество'),
             'Phone' => Yii::t('app', 'Телефон'),
             'Company' => Yii::t('app', 'Компания'),
             'Position' => Yii::t('app', 'Должность')
-        );
+        ];
     }
 }

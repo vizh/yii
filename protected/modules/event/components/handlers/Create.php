@@ -1,17 +1,17 @@
 <?php
 namespace event\components\handlers;
 
+use event\models\Event;
+use event\models\forms\Create as CreateForm;
 use mail\components\Mail;
 use mail\components\Mailer;
-use event\models\forms\Create as CreateForm;
-use event\models\Event;
 
 class Create extends Mail
 {
-    /** @var Create  */
+    /** @var Create */
     protected $form;
 
-    /** @var string  */
+    /** @var string */
     protected $to = null;
 
     public function __construct(Mailer $mailer, CreateForm $form, Event $event)
@@ -26,7 +26,7 @@ class Create extends Mail
      */
     public function getSubject()
     {
-        return 'Новое мероприятие: ' . $this->event->Title;
+        return 'Новое мероприятие: '.$this->event->Title;
     }
 
     /**

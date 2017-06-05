@@ -2,8 +2,8 @@
 
 class m170407_185600_paperless_material extends CDbMigration
 {
-	public function safeUp()
-	{
+    public function safeUp()
+    {
         $this->createTable('PaperlessMaterial', [
             'Id' => 'pk',
             'EventId' => 'integer not null',
@@ -21,11 +21,11 @@ class m170407_185600_paperless_material extends CDbMigration
         ]);
         $this->addForeignKey('fk_PaperlessMaterialLinkRole_Material', 'PaperlessMaterialLinkRole', 'MaterialId', 'PaperlessMaterial', 'Id', 'cascade', 'cascade');
         $this->addForeignKey('fk_PaperlessMaterialLinkRole_Role', 'PaperlessMaterialLinkRole', 'RoleId', 'EventRole', 'Id', 'cascade', 'cascade');
-	}
+    }
 
-	public function safeDown()
-	{
+    public function safeDown()
+    {
         $this->dropTable('PaperlessMaterialLinkRole');
         $this->dropTable('PaperlessMaterial');
-	}
+    }
 }

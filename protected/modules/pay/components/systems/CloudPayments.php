@@ -8,24 +8,27 @@
 
 namespace pay\components\systems;
 
-
 use pay\components\CodeException;
 use pay\models\Order;
 
 class CloudPayments extends Base
 {
-    const PUBLIC_ID  = 'pk_4f7f741db6b2dd45a2d66421d5c47';
+    const PUBLIC_ID = 'pk_4f7f741db6b2dd45a2d66421d5c47';
     const API_SECRET = '6a067335dc0204477ceb4159be2817f3';
 
     /**
      * @return array
      */
-    public function getRequiredParams() {}
+    public function getRequiredParams()
+    {
+    }
 
     /**
      * @param $orderId
      */
-    protected function initRequiredParams($orderId) {}
+    protected function initRequiredParams($orderId)
+    {
+    }
 
     protected function getClass()
     {
@@ -41,7 +44,7 @@ class CloudPayments extends Base
         /** @var \CHttpRequest $request */
         $request = \Yii::app()->getRequest();
         $invoiceId = $request->getParam('InvoiceId', false);
-        $status  = $request->getParam('Status', false);
+        $status = $request->getParam('Status', false);
         $amount = $request->getParam('Amount');
         return $invoiceId !== false && $status !== false && $amount !== false;
     }
@@ -65,7 +68,7 @@ class CloudPayments extends Base
         }
 
         $this->orderId = $invoiceId;
-        $this->total = (int) $amount;
+        $this->total = (int)$amount;
     }
 
     /**
@@ -78,8 +81,8 @@ class CloudPayments extends Base
     public function processPayment($eventId, $orderId, $total)
     {
         $request = \Yii::app()->getRequest();
-        header('Access-Control-Allow-Origin: ' . implode(' ', [
-                $request->getSchema() . 'pay.' . RUNETID_HOST
+        header('Access-Control-Allow-Origin: '.implode(' ', [
+                $request->getSchema().'pay.'.RUNETID_HOST
             ]));
 
         $order = Order::model()->findByPk($orderId);
@@ -91,7 +94,7 @@ class CloudPayments extends Base
             'invoiceId' => $orderId
         ];
         if ($order->Payer->Visible) {
-            $data['email'] =$order->Payer->Email;
+            $data['email'] = $order->Payer->Email;
         }
         echo json_encode($data);
     }
@@ -105,7 +108,6 @@ class CloudPayments extends Base
         exit;
     }
 
-
     /**
      * @param $id
      * @return bool
@@ -115,9 +117,9 @@ class CloudPayments extends Base
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, 'https://api.cloudpayments.ru/payments/find');
         curl_setopt($curl, CURLOPT_HTTPHEADER, [
-            'Authorization: Basic ' . base64_encode(self::PUBLIC_ID . ':' . self::API_SECRET)
+            'Authorization: Basic '.base64_encode(self::PUBLIC_ID.':'.self::API_SECRET)
         ]);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl, CURLOPT_POSTFIELDS, ['InvoiceId' => $id]);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);

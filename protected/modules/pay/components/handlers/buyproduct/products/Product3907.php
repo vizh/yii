@@ -8,7 +8,6 @@
 
 namespace pay\components\handlers\buyproduct\products;
 
-
 use mail\models\Layout;
 
 class Product3907 extends Base
@@ -42,7 +41,7 @@ class Product3907 extends Base
      */
     public function getSubject()
     {
-        return 'Приобретен товар ' . $this->product->Title;
+        return 'Приобретен товар '.$this->product->Title;
     }
 
 }

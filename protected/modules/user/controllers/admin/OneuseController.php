@@ -15,12 +15,12 @@ class OneuseController extends AdminMainController
      */
     public function actionUpdatephoto()
     {
-        $path = Yii::getPathOfAlias('webroot') . DIRECTORY_SEPARATOR . self::PHOTO_PATH_ALIAS;
+        $path = Yii::getPathOfAlias('webroot').DIRECTORY_SEPARATOR.self::PHOTO_PATH_ALIAS;
         $pattern = '*.jpg';
 
         $counter = 0;
 
-        foreach (glob($path . DIRECTORY_SEPARATOR . $pattern) as $fileName) {
+        foreach (glob($path.DIRECTORY_SEPARATOR.$pattern) as $fileName) {
             preg_match('/(\d+)\.jpg/', $fileName, $matches);
 
             if (!isset($matches[1]) || empty($matches[1])) {
@@ -44,6 +44,6 @@ class OneuseController extends AdminMainController
             $counter++;
         }
 
-        echo "Загружено $counter фотографий";
+        echo "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ $counter пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
     }
 }

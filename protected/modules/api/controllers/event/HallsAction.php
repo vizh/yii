@@ -3,12 +3,11 @@ namespace api\controllers\event;
 
 use api\components\Action;
 use event\models\section\Hall;
-
-use nastradamus39\slate\annotations\ApiAction;
-use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
+use nastradamus39\slate\annotations\ApiAction;
 
 class HallsAction extends Action
 {
@@ -39,8 +38,9 @@ class HallsAction extends Action
         $request = \Yii::app()->getRequest();
         $model = Hall::model()->byEventId($this->getEvent()->Id);
 
-        if ($this->hasRequestParam('FromUpdateTime'))
+        if ($this->hasRequestParam('FromUpdateTime')) {
             $model->byUpdateTime($this->getRequestedDate());
+        }
 
         $withDeleted = $request->getParam('WithDeleted', false);
         if (!$withDeleted) {

@@ -4,13 +4,16 @@ return [
     [
         'allow',
         'users' => ['*'],
-        'module' => 'geo',
+        'module' => 'geo'
     ],
+
     [
         'deny',
         'users' => ['*'],
         'module' => 'geo',
-        'controllers' => ['admin/ajax'],
+        'controllers' => [
+            'admin/ajax'
+        ]
     ],
 
     /** Admin Rules */
@@ -18,6 +21,8 @@ return [
         'allow',
         'roles' => ['admin'],
         'module' => 'contact',
-        'controllers' => ['admin/ajax'],
-    ],
+        'controllers' => [
+            'admin/ajax'
+        ]
+    ]
 ];

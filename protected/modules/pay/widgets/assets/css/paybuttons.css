@@ -1,100 +1,117 @@
 #pay_widget_PayButtons ul {
-  padding: 0;
-  margin:  0;
-  list-style: none;
-}
-#pay_widget_PayButtons a {
-  width: 120px;
-  line-height: 40px;
-  background-repeat: no-repeat;
-  background-position: center center;
-  margin-bottom: 10px;
-}
-#pay_widget_PayButtons li:last-child a {
-  margin-bottom: 0;
-}
-#pay_widget_PayButtons ul.online-money li {
-  float: left;
-  margin-right: 10px;
-}
-#pay_widget_PayButtons a.uniteller {
-  background-image: url(/img/pay/uniteller_36.png);
-}
-#pay_widget_PayButtons a.btn-primary.uniteller {
-  background-image: url(/img/pay/uniteller_36_white.png);
-}
-#pay_widget_PayButtons a.payonline {
-  background-image: url(/img/pay/logo.cards.png);
-}
-#pay_widget_PayButtons a.btn-primary.payonline {
-  background-image: url(/img/pay/logo.cards.white.png);
-}
-#pay_widget_PayButtons a.cloudpayments {
-  background-image: url(/img/pay/cloudpayments_20.png);
-  background-repeat: no-repeat;
-}
-#pay_widget_PayButtons a.btn-primary.cloudpayments {
-  background-image: url(/img/pay/cloudpayments_20_white.png);
-}
-#pay_widget_PayButtons a.btn-primary.cloudpayments.loader {
-  background-image: url(/img/pay/cloudpayments_20_loader.gif);
-}
-#pay_widget_PayButtons a.walletone {
-  background-image: url(/img/pay/walletone_35.png);
-  background-repeat: no-repeat;
-}
-#pay_widget_PayButtons a.btn-primary.walletone {
-  background-image: url(/img/pay/walletone_35_white.png);
-}
-#pay_widget_PayButtons #w1widget {
-  display: inline-block;
-}
-#pay_widget_PayButtons #w1widget .w1-widget .w1-widget_header {
-  display: none;
-}
-#pay_widget_PayButtons #w1widget .w1-widget {
-  padding-bottom: 0;
+    padding: 0;
+    margin: 0;
+    list-style: none;
 }
 
+#pay_widget_PayButtons a {
+    width: 120px;
+    line-height: 40px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin-bottom: 10px;
+}
+
+#pay_widget_PayButtons li:last-child a {
+    margin-bottom: 0;
+}
+
+#pay_widget_PayButtons ul.online-money li {
+    float: left;
+    margin-right: 10px;
+}
+
+#pay_widget_PayButtons a.uniteller {
+    background-image: url(/img/pay/uniteller_36.png);
+}
+
+#pay_widget_PayButtons a.btn-primary.uniteller {
+    background-image: url(/img/pay/uniteller_36_white.png);
+}
+
+#pay_widget_PayButtons a.payonline {
+    background-image: url(/img/pay/logo.cards.png);
+}
+
+#pay_widget_PayButtons a.btn-primary.payonline {
+    background-image: url(/img/pay/logo.cards.white.png);
+}
+
+#pay_widget_PayButtons a.cloudpayments {
+    background-image: url(/img/pay/cloudpayments_20.png);
+    background-repeat: no-repeat;
+}
+
+#pay_widget_PayButtons a.btn-primary.cloudpayments {
+    background-image: url(/img/pay/cloudpayments_20_white.png);
+}
+
+#pay_widget_PayButtons a.btn-primary.cloudpayments.loader {
+    background-image: url(/img/pay/cloudpayments_20_loader.gif);
+}
+
+#pay_widget_PayButtons a.walletone {
+    background-image: url(/img/pay/walletone_35.png);
+    background-repeat: no-repeat;
+}
+
+#pay_widget_PayButtons a.btn-primary.walletone {
+    background-image: url(/img/pay/walletone_35_white.png);
+}
+
+#pay_widget_PayButtons #w1widget {
+    display: inline-block;
+}
+
+#pay_widget_PayButtons #w1widget .w1-widget .w1-widget_header {
+    display: none;
+}
+
+#pay_widget_PayButtons #w1widget .w1-widget {
+    padding-bottom: 0;
+}
 
 #pay_widget_PayButtons a.yandexmoney {
-  background-image: url(/img/pay/yandexmoney_34.png);
+    background-image: url(/img/pay/yandexmoney_34.png);
 }
+
 #pay_widget_PayButtons a.btn-primary.yandexmoney {
-  background-image: url(/img/pay/yandexmoney_34_white.png);
+    background-image: url(/img/pay/yandexmoney_34_white.png);
 }
 
-#pay_widget_PayButtons a.mailrumoney{
-  background-image: url(/img/pay/mailrumoney_25.png);
+#pay_widget_PayButtons a.mailrumoney {
+    background-image: url(/img/pay/mailrumoney_25.png);
 }
-#pay_widget_PayButtons a.btn-primary.mailrumoney{
-  background-image: url(/img/pay/mailrumoney_25_white.png);
+
+#pay_widget_PayButtons a.btn-primary.mailrumoney {
+    background-image: url(/img/pay/mailrumoney_25_white.png);
 }
+
 #pay_widget_PayButtons a.receipt {
-  width: auto;
+    width: auto;
 }
 
-
-#pay_widget_PayButtons li span{
-  display: inline-block;
-  vertical-align: middle;
-  background: url("/img/pay/pay-icons.png") no-repeat scroll 0 0 transparent;
-  height: 47px;
-  margin-left: 10px;
-  margin-bottom: 10px;
+#pay_widget_PayButtons li span {
+    display: inline-block;
+    vertical-align: middle;
+    background: url("/img/pay/pay-icons.png") no-repeat scroll 0 0 transparent;
+    height: 47px;
+    margin-left: 10px;
+    margin-bottom: 10px;
 }
+
 #pay_widget_PayButtons li span.uniteller,
-#pay_widget_PayButtons li span.cloudpayments{
-  width: 120px;
+#pay_widget_PayButtons li span.cloudpayments {
+    width: 120px;
 }
 
-#pay_widget_PayButtons li span.payonline{
-  width: 262px;
-  background: url(/img/pay/logo.payonline.png) no-repeat;
-  background-size: contain;
-  margin: 0 0 0 1.25em;
-  line-height: 106px;
-  color: #c0c0c0;
-  font-weight: lighter;
-  font-size: 11px;
+#pay_widget_PayButtons li span.payonline {
+    width: 262px;
+    background: url(/img/pay/logo.payonline.png) no-repeat;
+    background-size: contain;
+    margin: 0 0 0 1.25em;
+    line-height: 106px;
+    color: #c0c0c0;
+    font-weight: lighter;
+    font-size: 11px;
 }

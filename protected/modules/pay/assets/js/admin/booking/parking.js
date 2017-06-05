@@ -6,11 +6,11 @@ CPayAdminBookingParking = function () {
 };
 
 CPayAdminBookingParking.prototype = {
-    'init': function () {
+    'init':function () {
         var self = this;
         self.$form.find('input[name*="DateIn"], input[name*="DateOut"]').datepicker({
-            'minDate': new Date(2017, 3, 19),
-            'maxDate': new Date(2017, 3, 21)
+            'minDate':new Date(2017, 3, 19),
+            'maxDate':new Date(2017, 3, 21)
         });
 
         self.$form.submit(function () {
@@ -32,8 +32,8 @@ CPayAdminBookingParking.prototype = {
                 }
                 else if (response.success) {
                     var $alertSuccess = $('<div/>', {
-                        'class': 'alert alert-success',
-                        'html': 'Номер автомобиля успешно сохранен!'
+                        'class':'alert alert-success',
+                        'html':'Номер автомобиля успешно сохранен!'
                     });
                     self.$form.html('').append($alertSuccess);
                     document.location.reload();

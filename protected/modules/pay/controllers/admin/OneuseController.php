@@ -16,16 +16,14 @@ class OneuseController extends \application\components\controllers\AdminMainCont
         $products[] = \pay\models\Product::model()->findByPk(1377);
 
         $count = 0;
-        foreach ($users as $user)
-        {
-            foreach ($products as $product)
-            {
+        foreach ($users as $user) {
+            foreach ($products as $product) {
                 $orderItem = \pay\models\OrderItem::model()
                     ->byProductId($product->Id)->byOwnerId($user->Id)->find();
-                if ($orderItem == null)
+                if ($orderItem == null) {
                     $orderItem = $product->getManager()->createOrderItem($user, $user);
-                if (!$orderItem->Paid)
-                {
+                }
+                if (!$orderItem->Paid) {
                     $orderItem->activate();
                     $count++;
                 }
@@ -33,7 +31,6 @@ class OneuseController extends \application\components\controllers\AdminMainCont
         }
 
         echo $count;
-
     }
 
     public function actionAddRooms()
@@ -554,7 +551,7 @@ class OneuseController extends \application\components\controllers\AdminMainCont
             ['496', 'ПОЛЯНЫ', '2 корпус', 'твин однокомнатный', '2534', 'нет', '1', '2', '2', '0', '2 полуторн.(вместе)', 'нет', '', '5 310'],
             ['497', 'ПОЛЯНЫ', '2 корпус', 'твин однокомнатный', '2537', 'нет', '1', '2', '2', '0', '2 полуторн.(вместе)', 'нет', '', '5 310'],
             ['498', 'ПОЛЯНЫ', '2 корпус', 'твин однокомнатный', '2538', 'нет', '1', '2', '2', '0', '2 полуторн.(вместе)', 'нет', '', '5 310']
-              ];
+        ];
 
         foreach ($roomsTmp as $item) {
             $roomItem = [
@@ -577,35 +574,34 @@ class OneuseController extends \application\components\controllers\AdminMainCont
         }
 
         /**
-        $rooms[] = [
-        'TechnicalNumber' => '',
-        'Hotel' => '',
-        'Housing' => '',
-        'Category' => '',
-        'Number' => '',
-        'EuroRenovation' => '',
-        'RoomCount' => '',
-        'PlaceTotal' => '',
-        'PlaceBasic' => '',
-        'PlaceMore' => '',
-        'DescriptionBasic' => '',
-        'DescriptionMore' => '',
-        'Visible' => '',
-        'Price' => '',
-        ];
+         * $rooms[] = [
+         * 'TechnicalNumber' => '',
+         * 'Hotel' => '',
+         * 'Housing' => '',
+         * 'Category' => '',
+         * 'Number' => '',
+         * 'EuroRenovation' => '',
+         * 'RoomCount' => '',
+         * 'PlaceTotal' => '',
+         * 'PlaceBasic' => '',
+         * 'PlaceMore' => '',
+         * 'DescriptionBasic' => '',
+         * 'DescriptionMore' => '',
+         * 'Visible' => '',
+         * 'Price' => '',
+         * ];
          */
 
-
-        foreach ($rooms as $room)
-        {
+        foreach ($rooms as $room) {
             $this->addRoom($room);
         }
     }
 
     private function addRoom($room)
     {
-        $price = (int) str_replace(' ', '', $room['Price']);
-        var_dump($price);echo '<br />';
+        $price = (int)str_replace(' ', '', $room['Price']);
+        var_dump($price);
+        echo '<br />';
 
         $product = new \pay\models\Product();
         $product->ManagerName = 'RoomProductManager';
@@ -618,12 +614,11 @@ class OneuseController extends \application\components\controllers\AdminMainCont
 
         $price = new \pay\models\ProductPrice();
         $price->ProductId = $product->Id;
-        $price->Price = (int) str_replace(' ', '', $room['Price']);
+        $price->Price = (int)str_replace(' ', '', $room['Price']);
         $price->StartTime = '2017-03-01 09:00:00';
         $price->save();
 
-        foreach ($room as $key => $value)
-        {
+        foreach ($room as $key => $value) {
 //            if (is_array($value)) {
 //                print_r($room);
 //                print_r($value); die;
@@ -638,10 +633,8 @@ class OneuseController extends \application\components\controllers\AdminMainCont
 
         $orders = \pay\models\Order::model()
             ->byEventId(831)->byBankTransfer(true)->byDeleted(false)->findAll();
-        foreach ($orders as $order)
-        {
-            foreach ($order->ItemLinks as $link)
-            {
+        foreach ($orders as $order) {
+            foreach ($order->ItemLinks as $link) {
                 $ownerId = $link->OrderItem->ChangedOwnerId == null ? $link->OrderItem->OwnerId : $link->OrderItem->ChangedOwnerId;
                 $goodUsers[] = $ownerId;
             }
@@ -650,20 +643,18 @@ class OneuseController extends \application\components\controllers\AdminMainCont
         $goodUsers = array_unique($goodUsers);
 
         $criteria = new CDbCriteria();
-        $criteria->with = ['Participants' => array('together' => true)];
+        $criteria->with = ['Participants' => ['together' => true]];
         $criteria->addNotInCondition('t."Id"', $goodUsers);
         $criteria->addCondition('"Participants"."EventId" = :EventId AND "Participants"."RoleId" = :RoleId');
         $criteria->params['EventId'] = 831;
         $criteria->params['RoleId'] = 24;
         $criteria->order = 't."LastName", t."FirstName"';
 
-
         $badUsers = \user\models\User::model()->findAll($criteria);
 
         echo count($badUsers), '<br>';
         echo '<table>';
-        foreach ($badUsers as $user)
-        {
+        foreach ($badUsers as $user) {
             echo '<tr>';
             $this->printTD($user->RunetId);
             $this->printTD($user->getFullName());
@@ -689,7 +680,6 @@ class OneuseController extends \application\components\controllers\AdminMainCont
 
     public function actionDevconinfo()
     {
-
 
         $orderItems = \pay\models\OrderItem::model()->byEventId(831)->byPaid(true)->findAll();
 
@@ -728,11 +718,11 @@ class OneuseController extends \application\components\controllers\AdminMainCont
             if (abs($total - $order->Total) > 5) {
                 echo sprintf("order: %d diff: %d %d <br>", $order->Id, $order->Total, $total);
             }
-
         }
     }
 
-    public function actionDevconphones() {
+    public function actionDevconphones()
+    {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -785,8 +775,6 @@ class OneuseController extends \application\components\controllers\AdminMainCont
 
                     $countAddCity++;
                 }
-
-
                 /*if ($extUser->ShortExternalId === null && !empty($row->WPUserID)) {
                     $extUser->ShortExternalId = trim($row->WPUserID);
                     $extUser->save();
@@ -803,94 +791,79 @@ class OneuseController extends \application\components\controllers\AdminMainCont
 
     public function actionDevconimportproduct()
     {
-      $products = [
-        'ГК' => 2765,
-        'Без проживания' => 2764,
-        'Обед 28-29 мая' => 2763,
-        'Обед 29 мая' => 2762,
-        'Обед 28 мая' => 2761,
-        'Анива' => 2760,
-        '4 корпус' => 2759,
-        'Обед 29.05' => 2762,
-        'без проживания' => 2764
-      ];
+        $products = [
+            'ГК' => 2765,
+            'Без проживания' => 2764,
+            'Обед 28-29 мая' => 2763,
+            'Обед 29 мая' => 2762,
+            'Обед 28 мая' => 2761,
+            'Анива' => 2760,
+            '4 корпус' => 2759,
+            'Обед 29.05' => 2762,
+            'без проживания' => 2764
+        ];
 
+        \Yii::import('ext.PHPExcel.PHPExcel', true);
+        $excel = \PHPExcel_IOFactory::load(\Yii::getPathOfAlias('pay.data.DevCon2014_Register').'.xlsx');
+        $worksheet = $excel->getSheet(0);
 
-      \Yii::import('ext.PHPExcel.PHPExcel', true);
-      $excel = \PHPExcel_IOFactory::load(\Yii::getPathOfAlias('pay.data.DevCon2014_Register').'.xlsx');
-      $worksheet = $excel->getSheet(0);
-
-      $columns = [];
-      foreach ($worksheet->getRowIterator(2) as $row)
-      {
-        /** @var $row \PHPExcel_Worksheet_Row */
-        $cellIterator = $row->getCellIterator();
-        //$cellIterator->setIterateOnlyExistingCells(false);
-        foreach ($cellIterator as $cell)
-        {
-          /** @var $cell \PHPExcel_Cell */
-          $value = trim($cell->getValue());
-          if (!empty($value))
-          {
-            $columns[] = $cell->getColumn();
-          }
+        $columns = [];
+        foreach ($worksheet->getRowIterator(2) as $row) {
+            /** @var $row \PHPExcel_Worksheet_Row */
+            $cellIterator = $row->getCellIterator();
+            //$cellIterator->setIterateOnlyExistingCells(false);
+            foreach ($cellIterator as $cell) {
+                /** @var $cell \PHPExcel_Cell */
+                $value = trim($cell->getValue());
+                if (!empty($value)) {
+                    $columns[] = $cell->getColumn();
+                }
+            }
         }
-      }
-      $columns = array_unique($columns);
-      sort($columns, SORT_STRING);
+        $columns = array_unique($columns);
+        sort($columns, SORT_STRING);
 
-      for ($i = 2; $i <= $worksheet->getHighestRow(); $i++)
-      {
-        $criteria = new \CDbCriteria();
-        $criteria->addCondition('"t"."FirstName" ILIKE :FirtsName');
-        $criteria->addCondition('"t"."LastName" ILIKE :LastName');
-        $criteria->addCondition('"Role"."Title" = :Role AND "Participants"."EventId" = 831');
-        $criteria->with = ['Participants.Role'];
-        $criteria->params['FirtsName'] = trim($worksheet->getCell('B'.$i)->getValue());
-        $criteria->params['LastName'] = trim($worksheet->getCell('D'.$i)->getValue());
-        $criteria->params['Role'] = trim($worksheet->getCell('J'.$i)->getValue());
+        for ($i = 2; $i <= $worksheet->getHighestRow(); $i++) {
+            $criteria = new \CDbCriteria();
+            $criteria->addCondition('"t"."FirstName" ILIKE :FirtsName');
+            $criteria->addCondition('"t"."LastName" ILIKE :LastName');
+            $criteria->addCondition('"Role"."Title" = :Role AND "Participants"."EventId" = 831');
+            $criteria->with = ['Participants.Role'];
+            $criteria->params['FirtsName'] = trim($worksheet->getCell('B'.$i)->getValue());
+            $criteria->params['LastName'] = trim($worksheet->getCell('D'.$i)->getValue());
+            $criteria->params['Role'] = trim($worksheet->getCell('J'.$i)->getValue());
 
-        $count = \user\models\User::model()->count($criteria);
-        if ($count == 0)
-        {
-          echo 'Не найден: '.implode(', ', $criteria->params).' '.$worksheet->getCell('K'.$i)->getValue().'<br/>';
-        }
-        elseif ($count > 1)
-        {
-          $users = \user\models\User::model()->findAll($criteria);
-          echo 'Найдено '.$count.': '.implode(', ', $criteria->params);
-          foreach ($users as $user)
-          {
-            echo $user->RunetId.', ';
-          }
-          echo '<br/>';
-        }
-        elseif ($count == 1)
-        {
-          $product = trim($worksheet->getCell('K'.$i));
-          if (!array_key_exists($product, $products))
-          {
-            echo 'Не найден товар: '. $product.'<br/>';
-            continue;
-          }
+            $count = \user\models\User::model()->count($criteria);
+            if ($count == 0) {
+                echo 'Не найден: '.implode(', ', $criteria->params).' '.$worksheet->getCell('K'.$i)->getValue().'<br/>';
+            } elseif ($count > 1) {
+                $users = \user\models\User::model()->findAll($criteria);
+                echo 'Найдено '.$count.': '.implode(', ', $criteria->params);
+                foreach ($users as $user) {
+                    echo $user->RunetId.', ';
+                }
+                echo '<br/>';
+            } elseif ($count == 1) {
+                $product = trim($worksheet->getCell('K'.$i));
+                if (!array_key_exists($product, $products)) {
+                    echo 'Не найден товар: '.$product.'<br/>';
+                    continue;
+                }
 
-          $user = \user\models\User::model()->find($criteria);
-          $productId = $products[$product];
-          if (!\pay\models\OrderItem::model()->byProductId($productId)->byOwnerId($user->Id)->exists())
-          {
-            $orderItem = new \pay\models\OrderItem();
-            $orderItem->PayerId = $orderItem->OwnerId = $user->Id;
-            $orderItem->ProductId = $products[$product];
-            $orderItem->save();
-            $orderItem->activate();
-            echo 'ОК<br/>';
-          }
-          else
-          {
-            //echo 'Есть товар<br/>';
-          }
+                $user = \user\models\User::model()->find($criteria);
+                $productId = $products[$product];
+                if (!\pay\models\OrderItem::model()->byProductId($productId)->byOwnerId($user->Id)->exists()) {
+                    $orderItem = new \pay\models\OrderItem();
+                    $orderItem->PayerId = $orderItem->OwnerId = $user->Id;
+                    $orderItem->ProductId = $products[$product];
+                    $orderItem->save();
+                    $orderItem->activate();
+                    echo 'ОК<br/>';
+                } else {
+                    //echo 'Есть товар<br/>';
+                }
+            }
         }
-      }
     }
 
     public function actionDevconhalls()
@@ -945,8 +918,7 @@ class OneuseController extends \application\components\controllers\AdminMainCont
                 $users[] = $row['RunetId'];
             }
             $users = array_unique($users);
-            echo $hall . ' - ' . count($users), '<br>';
-
+            echo $hall.' - '.count($users), '<br>';
 
             $command = Yii::app()->getDb()->createCommand('SELECT "RunetId" FROM "TmpHallsDevcon"
             WHERE "HallId" != :HallId AND "CreationTime" BETWEEN :StartTime AND :EndTime');
@@ -963,23 +935,20 @@ class OneuseController extends \application\components\controllers\AdminMainCont
             $additionalUsers = array_diff(!empty($lastVisits[$hall]) ? $lastVisits[$hall] : [], $badUsers);
             $users = array_merge($users, $additionalUsers);
             $users = array_unique($users);
-            echo $hall . ' - ' . count($users), '<br><br>';
-
-
+            echo $hall.' - '.count($users), '<br><br>';
         }
-
 
         echo 'done';
     }
 
-    public function actionPhdaysfood() {
+    public function actionPhdaysfood()
+    {
         $criteria = new CDbCriteria();
         $criteria->addInCondition('t."ProductId"', [1448, 1449, 1450]);
         $orderItems = \pay\models\OrderItem::model()
             ->byEventId(832)->byPaid(true)->findAll($criteria);
 
         $count = 0;
-
 
         $product = \pay\models\Product::model()->findByPk(2753);
 
@@ -989,7 +958,7 @@ class OneuseController extends \application\components\controllers\AdminMainCont
             $addFood = $item->getPriceDiscount() > 0;
             $addFood = $addFood || ($item->getCouponActivation() != null && $item->getCouponActivation()->Coupon->IsTicket);
 
-            $foodItem =\pay\models\OrderItem::model()->byPayerId($owner->Id)
+            $foodItem = \pay\models\OrderItem::model()->byPayerId($owner->Id)
                 ->byProductId($product->Id)->byPaid(true);
 
             if ($addFood && !$foodItem->exists()) {
@@ -1002,8 +971,7 @@ class OneuseController extends \application\components\controllers\AdminMainCont
             }
         }
 
-        echo 'Done. Added: ' . $count;
-
+        echo 'Done. Added: '.$count;
     }
 
     /**
@@ -1043,26 +1011,25 @@ class OneuseController extends \application\components\controllers\AdminMainCont
 
     private function getTotal()
     {
-
     }
 }
 
 
 /**
  * PH DAYS IMPORT
-$criteria = new CDbCriteria();
-$criteria->addCondition('t."CreationTime" > :CreationTime');
-$criteria->params = ['CreationTime' => '2014-05-15 19:00:00'];
-$participants = \event\models\Participant::model()
-->byEventId(832)->findAll($criteria);
-
-$result = [];
-foreach ($participants as $participant) {
-$result[] = $participant->User->RunetId;
-}
-
-$result = array_unique($result);
-echo implode(',', $result);
+ * $criteria = new CDbCriteria();
+ * $criteria->addCondition('t."CreationTime" > :CreationTime');
+ * $criteria->params = ['CreationTime' => '2014-05-15 19:00:00'];
+ * $participants = \event\models\Participant::model()
+ * ->byEventId(832)->findAll($criteria);
+ *
+ * $result = [];
+ * foreach ($participants as $participant) {
+ * $result[] = $participant->User->RunetId;
+ * }
+ *
+ * $result = array_unique($result);
+ * echo implode(',', $result);
  *
  *
  */

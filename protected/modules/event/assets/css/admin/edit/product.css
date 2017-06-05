@@ -1,7 +1,8 @@
 .table tr.form {
-  display: none;
+    display: none;
 }
-.table tr.form>td {
-  padding-top: 20px;
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAFUlEQVQImWNgQAOPHz/+T3UBBgYGAL+IEklz7bqmAAAAAElFTkSuQmCC);
+
+.table tr.form > td {
+    padding-top: 20px;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAFUlEQVQImWNgQAOPHz/+T3UBBgYGAL+IEklz7bqmAAAAAElFTkSuQmCC);
 }

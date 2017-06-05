@@ -8,7 +8,6 @@
 
 namespace partner\controllers\user;
 
-
 use event\models\UserData;
 use partner\components\Action;
 
@@ -52,6 +51,5 @@ class ViewDataFileAction extends Action
         }
         $name .= ' '.$data->User->getFullName().'.'.$info['extension'];
         return $name;
-
     }
 }

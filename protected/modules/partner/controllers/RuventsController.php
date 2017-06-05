@@ -1,7 +1,7 @@
 <?php
 
 use application\hacks\AbstractHack;
-use \partner\components\Controller;
+use partner\components\Controller;
 
 class RuventsController extends Controller
 {

@@ -19,7 +19,7 @@ class Subsciption extends \CFormModel
     public function attributeLabels()
     {
         return [
-            'Subscribe'  => \Yii::t('app', 'Получать рассылки системы RUNET&ndash;ID'),
+            'Subscribe' => \Yii::t('app', 'Получать рассылки системы RUNET&ndash;ID'),
             'UnsubscribeEvents' => \Yii::t('app', 'Рассылка мероприятия')
         ];
     }

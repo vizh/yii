@@ -20,9 +20,9 @@ use application\models\translation\ActiveRecord;
  * @property bool $Public
  * @property bool $Translatable
  *
- * @method Definition find($condition='',$params=array())
- * @method Definition findByPk($pk,$condition='',$params=array())
- * @method Definition[] findAll($condition='',$params=array())
+ * @method Definition find($condition = '', $params = [])
+ * @method Definition findByPk($pk, $condition = '', $params = [])
+ * @method Definition[] findAll($condition = '', $params = [])
  *
  * @method Definition byPublic(boolean $public)
  * @method Definition byGroupId(int $id)
@@ -33,7 +33,7 @@ class Definition extends ActiveRecord
      * @param string $className
      * @return Definition
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
@@ -112,7 +112,6 @@ class Definition extends ActiveRecord
     }
 
     private $cachedParams = null;
-
 
     public function getParams()
     {

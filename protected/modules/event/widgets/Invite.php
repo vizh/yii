@@ -25,7 +25,6 @@ class Invite extends WidgetRegistration
         ]);
     }
 
-
     /**
      * @var InviteActivation
      */

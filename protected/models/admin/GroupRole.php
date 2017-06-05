@@ -9,27 +9,27 @@ namespace application\models\admin;
  */
 class GroupRole extends \CActiveRecord
 {
-  /**
-   * @param string $className
-   * @return GroupRole
-   */
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
+    /**
+     * @param string $className
+     * @return GroupRole
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-  public function tableName()
-  {
-    return 'AdminGroupRole';
-  }
+    public function tableName()
+    {
+        return 'AdminGroupRole';
+    }
 
-  public function primaryKey()
-  {
-    return 'Id';
-  }
+    public function primaryKey()
+    {
+        return 'Id';
+    }
 
-  public function relations()
-  {
-    return array();
-  }
+    public function relations()
+    {
+        return [];
+    }
 }

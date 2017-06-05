@@ -8,11 +8,11 @@ return [
             'stateKeyPrefix' => 'partner',
             'loginUrl' => ['/partner/auth/index'],
             'identityCookie' => ['domain' => '.'.RUNETID_HOST],
-            'authTimeout' => 12 * 60 * 60,
+            'authTimeout' => 12 * 60 * 60
         ],
         'partnerAuthManager' => [
             'class' => '\partner\components\PhpAuthManager',
-            'defaultRoles' => ['guest'],
-        ],
-    ],
+            'defaultRoles' => ['guest']
+        ]
+    ]
 ];

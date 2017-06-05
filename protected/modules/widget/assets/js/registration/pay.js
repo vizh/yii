@@ -5,10 +5,10 @@ var CRegistrationPay = function (options) {
     this.init();
 }
 CRegistrationPay.prototype = {
-    'init' : function () {
+    'init':function () {
         var self = this;
-        WidgetApp.controller('RegisterPayController', function($scope, $sce) {
-            $scope.total  = 0;
+        WidgetApp.controller('RegisterPayController', function ($scope, $sce) {
+            $scope.total = 0;
             $scope.products = self.products;
             $scope.offer = false;
 

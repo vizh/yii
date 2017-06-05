@@ -2,5 +2,5 @@
 
 class RocidModuleGenerator extends CCodeGenerator
 {
-	public $codeModel='application.gii.rocidModule.RocidModuleCode';
+    public $codeModel = 'application.gii.rocidModule.RocidModuleCode';
 }

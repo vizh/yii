@@ -23,7 +23,7 @@ class FoodNaturalForm extends FormModel
         parent::init();
         foreach (FoodNaturalSearch::$productIds as $date => $meals) {
             foreach ($meals as $meal => $id) {
-                if (!isset($this->products[$date])){
+                if (!isset($this->products[$date])) {
                     $this->products[$date] = [];
                 }
                 $this->products[$date][$meal] = Product::model()->findByPk($id);
@@ -42,12 +42,12 @@ class FoodNaturalForm extends FormModel
     public function validateUser()
     {
         $this->UserModel = User::model()->findByAttributes(['RunetId' => $this->User]);
-        if (!$this->UserModel){
+        if (!$this->UserModel) {
             $this->addError('User', 'Пользователь не найден');
             return;
         }
         $participant = Participant::model()->findByAttributes(['EventId' => 3016, 'UserId' => $this->UserModel->Id]);
-        if (!$participant){
+        if (!$participant) {
             $this->addError('User', 'Пользователь не зарегистрирован на мероприятие');
         }
     }

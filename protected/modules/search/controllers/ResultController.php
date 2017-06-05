@@ -25,7 +25,6 @@ class ResultController extends PublicMainController
         $textUtility = new Texts();
         $this->term = $textUtility->filterPurify(trim($this->term));
 
-
         $criteria = $this->getUserCriteria();
         $criteria->mergeWith(User::model()->byVisible(true)->getDbCriteria());
         $search->appendModel(
@@ -45,12 +44,12 @@ class ResultController extends PublicMainController
         $this->results = $search->findAll($term);
 
         $this->setPageTitle(\Yii::t('app', 'Результаты поиска'));
-        $this->render('index', array(
+        $this->render('index', [
             'results' => $this->results,
             'activeTabId' => $this->getActiveTabId(),
             'term' => $this->term,
             'paginators' => $this->paginators
-        ));
+        ]);
     }
 
     /**
@@ -62,11 +61,10 @@ class ResultController extends PublicMainController
      */
     private function getModelForSearch($model, $criteria, $tabId)
     {
-        $this->paginators->{get_class($model)} = new Paginator($model->bySearch($this->term)->count(), array(
+        $this->paginators->{get_class($model)} = new Paginator($model->bySearch($this->term)->count(), [
             'tab' => $tabId
-        ));
-        if ($this->currentTab !== $tabId)
-        {
+        ]);
+        if ($this->currentTab !== $tabId) {
             $this->paginators->{get_class($model)}->page = 1;
         }
         $criteria->mergeWith($this->paginators->{get_class($model)}->getCriteria());
@@ -77,22 +75,20 @@ class ResultController extends PublicMainController
     private function getActiveTabId()
     {
         $tabId = \Yii::app()->request->getParam('tab');
-        if ($tabId !== null)
+        if ($tabId !== null) {
             return $tabId;
+        }
 
         $max = -1;
         $maxModel = null;
-        foreach ($this->results->Counts as $model => $count)
-        {
-            if ($count > $max)
-            {
+        foreach ($this->results->Counts as $model => $count) {
+            if ($count > $max) {
                 $max = $count;
                 $maxModel = $model;
             }
         }
 
-        switch ($maxModel)
-        {
+        switch ($maxModel) {
             case 'user\models\User':
                 return SearchResultTabId::User;
             case 'company\models\Company':
@@ -123,7 +119,7 @@ class ResultController extends PublicMainController
     {
         $criteria = new \CDbCriteria();
         $criteria->order = '"t"."Name" ASC';
-        $criteria->order  = 'Count("Employments"."Id") DESC, "t"."Name" ASC';
+        $criteria->order = 'Count("Employments"."Id") DESC, "t"."Name" ASC';
         $criteria->with = [
             'Employments' => [
                 'together' => true,
@@ -135,7 +131,7 @@ class ResultController extends PublicMainController
                 ]
             ]
         ];
-        $criteria->group  = '"t"."Id"';
+        $criteria->group = '"t"."Id"';
         return $criteria;
     }
 }

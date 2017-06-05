@@ -1,10 +1,9 @@
 <?php
 namespace partner\models\forms\user;
 
+use application\components\form\EventItemCreateUpdateForm;
 use event\models\Event;
 use partner\models\Export as ExportModel;
-
-use application\components\form\EventItemCreateUpdateForm;
 use user\models\User;
 
 class Export extends EventItemCreateUpdateForm
@@ -67,7 +66,6 @@ class Export extends EventItemCreateUpdateForm
         }
         return true;
     }
-
 
     /**
      * Создает запись в базе

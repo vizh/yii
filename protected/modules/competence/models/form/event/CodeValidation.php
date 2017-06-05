@@ -36,7 +36,6 @@ class CodeValidation extends FormModel
         ];
     }
 
-
     /**
      * Валидация кода участника
      * @param string $attribute
@@ -79,4 +78,4 @@ class CodeValidation extends FormModel
         }
         return true;
     }
-} 
+}

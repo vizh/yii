@@ -6,13 +6,13 @@ class ProductsAction extends \partner\components\Action
     public function run($id)
     {
         $import = \partner\models\Import::model()->findByPk($id);
-        if ($import == null || $import->EventId != $this->getEvent()->Id)
+        if ($import == null || $import->EventId != $this->getEvent()->Id) {
             throw new \CHttpException(404);
+        }
 
         $request = \Yii::app()->getRequest();
         $productNames = $this->getProductNames($import);
         $values = $request->getParam('values', []);
-
 
         $check = true;
         if (empty($productNames) || $request->getIsPostRequest() && $check = $this->checkProductValues($values)) {
@@ -30,8 +30,6 @@ class ProductsAction extends \partner\components\Action
             'values' => $values,
             'error' => !$check
         ]);
-
-
     }
 
     /**
@@ -42,8 +40,9 @@ class ProductsAction extends \partner\components\Action
     {
         $productNames = [];
         foreach ($import->Users as $user) {
-            if ($user->Product == null)
+            if ($user->Product == null) {
                 continue;
+            }
             $productNames[] = (string)$user->Product;
         }
         return array_unique($productNames);
@@ -56,8 +55,9 @@ class ProductsAction extends \partner\components\Action
     private function checkProductValues($values)
     {
         foreach ($values as $key => $value) {
-            if ($value == 0)
+            if ($value == 0) {
                 return false;
+            }
         }
         return true;
     }

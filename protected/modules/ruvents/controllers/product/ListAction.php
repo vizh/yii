@@ -16,8 +16,9 @@ class ListAction extends \ruvents\components\Action
             ->findAll($criteria);
 
         $result = [];
-        foreach ($products as $product)
+        foreach ($products as $product) {
             $result[] = $this->getDataBuilder()->createProduct($product);
+        }
 
         $this->renderJson($result);
     }

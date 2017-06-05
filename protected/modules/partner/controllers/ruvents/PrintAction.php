@@ -12,7 +12,7 @@ class PrintAction extends Action
         $operators = Operator::model()->byEventId($event->Id)->findAll(['order' => '"Role" DESC, "Id"']);
         $this->getController()->render('print', [
             'operators' => $operators,
-            'account'   => $this->getRuventsAccount()
+            'account' => $this->getRuventsAccount()
         ]);
     }
 } 

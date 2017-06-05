@@ -19,11 +19,11 @@ class Iframe
         $isUriFrame = strpos($URI, 'frame');
         $isReferrerFrame = strpos($referrer, 'frame');
 
-        if (($isUriFrame || $isReferrerFrame) && strpos($host, RUNETID_HOST)){
+        if (($isUriFrame || $isReferrerFrame) && strpos($host, RUNETID_HOST)) {
             return true;
-        } elseif((!$isUriFrame || !$isReferrerFrame) && strpos($host, RUNETID_HOST)){
+        } elseif ((!$isUriFrame || !$isReferrerFrame) && strpos($host, RUNETID_HOST)) {
             return false;
-        } elseif($isUriFrame) {
+        } elseif ($isUriFrame) {
             return true;
         } else {
             return false;

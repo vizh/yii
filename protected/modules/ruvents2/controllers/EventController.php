@@ -50,12 +50,17 @@ class EventController extends Controller
         $products = Product::model()->byEventId($this->getEvent()->Id)->byDeleted(false)->byVisibleForRuvents(true)->findAll();
         $result = [];
         foreach ($products as $product) {
-            $result[] = ArrayHelper::toArray($product, ['pay\models\Product' => [
-                'Id', 'Manager' => 'ManagerName', 'Title', 'Price' => function ($product) {
-                    /** @var Product $product */
-                    return $product->getPrice();
-                }
-            ]]);
+            $result[] = ArrayHelper::toArray($product, [
+                'pay\models\Product' => [
+                    'Id',
+                    'Manager' => 'ManagerName',
+                    'Title',
+                    'Price' => function ($product) {
+                        /** @var Product $product */
+                        return $product->getPrice();
+                    }
+                ]
+            ]);
         }
         $this->renderJson(['Products' => $result]);
     }
@@ -69,9 +74,13 @@ class EventController extends Controller
         $halls = Hall::model()->byEventId($this->getEvent()->Id)->byDeleted(false)->orderBy('"t"."Order"')->findAll();
         $result = [];
         foreach ($halls as $hall) {
-            $result[] = ArrayHelper::toArray($hall, ['event\models\section\Hall' => [
-                'Id', 'Title', 'Order'
-            ]]);
+            $result[] = ArrayHelper::toArray($hall, [
+                'event\models\section\Hall' => [
+                    'Id',
+                    'Title',
+                    'Order'
+                ]
+            ]);
         }
         $this->renderJson(['Halls' => $result]);
     }

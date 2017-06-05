@@ -55,7 +55,7 @@ class Give extends CreateUpdateForm
         try {
             $formatter = \Yii::app()->getDateFormatter();
             foreach ($this->getCoupons() as $coupon) {
-                $coupon->Recipient = $formatter->format('dd MMMM yyyy', time()) . ': ' . $this->Recipient . '; ' . $coupon->Recipient;
+                $coupon->Recipient = $formatter->format('dd MMMM yyyy', time()).': '.$this->Recipient.'; '.$coupon->Recipient;
                 $coupon->save();
             }
             $transaction->commit();
@@ -66,7 +66,6 @@ class Give extends CreateUpdateForm
         }
         return null;
     }
-
 
     /**
      * @return \pay\models\Coupon[]

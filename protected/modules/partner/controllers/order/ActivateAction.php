@@ -32,9 +32,9 @@ class ActivateAction extends Action
         $result = $order->activate();
 
         if (!empty($result['ErrorItems'])) {
-            Flash::setError('Повторно активированы некоторые заказы. Список идентификаторов: ' . implode(', ', $result['ErrorItems']));
+            Flash::setError('Повторно активированы некоторые заказы. Список идентификаторов: '.implode(', ', $result['ErrorItems']));
         } else {
-            Flash::setSuccess('Счет успешно активирован, платежи проставлены! Сумма счета: <strong>' . $result['Total'] . '</strong> руб.');
+            Flash::setSuccess('Счет успешно активирован, платежи проставлены! Сумма счета: <strong>'.$result['Total'].'</strong> руб.');
         }
         $this->getController()->redirect(['view', 'id' => $id]);
     }

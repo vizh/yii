@@ -4,8 +4,8 @@ return [
     [
         'allow',
         'users' => ['*'],
-        'controllers' => ['test'],
-        'actions' => ['index'],
         'module' => 'rbac',
-    ],
+        'controllers' => ['test'],
+        'actions' => ['index']
+    ]
 ];

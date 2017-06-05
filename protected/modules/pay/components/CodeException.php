@@ -14,7 +14,7 @@ class CodeException extends Exception
     }
 
     const NO_PAY_ACCOUNT = 101;
-    const NO_EXISTS_PRODUCT  = 101;
+    const NO_EXISTS_PRODUCT = 101;
 
     const NO_EXISTS_ORDER = 205;
 
@@ -28,7 +28,8 @@ class CodeException extends Exception
 
     private $codes = [
         /** Yii Exception */
-        0 => /*'Обработана ошибка Yii: */'%s',
+        0 => /*'Обработана ошибка Yii: */
+            '%s',
 
         /** Общие ошибки */
         self::NO_PAY_ACCOUNT => 'Для мероприятия %s,%s,%s не определен платежный аккаунт',
@@ -49,7 +50,6 @@ class CodeException extends Exception
         self::NO_PRODUCT_FOR_COUPON_100 => 'Для промо кода со скидкой 100% не указан товар, на который распространяется скидка',
         self::WRONG_PRODUCT_FOR_COUPON_100 => 'Данный промо-код не может быть активирован для выбранного товара',
         305 => 'Срок действия вашего промо кода истек',
-
 
         /** Ошибки OrderItem */
         401 => 'Данный товар не может быть приобретен этим пользователем. Возможно уже куплен этот или аналогичный товар',
@@ -75,7 +75,7 @@ class CodeException extends Exception
         $message = isset($this->codes[$code])
             ? $this->codes[$code]
             : 'Возникла ошибка с неизвестным кодом.';
-        
+
         return $params === null
             ? $message
             : vsprintf($message, $params);

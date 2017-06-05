@@ -6,6 +6,6 @@ return [
         'apiAuthManager' => [
             'class' => '\api\components\PhpAuthManager',
             'defaultRoles' => ['guest']
-        ],
+        ]
     ]
 ];

@@ -3,13 +3,11 @@
 namespace api\controllers\event;
 
 use api\components\Action;
-use Yii;
-
-use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
-use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
+use nastradamus39\slate\annotations\ApiAction;
+use Yii;
 
 class RunetidsAction extends Action
 {
@@ -44,8 +42,9 @@ class RunetidsAction extends Action
             ->queryAll();
 
         $result = [];
-        foreach ($participationData as $row)
+        foreach ($participationData as $row) {
             $result[$row['RunetId']] = $row['RoleId'];
+        }
 
         $this->setResult($result);
     }

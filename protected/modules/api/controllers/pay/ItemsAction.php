@@ -1,13 +1,12 @@
 <?php
 namespace api\controllers\pay;
 
+use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\ApiAction;
 use pay\components\OrderItemCollection;
 use pay\models\OrderItem;
-
-use nastradamus39\slate\annotations\ApiAction;
-use nastradamus39\slate\annotations\Action\Request;
-use nastradamus39\slate\annotations\Action\Param;
-use nastradamus39\slate\annotations\Action\Response;
 
 class ItemsAction extends \api\components\Action
 {

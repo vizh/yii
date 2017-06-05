@@ -1,13 +1,13 @@
 <?php
 namespace mail\components\mail;
 
-use \application\components\utility\PKPassGenerator;
+use application\components\utility\PKPassGenerator;
 use event\models\Event;
-use \mail\components\Mailer;
-use \mail\models\Template as TemplateModel;
-use \mail\models\TemplateLog;
-use \user\models\User;
+use mail\components\Mailer;
 use mail\models\forms\admin\Template as TemplateForm;
+use mail\models\Template as TemplateModel;
+use mail\models\TemplateLog;
+use user\models\User;
 
 class Template extends \mail\components\MailLayout
 {
@@ -72,7 +72,6 @@ class Template extends \mail\components\MailLayout
             $pkPass = new PKPassGenerator($participants->Event, $this->user, $participants->Role);
             $attachments['ticket.pkpass'] = $pkPass->runAndSave();
         };
-
 
         $form = new TemplateForm($this->template);
         $path = $form->getPathAttachments();

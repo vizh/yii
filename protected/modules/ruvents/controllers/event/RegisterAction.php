@@ -20,15 +20,17 @@ class RegisterAction extends \ruvents\components\Action
             ->byRunetId($runetId)
             ->find();
 
-        if ($user === null)
+        if ($user === null) {
             throw new Exception(202, $runetId);
+        }
 
         /** @var $role Role */
         $role = Role::model()
             ->findByPk($roleId);
 
-        if ($role === null)
+        if ($role === null) {
             throw new Exception(302, $roleId);
+        }
 
         $part = null;
 

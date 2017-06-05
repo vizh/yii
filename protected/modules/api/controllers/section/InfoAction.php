@@ -1,11 +1,11 @@
 <?php
 namespace api\controllers\section;
 
-use nastradamus39\slate\annotations\ApiAction;
-use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
+use nastradamus39\slate\annotations\ApiAction;
 
 class InfoAction extends \api\components\Action
 {
@@ -29,17 +29,18 @@ class InfoAction extends \api\components\Action
      *     )
      * )
      */
-  public function run()
-  {
-    $sectionId = \Yii::app()->getRequest()->getParam('SectionId');
+    public function run()
+    {
+        $sectionId = \Yii::app()->getRequest()->getParam('SectionId');
 
-    $section = \event\models\section\Section::model()->byDeleted(false)->findByPk($sectionId);
-    if ($section === null)
-        throw new \api\components\Exception(310, array($sectionId));
-    if ($section->EventId != $this->getEvent()->Id)
-        throw new \api\components\Exception(311);
+        $section = \event\models\section\Section::model()->byDeleted(false)->findByPk($sectionId);
+        if ($section === null) {
+            throw new \api\components\Exception(310, [$sectionId]);
+        }
+        if ($section->EventId != $this->getEvent()->Id) {
+            throw new \api\components\Exception(311);
+        }
 
-
-    $this->setResult($this->getAccount()->getDataBuilder()->createSection($section));
-  }
+        $this->setResult($this->getAccount()->getDataBuilder()->createSection($section));
+    }
 }

@@ -8,7 +8,6 @@
 
 namespace application\components\validators;
 
-
 class InlineValidator extends \CInlineValidator
 {
     /**
@@ -23,7 +22,7 @@ class InlineValidator extends \CInlineValidator
         } elseif ($method instanceof \Closure) {
             call_user_func($method, $object, $attribute, $this->params);
         } else {
-            $object->$method($attribute,$this->params);
+            $object->$method($attribute, $this->params);
         }
     }
 

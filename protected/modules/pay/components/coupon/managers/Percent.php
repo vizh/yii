@@ -8,7 +8,7 @@ class Percent extends Base
      */
     public function calcDiscountPrice($price)
     {
-        return $price - $price * $this->coupon->Discount  / 100;
+        return $price - $price * $this->coupon->Discount / 100;
     }
 
     /**
@@ -32,6 +32,6 @@ class Percent extends Base
      */
     public function getDiscountString()
     {
-        return $this->coupon->Discount . '%';
+        return $this->coupon->Discount.'%';
     }
 }

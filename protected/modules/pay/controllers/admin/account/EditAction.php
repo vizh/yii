@@ -1,8 +1,8 @@
 <?php
 namespace pay\controllers\admin\account;
 
-use \pay\models\forms\admin\Account as FormAccount;
-use \pay\models\Account;
+use pay\models\Account;
+use pay\models\forms\admin\Account as FormAccount;
 
 class EditAction extends \CAction
 {
@@ -21,7 +21,7 @@ class EditAction extends \CAction
         $request = \Yii::app()->getRequest();
         if ($request->getIsPostRequest()) {
             $form->attributes = $request->getParam(get_class($form));
-            $form->OfferFile  = \CUploadedFile::getInstance($form, 'OfferFile');
+            $form->OfferFile = \CUploadedFile::getInstance($form, 'OfferFile');
             if ($form->validate()) {
                 if ($account->getIsNewRecord()) {
                     $account->EventId = $form->EventId;
@@ -30,8 +30,7 @@ class EditAction extends \CAction
                 if (!empty($form->ReceiptTemplateId)) {
                     $account->ReceiptTemplateId = $form->ReceiptTemplateId;
                     $account->ReceiptEnable = true;
-                }
-                else {
+                } else {
                     $account->ReceiptTemplateId = null;
                     $account->ReceiptEnable = false;
                 }
@@ -39,8 +38,7 @@ class EditAction extends \CAction
                 if (!empty($form->OrderTemplateId)) {
                     $account->OrderTemplateId = $form->OrderTemplateId;
                     $account->OrderEnable = true;
-                }
-                else {
+                } else {
                     $account->OrderTemplateId = null;
                     $account->OrderEnable = false;
                 }

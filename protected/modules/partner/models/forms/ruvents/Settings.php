@@ -43,7 +43,6 @@ class Settings extends EventItemCreateUpdateForm
         ];
     }
 
-
     /**
      * @return null|Setting
      */
@@ -79,12 +78,15 @@ class Settings extends EventItemCreateUpdateForm
      */
     protected function loadData()
     {
-        if (!$this->isUpdateMode())
+        if (!$this->isUpdateMode()) {
             return false;
+        }
 
-        foreach (json_decode($this->model->Attributes) as $attr => $value)
-            if (property_exists($this, $attr))
+        foreach (json_decode($this->model->Attributes) as $attr => $value) {
+            if (property_exists($this, $attr)) {
                 $this->$attr = $value;
+            }
+        }
 
         return true;
     }
@@ -106,7 +108,7 @@ class Settings extends EventItemCreateUpdateForm
             }
 
             if ($isBoolean) {
-                $attributes[$name] = (bool) $value;
+                $attributes[$name] = (bool)$value;
             } elseif (empty($value)) {
                 unset($attributes[$name]);
             }

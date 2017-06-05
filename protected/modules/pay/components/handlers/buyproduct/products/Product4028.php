@@ -8,8 +8,6 @@
 
 namespace pay\components\handlers\buyproduct\products;
 
-use mail\models\Layout;
-
 class Product4028 extends Product3907
 {
     /**

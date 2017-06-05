@@ -29,7 +29,6 @@ class EventAllParts extends BaseProductManager
         return ['RoleId'];
     }
 
-
     /**
      * @var Role
      */
@@ -59,10 +58,8 @@ class EventAllParts extends BaseProductManager
         $participants = \event\models\Participant::model()
             ->byEventId($this->product->EventId)->byUserId($user->Id)->with('Role')->findAll();
 
-        foreach ($participants as $participant)
-        {
-            if ($participant->Role->Priority >= $this->role->Priority)
-            {
+        foreach ($participants as $participant) {
+            if ($participant->Role->Priority >= $this->role->Priority) {
                 return false;
             }
         }
@@ -90,7 +87,7 @@ class EventAllParts extends BaseProductManager
      */
     public function filter($params, $filter)
     {
-        return array();
+        return [];
     }
 
     /**

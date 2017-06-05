@@ -8,7 +8,6 @@
 
 namespace pay\components\handlers\orderjuridical\create;
 
-
 class Icbda15 extends Base
 {
     protected function getViewPath()

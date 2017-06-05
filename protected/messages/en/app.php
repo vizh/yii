@@ -9,7 +9,6 @@ return [
     'Партнеры мероприятия' => 'Partners',
     'Контакты' => 'Contacts',
 
-
     'Место проведения' => 'Venue',
     'Комментарии пользователей' => 'Comments',
 
@@ -24,10 +23,9 @@ return [
     'д.' => ' ',
     'стр.' => 'str.',
 
-    'и'  => 'and',
+    'и' => 'and',
 
     'от' => 'from',
-
 
     'Регистрация' => 'Registration',
     'Регистрация других участников' => 'Add and register a new participants',
@@ -98,7 +96,6 @@ return [
     'Оплаченные товары' => 'Paid products',
     '' => '',
 
-
     'Выставление счета' => 'Invoice Issuance',
     'Пожалуйста, внимательно заполните реквизиты компании, которая будет оплачивать ваше участие. Указанные вами данные будут использованы в выставляемом счете.' => 'Please carefully fill in the details of the company that will pay for your participation. The data you provide will be used to expose the account.',
     'Документы на оплату будут созданы автоматически, без проверки корректности реквизитов.' => 'The payment documents will be created automatically.',
@@ -144,12 +141,10 @@ return [
     'Вы&nbsp;можете одновременно получить RUNET-ID и&nbsp;зарегистрироваться на&nbsp;мероприятие, заполнив форму:' => 'Sign up to RUNET-ID',
     'Если вы&nbsp;уже получали RUNET-ID&nbsp;&mdash; <a href="{url}">авторизуйтесь</a>.' => 'Already have RUNET-ID account? <a href="{url}">Log in</a>.',
 
-
     'Восстановление пароля' => 'Password retrieval',
     'Вы можете получить ваш текущий пароль по электронной почте на адрес, указанный при регистрации RUNET-ID:' => 'Please enter email that you used to log in to RUNET-ID:',
     'Восстановить' => 'Recover',
     'Регистрация на сайте www.runet-id.com' => 'Registration at www.runet-id.com',
-
 
     'Вы не авторизованы в системе RUNET-ID.' => 'You are not logged in the RUNET-ID',
     'Для полного доступа к платежному кабинету <a id="PromoLogin" href="">авторизуйтесь или зарегистрируйтесь.</a>' => 'Only logged in users can see payment account. <a id="PromoLogin" href="">Log in or register.</a>',
@@ -159,10 +154,6 @@ return [
     'Перейдите на главную' => 'Back to main',
     'Для создания временного аккаунта введите Email:' => 'To create a temporary account, enter you e-mail:',
     'На указанный Email будет выслано письмо, с инструкциями по использованию временного аккаунта.' => 'A letter on how to use the account will be sent to the e-mail address.',
-
-
-
-
 
     'Указан неверный промо код' => 'Wrong coupon code',
     'Купон на скидку {discount}% успешно активирован!' => 'Coupon for {discount}% discount successfully activated!',
@@ -183,12 +174,10 @@ return [
     'Электронные деньги' => 'Electronic money',
     'Оплата недоступна. Оплата возможна только банковскими картами и электронными деньгами' => 'Payment type is not available.',
 
-
     'offer-demo.pdf' => 'offer-demo-en.pdf',
 
     'Участник' => 'Participant',
     'СМИ' => 'PRESS',
-
 
     'Конференция' => 'Conference',
     'Семинар тренинг' => 'Training seminar',
@@ -197,7 +186,6 @@ return [
     'Партнерская конференция' => 'Partner conference',
     'Конкурс премия' => 'Contest prize',
     'Другие мероприятия' => 'Other events',
-
 
     'Докладчики' => 'Speakers',
     'Ведущие' => 'Moderators',

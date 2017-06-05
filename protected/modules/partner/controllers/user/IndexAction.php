@@ -1,7 +1,6 @@
 <?php
 namespace partner\controllers\user;
 
-
 use application\modules\partner\models\search\Participant;
 use partner\models\forms\user\RoleBulkChange;
 use Yii;
@@ -14,11 +13,11 @@ class IndexAction extends \partner\components\Action
 
         $bulkRoleChange = new RoleBulkChange();
         $bulkRoleChange->Event = $this->getEvent();
-        if (Yii::app()->request->isPostRequest){
+        if (Yii::app()->request->isPostRequest) {
             $bulkRoleChange->setAttributes(
                 Yii::app()->getRequest()->getParam('RoleBulkChange')
             );
-            if ($bulkRoleChange->validate()){
+            if ($bulkRoleChange->validate()) {
                 $bulkRoleChange->save();
                 $this->getController()->redirect(['index']);
             }

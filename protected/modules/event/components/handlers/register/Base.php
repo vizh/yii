@@ -2,14 +2,13 @@
 namespace event\components\handlers\register;
 
 use application\components\utility\PKPassGenerator;
-use event\components\pass\IOSPass;
 use event\models\MailRegister;
 use mail\components\MailLayout;
-use \mail\models\Layout;
+use mail\models\Layout;
 
 class Base extends MailLayout
 {
-    /** @var \event\models\Event  */
+    /** @var \event\models\Event */
     protected $event;
     /** @var  \user\models\User */
     protected $user;
@@ -27,9 +26,9 @@ class Base extends MailLayout
     {
         parent::__construct($mailer);
         $this->event = $event->sender;
-        $this->user  = $event->params['user'];
-        $this->role  = $event->params['role'];
-        $this->participant  = $event->params['participant'];
+        $this->user = $event->params['user'];
+        $this->role = $event->params['role'];
+        $this->participant = $event->params['participant'];
     }
 
     /** @var MailRegister */
@@ -89,7 +88,7 @@ class Base extends MailLayout
         if ($this->getRegisterMail() !== null) {
             return $this->getRegisterMail()->Subject;
         }
-        return 'Электронный билет - ' . $this->event->Title;
+        return 'Электронный билет - '.$this->event->Title;
     }
 
     /**

@@ -17,7 +17,7 @@ class GridView extends \CGridView
 
     public $summaryCssClass = 'table-header';
 
-    public $template="{summary}\n{items}\n{pager}";
+    public $template = "{summary}\n{items}\n{pager}";
 
     public $enableHistory = true;
 
@@ -54,8 +54,8 @@ class GridView extends \CGridView
                 if (is_numeric($width)) {
                     $width .= 'px;';
                 }
-                $column['htmlOptions']['style'] = (isset($column['htmlOptions']['style']) ? $column['htmlOptions']['style'] . '; ' : '') . 'width:' . $width;
-                $column['headerHtmlOptions']['style'] = (isset($column['headerHtmlOptions']['style']) ? $column['headerHtmlOptions']['style'] . '; ' : '') . 'width:' . $width;
+                $column['htmlOptions']['style'] = (isset($column['htmlOptions']['style']) ? $column['htmlOptions']['style'].'; ' : '').'width:'.$width;
+                $column['headerHtmlOptions']['style'] = (isset($column['headerHtmlOptions']['style']) ? $column['headerHtmlOptions']['style'].'; ' : '').'width:'.$width;
             }
         }
         parent::initColumns();
@@ -69,20 +69,20 @@ class GridView extends \CGridView
     {
         $functions = '';
         if (!empty($this->afterAjaxUpdate)) {
-            $functions .= $this->afterAjaxUpdate . '();';
+            $functions .= $this->afterAjaxUpdate.'();';
         }
 
         foreach ($this->columns as $column) {
             if ($column instanceof DataColumn && $column->getFilterWidget() !== null) {
-                $functions .= $column->getFilterWidget()->getInitJsFunctionName() . '();';
+                $functions .= $column->getFilterWidget()->getInitJsFunctionName().'();';
             }
         }
 
         if (!empty($functions)) {
-            $this->afterAjaxUpdate = 'function (id, data) {' . $functions . '}';
+            $this->afterAjaxUpdate = 'function (id, data) {'.$functions.'}';
             \Yii::app()->getClientScript()->registerScript(
-                $this->getId() . '_filters',
-                ('$(function () {' . $functions . '});')
+                $this->getId().'_filters',
+                ('$(function () {'.$functions.'});')
             );
         }
     }
@@ -92,10 +92,10 @@ class GridView extends \CGridView
      */
     public function renderFilter()
     {
-        if($this->filter !== null) {
+        if ($this->filter !== null) {
             echo "<tr class=\"{$this->filterCssClass}\">\n";
             $skip = 0;
-            foreach($this->columns as $column) {
+            foreach ($this->columns as $column) {
                 if ($skip == 0) {
                     $column->renderFilterCell();
                 } else {
@@ -111,18 +111,17 @@ class GridView extends \CGridView
 
     public function renderTableHeader()
     {
-        if(!$this->hideHeader)
-        {
+        if (!$this->hideHeader) {
             echo "<thead>\n";
 
-            if($this->filterPosition===self::FILTER_POS_HEADER) {
+            if ($this->filterPosition === self::FILTER_POS_HEADER) {
                 $this->renderFilter();
             }
 
             echo "<tr>\n";
             $skip = 0;
             /** @var \CDataColumn $column */
-            foreach($this->columns as $column) {
+            foreach ($this->columns as $column) {
                 if ($skip == 0) {
                     $column->renderHeaderCell();
                 } else {
@@ -134,18 +133,16 @@ class GridView extends \CGridView
             }
             echo "</tr>\n";
 
-            if($this->filterPosition===self::FILTER_POS_BODY)
+            if ($this->filterPosition === self::FILTER_POS_BODY) {
                 $this->renderFilter();
+            }
 
             echo "</thead>\n";
-        }
-        elseif($this->filter!==null && ($this->filterPosition===self::FILTER_POS_HEADER || $this->filterPosition===self::FILTER_POS_BODY))
-        {
+        } elseif ($this->filter !== null && ($this->filterPosition === self::FILTER_POS_HEADER || $this->filterPosition === self::FILTER_POS_BODY)) {
             echo "<thead>\n";
             $this->renderFilter();
             echo "</thead>\n";
         }
     }
-
 
 } 

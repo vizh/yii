@@ -5,8 +5,6 @@ use application\helpers\Flash;
 use user\models\Document;
 use user\models\DocumentType;
 use user\models\forms\document\BaseDocument;
-use user\models\forms\document\ForeignPassport;
-use user\models\forms\document\Passport;
 
 class DocumentAction extends \CAction
 {
@@ -42,7 +40,7 @@ class DocumentAction extends \CAction
         $types = DocumentType::model()->orderBy('"t"."Id"')->findAll();
         foreach ($types as $type) {
             $document = Document::model()->byUserId($user->Id)->byTypeId($type->Id)->byActual(true)->find();
-            $class = '\user\models\forms\document\\' . $type->FormName;
+            $class = '\user\models\forms\document\\'.$type->FormName;
             $forms[] = new $class($type, $user, $document);
         }
         return $forms;

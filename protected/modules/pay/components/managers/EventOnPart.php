@@ -57,8 +57,7 @@ class EventOnPart extends BaseProductManager
 
         /** @var $eventUser \event\models\Participant */
         $participant = \event\models\Participant::model()->byEventId($this->product->EventId)->byUserId($user->Id)->byPartId($this->PartId)->find();
-        if (empty($participant))
-        {
+        if (empty($participant)) {
             return true;
         }
 
@@ -71,7 +70,7 @@ class EventOnPart extends BaseProductManager
      * @param array $params
      * @return bool
      */
-    public function internalBuy($user, $orderItem = null, $params = array())
+    public function internalBuy($user, $orderItem = null, $params = [])
     {
         $this->product->Event->registerUserOnPart($this->part, $user, $this->role);
 
@@ -85,7 +84,7 @@ class EventOnPart extends BaseProductManager
      */
     public function filter($params, $filter)
     {
-        return array();
+        return [];
     }
 
     /**
@@ -126,7 +125,7 @@ class EventOnPart extends BaseProductManager
      * @throws \pay\components\Exception
      * @return bool
      */
-    public function internalChangeOwner($fromUser, $toUser, $params = array())
+    public function internalChangeOwner($fromUser, $toUser, $params = [])
     {
         throw new MessageException('Не реализовано');
     }

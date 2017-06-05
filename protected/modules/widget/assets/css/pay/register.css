@@ -1,212 +1,277 @@
 /* Event -> Register -> Table */
 .register .table th:first-child,
-.register .table td:first-child {padding-left: 40px;}
-.register .table th:last-child,
-.register .table td:last-child {padding-right: 40px;}
-
-.register .table {margin-bottom: 0;}
-.register .table thead {
-  background: #ebebeb;
-  cursor: pointer;
+.register .table td:first-child {
+    padding-left: 40px;
 }
+
+.register .table th:last-child,
+.register .table td:last-child {
+    padding-right: 40px;
+}
+
+.register .table {
+    margin-bottom: 0;
+}
+
+.register .table thead {
+    background: #ebebeb;
+    cursor: pointer;
+}
+
 .register .table th,
 .register .table td {
-  vertical-align: middle;
-  font-size: 13px;
+    vertical-align: middle;
+    font-size: 13px;
 }
 
 .register .table.thead-actual thead {
-  background: none;
-  cursor: default;
-}
-.register .table.thead-actual th {
-  color: #999;
-  font-size: 11px;
+    background: none;
+    cursor: default;
 }
 
-.register .table .user-row:last-child > td:first-child {background: url(/images/icon-plus.png) transparent 14px center no-repeat;}
-.register .table .title {
-  margin: 0;
-  font-weight: normal;
+.register .table.thead-actual th {
+    color: #999;
+    font-size: 11px;
 }
-.register .table .title i {margin-top: 4px;}
-.register .table .number {font-size: 14px;}
+
+.register .table .user-row:last-child > td:first-child {
+    background: url(/images/icon-plus.png) transparent 14px center no-repeat;
+}
+
+.register .table .title {
+    margin: 0;
+    font-weight: normal;
+}
+
+.register .table .title i {
+    margin-top: 4px;
+}
+
+.register .table .number {
+    font-size: 14px;
+}
 
 .register .table .form-element_text,
 .register .table .form-element_select {
-  margin: 0;
-  font-size: 13px;
+    margin: 0;
+    font-size: 13px;
 }
 
 .register .table .input-promo.filled {
-  opacity: .25;
-  -webkit-transition: opacity .5s;
-  -moz-transition: opacity .5s;
-  -ms-transition: opacity .5s;
-  -o-transition: opacity .5s;
-  transition: opacity .5s;
-}
-.register .table .input-promo.filled:hover {opacity: 1;}
-.register .table .promo-validate {
-  position: relative;
-  float: right;
-  margin-bottom: 0;
-}
-.register .table .promo-validate .help-inline  {
-  position: absolute;
-  top: 5px;
-  right: 100%;
-  margin-right: 5px;
-  white-space: nowrap;
+    opacity: .25;
+    -webkit-transition: opacity .5s;
+    -moz-transition: opacity .5s;
+    -ms-transition: opacity .5s;
+    -o-transition: opacity .5s;
+    transition: opacity .5s;
 }
 
-.register .table .btn-register {width: 167px;}
+.register .table .input-promo.filled:hover {
+    opacity: 1;
+}
+
+.register .table .promo-validate {
+    position: relative;
+    float: right;
+    margin-bottom: 0;
+}
+
+.register .table .promo-validate .help-inline {
+    position: absolute;
+    top: 5px;
+    right: 100%;
+    margin-right: 5px;
+    white-space: nowrap;
+}
+
+.register .table .btn-register {
+    width: 167px;
+}
 
 .register .table .icon-remove {
-  position: absolute;
-  top: 50%;
-  left: auto;
-  margin: -7px 0 0 -18px;
-  opacity: .5;
-  cursor: pointer;
+    position: absolute;
+    top: 50%;
+    left: auto;
+    margin: -7px 0 0 -18px;
+    opacity: .5;
+    cursor: pointer;
 }
 
-.register .table .input-promo > input{
-  width: 110px;
+.register .table .input-promo > input {
+    width: 110px;
 }
 
-.register .table .discount{
-  font-weight: bold;
-  text-align: center;
-  color: #008000;
+.register .table .discount {
+    font-weight: bold;
+    text-align: center;
+    color: #008000;
 }
 
-.register .table .col-width {width: 80px;}
+.register .table .col-width {
+    width: 80px;
+}
 
 .register .table .alert-row > td {
-  border: 0;
-  padding-top: 0;
+    border: 0;
+    padding-top: 0;
 }
+
 .register .table .alert-row .alert {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 .register .total {
-  margin-bottom: 40px;
-  padding: 8px 40px;
-  background: #f7f7f7;
-  text-align: right;
+    margin-bottom: 40px;
+    padding: 8px 40px;
+    background: #f7f7f7;
+    text-align: right;
 }
-.register .total span {text-transform: uppercase;}
+
+.register .total span {
+    text-transform: uppercase;
+}
 
 .register .pay-buttons {
-  margin-bottom: 40px;
+    margin-bottom: 40px;
 }
+
 .register .pay-buttons ul {
-  list-style: none;
-  list-style-type: none;
-  margin: 0;
+    list-style: none;
+    list-style-type: none;
+    margin: 0;
 }
+
 .register .pay-buttons ul li {
-  float: left;
-  margin-bottom: 10px;
-  margin-right: 10px;
+    float: left;
+    margin-bottom: 10px;
+    margin-right: 10px;
 }
-.register .pay-buttons ul li .btn {box-sizing: content-box;}
-.register .pay-buttons .pull-left {width: 250px; margin-left: 100px;}
+
+.register .pay-buttons ul li .btn {
+    box-sizing: content-box;
+}
+
+.register .pay-buttons .pull-left {
+    width: 250px;
+    margin-left: 100px;
+}
+
 .register .pay-buttons .pull-right {
-  width: 545px;
-  border-left: 1px dashed #E6E6E6;
-  padding-left: 20px;
+    width: 545px;
+    border-left: 1px dashed #E6E6E6;
+    padding-left: 20px;
 }
-.register .pay-buttons h5 {margin-bottom: 15px;}
+
+.register .pay-buttons h5 {
+    margin-bottom: 15px;
+}
+
 .register .pay-buttons .juridical {
-  padding: 34px 0;
-  width: 100%;
-  box-sizing: content-box;
+    padding: 34px 0;
+    width: 100%;
+    box-sizing: content-box;
 }
+
 .register .nav-buttons {
-  text-align: center;
+    text-align: center;
 }
 
 .register .scenario-selector {
-  margin-left: 40px;
-  margin-right: 40px;
+    margin-left: 40px;
+    margin-right: 40px;
 }
-.register .scenario-selector>div {
-  width: 50%;
+
+.register .scenario-selector > div {
+    width: 50%;
 }
+
 .register .scenario-selector label {
-  width: 300px;
-  margin: 0 auto;
+    width: 300px;
+    margin: 0 auto;
 }
 
 /* Event -> Register -> User register */
 .register .user-register {
-  margin-bottom: 0;
-  padding: 20px 0;
+    margin-bottom: 0;
+    padding: 20px 0;
 }
 
 .register .user-register .alert {
-  position: relative;
-  left: -15px;
-  margin: 0 auto 20px;
-  width: 449px;
-  text-align: center;
+    position: relative;
+    left: -15px;
+    margin: 0 auto 20px;
+    width: 449px;
+    text-align: center;
 }
 
 .register .user-register .clearfix {
-  margin: 0 auto 10px;
-  width: 530px;
+    margin: 0 auto 10px;
+    width: 530px;
 }
-.register .user-register .clearfix > div {width: 250px;}
+
+.register .user-register .clearfix > div {
+    width: 250px;
+}
 
 .register .user-register .title {
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #e5e5e5;
-  text-align: center;
-  text-transform: uppercase;
-}
-.register .user-register label {font-size: 13px;}
-.register .user-register label:not(.checkbox) {
-  margin-bottom: 1px;
-  color: #999;
-}
-.register .user-register input {
-  margin-bottom: 0;
-  font-size: 13px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e5e5e5;
+    text-align: center;
+    text-transform: uppercase;
 }
 
-.register .user-register .checkbox {margin-top: 35px;}
+.register .user-register label {
+    font-size: 13px;
+}
+
+.register .user-register label:not(.checkbox) {
+    margin-bottom: 1px;
+    color: #999;
+}
+
+.register .user-register input {
+    margin-bottom: 0;
+    font-size: 13px;
+}
+
+.register .user-register .checkbox {
+    margin-top: 35px;
+}
 
 .register .user-register .required {
-  position: relative;
-  display: inline-block;
+    position: relative;
+    display: inline-block;
 }
+
 .register .user-register .required:after {
-  position: absolute;
-  top: 8px;
-  right: 10px;
-  color: #b94a48;
-  content: "*";
-  font-size: 15px;
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    color: #b94a48;
+    content: "*";
+    font-size: 15px;
 }
+
 .register .user-register label.required:after {
-  position: absolute;
-  top: -3px;
-  right: -10px;
-  color: #b94a48;
-  content: "*";
-  font-size: 15px;
+    position: absolute;
+    top: -3px;
+    right: -10px;
+    color: #b94a48;
+    content: "*";
+    font-size: 15px;
 }
 
 .register .required-notice {
-  display: block;
-  text-align: center;
+    display: block;
+    text-align: center;
 }
+
 .register .required-asterisk {
-  color: #b94a48;
-  font-size: 15px;
+    color: #b94a48;
+    font-size: 15px;
 }
-.register .user-register .form-actions {text-align: center;}
+
+.register .user-register .form-actions {
+    text-align: center;
+}

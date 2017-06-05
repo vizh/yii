@@ -13,18 +13,18 @@ class EventParticipantCommand extends BaseConsoleCommand
     public function getHelp()
     {
         return parent::getHelp()."\n\n"
-        ."Копирует пользователей из одного мероприятия в другое\n\n"
-        ."--event=int|string Id или IdName мероприятия, из которого будут копироваться участники\n"
-        ."--toEvent=int|string Id или IdName мероприятия, в которое будут копироваться участники (обязательный параметр)\n"
-        ."--role=null|int Id роли участников, которые будут скопированы (если не указано, будут скопированы все)\n"
-        ."--newRole=null|int Id роли, которая будет присвоена скопированным участникам (если не указано, будут сохранены текущие роли)\n\n";
+            ."Копирует пользователей из одного мероприятия в другое\n\n"
+            ."--event=int|string Id или IdName мероприятия, из которого будут копироваться участники\n"
+            ."--toEvent=int|string Id или IdName мероприятия, в которое будут копироваться участники (обязательный параметр)\n"
+            ."--role=null|int Id роли участников, которые будут скопированы (если не указано, будут скопированы все)\n"
+            ."--newRole=null|int Id роли, которая будет присвоена скопированным участникам (если не указано, будут сохранены текущие роли)\n\n";
     }
 
     /**
      * @param int|string $event
      * @param int|string $toEvent
-     * @param null|int   $role
-     * @param null|int   $newRole
+     * @param null|int $role
+     * @param null|int $newRole
      * @return int
      */
     public function actionCopy($event, $toEvent, $role = null, $newRole = null)
@@ -93,7 +93,7 @@ class EventParticipantCommand extends BaseConsoleCommand
     }
 
     /**
-     * @param int      $eventId
+     * @param int $eventId
      * @param null|int $roleId
      * @return array
      */

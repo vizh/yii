@@ -3,16 +3,10 @@ namespace api\controllers\pay;
 
 use api\components\Exception;
 use api\models\Account;
-use Aws\Glacier\Model\MultipartUpload\TransferState;
-use pay\models\OrderItem;
-use pay\models\Product;
-use user\models\User;
-use Yii;
-
-use nastradamus39\slate\annotations\ApiAction;
-use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param as ApiParam;
+use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\ApiAction;
 
 /**
  * Class EditAction

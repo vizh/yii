@@ -2,10 +2,10 @@
 namespace oauth\components\social;
 
 use PayPal\Api\OpenIdSession;
-use PayPal\Rest\ApiContext;
-use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Api\OpenIdTokeninfo;
 use PayPal\Api\OpenIdUserinfo;
+use PayPal\Auth\OAuthTokenCredential;
+use PayPal\Rest\ApiContext;
 
 class PayPal implements ISocial
 {
@@ -33,7 +33,7 @@ class PayPal implements ISocial
             )
         );
 
-        $this->apiContext->setConfig(['mode'=>'live']);
+        $this->apiContext->setConfig(['mode' => 'live']);
     }
 
     public function scopes()
@@ -67,7 +67,7 @@ class PayPal implements ISocial
      */
     public function getRedirectUrl()
     {
-        if( is_null($this->redirectUrl) ) {
+        if (is_null($this->redirectUrl)) {
 
             $redirectUrlParams = [];
 
@@ -89,14 +89,10 @@ class PayPal implements ISocial
     {
         $code = \Yii::app()->getRequest()->getParam('code', null);
         $accessToken = $this->getAccessToken();
-        if (empty($accessToken) && !empty($code))
-        {
-            try
-            {
+        if (empty($accessToken) && !empty($code)) {
+            try {
                 $accessToken = $this->requestAccessToken($code);
-            }
-            catch (\Exception $e)
-            {
+            } catch (\Exception $e) {
                 throw new \CHttpException(400, 'Сервис авторизации PayPal не отвечает'.$e->getMessage());
             }
             \Yii::app()->getSession()->add(self::SessionNameAccessToken, $accessToken);
@@ -124,12 +120,11 @@ class PayPal implements ISocial
      */
     public function getData()
     {
-        $params = [ 'access_token' => $this->getAccessToken() ];
+        $params = ['access_token' => $this->getAccessToken()];
 
         try {
             $userInfo = OpenIdUserinfo::getUserinfo($params, $this->apiContext);
-        }
-        catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new \CHttpException(400, 'Сервис авторизации PayPal не отвечает');
         }
 

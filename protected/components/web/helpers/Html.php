@@ -16,8 +16,8 @@ class Html extends \CHtml
     public static function limitedTag($tag, $content, $fontsize, $width, $height, $htmlOptions = [], $step = 1)
     {
         $imagick = new \Imagick();
-        $draw    = new \ImagickDraw();
-        $words   = explode(' ', strip_tags($content));
+        $draw = new \ImagickDraw();
+        $words = explode(' ', strip_tags($content));
         while (true) {
             $draw->setFontSize($fontsize);
             $w = 0;
@@ -32,7 +32,7 @@ class Html extends \CHtml
                 $w += ($metrics['textWidth'] + $s);
                 if ($w > $width) {
                     $w = $metrics['textWidth'];
-                    $h+= $metrics['textHeight'];
+                    $h += $metrics['textHeight'];
                 }
             }
             if ($h <= $height) {
@@ -41,10 +41,9 @@ class Html extends \CHtml
             $fontsize -= $step;
         }
 
-        $htmlOptions['style'] = isset($htmlOptions['style']) ? (rtrim($htmlOptions['style'], ';') . ';') : '';
-        $htmlOptions['style'].= 'font-size:' . $fontsize . 'px';
+        $htmlOptions['style'] = isset($htmlOptions['style']) ? (rtrim($htmlOptions['style'], ';').';') : '';
+        $htmlOptions['style'] .= 'font-size:'.$fontsize.'px';
         return parent::tag($tag, $htmlOptions, $content);
     }
-
 
 }

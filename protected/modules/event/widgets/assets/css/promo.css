@@ -1,24 +1,28 @@
 .event_widget_Promo {
-  background: #e6e6e6;
-  margin-bottom: 60px;
-  padding-top: 30px;
-  text-align: center;
+    background: #e6e6e6;
+    margin-bottom: 60px;
+    padding-top: 30px;
+    text-align: center;
 }
 
 .event_widget_Promo .event header .date {
-  color: #ff9600;
-  font-weight: 400;
+    color: #ff9600;
+    font-weight: 400;
 }
+
 .event_widget_Promo .event header > h2 {
-  margin: -10px 0 5px;
+    margin: -10px 0 5px;
 }
+
 .event_widget_Promo .event header .title a {
-  color: #333;
+    color: #333;
 }
+
 .event_widget_Promo .event footer {
-  padding: 0;
-  margin: 0;
+    padding: 0;
+    margin: 0;
 }
+
 .event_widget_Promo .event {
-  margin-bottom: 30px;
+    margin-bottom: 30px;
 }

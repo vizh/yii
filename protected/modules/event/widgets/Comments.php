@@ -47,5 +47,4 @@ class Comments extends Widget
         \Yii::app()->getClientScript()->registerMetaTag('201234113248910', null, null, ['property' => 'fb:app_id']);
     }
 
-
 }

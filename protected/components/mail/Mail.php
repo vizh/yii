@@ -2,8 +2,8 @@
 
 namespace application\components\mail;
 
-use mail\components\Mailer;
 use mail\components\Mail as AbstractMail;
+use mail\components\Mailer;
 
 class Mail extends AbstractMail
 {

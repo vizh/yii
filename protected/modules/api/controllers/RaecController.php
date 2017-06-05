@@ -12,5 +12,4 @@ use nastradamus39\slate\annotations\ApiController;
 class RaecController extends \api\components\Controller
 {
 
-
 }

@@ -46,7 +46,6 @@ class Participant extends CreateUpdateForm
         parent::__construct($model);
     }
 
-
     /**
      * @inheritdoc
      */
@@ -66,7 +65,6 @@ class Participant extends CreateUpdateForm
             return true;
         }
     }
-
 
     public function rules()
     {
@@ -115,8 +113,8 @@ class Participant extends CreateUpdateForm
     {
         $purifier = new \CHtmlPurifier();
         $purifier->options = [
-            'HTML.AllowedElements'     => ['p', 'span', 'ol', 'li', 'strong', 'a', 'em', 's', 'ul', 'br', 'u', 'table', 'tbody', 'tr', 'td', 'thead', 'th', 'caption', 'h1', 'h2', 'h3', 'h4', 'h5', 'img'],
-            'HTML.AllowedAttributes'   => ['style', 'a.href', 'a.target', 'table.cellpadding', 'table.cellspacing', 'th.scope', 'table.border', 'img.alt', 'img.src'],
+            'HTML.AllowedElements' => ['p', 'span', 'ol', 'li', 'strong', 'a', 'em', 's', 'ul', 'br', 'u', 'table', 'tbody', 'tr', 'td', 'thead', 'th', 'caption', 'h1', 'h2', 'h3', 'h4', 'h5', 'img'],
+            'HTML.AllowedAttributes' => ['style', 'a.href', 'a.target', 'table.cellpadding', 'table.cellspacing', 'th.scope', 'table.border', 'img.alt', 'img.src'],
             'Attr.AllowedFrameTargets' => ['_blank', '_self']
         ];
         return $purifier->purify($value);
@@ -156,7 +154,7 @@ class Participant extends CreateUpdateForm
      */
     public function getId()
     {
-        return 'participant' . ($this->isUpdateMode() ? $this->model->Id : 'new');
+        return 'participant'.($this->isUpdateMode() ? $this->model->Id : 'new');
     }
 
     /**

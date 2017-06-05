@@ -51,10 +51,9 @@ abstract class Base extends MailLayout
     {
         $dir = $this->getViewPath();
         $view = $this->meeting->Place->Event->IdName;
-        if (is_file(\Yii::getPathOfAlias($dir).'/'.$view.'.php')){
+        if (is_file(\Yii::getPathOfAlias($dir).'/'.$view.'.php')) {
             return $dir.'.'.$view;
-        }
-        else{
+        } else {
             return $dir.'.base';
         }
     }

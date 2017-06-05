@@ -22,7 +22,7 @@ class StatAction extends \CAction
             ->from(Visit::model()->tableName())
             ->where('"EventId" = :eventId', [':eventId' => $eventId])
             ->group($substringPattern)
-            ->order($substringPattern . ' DESC')
+            ->order($substringPattern.' DESC')
             ->queryColumn();
 
         $_groups = array_filter($groups, function ($name) {
@@ -54,7 +54,7 @@ class StatAction extends \CAction
         return new \CActiveDataProvider(Visit::model()->byEventId($eventId), [
             'criteria' => [
                 'condition' => 't."MarkId" ILIKE :group',
-                'params' => [':group' => $group . '%'],
+                'params' => [':group' => $group.'%'],
                 'with' => [
                     'UserData'
                 ]

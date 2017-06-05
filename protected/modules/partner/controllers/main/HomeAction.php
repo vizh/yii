@@ -26,13 +26,12 @@ class HomeAction extends \partner\components\Action
     {
         foreach ($items as $item) {
             $result = null;
-            if (isset($item['items']) ){
+            if (isset($item['items'])) {
                 $result = $this->getAvailableItem(ArrayHelper::getValue($item, 'items', []));
-            }
-            else{
+            } else {
                 $result = $this->menu->checkAccess($item['url']) ? $item : null;
             }
-            if ($result){
+            if ($result) {
                 return $result;
             }
         }

@@ -1,4 +1,5 @@
 <?php
+
 $routes = [
     [
         'class' => 'CFileLogRoute',

@@ -1,7 +1,6 @@
 <?php
 namespace partner\controllers\coupon;
 
-
 use partner\components\Action;
 use pay\models\Coupon;
 
@@ -16,4 +15,4 @@ class DeleteAction extends Action
 
         $coupon->delete();
     }
-} 
+}

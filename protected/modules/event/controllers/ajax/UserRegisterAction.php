@@ -1,9 +1,9 @@
 <?php
 namespace event\controllers\ajax;
 
+use event\models\Event;
 use event\models\UserData;
 use user\models\forms\RegisterForm;
-use event\models\Event;
 use user\models\User;
 
 class UserRegisterAction extends \CAction
@@ -52,12 +52,12 @@ class UserRegisterAction extends \CAction
                     $userData->UserId = $user->Id;
                     $userData->save();
                 }
-            } elseif($isUserExist) {
+            } elseif ($isUserExist) {
                 $result->success = false;
-                $result->errors  = $dataManager->getErrors();
+                $result->errors = $dataManager->getErrors();
             } else {
                 $result->success = false;
-                $result->errors  = array_merge($form->getErrors(), $dataManager->getErrors());
+                $result->errors = array_merge($form->getErrors(), $dataManager->getErrors());
             }
         }
         echo json_encode($result);
@@ -108,8 +108,7 @@ class UserRegisterAction extends \CAction
         $data->Photo->Small = $user->getPhoto()->get50px();
         $data->Photo->Medium = $user->getPhoto()->get90px();
         $data->Photo->Large = $user->getPhoto()->get200px();
-        if ($user->getEmploymentPrimary() !== null)
-        {
+        if ($user->getEmploymentPrimary() !== null) {
             $data->Company = $user->getEmploymentPrimary()->Company->Name;
             $data->Position = trim($user->getEmploymentPrimary()->Position);
         }

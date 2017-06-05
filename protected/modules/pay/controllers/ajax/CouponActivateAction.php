@@ -8,8 +8,9 @@ class CouponActivateAction extends \pay\components\Action
     public function run($code, $eventIdName, $ownerRunetId, $productId)
     {
         $owner = \user\models\User::model()->byRunetId($ownerRunetId)->find();
-        if ($owner == null)
+        if ($owner == null) {
             throw new \CHttpException(404);
+        }
 
         $product = Product::model()->findByPk($productId);
 
@@ -25,7 +26,7 @@ class CouponActivateAction extends \pay\components\Action
             try {
                 $coupon->activate($this->getUser(), $owner, $product);
                 $result->success = true;
-            } catch(\pay\components\Exception $e) {
+            } catch (\pay\components\Exception $e) {
                 $result->error = $e->getMessage();
             }
 

@@ -7,7 +7,6 @@ use event\models\Event;
 use event\models\Participant as ParticipantModel;
 use event\models\Role;
 
-
 /**
  * Виджет с иноформацией о статусе участия текущего пользователя на мероприятие
  *
@@ -43,7 +42,6 @@ class Participant extends Widget
         }
         parent::init();
     }
-
 
     public function run()
     {

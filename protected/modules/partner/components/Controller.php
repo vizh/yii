@@ -1,7 +1,6 @@
 <?php
 namespace partner\components;
 
-
 use event\models\Event;
 use Yii;
 
@@ -25,10 +24,10 @@ class Controller extends \application\components\controllers\BaseController
 
     /** @var AccessControlFilter */
     private $accessFilter;
+
     public function getAccessFilter()
     {
-        if (empty($this->accessFilter))
-        {
+        if (empty($this->accessFilter)) {
             $this->accessFilter = new AccessControlFilter();
             $this->accessFilter->setRules($this->accessRules());
         }
@@ -54,19 +53,17 @@ class Controller extends \application\components\controllers\BaseController
 
     protected function beforeAction($action)
     {
-        if (Yii::app()->partner->getAccount() !==null && $this->getId() !== 'auth')
-        {
-            if (Yii::app()->user->getIsGuest())
-            {
+        if (Yii::app()->partner->getAccount() !== null && $this->getId() !== 'auth') {
+            if (Yii::app()->user->getIsGuest()) {
                 Yii::app()->getClientScript()->registerPackage('runetid.auth');
                 $this->render('partner.views.system.need-user-auth');
                 return false;
             }
             $this->parseExtendedAccountRequest();
-            if (Yii::app()->partner->getEvent() === null){
-                $this->render('partner.views.system.select-event', array(
+            if (Yii::app()->partner->getEvent() === null) {
+                $this->render('partner.views.system.select-event', [
                     'events' => $this->getExtendedAccountEventData()
-                ));
+                ]);
                 return false;
             }
         }
@@ -97,7 +94,7 @@ class Controller extends \application\components\controllers\BaseController
         $data = [];
         foreach ($events as $event) {
             $item = new \stdClass();
-            $item->value = $event->Id . ', ' . $event->IdName . ', ' . \application\components\utility\Texts::cropText($event->Title, 200);
+            $item->value = $event->Id.', '.$event->IdName.', '.\application\components\utility\Texts::cropText($event->Title, 200);
             $item->id = $event->Id;
             $data[] = $item;
         }

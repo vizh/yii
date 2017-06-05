@@ -45,7 +45,6 @@ class Callback extends BaseProductManager
         return ['Price', 'Data', 'Title'];
     }
 
-
     /**
      * Возвращает true - если продукт может быть приобретен пользователем, и false - иначе
      * @param \user\models\User $user
@@ -66,7 +65,7 @@ class Callback extends BaseProductManager
      *
      * @return bool
      */
-    protected function internalBuy($user, $orderItem = null, $params = array())
+    protected function internalBuy($user, $orderItem = null, $params = [])
     {
         $params = [
             'Price' => $orderItem->getItemAttribute('Price'),
@@ -115,7 +114,7 @@ class Callback extends BaseProductManager
      *
      * @return bool
      */
-    protected function internalChangeOwner($fromUser, $toUser, $params = array())
+    protected function internalChangeOwner($fromUser, $toUser, $params = [])
     {
         return false;
     }

@@ -11,8 +11,9 @@ class RolesAction extends \ruvents\components\Action
         $roles = $this->getEvent()->getRoles();
         $response = [];
 
-        foreach ($roles as $role)
+        foreach ($roles as $role) {
             $response[] = $this->getDataBuilder()->createRole($role);
+        }
 
         $this->renderJson([
             'Roles' => $response

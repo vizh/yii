@@ -4,13 +4,12 @@ var CTemplateEdit = function () {
     this.init();
 }
 CTemplateEdit.prototype = {
-    init: function () {
+    init:function () {
         var self = this;
         $('button.add-criteria-btn').click(function (e) {
             var method = 'create' + $(e.currentTarget).data('by') + 'Criteria';
             self[method]();
         });
-
 
         $('input#confirm-template').change(function (e) {
             var button = $('button[name*="Active"]');
@@ -21,19 +20,19 @@ CTemplateEdit.prototype = {
         });
 
         $('input[name*="TestUsers"]').autocomplete({
-            'source': function (request, response) {
+            'source':function (request, response) {
                 var terms = request.term.split(/,\s*/);
                 var term = terms.pop();
                 if (term.length > 2) {
-                    $.getJSON('/user/ajax/search', {term: term}, function (data) {
+                    $.getJSON('/user/ajax/search', {term:term}, function (data) {
                         response(data);
                     });
                 }
             },
-            focus: function () {
+            focus:function () {
                 return false;
             },
-            select: function (event, ui) {
+            select:function (event, ui) {
                 var terms = this.value.split(/,\s*/);
                 terms.pop();
                 terms.push(ui.item.value);
@@ -44,39 +43,38 @@ CTemplateEdit.prototype = {
         });
 
         $('input[name*="RelatedEventId"]').autocomplete({
-            'source': '/event/ajax/searchnotnull'
+            'source':'/event/ajax/searchnotnull'
         });
 
         if ($('textarea[name*="Template[Body]"]').length > 0) {
             CKEDITOR.replace('mail\\models\\forms\\admin\\Template[Body]', {
-                customConfig: 'config_mail_template.js',
-                height: 500
+                customConfig:'config_mail_template.js',
+                height:500
             });
         }
     },
 
-    createEventCriteria: function (data) {
+    createEventCriteria:function (data) {
         var self = this;
         var iterator = self.criteriaIterator;
-        var template = _.template($('#event-criteria-tpl').html())({i: iterator});
+        var template = _.template($('#event-criteria-tpl').html())({i:iterator});
         $('#filter').append(template);
         var row = $('#filter>div:last');
         row.find('.btn-danger').click(function () {
             row.remove();
         });
         row.find('input[name*="eventLabel"]').autocomplete({
-            'source': '/event/ajax/searchnotnull',
-            'select': function (event, ui) {
+            'source':'/event/ajax/searchnotnull',
+            'select':function (event, ui) {
                 this.value = ui.item.value + ', ' + ui.item.label;
                 row.find('input[name*="eventId"]').val(ui.item.value);
                 return false;
             }
         });
 
-
         row.find('input[name*="rolesSearch"]').autocomplete({
-            source: self.roles,
-            select: function (event, ui) {
+            source:self.roles,
+            select:function (event, ui) {
                 createRoleField(ui.item);
                 this.value = '';
                 return false;
@@ -112,10 +110,10 @@ CTemplateEdit.prototype = {
         this.criteriaIterator++;
     },
 
-    createEmailCriteria: function (data) {
+    createEmailCriteria:function (data) {
         var self = this;
         var iterator = self.criteriaIterator;
-        var template = _.template($('#email-criteria-tpl').html())({i: iterator});
+        var template = _.template($('#email-criteria-tpl').html())({i:iterator});
         $('#filter').append(template);
         var row = $('#filter>div:last');
         row.find('.btn-danger').click(function () {
@@ -129,10 +127,10 @@ CTemplateEdit.prototype = {
         this.criteriaIterator++;
     },
 
-    createRunetIdCriteria: function (data) {
+    createRunetIdCriteria:function (data) {
         var self = this;
         var iterator = self.criteriaIterator;
-        var template = _.template($('#runetid-criteria-tpl').html())({i: iterator});
+        var template = _.template($('#runetid-criteria-tpl').html())({i:iterator});
         $('#filter').append(template);
         var row = $('#filter>div:last');
         row.find('.btn-danger').click(function () {
@@ -146,10 +144,10 @@ CTemplateEdit.prototype = {
         this.criteriaIterator++;
     },
 
-    createGeoCriteria: function (data) {
+    createGeoCriteria:function (data) {
         var self = this;
         var iterator = self.criteriaIterator;
-        var template = _.template($('#geo-criteria-tpl').html())({i: iterator});
+        var template = _.template($('#geo-criteria-tpl').html())({i:iterator});
         $('#filter').append(template);
         var row = $('#filter>div:last');
         row.find('.btn-danger').click(function () {
@@ -157,22 +155,22 @@ CTemplateEdit.prototype = {
         });
 
         var fields = {
-            'label': row.find('input[name*="label"]'),
-            'cityId': row.find('input[name*="cityId"]'),
-            'regionId': row.find('input[name*="regionId"]'),
-            'countryId': row.find('input[name*="countryId"]')
+            'label':row.find('input[name*="label"]'),
+            'cityId':row.find('input[name*="cityId"]'),
+            'regionId':row.find('input[name*="regionId"]'),
+            'countryId':row.find('input[name*="countryId"]')
         };
 
         fields.label.autocomplete({
-            'source': '/geo/ajax/search',
-            select: function (event, ui) {
+            'source':'/geo/ajax/search',
+            select:function (event, ui) {
                 fields.cityId.val(
                     typeof ui.item.CityId !== "undefined" ? ui.item.CityId : ""
                 );
                 fields.regionId.val(ui.item.RegionId);
                 fields.countryId.val(ui.item.CountryId);
             },
-            response: function (event, ui) {
+            response:function (event, ui) {
                 fields.cityId.val('');
                 fields.regionId.val('');
                 fields.countryId.val('');

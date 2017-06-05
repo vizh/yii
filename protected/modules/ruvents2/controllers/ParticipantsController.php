@@ -8,7 +8,6 @@ use ruvents2\components\data\builders\UserBuilder;
 use ruvents2\components\Exception;
 use ruvents2\models\forms\ParticipantRegisterForm;
 use user\models\User;
-use Yii;
 
 class ParticipantsController extends Controller
 {
@@ -52,11 +51,13 @@ class ParticipantsController extends Controller
             ->byRunetId($params->Id)
             ->find();
 
-        if ($user === null)
+        if ($user === null) {
             throw new Exception(Exception::INVALID_PARTICIPANT_ID, $params->Id);
+        }
 
-        if ($params->Role)
+        if ($params->Role) {
             $this->getEvent()->registerUser($user, Role::model()->findByPk($params->Role));
+        }
 
         $this->renderJson(
             UserBuilder::create()
@@ -84,7 +85,6 @@ class ParticipantsController extends Controller
         } else {
             $this->getEvent()->unregisterUserOnAllParts($user, 'Запрос через RUVENTS.');
         }
-
 
         $this->renderJson('');
     }

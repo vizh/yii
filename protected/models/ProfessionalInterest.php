@@ -1,5 +1,6 @@
 <?php
 namespace application\models;
+
 use application\components\ActiveRecord;
 
 /**
@@ -40,7 +41,7 @@ class ProfessionalInterest extends ActiveRecord
 
     public function relations()
     {
-        return array();
+        return [];
     }
 
     public function getOrderedList()

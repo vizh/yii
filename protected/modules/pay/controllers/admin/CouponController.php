@@ -1,4 +1,5 @@
 <?php
+
 class CouponController extends \application\components\controllers\AdminMainController
 {
     public function actions()

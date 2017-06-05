@@ -4,10 +4,8 @@ class Utils
 {
     public static function PrepareStringForLike($keyword)
     {
-        return strtr($keyword, array('%'=>'\%', '_'=>'\_', '\\'=>'\\\\'));
+        return strtr($keyword, ['%' => '\%', '_' => '\_', '\\' => '\\\\']);
     }
-
-
 
     public static function GeneratePassword($length = 8)
     {

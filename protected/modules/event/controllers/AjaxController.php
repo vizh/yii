@@ -1,6 +1,7 @@
 <?php
-use event\models\Participant;
 use event\models\Event;
+use event\models\Participant;
+
 class AjaxController extends \application\components\controllers\PublicMainController
 {
     public function actions()
@@ -11,15 +12,15 @@ class AjaxController extends \application\components\controllers\PublicMainContr
     }
 
     /**
-    * Поиск события по заданному критерию
-    *
-    * @param type $term
-    * @return string
-    */
+     * Поиск события по заданному критерию
+     *
+     * @param type $term
+     * @return string
+     */
 
     public function actionSearch($term)
     {
-        $results  = [];
+        $results = [];
         $criteria = new CDbCriteria();
         $criteria->limit = 10;
         $criteria->order = '"t"."Id" DESC';
@@ -42,15 +43,15 @@ class AjaxController extends \application\components\controllers\PublicMainContr
     }
 
     /**
-    * Поиск события, в котором есть хотя бы 1 участник
-    *
-    * @param type $term
-    * @return string
-    */
+     * Поиск события, в котором есть хотя бы 1 участник
+     *
+     * @param type $term
+     * @return string
+     */
 
     public function actionSearchNotNull($term)
     {
-        $results  = [];
+        $results = [];
         $criteria = new CDbCriteria();
         $criteria->limit = 10;
         $criteria->order = '"t"."Id" DESC';

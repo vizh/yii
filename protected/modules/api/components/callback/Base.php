@@ -23,12 +23,14 @@ class Base
     {
         /** @var \api\models\Account $account */
         $account = \api\models\Account::model()->byEventId($event->Id)->find();
-        if ($account == null)
+        if ($account == null) {
             return null;
+        }
 
-        $class = \Yii::getExistClass('\api\components\callback', 'Account' . ucfirst($event->IdName));
-        if ($class == null)
-            $class = \Yii::getExistClass('\api\components\callback', 'Account' . ucfirst($account->Role), 'Base');
+        $class = \Yii::getExistClass('\api\components\callback', 'Account'.ucfirst($event->IdName));
+        if ($class == null) {
+            $class = \Yii::getExistClass('\api\components\callback', 'Account'.ucfirst($account->Role), 'Base');
+        }
         return new $class($account);
     }
 
@@ -44,10 +46,8 @@ class Base
     {
         $url = $this->getUrlRegisterOnEvent();
         if ($url !== null) {
-
         }
     }
-
 
     /**
      * @param string $url
@@ -74,7 +74,7 @@ class Base
             curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
         } else {
             $params = http_build_query($params);
-            $url .= (strpos($url, '?') === false ? '?' : '&') . $params;
+            $url .= (strpos($url, '?') === false ? '?' : '&').$params;
         }
         curl_setopt($curl, CURLOPT_URL, $url);
         $result = curl_exec($curl);
@@ -109,7 +109,7 @@ class Base
     protected function parseErrorMessage($code, $params = [])
     {
         $message = $this->getErrorMessage($code);
-        
+
         return $message != null
             ? vsprintf($message, $params)
             : null;

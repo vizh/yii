@@ -131,8 +131,7 @@ class DefinitionsAction extends Action
      */
     private function groupUsers(Event $event)
     {
-        if ($event->Id === 2997)
-        {
+        if ($event->Id === 2997) {
             $groups = [
                 0 => [771916655953, 771916665535],
                 1 => [771916000000, 771916000416]
@@ -146,30 +145,31 @@ class DefinitionsAction extends Action
             $ungrouped = [];
 
             // Определим максимальный индекс из назначенных
-            foreach ($participants as $participant)
-            {
+            foreach ($participants as $participant) {
                 // Если посетитель не в интересующих нас группах, то пропускаем его
-                if (false === in_array($participant->RoleId, [406, 407]))
+                if (false === in_array($participant->RoleId, [406, 407])) {
                     continue;
+                }
 
                 $userData = UserData::model()
                     ->byEventId($event->Id)
                     ->byUserId($participant->UserId)
                     ->find();
 
-                if ($userData === null)
+                if ($userData === null) {
                     $userData = UserData::createEmpty($this->getEvent(), $participant->User);
+                }
 
                 $dataManager
                     = $userData->getManager();
 
                 // Если код уже установлен, то запомним его
-                if (isset($dataManager->EAN13) && !empty($dataManager->EAN13))
-                {
-                    $currentCode = (int) $dataManager->EAN13;
+                if (isset($dataManager->EAN13) && !empty($dataManager->EAN13)) {
+                    $currentCode = (int)$dataManager->EAN13;
 
-                    if ($groups[0][0] < $currentCode)
+                    if ($groups[0][0] < $currentCode) {
                         $groups[0][0] = $currentCode;
+                    }
 
                     continue;
                 }
@@ -179,10 +179,10 @@ class DefinitionsAction extends Action
             }
 
             // Назначаем новые коды посетителям
-            foreach ($participants as $participant)
-            {
-                if (false === in_array($participant->UserId, $ungrouped))
+            foreach ($participants as $participant) {
+                if (false === in_array($participant->UserId, $ungrouped)) {
                     continue;
+                }
 
                 $userData = UserData::model()
                     ->byEventId($event->Id)

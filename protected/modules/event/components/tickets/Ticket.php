@@ -19,7 +19,7 @@ class Ticket
     function __construct(Event $event, User $user)
     {
         $this->event = $event;
-        $this->user  = $user;
+        $this->user = $user;
     }
 
     /** @var \mPDF|null */
@@ -72,9 +72,9 @@ class Ticket
      */
     private function getViewAlias()
     {
-        $alias = static::VIEW_ALIAS . '.' . $this->event->IdName;
+        $alias = static::VIEW_ALIAS.'.'.$this->event->IdName;
         $path = \Yii::getPathOfAlias($alias).'.php';
-        return file_exists($path) ? $alias : static::VIEW_ALIAS . '.base';
+        return file_exists($path) ? $alias : static::VIEW_ALIAS.'.base';
     }
 
     /**
@@ -91,13 +91,13 @@ class Ticket
      */
     public function save()
     {
-        $name = $this->user->RunetId . '_'. $this->event->IdName . '.pdf';
-        $path = \Yii::getPathOfAlias('application') . '/../data/tickets/' . substr( md5($name), 0 , 3);
+        $name = $this->user->RunetId.'_'.$this->event->IdName.'.pdf';
+        $path = \Yii::getPathOfAlias('application').'/../data/tickets/'.substr(md5($name), 0, 3);
         if (!file_exists($path)) {
             mkdir($path);
         }
-        $path .= '/' . $name;
+        $path .= '/'.$name;
         $this->getPdf()->Output($path, 'F');
         return $path;
     }
-} 
+}

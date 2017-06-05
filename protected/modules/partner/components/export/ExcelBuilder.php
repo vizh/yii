@@ -1,19 +1,18 @@
 <?php
 namespace partner\components\export;
 
-use application\components\helpers\ArrayHelper;
-use application\models\translation\ActiveRecord;
-use partner\models\Export;
 use api\models\Account;
 use api\models\ExternalUser;
 use application\components\attribute\Definition;
+use application\components\helpers\ArrayHelper;
+use event\models\Event;
 use event\models\Participant;
 use event\models\UserData;
+use partner\models\Export;
 use pay\components\OrderItemCollection;
 use pay\models\OrderItem;
 use pay\models\OrderType;
 use ruvents\models\Badge;
-use event\models\Event;
 use user\models\DocumentType;
 use user\models\User;
 
@@ -63,7 +62,9 @@ class ExcelBuilder
         \Yii::app()->setLanguage($language);
 
         $title = \Yii::t('app', 'Участники').' '.$this->export->Event->IdName;
-        if(strlen($title) > 30) $title = substr($title,0,28)."...";
+        if (strlen($title) > 30) {
+            $title = substr($title, 0, 28)."...";
+        }
 
         $phpExcel = new \PHPExcel();
         $phpExcel->setActiveSheetIndex(0);
@@ -109,7 +110,7 @@ class ExcelBuilder
     /**
      * Добавляет строку участника в таблицу
      * @param \PHPExcel_Worksheet $sheet
-     * @param User                $user
+     * @param User $user
      */
     private function appendRow(\PHPExcel_Worksheet $sheet, User $user)
     {
@@ -444,7 +445,7 @@ class ExcelBuilder
             $definitions = $item->getManager()->getDefinitions();
             /** @var Definition $definition */
             foreach ($definitions as $definition) {
-                if ($definition->translatable){
+                if ($definition->translatable) {
                     $definition->translatable = false;
                     $values = $definition->getPrintValue($item->getManager());
                     foreach (\Yii::app()->getParams()['Languages'] as $language) {
@@ -454,8 +455,7 @@ class ExcelBuilder
                         $this->usersData[$item->UserId][$definition->name.'-'.$language][] = ArrayHelper::getValue($values, $language);
                     }
                     $definition->translatable = true;
-                }
-                else{
+                } else {
                     if ($initMap === false) {
                         $this->rowMap[$definition->name] = $definition->title;
                     }

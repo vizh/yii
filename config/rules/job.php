@@ -5,7 +5,9 @@ return [
         'allow',
         'users' => ['*'],
         'module' => 'job',
-        'controllers' => ['default'],
+        'controllers' => [
+            'default'
+        ]
     ],
 
     /** Admin Rules */
@@ -13,6 +15,10 @@ return [
         'allow',
         'roles' => ['admin'],
         'module' => 'job',
-        'controllers' => ['admin/edit', 'admin/list', 'admin/ajax'],
+        'controllers' => [
+            'admin/edit',
+            'admin/list',
+            'admin/ajax'
+        ]
     ],
 ];

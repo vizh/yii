@@ -3,12 +3,11 @@ namespace api\controllers\ms;
 
 use api\components\Action;
 use api\components\Exception;
-use user\models\User;
-
-use nastradamus39\slate\annotations\ApiAction;
-use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\ApiAction;
+use user\models\User;
 
 class CheckFastauthAction extends Action
 {

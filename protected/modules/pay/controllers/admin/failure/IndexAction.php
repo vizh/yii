@@ -1,5 +1,6 @@
 <?php
 namespace pay\controllers\admin\failure;
+
 use pay\models\Failure;
 
 /**

@@ -1,74 +1,76 @@
 body {
-  margin-top: 30px;
-  font-family: "Open Sans";
+    margin-top: 30px;
+    font-family: "Open Sans";
 }
 
 body, a {
-  color: #fff;
+    color: #fff;
 }
 
 h3 {
-  font-size: 26px;
-  font-weight: 400;
-  line-height: normal;
-  text-align: center;
-  padding-bottom: 10px;
+    font-size: 26px;
+    font-weight: 400;
+    line-height: normal;
+    text-align: center;
+    padding-bottom: 10px;
 }
 
 .logo {
-  text-align: center;
-  margin-bottom: 40px;
+    text-align: center;
+    margin-bottom: 40px;
 }
 
 #content-wrapper {
-  position: relative;
-  padding-top: 100px;
+    position: relative;
+    padding-top: 100px;
 }
+
 #content-wrapper .bg {
-  background: #00ABEB;
-  left: 50%;
-  position: absolute;
-  z-index: -10;
-  top: 100px;
-  bottom: 0;
+    background: #00ABEB;
+    left: 50%;
+    position: absolute;
+    z-index: -10;
+    top: 100px;
+    bottom: 0;
 }
 
 #content-wrapper .alert.alert-error {
-  display: none;
+    display: none;
 }
+
 #content-wrapper .alert.alert-danger ul {
-  list-style: none;
+    list-style: none;
 }
 
 #content-wrapper .btn.btn-primary {
-  border: 0;
-  background-color: #fff;
-  color: #00ABEB;
-  border-radius: 0;
-  padding: 20px 36px;
+    border: 0;
+    background-color: #fff;
+    color: #00ABEB;
+    border-radius: 0;
+    padding: 20px 36px;
 }
 
 #content-wrapper .bg:before, #content-wrapper .bg:after {
-  background-image: url('/images/competence-iidf-bg.png');
-  background-repeat: no-repeat;
-  background-size: 100% 196px;
-  height: 101px;
-  position: absolute;
-  left: 0;
-  right: 0;
-  content: " ";
+    background-image: url('/images/competence-iidf-bg.png');
+    background-repeat: no-repeat;
+    background-size: 100% 196px;
+    height: 101px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    content: " ";
 }
 
 #content-wrapper .bg:before {
-  top: -99px;
+    top: -99px;
 }
 
 #content-wrapper .bg:after {
-  bottom: -97px;
-  height: 99px;
-  background-position: 50% 100%;
+    bottom: -97px;
+    height: 99px;
+    background-position: 50% 100%;
 }
 
 #content-wrapper .question {
-  margin-bottom: 40px;
+    margin-bottom: 40px;
 }

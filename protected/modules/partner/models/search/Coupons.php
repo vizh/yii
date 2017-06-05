@@ -8,7 +8,6 @@
 
 namespace application\modules\partner\models\search;
 
-
 use application\components\form\SearchFormModel;
 use event\models\Event;
 use pay\models\Coupon;
@@ -26,7 +25,7 @@ class Coupons extends SearchFormModel
 
     public $Product;
 
-    /** @var Event  */
+    /** @var Event */
     private $event;
 
     public function __construct(Event $event, $scenario = '')
@@ -134,7 +133,7 @@ class Coupons extends SearchFormModel
     private function getOwnerCriteria()
     {
         $users = User::model()->bySearch($this->Owner, null, true, false)->byEmail($this->Owner, false)->findAll();
-        $list  = \CHtml::listData($users, 'Id', 'Id');
+        $list = \CHtml::listData($users, 'Id', 'Id');
 
         $criteria = new \CDbCriteria();
         $criteria->addInCondition('"t"."UserId"', $list);

@@ -22,13 +22,13 @@ $(function () {
             $label.removeClass('text-error');
         }
         else {
-            payButtons.attr('disabled','disabled');
+            payButtons.attr('disabled', 'disabled');
             payButtons.removeClass('btn-primary');
             $label.addClass('text-error');
         }
-        $.cookie('offerCheckboxEnabled'+eventIdName, $(e.currentTarget).prop('checked'), {expires:7});
+        $.cookie('offerCheckboxEnabled' + eventIdName, $(e.currentTarget).prop('checked'), {expires:7});
     });
-    if ($.cookie('offerCheckboxEnabled'+eventIdName) == 'true') {
+    if ($.cookie('offerCheckboxEnabled' + eventIdName) == 'true') {
         offerCheckbox.attr('checked', 'checked');
     }
     offerCheckbox.trigger('change');
@@ -43,7 +43,6 @@ $(function () {
         }
     });
 
-
     $('.pay-buttons a').click(function (e) {
         var $target = $(e.currentTarget);
         var $form = $('form.additional-attributes');
@@ -51,7 +50,7 @@ $(function () {
             if (!$form.data('valid')) {
                 var $alert = $form.find('.alert-error');
                 if ($alert.size() == 0) {
-                    $alert = $('<div/>', {'class' : 'alert alert-error errorSummary'});
+                    $alert = $('<div/>', {'class':'alert alert-error errorSummary'});
                     $form.prepend($alert);
                 }
                 $alert.hide().html('');
@@ -68,7 +67,7 @@ $(function () {
                         });
                         $alert.append($ul).show();
                     }
-                },'json');
+                }, 'json');
                 return false;
             }
             e.preventDefault();
@@ -76,18 +75,16 @@ $(function () {
         }
     });
 
-    payButtons.on('click', function(e) {
-        if (!$(this).hasClass("iframe")){
+    payButtons.on('click', function (e) {
+        if (!$(this).hasClass("iframe")) {
             return true;
         }
 
         var $modal = $("#payonline-modal");
 
         var $iframe = $("<iframe></iframe>")
-            .css({
-
-            })
-            .load(function(){
+            .css({})
+            .load(function () {
                 $("#payonline-modal .modal-body .loading").remove();
             })
             .attr("src", this.href);
@@ -96,13 +93,13 @@ $(function () {
             .find(".modal-body")
             .html("<div class='loading'><img src='/img/pay/loading.gif' alt='loading'></div>")
             .append($iframe);
-        $modal.modal({"backdrop": "static"});
+        $modal.modal({"backdrop":"static"});
         return false;
     });
 
-    $('.pay-buttons .payonline-save-card').on("change", function(){
+    $('.pay-buttons .payonline-save-card').on("change", function () {
         var url = $('.pay-buttons .btn.payonline').get(0).search.substr(1);
-        var params = JSON.parse('{"' + decodeURI(url).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
+        var params = JSON.parse('{"' + decodeURI(url).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}');
         params.save = this.checked ? 1 : undefined;
         $('.pay-buttons .btn.payonline').get(0).search = '?' + $.param(params);
     });

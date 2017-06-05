@@ -38,7 +38,6 @@ class EditController extends AdminMainController
         if (\Yii::app()->getRequest()->getIsPostRequest()) {
             $form->fillFromPost();
             if ($form->updateActiveRecord() !== null) {
-
             }
         }
 

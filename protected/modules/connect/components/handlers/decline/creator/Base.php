@@ -2,10 +2,6 @@
 
 namespace connect\components\handlers\decline\creator;
 
-use connect\models\Meeting;
-use mail\components\MailLayout;
-use user\models\User;
-
 class Base extends \connect\components\handlers\Base
 {
     /** @var string */

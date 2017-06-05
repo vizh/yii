@@ -8,7 +8,6 @@
 
 namespace event\widgets;
 
-
 use application\components\web\Widget;
 use event\models\Event;
 
@@ -22,7 +21,6 @@ class Promo extends Widget
      * @var bool
      */
     public $isCurrentUserParticipant = false;
-
 
     public function run()
     {
@@ -43,7 +41,7 @@ class Promo extends Widget
     protected function registerDefaultResources()
     {
         if (isset($this->event->PromoBlockStyles)) {
-            \Yii::app()->getClientScript()->registerCss($this->event->IdName . 'promo', $this->event->PromoBlockStyles);
+            \Yii::app()->getClientScript()->registerCss($this->event->IdName.'promo', $this->event->PromoBlockStyles);
         }
         parent::registerDefaultResources();
     }

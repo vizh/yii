@@ -32,7 +32,7 @@ class BriefController extends PublicMainController
             'about' => [\Yii::t('app', '2. Об организации'), true],
             'resume' => [\Yii::t('app', '3. Дополнительная информация'), true],
             'users' => [\Yii::t('app', '4. Сотрудники'), true],
-            $this->getLastActionId()  => [\Yii::t('app', '5. Завершение'), false]
+            $this->getLastActionId() => [\Yii::t('app', '5. Завершение'), false]
         ];
     }
 
@@ -134,7 +134,7 @@ class BriefController extends PublicMainController
     private function fillForm($form)
     {
         $data = \Yii::app()->getSession()->get(self::DATA_SESSION_NAME, []);
-        $key  = get_class($form);
+        $key = get_class($form);
         if (array_key_exists($key, $data)) {
             $form->setAttributes($data[$key]);
         } else {
@@ -206,17 +206,19 @@ class BriefController extends PublicMainController
             '\raec\models\forms\brief\Resume',
             '\raec\models\forms\brief\Users'
         ];
-        $data  = [];
+        $data = [];
         foreach ($forms as $name) {
             $form = new $name();
             $this->fillForm($form);
-            if (!$form->validate())
+            if (!$form->validate()) {
                 throw new \CHttpException(500);
+            }
 
             foreach ($form->getAttributes() as $attr => $value) {
                 try {
                     $brief->getBriefData()->$attr = $value;
-                } catch(Exception $e) {};
+                } catch (Exception $e) {
+                };
             }
         }
         $brief->save();
@@ -249,8 +251,9 @@ class BriefController extends PublicMainController
         } else {
             $company = Company::model()->findByPk($companyId);
         }
-        if ($company == null)
+        if ($company == null) {
             throw new \CHttpException(500);
+        }
 
         $link = BriefLinkCompany::model()->byBriefId($brief->Id)->byCompanyId($company->Id)->find();
         if ($link == null) {
@@ -273,15 +276,16 @@ class BriefController extends PublicMainController
     {
         $user = User::model()->byRunetId($value['RunetId'])->find();
         $role = BriefUserRole::model()->findByPk($value['RoleId']);
-        if ($user == null || $role == null)
+        if ($user == null || $role == null) {
             throw new \CHttpException(500);
+        }
 
         $link = BriefLinkUser::model()->byBriefId($brief->Id)->byUserId($user->Id)->byRoleId($role->Id)->find();
         if ($link == null) {
             $link = new BriefLinkUser();
             $link->BriefId = $brief->Id;
-            $link->UserId  = $user->Id;
-            $link->RoleId  = $role->Id;
+            $link->UserId = $user->Id;
+            $link->RoleId = $role->Id;
             $link->save();
         }
         return $link;

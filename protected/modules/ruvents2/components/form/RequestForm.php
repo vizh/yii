@@ -21,7 +21,7 @@ class RequestForm extends \CFormModel
 
         /* И сразу же, дабы упростить использование, валидируем. */
         if ($this->validate() === false) {
-            throw new Exception(Exception::INVALID_PARAMS, ArrayHelper::each($this->errors, function($value, $key){
+            throw new Exception(Exception::INVALID_PARAMS, ArrayHelper::each($this->errors, function ($value, $key) {
                 return sprintf("[%s] %s", $key, implode(', ', $value));
             }));
         }

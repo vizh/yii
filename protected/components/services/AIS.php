@@ -53,7 +53,7 @@ class AIS
      */
     public static function getAvatarUrl($userId)
     {
-        return self::AIS_SITE . strtr(self::URL_GET_AVATAR, ['{user_id}' => $userId]);
+        return self::AIS_SITE.strtr(self::URL_GET_AVATAR, ['{user_id}' => $userId]);
     }
 
     /**
@@ -61,7 +61,7 @@ class AIS
      */
     public function __construct()
     {
-        $this->guzzle= new GuzzleHttp\Client([
+        $this->guzzle = new GuzzleHttp\Client([
             'cookies' => true
         ]);
     }
@@ -73,9 +73,9 @@ class AIS
     {
         $this->auth();
 
-        $res = $this->guzzle->get(self::AIS_SITE . self::URL_EVENTS);
+        $res = $this->guzzle->get(self::AIS_SITE.self::URL_EVENTS);
 
-        return json_decode((string) $res->getBody(), true);
+        return json_decode((string)$res->getBody(), true);
     }
 
     /**
@@ -98,13 +98,13 @@ class AIS
             $params['date'] = $dateTime;
         }
 
-        $url = self::AIS_SITE . self::URL_REGISTRATIONS . '?' . http_build_query($params, null, '&');
+        $url = self::AIS_SITE.self::URL_REGISTRATIONS.'?'.http_build_query($params, null, '&');
 
         $res = $this->guzzle->get($url, [
             'cookies' => true
         ]);
 
-        return json_decode((string) $res->getBody(), true);
+        return json_decode((string)$res->getBody(), true);
     }
 
     /**
@@ -119,7 +119,7 @@ class AIS
         $this->auth();
 
         try {
-            $response = $this->guzzle->post(self::AIS_SITE . self::URL_NOTIFY, [
+            $response = $this->guzzle->post(self::AIS_SITE.self::URL_NOTIFY, [
                 'body' => [
                     'action' => 'was',
                     'registration' => $registrationId,
@@ -148,7 +148,7 @@ class AIS
      */
     private function auth()
     {
-        $res = $this->guzzle->post(self::AIS_SITE . self::URL_LOGIN, [
+        $res = $this->guzzle->post(self::AIS_SITE.self::URL_LOGIN, [
             'body' => [
                 'email' => self::AIS_LOGIN,
                 'password' => self::AIS_PASS,

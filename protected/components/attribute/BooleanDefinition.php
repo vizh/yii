@@ -43,8 +43,8 @@ class BooleanDefinition extends AbstractDefinition
         $required = $this->required ? '<span class="required-asterisk">*</span>' : '';
 
         return \CHtml::label($checkbox.' '.$this->title.' '.$required, false, [
-            'class' => $this->cssClass,
-            'style' => $this->cssStyle
-        ]).($this->placeholder ? \CHtml::tag('small', ['class' => 'notice'], $this->placeholder) : '');
+                'class' => $this->cssClass,
+                'style' => $this->cssStyle
+            ]).($this->placeholder ? \CHtml::tag('small', ['class' => 'notice'], $this->placeholder) : '');
     }
 }

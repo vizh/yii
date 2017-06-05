@@ -25,12 +25,12 @@ class MainController extends BaseController
         $this->getAccessFilter()->filter($filterChain);
     }
 
-    protected $rules = array();
+    protected $rules = [];
 
     public function accessRules()
     {
         if (empty($this->rules)) {
-            $this->rules = require(\Yii::getPathOfAlias('application') . '/../config/rules.php');
+            $this->rules = require(\Yii::getPathOfAlias('application').'/../config/rules.php');
         }
         return $this->rules;
     }

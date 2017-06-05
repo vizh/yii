@@ -1,9 +1,6 @@
 <?php
 namespace competence\controllers\main;
 
-use pay\models\Coupon;
-use pay\models\CouponActivation;
-
 /**
  * Class ProcessAction
  * @package competence\controllers\main
@@ -59,16 +56,13 @@ class ProcessAction extends \CAction
         $id = $request->getParam('question');
         $question = \competence\models\Question::model()->findByPk($id);
         $test = $this->getController()->getTest();
-        if ($question == null)
-        {
+        if ($question == null) {
             return $test->getFirstQuestion();
-        }
-        elseif ($question->TestId == $test->Id)
-        {
+        } elseif ($question->TestId == $test->Id) {
             return $question;
+        } else {
+            throw new \application\components\Exception('Вопрос с id: '.$id.' не найден в тесте '.$test->Id);
         }
-        else
-            throw new \application\components\Exception('Вопрос с id: ' . $id . ' не найден в тесте ' . $test->Id);
     }
 
     private function finalizeInterview()

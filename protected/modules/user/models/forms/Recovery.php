@@ -1,5 +1,6 @@
 <?php
 namespace user\models\forms;
+
 class Recovery extends \CFormModel
 {
     public $EmailOrPhone;
@@ -7,7 +8,6 @@ class Recovery extends \CFormModel
     public $Captcha;
 
     public $ShowCode = false;
-
 
     public function rules()
     {

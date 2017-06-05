@@ -64,18 +64,18 @@ class Import extends ActiveRecord
         $entries = [];
         $entry = null;
         foreach ($lines as $line) {
-            if ($line == 'СекцияРасчСчет' || mb_strpos($line, 'СекцияДокумент') === 0){
+            if ($line == 'СекцияРасчСчет' || mb_strpos($line, 'СекцияДокумент') === 0) {
                 $entry = [];
                 continue;
             }
-            if ($line == 'КонецРасчСчет' || $line == 'КонецДокумента'){
+            if ($line == 'КонецРасчСчет' || $line == 'КонецДокумента') {
                 $entries[] = $entry;
                 $entry = null;
                 continue;
             }
-            if (is_array($entry)){
+            if (is_array($entry)) {
                 $keyvalue = explode('=', $line);
-                if (count($keyvalue) != 2){
+                if (count($keyvalue) != 2) {
                     continue;
                 }
                 list($key, $value) = $keyvalue;

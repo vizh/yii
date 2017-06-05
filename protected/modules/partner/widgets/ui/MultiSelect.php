@@ -21,7 +21,6 @@ class MultiSelect extends \CInputWidget
      */
     public $notFoundMessage = 'Не найден элемент содержащий';
 
-
     /**
      * @inheritdoc
      */
@@ -51,7 +50,7 @@ class MultiSelect extends \CInputWidget
     public function registerClientScript()
     {
         $allSelectMessage = \CHtml::encode($this->allSelectMessage);
-        $notFoundMessage  = \CHtml::encode($this->notFoundMessage);
+        $notFoundMessage = \CHtml::encode($this->notFoundMessage);
 
         $initScript = <<<SCRIPT
             $("#{$this->getId()}").select2({

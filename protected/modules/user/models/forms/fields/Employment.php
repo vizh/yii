@@ -38,10 +38,16 @@ class Employment extends CreateUpdateForm
     public function rules()
     {
         return [
-            ['Company, Position, UnregisteredCompany', 'filter',
-                'filter' => '\application\components\utility\Texts::clear'],
-            ['Position', 'application\components\validators\InlineValidator',
-                'method' => [$this, 'validateEmployment']],
+            [
+                'Company, Position, UnregisteredCompany',
+                'filter',
+                'filter' => '\application\components\utility\Texts::clear'
+            ],
+            [
+                'Position',
+                'application\components\validators\InlineValidator',
+                'method' => [$this, 'validateEmployment']
+            ],
             ['Company, Position, UnregisteredCompany', 'length', 'max' => 255],
         ];
     }

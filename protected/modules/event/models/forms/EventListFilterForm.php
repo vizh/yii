@@ -3,79 +3,73 @@ namespace event\models\forms;
 
 class EventListFilterForm extends \CFormModel
 {
-  public $City;
-  public $Type;
-  public $Query;
- 
-  
-  public function rules() 
-  {
-    return array(
-      array('City, Type, Query', 'safe')
-    );
-  }
-  
-  /**
-   * Возвращает список дотспуных городов мероприятий
-   * @param int $month
-   * @param int $year
-   * @return string[] 
-   */
-  public function getCityList($month, $year)
-  {
-    $cityList = array(
-      \Yii::t('app', 'Все города')
-    );
-    $cityIdList = array();
-    $criteria = new \CDbCriteria();
-    $criteria->with = array('LinkAddress');
-    /** @var $events \event\models\Event[] */
-    $events = \event\models\Event::model()->byDate($year, $month)->byVisible()->findAll($criteria);
-    foreach ($events as $event)
+    public $City;
+    public $Type;
+    public $Query;
+
+    public function rules()
     {
-      if ($event->getContactAddress() !== null)
-      {
-        $cityIdList[] = $event->getContactAddress()->CityId;
-      }
+        return [
+            ['City, Type, Query', 'safe']
+        ];
     }
-    
-    if (!empty($cityIdList))
+
+    /**
+     * Возвращает список дотспуных городов мероприятий
+     * @param int $month
+     * @param int $year
+     * @return string[]
+     */
+    public function getCityList($month, $year)
     {
-      $criteria = new \CDbCriteria();
-      $criteria->order = '"t"."Priority" DESC, "t"."Name" ASC';
-      $criteria->addInCondition('"t"."Id"', $cityIdList);
-      $cities = \geo\models\City::model()->findAll($criteria);
-      foreach ($cities as $city)
-      {
-        $cityList[$city->Id] = $city->Name;
-      }
+        $cityList = [
+            \Yii::t('app', 'Все города')
+        ];
+        $cityIdList = [];
+        $criteria = new \CDbCriteria();
+        $criteria->with = ['LinkAddress'];
+        /** @var $events \event\models\Event[] */
+        $events = \event\models\Event::model()->byDate($year, $month)->byVisible()->findAll($criteria);
+        foreach ($events as $event) {
+            if ($event->getContactAddress() !== null) {
+                $cityIdList[] = $event->getContactAddress()->CityId;
+            }
+        }
+
+        if (!empty($cityIdList)) {
+            $criteria = new \CDbCriteria();
+            $criteria->order = '"t"."Priority" DESC, "t"."Name" ASC';
+            $criteria->addInCondition('"t"."Id"', $cityIdList);
+            $cities = \geo\models\City::model()->findAll($criteria);
+            foreach ($cities as $city) {
+                $cityList[$city->Id] = $city->Name;
+            }
+        }
+        return $cityList;
     }
-    return $cityList;
-  }
-  
-  /**
-   * Возвращает список доступных типов мероприятий
-   * @param int $month
-   * @param int $year
-   * @return string[] 
-   */
-  public function getTypeList($month, $year)
-  {
-    $typeList = array(
-      \Yii::t('app', 'Все категории')
-    );
-    $criteria = new \CDbCriteria();
-    $criteria->with = array('Type');
-    $criteria->order = '"Type"."Priority" DESC';
-    $events = \event\models\Event::model()->byDate($year, $month)->byVisible()->findAll($criteria);
-    foreach ($events as $event)
+
+    /**
+     * Возвращает список доступных типов мероприятий
+     * @param int $month
+     * @param int $year
+     * @return string[]
+     */
+    public function getTypeList($month, $year)
     {
-      if ($event->Type !== null
-        && !isset($typeList[$event->Type->Id]))
-      {
-        $typeList[$event->Type->Id] = $event->Type->Title;
-      }
+        $typeList = [
+            \Yii::t('app', 'Все категории')
+        ];
+        $criteria = new \CDbCriteria();
+        $criteria->with = ['Type'];
+        $criteria->order = '"Type"."Priority" DESC';
+        $events = \event\models\Event::model()->byDate($year, $month)->byVisible()->findAll($criteria);
+        foreach ($events as $event) {
+            if ($event->Type !== null
+                && !isset($typeList[$event->Type->Id])
+            ) {
+                $typeList[$event->Type->Id] = $event->Type->Title;
+            }
+        }
+        return $typeList;
     }
-    return $typeList;
-  }
 }

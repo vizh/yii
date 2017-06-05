@@ -1,11 +1,10 @@
 <?php
 
-use mail\models\Template;
-use mail\models\forms\admin\Template as TemplateForm;
 use application\components\controllers\AdminMainController;
-use application\helpers\Flash;
 use application\components\utility\Paginator;
-use mail\components\mailers\MandrillMailer;
+use application\helpers\Flash;
+use mail\models\forms\admin\Template as TemplateForm;
+use mail\models\Template;
 
 class TemplateController extends AdminMainController
 {
@@ -68,11 +67,11 @@ class TemplateController extends AdminMainController
         }
 
         $form = new TemplateForm($template);
-        $path = $form->getPathAttachments() . DIRECTORY_SEPARATOR . $file;
+        $path = $form->getPathAttachments().DIRECTORY_SEPARATOR.$file;
         if (file_exists($path)) {
             unlink($path);
         }
-        $this->redirect(['edit','id' => $template->Id]);
+        $this->redirect(['edit', 'id' => $template->Id]);
     }
 
     /**

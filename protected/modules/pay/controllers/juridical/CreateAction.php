@@ -9,10 +9,11 @@ class CreateAction extends Action
 {
     public function run($eventIdName)
     {
-        $this->getController()->setPageTitle('Выставление счета  / ' . $this->getEvent()->Title . ' / RUNET-ID');
+        $this->getController()->setPageTitle('Выставление счета  / '.$this->getEvent()->Title.' / RUNET-ID');
 
-        if ($this->getAccount()->OrderLastTime !== null && $this->getAccount()->OrderLastTime < date('Y-m-d H:i:s'))
+        if ($this->getAccount()->OrderLastTime !== null && $this->getAccount()->OrderLastTime < date('Y-m-d H:i:s')) {
             throw new \CHttpException(404);
+        }
 
         $finder = Finder::create($this->getEvent()->Id, $this->getUser()->Id);
         $collection = $finder->getUnpaidFreeCollection();
@@ -27,9 +28,9 @@ class CreateAction extends Action
                 $this->getController()->redirect($form->getOrder()->getUrl());
             }
         }
-        $this->getController()->render('create', array(
+        $this->getController()->render('create', [
             'form' => $form,
             'account' => $this->getAccount()
-        ));
+        ]);
     }
 }

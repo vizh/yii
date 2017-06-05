@@ -26,7 +26,7 @@ use application\components\ActiveRecord;
  *
  * @method DeviceSignal byId(int $id, bool $useAnd = true)
  * @method DeviceSignal byEventId(int $id, bool $useAnd = true)
- * @method DeviceSignal byDeviceNumber(int|int[] $uid, bool $useAnd = true)
+ * @method DeviceSignal byDeviceNumber(int | int [] $uid, bool $useAnd = true)
  * @method DeviceSignal byBadgeUID(int $id, bool $useAnd = true)
  * @method DeviceSignal byProcessed(bool $processed = true, bool $useAnd = true)
  */

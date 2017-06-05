@@ -7,15 +7,13 @@ use api\components\builders\Builder;
 use api\models\Account;
 use application\components\helpers\ArrayHelper;
 use CDbCriteria;
+use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\ApiAction;
 use pay\models\OrderItem;
 use user\models\User;
 use Yii;
-
-use nastradamus39\slate\annotations\ApiAction;
-use nastradamus39\slate\annotations\Action\Request;
-use nastradamus39\slate\annotations\Action\Param;
-use nastradamus39\slate\annotations\Action\Response;
-use nastradamus39\slate\annotations\Action\Sample;
 
 class UsersAction extends Action
 {
@@ -26,7 +24,7 @@ class UsersAction extends Action
      *     title="Участники",
      *     description="Список участников мероприятия с заданной ролью.",
      *     samples={
-                @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
+    @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
     '{{API_URL}}/event/users?RoleId=1'")
      *     },
      *     request=@Request(
@@ -75,7 +73,6 @@ class UsersAction extends Action
             $criteria->params['UpdateTime'] = $fromUpdateTime;
         }
 
-
         $criteria->with = [
             'Participants' => [
                 'on' => '"Participants"."EventId" = :EventId',
@@ -92,8 +89,9 @@ class UsersAction extends Action
 
         $users = User::model();
 
-        if ($this->hasRequestParam('RunetId'))
+        if ($this->hasRequestParam('RunetId')) {
             $users->byRunetId($this->getRequestParam('RunetId'));
+        }
 
         $users = $users->findAll($criteria);
 
@@ -123,16 +121,25 @@ class UsersAction extends Action
                 ->getDataBuilder()
                 ->createUser($user, $builders);
 
-
             if (isset($orderItems[$user->Id])) {
                 /** @var OrderItem $item */
                 foreach ($orderItems[$user->Id] as $item) {
                     switch ($item->ProductId) {
-                        case 6160: $userData->Products = ['Id' => $item->ProductId, 'Days' => 1]; break;
-                        case 6161: $userData->Products = ['Id' => $item->ProductId, 'Days' => 3]; break;
-                        case 6158: $userData->Products = ['Id' => $item->ProductId, 'Days' => 1]; break;
-                        case 6159: $userData->Products = ['Id' => $item->ProductId, 'Days' => 3]; break;
-                        case 6182: $userData->Products = ['Id' => $item->ProductId, 'Days' => 2]; break;
+                        case 6160:
+                            $userData->Products = ['Id' => $item->ProductId, 'Days' => 1];
+                            break;
+                        case 6161:
+                            $userData->Products = ['Id' => $item->ProductId, 'Days' => 3];
+                            break;
+                        case 6158:
+                            $userData->Products = ['Id' => $item->ProductId, 'Days' => 1];
+                            break;
+                        case 6159:
+                            $userData->Products = ['Id' => $item->ProductId, 'Days' => 3];
+                            break;
+                        case 6182:
+                            $userData->Products = ['Id' => $item->ProductId, 'Days' => 2];
+                            break;
                     }
                 }
             } else {

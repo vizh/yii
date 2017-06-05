@@ -14,8 +14,9 @@ class CreateGroupAction extends \ruvents\components\Action
             ->byDeleted(false)
             ->findByPk($hallId);
 
-        if ($hall == null)
+        if ($hall == null) {
             throw new Exception(701, $hallId);
+        }
 
         $dataJson = json_encode($data);
 
@@ -23,15 +24,17 @@ class CreateGroupAction extends \ruvents\components\Action
             foreach ($dataJson as $item) {
                 $valid = true;
                 $visitDatetime = \DateTime::createFromFormat('Y-m-d H:i:s', $item->VisitTime);
-                if ($visitDatetime === false)
+                if ($visitDatetime === false) {
                     $valid = false;
+                }
 
                 $user = User::model()
                     ->byRunetId($item->RunetId)
                     ->find();
 
-                if ($user === null)
+                if ($user === null) {
                     $valid = false;
+                }
 
                 if ($valid) {
                     $visit = new \event\models\section\UserVisit();
@@ -42,7 +45,7 @@ class CreateGroupAction extends \ruvents\components\Action
                 }
             }
         }
-        
+
         $this->renderJson(['Success' => true]);
     }
 }

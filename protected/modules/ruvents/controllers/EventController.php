@@ -1,6 +1,5 @@
 <?php
 
-
 class EventController extends ruvents\components\Controller
 {
 

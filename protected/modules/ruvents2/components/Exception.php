@@ -99,8 +99,9 @@ class Exception extends \CException
      */
     private function getErrorMessage($code, $params)
     {
-        if (array_key_exists($code, self::getMessages()))
+        if (array_key_exists($code, self::getMessages())) {
             return self::getCodeMessage($code, $params);
+        }
 
         return $this->getName();
     }

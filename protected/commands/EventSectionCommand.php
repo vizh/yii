@@ -67,7 +67,7 @@ class EventSectionCommand extends BaseConsoleCommand
             echo "Section was copied successfully!\n";
         } catch (CDbException $e) {
             $transaction->rollback();
-            echo $e->getMessage() . "\n";
+            echo $e->getMessage()."\n";
         }
     }
 }

@@ -8,10 +8,7 @@
 
 namespace pay\components\handlers\buyproduct\products;
 
-
-use api\components\ms\mail\Base;
-
 class Product5746 extends Product5741
 {
-    
+
 }

@@ -74,12 +74,13 @@ class Competence extends Widget
         }
 
         $question = $this->getTest()->getFirstQuestion();
-        while(true) {
+        while (true) {
             $this->questions[] = $question;
             /** @var \competence\models\Question $question */
             $question = $question->getForm()->getNext();
-            if ($question == null)
+            if ($question == null) {
                 break;
+            }
             $question->setTest($this->getTest());
         }
     }
@@ -122,7 +123,6 @@ class Competence extends Widget
         }
     }
 
-
     public function run()
     {
         if ($this->getTest() === null) {
@@ -146,8 +146,8 @@ class Competence extends Widget
     {
         $assetManager = \Yii::app()->getAssetManager();
         $path = \Yii::getPathOfAlias('competence.assets');
-        \Yii::app()->getClientScript()->registerCssFile($assetManager->publish($path . '/css/module.css'));
-        \Yii::app()->getClientScript()->registerScriptFile($assetManager->publish($path . '/js/module.js'), \CClientScript::POS_END);
+        \Yii::app()->getClientScript()->registerCssFile($assetManager->publish($path.'/css/module.css'));
+        \Yii::app()->getClientScript()->registerScriptFile($assetManager->publish($path.'/js/module.js'), \CClientScript::POS_END);
         parent::registerDefaultResources();
     }
 

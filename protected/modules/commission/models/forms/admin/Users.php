@@ -3,61 +3,57 @@ namespace commission\models\forms\admin;
 
 class Users extends \CFormModel
 {
-  public $Users = array();
-  public function rules()
-  {
-    return array(
-      array('Users', 'filter', 'filter' => array($this, 'filterUsers'))
-    );
-  }
-  
-  public function setAttributes($values, $safeOnly = true)
-  {
-    if (isset($values['Users']))
+    public $Users = [];
+
+    public function rules()
     {
-      foreach ($values['Users'] as $value)
-      {
-        $form = new \commission\models\forms\User();
-        $form->attributes = $value;
-        $this->Users[] = $form;
-      }
-      unset($values['Users']);
+        return [
+            ['Users', 'filter', 'filter' => [$this, 'filterUsers']]
+        ];
     }
-    parent::setAttributes($values, $safeOnly);
-  }
-  
-  public function filterUsers($users)
-  {
-    $valid = true;
-    foreach ($users as $user)
+
+    public function setAttributes($values, $safeOnly = true)
     {
-      if (!$user->validate())
-      {
-        $valid = false;
-      }
+        if (isset($values['Users'])) {
+            foreach ($values['Users'] as $value) {
+                $form = new \commission\models\forms\User();
+                $form->attributes = $value;
+                $this->Users[] = $form;
+            }
+            unset($values['Users']);
+        }
+        parent::setAttributes($values, $safeOnly);
     }
-    if (!$valid)
+
+    public function filterUsers($users)
     {
-      $this->addError('Users', \Yii::t('app', 'Ошибка в заполнении участников.'));
+        $valid = true;
+        foreach ($users as $user) {
+            if (!$user->validate()) {
+                $valid = false;
+            }
+        }
+        if (!$valid) {
+            $this->addError('Users', \Yii::t('app', 'Ошибка в заполнении участников.'));
+        }
+        return $users;
     }
-    return $users;
-  }
-  
-  public function attributeLabels()
-  {
-    $formUser = new \commission\models\forms\User();
-    $labels = $formUser->attributeLabels();
-    return $labels;
-  }
-  
-  private $roleList = null;
-  public function getRoleList()
-  {
-    if ($this->roleList == null)
+
+    public function attributeLabels()
     {
-      $formUser = new \commission\models\forms\User();
-      $this->roleList = $formUser->getRoleList();
+        $formUser = new \commission\models\forms\User();
+        $labels = $formUser->attributeLabels();
+        return $labels;
     }
-    return $this->roleList;
-  }
+
+    private $roleList = null;
+
+    public function getRoleList()
+    {
+        if ($this->roleList == null) {
+            $formUser = new \commission\models\forms\User();
+            $this->roleList = $formUser->getRoleList();
+        }
+        return $this->roleList;
+    }
 }

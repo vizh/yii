@@ -5,13 +5,12 @@ use api\components\Action;
 use api\components\Exception;
 use application\models\ProfessionalInterest;
 use iri\models\Role;
-use user\models\User;
 use iri\models\User as IriUser;
-
-use nastradamus39\slate\annotations\ApiAction;
-use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\ApiAction;
+use user\models\User;
 
 class UserAddAction extends Action
 {

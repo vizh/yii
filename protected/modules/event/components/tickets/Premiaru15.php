@@ -8,7 +8,6 @@
 
 namespace event\components\tickets;
 
-
 class Premiaru15 extends Ticket
 {
     /** @inheritdoc */

@@ -1,7 +1,6 @@
 <?php
 namespace user\components\handlers;
 
-
 use sms\components\Gate;
 use sms\components\Message;
 use user\models\User;
@@ -19,7 +18,6 @@ class PhoneVerify extends Message
         $this->user = $user;
         parent::__construct($gate);
     }
-
 
     /**
      * @return string

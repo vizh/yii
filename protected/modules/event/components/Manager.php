@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by JetBrains PhpStorm.
  * User: Alaris
@@ -8,6 +9,5 @@
  */
 abstract class Manager
 {
-
 
 }

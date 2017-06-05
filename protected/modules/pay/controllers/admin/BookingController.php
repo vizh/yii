@@ -1,12 +1,12 @@
 <?php
 
 use application\helpers\Flash;
-use pay\models\forms\admin\PartnerOrder as PartnerOrderForm;
-use pay\models\RoomPartnerOrder;
-use \pay\models\search\admin\booking\Partners as PartnersSearch;
-use pay\models\RoomPartnerBooking;
-use pay\models\forms\admin\PartnerFoodOrder as PartnerFoodOrderForm;
 use pay\models\FoodPartnerOrder;
+use pay\models\forms\admin\PartnerFoodOrder as PartnerFoodOrderForm;
+use pay\models\forms\admin\PartnerOrder as PartnerOrderForm;
+use pay\models\RoomPartnerBooking;
+use pay\models\RoomPartnerOrder;
+use pay\models\search\admin\booking\Partners as PartnersSearch;
 
 class BookingController extends \application\components\controllers\AdminMainController
 {
@@ -72,7 +72,6 @@ class BookingController extends \application\components\controllers\AdminMainCon
         }
         $bookings = $model->findAll($criteria);
 
-
         if (empty($bookings)) {
             throw new \CHttpException(404);
         }
@@ -101,7 +100,6 @@ class BookingController extends \application\components\controllers\AdminMainCon
         $search = new PartnersSearch();
         $this->render('partners', ['search' => $search]);
     }
-
 
     /**
      * Выставление счета на питание

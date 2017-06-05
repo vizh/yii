@@ -1,38 +1,39 @@
 body {
-  overflow: hidden;
+    overflow: hidden;
 }
+
 #preloader {
-  background: url("/images/api/widget-preloder.gif") no-repeat scroll center center #FFFFFF;
-  bottom: 0;
-  left: 0;
-  opacity: 0.9;
-  overflow-x: auto;
-  overflow-y: scroll;
-  position: fixed;
-  right: 0;
-  top: 0;
-  z-index: 1040;
-  display: none;
+    background: url("/images/api/widget-preloder.gif") no-repeat scroll center center #FFFFFF;
+    bottom: 0;
+    left: 0;
+    opacity: 0.9;
+    overflow-x: auto;
+    overflow-y: scroll;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 1040;
+    display: none;
 }
 
 .input-user {
-  width: 85%;
-  padding-right: 20px !important;
+    width: 85%;
+    padding-right: 20px !important;
 }
 
-#widget-pay .dropdown-menu a{
-  white-space: normal;
+#widget-pay .dropdown-menu a {
+    white-space: normal;
 }
 
 .pagination {
-  height: auto;
-  margin-bottom: 0;
+    height: auto;
+    margin-bottom: 0;
 }
 
 .container-fluid {
-  padding: 0;
+    padding: 0;
 }
 
-.event-register{
-  margin:0 !important;
+.event-register {
+    margin: 0 !important;
 }

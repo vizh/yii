@@ -165,8 +165,9 @@ abstract class AbstractDefinition
             return $value ?: ($useHtml ? '<font color="silver">...</font>' : '');
         }
 
-        if (empty($value) === false && is_array($value) === false)
+        if (empty($value) === false && is_array($value) === false) {
             return $useHtml ? '<font color="#a52a2a"><u>Неверный формат многоязычного поля!</u></font>' : 'ВНИМАНИЕ!!! Неверный формат многоязычного поля!';
+        }
 
         $html = [];
 

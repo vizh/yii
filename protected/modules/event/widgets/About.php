@@ -15,7 +15,7 @@ class About extends Widget
 
     public function run()
     {
-        $this->render('about', array());
+        $this->render('about', []);
     }
 
     /**

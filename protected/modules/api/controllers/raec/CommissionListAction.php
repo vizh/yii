@@ -1,10 +1,10 @@
 <?php
 namespace api\controllers\raec;
 
-use nastradamus39\slate\annotations\ApiAction;
-use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\ApiAction;
 
 class CommissionListAction extends \api\components\Action
 {
@@ -25,28 +25,26 @@ class CommissionListAction extends \api\components\Action
      *     )
      * )
      */
-  public function run()
-  {
-    $commissionIdList = \Yii::app()->getRequest()->getParam('CommissionIdList');
-
-    $criteria = new \CDbCriteria();
-    $criteria->addCondition('NOT "t"."Deleted"');
-    if (!empty($commissionIdList))
+    public function run()
     {
-      $criteria->addInCondition('"t"."Id"', $commissionIdList);
+        $commissionIdList = \Yii::app()->getRequest()->getParam('CommissionIdList');
+
+        $criteria = new \CDbCriteria();
+        $criteria->addCondition('NOT "t"."Deleted"');
+        if (!empty($commissionIdList)) {
+            $criteria->addInCondition('"t"."Id"', $commissionIdList);
+        }
+        /** @var $commisions \commission\models\Commission[] */
+        $commisions = \commission\models\Commission::model()->findAll($criteria);
+
+        $builder = new \api\components\builders\Builder(null); //todo: быстрое решение, исправить
+
+        $result = [];
+        foreach ($commisions as $commision) {
+            $builder->createCommision($commision);
+            $result['Commissions'][] = $builder->buildComissionProjects($commision);
+        }
+
+        $this->setResult($result);
     }
-    /** @var $commisions \commission\models\Commission[] */
-    $commisions = \commission\models\Commission::model()->findAll($criteria);
-
-    $builder = new \api\components\builders\Builder(null); //todo: быстрое решение, исправить
-
-    $result = array();
-    foreach ($commisions as $commision)
-    {
-      $builder->createCommision($commision);
-      $result['Commissions'][] = $builder->buildComissionProjects($commision);
-    }
-
-    $this->setResult($result);
-  }
 }

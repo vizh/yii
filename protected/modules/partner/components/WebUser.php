@@ -15,14 +15,12 @@ class WebUser extends \CWebUser
      */
     public function getAccount()
     {
-        if ($this->account === null && !Yii::app()->partner->getIsGuest())
-        {
+        if ($this->account === null && !Yii::app()->partner->getIsGuest()) {
             $this->account = \partner\models\Account::model()->findByPk(Yii::app()->partner->getId());
         }
 
         return $this->account;
     }
-
 
     protected $event = null;
 
@@ -32,31 +30,25 @@ class WebUser extends \CWebUser
      */
     public function getEvent()
     {
-        if ($this->event === null)
-        {
-            if ($this->getAccount() !== null)
-            {
-                if (!$this->getAccount()->getIsExtended())
-                {
+        if ($this->event === null) {
+            if ($this->getAccount() !== null) {
+                if (!$this->getAccount()->getIsExtended()) {
                     $this->event = Event::model()->findByPk($this->getAccount()->EventId);
-                }
-
-                else
-                {
+                } else {
                     $eventId = Yii::app()
                         ->getSession()
                         ->get('PartnerAccountEventId');
 
-                    if ($eventId === null)
+                    if ($eventId === null) {
                         return null;
+                    }
 
                     $this->event = Event::model()->findByPk($eventId);
                     $this->getAccount()->EventId = $eventId;
                 }
             }
 
-            if ($this->event === null)
-            {
+            if ($this->event === null) {
                 throw new Exception('Не найдено мероприятие для данного пользователя партнерского интерфейса');
             }
         }
@@ -88,13 +80,14 @@ class WebUser extends \CWebUser
             : null;
     }
 
-    protected $_access = array();
+    protected $_access = [];
 
-    public function checkAccess($operation,$params=array(),$allowCaching=true)
+    public function checkAccess($operation, $params = [], $allowCaching = true)
     {
-        if($allowCaching && $params===array() && isset($this->_access[$operation]))
+        if ($allowCaching && $params === [] && isset($this->_access[$operation])) {
             return $this->_access[$operation];
-        else
-            return $this->_access[$operation] = Yii::app()->partnerAuthManager->checkAccess($operation,$this->getId(),$params);
+        } else {
+            return $this->_access[$operation] = Yii::app()->partnerAuthManager->checkAccess($operation, $this->getId(), $params);
+        }
     }
 }

@@ -12,37 +12,37 @@ interface ISocial
     const Ok = '23';
 
     /**
-    * @return string
-    */
+     * @return string
+     */
     public function getOAuthUrl();
 
     /**
-    * @return bool
-    */
+     * @return bool
+     */
     public function isHasAccess();
 
     /**
-    * @return void
-    */
+     * @return void
+     */
     public function renderScript();
 
     /**
-    * @return Data
-    */
+     * @return Data
+     */
     public function getData();
 
     /**
-    * @return int
-    */
+     * @return int
+     */
     public function getSocialId();
 
     /**
-    * @return string
-    */
+     * @return string
+     */
     public function getSocialTitle();
 
     /**
-    * @return void
-    */
+     * @return void
+     */
     public function clearAccess();
 }

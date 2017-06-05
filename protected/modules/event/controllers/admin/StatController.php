@@ -1,6 +1,6 @@
 <?php
 use application\components\utility\Paginator;
-use \event\models\Event;
+use event\models\Event;
 
 class StatController extends \application\components\controllers\AdminMainController
 {
@@ -8,15 +8,14 @@ class StatController extends \application\components\controllers\AdminMainContro
     {
         $criteria = new \CDbCriteria();
         $criteria->order = '"t"."StartYear" ASC, "t"."StartMonth" ASC, "t"."StartMonth" ASC';
-        $criteria->with  = ['Type','Attributes','LinkProfessionalInterests'];
+        $criteria->with = ['Type', 'Attributes', 'LinkProfessionalInterests'];
 
         $searchQuery = \Yii::app()->getRequest()->getParam('Query', null);
         if (!empty($searchQuery)) {
             if (is_numeric($searchQuery)) {
                 $criteria->addCondition('"t"."Id" = :Query');
                 $criteria->params['Query'] = $searchQuery;
-            }
-            else {
+            } else {
                 $criteria->addCondition('"t"."IdName" ILIKE :Query OR "t"."Title" ILIKE :Query');
                 $criteria->params['Query'] = '%'.$searchQuery.'%';
             }
@@ -40,7 +39,9 @@ class StatController extends \application\components\controllers\AdminMainContro
                 ->byPaid(true)
                 ->byBankTransfer(true)
                 ->findAll();
-            $data[$i]['fin']['bank'] = array_reduce($orders, function($carry, $order){ return $carry + $order->price; }, 0);
+            $data[$i]['fin']['bank'] = array_reduce($orders, function ($carry, $order) {
+                return $carry + $order->price;
+            }, 0);
 
             $orders = \pay\models\Order::model()
                 ->byDeleted(false)
@@ -48,7 +49,9 @@ class StatController extends \application\components\controllers\AdminMainContro
                 ->byPaid(true)
                 ->byReceipt(true)
                 ->findAll();
-            $data[$i]['fin']['receipt'] = array_reduce($orders, function($carry, $order){ return $carry + $order->price; }, 0);
+            $data[$i]['fin']['receipt'] = array_reduce($orders, function ($carry, $order) {
+                return $carry + $order->price;
+            }, 0);
 
             $orders = \pay\models\Order::model()
                 ->byDeleted(false)
@@ -57,7 +60,9 @@ class StatController extends \application\components\controllers\AdminMainContro
                 ->byJuridical(false)
                 ->byReceipt(false)
                 ->findAll();
-            $data[$i]['fin']['online'] = array_reduce($orders, function($carry, $order){ return $carry + $order->price; }, 0);
+            $data[$i]['fin']['online'] = array_reduce($orders, function ($carry, $order) {
+                return $carry + $order->price;
+            }, 0);
             $data[$i]['fin']['total'] = array_sum($data[$i]['fin']);
 
             $data[$i]['part']['paid'] = \Yii::app()->getDb()->createCommand()
@@ -108,9 +113,9 @@ class StatController extends \application\components\controllers\AdminMainContro
 
         $this->setPageTitle(\Yii::t('app', 'Список мероприятий'));
 
-        $this->render('index', array(
+        $this->render('index', [
             'events' => $data,
             'paginator' => $paginator,
-        ));
+        ]);
     }
 }

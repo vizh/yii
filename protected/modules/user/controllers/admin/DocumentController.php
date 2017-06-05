@@ -1,10 +1,10 @@
 <?php
 use application\components\controllers\AdminMainController;
-use user\models\User;
-use \user\models\DocumentType;
-use user\models\forms\document\BaseDocument;
-use user\models\Document;
 use application\helpers\Flash;
+use user\models\Document;
+use user\models\DocumentType;
+use user\models\forms\document\BaseDocument;
+use user\models\User;
 
 class DocumentController extends AdminMainController
 {
@@ -31,7 +31,6 @@ class DocumentController extends AdminMainController
 
         $this->render('edit', ['user' => $user, 'forms' => $forms, 'backUrl' => $backUrl]);
     }
-
 
     /**
      * @param User $user

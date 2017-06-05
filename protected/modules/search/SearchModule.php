@@ -1,4 +1,5 @@
 <?php
-class SearchModule extends \CWebModule 
+
+class SearchModule extends \CWebModule
 {
 }

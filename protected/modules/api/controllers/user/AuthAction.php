@@ -3,12 +3,9 @@ namespace api\controllers\user;
 
 use api\components\Action;
 use api\components\Exception;
+use nastradamus39\slate\annotations\ApiContent;
 use oauth\models\AccessToken;
 use user\models\User;
-
-use nastradamus39\slate\annotations\ApiController;
-use nastradamus39\slate\annotations\ApiAction;
-use nastradamus39\slate\annotations\ApiContent;
 
 /**
  * @ApiContent(
@@ -17,10 +14,10 @@ use nastradamus39\slate\annotations\ApiContent;
 <b>Шаг 1</b>
 Добавить следующий код на страницу с вызовом диалога авторизации
 window.rIDAsyncInit = function() {
-    rID.init({
-        apiKey: <key>
-    });
-    // Additional initialization code here
+rID.init({
+apiKey: <key>
+});
+// Additional initialization code here
 };
 
 // Load the SDK Asynchronously

@@ -9,13 +9,12 @@
 namespace ruvents2\controllers;
 
 use application\components\helpers\ArrayHelper;
+use pay\models\Product;
+use pay\models\ProductCheck;
 use ruvents2\components\Controller;
 use ruvents2\components\data\CDbCriteria;
 use ruvents2\components\Exception;
 use user\models\User;
-use pay\models\Product;
-use pay\models\ProductCheck;
-
 
 class ProductsController extends Controller
 {
@@ -40,7 +39,7 @@ class ProductsController extends Controller
             $result[] = $this->getCheckData($check);
         }
 
-        $nextSince = count($checks) == $limit ? $checks[$limit-1]->CreationTime : null;
+        $nextSince = count($checks) == $limit ? $checks[$limit - 1]->CreationTime : null;
         $hasMore = $nextSince !== null;
         $this->renderJson([
             'Checks' => $result,
@@ -108,9 +107,13 @@ class ProductsController extends Controller
      */
     private function getCheckData(ProductCheck $check)
     {
-        $data = ArrayHelper::toArray($check, ['pay\models\ProductCheck' => [
-            'Id', 'CheckTime', 'CreationTime'
-        ]]);
+        $data = ArrayHelper::toArray($check, [
+            'pay\models\ProductCheck' => [
+                'Id',
+                'CheckTime',
+                'CreationTime'
+            ]
+        ]);
         $data['UserId'] = $check->User->RunetId;
         return $data;
     }

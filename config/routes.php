@@ -7,51 +7,35 @@
 return [
     /** PHDays2014 */
     SCHEMA.'://phdays2014.'.RUNETID_HOST.'/' => ['event/view/index/', 'defaultParams' => ['idName' => 'phdays2014']],
-    SCHEMA.'://phdays2014.'.RUNETID_HOST.'/register/' => ['pay/cabinet/register/',
-        'defaultParams' => ['eventIdName' => 'phdays2014']],
-    SCHEMA.'://phdays2014.'.RUNETID_HOST.'/pay/' => ['pay/cabinet/index/',
-        'defaultParams' => ['eventIdName' => 'phdays2014']],
-    SCHEMA.'://phdays2014.'.RUNETID_HOST.'/create/' => ['pay/juridical/create/',
-        'defaultParams' => ['eventIdName' => 'phdays2014']],
+    SCHEMA.'://phdays2014.'.RUNETID_HOST.'/register/' => ['pay/cabinet/register/', 'defaultParams' => ['eventIdName' => 'phdays2014']],
+    SCHEMA.'://phdays2014.'.RUNETID_HOST.'/pay/' => ['pay/cabinet/index/', 'defaultParams' => ['eventIdName' => 'phdays2014']],
+    SCHEMA.'://phdays2014.'.RUNETID_HOST.'/create/' => ['pay/juridical/create/', 'defaultParams' => ['eventIdName' => 'phdays2014']],
 
     /** Mblt 2013 */
     SCHEMA.'://mblt2013.'.RUNETID_HOST.'/' => ['event/view/index/', 'defaultParams' => ['idName' => 'mblt2013']],
-    SCHEMA.'://mblt2013.'.RUNETID_HOST.'/register/' => ['pay/cabinet/register/',
-        'defaultParams' => ['eventIdName' => 'mblt2013']],
-    SCHEMA.'://mblt2013.'.RUNETID_HOST.'/pay/' => ['pay/cabinet/index/',
-        'defaultParams' => ['eventIdName' => 'mblt2013']],
-    SCHEMA.'://mblt2013.'.RUNETID_HOST.'/create/' => ['pay/juridical/create/',
-        'defaultParams' => ['eventIdName' => 'mblt2013']],
+    SCHEMA.'://mblt2013.'.RUNETID_HOST.'/register/' => ['pay/cabinet/register/', 'defaultParams' => ['eventIdName' => 'mblt2013']],
+    SCHEMA.'://mblt2013.'.RUNETID_HOST.'/pay/' => ['pay/cabinet/index/', 'defaultParams' => ['eventIdName' => 'mblt2013']],
+    SCHEMA.'://mblt2013.'.RUNETID_HOST.'/create/' => ['pay/juridical/create/', 'defaultParams' => ['eventIdName' => 'mblt2013']],
 
     /** Demo 2013 */
     SCHEMA.'://demo2013.'.RUNETID_HOST.'/' => ['event/view/index/', 'defaultParams' => ['idName' => 'demo2013']],
-    SCHEMA.'://demo2013.'.RUNETID_HOST.'/register/' => ['pay/cabinet/register/',
-        'defaultParams' => ['eventIdName' => 'demo2013']],
-    SCHEMA.'://demo2013.'.RUNETID_HOST.'/pay/' => ['pay/cabinet/index/',
-        'defaultParams' => ['eventIdName' => 'demo2013']],
-    SCHEMA.'://demo2013.'.RUNETID_HOST.'/create/' => ['pay/juridical/create/',
-        'defaultParams' => ['eventIdName' => 'demo2013']],
-    SCHEMA.'://demo2013.'.RUNETID_HOST.'/pay/alley/' => ['event/exclusive/demo2013/alley/',
-        'defaultParams' => ['eventIdName' => 'demo2013']],
-    SCHEMA.'://demo2013.'.RUNETID_HOST.'/exibitionlinks/' => ['event/exclusive/demo2013/exibitionlinks/',
-        'defaultParams' => ['eventIdName' => 'demo2013']],
+    SCHEMA.'://demo2013.'.RUNETID_HOST.'/register/' => ['pay/cabinet/register/', 'defaultParams' => ['eventIdName' => 'demo2013']],
+    SCHEMA.'://demo2013.'.RUNETID_HOST.'/pay/' => ['pay/cabinet/index/', 'defaultParams' => ['eventIdName' => 'demo2013']],
+    SCHEMA.'://demo2013.'.RUNETID_HOST.'/create/' => ['pay/juridical/create/', 'defaultParams' => ['eventIdName' => 'demo2013']],
+    SCHEMA.'://demo2013.'.RUNETID_HOST.'/pay/alley/' => ['event/exclusive/demo2013/alley/', 'defaultParams' => ['eventIdName' => 'demo2013']],
+    SCHEMA.'://demo2013.'.RUNETID_HOST.'/exibitionlinks/' => ['event/exclusive/demo2013/exibitionlinks/', 'defaultParams' => ['eventIdName' => 'demo2013']],
 
     /** PhDays 2013 */
     SCHEMA.'://phdays2013.'.RUNETID_HOST.'/' => ['event/view/index/', 'defaultParams' => ['idName' => 'phdays2013']],
-    SCHEMA.'://phdays2013.'.RUNETID_HOST.'/register/' => ['pay/cabinet/register/',
-        'defaultParams' => ['eventIdName' => 'phdays2013']],
-    SCHEMA.'://phdays2013.'.RUNETID_HOST.'/pay/' => ['pay/cabinet/index/',
-        'defaultParams' => ['eventIdName' => 'phdays2013']],
-    SCHEMA.'://phdays2013.'.RUNETID_HOST.'/create/' => ['pay/juridical/create/',
-        'defaultParams' => ['eventIdName' => 'phdays2013']],
+    SCHEMA.'://phdays2013.'.RUNETID_HOST.'/register/' => ['pay/cabinet/register/', 'defaultParams' => ['eventIdName' => 'phdays2013']],
+    SCHEMA.'://phdays2013.'.RUNETID_HOST.'/pay/' => ['pay/cabinet/index/', 'defaultParams' => ['eventIdName' => 'phdays2013']],
+    SCHEMA.'://phdays2013.'.RUNETID_HOST.'/create/' => ['pay/juridical/create/', 'defaultParams' => ['eventIdName' => 'phdays2013']],
 
     /** TC 2013 */
     SCHEMA.'://tc2013.'.RUNETID_HOST.'/' => ['event/view/index/', 'defaultParams' => ['idName' => 'tc2013']],
-    SCHEMA.'://tc2013.'.RUNETID_HOST.'/register/' => ['pay/cabinet/register/',
-        'defaultParams' => ['eventIdName' => 'tc2013']],
+    SCHEMA.'://tc2013.'.RUNETID_HOST.'/register/' => ['pay/cabinet/register/', 'defaultParams' => ['eventIdName' => 'tc2013']],
     SCHEMA.'://tc2013.'.RUNETID_HOST.'/pay/' => ['pay/cabinet/index/', 'defaultParams' => ['eventIdName' => 'tc2013']],
-    SCHEMA.'://tc2013.'.RUNETID_HOST.'/create/' => ['pay/juridical/create/',
-        'defaultParams' => ['eventIdName' => 'tc2013']],
+    SCHEMA.'://tc2013.'.RUNETID_HOST.'/create/' => ['pay/juridical/create/', 'defaultParams' => ['eventIdName' => 'tc2013']],
 
     /** iResearch 2014 */
     SCHEMA.'://'.RUNETID_HOST.'/iresearch2014/' => ['competence/main/index/', 'defaultParams' => ['id' => 8]],
@@ -86,27 +70,22 @@ return [
     SCHEMA.'://'.RUNETID_HOST.'/vote/iri/after' => ['competence/main/after', 'defaultParams' => ['id' => 41]],
 
     SCHEMA.'://'.RUNETID_HOST.'/vote/runet2015' => ['competence/main/index/', 'defaultParams' => ['id' => 42]],
-    SCHEMA.'://'.RUNETID_HOST.'/vote/runet2015/process' => ['competence/main/process/',
-        'defaultParams' => ['id' => 42]],
+    SCHEMA.'://'.RUNETID_HOST.'/vote/runet2015/process' => ['competence/main/process/', 'defaultParams' => ['id' => 42]],
     SCHEMA.'://'.RUNETID_HOST.'/vote/runet2015/done' => ['competence/main/done', 'defaultParams' => ['id' => 42]],
     SCHEMA.'://'.RUNETID_HOST.'/vote/runet2015/after' => ['competence/main/after', 'defaultParams' => ['id' => 42]],
 
     SCHEMA.'://'.RUNETID_HOST.'/vote/runet2016' => ['competence/main/index/', 'defaultParams' => ['id' => 52]],
-    SCHEMA.'://'.RUNETID_HOST.'/vote/runet2016/process' => ['competence/main/process/',
-        'defaultParams' => ['id' => 52]],
+    SCHEMA.'://'.RUNETID_HOST.'/vote/runet2016/process' => ['competence/main/process/', 'defaultParams' => ['id' => 52]],
     SCHEMA.'://'.RUNETID_HOST.'/vote/runet2016/done' => ['competence/main/done', 'defaultParams' => ['id' => 52]],
     SCHEMA.'://'.RUNETID_HOST.'/vote/runet2016/after' => ['competence/main/after', 'defaultParams' => ['id' => 52]],
 
     SCHEMA.'://'.RUNETID_HOST.'/vote/digitalindex15' => 'competence/digitalindex15/index/',
-    SCHEMA.'://'.RUNETID_HOST.'/vote/digitalindex15/process' => ['competence/main/process/',
-        'defaultParams' => ['id' => 43]],
+    SCHEMA.'://'.RUNETID_HOST.'/vote/digitalindex15/process' => ['competence/main/process/', 'defaultParams' => ['id' => 43]],
     SCHEMA.'://'.RUNETID_HOST.'/vote/digitalindex15/done' => ['competence/main/done', 'defaultParams' => ['id' => 43]],
-    SCHEMA.'://'.RUNETID_HOST.'/vote/digitalindex15/after' => ['competence/main/after',
-        'defaultParams' => ['id' => 43]],
+    SCHEMA.'://'.RUNETID_HOST.'/vote/digitalindex15/after' => ['competence/main/after', 'defaultParams' => ['id' => 43]],
 
     SCHEMA.'://vote.'.RUNETID_HOST.'/iidf' => ['competence/iidf/index', 'defaultParams' => ['code' => 'iidf15']],
-    SCHEMA.'://vote.'.RUNETID_HOST.'/iidf/<action:\w+>' => ['competence/iidf/<action>',
-        'defaultParams' => ['code' => 'iidf15']],
+    SCHEMA.'://vote.'.RUNETID_HOST.'/iidf/<action:\w+>' => ['competence/iidf/<action>', 'defaultParams' => ['code' => 'iidf15']],
 
     SCHEMA.'://vote.'.RUNETID_HOST.'/<eventIdName:\w+>' => 'competence/event/index',
     SCHEMA.'://vote.'.RUNETID_HOST.'/<eventIdName:\w+>/<action:\w+>' => 'competence/event/<action>',
@@ -115,9 +94,7 @@ return [
     SCHEMA.'://'.RUNETID_HOST.'/oauth/social/request/<social:\d+>' => 'oauth/social/request',
     SCHEMA.'://'.RUNETID_HOST.'/oauth/paypal/redirect' => 'oauth/paypal/redirect',
     '/oauth/<controller:\w+>/<action:\w+>' => 'oauth/<controller>/<action>',
-
-    SCHEMA.'://'.RUNETID_HOST.'/oauth/social/connect/social/22' => ['oauth/social/connect/',
-        'defaultParams' => ['social' => 22]],
+    SCHEMA.'://'.RUNETID_HOST.'/oauth/social/connect/social/22' => ['oauth/social/connect/', 'defaultParams' => ['social' => 22]],
 
     /** API Module Rules */
     'http://api.'.RUNETID_HOST.'/paperless/materials/get' => 'api/paperless/materialGet',
@@ -136,7 +113,6 @@ return [
     'http://api.'.RUNETID_HOST.'/ict/<Type:(expert|leader|participant)>/<action:\w+>' => 'api/ict/user<action>',
     'http://api.'.RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'api/<controller>/<action>',
 
-
     /** PAY Module Rules */
     SCHEMA.'://pay.'.RUNETID_HOST.'/<eventIdName>/' => 'pay/cabinet/index',
     SCHEMA.'://pay.'.RUNETID_HOST.'/register/<eventIdName>/' => 'pay/cabinet/register',
@@ -147,8 +123,7 @@ return [
     SCHEMA.'://pay.'.RUNETID_HOST.'/order/<orderId:\d+>/<hash>/' => 'pay/order/index',
     SCHEMA.'://pay.'.RUNETID_HOST.'/order/<orderId:\d+>/' => 'pay/order/index',
 
-    SCHEMA.'://pay.'.RUNETID_HOST.'/callback/index/<addition>/' => ['pay/callback/index',
-        'defaultParams' => ['addition' => null]],
+    SCHEMA.'://pay.'.RUNETID_HOST.'/callback/index/<addition>/' => ['pay/callback/index', 'defaultParams' => ['addition' => null]],
     SCHEMA.'://pay.'.RUNETID_HOST.'/callback/<action:\w+>/' => 'pay/callback/<action>',
 
     SCHEMA.'://pay.'.RUNETID_HOST.'/auth/<eventIdName>/<runetId:\d+>/<hash>/' => 'pay/cabinet/auth',
@@ -207,5 +182,5 @@ return [
 
     SCHEMA.'://'.RUNETID_HOST.'/<module:\w+>/<controller:\w+>/<action:[\w-]+>' => '<module>/<controller>/<action>',
 
-    SCHEMA.'://'.RUNETID_HOST.'/<module:\w+>/exclusive/<controller:\w+>/<action:\w+>' => '<module>/exclusive/<controller>/<action>',
+    SCHEMA.'://'.RUNETID_HOST.'/<module:\w+>/exclusive/<controller:\w+>/<action:\w+>' => '<module>/exclusive/<controller>/<action>'
 ];

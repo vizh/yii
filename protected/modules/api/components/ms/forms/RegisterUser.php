@@ -1,10 +1,10 @@
 <?php
 namespace api\components\ms\forms;
 
+use api\components\ms\mail\Register as RegisterMail;
 use api\models\Account;
 use mail\components\mailers\SESMailer;
 use user\models\User;
-use api\components\ms\mail\Register as RegisterMail;
 
 class RegisterUser extends BaseUser
 {
@@ -43,12 +43,18 @@ class RegisterUser extends BaseUser
             ['Phone', 'filter', 'filter' => '\application\components\utility\Texts::getOnlyNumbers'],
             ['FirstName,LastName,FatherName,Email,Company,Position,Country,City,Birthday', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
             ['FirstName,LastName,FatherName,Email,Company,Position,Country,City,Phone,Password,Birthday', 'safe'],
-            ['ExternalId', 'unique', 'className' => '\api\models\ExternalUser', 'attributeName' => 'ExternalId', 'criteria' => [
-                'condition' => '"t"."AccountId" = :AccountId',
-                'params' => [
-                    'AccountId' => $this->account->Id
+            [
+                'ExternalId',
+                'unique',
+                'className' => '\api\models\ExternalUser',
+                'attributeName' => 'ExternalId',
+                'criteria' => [
+                    'condition' => '"t"."AccountId" = :AccountId',
+                    'params' => [
+                        'AccountId' => $this->account->Id
+                    ]
                 ]
-            ]]
+            ]
         ];
         return $rules;
     }
@@ -62,7 +68,6 @@ class RegisterUser extends BaseUser
         $mail = new RegisterMail(new SESMailer(), $this->model);
         $mail->send();
     }
-
 
     /**
      *

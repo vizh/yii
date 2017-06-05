@@ -12,7 +12,7 @@ class Base extends MailLayout
     {
         parent::__construct($mailer);
         $this->event = $event->sender;
-        $this->user  = $event->params['user'];
+        $this->user = $event->params['user'];
     }
 
     public function getTo()

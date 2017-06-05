@@ -7,11 +7,10 @@ use application\components\controllers\PublicMainController;
  * Date: 29.04.14
  * Time: 16:33
  */
-
 class TestController extends PublicMainController
 {
-  public function actionIndex()
-  {
-    $this->render('index');
-  }
+    public function actionIndex()
+    {
+        $this->render('index');
+    }
 }

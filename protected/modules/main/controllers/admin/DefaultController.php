@@ -1,10 +1,10 @@
 <?php
 
-use event\models\Event;
 use event\models\Approved;
-use user\models\User;
-use pay\models\Order;
+use event\models\Event;
 use main\components\admin\Statistics;
+use pay\models\Order;
+use user\models\User;
 
 class DefaultController extends \application\components\controllers\AdminMainController
 {
@@ -30,7 +30,6 @@ class DefaultController extends \application\components\controllers\AdminMainCon
             'orders' => $orders,
             'statistics' => new Statistics()
         ]);
-
     }
 }
 

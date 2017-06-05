@@ -1,8 +1,8 @@
 <?php
 
 use application\components\console\BaseConsoleCommand;
-use event\models\Participant;
 use connect\models\Meeting;
+use event\models\Participant;
 
 class ConnectCommand extends BaseConsoleCommand
 {

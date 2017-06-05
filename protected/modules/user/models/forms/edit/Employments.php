@@ -1,73 +1,67 @@
 <?php
 namespace user\models\forms\edit;
+
 class Employments extends \user\models\forms\edit\Base
 {
-  public $Employments = array();
-  
-  public function rules()
-  {
-    return array(
-      array('Employments', 'filter', 'filter' => array($this, 'filterEmployments'))
-    );
-  }
-  
-  public function attributeLabels()
-  {
-    $formEmployment = new \user\models\forms\Employment();
-    $labels = $formEmployment->attributeLabels();
-    $labels['Date'] = \Yii::t('app', 'Период работы');
-    return $labels;
-  }
-  
-  public function setAttributes($values, $safeOnly = true)
-  {
-    if (isset($values['Employments']))
+    public $Employments = [];
+
+    public function rules()
     {
-      foreach ($values['Employments'] as $value)
-      {
-        $form = new \user\models\forms\Employment();
-        $form->attributes = $value;
-        $this->Employments[] = $form;
-      }
-      unset($values['Employments']);
+        return [
+            ['Employments', 'filter', 'filter' => [$this, 'filterEmployments']]
+        ];
     }
-    parent::setAttributes($values, $safeOnly);
-  }
-  
-  public function filterEmployments($employments)
-  {
-    $valid = true;
-    foreach ($employments as $employment)
+
+    public function attributeLabels()
     {
-      if (!$employment->validate())
-      {
-        $valid = false;
-      }
+        $formEmployment = new \user\models\forms\Employment();
+        $labels = $formEmployment->attributeLabels();
+        $labels['Date'] = \Yii::t('app', 'Период работы');
+        return $labels;
     }
-    if (!$valid)
+
+    public function setAttributes($values, $safeOnly = true)
     {
-      $this->addError('Employments', \Yii::t('app', 'Ошибка в заполнении Карьеры.'));
+        if (isset($values['Employments'])) {
+            foreach ($values['Employments'] as $value) {
+                $form = new \user\models\forms\Employment();
+                $form->attributes = $value;
+                $this->Employments[] = $form;
+            }
+            unset($values['Employments']);
+        }
+        parent::setAttributes($values, $safeOnly);
     }
-    return $employments;
-  }
-  
-  public function getMonthOptions()
-  {
-    $html = '<option value=""></option>';
-    foreach (\Yii::app()->locale->getMonthNames('wide', true) as $month => $title) 
+
+    public function filterEmployments($employments)
     {
-      $html .= '<option value="'.$month.'">'.$title.'</option>';
+        $valid = true;
+        foreach ($employments as $employment) {
+            if (!$employment->validate()) {
+                $valid = false;
+            }
+        }
+        if (!$valid) {
+            $this->addError('Employments', \Yii::t('app', 'Ошибка в заполнении Карьеры.'));
+        }
+        return $employments;
     }
-    return $html;
-  }
-  
-  public function getYearOptions()
-  {
-    $html = '<option value=""></option>';
-    for($y = date('Y'); $y >= 1980; $y--)
+
+    public function getMonthOptions()
     {
-      $html .= '<option value="'.$y.'">'.$y.'</option>';
+        $html = '<option value=""></option>';
+        foreach (\Yii::app()->locale->getMonthNames('wide', true) as $month => $title) {
+            $html .= '<option value="'.$month.'">'.$title.'</option>';
+        }
+        return $html;
     }
-    return $html;
-  }
+
+    public function getYearOptions()
+    {
+        $html = '<option value=""></option>';
+        for ($y = date('Y'); $y >= 1980; $y--) {
+            $html .= '<option value="'.$y.'">'.$y.'</option>';
+        }
+        return $html;
+    }
 }

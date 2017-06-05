@@ -1,7 +1,6 @@
 <?php
 namespace pay\components\coupon\collection\managers;
 
-use pay\components\CodeException;
 use pay\components\OrderItemCollectable;
 use pay\components\OrderItemCollection;
 use pay\models\CollectionCoupon;
@@ -48,7 +47,6 @@ abstract class Base
         return [];
     }
 
-
     /**
      * @param Product $product
      * @return bool
@@ -78,7 +76,7 @@ abstract class Base
             }
         }
         $list = array_unique($list);
-        
+
         return $list;
     }
 

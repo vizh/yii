@@ -86,8 +86,9 @@ class Statistics
                 'order' => 'COUNT("t"."Id")'
             ]);
             $this->roles = [];
-            foreach ($roles as $role)
+            foreach ($roles as $role) {
                 $this->roles[$role->Id] = $role;
+            }
         }
         return $this->roles;
     }
@@ -112,8 +113,9 @@ class Statistics
             $this->dummy = [];
             foreach ($this->getDates() as $date) {
                 $this->dummy[$date] = [];
-                foreach ($this->getRoles() as $role)
+                foreach ($this->getRoles() as $role) {
                     $this->dummy[$date][$role->Id] = 0;
+                }
             }
         }
         return $this->dummy;
@@ -121,8 +123,9 @@ class Statistics
 
     public function getRegistrationsAll()
     {
-        if ($this->getStartDate() === false)
+        if ($this->getStartDate() === false) {
             return [];
+        }
 
         $stats = \Yii::app()->db->createCommand()
             ->select('"RoleId", CAST("CreationTime" AS DATE) as "Date", count("UserId") AS "Count"')
@@ -147,10 +150,12 @@ class Statistics
             $row = [$date];
 
             foreach ($roles as $roleId => $count) {
-                if (!isset($this->getRoles()[$roleId]))
+                if (!isset($this->getRoles()[$roleId])) {
                     continue;
-                if (!isset($all[$roleId]))
+                }
+                if (!isset($all[$roleId])) {
                     $all[$roleId] = 0;
+                }
                 $all[$roleId] += $count;
                 $row[] = $all[$roleId];
             }
@@ -161,8 +166,9 @@ class Statistics
 
     public function getRegistrationsDelta()
     {
-        if ($this->getStartDate() === false)
+        if ($this->getStartDate() === false) {
             return [];
+        }
 
         $stats = \Yii::app()->db->createCommand()
             ->select('"RoleId", CAST("p"."CreationTime" AS DATE) AS "Date", COUNT("UserId") AS "Count"')
@@ -184,8 +190,9 @@ class Statistics
         foreach ($dummy as $date => $roles) {
             $row = [$date];
             foreach ($roles as $roleId => $count) {
-                if (!isset($this->getRoles()[$roleId]))
+                if (!isset($this->getRoles()[$roleId])) {
                     continue;
+                }
                 $row[] = $count;
             }
             $result[] = $row;
@@ -228,8 +235,9 @@ WHERE poi."Paid"';
 
     public function getPayments()
     {
-        if ($this->getStartDate() === false)
+        if ($this->getStartDate() === false) {
             return [];
+        }
 
         $result = [];
 
@@ -244,7 +252,7 @@ WHERE poi."Paid"';
         $stats = \Yii::app()->db->createCommand()
             ->select('p."RoleId", count(p."RoleId") "Count"')
             ->from('EventParticipant p')
-            ->where('p."EventId" = :EventId AND p."UserId" IN (' . $this->getOrderItemsQuery($productsId) . ' AND (pc."IsTicket" OR (pc."Discount" != 100 OR pc."ManagerName" != \'Percent\') OR pc."Id" IS NULL)' . ')')
+            ->where('p."EventId" = :EventId AND p."UserId" IN ('.$this->getOrderItemsQuery($productsId).' AND (pc."IsTicket" OR (pc."Discount" != 100 OR pc."ManagerName" != \'Percent\') OR pc."Id" IS NULL)'.')')
             ->group('p.RoleId')->query(['EventId' => $this->eventId]);
 
         $dummy = [];
@@ -261,7 +269,7 @@ WHERE poi."Paid"';
         $stats = \Yii::app()->db->createCommand()
             ->select('p."RoleId", count(p."RoleId") "Count"')
             ->from('EventParticipant p')
-            ->where('p."EventId" = :EventId AND p."UserId" IN (' . $this->getOrderItemsQuery($productsId) . ' AND NOT pc."IsTicket" AND pc."Discount" = 1' . ')')
+            ->where('p."EventId" = :EventId AND p."UserId" IN ('.$this->getOrderItemsQuery($productsId).' AND NOT pc."IsTicket" AND pc."Discount" = 1'.')')
             ->group('p.RoleId')->query(['EventId' => $this->eventId]);
 
         $dummy = [];
@@ -274,12 +282,11 @@ WHERE poi."Paid"';
         }
         $result[] = $column;
 
-
         //THIRD COLUMN
         $stats = \Yii::app()->db->createCommand()
             ->select('p."RoleId", count(p."RoleId") "Count"')
             ->from('EventParticipant p')
-            ->where('p."EventId" = :EventId AND p."UserId" NOT IN (' . $this->getOrderItemsQuery($productsId) . ')')
+            ->where('p."EventId" = :EventId AND p."UserId" NOT IN ('.$this->getOrderItemsQuery($productsId).')')
             ->group('p.RoleId')->query(['EventId' => $this->eventId]);
 
         $dummy = [];
@@ -297,8 +304,9 @@ WHERE poi."Paid"';
 
     public function getCount()
     {
-        if ($this->getStartDate() === false)
+        if ($this->getStartDate() === false) {
             return [];
+        }
 
         $stats = \Yii::app()->db->createCommand()
             ->select('p."RoleId", count(p."RoleId") "Count"')

@@ -8,7 +8,6 @@
 
 namespace event\components\handlers\register;
 
-
 use mail\models\Layout;
 
 class Nspkjun16 extends Base
@@ -17,6 +16,7 @@ class Nspkjun16 extends Base
     {
         return 'orgcenter@nspk.ru';
     }
+
     public function getFromName()
     {
         return 'НСПК';

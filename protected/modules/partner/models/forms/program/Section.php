@@ -43,7 +43,6 @@ class Section extends CreateUpdateForm
     /** @var SectionModel */
     protected $model;
 
-
     /**
      * @param Event $event
      * @param SectionModel $model
@@ -58,7 +57,6 @@ class Section extends CreateUpdateForm
         }
         parent::__construct($model);
     }
-
 
     public function attributeLabels()
     {
@@ -98,7 +96,7 @@ class Section extends CreateUpdateForm
     {
         $purifier = new \CHtmlPurifier();
         $purifier->options = [
-            'HTML.AllowedElements'     => ['span', 'strong', 'a', 'br', 'u', 'h1', 'h2', 'h3', 'h4', 'h5', 'ul', 'li', 'ol', 'p', 'table', 'tr', 'td', 'tbody', 'thead', 'th', 'img'],
+            'HTML.AllowedElements' => ['span', 'strong', 'a', 'br', 'u', 'h1', 'h2', 'h3', 'h4', 'h5', 'ul', 'li', 'ol', 'p', 'table', 'tr', 'td', 'tbody', 'thead', 'th', 'img'],
             'Attr.AllowedFrameTargets' => ['_blank', '_self']
         ];
         return $purifier->purify($value);
@@ -194,7 +192,7 @@ class Section extends CreateUpdateForm
             $this->Date = $formatter->format('yyyy-MM-dd', $this->model->StartTime);
             $this->TimeStart = $formatter->format('HH:mm', $this->model->StartTime);
             $this->TimeEnd = $formatter->format('HH:mm', $this->model->EndTime);
-            foreach($this->model->LinkHalls as $linkHall) {
+            foreach ($this->model->LinkHalls as $linkHall) {
                 $this->Hall[] = $linkHall->HallId;
             }
             return true;
@@ -225,8 +223,8 @@ class Section extends CreateUpdateForm
         $transaction = \Yii::app()->getDb()->beginTransaction();
         try {
             $this->fillActiveRecord();
-            $this->model->StartTime = $this->Date . ' ' . $this->TimeStart;
-            $this->model->EndTime = $this->Date . ' ' . $this->TimeEnd;
+            $this->model->StartTime = $this->Date.' '.$this->TimeStart;
+            $this->model->EndTime = $this->Date.' '.$this->TimeEnd;
             $this->model->save();
 
             foreach ($this->getAttributeList() as $name) {
@@ -262,6 +260,5 @@ class Section extends CreateUpdateForm
         }
         return null;
     }
-
 
 }

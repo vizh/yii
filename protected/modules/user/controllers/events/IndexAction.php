@@ -16,9 +16,9 @@ class IndexAction extends \CAction
         $i = $j = 0;
         foreach ($events as $event):
             if ($event->Event->Visible):
-                strlen($event->Event->StartMonth) == 1 ? $event->Event->StartMonth = '0' . $event->Event->StartMonth : '';
-                strlen($event->Event->StartDay) == 1 ? $event->Event->StartDay = '0' . $event->Event->StartDay : '';
-                $eventDate = $event->Event->StartYear . $event->Event->StartMonth . $event->Event->StartDay;
+                strlen($event->Event->StartMonth) == 1 ? $event->Event->StartMonth = '0'.$event->Event->StartMonth : '';
+                strlen($event->Event->StartDay) == 1 ? $event->Event->StartDay = '0'.$event->Event->StartDay : '';
+                $eventDate = $event->Event->StartYear.$event->Event->StartMonth.$event->Event->StartDay;
                 $eventDateTime = strtotime($eventDate);
                 if ($eventDateTime < $curDate):
                     if ($event->RoleId != Role::VIRTUAL_ROLE_ID):
@@ -37,7 +37,7 @@ class IndexAction extends \CAction
         endforeach;
         $pastEvents = $this->sortEvents($pastEvents);
         $futureEvents = $this->sortEvents($futureEvents);
-        $this->getController()->render('index', array('pastEvents' => $pastEvents, 'futureEvents' => $futureEvents));
+        $this->getController()->render('index', ['pastEvents' => $pastEvents, 'futureEvents' => $futureEvents]);
     }
 
     /**

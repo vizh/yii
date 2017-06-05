@@ -6,12 +6,9 @@
  * Time: 12:46
  */
 
-
 namespace event\components\handlers\register;
 
-
 use mail\models\Layout;
-
 
 class Nspkmay17 extends Base
 {
@@ -19,6 +16,7 @@ class Nspkmay17 extends Base
     {
         return 'orgcenter@nspk.ru';
     }
+
     public function getFromName()
     {
         return 'НСПК';

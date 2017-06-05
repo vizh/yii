@@ -28,7 +28,6 @@ class Textarea extends Base
         return 'competence.views.form.textarea';
     }
 
-
     public function getAdminView()
     {
         return 'competence.views.form.admin.textarea';
@@ -40,7 +39,6 @@ class Textarea extends Base
             'Required' => 'Обязательно для заполнения'
         ];
     }
-
 
     public function processAdminPanel()
     {

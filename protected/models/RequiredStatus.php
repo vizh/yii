@@ -3,7 +3,7 @@ namespace application\models;
 
 interface RequiredStatus
 {
-  const None = 'none';
-  const Required = 'required';
-  const NotRequired = 'not required';
-} 
+    const None = 'none';
+    const Required = 'required';
+    const NotRequired = 'not required';
+}

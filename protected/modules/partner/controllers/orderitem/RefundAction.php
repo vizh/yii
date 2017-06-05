@@ -24,7 +24,6 @@ class RefundAction extends Action
             }
         }
 
-
         $this->getController()->render('refund', [
             'form' => $form
         ]);

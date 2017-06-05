@@ -2,7 +2,6 @@
 
 namespace pay\components\coupon\collection\managers;
 
-
 use pay\components\OrderItemCollectable;
 use pay\components\OrderItemCollection;
 use pay\models\OrderItem;
@@ -25,14 +24,13 @@ class FirstNOrdersCountFix extends CountFix
         return ['Amount'];
     }
 
-
     /**
      * @inheritdoc
      */
     public function getDiscount(OrderItemCollection $collection)
     {
         foreach ($this->coupon->ProductLinks as $link) {
-            $this->count = OrderItem::model()->count('NOT "Deleted" AND NOT "Refund" AND "ProductId" = ' . $link->ProductId);
+            $this->count = OrderItem::model()->count('NOT "Deleted" AND NOT "Refund" AND "ProductId" = '.$link->ProductId);
             if ($this->count < $this->Amount) {
                 return $this->coupon->Discount;
             }

@@ -2,11 +2,10 @@
 namespace api\controllers\raec;
 
 use api\components\builders\Builder;
-
-use nastradamus39\slate\annotations\ApiAction;
-use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\ApiAction;
 
 class CommissionUsersAction extends \api\components\Action
 {

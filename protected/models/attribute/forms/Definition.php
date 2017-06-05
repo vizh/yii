@@ -247,31 +247,33 @@ class Definition extends CreateUpdateForm
     public function setAttributes($values, $safeOnly = true)
     {
         if ($this->model->ClassName && (boolean)$this->model->Translatable !== (boolean)$values['Translatable']) {
-            if (($group = GroupModel::model()->findByPk($this->model->GroupId)) === null)
+            if (($group = GroupModel::model()->findByPk($this->model->GroupId)) === null) {
                 throw new Exception("Не могу получить группу GroupId:{$this->model->GroupId} для атрибута");
+            }
 
-            if (($event = Event::model()->findByPk($group->ModelId)) === null)
+            if (($event = Event::model()->findByPk($group->ModelId)) === null) {
                 throw new Exception('Не могу определить мероприятие группы атрибута');
+            }
 
             $userData = UserData::model()
                 ->byEventId($event->Id)
                 ->byAttributeExists($this->model->Name)
                 ->findAll();
 
-                foreach ($userData as $data) {
-                    $value = json_decode($data->Attributes, true);
-                    if ($values['Translatable']) {
-                        $value[$this->model->Name] = isset($value[$this->model->Name]['ru'])
-                            ? $value[$this->model->Name]
-                            : ['ru' => $value[$this->model->Name], 'en' => ''];
-                    } else {
-                        $value[$this->model->Name] = isset($value[$this->model->Name]['ru'])
-                            ? $value[$this->model->Name]['ru']
-                            : $value[$this->model->Name];
-                    }
-                    $data->Attributes = json_encode($value, JSON_UNESCAPED_UNICODE);
-                    $data->save();
+            foreach ($userData as $data) {
+                $value = json_decode($data->Attributes, true);
+                if ($values['Translatable']) {
+                    $value[$this->model->Name] = isset($value[$this->model->Name]['ru'])
+                        ? $value[$this->model->Name]
+                        : ['ru' => $value[$this->model->Name], 'en' => ''];
+                } else {
+                    $value[$this->model->Name] = isset($value[$this->model->Name]['ru'])
+                        ? $value[$this->model->Name]['ru']
+                        : $value[$this->model->Name];
                 }
+                $data->Attributes = json_encode($value, JSON_UNESCAPED_UNICODE);
+                $data->save();
+            }
         }
 
         parent::setAttributes($values, $safeOnly);

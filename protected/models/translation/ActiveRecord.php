@@ -114,8 +114,8 @@ abstract class ActiveRecord extends \application\components\ActiveRecord
             }
 
             $sql .= " OR tr.\"Field\" = :mkey{$i} AND tr.\"Value\" ilike :mvalue{$i}";
-            $params[':mkey' . $i] = $key;
-            $params[':mvalue' . $i] = \Utils::PrepareStringForLike($value) . $valueSuffix;
+            $params[':mkey'.$i] = $key;
+            $params[':mvalue'.$i] = \Utils::PrepareStringForLike($value).$valueSuffix;
             $i++;
         }
         $sql .= ')';
@@ -128,17 +128,17 @@ abstract class ActiveRecord extends \application\components\ActiveRecord
         $command->where('tr."ResourceName" = :ResourceName AND tr."Locale" = :Locale '.$sql, $params);
         $command->group('tr.ResourceId');
 
-        $command->having('count(tr."ResourceId") = :CountAttributes', array(':CountAttributes' => sizeof($fields)));
+        $command->having('count(tr."ResourceId") = :CountAttributes', [':CountAttributes' => sizeof($fields)]);
 
         $result = $command->queryAll();
 
-        $userIdList = array();
+        $userIdList = [];
         foreach ($result as $row) {
             $userIdList[] = $row['ResourceId'];
         }
 
         $criteria = new \CDbCriteria();
-        $criteria->addInCondition('t."' . $this->getResourceKey().'"', $userIdList);
+        $criteria->addInCondition('t."'.$this->getResourceKey().'"', $userIdList);
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
 
         return $this;
@@ -251,10 +251,10 @@ abstract class ActiveRecord extends \application\components\ActiveRecord
                 $translation = $this->_translations[$this->_locale][$field];
             }
             $translation->Value = $value;
-            $this->_changedTranslations[$this->_locale . $field] = $translation;
+            $this->_changedTranslations[$this->_locale.$field] = $translation;
 
             //если локализованное значение пусто - заполнить его локализованным
-            if (parent::__get($field) == null){
+            if (parent::__get($field) == null) {
                 parent::__set($field, $value);
             }
         } else {

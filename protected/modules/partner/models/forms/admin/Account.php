@@ -31,9 +31,9 @@ class Account extends \CFormModel
     {
         return [
             'EventTitle' => \Yii::t('app', 'Название мероприятия'),
-            'EventId'    => \Yii::t('app', 'Id меропрития'),
-            'Role'        => \Yii::t('app', 'Роль'),
-            'Login'    => \Yii::t('app', 'Логин')
+            'EventId' => \Yii::t('app', 'Id меропрития'),
+            'Role' => \Yii::t('app', 'Роль'),
+            'Login' => \Yii::t('app', 'Логин')
         ];
     }
 

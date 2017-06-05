@@ -12,7 +12,7 @@ class Base extends MailLayout
     {
         parent::__construct($mailer);
         $this->event = $event->params['event'];
-        $this->user  = $event->params['user'];
+        $this->user = $event->params['user'];
     }
 
     /**
@@ -35,7 +35,6 @@ class Base extends MailLayout
     {
         return 'Новая заявка на участие в '.$this->event->Title;
     }
-
 
     /**
      * @return string
@@ -71,6 +70,5 @@ class Base extends MailLayout
     {
         return false;
     }
-
 
 }

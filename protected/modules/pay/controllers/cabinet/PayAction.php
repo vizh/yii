@@ -51,8 +51,7 @@ class PayAction extends Action
         } else {
             if ($account->PayOnline) {
                 $system = $this->getSystemPayonline($account);
-            }
-            else {
+            } else {
                 $system = new Uniteller();
             }
         }

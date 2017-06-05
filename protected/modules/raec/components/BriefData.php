@@ -2,7 +2,6 @@
 namespace raec\components;
 
 use application\components\attribute\JsonContainer;
-use company\models\Company;
 use raec\models\Brief;
 use user\models\User;
 
@@ -12,7 +11,8 @@ use user\models\User;
  *
  * @property string $CompanyLabel
  */
-class BriefData extends \CFormModel{
+class BriefData extends \CFormModel
+{
     use JsonContainer;
 
     /**
@@ -47,7 +47,12 @@ class BriefData extends \CFormModel{
         return [
             'CompanyId',
             ['CompanyLabel', 'Definition', 0, 'title' => \Yii::t('app', 'Компания')],
-            ['CompanySynonyms', 'ModelListDefinition', 0, 'title' => \Yii::t('app', 'Дочерние компании'), 'className' => '\company\models\Company',
+            [
+                'CompanySynonyms',
+                'ModelListDefinition',
+                0,
+                'title' => \Yii::t('app', 'Дочерние компании'),
+                'className' => '\company\models\Company',
                 'attributeName' => function (\CActiveRecord $model, $data) {
                     $company = $model->findByPk($data['Id']);
                     return $company;
@@ -77,22 +82,27 @@ class BriefData extends \CFormModel{
             ['JurudicalCorrAccount', 'Definition', 0, 'title' => \Yii::t('app', 'Корреспондентский счет')],
             ['JuridicalAddressEqual', 'Definition', 0, 'title' => \Yii::t('app', 'Совпадает с юридическим')],
             ['Year', 'Definition', 0, 'title' => \Yii::t('app', 'Год основания')],
-            ['ProfessionalInterest', 'ModelListDefinition', 0, 'title' => \Yii::t('app', 'Cфера деятельности'),  'className' => '\application\models\ProfessionalInterest', 'valueAttributeName' => 'Title'],
+            ['ProfessionalInterest', 'ModelListDefinition', 0, 'title' => \Yii::t('app', 'Cфера деятельности'), 'className' => '\application\models\ProfessionalInterest', 'valueAttributeName' => 'Title'],
             ['Progress', 'Definition', 0, 'title' => \Yii::t('app', 'Главные достижения')],
             ['Employees', 'Definition', 0, 'title' => \Yii::t('app', 'Информация о коллективе и руководстве')],
             ['Customers', 'Definition', 0, 'title' => \Yii::t('app', 'Информация о клиентах')],
             ['Additional', 'Definition', 0, 'title' => \Yii::t('app', 'Дополнительная информация')],
-            ['Users', 'ModelListDefinition', 0, 'title' => \Yii::t('app', 'Представители организации'), 'className' => '\user\models\User',
-               'attributeName' => function (\CActiveRecord $model, $data) {
+            [
+                'Users',
+                'ModelListDefinition',
+                0,
+                'title' => \Yii::t('app', 'Представители организации'),
+                'className' => '\user\models\User',
+                'attributeName' => function (\CActiveRecord $model, $data) {
                     if (!isset($data['RunetId'])) {
                         return null;
                     }
                     $user = $model->byRunetId($data['RunetId'])->find();
                     return $user;
-               },
-               'valueAttributeName' => function (User $user) {
-                    return \CHtml::link($user->getFullName(), $user->getUrl(), ['target' => '_blank']) . ' ('.$user->RunetId.')';
-               }
+                },
+                'valueAttributeName' => function (User $user) {
+                    return \CHtml::link($user->getFullName(), $user->getUrl(), ['target' => '_blank']).' ('.$user->RunetId.')';
+                }
             ],
             'Label'
         ];

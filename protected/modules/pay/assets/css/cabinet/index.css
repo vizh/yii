@@ -3,6 +3,7 @@
     width: 744px !important;
     margin-left: -383px;
 }
+
 #payonline-modal:focus {
     outline: none !important;
 }
@@ -10,6 +11,7 @@
 #payonline-modal .modal-content {
     position: relative;
 }
+
 #payonline-modal .modal-content .modal-header {
     position: absolute;
     top: 0;
@@ -19,9 +21,11 @@
     padding: 0;
     border-bottom: none;
 }
+
 #payonline-modal .modal-content .modal-header .modal-header {
     display: none;
 }
+
 #payonline-modal .modal-content .modal-header .close {
     position: absolute;
     top: 5px;

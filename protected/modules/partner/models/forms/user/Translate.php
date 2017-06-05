@@ -14,7 +14,6 @@ class Translate extends CreateUpdateForm
     /** @var User */
     protected $model;
 
-
     private $locale;
 
     public $FirstName;
@@ -66,10 +65,10 @@ class Translate extends CreateUpdateForm
     public function attributeLabels()
     {
         return [
-            'FirstName'  => \Yii::t('app', 'Имя'),
-            'LastName'   => \Yii::t('app', 'Фамилия'),
+            'FirstName' => \Yii::t('app', 'Имя'),
+            'LastName' => \Yii::t('app', 'Фамилия'),
             'FatherName' => \Yii::t('app', 'Отчество'),
-            'Company'    => \Yii::t('app', 'Компания'),
+            'Company' => \Yii::t('app', 'Компания'),
         ];
     }
 
@@ -132,14 +131,12 @@ class Translate extends CreateUpdateForm
                 $company->save();
                 $company->resetLocale();
             }
-        }
-        else{
+        } else {
             $this->model->setEmployment($this->Company);
         }
         $this->model->resetLocale();
         return $this->model;
     }
-
 
     /**
      * @return string

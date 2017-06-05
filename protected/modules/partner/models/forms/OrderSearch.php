@@ -10,13 +10,15 @@ class OrderSearch extends \CFormModel
     public $Paid = true;
     public $Deleted = true;
 
-    public function rules() {
+    public function rules()
+    {
         return [
             ['Order, Company, Payer, Paid, Deleted', 'safe']
         ];
     }
 
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return [
             'Order' => 'Номер счета',
             'Company' => 'Название/ИНН компании',

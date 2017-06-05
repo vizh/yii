@@ -1,11 +1,10 @@
 <?php
 namespace api\controllers\event;
 
-use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
-use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
+use nastradamus39\slate\annotations\ApiAction;
 
 class PurposesAction extends \api\components\Action
 {
@@ -24,7 +23,7 @@ class PurposesAction extends \api\components\Action
      *          url="/event/purposes",
      *          params={},
      *          response=@Response(body="[ { 'Id': 3, 'Title': 'Выступление с докладом' }, { 'Id': 2, 'Title': 'Обмен опытом' },
-                                            { 'Id': 1, 'Title': 'Образование / получение новых знаний' }, { 'Id': 4, 'Title': 'Хантинг' }]")
+    { 'Id': 1, 'Title': 'Образование / получение новых знаний' }, { 'Id': 4, 'Title': 'Хантинг' }]")
      *     )
      * )
      */

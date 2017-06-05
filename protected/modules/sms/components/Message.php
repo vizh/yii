@@ -1,7 +1,6 @@
 <?php
 namespace sms\components;
 
-
 abstract class Message
 {
     protected $gate;
@@ -30,4 +29,4 @@ abstract class Message
             return $this->gate->send($this);
         }
     }
-} 
+}

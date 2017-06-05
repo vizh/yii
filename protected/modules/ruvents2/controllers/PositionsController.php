@@ -22,7 +22,7 @@ class PositionsController extends Controller
             $result[] = $this->getPositionData($position);
         }
 
-        $nextSince = count($positions) == $limit ? $positions[$limit-1]->CreationTime : null;
+        $nextSince = count($positions) == $limit ? $positions[$limit - 1]->CreationTime : null;
         $hasMore = $nextSince !== null;
         $this->renderJson([
             'Positions' => $result,
@@ -30,7 +30,6 @@ class PositionsController extends Controller
             'NextSince' => $nextSince
         ]);
     }
-
 
     /**
      * @param string $since
@@ -44,8 +43,9 @@ class PositionsController extends Controller
             ->setOrder('t."UpdateTime"')
             ->setLimit($limit);
 
-        if ($this->getEvent()->IdName == 'devcon15')
+        if ($this->getEvent()->IdName == 'devcon15') {
             $criteria->addCondition('"Product"."ManagerName" = \'FoodProductManager\'');
+        }
 
         if ($since !== null) {
             $since = date('Y-m-d H:i:s', strtotime($since));
@@ -61,16 +61,22 @@ class PositionsController extends Controller
      */
     private function getPositionData($position)
     {
-        $data = ArrayHelper::toArray($position, ['pay\models\OrderItem' => [
-            'Id', 'ProductId', 'Paid', 'PaidTime', 'UpdateTime'
-        ]]);
+        $data = ArrayHelper::toArray($position, [
+            'pay\models\OrderItem' => [
+                'Id',
+                'ProductId',
+                'Paid',
+                'PaidTime',
+                'UpdateTime'
+            ]
+        ]);
 
         $data['UserId'] = $position->ChangedOwner == null ? $position->Owner->RunetId : $position->ChangedOwner->RunetId;
 
         $couponActivation = $position->getCouponActivation();
 
         if ($couponActivation !== null) {
-            $data['Discount'] =  $couponActivation->Coupon->getManager()->getDiscountString();
+            $data['Discount'] = $couponActivation->Coupon->getManager()->getDiscountString();
             $data['PromoCode'] = $couponActivation->Coupon->Code;
         } else {
             $data['Discount'] = 0;

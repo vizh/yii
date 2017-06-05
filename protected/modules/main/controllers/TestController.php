@@ -1,6 +1,5 @@
 <?php
 
-use mail\models\Template;
 use pay\models\Coupon;
 use pay\models\CouponLinkProduct;
 
@@ -24,10 +23,8 @@ class TestController extends \CController
                 $invite->Code = $code;
                 $invite->save();
 
-                print $code . '<br>';
-
+                print $code.'<br>';
             }
-
         }
     }
 
@@ -36,8 +33,6 @@ class TestController extends \CController
 
         //echo md5('Yii.'.get_class(Yii::app()->user).'.'.Yii::app()->getId());
         //exit;
-
-
 
         echo '<pre>';
         echo " \r\nrequest: \r\n";
@@ -68,6 +63,6 @@ class TestController extends \CController
             $coupon->ProductId = null;
             $coupon->save();
         }
-        echo 'done, left: ' . Coupon::model()->count('t."ProductId" IS NOT NULL');
+        echo 'done, left: '.Coupon::model()->count('t."ProductId" IS NOT NULL');
     }
 }

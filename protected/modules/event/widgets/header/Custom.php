@@ -5,7 +5,7 @@ class Custom extends Header
 {
     public function run()
     {
-        $this->render('custom/' . $this->event->IdName, array());
+        $this->render('custom/'.$this->event->IdName, []);
     }
 
     /**

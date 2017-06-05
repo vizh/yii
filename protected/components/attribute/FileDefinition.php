@@ -10,8 +10,8 @@ namespace application\components\attribute;
 
 use application\components\AbstractDefinition;
 use application\components\utility\Texts;
-use event\components\UserDataManager;
 use CHtml;
+use event\components\UserDataManager;
 use Yii;
 
 class FileDefinition extends AbstractDefinition
@@ -70,7 +70,8 @@ class FileDefinition extends AbstractDefinition
     public function getPrintValue(UserDataManager $manager, $useHtml = false)
     {
         if (false === empty($manager->{$this->name})) {
-            return CHtml::link(Yii::t('app', 'Скачать'), ['/partner/user/viewdatafile',
+            return CHtml::link(Yii::t('app', 'Скачать'), [
+                '/partner/user/viewdatafile',
                 'id' => $manager->model()->Id,
                 'attribute' => $this->name
             ]);

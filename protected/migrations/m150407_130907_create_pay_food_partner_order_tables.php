@@ -1,4 +1,5 @@
 <?php
+
 class m150407_130907_create_pay_food_partner_order_tables extends CDbMigration
 {
     public function safeUp()
@@ -44,11 +45,10 @@ class m150407_130907_create_pay_food_partner_order_tables extends CDbMigration
         $this->addForeignKey('PayFoodPartnerOrderItem_ProductId_fkey', 'PayFoodPartnerOrderItem', 'ProductId', 'PayProduct', 'Id', 'RESTRICT', 'RESTRICT');
         $this->addForeignKey('PayFoodPartnerOrderItem_OrderId_fkey', 'PayFoodPartnerOrderItem', 'OrderId', 'PayFoodPartnerOrder', 'Id', 'RESTRICT', 'RESTRICT');
         return true;
-	}
+    }
 
-
-	public function safeDown()
-	{
+    public function safeDown()
+    {
         /*
         $this->dropForeignKey('PayFoodPartnerOrder_EventId_fkey', 'PayFoodPartnerOrder');
         $this->dropTable('PayFoodPartnerOrder');
@@ -57,5 +57,5 @@ class m150407_130907_create_pay_food_partner_order_tables extends CDbMigration
         $this->dropTable('PayFoodPartnerOrderItem');
         */
         return false;
-	}
+    }
 }

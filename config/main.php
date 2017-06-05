@@ -68,15 +68,15 @@ $config = [
         ],
         'log' => [
             'class' => 'CLogRouter',
-            'routes' => require 'log-routes.php',
+            'routes' => require 'log-routes.php'
         ],
         'clientScript' => [
             'packages' => require 'script-packages.php',
-            'scriptMap' => [],
+            'scriptMap' => []
         ],
     ],
     'modules' => require 'modules.php',
-    'params' => require 'params.php',
+    'params' => require 'params.php'
 ];
 
 // Костыль для выключения поддержки сессий в api.

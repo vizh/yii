@@ -1,12 +1,12 @@
 <?php
+use application\components\controllers\AjaxController as TraitAjaxController;
+use application\components\controllers\PublicMainController;
+use application\components\helpers\ArrayHelper;
 use mail\components\mailers\SESMailer;
+use user\components\handlers\Verify;
+use user\models\Document;
 use user\models\forms\RegisterForm;
 use user\models\User;
-use user\models\Document;
-use application\components\controllers\PublicMainController;
-use application\components\controllers\AjaxController as TraitAjaxController;
-use user\components\handlers\Verify;
-use application\components\helpers\ArrayHelper;
 
 class AjaxController extends PublicMainController
 {
@@ -37,7 +37,7 @@ class AjaxController extends PublicMainController
      */
     public function actionSearch($term, $eventId = null)
     {
-        $results = array();
+        $results = [];
         $criteria = new \CDbCriteria();
         $criteria->limit = 10;
         $criteria->with = ['Employments.Company'];
@@ -45,13 +45,12 @@ class AjaxController extends PublicMainController
 
         if ($eventId !== null) {
             $event = \event\models\Event::model()->findByPk($eventId);
-            if ($event){
+            if ($event) {
                 $model->bySearch($term, null, true, !isset($event->SearchHiddenUsers) || !$event->SearchHiddenUsers);
-                if ($event->UserScope){
+                if ($event->UserScope) {
                     $model->byEventId($eventId);
                 }
-            }
-            else{
+            } else {
                 $model->bySearch($term);
             }
         } else {
@@ -61,7 +60,7 @@ class AjaxController extends PublicMainController
         if (Yii::app()->partner->role !== 'AdminExtended') {
             $role = Yii::app()->partnerAuthManager->roles[Yii::app()->partner->role];
             $available_roles = ArrayHelper::getValue($role->data, 'roles', []);
-            if (!empty($available_roles)){
+            if (!empty($available_roles)) {
                 $model->byEventRole($available_roles);
             }
         }
@@ -93,7 +92,7 @@ class AjaxController extends PublicMainController
                 $result->user = $this->getUserData($user);
             } else {
                 $result->success = false;
-                $result->errors  = $form->getErrors();
+                $result->errors = $form->getErrors();
             }
         }
         echo json_encode($result);
@@ -152,23 +151,25 @@ class AjaxController extends PublicMainController
      */
     private function getUserData($user)
     {
-        $data = ArrayHelper::toArray($user, ['user\models\User' => [
-            'Id',
-            'RunetId',
-            'LastName',
-            'FirstName',
-            'FullName' => function (User $user) {
-                return $user->getFullName();
-            },
-            'Photo' => function (User $user) {
-                $photo = new \stdClass();
-                $photo->Small  = $user->getPhoto()->get50px();
-                $photo->Medium = $user->getPhoto()->get90px();
-                $photo->Large  = $user->getPhoto()->get200px();
-                return $photo;
-            }
-        ]]);
-        $data['label'] = (string) $user;
+        $data = ArrayHelper::toArray($user, [
+            'user\models\User' => [
+                'Id',
+                'RunetId',
+                'LastName',
+                'FirstName',
+                'FullName' => function (User $user) {
+                    return $user->getFullName();
+                },
+                'Photo' => function (User $user) {
+                    $photo = new \stdClass();
+                    $photo->Small = $user->getPhoto()->get50px();
+                    $photo->Medium = $user->getPhoto()->get90px();
+                    $photo->Large = $user->getPhoto()->get200px();
+                    return $photo;
+                }
+            ]
+        ]);
+        $data['label'] = (string)$user;
         $data['value'] = $data['RunetId'];
 
         $employment = $user->getEmploymentPrimary();

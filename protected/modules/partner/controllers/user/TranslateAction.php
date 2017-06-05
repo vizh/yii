@@ -42,6 +42,6 @@ class TranslateAction extends \partner\components\Action
                 $this->getController()->refresh();
             }
         }
-        $this->getController()->render('translate', array('forms' => $forms, 'locales' => $locales, 'user' => $user));
+        $this->getController()->render('translate', ['forms' => $forms, 'locales' => $locales, 'user' => $user]);
     }
 }

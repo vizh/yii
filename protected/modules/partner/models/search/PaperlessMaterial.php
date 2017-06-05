@@ -3,8 +3,8 @@
 namespace partner\models\search;
 
 use application\components\form\SearchFormModel;
-use event\models\Event;
 use application\models\paperless\Material;
+use event\models\Event;
 
 class PaperlessMaterial extends SearchFormModel
 {
@@ -45,7 +45,7 @@ class PaperlessMaterial extends SearchFormModel
 
         if ($this->validate()) {
             $criteria->addSearchCondition('"Name"', $this->Name, true, 'and', 'ilike');
-            if ($this->activeLabel != ''){
+            if ($this->activeLabel != '') {
                 $criteria->addColumnCondition(['"Active"' => boolval($this->activeLabel)]);
             }
         }

@@ -8,10 +8,9 @@
 
 namespace application\widgets\grid;
 
-
 class DataColumn extends \CDataColumn
 {
-    /** @var null|int Фиксированная ширина колонки  */
+    /** @var null|int Фиксированная ширина колонки */
     public $width = null;
 
     public $filterInputHtmlOptions = [];
@@ -25,22 +24,20 @@ class DataColumn extends \CDataColumn
         if ($this->getFilterWidget() !== null) {
             $this->getFilterWidget()->init();
             $this->getFilterWidget()->run();
-        } elseif(is_string($filter)) {
+        } elseif (is_string($filter)) {
             echo $filter;
-        } elseif($filter!==false && $this->grid->filter!==null && $this->name!==null && strpos($this->name,'.')===false) {
+        } elseif ($filter !== false && $this->grid->filter !== null && $this->name !== null && strpos($this->name, '.') === false) {
             $htmlOptions = array_merge(['id' => false, 'class' => 'form-control'], $this->filterInputHtmlOptions);
-            if(is_array($filter)) {
+            if (is_array($filter)) {
                 $htmlOptions['prompt'] = '';
                 echo \CHtml::activeDropDownList($this->grid->filter, $this->name, $filter, $htmlOptions);
-            }
-            elseif($filter===null) {
+            } elseif ($filter === null) {
                 echo \CHtml::activeTextField($this->grid->filter, $this->name, $htmlOptions);
             }
         } else {
             parent::renderFilterCellContent();
         }
     }
-
 
     private $filterWidget = false;
 

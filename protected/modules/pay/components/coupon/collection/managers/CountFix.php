@@ -2,7 +2,6 @@
 namespace pay\components\coupon\collection\managers;
 
 use pay\components\OrderItemCollection;
-use pay\models\OrderItem;
 
 /**
  * Class Count

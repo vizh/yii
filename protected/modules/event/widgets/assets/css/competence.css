@@ -6,8 +6,9 @@
 .registration.registration-error {
     padding-bottom: 10px;
 }
+
 .registration.registration-success h3,
-.registration.registration-error h3{
+.registration.registration-error h3 {
     margin-top: 15px;
 }
 

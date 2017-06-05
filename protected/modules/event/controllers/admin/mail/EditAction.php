@@ -1,8 +1,8 @@
 <?php
 namespace event\controllers\admin\mail;
 
-use event\models\forms\admin\mail\Register;
 use event\models\Event;
+use event\models\forms\admin\mail\Register;
 use Yii;
 
 class EditAction extends \CAction
@@ -40,7 +40,7 @@ class EditAction extends \CAction
         }
 
         $this->getController()->render('edit', [
-            'form'  => $form,
+            'form' => $form,
             'event' => $event,
             'idMail' => $idMail
         ]);

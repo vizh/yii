@@ -8,8 +8,7 @@ class IndexAction extends \widget\components\Action
 
     public function run()
     {
-        if (\Yii::app()->getRequest()->getIsAjaxRequest())
-        {
+        if (\Yii::app()->getRequest()->getIsAjaxRequest()) {
             $this->processAjaxRequest();
         }
         $this->order = \Yii::app()->getRequest()->getParam('order', 'date');
@@ -24,7 +23,6 @@ class IndexAction extends \widget\components\Action
         ]);
     }
 
-
     private function getUsers()
     {
         $idList = [];
@@ -35,22 +33,19 @@ class IndexAction extends \widget\components\Action
         $condition = '';
         $join = '';
 
-        if ($this->getController()->getWidgetParamValue('product') !== null)
-        {
+        if ($this->getController()->getWidgetParamValue('product') !== null) {
             $product = \pay\models\Product::model()->byEventId($this->getEvent()->Id)->byPublic(true)->findByPk($this->getController()->getWidgetParamValue('product'));
-            if ($product == null)
+            if ($product == null) {
                 throw new \CHttpException(500);
+            }
 
             $params['ProductId'] = $product->Id;
             $join .= 'LEFT JOIN "PayOrderItem" ON "PayOrderItem"."OwnerId" = "t"."UserId"';
             $condition .= 'AND "PayOrderItem"."Paid" AND "PayOrderItem"."ProductId" = :ProductId';
         }
 
-
-
         $profInteresIdList = !\Yii::app()->getUser()->getIsGuest() ? \CHtml::listData(\Yii::app()->getUser()->getCurrentUser()->LinkProfessionalInterests, 'Id', 'ProfessionalInterestId') : [];
-        if ($this->order == 'interests' && !empty($profInteresIdList))
-        {
+        if ($this->order == 'interests' && !empty($profInteresIdList)) {
             $sql = '
         SELECT (cast (sumpi as real) / (cpi + '.sizeof($profInteresIdList).' - sumpi)) as coef, "UserId"
           FROM (
@@ -62,7 +57,7 @@ class IndexAction extends \widget\components\Action
           LEFT JOIN "EventParticipant" ON "EventParticipant"."UserId" = "t"."UserId"
           LEFT JOIN "UserSettings" ON "UserSettings"."UserId" = "t"."UserId"
           '.$join.'
-          WHERE "t"."UserId" != :UserId AND "EventParticipant"."EventId" = :EventId AND "UserSettings"."Visible" AND "EventParticipant"."RoleId" NOT IN ('. implode(',',$this->getExcludedRoles()) .')
+          WHERE "t"."UserId" != :UserId AND "EventParticipant"."EventId" = :EventId AND "UserSettings"."Visible" AND "EventParticipant"."RoleId" NOT IN ('.implode(',', $this->getExcludedRoles()).')
           '.$condition.'
           GROUP BY "t"."UserId"
           ORDER BY count("ProfessionalInterestId") desc
@@ -72,19 +67,16 @@ class IndexAction extends \widget\components\Action
             $params['UserId'] = \Yii::app()->getUser()->getId();
             $command = \Yii::app()->getDb()->createCommand($sql);
             $rows = $command->queryAll(true, $params);
-            foreach ($rows as $row)
-            {
+            foreach ($rows as $row) {
                 $idList[] = $row['UserId'];
             }
-        }
-        else
-        {
+        } else {
             $sql = '
         SELECT "t"."UserId" FROM "EventParticipant" "t"
           LEFT JOIN "User" ON "User"."Id" = "t"."UserId"
-          LEFT JOIN "UserSettings" ON "User"."Id" = "UserSettings"."UserId"
+          LEFT JOIN "UserSettings" ON "User"."Id" = "UserSettings"."USERID"
           '.$join.'
-          WHERE "UserSettings"."Visible" AND "t"."EventId" = :EventId AND "t"."RoleId" NOT IN ('. implode(',',$this->getExcludedRoles()) .')
+          WHERE "UserSettings"."Visible" AND "t"."EventId" = :EventId AND "t"."RoleId" NOT IN ('.implode(',', $this->getExcludedRoles()).')
           '.$condition.'
           GROUP BY "t"."UserId",
            '.($this->order == 'date' ?
@@ -104,8 +96,7 @@ class IndexAction extends \widget\components\Action
         $users = \user\models\User::model()->findAll($criteria);
         $positions = array_flip($idList);
         $result = [];
-        foreach ($users as $user)
-        {
+        foreach ($users as $user) {
             $result[$positions[$user->Id]] = $user;
         }
         ksort($result);
@@ -126,8 +117,7 @@ class IndexAction extends \widget\components\Action
         $result = [];
         $userId = \Yii::app()->getUser()->getId();
         $links = \link\models\Link::model()->byAnyUserId($userId)->byEventId($this->getEvent()->Id)->findAll();
-        foreach ($links as $link)
-        {
+        foreach ($links as $link) {
             $result[] = $link->UserId == $userId ? $link->OwnerId : $link->UserId;
         }
         return $result;
@@ -135,21 +125,20 @@ class IndexAction extends \widget\components\Action
 
     private function getExcludedRoles()
     {
-        return [24,23];
+        return [24, 23];
     }
 
     private function processAjaxRequest()
     {
         $action = \Yii::app()->getRequest()->getParam('action');
         $method = 'processAjaxAction'.ucfirst($action);
-        if (method_exists($this, $method))
-        {
+        if (method_exists($this, $method)) {
             $result = $this->$method();
             echo json_encode($result);
             \Yii::app()->end();
-        }
-        else
+        } else {
             throw new \CHttpException(404);
+        }
     }
 
     private function processAjaxActionSuggest()
@@ -162,34 +151,29 @@ class IndexAction extends \widget\components\Action
         $request = \Yii::app()->getRequest();
         $result = new \stdClass();
         if (!\Yii::app()->getUser()->getIsGuest()
-            && \event\models\Participant::model()->byUserId(\Yii::app()->getUser()->getId())->exists($criteria))
-        {
+            && \event\models\Participant::model()->byUserId(\Yii::app()->getUser()->getId())->exists($criteria)
+        ) {
             $owner = \user\models\User::model()->byRunetId($request->getParam('ownerRunetId'))->find();
-            if ($owner !== null && \event\models\Participant::model()->byUserId($owner->Id)->exists($criteria))
-            {
+            if ($owner !== null && \event\models\Participant::model()->byUserId($owner->Id)->exists($criteria)) {
                 $exists = \link\models\Link::model()->byEventId($this->getEvent()->Id)
                     ->byOwnerId($owner->Id)
                     ->byAnyUserId(\Yii::app()->getUser()->getId())
                     ->exists();
 
-                if (!$exists)
-                {
+                if (!$exists) {
                     $link = new \link\models\Link();
                     $link->EventId = $this->getEvent()->Id;
-                    $link->UserId  = \Yii::app()->getUser()->getId();
+                    $link->UserId = \Yii::app()->getUser()->getId();
                     $link->OwnerId = $owner->Id;
                     $link->save();
                 }
                 $result->success = true;
-            }
-            else
-            {
+            } else {
                 $result->error = \Yii::t('app', 'Пользователь, которому вы хотите отправить приглашение, не найден.');
             }
-        }
-        else
+        } else {
             $result->error = \Yii::t('app', 'Для назначения встречи вы должны быть зарегистрированы на мероприятие.');
-
+        }
 
         return $result;
     }
@@ -206,14 +190,11 @@ class IndexAction extends \widget\components\Action
         $userId = \Yii::app()->getUser()->getId();
         $links = \link\models\Link::model()->byAnyUserId($userId)->byEventId($this->getEvent()->Id)->findAll();
         /** @var \link\models\Link $link */
-        foreach ($links as $link)
-        {
-            if ($userId == $link->OwnerId && $link->Approved == \event\models\Approved::NONE)
-            {
+        foreach ($links as $link) {
+            if ($userId == $link->OwnerId && $link->Approved == \event\models\Approved::NONE) {
                 $result->all++;
                 $result->new++;
-            }
-            elseif ($link->Approved == \event\models\Approved::YES) {
+            } elseif ($link->Approved == \event\models\Approved::YES) {
                 $result->all++;
             }
         }

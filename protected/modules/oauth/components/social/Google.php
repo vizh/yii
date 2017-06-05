@@ -11,12 +11,12 @@ class Google implements ISocial
 
     const OauthBaseUrl = 'https://accounts.google.com/o/oauth2/auth?';
 
-    public static $CURL_OPTS = array(
+    public static $CURL_OPTS = [
         CURLOPT_CONNECTTIMEOUT => 10,
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT        => 60,
-        CURLOPT_USERAGENT      => 'runetid-php'
-    );
+        CURLOPT_TIMEOUT => 60,
+        CURLOPT_USERAGENT => 'runetid-php'
+    ];
 
     public function __construct($redirectUrl = null)
     {
@@ -29,10 +29,10 @@ class Google implements ISocial
      */
     public function getRedirectUrl()
     {
-        if( is_null($this->redirectUrl) ) {
+        if (is_null($this->redirectUrl)) {
 
             $redirectUrlParams = [
-                'social'=>self::getSocialId()
+                'social' => self::getSocialId()
             ];
 
             if (\Iframe::isFrame()) {
@@ -40,7 +40,7 @@ class Google implements ISocial
             }
 
             $this->redirectUrl = \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect', $redirectUrlParams);
-           // $this->redirectUrl = \Yii::app()->createAbsoluteUrl('/oauth/social/connect', $redirectUrlParams);
+            // $this->redirectUrl = \Yii::app()->createAbsoluteUrl('/oauth/social/connect', $redirectUrlParams);
         }
 
         return $this->redirectUrl;
@@ -53,13 +53,13 @@ class Google implements ISocial
     public function getOAuthUrl()
     {
         $params = [
-            'client_id'     => self::ClientId,
+            'client_id' => self::ClientId,
             'response_type' => 'code',
-            'scope'         => 'email profile',
-            'redirect_uri'  => $this->getRedirectUrl()
+            'scope' => 'email profile',
+            'redirect_uri' => $this->getRedirectUrl()
         ];
 
-        $oauthUrl = 'https://accounts.google.com/o/oauth2/auth?'.  http_build_query($params);
+        $oauthUrl = 'https://accounts.google.com/o/oauth2/auth?'.http_build_query($params);
 
         return $oauthUrl;
     }
@@ -116,10 +116,10 @@ class Google implements ISocial
         $accessToken = $this->getAccessToken();
         if (empty($accessToken) && !empty($code)) {
             $accessToken = $this->requestAccessToken($code);
-        if (isset($accessToken->error)) {
-            throw new \CHttpException(400, 'Сервис авторизации Google Account не отвечает');
-        }
-        \Yii::app()->getSession()->add('google_access_token', $accessToken);
+            if (isset($accessToken->error)) {
+                throw new \CHttpException(400, 'Сервис авторизации Google Account не отвечает');
+            }
+            \Yii::app()->getSession()->add('google_access_token', $accessToken);
         }
         return !empty($code) || !empty($accessToken);
     }
@@ -148,12 +148,12 @@ class Google implements ISocial
      */
     protected function requestAccessToken($code)
     {
-        $params = array(
+        $params = [
             'client_id' => self::ClientId,
             'client_secret' => self::ClientSecret,
             'code' => $code,
             'grant_type' => 'authorization_code'
-        );
+        ];
 
         $params['redirect_uri'] = $this->getRedirectUrl();
         return $this->makeRequest('https://accounts.google.com/o/oauth2/token?', $params);
@@ -166,22 +166,22 @@ class Google implements ISocial
      * @return mixed
      * @throws \CHttpException
      */
-    protected function makeRequest($url, $params = array())
+    protected function makeRequest($url, $params = [])
     {
         $ch = curl_init();
         $opts = self::$CURL_OPTS;
         if (!empty($params)) {
-          $opts[CURLOPT_POSTFIELDS] = http_build_query($params, null, '&');
+            $opts[CURLOPT_POSTFIELDS] = http_build_query($params, null, '&');
         }
         $opts[CURLOPT_URL] = $url;
         curl_setopt_array($ch, $opts);
         $result = curl_exec($ch);
         if (curl_errno($ch) !== 0) {
-          throw new \CHttpException(400, 'Сервис авторизации Google Account  не отвечает');
+            throw new \CHttpException(400, 'Сервис авторизации Google Account  не отвечает');
         }
         return json_decode($result);
     }
-  
+
     public function renderScript()
     {
         echo '<script>

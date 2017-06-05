@@ -1,11 +1,10 @@
 <?php
 namespace api\controllers\event;
 
-use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
-use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
+use nastradamus39\slate\annotations\ApiAction;
 
 class RolesAction extends \api\components\Action
 {
@@ -30,7 +29,6 @@ class RolesAction extends \api\components\Action
         $roles = $this
             ->getEvent()
             ->getRoles();
-
 
         $result = [];
         foreach ($roles as $role) {

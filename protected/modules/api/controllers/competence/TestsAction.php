@@ -3,13 +3,11 @@
 namespace api\controllers\competence;
 
 use api\components\Action;
-use api\components\Exception;
 use competence\models\Test;
-
-use nastradamus39\slate\annotations\ApiAction;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
+use nastradamus39\slate\annotations\ApiAction;
 
 class TestsAction extends Action
 {
@@ -33,7 +31,7 @@ class TestsAction extends Action
         $tests = Test::model()
             ->byEventId($this->getEvent()->Id)
             ->findAll();
-        
+
         $builtTests = [];
 
         foreach ($tests as $test) {

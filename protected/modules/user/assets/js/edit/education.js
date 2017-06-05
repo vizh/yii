@@ -3,13 +3,13 @@ var CUserEditEducation = function () {
     this.iterator = 0;
     this.items = this.form.find('.user-career-items');
     this.templates = {
-        'item' : _.template($('#education-item-tpl').html()),
-        'itemWithData' : _.template($('#education-item-withdata-tpl').html())
+        'item':_.template($('#education-item-tpl').html()),
+        'itemWithData':_.template($('#education-item-withdata-tpl').html())
     }
     this.init();
 }
 CUserEditEducation.prototype = {
-    init : function () {
+    init:function () {
         var self = this;
         if (typeof educations !== 'undefined') {
             $.each(educations, function (i, data) {
@@ -23,7 +23,7 @@ CUserEditEducation.prototype = {
         });
     },
 
-    initItem : function (item) {
+    initItem:function (item) {
         var self = this;
 
         var CityIdHidden = item.find('input[name*="CityId"]');
@@ -38,74 +38,73 @@ CUserEditEducation.prototype = {
         var SpecialtyInput = item.find('input[name*="Specialty"]');
 
         CityNameInput.autocomplete({
-            minLength : 0,
-            source : function (request, response) {
+            minLength:0,
+            source:function (request, response) {
                 if (request.term == '') {
                     response(CityNameInput.data('default-source'));
                 } else {
-                    $.getJSON('/geo/ajax/search', {term : request.term}, function( data ) {
+                    $.getJSON('/geo/ajax/search', {term:request.term}, function (data) {
                         response(data);
                     });
                 }
             },
-            select: function( event, ui ) {
+            select:function (event, ui) {
                 CityIdHidden.val(ui.item.CityId);
                 self.resetPartOfItem(item, ['UniversityName', 'UniversityId', 'FacultyName', 'FacultyId', 'Specialty']);
                 UniversityNameInput.focus();
-                UniversityNameInput.autocomplete( "search", "" );
+                UniversityNameInput.autocomplete("search", "");
             },
-            search : function (event, ui) {
+            search:function (event, ui) {
                 UniversityNameInput.removeAttr('disabled');
             }
-        }).focus(function(){
+        }).focus(function () {
             CityNameInput.autocomplete('search', $(this).val());
         });
 
         UniversityNameInput.autocomplete({
-            minLength: 0,
-            source: function (request, response) {
-                $.getJSON('/education/ajax/universities', {term : request.term, cityId: CityIdHidden.val()}, function(data) {
-                    response( $.map( data, function( item ) {
+            minLength:0,
+            source:function (request, response) {
+                $.getJSON('/education/ajax/universities', {term:request.term, cityId:CityIdHidden.val()}, function (data) {
+                    response($.map(data, function (item) {
                         return {
-                            label: item.label,
-                            value: item.Name,
-                            id: item.UniversityId
+                            label:item.label,
+                            value:item.Name,
+                            id:item.UniversityId
                         }
                     }));
                 });
             },
-            select: function( event, ui ) {
+            select:function (event, ui) {
                 UniversityIdHidden.val(ui.item.id);
                 self.resetPartOfItem(item, ['FacultyName', 'FacultyId', 'Specialty']);
                 FacultyNameInput.focus();
-                FacultyNameInput.autocomplete( "search", "" );
+                FacultyNameInput.autocomplete("search", "");
             },
-            search : function (event, ui) {
+            search:function (event, ui) {
                 FacultyNameInput.removeAttr('disabled');
             }
         });
 
         FacultyNameInput.autocomplete({
-            minLength: 0,
-            source: function (request, response) {
-                $.getJSON('/education/ajax/faculties', {term : request.term, universityId: UniversityIdHidden.val()}, function(data) {
-                    response( $.map( data, function( item ) {
+            minLength:0,
+            source:function (request, response) {
+                $.getJSON('/education/ajax/faculties', {term:request.term, universityId:UniversityIdHidden.val()}, function (data) {
+                    response($.map(data, function (item) {
                         return {
-                            label: item.label,
-                            value: item.Name,
-                            id: item.FacultyId
+                            label:item.label,
+                            value:item.Name,
+                            id:item.FacultyId
                         }
                     }));
                 });
             },
-            select: function( event, ui ) {
+            select:function (event, ui) {
                 FacultyIdHidden.val(ui.item.id);
             },
-            search : function (event, ui) {
+            search:function (event, ui) {
                 SpecialtyInput.removeAttr('disabled');
             }
         });
-
 
         item.find('.form-row-remove a').click(function (e) {
             e.preventDefault();
@@ -128,13 +127,13 @@ CUserEditEducation.prototype = {
         }).trigger('change');
     },
 
-    resetPartOfItem: function(item, fields) {
-        $.map(fields, function(field) {
-            item.find('input[name*="'+field+'"]').val('');
+    resetPartOfItem:function (item, fields) {
+        $.map(fields, function (field) {
+            item.find('input[name*="' + field + '"]').val('');
         });
     },
 
-    createFillItem : function (data) {
+    createFillItem:function (data) {
         var self = this;
         data.i = self.iterator;
         var template = self.templates.itemWithData(data);
@@ -147,17 +146,17 @@ CUserEditEducation.prototype = {
         if (typeof data.Errors != "undefined") {
             var errorUl = $('<ul>');
             $.each(data.Errors, function (field, error) {
-                item.find('[name*='+field+']').addClass('error')
-                errorUl.append('<li>'+error+'</li>');
+                item.find('[name*=' + field + ']').addClass('error')
+                errorUl.append('<li>' + error + '</li>');
             });
             item.find('.alert-error').append(errorUl);
         }
         self.iterator++;
     },
 
-    createEmptyItem : function () {
+    createEmptyItem:function () {
         var self = this;
-        var template = self.templates.item({i : self.iterator});
+        var template = self.templates.item({i:self.iterator});
         self.items.append(template);
         var item = self.items.find('div.user-career-item:last-child');
         self.initItem(item);

@@ -52,7 +52,7 @@ class OrderItemCollection implements \Countable, \ArrayAccess, \IteratorAggregat
     {
         $collection = new self($orderItems);
         $collection->applyCollectionCoupons();
-        
+
         return $collection;
     }
 
@@ -73,10 +73,10 @@ class OrderItemCollection implements \Countable, \ArrayAccess, \IteratorAggregat
                     $message_items = '';
                     $messageEvents = '';
                     foreach ($orderItems as $item2) {
-                        $message_items .= ' ' . $item2->Id;
-                        $messageEvents .= ' ' . $item2->Product->EventId;
+                        $message_items .= ' '.$item2->Id;
+                        $messageEvents .= ' '.$item2->Product->EventId;
                     }
-                    throw new MessageException('Попытка создать коллекцию с заказами из разных мероприятий. (' . $message_items . ', ' . $messageEvents . ') Мероприятие: ' . $this->_eventId, MessageException::ORDER_ITEM_GROUP_CODE);
+                    throw new MessageException('Попытка создать коллекцию с заказами из разных мероприятий. ('.$message_items.', '.$messageEvents.') Мероприятие: '.$this->_eventId, MessageException::ORDER_ITEM_GROUP_CODE);
                 }
                 $this->_items[] = new OrderItemCollectable($item, $this);
             }

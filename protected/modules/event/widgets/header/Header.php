@@ -39,7 +39,7 @@ class Header extends Widget
      */
     public function run()
     {
-        $this->render('header', array());
+        $this->render('header', []);
     }
 
     /**
@@ -66,13 +66,13 @@ class Header extends Widget
     {
         $css = '';
         if (isset($this->WidgetHeaderStyles)) {
-            $css.= $this->WidgetHeaderStyles . ' ';
+            $css .= $this->WidgetHeaderStyles.' ';
         }
 
         $background = $this->getEvent()->getHeaderBackgroundImage();
         if ($background->exists()) {
-            $css.= $this->getBaseCssPath() . ' {
-                background: url(\'' . $background->original() . '\') repeat-x center center;
+            $css .= $this->getBaseCssPath().' {
+                background: url(\''.$background->original().'\') repeat-x center center;
             }';
         }
 
@@ -84,6 +84,6 @@ class Header extends Widget
      */
     protected function getBaseCssPath()
     {
-        return '.b-event-promo.' . $this->getEvent()->IdName;
+        return '.b-event-promo.'.$this->getEvent()->IdName;
     }
 }

@@ -79,8 +79,7 @@ class Controller extends MainController
         return true;
     }
 
-
-    public function createUrl($route, $params = array(), $ampersand = '&')
+    public function createUrl($route, $params = [], $ampersand = '&')
     {
         $request = \Yii::app()->getRequest();
         $params['apikey'] = $request->getParam('apikey');
@@ -116,8 +115,9 @@ class Controller extends MainController
      */
     public function getWidgetParamValue($name)
     {
-        if (!in_array($name, $this->getWidgetParamNames()))
-            throw new \Exception('Виджет не имеет параметра ' . $name);
+        if (!in_array($name, $this->getWidgetParamNames())) {
+            throw new \Exception('Виджет не имеет параметра '.$name);
+        }
 
         return $this->getWidgetParamValues()[$name];
     }
@@ -145,7 +145,7 @@ class Controller extends MainController
      */
     protected function getWidgetRequestParamName($name)
     {
-        return 'param-' . $name;
+        return 'param-'.$name;
     }
 
     /**

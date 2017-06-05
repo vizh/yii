@@ -2,12 +2,11 @@
 namespace api\controllers\connect;
 
 use connect\models\forms\Meeting;
-
-use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
-use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Sample;
+use nastradamus39\slate\annotations\ApiAction;
 
 class CreateAction extends \api\components\Action
 {
@@ -34,10 +33,10 @@ class CreateAction extends \api\components\Action
      *              @Param(title="File",        mandatory="N",  description="Прилагаемый файл"),
      *          },
      *          response=@Response(body="{
-                    'Success': true,
-                    'Meeting': '{$MEETING}',
-                    'Errors': []
-                }")
+    'Success': true,
+    'Meeting': '{$MEETING}',
+    'Errors': []
+    }")
      *      )
      * )
      */
@@ -47,19 +46,17 @@ class CreateAction extends \api\components\Action
         $form->fillFromPost();
         $success = $form->createActiveRecord();
 
-        if ($success){
+        if ($success) {
             $this->setResult([
                 'Success' => true,
                 'Meeting' => $this->getAccount()->getDataBuilder()->createMeeting($form->model),
                 'Errors' => $form->errors
             ]);
-        }
-        else{
+        } else {
             $this->setResult([
                 'Success' => false,
                 'Errors' => $form->errors
             ]);
         }
-
     }
 }

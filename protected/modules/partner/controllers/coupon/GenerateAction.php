@@ -23,12 +23,12 @@ class GenerateAction extends Action
                     $success .= \CHtml::tag('li', ['class' => 'list-group-item'], $coupon->Code);
                 }
                 $success = \CHtml::tag('ul', ['class' => 'list-group m-top_10'], $success);
-                Flash::setSuccess('<strong>' . \Yii::t('app', 'Промо-коды успешно сгенерированы') . '</strong>' . $success);
+                Flash::setSuccess('<strong>'.\Yii::t('app', 'Промо-коды успешно сгенерированы').'</strong>'.$success);
                 $this->getController()->refresh();
             }
         }
-        $this->getController()->render('generate', array(
+        $this->getController()->render('generate', [
             'form' => $form
-        ));
+        ]);
     }
 }

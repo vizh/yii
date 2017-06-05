@@ -21,8 +21,7 @@ abstract class Gate
         $log = new Log();
         try {
             $this->internalSend($message);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $log->Error = $e->getMessage();
             $result = false;
         }
@@ -31,4 +30,4 @@ abstract class Gate
         $log->save();
         return $result;
     }
-} 
+}

@@ -3,11 +3,11 @@ namespace api\controllers\ms;
 
 use api\components\Action;
 use api\components\builders\Builder;
+use api\components\Exception;
 use api\components\ms\Helper;
 use api\components\ms\mail\AuthCode;
 use mail\components\mailers\SESMailer;
 use user\models\User;
-use api\components\Exception;
 use Yii;
 
 class UserLoginAction extends Action

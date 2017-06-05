@@ -1,13 +1,12 @@
 <?php
 namespace api\controllers\company;
 
-use nastradamus39\slate\annotations\ApiAction;
-use nastradamus39\slate\annotations\Action\Sample;
-use nastradamus39\slate\annotations\Action\Request;
-use nastradamus39\slate\annotations\Action\Param;
-use nastradamus39\slate\annotations\Action\Response;
-
 use api\components\Action;
+use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\Action\Sample;
+use nastradamus39\slate\annotations\ApiAction;
 
 class GetAction extends Action
 {
@@ -18,7 +17,7 @@ class GetAction extends Action
      *     description="Возвращает подробную информацию о компании. Так же в ответе будет список сотрудников компании (Employments).",
      *     samples={
      *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
-        '{{API_URL}}/company/get?CompanyId=77529'")
+    '{{API_URL}}/company/get?CompanyId=77529'")
      *     },
      *     request=@Request(
      *

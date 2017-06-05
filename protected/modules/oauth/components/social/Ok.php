@@ -16,21 +16,21 @@ class Ok implements ISocial
         $this->redirectUrl = $redirectUrl;
     }
 
-    public static $CURL_OPTS = array(
+    public static $CURL_OPTS = [
         CURLOPT_CONNECTTIMEOUT => 10,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_TIMEOUT => 60,
         CURLOPT_USERAGENT => 'runetid-php',
         CURLOPT_SSL_VERIFYHOST => false,
         CURLOPT_SSL_VERIFYPEER => false
-    );
+    ];
 
     public function getOAuthUrl()
     {
         $params = [
-            'client_id'     => self::ClientId,
+            'client_id' => self::ClientId,
             'response_type' => 'code',
-            'redirect_uri'  => $this->getRedirectUrl(),
+            'redirect_uri' => $this->getRedirectUrl(),
             'scope' => 'GET_EMAIL'
         ];
 
@@ -45,10 +45,10 @@ class Ok implements ISocial
     public function getRedirectUrl()
     {
 
-        if( is_null($this->redirectUrl) ) {
+        if (is_null($this->redirectUrl)) {
 
             $redirectUrlParams = [
-                'social'=>self::getSocialId()
+                'social' => self::getSocialId()
             ];
 
             if (\Iframe::isFrame()) {
@@ -92,10 +92,10 @@ class Ok implements ISocial
             'client_secret' => self::ClientSecret
         ];
 
-        return $this->makeRequest($url . http_build_query($params));
+        return $this->makeRequest($url.http_build_query($params));
     }
 
-    protected function makeRequest($url, $params = array())
+    protected function makeRequest($url, $params = [])
     {
         $ch = curl_init();
         $opts = self::$CURL_OPTS;
@@ -110,7 +110,8 @@ class Ok implements ISocial
         return json_decode($result);
     }
 
-    public function getAccessToken(){
+    public function getAccessToken()
+    {
         return \Yii::app()->getSession()->get('ok_access_token', null);
     }
 
@@ -119,7 +120,8 @@ class Ok implements ISocial
         return self::Ok;
     }
 
-    public function getData(){
+    public function getData()
+    {
 
         $accessToken = $this->getAccessToken();
         $aToken = $accessToken->access_token;
@@ -128,13 +130,13 @@ class Ok implements ISocial
 
             $sign = md5("application_key=".self::PublicKey."format=jsonmethod=users.getCurrentUser".md5($aToken.self::ClientSecret));
 
-            $params = array(
-                'method'          => 'users.getCurrentUser',
-                'access_token'    => $aToken,
+            $params = [
+                'method' => 'users.getCurrentUser',
+                'access_token' => $aToken,
                 'application_key' => self::PublicKey,
-                'format'          => 'json',
-                'sig'             => $sign
-            );
+                'format' => 'json',
+                'sig' => $sign
+            ];
 
             $userInfo = $this->makeRequest('http://api.odnoklassniki.ru/fb.do', $params);
 
@@ -152,7 +154,8 @@ class Ok implements ISocial
         return null;
     }
 
-    public function clearAccess(){
+    public function clearAccess()
+    {
         \Yii::app()->getSession()->remove('ok_access_token');
     }
 

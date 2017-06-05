@@ -18,7 +18,7 @@ use user\models\User;
 class Orders extends SearchFormModel
 {
     const STATUS_DEFAULT = 'default';
-    const STATUS_PAID    = 'paid';
+    const STATUS_PAID = 'paid';
     const STATUS_DELETED = 'deleted';
 
     public $Number;
@@ -38,8 +38,7 @@ class Orders extends SearchFormModel
         ];
     }
 
-
-    /** @var Event  */
+    /** @var Event */
     private $event;
 
     public function __construct(Event $event, $scenario = '')
@@ -78,7 +77,7 @@ class Orders extends SearchFormModel
                     $criteria->params['Number'] = $this->Number;
                 }
                 $criteria->addCondition('"t"."Number" ILIKE :LikeNumber', 'OR');
-                $criteria->params['LikeNumber'] = '%' . $this->Number . '%';
+                $criteria->params['LikeNumber'] = '%'.$this->Number.'%';
             }
 
             if (!empty($this->Type)) {
@@ -113,8 +112,8 @@ class Orders extends SearchFormModel
         $criteria->with = ['Order'];
         $criteria->addCondition('"Order"."EventId" = :EventId AND ("t"."INN" ILIKE :INN OR "t"."Name" ILIKE :Name)');
         $criteria->params['EventId'] = $this->event->Id;
-        $criteria->params['INN'] = '%' . $this->Payer . '%';
-        $criteria->params['Name'] = '%' . $this->Payer . '%';
+        $criteria->params['INN'] = '%'.$this->Payer.'%';
+        $criteria->params['Name'] = '%'.$this->Payer.'%';
 
         $juridicals = OrderJuridical::model()->findAll($criteria);
         if (!empty($juridicals)) {
@@ -127,7 +126,6 @@ class Orders extends SearchFormModel
         }
         return $resultCriteria;
     }
-
 
     /**
      * @return array
@@ -165,7 +163,7 @@ class Orders extends SearchFormModel
     {
         return [
             OrderType::Juridical => OrderType::getTitle(OrderType::Juridical),
-            OrderType::Receipt   => OrderType::getTitle(OrderType::Receipt),
+            OrderType::Receipt => OrderType::getTitle(OrderType::Receipt),
             OrderType::PaySystem => OrderType::getTitle(OrderType::PaySystem)
         ];
     }

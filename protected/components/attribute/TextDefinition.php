@@ -2,8 +2,6 @@
 namespace application\components\attribute;
 
 use application\components\AbstractDefinition;
-use CHtml;
-use Yii;
 
 class TextDefinition extends AbstractDefinition
 {

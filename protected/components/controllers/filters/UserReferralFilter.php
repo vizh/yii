@@ -7,11 +7,12 @@ use user\models\User;
 
 class UserReferralFilter extends \CFilter
 {
-    const REFERRER_PARAM_NAME   = 'referrer';
+    const REFERRER_PARAM_NAME = 'referrer';
     const REFERRAL_SESSION_NAME = 'referral';
 
     private static $EVENT_PARAM_NAMES = [
-        'idName', 'eventIdName'
+        'idName',
+        'eventIdName'
     ];
 
     /**
@@ -124,7 +125,5 @@ class UserReferralFilter extends \CFilter
         }
         return $this->referral;
     }
-
-
 
 }

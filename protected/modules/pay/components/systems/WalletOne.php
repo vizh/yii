@@ -80,10 +80,10 @@ class WalletOne extends Base
             'WMI_MERCHANT_ID' => $this->merchantId,
             'WMI_PAYMENT_AMOUNT' => number_format($total, 2, '.', ''),
             'WMI_CURRENCY_ID' => 643, // Валюта росскийский рубль,
-            'WMI_DESCRIPTION' => 'BASE64:' . base64_encode(\Yii::t('app', 'Оплата заказа в runet-id.com')),
+            'WMI_DESCRIPTION' => 'BASE64:'.base64_encode(\Yii::t('app', 'Оплата заказа в runet-id.com')),
             'WMI_SUCCESS_URL' => $this->getReturnUrl($eventId),
-            'WMI_PAYMENT_NO'  => $orderId,
-            'WMI_CULTURE_ID'  => 'ru-RU'
+            'WMI_PAYMENT_NO' => $orderId,
+            'WMI_CULTURE_ID' => 'ru-RU'
 
         ];
         $params['WMI_FAIL_URL'] = $params['WMI_SUCCESS_URL'];
@@ -91,7 +91,7 @@ class WalletOne extends Base
 
         \Yii::app()->getRequest()->enableCsrfValidation = false;
         $form = \CHtml::tag('h3', ['class' => 'text-center m-top_40 m-bottom_40'], \Yii::t('app', 'Пожалуйста, подождите, идет перенаправление на WalletOne для выполнения платежа.'))
-            . \CHtml::form('https://wl.walletone.com/checkout/checkout/Index', 'POST', ['style' => 'display: none;','id' => 'walletone']);
+            .\CHtml::form('https://wl.walletone.com/checkout/checkout/Index', 'POST', ['style' => 'display: none;', 'id' => 'walletone']);
         foreach ($params as $name => $value) {
             $form .= \CHtml::hiddenField($name, $value);
         }
@@ -116,7 +116,7 @@ class WalletOne extends Base
      */
     private function calcSignature(array $params)
     {
-        foreach($params as $name => $val) {
+        foreach ($params as $name => $val) {
             if (is_array($val)) {
                 usort($val, "strcasecmp");
                 $params[$name] = $val;
@@ -125,19 +125,18 @@ class WalletOne extends Base
 
         uksort($params, "strcasecmp");
         $values = "";
-        foreach($params as $value) {
+        foreach ($params as $value) {
             if (is_array($value)) {
                 foreach ($value as $v) {
                     $v = iconv("utf-8", "windows-1251", $v);
                     $values .= $v;
                 }
-            }
-            else {
+            } else {
                 $value = iconv("utf-8", "windows-1251", $value);
                 $values .= $value;
             }
         }
-        return base64_encode(pack('H*', md5($values . $this->secretKey)));
+        return base64_encode(pack('H*', md5($values.$this->secretKey)));
     }
 
     /**

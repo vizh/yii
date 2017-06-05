@@ -1,7 +1,6 @@
 <?php
 namespace raec\models\forms\brief;
 
-use CEvent;
 use company\models\Company;
 
 class About extends \CFormModel
@@ -62,13 +61,11 @@ class About extends \CFormModel
                     $errors[$attribute][$i] = str_replace($label, $label.' '.\Yii::t('app', 'главного бухгалтера'), $message);
                 }
             }
-
         }
         $this->clearErrors();
         $this->addErrors($errors);
         parent::afterValidate();
     }
-
 
     public function attributeLabels()
     {
@@ -104,7 +101,22 @@ class About extends \CFormModel
     public function getJuridicalOPFData()
     {
         $data = [
-            'ГП', 'ООО', 'ЧП', 'НПП', 'ЗАО', 'ОАО', 'ТРК', 'ДчП', 'ОДО', 'ОТП', 'Общественная Организация', 'НПЧП', 'ПТК ЧП', 'НИПИ', 'СП', 'НПФ'
+            'ГП',
+            'ООО',
+            'ЧП',
+            'НПП',
+            'ЗАО',
+            'ОАО',
+            'ТРК',
+            'ДчП',
+            'ОДО',
+            'ОТП',
+            'Общественная Организация',
+            'НПЧП',
+            'ПТК ЧП',
+            'НИПИ',
+            'СП',
+            'НПФ'
         ];
         return array_combine($data, $data);
     }
@@ -132,8 +144,9 @@ class About extends \CFormModel
             $valid = false;
         }
 
-        if (!$valid)
+        if (!$valid) {
             $this->addError($attribute, \Yii::t('app', 'Ошибка в заполнение поля {label}', ['{label}' => $this->getAttributeLabel($attribute)]));
+        }
     }
 
 }

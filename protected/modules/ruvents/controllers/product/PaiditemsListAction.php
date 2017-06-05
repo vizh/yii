@@ -1,7 +1,6 @@
 <?php
 namespace ruvents\controllers\product;
 
-
 use pay\models\OrderItem;
 
 class PaiditemsListAction extends \ruvents\components\Action
@@ -29,7 +28,7 @@ class PaiditemsListAction extends \ruvents\components\Action
             $this->getDataBuilder()->createOrderItem($item);
             $result[] = $this->getDataBuilder()->buildOrderItemOwners($item);
         }
-        
+
         echo json_encode(['OrderItems' => $result]);
     }
 }

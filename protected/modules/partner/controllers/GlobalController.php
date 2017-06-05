@@ -3,13 +3,11 @@
 class GlobalController extends \partner\components\Controller
 {
 
-  public function actionSelect()
-  {
+    public function actionSelect()
+    {
+    }
 
-  }
-
-  public function actionDrop()
-  {
-
-  }
+    public function actionDrop()
+    {
+    }
 }

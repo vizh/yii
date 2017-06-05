@@ -1,22 +1,22 @@
 .interview-progress {
-  position: fixed;
-  width: 100%;
-  height: 30px;
-  bottom: 0;
-  background: #1b1b1b;
-  padding-bottom: 10px;
-  background-image: linear-gradient(to bottom, #222, #111);
-  background-repeat: repeat-x;
+    position: fixed;
+    width: 100%;
+    height: 30px;
+    bottom: 0;
+    background: #1b1b1b;
+    padding-bottom: 10px;
+    background-image: linear-gradient(to bottom, #222, #111);
+    background-repeat: repeat-x;
 }
 
 .interview-progress .progress {
-  position: relative;
-  margin: 10px 10px 0 10px;
+    position: relative;
+    margin: 10px 10px 0 10px;
 }
 
 .interview-progress .progress span {
-  position: absolute;
-  display: block;
-  width: 100%;
-  color: #000;
+    position: absolute;
+    display: block;
+    width: 100%;
+    color: #000;
 }

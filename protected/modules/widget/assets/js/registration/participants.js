@@ -6,10 +6,10 @@ var CRegistrationUsers = function (options) {
     this.init();
 }
 CRegistrationUsers.prototype = {
-    'init' : function () {
+    'init':function () {
         var self = this;
-        WidgetApp.controller('RegisterUsersController', function($scope, $http) {
-            $scope.total  = 0;
+        WidgetApp.controller('RegisterUsersController', function ($scope, $http) {
+            $scope.total = 0;
             $scope.products = self.products;
             $scope.free = true;
 
@@ -29,11 +29,11 @@ CRegistrationUsers.prototype = {
                 self.preloader(true);
                 user.userdata = false;
                 $.getJSON('/pay/ajax/addorderitem/', {
-                    'ownerRunetId' : user.RunetId,
-                    'productId' : product.Id
+                    'ownerRunetId':user.RunetId,
+                    'productId':product.Id
                 }, function (response) {
                     if (typeof(response.error) != "undefined" && response.error) {
-                        user = {'error' : response.message};
+                        user = {'error':response.message};
                     } else {
                         user.price = response.price;
                         if (response.price < product.Price) {
@@ -51,7 +51,7 @@ CRegistrationUsers.prototype = {
             $scope.removeOrderItem = function (product, participant, $index) {
                 self.preloader(true);
                 var participants = $scope.products[product.Id].participants;
-                $.getJSON('/pay/ajax/deleteorderitem', {'id' : participant.orderItemId}, function (response) {
+                $.getJSON('/pay/ajax/deleteorderitem', {'id':participant.orderItemId}, function (response) {
                     if (typeof(response.error) != "undefined" && response.error) {
                         participant.error = response.message;
                     } else {
@@ -66,10 +66,10 @@ CRegistrationUsers.prototype = {
             $scope.activateCoupon = function (product, participant) {
                 self.preloader(true);
                 $.getJSON('/pay/ajax/couponactivate', {
-                    'code' : participant.coupon,
-                    'eventIdName' : self.eventIdName,
-                    'ownerRunetId' : participant.RunetId,
-                    'productId' : product.Id
+                    'code':participant.coupon,
+                    'eventIdName':self.eventIdName,
+                    'ownerRunetId':participant.RunetId,
+                    'productId':product.Id
                 }, function (response) {
                     if (typeof(response.error) != "undefined") {
                         participant.error = response.error;
@@ -99,13 +99,13 @@ CRegistrationUsers.prototype = {
             $scope.checkUserData = function (product, user, $index) {
                 self.preloader(true);
                 $.getJSON('/pay/ajax/checkuserdata', {
-                    'eventIdName' : self.eventIdName,
-                    'id' : user.RunetId
+                    'eventIdName':self.eventIdName,
+                    'id':user.RunetId
                 }, function (response) {
                     if (!response.success) {
                         user.userdata = true;
                         $.each(response.attributes, function (name, value) {
-                           user[name] = value;
+                            user[name] = value;
                         });
                         self.preloader(false);
                         $scope.$apply();
@@ -162,13 +162,13 @@ CRegistrationUsers.prototype = {
             $scope.calculate();
         });
 
-        WidgetApp.directive('userautocomplete', function() {
-            return function($scope, $element, $attrs) {
+        WidgetApp.directive('userautocomplete', function () {
+            return function ($scope, $element, $attrs) {
                 var autocomplete = $element.autocomplete({
-                    source: '/user/ajax/search',
-                    select: function(event, ui) {
+                    source:'/user/ajax/search',
+                    select:function (event, ui) {
                         var product = $element.data('product'),
-                            $index  = $element.data('index');
+                            $index = $element.data('index');
 
                         $scope.fillParticipant(product, $index, ui.item);
                         $(this).val('');
@@ -178,8 +178,8 @@ CRegistrationUsers.prototype = {
 
                 autocomplete._renderMenu = function (ul, items) {
                     var self = this;
-                    $.each(items, function( index, item ) {
-                        self._renderItemData( ul, item );
+                    $.each(items, function (index, item) {
+                        self._renderItemData(ul, item);
                     });
                     $(ul).removeClass('ui-autocomplete-bootstrap');
                 };
@@ -187,12 +187,12 @@ CRegistrationUsers.prototype = {
                 autocomplete._renderItem = function (ul, item) {
                     var $item = $('<a/>');
                     $item.attr('data-value', item.value);
-                    $item.append($('<img/>', {'src' : item.Photo.Small}));
+                    $item.append($('<img/>', {'src':item.Photo.Small}));
                     $item.append('<p>' + item.FullName + ', <span class="text-muted">RUNET-ID ' + item.RunetId + '</span></p>');
                     if (typeof(item.Company) !== "undefined") {
                         $item.append('<p class="text-muted">' + item.Company + '</p>');
                     }
-                    return $('<li/>', {'class' : 'ui-menu-item clearfix'}).append($item).appendTo(ul);
+                    return $('<li/>', {'class':'ui-menu-item clearfix'}).append($item).appendTo(ul);
                 }
 
                 $element.keyup(function (e) {
@@ -212,8 +212,8 @@ CRegistrationUsers.prototype = {
             };
         });
 
-        WidgetApp.directive('registration', function() {
-            return function($scope, $element, $attrs) {
+        WidgetApp.directive('registration', function () {
+            return function ($scope, $element, $attrs) {
                 var $form = $element.find('form');
                 $form.find('input[name*="RegisterForm[Phone]"]').initPhoneInputMask();
                 $form.submit(function () {
@@ -236,8 +236,8 @@ CRegistrationUsers.prototype = {
             };
         });
 
-        WidgetApp.directive('userdata', function() {
-            return function($scope, $element, $attrs) {
+        WidgetApp.directive('userdata', function () {
+            return function ($scope, $element, $attrs) {
                 var $form = $element.find('form');
                 $form.submit(function () {
                     self.preloader(true);
@@ -263,7 +263,7 @@ CRegistrationUsers.prototype = {
             };
         });
     },
-    'preloader' : function (visible) {
+    'preloader':function (visible) {
         if (visible) {
             $('#preloader').show();
         } else {

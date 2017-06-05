@@ -2,10 +2,6 @@
 
 namespace connect\components\handlers\cancelcreator\creator;
 
-use connect\models\Meeting;
-use mail\components\MailLayout;
-use user\models\User;
-
 class Forinnovations16 extends Base
 {
     /**

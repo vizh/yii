@@ -2,8 +2,8 @@
 
 class TestController extends \application\components\controllers\MainController
 {
-  public function actionIndex()
-  {
-    echo 'rbac';
-  }
+    public function actionIndex()
+    {
+        echo 'rbac';
+    }
 }

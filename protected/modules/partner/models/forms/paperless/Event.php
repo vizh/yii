@@ -102,10 +102,10 @@ class Event extends CreateUpdateForm
 
             if ($this->File) {
                 $file = uniqid().'.'.$this->File->extensionName;
-                $this->File->saveAs($this->model->getFilePath() . '/' . $file);
+                $this->File->saveAs($this->model->getFilePath().'/'.$file);
 
-                if ($this->model->File && is_file($this->model->getFilePath() . '/' . $this->model->File)) {
-                    unlink($this->model->getFilePath() . '/' . $this->model->File);
+                if ($this->model->File && is_file($this->model->getFilePath().'/'.$this->model->File)) {
+                    unlink($this->model->getFilePath().'/'.$this->model->File);
                 }
 
                 $this->model->File = $file;

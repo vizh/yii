@@ -24,7 +24,6 @@ class RedirectAction extends Action
             }
         }
 
-
         $this->getController()->render('redirect', [
             'form' => $form
         ]);

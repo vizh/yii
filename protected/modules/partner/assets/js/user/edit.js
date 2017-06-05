@@ -5,10 +5,10 @@ var CUserEdit = function (data) {
     this.init();
 };
 CUserEdit.prototype = {
-    'init' : function () {
+    'init':function () {
         var self = this;
 
-        PartnerApp.controller('UserEditController', function($scope, $sce) {
+        PartnerApp.controller('UserEditController', function ($scope, $sce) {
             $scope.participants = self.data.participants;
             $scope.products = self.data.products;
             $scope.data = self.data.data;
@@ -25,7 +25,7 @@ CUserEdit.prototype = {
                 $scope.$watch(function () {
                     return participant.role;
                 }, function (role, oldRole) {
-                    if(role === oldRole){
+                    if (role === oldRole) {
                         return;
                     }
                     $scope.changeRole(participant, role);
@@ -34,17 +34,17 @@ CUserEdit.prototype = {
 
             $scope.changeRole = function (participant, role) {
                 var $modal = $('<div/>', {
-                    'class' : $('#participant-message').attr('class'),
-                    'html'  : $('#participant-message').html()
+                    'class':$('#participant-message').attr('class'),
+                    'html':$('#participant-message').html()
                 });
                 $modal.on('hidden.bs.modal', function () {
                     $modal.remove();
                 });
                 $modal.find('.modal-footer .btn.btn-primary').click(function () {
                     var params = {
-                        'action' : 'changeRole',
-                        'role' : role,
-                        'message' : $modal.find('.modal-body textarea').val()
+                        'action':'changeRole',
+                        'role':role,
+                        'message':$modal.find('.modal-body textarea').val()
                     };
 
                     if (typeof (participant.part) != "undefined") {
@@ -53,8 +53,8 @@ CUserEdit.prototype = {
 
                     $scope.setSavingState(participant);
                     $scope.$apply();
-                    $.ajax({method: 'POST', url: '', data: params})
-                        .done(function() {
+                    $.ajax({method:'POST', url:'', data:params})
+                        .done(function () {
                             $scope.setSuccessState(participant);
                         })
                         .fail(function () {
@@ -66,15 +66,15 @@ CUserEdit.prototype = {
             }
 
             $scope.clearParticipantMessageByTimeout = function (participant) {
-                setTimeout(function (){
+                setTimeout(function () {
                     participant['class'] = null;
-                    participant.message  = '';
+                    participant.message = '';
                     $scope.$apply();
                 }, 1000);
             }
 
             $scope.changeProduct = function (product) {
-                var params = {'product' : product.Id};
+                var params = {'product':product.Id};
 
                 if (product.Paid) {
                     params.action = 'createOrderItem';
@@ -83,8 +83,8 @@ CUserEdit.prototype = {
                 }
 
                 $scope.setSavingState(product);
-                $.ajax({method: 'POST', url: '', data: params})
-                    .done(function(response) {
+                $.ajax({method:'POST', url:'', data:params})
+                    .done(function (response) {
                         if (response.error) {
                             $scope.setErrorState(product, 'Ошибка: ' + response.message);
                             product.Paid = !product.Paid;
@@ -102,8 +102,8 @@ CUserEdit.prototype = {
                 if (data.edit) {
                     var params = $('.editable-data :input').serialize() + '&action=editData&data=' + data.Id;
                     $scope.setSavingState(data);
-                    $.ajax({method: 'POST', url: '', data: params})
-                        .done(function(response) {
+                    $.ajax({method:'POST', url:'', data:params})
+                        .done(function (response) {
                             if (!response.error) {
                                 $.each(response, function (name, value) {
                                     data['attributes'][name].value = value;
@@ -122,27 +122,27 @@ CUserEdit.prototype = {
 
             $scope.setSavingState = function (item) {
                 item['class'] = 'warning dark';
-                item.message  = 'Сохранение...';
+                item.message = 'Сохранение...';
             }
 
             $scope.setSuccessState = function (item) {
                 item['class'] = 'success';
-                item.message  = 'Изменения сохранены!';
+                item.message = 'Изменения сохранены!';
                 $scope.$apply();
                 $scope.clearState(item);
             }
 
             $scope.setErrorState = function (item, message) {
                 item['class'] = 'error';
-                item.message  = typeof(message) != "undefined" ? message : 'Ошибка при сохранении!';
+                item.message = typeof(message) != "undefined" ? message : 'Ошибка при сохранении!';
                 $scope.$apply();
                 $scope.clearState(item);
             }
 
             $scope.clearState = function (item) {
-                setTimeout(function (){
+                setTimeout(function () {
                     item['class'] = null;
-                    item.message  = '';
+                    item.message = '';
                     $scope.$apply();
                 }, 2000);
             }
@@ -150,7 +150,7 @@ CUserEdit.prototype = {
     }
 };
 
-$(document).ready(function(){
+$(document).ready(function () {
     var userId = null,
         x = null,
         y = null,
@@ -167,18 +167,18 @@ $(document).ready(function(){
         userId = img.data('userId');
 
         var cropper = new Cropper(img[0], {
-            aspectRatio: 3 / 4,
-            strict: true,
-            background: false,
-            scalable: false,
-            guides: false,
-            autoCropArea: 0.6,
-            rotatable: false,
-            minContainerWidth: 500,
-            minContainerHeight: 500,
+            aspectRatio:3 / 4,
+            strict:true,
+            background:false,
+            scalable:false,
+            guides:false,
+            autoCropArea:0.6,
+            rotatable:false,
+            minContainerWidth:500,
+            minContainerHeight:500,
             minCropBoxWidth:50,
             minCropBoxHeight:50,
-            crop: function(e) {
+            crop:function (e) {
                 x = Math.round(e.detail.x);
                 y = Math.round(e.detail.y);
                 width = Math.round(e.detail.width);
@@ -189,15 +189,15 @@ $(document).ready(function(){
 
     $('#save-crop').click(function () {
         $.ajax({
-            url: '/user/savecrop?id=' + userId,
-            method: 'POST',
-            data: {
-                x: x,
-                y: y,
-                width: width,
-                height: height
+            url:'/user/savecrop?id=' + userId,
+            method:'POST',
+            data:{
+                x:x,
+                y:y,
+                width:width,
+                height:height
             },
-            success: function() {
+            success:function () {
                 modal.modal('hide');
                 window.location.reload();
             }

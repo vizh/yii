@@ -9,9 +9,9 @@ class FoodNaturalFormAction extends \CAction
     public function run()
     {
         $model = new FoodNaturalForm();
-        if (\Yii::app()->request->isPostRequest){
+        if (\Yii::app()->request->isPostRequest) {
             $model->fillFromPost();
-            if ($model->validate()){
+            if ($model->validate()) {
                 $model->save();
                 $this->controller->redirect(['foodNatural']);
             }

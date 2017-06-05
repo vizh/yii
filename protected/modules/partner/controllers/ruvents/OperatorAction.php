@@ -16,8 +16,8 @@ class OperatorAction extends \partner\components\Action
         $form = new OperatorGenerate();
         $form->attributes = $request->getParam(get_class($form));
         if ($request->getIsPostRequest() && $form->validate()) {
-            $this->addOperators($form->Prefix . '_' . self::OperatorSubname, $form->CountOperators, \ruvents\models\Operator::RoleOperator);
-            $this->addOperators($form->Prefix . '_' . self::AdminSubname, $form->CountAdmins, \ruvents\models\Operator::RoleAdmin);
+            $this->addOperators($form->Prefix.'_'.self::OperatorSubname, $form->CountOperators, \ruvents\models\Operator::RoleOperator);
+            $this->addOperators($form->Prefix.'_'.self::AdminSubname, $form->CountAdmins, \ruvents\models\Operator::RoleAdmin);
             $form = new OperatorGenerate();
         }
 
@@ -37,7 +37,7 @@ class OperatorAction extends \partner\components\Action
         }
         $criteria = new \CDbCriteria();
         $criteria->condition = '"t"."Login" LIKE :Login';
-        $criteria->params = array('Login' => \Utils::PrepareStringForLike($prefix) . '%');
+        $criteria->params = ['Login' => \Utils::PrepareStringForLike($prefix).'%'];
         /** @var $operators \ruvents\models\Operator[] */
         $operators = Operator::model()->findAll($criteria);
 
@@ -48,7 +48,7 @@ class OperatorAction extends \partner\components\Action
         }
         $max += 1;
         for ($i = 0; $i < $count; $i++) {
-            $login = $prefix . ($max+$i);
+            $login = $prefix.($max + $i);
             $password = $this->generatePassword(5);
             $operator = new Operator();
             $operator->EventId = $this->getEvent()->Id;
@@ -56,25 +56,27 @@ class OperatorAction extends \partner\components\Action
             $operator->Password = $password;
             $operator->Role = $role;
             $operator->save();
-            fputcsv($this->getFile(), array($login, $password));
+            fputcsv($this->getFile(), [$login, $password]);
         }
     }
 
     private $file = null;
+
     private function getFile()
     {
         if ($this->file == null) {
-            $this->file = fopen($this->getDataPath() . 'operators_' . date('Y-m-d_H-i-s') . '.csv', 'w');
+            $this->file = fopen($this->getDataPath().'operators_'.date('Y-m-d_H-i-s').'.csv', 'w');
         }
         return $this->file;
     }
 
     private $dataPath = null;
+
     private function getDataPath()
     {
         if (empty($this->dataPath)) {
             $path = \Yii::getPathOfAlias('partner.data');
-            $this->dataPath = $path . DIRECTORY_SEPARATOR . \Yii::app()->partner->getAccount()->EventId . DIRECTORY_SEPARATOR . 'operator' . DIRECTORY_SEPARATOR;
+            $this->dataPath = $path.DIRECTORY_SEPARATOR.\Yii::app()->partner->getAccount()->EventId.DIRECTORY_SEPARATOR.'operator'.DIRECTORY_SEPARATOR;
             if (!file_exists($this->dataPath)) {
                 mkdir($this->dataPath, 0755, true);
             }
@@ -85,8 +87,7 @@ class OperatorAction extends \partner\components\Action
     private function generatePassword($length)
     {
         $password = '';
-        for ($i = 0; $i < $length; $i++)
-        {
+        for ($i = 0; $i < $length; $i++) {
             $password .= mt_rand(1, 9);
         }
         return $password;

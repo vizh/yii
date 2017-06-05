@@ -29,15 +29,15 @@ class Single extends Base
 
     public function checkOtherValidator($attribute, $params)
     {
-        foreach ($this->Values as $value)
-        {
-            if ($value->key != $this->value)
+        foreach ($this->Values as $value) {
+            if ($value->key != $this->value) {
                 continue;
-            if (!$value->isOther)
+            }
+            if (!$value->isOther) {
                 break;
+            }
             $this->other = trim($this->other);
-            if (empty($this->other))
-            {
+            if (empty($this->other)) {
                 $this->addError('', $this->getOtherValidatorErrorMessage());
                 return false;
             }
@@ -73,29 +73,29 @@ class Single extends Base
         /** @var \competence\models\form\attribute\RadioValue[] $values */
         $values = [];
         $maxSort = 0;
-        foreach ($single as $key => $row)
-        {
-            if (empty($row['key']) && empty($row['title']))
+        foreach ($single as $key => $row) {
+            if (empty($row['key']) && empty($row['title'])) {
                 continue;
+            }
 
             $values[] = new \competence\models\form\attribute\RadioValue($row['key'], $row['title'], isset($row['isOther']), (int)$row['sort'], $row['description'], $row['suffix']);
             $maxSort = max((int)$row['sort'], $maxSort);
         }
 
-        foreach ($values as $value)
-        {
-            if ($value->sort > 0)
+        foreach ($values as $value) {
+            if ($value->sort > 0) {
                 continue;
+            }
             $maxSort += 10;
             $value->sort = $maxSort;
         }
-        usort($values, function($a, $b) {return $a->sort < $b->sort ? -1 : 1;});
+        usort($values, function ($a, $b) {
+            return $a->sort < $b->sort ? -1 : 1;
+        });
 
-        foreach ($values as $key => $value)
-        {
-            if (empty($value->key))
-            {
-                $this->question->addError('Title', 'Строка ' . ($key+1) . ': не задан ключ для варианта ответа');
+        foreach ($values as $key => $value) {
+            if (empty($value->key)) {
+                $this->question->addError('Title', 'Строка '.($key + 1).': не задан ключ для варианта ответа');
             }
         }
 

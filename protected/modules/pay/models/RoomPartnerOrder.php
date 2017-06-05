@@ -70,7 +70,6 @@ class RoomPartnerOrder extends ActiveRecord
         ];
     }
 
-
     /**
      * @return int
      */

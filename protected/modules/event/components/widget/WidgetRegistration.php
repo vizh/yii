@@ -38,7 +38,6 @@ abstract class WidgetRegistration extends Widget
         return WidgetPosition::Content;
     }
 
-
     /**
      * Роли, которые не являются ролями участия
      * @return Role[]

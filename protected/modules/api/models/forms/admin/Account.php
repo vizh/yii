@@ -40,9 +40,9 @@ class Account extends \CFormModel
     {
         return [
             'EventTitle' => Yii::t('app', 'Название мероприятия'),
-            'EventId'    => Yii::t('app', 'Id меропрития'),
-            'Ips'        => Yii::t('app', 'IP адреса'),
-            'Domains'    => Yii::t('app', 'Домены'),
+            'EventId' => Yii::t('app', 'Id меропрития'),
+            'Ips' => Yii::t('app', 'IP адреса'),
+            'Domains' => Yii::t('app', 'Домены'),
             'Role' => Yii::t('app', 'Тип аккаунта'),
             'RequestPhoneOnRegistration' => Yii::t('app', 'Запрашивать номер телефона при регистрации'),
             'QuotaByUser' => Yii::t('app', 'Квота'),
@@ -52,10 +52,8 @@ class Account extends \CFormModel
 
     public function filterDomains($value)
     {
-        foreach ($value as $val)
-        {
-            if (empty($val))
-            {
+        foreach ($value as $val) {
+            if (empty($val)) {
                 $this->addError('Domains', Yii::t('app', 'Некорректно заполнен домен.'));
                 break;
             }
@@ -65,10 +63,8 @@ class Account extends \CFormModel
 
     public function filterIps($value)
     {
-        foreach ($value as $val)
-        {
-            if (empty($val))
-            {
+        foreach ($value as $val) {
+            if (empty($val)) {
                 $this->addError('Ips', Yii::t('app', 'Некорректно заполнен IP адрес.'));
                 break;
             }

@@ -1,29 +1,33 @@
 .event-page-fullwidth .content blockquote {
-  border: none;
-  color: #333333;
-  font-size: 18px;
-  font-style: italic;
-  margin: 20px 0 20px 100px;
+    border: none;
+    color: #333333;
+    font-size: 18px;
+    font-style: italic;
+    margin: 20px 0 20px 100px;
 }
+
 .event-page-fullwidth .content blockquote:before {
-  color: #EAEAEA;
-  content: "«";
-  margin-left: -40px;
-  position: absolute;
-  font-size: 52px;
+    color: #EAEAEA;
+    content: "«";
+    margin-left: -40px;
+    position: absolute;
+    font-size: 52px;
 }
+
 .event-page-fullwidth .content blockquote > cite,
 .event-page-fullwidth .content blockquote > cite a {
-  font-size: 12px;
-  font-style: normal;
-  color: #777777;
+    font-size: 12px;
+    font-style: normal;
+    color: #777777;
 }
+
 .event-page-fullwidth .content blockquote > cite {
-  margin-left: 16px;
+    margin-left: 16px;
 }
+
 .event-page-fullwidth .content blockquote > cite:before {
-  content: "\2014";
-  margin-left: -16px;
-  position: absolute;
-  margin-top: 3px;
+    content: "\2014";
+    margin-left: -16px;
+    position: absolute;
+    margin-top: 3px;
 }

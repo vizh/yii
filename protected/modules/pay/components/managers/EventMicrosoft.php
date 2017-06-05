@@ -1,14 +1,13 @@
 <?php
 namespace pay\components\managers;
 
-
 use pay\components\MessageException;
 
 class EventMicrosoft extends EventProductManager
 {
     const CallbackUrl = 'http://rusites.cloudapp.net/payment/paycallback?provider=runet';
 
-    protected function internalChangeOwner($fromUser, $toUser, $params = array())
+    protected function internalChangeOwner($fromUser, $toUser, $params = [])
     {
         $participant = \event\models\Participant::model()
             ->byUserId($fromUser->Id)->byEventId($this->product->EventId)->find();
@@ -29,14 +28,14 @@ class EventMicrosoft extends EventProductManager
         $externalUser = \api\models\ExternalUser::model()
             ->byUserId($user->Id)->byAccountId($this->getAccount()->Id)->find();
         if ($externalUser == null) {
-            \Yii::log('MICROSOFT!!! Не найден ExternalId для пользователя c Id: ' . $user->Id, \CLogger::LEVEL_ERROR);
+            \Yii::log('MICROSOFT!!! Не найден ExternalId для пользователя c Id: '.$user->Id, \CLogger::LEVEL_ERROR);
             return;
         }
         $data = new \stdClass();
         $data->ApiKey = $this->getAccount()->Key;
         $data->ExternalId = $externalUser->ExternalId;
         $data->RoleId = $roleId;
-        $data->Hash = md5($this->getAccount()->Key . $externalUser->ExternalId . $roleId . $this->getAccount()->Secret);
+        $data->Hash = md5($this->getAccount()->Key.$externalUser->ExternalId.$roleId.$this->getAccount()->Secret);
         $params = ['PayData' => json_encode($data)];
 
         $curl = curl_init();
@@ -51,12 +50,12 @@ class EventMicrosoft extends EventProductManager
 
         $errno = curl_errno($curl);
         if ($errno != 0) {
-            \Yii::log('MICROSOFT!!! Не корректное обращение к callback url. Ошибка номер: ' . $errno, \CLogger::LEVEL_ERROR);
+            \Yii::log('MICROSOFT!!! Не корректное обращение к callback url. Ошибка номер: '.$errno, \CLogger::LEVEL_ERROR);
         }
         $resultObject = json_decode($result);
 
         if (!isset($resultObject->Success) || !$resultObject->Success) {
-            \Yii::log('MICROSOFT!!! Не корректное обращение к callback url. Ответ сервера: ' . $result . "\r\n" . var_export($params, true), \CLogger::LEVEL_ERROR);
+            \Yii::log('MICROSOFT!!! Не корректное обращение к callback url. Ответ сервера: '.$result."\r\n".var_export($params, true), \CLogger::LEVEL_ERROR);
         }
         curl_close($curl);
     }

@@ -3,77 +3,69 @@ namespace widget\controllers\pay;
 
 class AuthAction extends \widget\components\pay\Action
 {
-  private $tmpUserForm;
+    private $tmpUserForm;
 
-  public function run()
-  {
-    $request = \Yii::app()->getRequest();
-    if ($request->getParam('token') !== null)
+    public function run()
     {
-      $this->processOAuth();
+        $request = \Yii::app()->getRequest();
+        if ($request->getParam('token') !== null) {
+            $this->processOAuth();
+        }
+        $this->tmpUserForm = new \user\models\forms\Email();
+        $this->tmpUserForm->attributes = $request->getParam(get_class($this->tmpUserForm));
+        if ($request->getIsPostRequest() && $this->tmpUserForm->validate()) {
+            $this->processTmpUserForm();
+        }
+
+        if ($this->getUser() !== null) {
+            $this->getController()->gotoNextStep();
+        }
+
+        \Yii::app()->getClientScript()->registerMetaTag($this->getApiAccount()->Key, 'ApiKey');
+        $this->getController()->render('auth', ['tmpUserForm' => $this->tmpUserForm]);
     }
-    $this->tmpUserForm = new \user\models\forms\Email();
-    $this->tmpUserForm->attributes = $request->getParam(get_class($this->tmpUserForm));
-    if ($request->getIsPostRequest() && $this->tmpUserForm->validate())
-    {
-      $this->processTmpUserForm();
-    }
 
-    if ($this->getUser() !== null)
+    private function processOAuth()
     {
-      $this->getController()->gotoNextStep();
-    }
-
-    \Yii::app()->getClientScript()->registerMetaTag($this->getApiAccount()->Key,'ApiKey');
-    $this->getController()->render('auth', ['tmpUserForm' => $this->tmpUserForm]);
-  }
-
-  private function processOAuth()
-  {
-    $request = \Yii::app()->getRequest();
-    $token = $request->getParam('token');
-    $oauthToken = \oauth\models\AccessToken::model()->byToken($token)->find();
-    if ($oauthToken !== null)
-    {
-      $identity = new \application\components\auth\identity\RunetId($oauthToken->User->RunetId);
-      $identity->authenticate();
-      if ($identity->errorCode == \application\components\auth\identity\Base::ERROR_NONE)
-      {
-        \Yii::app()->getUser()->login($identity);
-        echo '
+        $request = \Yii::app()->getRequest();
+        $token = $request->getParam('token');
+        $oauthToken = \oauth\models\AccessToken::model()->byToken($token)->find();
+        if ($oauthToken !== null) {
+            $identity = new \application\components\auth\identity\RunetId($oauthToken->User->RunetId);
+            $identity->authenticate();
+            if ($identity->errorCode == \application\components\auth\identity\Base::ERROR_NONE) {
+                \Yii::app()->getUser()->login($identity);
+                echo '
         <script type="text/javascript">
           window.opener.location.reload();
           window.close();
         </script>
         ';
-        exit();
-      }
+                exit();
+            }
+        }
+        throw new \CHttpException(404);
     }
-    throw new \CHttpException(404);
-  }
 
-  /**
-   * @throws \CHttpException
-   */
-  private function processTmpUserForm()
-  {
-    $user = new \user\models\User();
-    $user->LastName = $user->FirstName = '';
-    $user->Email = $this->tmpUserForm->Email;
-    $user->Visible = false;
-    $user->Temporary = true;
-    $user->register();
-    $identity = new \application\components\auth\identity\RunetId($user->RunetId);
-    $identity->authenticate();
-    if ($identity->errorCode == \application\components\auth\identity\Base::ERROR_NONE)
+    /**
+     * @throws \CHttpException
+     */
+    private function processTmpUserForm()
     {
+        $user = new \user\models\User();
+        $user->LastName = $user->FirstName = '';
+        $user->Email = $this->tmpUserForm->Email;
+        $user->Visible = false;
+        $user->Temporary = true;
+        $user->register();
+        $identity = new \application\components\auth\identity\RunetId($user->RunetId);
+        $identity->authenticate();
+        if ($identity->errorCode == \application\components\auth\identity\Base::ERROR_NONE) {
 
-      \Yii::app()->tempUser->login($identity);
-      $this->getController()->refresh();
+            \Yii::app()->tempUser->login($identity);
+            $this->getController()->refresh();
+        } else {
+            throw new \CHttpException(404);
+        }
     }
-    else
-    {
-      throw new \CHttpException(404);
-    }
-  }
 }

@@ -251,8 +251,9 @@ class Order extends ActiveRecord
 
     public function onActivate($event)
     {
-        if ($this->Event->IdName === 'startupvillage17')
+        if ($this->Event->IdName === 'startupvillage17') {
             return;
+        }
 
         $oldLanguage = Yii::app()->getLanguage();
         Yii::app()->setLanguage(empty($this->Payer->Language) ? 'ru' : $this->Payer->Language);

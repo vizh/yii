@@ -26,16 +26,27 @@ class Find extends FormModel
     {
         return [
             ['Label', 'required'],
-            ['Label', '\application\components\validators\ExistValidator', 'className' => User::className(), 'attributeName' => 'RunetId', 'when' => function ($value) {
-                return is_numeric($value);
-            }],
-            ['Label', '\application\components\validators\InlineValidator', 'skipOnError' => true, 'method' => function ($form, $attribute) {
-                if ($this->getUserActiveRecord()->count() != 1) {
-                    $form->addError($attribute, \Yii::t('app', 'Пользователь не найден или найден более чем один.'));
-                    return false;
+            [
+                'Label',
+                '\application\components\validators\ExistValidator',
+                'className' => User::className(),
+                'attributeName' => 'RunetId',
+                'when' => function ($value) {
+                    return is_numeric($value);
                 }
-                return true;
-            }]
+            ],
+            [
+                'Label',
+                '\application\components\validators\InlineValidator',
+                'skipOnError' => true,
+                'method' => function ($form, $attribute) {
+                    if ($this->getUserActiveRecord()->count() != 1) {
+                        $form->addError($attribute, \Yii::t('app', 'Пользователь не найден или найден более чем один.'));
+                        return false;
+                    }
+                    return true;
+                }
+            ]
         ];
     }
 

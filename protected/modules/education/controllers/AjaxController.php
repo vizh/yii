@@ -18,7 +18,7 @@ class AjaxController extends MainController
     public function actionUniversities($term, $cityId = null)
     {
         $result = [];
-        $model = University::model()->byName($term)->limit(10)->orderBy(['"t"."Name"' =>  SORT_ASC]);
+        $model = University::model()->byName($term)->limit(10)->orderBy(['"t"."Name"' => SORT_ASC]);
         if (!empty($cityId)) {
             $model->byCityId($cityId);
         }

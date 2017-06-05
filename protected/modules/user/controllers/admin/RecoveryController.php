@@ -1,8 +1,8 @@
 <?php
 
-use user\models\User;
-use user\components\handlers\recover\mail\AdminRecover;
 use mail\components\mailers\SESMailer;
+use user\components\handlers\recover\mail\AdminRecover;
+use user\models\User;
 
 class RecoveryController extends \application\components\controllers\AdminMainController
 {

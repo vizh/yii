@@ -3,12 +3,11 @@ namespace api\controllers\section;
 
 use event\models\section\LinkUser;
 use event\models\section\Section;
-
-use nastradamus39\slate\annotations\ApiAction;
-use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
+use nastradamus39\slate\annotations\ApiAction;
 
 class ReportsAction extends \api\components\Action
 {

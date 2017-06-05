@@ -1,10 +1,9 @@
 <?php
 
-use widget\components\Controller;
-use oauth\models\AccessToken;
-use application\components\auth\identity\RunetId;
 use application\components\auth\identity\Base;
-
+use application\components\auth\identity\RunetId;
+use oauth\models\AccessToken;
+use widget\components\Controller;
 
 class AuthController extends Controller
 {

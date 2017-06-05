@@ -8,7 +8,6 @@
 
 namespace application\components\web;
 
-
 class ArrayDataProvider extends \CArrayDataProvider
 {
     public $keyField = 'Id';

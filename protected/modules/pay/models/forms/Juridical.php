@@ -1,12 +1,9 @@
 <?php
 namespace pay\models\forms;
 
-use application\components\form\CreateUpdateForm;
 use application\components\form\EventItemCreateUpdateForm;
-use application\components\helpers\ArrayHelper;
 use application\helpers\Flash;
 use event\models\Event;
-use pay\components\collection\Finder;
 use pay\models\Order;
 use pay\models\OrderJuridical;
 use pay\models\OrderType;
@@ -39,7 +36,7 @@ class Juridical extends EventItemCreateUpdateForm
     /** @var User */
     private $user;
 
-    /** @var Order  */
+    /** @var Order */
     private $order;
 
     /**
@@ -49,7 +46,7 @@ class Juridical extends EventItemCreateUpdateForm
      */
     public function __construct(Event $event, User $user, Order $model = null)
     {
-        $this->user  = $user;
+        $this->user = $user;
         $this->order = $model;
         parent::__construct($event, $model !== null ? $model->OrderJuridical : null);
     }
@@ -86,7 +83,6 @@ class Juridical extends EventItemCreateUpdateForm
         }
         parent::setAttributes($values, $safeOnly);
     }
-
 
     public function attributeLabels()
     {

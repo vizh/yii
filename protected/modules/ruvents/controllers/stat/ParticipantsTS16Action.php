@@ -1,10 +1,10 @@
 <?php
 namespace ruvents\controllers\stat;
 
+use application\components\services\AIS;
 use application\components\web\ArrayDataProvider;
 use event\models\UserData;
 use ruvents\models\Badge;
-use application\components\services\AIS;
 
 /**
  * Shows the page with statistics for participants
@@ -50,13 +50,13 @@ class ParticipantsTS16Action extends StatAction
      * @return string[]
      */
     private function fetchGroups($eventId)
-    {        
+    {
         $filterExpression = 'COALESCE(SUBSTRING(d."Attributes"::TEXT FROM \'"smena":"([^"]+)"\'), \'Смена не указана\')';
 
         $data = \Yii::app()->getDb()->createCommand()
-            ->select($filterExpression . 'AS "Group", COUNT(*) AS "Count", COUNT(DISTINCT v."UserId") AS "Registered"')
-            ->from(UserData::model()->tableName() . ' d')
-            ->leftJoin(Badge::model()->tableName() . ' v', 'v."UserId" = d."UserId" AND v."EventId" = d."EventId"')
+            ->select($filterExpression.'AS "Group", COUNT(*) AS "Count", COUNT(DISTINCT v."UserId") AS "Registered"')
+            ->from(UserData::model()->tableName().' d')
+            ->leftJoin(Badge::model()->tableName().' v', 'v."UserId" = d."UserId" AND v."EventId" = d."EventId"')
             ->where('d."EventId" = :eventId', [
                 ':eventId' => $eventId
             ])

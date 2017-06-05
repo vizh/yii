@@ -24,9 +24,10 @@ class Html extends CHtml
      */
     public static function userPhoto(User $user, $size = null, $addTime = false)
     {
-        $photoUrl = empty($size) ? $user->getPhoto()->getOriginal() : $user->getPhoto()->{'get' . $size}();
-        if ($addTime)
-            $photoUrl .= '?' . time();
+        $photoUrl = empty($size) ? $user->getPhoto()->getOriginal() : $user->getPhoto()->{'get'.$size}();
+        if ($addTime) {
+            $photoUrl .= '?'.time();
+        }
 
         return \CHtml::link(
             \CHtml::image($photoUrl),
@@ -153,8 +154,9 @@ class Html extends CHtml
         if (!isset($htmlOptions['placeholder'])) {
             $htmlOptions['placeholder'] = $model->getAttributeLabel($attribute);
 
-            if ($model->isAttributeRequired($attribute))
+            if ($model->isAttributeRequired($attribute)) {
                 $htmlOptions['placeholder'] .= '*';
+            }
         }
 
         return parent::activeInputField($type, $model, $attribute, $htmlOptions);
@@ -165,11 +167,12 @@ class Html extends CHtml
      */
     public static function truncate($str, $length = 50, $ellipsis = '...')
     {
-        if (mb_strlen($str) < $length)
+        if (mb_strlen($str) < $length) {
             return $str;
+        }
 
         $tmp = mb_substr($str, 0, ($length - mb_strlen($ellipsis)));
-        return $tmp . $ellipsis;
+        return $tmp.$ellipsis;
     }
 
     /**
@@ -181,10 +184,11 @@ class Html extends CHtml
     public static function tableRow($data = [], $tagName = 'td')
     {
         $result = CHtml::openTag('tr');
-        foreach ($data as $d)
+        foreach ($data as $d) {
             $result .= CHtml::tag($tagName, [], $d);
+        }
 
-        return $result . CHtml::closeTag('tr');
+        return $result.CHtml::closeTag('tr');
     }
 
     /**
@@ -196,7 +200,7 @@ class Html extends CHtml
     {
         $result = CHtml::openTag('thead');
         $result .= self::tableRow($titles, 'th');
-        return $result . CHtml::closeTag('thead');
+        return $result.CHtml::closeTag('thead');
     }
 
     /**
@@ -209,8 +213,9 @@ class Html extends CHtml
     public static function flash($key, $closable = true, $class = null)
     {
         $user = Yii::app()->getUser();
-        if (!$user->hasFlash($key))
+        if (!$user->hasFlash($key)) {
             return '';
+        }
 
         $options = [
             'class' => $class ? $class : self::$alertInfoClass,
@@ -223,7 +228,7 @@ class Html extends CHtml
         $close = '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span>';
         $close .= '<span class="sr-only">Close</span></button>';
 
-        $content = $closable ? $close . self::encode($user->getFlash($key)) : self::encode($user->getFlash($key));
+        $content = $closable ? $close.self::encode($user->getFlash($key)) : self::encode($user->getFlash($key));
         return self::tag('div', $options, $content);
     }
 
@@ -327,7 +332,7 @@ HTML;
         $models,
         $header = null,
         $footer = null,
-        $htmlOptions =[],
+        $htmlOptions = [],
         $errorClass = 'alert-danger'
     ) {
         if (is_null($header) && is_null($footer)) {
@@ -348,9 +353,9 @@ HTML;
     public static function addCssClass(&$options, $class)
     {
         if (isset($options['class'])) {
-            $classes = ' ' . $options['class'] . ' ';
-            if (strpos($classes, ' ' . $class . ' ') === false) {
-                $options['class'] .= ' ' . $class;
+            $classes = ' '.$options['class'].' ';
+            if (strpos($classes, ' '.$class.' ') === false) {
+                $options['class'] .= ' '.$class;
             }
         } else {
             $options['class'] = $class;

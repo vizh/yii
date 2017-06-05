@@ -22,5 +22,4 @@ class SetPassword extends \CFormModel
         return ['Password' => \Yii::t('app', 'Новый пароль')];
     }
 
-
 } 

@@ -50,8 +50,8 @@ class SearchAction extends Action
     private function getCriteria($limit, $token = null)
     {
         $criteria = new \CDbCriteria();
-        $criteria->order  = '"t"."LastName", "t"."FirstName", "t"."RunetId"';
-        $criteria->limit  = $limit;
+        $criteria->order = '"t"."LastName", "t"."FirstName", "t"."RunetId"';
+        $criteria->limit = $limit;
         $criteria->offset = !empty($token) ? $this->getController()->parsePageToken($token) : 0;
         $criteria->with = [
             'Settings',

@@ -8,7 +8,6 @@
 
 namespace api\components\ms\mail;
 
-
 use mail\components\Mailer;
 use user\models\User;
 
@@ -29,7 +28,6 @@ class Register extends Base
         parent::__construct($mailer, $user);
         $this->password = $password;
     }
-
 
     /**
      * @inheritdoc

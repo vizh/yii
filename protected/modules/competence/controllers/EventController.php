@@ -1,12 +1,12 @@
 <?php
-use event\models\Event;
-use competence\models\Test;
-use competence\models\Question;
-use user\models\User;
-use competence\models\Result;
-use event\models\Participant;
-use competence\models\form\event\CodeValidation;
 use application\components\controllers\MainController;
+use competence\models\form\event\CodeValidation;
+use competence\models\Question;
+use competence\models\Result;
+use competence\models\Test;
+use event\models\Event;
+use event\models\Participant;
+use user\models\User;
 
 /**
  * Class MSController Опросы для Miscrosoft, голосование, в которых доступно по коду
@@ -79,7 +79,6 @@ class EventController extends MainController
         return (empty($this->test->EndTime) || $this->test->EndTime > date('Y-m-d H:i:s'));
     }
 
-
     /**
      * Проверяет заполнял ли участник опрос
      * @return bool
@@ -130,8 +129,9 @@ class EventController extends MainController
             $questions[] = $question;
             /** @var \competence\models\Question $question */
             $question = $question->getForm()->getNext();
-            if ($question == null)
+            if ($question == null) {
                 break;
+            }
             $question->setTest($this->test);
         }
         return $questions;

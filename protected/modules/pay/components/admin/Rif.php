@@ -26,30 +26,27 @@ class Rif
     private static function prepareUsers()
     {
         $nextUpdate = \Yii::app()->getCache()->get('NextRifPersonsUpdate');
-        if ($nextUpdate != null && $nextUpdate > time())
+        if ($nextUpdate != null && $nextUpdate > time()) {
             return;
-        \Yii::app()->getCache()->set('NextRifPersonsUpdate', time()+15*60);
+        }
+        \Yii::app()->getCache()->set('NextRifPersonsUpdate', time() + 15 * 60);
 
         $cmd = \pay\components\admin\Rif::getDb()->createCommand();
         $cmd->select('*')->from('ext_booked_person_together')->where('userRunetId IS NULL');
         $result = $cmd->queryAll();
-        foreach ($result as $row)
-        {
+        foreach ($result as $row) {
             $row['userName'] = trim($row['userName']);
             $user = \user\models\User::model()
                 ->byEventId(self::EventId)->bySearch($row['userName'])->find();
-            if ($user == null)
-            {
+            if ($user == null) {
                 $parts = explode(' ', $row['userName']);
-                if (count($parts) == 3)
-                {
+                if (count($parts) == 3) {
                     $user = \user\models\User::model()
-                        ->byEventId(self::EventId)->bySearch($parts[0] . ' ' . $parts[1])->find();
+                        ->byEventId(self::EventId)->bySearch($parts[0].' '.$parts[1])->find();
                 }
             }
 
-            if ($user != null)
-            {
+            if ($user != null) {
                 \pay\components\admin\Rif::getDb()->createCommand()->update('ext_booked_person_together', ['userRunetId' => $user->RunetId], 'id = :id', ['id' => $row['id']]);
             }
         }
@@ -60,8 +57,7 @@ class Rif
     public static function getUsersByHotel()
     {
 
-        if (self::$usersByHotel == null)
-        {
+        if (self::$usersByHotel == null) {
             self::prepareUsers();
 
             $criteria = new \CDbCriteria();
@@ -77,29 +73,27 @@ class Rif
             $result = $cmd->queryAll();
 
             $usersTogether = [];
-            foreach ($result as $row)
-            {
+            foreach ($result as $row) {
                 $usersTogether[$row['ownerRunetId']][] = $row['userRunetId'];
             }
 
             self::$usersByHotel = [];
             $owners = [];
-            foreach ($roomItems as $item)
-            {
+            foreach ($roomItems as $item) {
                 $owner = $item->ChangedOwnerId != null ? $item->ChangedOwner : $item->Owner;
                 self::$usersByHotel[$item->Product->getManager()->Hotel][] = $owner->RunetId;
                 $owners[] = $owner->RunetId;
             }
 
-            foreach ($roomItems as $item)
-            {
+            foreach ($roomItems as $item) {
                 $owner = $item->ChangedOwnerId != null ? $item->ChangedOwner : $item->Owner;
-                if (empty($usersTogether[$owner->RunetId]))
+                if (empty($usersTogether[$owner->RunetId])) {
                     continue;
-                foreach ($usersTogether[$owner->RunetId] as $runetId)
-                {
-                    if (in_array($runetId, $owners))
+                }
+                foreach ($usersTogether[$owner->RunetId] as $runetId) {
+                    if (in_array($runetId, $owners)) {
                         continue;
+                    }
 
                     self::$usersByHotel[$item->Product->getManager()->Hotel][] = $runetId;
                     $owners[] = $runetId;
@@ -117,10 +111,10 @@ class Rif
     public static function getUserHotel($runetId)
     {
         $users = self::getUsersByHotel();
-        foreach ($users as $key => $values)
-        {
-            if (in_array($runetId, $values))
+        foreach ($users as $key => $values) {
+            if (in_array($runetId, $values)) {
                 return $key;
+            }
         }
         return null;
     }

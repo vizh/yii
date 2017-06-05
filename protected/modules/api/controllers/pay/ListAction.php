@@ -2,15 +2,12 @@
 namespace api\controllers\pay;
 
 use api\components\Action;
-use api\components\Exception;
+use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\ApiAction;
 use pay\components\collection\Finder;
 use pay\components\OrderItemCollection;
-use user\models\User;
-
-use nastradamus39\slate\annotations\ApiAction;
-use nastradamus39\slate\annotations\Action\Request;
-use nastradamus39\slate\annotations\Action\Param;
-use nastradamus39\slate\annotations\Action\Response;
 
 /**
  * Class ListAction Returns list of products

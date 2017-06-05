@@ -5,11 +5,10 @@ use api\components\Action;
 use api\models\ExternalUser;
 use api\models\forms\user\Register;
 use event\models\UserData;
-use user\models\User;
-
-use nastradamus39\slate\annotations\ApiAction;
-use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\ApiAction;
+use user\models\User;
 
 /**
  * Class CreateAction Creates a new user

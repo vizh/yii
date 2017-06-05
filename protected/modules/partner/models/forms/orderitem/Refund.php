@@ -5,7 +5,6 @@ use application\components\form\CreateUpdateForm;
 use application\helpers\Flash;
 use pay\components\CodeException;
 use pay\models\OrderItem;
-use user\models\User;
 
 /**
  * Class Refund
@@ -55,6 +54,5 @@ class Refund extends CreateUpdateForm
             return null;
         }
     }
-
 
 } 

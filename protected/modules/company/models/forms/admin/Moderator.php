@@ -34,17 +34,23 @@ class Moderator extends CreateUpdateForm
      */
     public function rules()
     {
-        $rules =  [
+        $rules = [
             ['UserId', 'required'],
             ['Id', 'exist', 'className' => 'company\models\LinkModerator', 'attributeName' => 'Id'],
             ['UserId', 'exist', 'className' => '\user\models\User', 'attributeName' => 'Id'],
             ['Delete', 'boolean']
         ];
         if (!$this->isUpdateMode()) {
-            $rules[] = ['UserId', 'unique', 'attributeName' => 'UserId', 'className' => 'company\models\LinkModerator', 'criteria' => [
-                'condition' => '"t"."CompanyId" = :CompanyId',
-                'params' => ['CompanyId' => $this->company->Id]
-            ]];
+            $rules[] = [
+                'UserId',
+                'unique',
+                'attributeName' => 'UserId',
+                'className' => 'company\models\LinkModerator',
+                'criteria' => [
+                    'condition' => '"t"."CompanyId" = :CompanyId',
+                    'params' => ['CompanyId' => $this->company->Id]
+                ]
+            ];
         }
         return $rules;
     }
@@ -81,7 +87,6 @@ class Moderator extends CreateUpdateForm
         return $this->updateActiveRecord();
     }
 
-
     /**
      * @inheritDoc
      */
@@ -99,6 +104,5 @@ class Moderator extends CreateUpdateForm
         }
         return $this->model;
     }
-
 
 }

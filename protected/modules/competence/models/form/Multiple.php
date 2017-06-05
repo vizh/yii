@@ -1,8 +1,8 @@
 <?php
 namespace competence\models\form;
 
-use competence\models\Result;
 use competence\models\form\attribute\CheckboxValue;
+use competence\models\Result;
 
 /**
  * Class Multiple
@@ -34,8 +34,9 @@ class Multiple extends Base
     public function checkOtherValidator($attribute, $params)
     {
         foreach ($this->Values as $value) {
-            if (!in_array($value->key, $this->value) || !$value->isOther)
+            if (!in_array($value->key, $this->value) || !$value->isOther) {
                 continue;
+            }
             $this->other = trim($this->other);
 
             if (empty($this->other)) {
@@ -97,7 +98,7 @@ class Multiple extends Base
 
         foreach ($values as $key => $value) {
             if (empty($value->key)) {
-                $this->question->addError('Title', 'Строка ' . ($key + 1) . ': не задан ключ для варианта ответа');
+                $this->question->addError('Title', 'Строка '.($key + 1).': не задан ключ для варианта ответа');
             }
         }
 

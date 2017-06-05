@@ -2,10 +2,6 @@
 
 namespace connect\components\handlers\decline\user;
 
-use connect\models\Meeting;
-use mail\components\MailLayout;
-use user\models\User;
-
 class Forinnovations16En extends Forinnovations16
 {
     /**

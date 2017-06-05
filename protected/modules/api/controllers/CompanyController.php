@@ -1,7 +1,7 @@
 <?php
 
-use nastradamus39\slate\annotations\ApiController;
 use nastradamus39\slate\annotations\ApiContent;
+use nastradamus39\slate\annotations\ApiController;
 use nastradamus39\slate\annotations\ApiError;
 use nastradamus39\slate\annotations\ApiObject;
 
@@ -18,13 +18,13 @@ use nastradamus39\slate\annotations\ApiObject;
 <p>Для удобства сделана коллекция для postman( GUI для выполнения HTTP запросов ). Можно скачать c оф.
 <a target='blank' href='https://www.getpostman.com/'>сайта</a>.
 Псле установки нужно:
-    - скачать и импортировать <a target='blank' href='runet-id.com.postman_collection.json'>коллекцию</a> запросов.
-    - загрузить и импортировать <a target='blank' href='api.runet-id.com.postman_environment.json'>окружение</a>
-    - ApiKey и Hash в окружении заменить на Ваши
+- скачать и импортировать <a target='blank' href='runet-id.com.postman_collection.json'>коллекцию</a> запросов.
+- загрузить и импортировать <a target='blank' href='api.runet-id.com.postman_environment.json'>окружение</a>
+- ApiKey и Hash в окружении заменить на Ваши
 </p>
 <b>SDK</b><br/>
 Для интеграции с API можно использовать готовый клиент. Описание методов так же можно найти на странице клиента.
-    - PHP SDK находится <a target='blank' href='https://bitbucket.org/ruvents/runet-id-api-client'>тут</a>
+- PHP SDK находится <a target='blank' href='https://bitbucket.org/ruvents/runet-id-api-client'>тут</a>
 "
  * )
  * @ApiContent(
@@ -48,45 +48,45 @@ $api = new \RunetID\Api\Api(ApiKey, Secret, Cache = null);
  *     code="COMPANY",
  *     title="Компания",
  *     json="{
-            'Id':77529,
-            'Name':'RUVENTS',
-            'FullName':'ООО «РУВЕНТС»',
-            'Info':null,
-            'Logo': '{$LOGO}',
-            'Url':'http://ruvents.com',
-            'Phone':'+7 (495) 6385147',
-            'Email':'info@ruvents.com',
-            'Address':'г. Москва, Пресненская наб., д. 12',
-            'Cluster':'РАЭК',
-            'ClusterGroups':[],
-            'OGRN':null,
-            'Employments':['{$USER}']
-       }",
+'Id':77529,
+'Name':'RUVENTS',
+'FullName':'ООО «РУВЕНТС»',
+'Info':null,
+'Logo': '{$LOGO}',
+'Url':'http://ruvents.com',
+'Phone':'+7 (495) 6385147',
+'Email':'info@ruvents.com',
+'Address':'г. Москва, Пресненская наб., д. 12',
+'Cluster':'РАЭК',
+'ClusterGroups':[],
+'OGRN':null,
+'Employments':['{$USER}']
+}",
  *     description="Компания",
  *     params={
  *          "Id"            :"Идентификатор компании",
-            "Name"          :"Название",
-            "FullName"      :"Полное название",
-            "Info"          :"Информация о компании",
-            "Logo"          :"Массив ссылок на логотипы в трех разрешениях",
-            "Url"           :"Сылка на сайт компании",
-            "Phone"         :"Телефон",
-            "Email"         :"Email компании",
-            "Address"       :"Адрес компании",
-            "Cluster"       :"Кластер,к которому относится компания. Пока только РАЭК",
-            "ClusterGroups" :"Список груп кластеров",
-            "OGRN"          :"ОГРН компании",
-            "Employments"   :"Массив сотрудников компании"
+"Name"          :"Название",
+"FullName"      :"Полное название",
+"Info"          :"Информация о компании",
+"Logo"          :"Массив ссылок на логотипы в трех разрешениях",
+"Url"           :"Сылка на сайт компании",
+"Phone"         :"Телефон",
+"Email"         :"Email компании",
+"Address"       :"Адрес компании",
+"Cluster"       :"Кластер,к которому относится компания. Пока только РАЭК",
+"ClusterGroups" :"Список груп кластеров",
+"OGRN"          :"ОГРН компании",
+"Employments"   :"Массив сотрудников компании"
  *     }
  * )
  * @ApiObject(
  *     code="LOGO",
  *     title="Лого компании",
  *     json="{
-           'Small':'Ссылка на лого компании (50px*50px)',
-           'Medium':'Ссылка на лого компании (90px*90px)',
-           'Large':'Ссылка на лого компании (200px*200px)'
-      }",
+'Small':'Ссылка на лого компании (50px*50px)',
+'Medium':'Ссылка на лого компании (90px*90px)',
+'Large':'Ссылка на лого компании (200px*200px)'
+}",
  *     description="Логотипы компании в трех разрешениях",
  *     params={
  *          "Small":"Логотип размерами 50px на 50px",
@@ -98,16 +98,16 @@ $api = new \RunetID\Api\Api(ApiKey, Secret, Cache = null);
  *     code="PHOTO",
  *     title="Фото пользователя",
  *     json="{
-           'Small':'http://runet-id.com/files/photo/0/454_50.jpg?t=1475191745',
-           'Medium':'http://runet-id.com/files/photo/0/454_90.jpg?t=1475191306',
-           'Large':'http://runet-id.com/files/photo/0/454_200.jpg?t=1475191317'
-       }",
+'Small':'http://runet-id.com/files/photo/0/454_50.jpg?t=1475191745',
+'Medium':'http://runet-id.com/files/photo/0/454_90.jpg?t=1475191306',
+'Large':'http://runet-id.com/files/photo/0/454_200.jpg?t=1475191317'
+}",
  *     description="Фото пользователя в трех разрешениях",
  *     params={
-           "Small":"Фото размерами 50px на 50px",
-           "Medium":"Фото размерами 90px на 90px",
-           "Large":"Фото размерами 200px на 200px"
-       }
+"Small":"Фото размерами 50px на 50px",
+"Medium":"Фото размерами 90px на 90px",
+"Large":"Фото размерами 200px на 200px"
+}
  * )
  * @ApiError(code="400", description="Bad Request – Your request sucks.")
  * @ApiError(code="401", description="Unauthorized – Your API key is wrong.")

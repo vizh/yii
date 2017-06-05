@@ -9,14 +9,16 @@ class CText
      */
     public static function truncate($text, $length = 30, $truncate_string = '...', $truncate_lastspace = false)
     {
-        if ($text == '')
+        if ($text == '') {
             return null;
+        }
 
         if (strlen($text) > $length) {
             $truncate_text = substr($text, 0, $length - strlen($truncate_string));
 
-            if ($truncate_lastspace)
+            if ($truncate_lastspace) {
                 $truncate_text = preg_replace('/[\s\,\.]+?(\S+)?$/', '', $truncate_text);
+            }
 
             return trim($truncate_text).$truncate_string;
         }
@@ -26,24 +28,26 @@ class CText
 
     public static function humanFileSize($file, $retstring = '%01.2f&nbsp;%s', $system = 'si', $max = null)
     {
-        if (!file_exists($file))
+        if (!file_exists($file)) {
             return '0';
+        }
 
         $size = filesize($file);
 
         // Pick units
-        $systems['si']['prefix'] = array('B', 'K', 'MB', 'GB', 'TB', 'PB');
+        $systems['si']['prefix'] = ['B', 'K', 'MB', 'GB', 'TB', 'PB'];
         $systems['si']['size'] = 1000;
-        $systems[':)']['prefix'] = array('b', 'k', 'mb', 'gb', 'tb', 'pb');
+        $systems[':)']['prefix'] = ['b', 'k', 'mb', 'gb', 'tb', 'pb'];
         $systems[':)']['size'] = 1000;
-        $systems['bi']['prefix'] = array('B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB');
+        $systems['bi']['prefix'] = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB'];
         $systems['bi']['size'] = 1024;
         $sys = isset($systems[$system]) ? $systems[$system] : $systems['si'];
 
         // Max unit to display
         $depth = count($sys['prefix']) - 1;
-        if ($max && false !== $d = array_search($max, $sys['prefix']))
+        if ($max && false !== $d = array_search($max, $sys['prefix'])) {
             $depth = $d;
+        }
 
         // Loop
         $i = 0;

@@ -5,8 +5,8 @@ namespace partner\controllers\paperless\event;
 use application\components\Exception;
 use application\components\helpers\ArrayHelper;
 use application\models\paperless\DeviceSignal;
-use application\models\paperless\Event as EventModel;
 use application\models\paperless\Event;
+use application\models\paperless\Event as EventModel;
 use partner\components\Action;
 
 class ExportAction extends Action

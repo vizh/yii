@@ -11,9 +11,10 @@ class ExistValidator extends \CExistValidator
      */
     protected function validateAttribute($object, $attribute)
     {
-        $value=$object->$attribute;
-        if($this->allowEmpty && $this->isEmpty($value))
+        $value = $object->$attribute;
+        if ($this->allowEmpty && $this->isEmpty($value)) {
             return;
+        }
 
         if ($this->when instanceof \Closure && !call_user_func($this->when, $value)) {
             return;
@@ -28,22 +29,24 @@ class ExistValidator extends \CExistValidator
             $attributeName = $this->attributeName === null ? $attribute : $this->attributeName;
             $finder = \CActiveRecord::model($className);
             $table = $finder->getTableSchema();
-            if (($column = $table->getColumn($attributeName)) === null)
+            if (($column = $table->getColumn($attributeName)) === null) {
                 throw new \CException(\Yii::t('yii', 'Table "{table}" does not have a column named "{column}".',
-                    array('{column}' => $attributeName, '{table}' => $table->name)));
+                    ['{column}' => $attributeName, '{table}' => $table->name]));
+            }
 
             $columnName = $column->rawName;
             $criteria = new \CDbCriteria();
-            if ($this->criteria !== array())
+            if ($this->criteria !== []) {
                 $criteria->mergeWith($this->criteria);
+            }
             $tableAlias = empty($criteria->alias) ? $finder->getTableAlias(true) : $criteria->alias;
-            $valueParamName = \CDbCriteria::PARAM_PREFIX . \CDbCriteria::$paramCount++;
+            $valueParamName = \CDbCriteria::PARAM_PREFIX.\CDbCriteria::$paramCount++;
             $criteria->addCondition($this->caseSensitive ? "{$tableAlias}.{$columnName}={$valueParamName}" : "LOWER({$tableAlias}.{$columnName})=LOWER({$valueParamName})");
             $criteria->params[$valueParamName] = $val;
 
             if (!$finder->exists($criteria)) {
                 $message = $this->message !== null ? $this->message : \Yii::t('yii', '{attribute} "{value}" is invalid.');
-                $this->addError($object, $attribute, $message, array('{value}' => \CHtml::encode($val)));
+                $this->addError($object, $attribute, $message, ['{value}' => \CHtml::encode($val)]);
             }
         }
     }

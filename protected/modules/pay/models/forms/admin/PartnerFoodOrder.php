@@ -25,7 +25,6 @@ class PartnerFoodOrder extends BasePartnerOrder
         }
     }
 
-
     /**
      * @return array
      */
@@ -50,7 +49,6 @@ class PartnerFoodOrder extends BasePartnerOrder
         return array_merge($labels, parent::attributeLabels());
     }
 
-
     /**
      * @return \CActiveRecord|null
      * @throws \application\components\Exception
@@ -61,7 +59,7 @@ class PartnerFoodOrder extends BasePartnerOrder
         $number = FoodPartnerOrder::model()->byEventId($eventId)->count() + 1;
 
         $order = new FoodPartnerOrder();
-        $order->Number  = ('RIF17/' . str_pad($number, 3, '0', STR_PAD_LEFT) . '-F');
+        $order->Number = ('RIF17/'.str_pad($number, 3, '0', STR_PAD_LEFT).'-F');
         $order->EventId = $eventId;
         if ($this->getOwner() !== null) {
             $order->Owner = $this->getOwner();
@@ -69,7 +67,6 @@ class PartnerFoodOrder extends BasePartnerOrder
         $this->model = $order;
         return $this->updateActiveRecord();
     }
-
 
     /**
      * @return CActiveRecord|null
@@ -107,7 +104,6 @@ class PartnerFoodOrder extends BasePartnerOrder
         }
         return null;
     }
-
 
     /**
      * @param string $attribute

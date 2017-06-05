@@ -1,7 +1,6 @@
 <?php
 namespace application\helpers;
 
-
 /**
  * Class Flash
  *
@@ -82,7 +81,7 @@ class Flash
             return '';
         }
 
-        $options =  ['class' => ('alert alert-dismissible fade in ' . $typeClass), 'role' => 'alert'];
+        $options = ['class' => ('alert alert-dismissible fade in '.$typeClass), 'role' => 'alert'];
         return \CHtml::tag('div', $options, $content);
     }
 

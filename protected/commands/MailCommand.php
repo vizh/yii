@@ -1,6 +1,6 @@
 <?php
-use mail\models\Template;
 use application\components\console\BaseConsoleCommand;
+use mail\models\Template;
 
 class MailCommand extends BaseConsoleCommand
 {
@@ -16,46 +16,48 @@ class MailCommand extends BaseConsoleCommand
             ->bySuccess(false)
             ->find(['order' => '"t"."Id" ASC']);
 
-        if ($template === null)
+        if ($template === null) {
             return 0;
+        }
 
         while (true) {
             $template->send();
-            if ($template->Success || time() - $startTime >= 350)
+            if ($template->Success || time() - $startTime >= 350) {
                 return 0;
+            }
         }
 
         return 1;
     }
 
     /**
-    public function actionClearRejects($args)
-    {
-        $path = \Yii::getPathOfAlias('mail.data.rejects') . '.csv';
-        $handle = fopen($path, "r");
-
-        $criteria = new \CDbCriteria();
-        $criteria->with = ['Settings'];
-        $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
-
-        $count = 0;
-
-        while (($row = fgetcsv($handle, 1000, ',')) !== false) {
-            $email = $row[0];
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                continue;
-            }
-            $users = User::model()->byEmail($email)->findAll($criteria);
-            if (!empty($users)) {
-                foreach ($users as $user) {
-                    $user->Settings->UnsubscribeAll = true;
-                    $user->Settings->save();
-                }
-                $count++;
-                var_dump($email);
-            }
-        }
-        echo $count;
-
-    }***/
+     * public function actionClearRejects($args)
+     * {
+     * $path = \Yii::getPathOfAlias('mail.data.rejects') . '.csv';
+     * $handle = fopen($path, "r");
+     *
+     * $criteria = new \CDbCriteria();
+     * $criteria->with = ['Settings'];
+     * $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
+     *
+     * $count = 0;
+     *
+     * while (($row = fgetcsv($handle, 1000, ',')) !== false) {
+     * $email = $row[0];
+     * if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+     * continue;
+     * }
+     * $users = User::model()->byEmail($email)->findAll($criteria);
+     * if (!empty($users)) {
+     * foreach ($users as $user) {
+     * $user->Settings->UnsubscribeAll = true;
+     * $user->Settings->save();
+     * }
+     * $count++;
+     * var_dump($email);
+     * }
+     * }
+     * echo $count;
+     *
+     * }***/
 }

@@ -1,4 +1,5 @@
 <?php
+
 class m150310_162421_add_column_starttime_to_competencetest extends \CDbMigration
 {
     public function safeUp()
@@ -13,4 +14,4 @@ class m150310_162421_add_column_starttime_to_competencetest extends \CDbMigratio
         //$this->dropColumn('PayOrderItem', 'UpdateTime');
         return false;
     }
-} 
+}

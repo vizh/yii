@@ -13,6 +13,7 @@ class Base extends MailLayout
     protected $event;
     /** @var  int */
     protected $total;
+
     public function __construct(\mail\components\Mailer $mailer, \CEvent $event)
     {
         parent::__construct($mailer);
@@ -34,12 +35,9 @@ class Base extends MailLayout
 
     public function getSubject()
     {
-        if ($this->order->Type == \pay\models\OrderType::Receipt)
-        {
+        if ($this->order->Type == \pay\models\OrderType::Receipt) {
             return 'Успешная оплата квитанции на '.$this->event->Title;
-        }
-        elseif ($this->order->Type == \pay\models\OrderType::Juridical)
-        {
+        } elseif ($this->order->Type == \pay\models\OrderType::Juridical) {
             return 'Успешная оплата счета на '.$this->event->Title;
         }
 
@@ -48,22 +46,22 @@ class Base extends MailLayout
 
     public function getBody()
     {
-        if (!(\Yii::app()->getController() instanceof \CController))
+        if (!(\Yii::app()->getController() instanceof \CController)) {
             return null;
+        }
 
         $isBankPayment = \pay\models\OrderType::getIsBank($this->order->Type);
         $view = $isBankPayment ? $this->getJuridicalViewPath() : $this->getPhysicalViewPath();
         $orderItems = [];
-        foreach ($this->order->ItemLinks as $link)
-        {
-            if ($link->OrderItem->Paid)
-            {
+        foreach ($this->order->ItemLinks as $link) {
+            if ($link->OrderItem->Paid) {
                 $orderItems[] = $link->OrderItem;
             }
         }
 
-        if (empty($orderItems))
+        if (empty($orderItems)) {
             return null;
+        }
 
         return $this->renderBody($view, [
             'order' => $this->order,

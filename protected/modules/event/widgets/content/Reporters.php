@@ -8,7 +8,6 @@
 
 namespace event\widgets\content;
 
-
 use event\components\Widget;
 use event\components\WidgetPosition;
 use event\models\section\LinkUser;
@@ -31,7 +30,6 @@ class Reporters extends Widget
             'WidgetReportersOrder'
         ];
     }
-
 
     /**
      * @return string
@@ -73,6 +71,5 @@ class Reporters extends Widget
     {
         return true;
     }
-
 
 }

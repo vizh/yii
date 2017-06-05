@@ -14,7 +14,7 @@ abstract class Base extends MailLayout
     {
         parent::__construct($mailer);
         $this->product = $event->params['product'];
-        $this->payer   = $event->params['payer'];
+        $this->payer = $event->params['payer'];
     }
 
     public function getFrom()

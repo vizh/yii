@@ -1,9 +1,9 @@
 <?php
 
 use event\models\Event;
+use event\models\Participant;
 use event\models\Role;
 use user\models\User;
-use event\models\Participant;
 
 class TicketController extends application\components\controllers\PublicMainController
 {
@@ -30,15 +30,17 @@ class TicketController extends application\components\controllers\PublicMainCont
      * @param string $hash
      * @return bool
      */
-    private function checkHash(Event $event, User $user, $hash) {
+    private function checkHash(Event $event, User $user, $hash)
+    {
         $model = Participant::model()->byUserId($user->Id)->byEventId($event->Id);
         if (!empty($event->Parts)) {
             $model->with('Part');
         }
         $participants = $model->findAll();
         foreach ($participants as $participant) {
-            if ($participant->getHash() == $hash)
+            if ($participant->getHash() == $hash) {
                 return true;
+            }
         }
         return false;
     }

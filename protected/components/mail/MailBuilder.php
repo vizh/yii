@@ -45,8 +45,9 @@ class MailBuilder
 
         $this->attributes['to'] = $mail;
 
-        if (false === empty($name))
+        if (false === empty($name)) {
             $this->attributes['toName'] = $name;
+        }
 
         return $this;
     }
@@ -65,8 +66,9 @@ class MailBuilder
 
         $this->attributes['from'] = $mail;
 
-        if ($name !== null)
+        if ($name !== null) {
             $this->attributes['fromName'] = $name;
+        }
 
         return $this;
     }
@@ -127,8 +129,9 @@ class MailBuilder
     public function addAttachment($file, $name = null)
     {
         if ($file && is_file($file)) {
-            if ($name === null)
+            if ($name === null) {
                 $name = basename($file);
+            }
 
             $this->attributes['attachments'][$name] = [
                 mime_content_type($file),

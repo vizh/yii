@@ -49,7 +49,6 @@ class Education extends \user\models\forms\edit\Base
         return $cityId;
     }
 
-
     /**
      * @param string $attribute
      * @param array $params

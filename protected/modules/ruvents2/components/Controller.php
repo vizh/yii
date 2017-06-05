@@ -76,8 +76,9 @@ class Controller extends \CController
      */
     public function getApiAccount()
     {
-        if ($this->apiAccount === false)
+        if ($this->apiAccount === false) {
             $this->apiAccount = Account::model()->byEventId($this->getEvent()->Id)->find();
+        }
 
         return $this->apiAccount;
     }
@@ -95,8 +96,9 @@ class Controller extends \CController
         $json = $useEncode ? json_encode($data, JSON_UNESCAPED_UNICODE) : $data;
 
         // Оставим за разработчиком право обернуть возвращаемый JSON глобальным JSON объектом
-        if (($layoutFile = $this->getLayoutFile($this->layout)) !== false)
+        if (($layoutFile = $this->getLayoutFile($this->layout)) !== false) {
             $json = $this->renderFile($layoutFile, ['content' => $json], true);
+        }
 
         header('Content-type: application/json; charset=utf-8');
         echo $json;

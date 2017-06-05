@@ -1,8 +1,12 @@
 <?php
 
-return [[
-    'allow',
-    'users' => ['*'],
-    'module' => 'buduguru',
-    'controllers' => ['course'],
-]];
+return [
+    [
+        'allow',
+        'users' => ['*'],
+        'module' => 'buduguru',
+        'controllers' => [
+            'course'
+        ]
+    ]
+];

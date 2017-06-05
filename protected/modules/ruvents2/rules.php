@@ -1,11 +1,11 @@
 <?php
 
-use \ruvents2\components\Role;
+use ruvents2\components\Role;
 
 return [
     [
         'allow',
-        'users' =>  ['*'],
+        'users' => ['*'],
         'controllers' => ['utility'],
         'actions' => ['ping']
     ],

@@ -2,8 +2,8 @@
 namespace partner\controllers\program;
 
 use application\helpers\Flash;
-use \event\models\section\Section;
-use \partner\models\forms\program\Section as SectionForm;
+use event\models\section\Section;
+use partner\models\forms\program\Section as SectionForm;
 
 class SectionAction extends \partner\components\Action
 {
@@ -30,7 +30,7 @@ class SectionAction extends \partner\components\Action
             $form->fillFromPost();
             $section = $form->isUpdateMode() ? $form->updateActiveRecord() : $form->createActiveRecord();
             if ($section !== null) {
-                Flash::setSuccess(\Yii::t('app','Информация о секции успешно сохранена!'));
+                Flash::setSuccess(\Yii::t('app', 'Информация о секции успешно сохранена!'));
                 $this->getController()->redirect(['section', 'id' => $section->Id, 'locale' => $form->getLocale()]);
             }
         }

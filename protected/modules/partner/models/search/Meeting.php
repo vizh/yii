@@ -9,7 +9,6 @@
 namespace application\modules\partner\models\search;
 
 use application\components\form\SearchFormModel;
-use connect\models\MeetingLinkUser;
 use event\models\Event;
 use user\models\User;
 
@@ -49,7 +48,6 @@ class Meeting extends SearchFormModel
         return [
         ];
     }
-
 
     /**
      * @return \CDataProvider
@@ -94,15 +92,15 @@ class Meeting extends SearchFormModel
             $criteria->addInCondition('"UserLinks"."UserId"', \CHtml::listData($users, 'Id', 'Id'));
         }
 
-        if ($this->Date){
+        if ($this->Date) {
             $criteria->addCondition('"Date" = :date');
             $criteria->params[':date'] = $this->Date;
         }
-        if ($this->Status != null){
-            if (in_array($this->Status, [self::STATUS_SENT, self::STATUS_ACCEPTED, self::STATUS_DECLINED, self::STATUS_CANCELLED_USER])){
+        if ($this->Status != null) {
+            if (in_array($this->Status, [self::STATUS_SENT, self::STATUS_ACCEPTED, self::STATUS_DECLINED, self::STATUS_CANCELLED_USER])) {
                 $criteria->addColumnCondition(['"UserLinks"."Status"' => $this->Status]);
             }
-            if ($this->Status == self::STATUS_CANCELLED_CREATOR){
+            if ($this->Status == self::STATUS_CANCELLED_CREATOR) {
                 $criteria->addColumnCondition(['"t"."Status"' => \connect\models\Meeting::STATUS_CANCELLED]);
             }
         }
@@ -114,7 +112,6 @@ class Meeting extends SearchFormModel
     {
         $sort = new \CSort();
         return $sort;
-
     }
 
     public function getStatusData()

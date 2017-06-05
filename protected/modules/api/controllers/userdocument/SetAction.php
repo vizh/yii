@@ -1,8 +1,8 @@
 <?php
 namespace api\controllers\userdocument;
 
-use \api\components\Exception;
 use api\components\Action;
+use api\components\Exception;
 use user\models\DocumentType;
 use user\models\forms\document\BaseDocument;
 use user\models\User;
@@ -17,12 +17,12 @@ class SetAction extends Action
 
         $documentType = DocumentType::model()->byId($documentTypeId)->find();
         if ($documentType === null) {
-            throw new Exception(1001, array($documentTypeId));
+            throw new Exception(1001, [$documentTypeId]);
         }
 
         $user = User::model()->byRunetId($runetId)->find();
         if ($user === null) {
-            throw new  Exception(202, array($runetId));
+            throw new  Exception(202, [$runetId]);
         }
 
         $documentClass = 'user\models\forms\document\\'.$documentType->FormName;
@@ -34,16 +34,14 @@ class SetAction extends Action
         $result = $document->createActiveRecord();
         if ($result === null) {
             $error = [
-                'Code'=> 1002,
+                'Code' => 1002,
                 'Messages' => $document->getErrors()
             ];
-            $this->setResult(['Error'=>$error]);
+            $this->setResult(['Error' => $error]);
         } else {
 
             $this->setSuccessResult();
         }
-
-
     }
 
 }

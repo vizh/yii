@@ -11,11 +11,12 @@ class SearchAction extends \ruvents\components\Action
         $request = \Yii::app()->getRequest();
         $query = $request->getParam('Query', null);
         $limit = $request->getParam('Limit', 200);
-        $onlyVisible = (bool) $request->getParam('OnlyVisible', true);
+        $onlyVisible = (bool)$request->getParam('OnlyVisible', true);
         $locale = $request->getParam('Locale', \Yii::app()->language);
-        
-        if (empty($query))
+
+        if (empty($query)) {
             throw new Exception(501);
+        }
 
         $users = [];
         if (filter_var($query, FILTER_VALIDATE_EMAIL)) {

@@ -14,10 +14,9 @@ class Ticket extends Base
         $this->coupons = $event->params['coupons'];
     }
 
-
     public function getSubject()
     {
-        return 'Билеты "' . $this->product->Title . '"';
+        return 'Билеты "'.$this->product->Title.'"';
     }
 
     /**

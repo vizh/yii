@@ -96,7 +96,6 @@ class EventCommand extends BaseConsoleCommand
         }
     }
 
-
     /**
      * Imports participants from the AIS system
      *
@@ -107,7 +106,6 @@ class EventCommand extends BaseConsoleCommand
         $ais = new AIS();
 
         $yesterday = $update ? (new DateTime())->sub(new DateInterval('PT15M'))->format('Y-m-d H:i:s') : null;
-
 
         // Find the TS event
         $event = Event::model()->findByPk(Event::TS16);
@@ -149,7 +147,7 @@ class EventCommand extends BaseConsoleCommand
             $this->log("Total count of users that have been registered: $total.");
         } catch (\CDbException $e) {
             $transaction->rollback();
-            echo $e->getMessage() . "\n";
+            echo $e->getMessage()."\n";
         }
     }
 
@@ -172,7 +170,7 @@ class EventCommand extends BaseConsoleCommand
         $user->refreshUpdateTime();
 
         $userId = $data['user_id'];
-        $region = $data['socr'] . ' ' . $data['region_name'];
+        $region = $data['socr'].' '.$data['region_name'];
         $country = $data['country_name'] ?: 'Россия';
         $smena = $data['smena_nm'];
         $team = $data['twenty'];

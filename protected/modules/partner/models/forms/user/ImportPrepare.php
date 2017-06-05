@@ -120,7 +120,7 @@ class ImportPrepare extends \CFormModel
                         continue;
                     }
 
-                    $values[$this->$column] = Texts::clear($worksheet->getCell($column . $i)->getFormattedValue());
+                    $values[$this->$column] = Texts::clear($worksheet->getCell($column.$i)->getFormattedValue());
                 }
 
                 $this->createImportUser($import->Id, $values);

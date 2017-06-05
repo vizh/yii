@@ -2,8 +2,8 @@
 
 class m150624_112448_create_user_document_table extends CDbMigration
 {
-	public function safeUp()
-	{
+    public function safeUp()
+    {
         $this->createTable('UserDocumentType', [
             'Id' => 'serial PRIMARY KEY',
             'Title' => 'varchar(255) NOT NULL',
@@ -51,7 +51,7 @@ class m150624_112448_create_user_document_table extends CDbMigration
             FOR EACH ROW
             EXECUTE PROCEDURE "CheckUserDocumentActual"();
         ');
-	}
+    }
 
     public function safeDown()
     {

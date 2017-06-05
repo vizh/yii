@@ -29,7 +29,6 @@ class Product5741 extends Base
         return 'DevCon 2016';
     }
 
-
     /**
      * @return bool
      */
@@ -53,7 +52,6 @@ class Product5741 extends Base
     {
         return 'DevCon 2016: успешная регистрация на сертификацию';
     }
-
 
     /**
      * @inheritdoc

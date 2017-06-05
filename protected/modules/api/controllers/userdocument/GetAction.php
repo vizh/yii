@@ -1,8 +1,8 @@
 <?php
 namespace api\controllers\userdocument;
 
-use api\components\Exception;
 use api\components\Action;
+use api\components\Exception;
 use user\models\Document;
 use user\models\DocumentType;
 use user\models\User;

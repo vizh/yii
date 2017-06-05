@@ -18,8 +18,7 @@ class IndexAction extends \widget\components\pay\Action
         }
 
         $products = Product::model()->byEventId($this->getEvent()->Id)->byPublic(true)->findAll($criteria);
-        if ($request->getIsPostRequest())
-        {
+        if ($request->getIsPostRequest()) {
             \Yii::app()->session[self::SessionProductCount] = $request->getParam('ProductCount', []);
             $this->getController()->gotoNextStep();
         }

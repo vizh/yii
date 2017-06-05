@@ -72,12 +72,14 @@ class BookingSearch extends \CFormModel
             return;
         }
 
-        if (empty($this->$attribute) || !is_array($this->$attribute))
+        if (empty($this->$attribute) || !is_array($this->$attribute)) {
             return;
+        }
 
         foreach ($this->$attribute as $attr) {
-            if (empty($attr) || intval($attr) === -1)
+            if (empty($attr) || intval($attr) === -1) {
                 continue;
+            }
 
             if (!in_array($attr, array_keys($this->_groupValues[$attribute]))) {
                 $this->addError($attribute, "Неверное значение для атрибута $attribute!");
@@ -96,8 +98,9 @@ class BookingSearch extends \CFormModel
             return;
         }
 
-        if (empty($this->$attribute))
+        if (empty($this->$attribute)) {
             return;
+        }
 
         if (!in_array($this->$attribute, array_keys($this->_groupValues[$attribute]))) {
             $this->addError($attribute, "Неверное значение для атрибута $attribute!");
@@ -127,34 +130,41 @@ class BookingSearch extends \CFormModel
             ->select('ppa.Name, ppa.Value')->from('PayProductAttribute ppa')
             ->leftJoin('PayProduct pp', 'ppa."ProductId" = pp."Id"')
             ->where('pp."EventId" = :EventId AND pp."ManagerName" = :ManagerName')
-            ->andWhere('ppa."Name" IN (\'' . implode('\',\'', self::$_attributeGroups) . '\')')
+            ->andWhere('ppa."Name" IN (\''.implode('\',\'', self::$_attributeGroups).'\')')
             ->group('ppa.Name, ppa.Value')
             ->order('ppa.Value');
 
         $idsSubquery = $this->makeProductIdsSubqueries($usedAttributes);
-        if (!empty($idsSubquery))
-            $command->andWhere('ppa."ProductId" IN (' . $idsSubquery . ')');
+        if (!empty($idsSubquery)) {
+            $command->andWhere('ppa."ProductId" IN ('.$idsSubquery.')');
+        }
 
         $results = $command->query(['EventId' => \Yii::app()->params['AdminBookingEventId'], 'ManagerName' => 'RoomProductManager']);
 
-        foreach ($this->_groupValues as $groupName => $group)
-            if (!in_array($groupName, $usedAttributes))
+        foreach ($this->_groupValues as $groupName => $group) {
+            if (!in_array($groupName, $usedAttributes)) {
                 unset($this->_groupValues[$groupName]);
+            }
+        }
 
         foreach ($results as $row) {
             $name = $row['Name'];
-            if (!empty($usedAttributes) && in_array($name, $usedAttributes))
+            if (!empty($usedAttributes) && in_array($name, $usedAttributes)) {
                 continue;
+            }
 
-            if (!isset($this->_groupValues[$name]))
+            if (!isset($this->_groupValues[$name])) {
                 $this->_groupValues[$name] = [];
+            }
 
-            if ($row['Value'] !== '')
+            if ($row['Value'] !== '') {
                 $this->_groupValues[$name][] = $row['Value'];
+            }
         }
 
-        foreach (self::$_dates as $date)
+        foreach (self::$_dates as $date) {
             $this->_groupValues['DateIn'][$date] = $this->_groupValues['DateOut'][$date] = $date;
+        }
 
         array_pop($this->_groupValues['DateIn']);
         array_shift($this->_groupValues['DateOut']);
@@ -175,8 +185,9 @@ class BookingSearch extends \CFormModel
      */
     public function getAttributeValues($fieldName)
     {
-        if (!in_array($fieldName, array_keys($this->_groupValues)))
+        if (!in_array($fieldName, array_keys($this->_groupValues))) {
             return [];
+        }
 
         return $this->_groupValues[$fieldName];
     }
@@ -188,27 +199,32 @@ class BookingSearch extends \CFormModel
      */
     public function getAttributeValue($fieldName)
     {
-        if (!in_array($fieldName, array_keys($this->_groupValues)))
+        if (!in_array($fieldName, array_keys($this->_groupValues))) {
             return null;
+        }
 
-        if (!property_exists($this, $fieldName))
+        if (!property_exists($this, $fieldName)) {
             return null;
+        }
 
-        if ($this->$fieldName === '' || $this->$fieldName === null)
+        if ($this->$fieldName === '' || $this->$fieldName === null) {
             return null;
+        }
 
         if (is_array($this->$fieldName)) {
             $result = [];
             foreach ($this->$fieldName as $field) {
                 $field = intval($field);
-                if (in_array($field, array_keys($this->_groupValues[$fieldName])))
+                if (in_array($field, array_keys($this->_groupValues[$fieldName]))) {
                     $result[] = $this->_groupValues[$fieldName][$field];
+                }
             }
             return $result;
         } else {
             $field = intval($this->$fieldName);
-            if (!in_array($field, array_keys($this->_groupValues[$fieldName])))
+            if (!in_array($field, array_keys($this->_groupValues[$fieldName]))) {
                 return null;
+            }
 
             return $this->_groupValues[$fieldName][$field];
         }
@@ -273,8 +289,9 @@ class BookingSearch extends \CFormModel
         // Парсим диапазоны дат
         $datesRanges = ['other' => false];
         for ($i = 0; $i < count($dates); ++$i) {
-            if (empty($dates[$i]))
+            if (empty($dates[$i])) {
                 continue;
+            }
 
             $range = [];
             self::parseValues($range, $dates[$i], ',', '=');
@@ -286,7 +303,7 @@ class BookingSearch extends \CFormModel
                 $nextDate = clone $startDate;
                 $nextDate->add(new \DateInterval('P1D'));
                 if ($startDate >= $this->minDate && $nextDate <= $this->maxDate) {
-                    $datesRanges[$startDate->format('Y-m-d') . '-' . $nextDate->format('Y-m-d')][] = [
+                    $datesRanges[$startDate->format('Y-m-d').'-'.$nextDate->format('Y-m-d')][] = [
                         'RunetId' => $ownerIds[$i],
                         'Email' => $emails[$i],
                         'Name' => $userNames[$i],
@@ -303,8 +320,9 @@ class BookingSearch extends \CFormModel
 
         // Парсим диапазоны дат
         for ($i = 0; $i < count($partnerDates); ++$i) {
-            if (empty($partnerDates[$i]))
+            if (empty($partnerDates[$i])) {
                 continue;
+            }
 
             $range = [];
             self::parseValues($range, $partnerDates[$i], ',', '=');
@@ -316,7 +334,7 @@ class BookingSearch extends \CFormModel
                 $nextDate = clone $startDate;
                 $nextDate->add(new \DateInterval('P1D'));
                 if ($startDate >= $this->minDate && $nextDate <= $this->maxDate) {
-                    $datesRanges[$startDate->format('Y-m-d') . '-' . $nextDate->format('Y-m-d')][] = [
+                    $datesRanges[$startDate->format('Y-m-d').'-'.$nextDate->format('Y-m-d')][] = [
                         'RunetId' => null,
                         'Email' => null,
                         'Name' => $partnerOwners[$i],
@@ -350,19 +368,20 @@ class BookingSearch extends \CFormModel
 
         $usedProductByPartnerIdsSql = 'SELECT prpb."ProductId" FROM "PayRoomPartnerBooking" prpb WHERE "DateIn" <= :dateIn AND "DateOut" >= :dateOut';
         if (!empty($this->DateIn) && !empty($this->DateOut)) {
-            $usedProductIdsSql = 'products."Id" ' . ($this->NotFree ? '' : 'NOT') . ' IN (' . $usedProductIdsSql . ') OR products."Id" IN (' . $usedProductByPartnerIdsSql . ')';
+            $usedProductIdsSql = 'products."Id" '.($this->NotFree ? '' : 'NOT').' IN ('.$usedProductIdsSql.') OR products."Id" IN ('.$usedProductByPartnerIdsSql.')';
             $data['dateIn'] = min($this->DateIn, $this->DateOut);
             $data['dateOut'] = max($this->DateOut, $this->DateIn);
-        } else
+        } else {
             $usedProductIdsSql = '';
+        }
 
         $idsSubqueries = $this->makeProductIdsSubqueries();
-        $idsSubqueries = empty($idsSubqueries) ? '' : 'products."Id" IN (' . $idsSubqueries . ') ';
+        $idsSubqueries = empty($idsSubqueries) ? '' : 'products."Id" IN ('.$idsSubqueries.') ';
 
         $where = implode(' AND ', array_filter([$usedProductIdsSql, $idsSubqueries], function ($v) {
             return !empty($v);
         }));
-        $where = empty($where) ? '' : 'WHERE ' . $where;
+        $where = empty($where) ? '' : 'WHERE '.$where;
 
         $query = '
     WITH orders AS (
@@ -402,7 +421,7 @@ class BookingSearch extends \CFormModel
       FROM products
       LEFT JOIN orders ON products."Id" = orders."ProductId"
       LEFT JOIN "PayRoomPartnerBooking" rpb ON rpb."ProductId" = products."Id" AND (rpb."Paid" OR NOT rpb."Deleted")
-      ' . $where . '
+      '.$where.'
       GROUP BY products."Id", products."Attributes"
       ORDER BY products."Id"';
 
@@ -422,23 +441,27 @@ class BookingSearch extends \CFormModel
         $usedAttributes = !empty($userAttributes) ? $userAttributes : self::$_attributeGroups;
         foreach ($usedAttributes as $field) {
             $val = $this->getAttributeValue($field);
-            if (empty($val))
+            if (empty($val)) {
                 continue;
+            }
 
             if (is_array($val)) {
                 $subqueries = [];
-                foreach ($val as $v)
+                foreach ($val as $v) {
                     $subqueries[] = "SELECT pp.\"ProductId\" FROM \"PayProductAttribute\" pp WHERE (pp.\"Name\" = '$field' AND pp.\"Value\" = '$v')";
+                }
 
-                $queries[] = ' (' . implode(') UNION (', $subqueries) . ') ';
-            } else
+                $queries[] = ' ('.implode(') UNION (', $subqueries).') ';
+            } else {
                 $queries[] = "SELECT pp.\"ProductId\" FROM \"PayProductAttribute\" pp WHERE (pp.\"Name\" = '$field' AND pp.\"Value\" = '$val')";
+            }
         }
 
-        if (empty($queries))
+        if (empty($queries)) {
             return null;
-        else
-            return ' (' . implode(') INTERSECT (', $queries) . ') ';
+        } else {
+            return ' ('.implode(') INTERSECT (', $queries).') ';
+        }
     }
 
     public function attributeLabels()
@@ -485,8 +508,9 @@ class BookingSearch extends \CFormModel
     private function makeDateRanges($dates)
     {
         $ranges = [];
-        for ($i = 0; $i < count($dates) - 1; ++$i)
+        for ($i = 0; $i < count($dates) - 1; ++$i) {
             $ranges[$dates[$i]] = $dates[$i + 1];
+        }
 
         return $ranges;
     }
@@ -505,8 +529,9 @@ class BookingSearch extends \CFormModel
             if (!empty($delimiter2)) {
                 $nameValue = explode($delimiter2, $dataField);
                 $data[$nameValue[0]] = $nameValue[1];
-            } else
+            } else {
                 $data[] = $dataField;
+            }
         }
     }
 }

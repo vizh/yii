@@ -7,7 +7,7 @@ use user\models\forms\Register as BaseRegisterForm;
 
 class Register extends BaseRegisterForm
 {
-    /** @var Event  */
+    /** @var Event */
     private $event;
 
     public $Role;
@@ -30,7 +30,6 @@ class Register extends BaseRegisterForm
                 unset($rules[$i]);
             }
         }
-
 
         return $rules;
     }

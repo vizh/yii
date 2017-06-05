@@ -8,7 +8,6 @@
 
 namespace api\components\callback;
 
-
 class IriCallback extends Base
 {
     protected function getUrlRegisterOnEvent()
@@ -18,7 +17,7 @@ class IriCallback extends Base
 
     public function registerOnEvent(\user\models\User $user, \event\models\Role $role)
     {
-        $res = $this->sendMessage($this->getUrlRegisterOnEvent(), [$this->account->EventId, $user->RunetId,$role->Id], true);
+        $res = $this->sendMessage($this->getUrlRegisterOnEvent(), [$this->account->EventId, $user->RunetId, $role->Id], true);
     }
 
 }

@@ -10,9 +10,9 @@ use user\models\User;
 class OrderItems extends SearchFormModel
 {
     const STATUS_DEFAULT = 'default';
-    const STATUS_PAID    = 'paid';
+    const STATUS_PAID = 'paid';
     const STATUS_DELETED = 'deleted';
-    const STATUS_REFUND  = 'refund';
+    const STATUS_REFUND = 'refund';
 
     public $Id;
 
@@ -32,7 +32,6 @@ class OrderItems extends SearchFormModel
         $this->event = $event;
         parent::__construct();
     }
-
 
     public function rules()
     {
@@ -80,7 +79,7 @@ class OrderItems extends SearchFormModel
                 $users = User::model()->bySearch($this->Owner, null, true, false)->byEmail($this->Owner, false)->findAll();
                 if (!empty($users)) {
                     $list = implode(',', \CHtml::listData($users, 'Id', 'Id'));
-                    $criteria->addCondition('"t"."ChangedOwnerId" IN (' . $list . ') OR ("t"."ChangedOwnerId" IS NULL AND "t"."OwnerId" IN (' . $list . '))');
+                    $criteria->addCondition('"t"."ChangedOwnerId" IN ('.$list.') OR ("t"."ChangedOwnerId" IS NULL AND "t"."OwnerId" IN ('.$list.'))');
                 } else {
                     $criteria->addCondition('1=2');
                 }
@@ -110,11 +109,11 @@ class OrderItems extends SearchFormModel
         $sort->attributes = [
             'Id',
             'Payer' => [
-                'asc'  => '"Payer"."RunetId" ASC',
+                'asc' => '"Payer"."RunetId" ASC',
                 'desc' => '"Payer"."RunetId" DESC'
             ],
             'Owner' => [
-                'asc'  => '"Owner"."RunetId" ASC',
+                'asc' => '"Owner"."RunetId" ASC',
                 'desc' => '"Owner"."RunetId" DESC'
             ],
             'CreationTime'
@@ -128,7 +127,7 @@ class OrderItems extends SearchFormModel
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'Id' => 'Номер элемента заказа',
             'Product' => 'Товар',
             'Payer' => 'Плательщик',
@@ -137,7 +136,7 @@ class OrderItems extends SearchFormModel
             'CreationTime' => 'Дата создания',
             'Total' => 'Сумма',
             'PaidType' => 'Тип оплаты'
-        );
+        ];
     }
 
     /**

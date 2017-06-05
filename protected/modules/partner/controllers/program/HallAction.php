@@ -17,7 +17,6 @@ class HallAction extends \partner\components\Action
         /** @var HallForm[] $forms */
         $forms = [];
 
-
         $halls = Hall::model()->byEventId($this->getEvent()->Id)->byDeleted(false)->orderBy(['"Order"' => SORT_ASC, '"Title"' => SORT_ASC])->findAll();
         foreach ($halls as $hall) {
             $forms[] = new HallForm($this->getEvent(), $hall, $request->getParam('locale'));
@@ -37,11 +36,11 @@ class HallAction extends \partner\components\Action
                     $form->updateActiveRecord();
                 }
 
-                Flash::setSuccess(\Yii::t('app','Информация о залах успешно сохранена!'));
+                Flash::setSuccess(\Yii::t('app', 'Информация о залах успешно сохранена!'));
                 $this->getController()->refresh();
             }
         }
 
         $this->getController()->render('hall', ['forms' => $forms]);
     }
-} 
+}

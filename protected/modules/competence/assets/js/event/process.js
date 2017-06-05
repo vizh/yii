@@ -1,16 +1,15 @@
 $(function () {
     var $questions = $('.interview .question');
-    var $progress  = $('div.interview-progress .progress');
+    var $progress = $('div.interview-progress .progress');
 
     $questions.find('input,select,textarea').change(function () {
-       fillProgressBar();
+        fillProgressBar();
     });
 
     function fillProgressBar() {
         var count = 0,
             answered = 0,
             requiredAnswered = 0;
-
 
         $questions.each(function () {
             var isAnswered = false;
@@ -45,7 +44,6 @@ $(function () {
             $progress.removeClass('progress-success');
         }
     };
-
 
     fillProgressBar();
 });

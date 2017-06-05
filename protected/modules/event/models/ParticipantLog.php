@@ -71,8 +71,8 @@ class ParticipantLog extends ActiveRecord
     {
         $criteria = new \CDbCriteria();
         $criteria->addCondition('"t"."UserId" = :UserId AND "t"."RoleId" = :RoleId AND "t"."EventId" = :EventId');
-        $criteria->params['UserId']  = $participant->UserId;
-        $criteria->params['RoleId']  = $participant->RoleId;
+        $criteria->params['UserId'] = $participant->UserId;
+        $criteria->params['RoleId'] = $participant->RoleId;
         $criteria->params['EventId'] = $participant->EventId;
         if (!empty($participant->PartId)) {
             $criteria->addCondition('"t"."PartId" = :PartId');

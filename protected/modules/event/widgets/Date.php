@@ -1,16 +1,17 @@
 <?php
 namespace event\widgets;
+
 class Date extends \CWidget
 {
-  public $event;
-  public $html = true;
-  public function run()
-  {
-    $data = $this->render('date', array('event' => $this->event), true);
-    if (!$this->html)
+    public $event;
+    public $html = true;
+
+    public function run()
     {
-      $data = strip_tags($data);
+        $data = $this->render('date', ['event' => $this->event], true);
+        if (!$this->html) {
+            $data = strip_tags($data);
+        }
+        echo trim($data);
     }
-    echo trim($data);
-  }
 }

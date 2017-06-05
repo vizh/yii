@@ -84,11 +84,9 @@ class Account extends \CFormModel
 
     public function filterEventId($value)
     {
-        if ($this->account->getIsNewRecord() && !$this->hasErrors('EventId'))
-        {
+        if ($this->account->getIsNewRecord() && !$this->hasErrors('EventId')) {
             $account = \pay\models\Account::model()->byEventId($this->EventId)->find();
-            if ($account !== null)
-            {
+            if ($account !== null) {
                 $this->addError('EventId', \Yii::t('app', 'Платежный аккаунт для этого мероприятия уже существует. Для его редактирования перейдите по <a href="{link}">ссылке</a>.', [
                     '{link}' => \Yii::app()->getController()->createUrl('/pay/admin/account/edit', ['accountId' => $account->Id])
                 ]));
@@ -101,8 +99,7 @@ class Account extends \CFormModel
     {
         $data = ['' => \Yii::t('app', 'Не задан')];
         $templates = \pay\models\OrderJuridicalTemplate::model()->findAll(['order' => '"t"."Title" ASC']);
-        foreach ($templates as $template)
-        {
+        foreach ($templates as $template) {
             $data[$template->Id] = $template->Title;
         }
         return $data;
@@ -123,10 +120,8 @@ class Account extends \CFormModel
     private function getData($path, $showExtension = false)
     {
         $data = ['' => \Yii::t('app', 'По умолчанию')];
-        foreach (new \DirectoryIterator($path) as $file)
-        {
-            if ($file->isFile())
-            {
+        foreach (new \DirectoryIterator($path) as $file) {
+            if ($file->isFile()) {
                 $name = $showExtension ? $file->getBasename() : $file->getBasename('.'.$file->getExtension());
                 $data[$name] = $name;
             }

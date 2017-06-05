@@ -14,12 +14,12 @@ class Base extends \CFormModel
 
     public function filterAttributes($value)
     {
-        if (!is_array($value))
+        if (!is_array($value)) {
             $this->addError('Attributes', \Yii::t('app', 'Не заполнены параметры виджета!'));
+        }
 
         return $value;
     }
-
 
     public function getLocaleList()
     {

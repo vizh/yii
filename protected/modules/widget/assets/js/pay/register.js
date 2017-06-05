@@ -1,7 +1,4 @@
-
-
-var CPayRegister = function()
-{
+var CPayRegister = function () {
     this.itemsIterator = 0;
     this.form = $('.register form');
     this.scenario = 'User';
@@ -12,19 +9,19 @@ var CPayRegister = function()
     this.documentRequired = (this.form.data('document-required') == 1);
 
     this.templates = {
-        row : _.template($('#row-tpl[type="text/template"]').html()),
-        rowWithData : _.template($('#row-withdata-tpl[type="text/template"]').html()),
-        rowDataFields : _.template($('#row-data-tpl[type="text/template"]').html()),
-        rowRegister : _.template($('#row-register-tpl[type="text/template"]').html()),
-        userAutocomlete : _.template($('#user-autocomlete-tpl[type="text/template"]').html()),
-        discount: _.template($('#row-discount[type="text/template"]').html()),
-        rowEditUserData: _.template($('#row-userdataedit-tpl[type="text/template"]').html()),
-        rowDocumentAlert: _.template($('#row-userdocumentalert-tpl[type="text/template"]').html())
+        row:_.template($('#row-tpl[type="text/template"]').html()),
+        rowWithData:_.template($('#row-withdata-tpl[type="text/template"]').html()),
+        rowDataFields:_.template($('#row-data-tpl[type="text/template"]').html()),
+        rowRegister:_.template($('#row-register-tpl[type="text/template"]').html()),
+        userAutocomlete:_.template($('#user-autocomlete-tpl[type="text/template"]').html()),
+        discount:_.template($('#row-discount[type="text/template"]').html()),
+        rowEditUserData:_.template($('#row-userdataedit-tpl[type="text/template"]').html()),
+        rowDocumentAlert:_.template($('#row-userdocumentalert-tpl[type="text/template"]').html())
     };
     this.init();
 };
 CPayRegister.prototype = {
-    init: function () {
+    init:function () {
         var self = this;
         self.form.find('input[name*="Scenario"]').change(function (e) {
             self.initScenario($(e.currentTarget).val());
@@ -56,18 +53,18 @@ CPayRegister.prototype = {
         });
     },
 
-    initScenario : function (scenario) {
+    initScenario:function (scenario) {
         var self = this;
         self.scenario = scenario;
         this.form.find('div[data-scenario]').hide().find(':input').prop('disabled', true);
-        this.form.find('div[data-scenario="'+self.scenario+'"]').show().find(':input').not('.no-disabled').prop('disabled', false);
+        this.form.find('div[data-scenario="' + self.scenario + '"]').show().find(':input').not('.no-disabled').prop('disabled', false);
         this.form.find('.nav-buttons a.btn-large').removeClass('disabled');
     },
 
     /**
      *
      */
-    initRegisterButton : function (row) {
+    initRegisterButton:function (row) {
         var self = this,
             table = row.parents('table[data-product-id]');
 
@@ -92,7 +89,7 @@ CPayRegister.prototype = {
                         else {
                             alertContainer.show().html('');
                             $.each(response.errors, function (field, messsage) {
-                                alertContainer.append(messsage+'<br/>');
+                                alertContainer.append(messsage + '<br/>');
                             });
                         }
                     },
@@ -108,20 +105,20 @@ CPayRegister.prototype = {
         });
     },
 
-    initDiscountRemote: function(row){
+    initDiscountRemote:function (row) {
         var self = this;
 
         $.getJSON('/pay/ajax/couponinfo', {
-            runetId : row.find('input[name*="RunetId"]').val(),
-            productId : row.parents('table[data-product-id]').data('product-id'),
-            eventIdName : self.eventIdName
-        }, function(response){
+            runetId:row.find('input[name*="RunetId"]').val(),
+            productId:row.parents('table[data-product-id]').data('product-id'),
+            eventIdName:self.eventIdName
+        }, function (response) {
             self.initDiscount(row, response.Discount);
             self.calculate();
         });
     },
 
-    initDiscount: function(row, discount) {
+    initDiscount:function (row, discount) {
         var td = $('td.discount', row);
         td.data('discount', discount);
 
@@ -130,23 +127,23 @@ CPayRegister.prototype = {
 
         var price = row.parents('table[data-product-id]').data('price');
         var rowDiscount = this.templates.discount({
-            discount: discount
+            discount:discount
         });
         td.html(rowDiscount);
     },
 
-    checkDocumentRemote : function (row) {
+    checkDocumentRemote:function (row) {
         var self = this;
         if (!self.documentRequired) {
             return;
         }
 
         $.getJSON('/user/ajax/checkdocument', {
-            'id' : row.find('input[name*="RunetId"]').val()
+            'id':row.find('input[name*="RunetId"]').val()
         }, function (response) {
             if (!response.result) {
                 var rowAlertTemplate = self.templates.rowDocumentAlert({
-                    user : response.user
+                    user:response.user
                 });
                 row.after(rowAlertTemplate);
             }
@@ -156,15 +153,15 @@ CPayRegister.prototype = {
     /**
      *
      */
-    initCouponField : function (row) {
+    initCouponField:function (row) {
         var self = this,
-            promoInput  = row.find('.input-promo>input'),
+            promoInput = row.find('.input-promo>input'),
             promoSubmit = row.find('.input-promo>.btn'),
-            promoAlert  = row.find('.input-promo>.alert');
+            promoAlert = row.find('.input-promo>.alert');
 
         promoInput.placeholder();
 
-        promoInput.keyup(function(e) {
+        promoInput.keyup(function (e) {
             if ($(e.currentTarget).val().length > 0) {
                 promoSubmit.addClass('btn-success').removeClass('disabled');
             }
@@ -173,15 +170,15 @@ CPayRegister.prototype = {
             }
         });
 
-        promoSubmit.click(function(e) {
+        promoSubmit.click(function (e) {
             var row = $(e.currentTarget).parents('.user-row');
 
             if (!$(e.currentTarget).hasClass('disabled')) {
                 $.getJSON('/pay/ajax/couponactivate', {
-                    code : promoInput.val(),
-                    ownerRunetId : row.find('input[name*="RunetId"]').val(),
-                    productId : row.parents('table[data-product-id]').data('product-id'),
-                    eventIdName : self.eventIdName
+                    code:promoInput.val(),
+                    ownerRunetId:row.find('input[name*="RunetId"]').val(),
+                    productId:row.parents('table[data-product-id]').data('product-id'),
+                    eventIdName:self.eventIdName
                 }, function (response) {
                     var runAlertTimer = true;
                     promoAlert.attr('class', 'alert').html('');
@@ -189,7 +186,7 @@ CPayRegister.prototype = {
                         if (response.coupon.Discount == 1) {
                             row.find('td').empty();
                             row.html(
-                                '<td colspan="4"><div class="alert alert-success">'+response.message+'</div></td>'
+                                '<td colspan="4"><div class="alert alert-success">' + response.message + '</div></td>'
                             );
                             self.itemsIterator--;
                             self.calculate();
@@ -207,7 +204,9 @@ CPayRegister.prototype = {
                     }
 
                     if (runAlertTimer) {
-                        setTimeout(function () { promoAlert.addClass('hide'); }, 2000);
+                        setTimeout(function () {
+                            promoAlert.addClass('hide');
+                        }, 2000);
                     }
                 });
             }
@@ -217,7 +216,7 @@ CPayRegister.prototype = {
     /**
      *
      */
-    initRemoveIcon : function (row) {
+    initRemoveIcon:function (row) {
         var self = this;
         row.find('i.icon-remove').click(function () {
             row.empty().remove();
@@ -229,35 +228,35 @@ CPayRegister.prototype = {
     /**
      *
      */
-    createEmptyRow : function (productId) {
+    createEmptyRow:function (productId) {
         var self = this,
             rowTemplate = this.templates.row();
 
-        var table = self.form.find('table[data-product-id="'+ productId +'"] tbody');
+        var table = self.form.find('table[data-product-id="' + productId + '"] tbody');
         table.append(rowTemplate);
         var row = table.find('tr:last-child');
         var source = '/user/ajax/search/' + (self.sandBoxUser ? '?eventId=' + self.eventId : '');
         row.find('input.input-user').autocomplete({
-            minLength: 2,
-            position: {
-                collision: 'flip'
+            minLength:2,
+            position:{
+                collision:'flip'
             },
-            source: source,
-            select: function(event, ui) {
+            source:source,
+            select:function (event, ui) {
                 row.find('button.btn-register').hide();
                 self.processUserDataRow(row, productId, ui.item.RunetId);
             },
-            response : function (event, ui) {
+            response:function (event, ui) {
                 $.each(ui.content, function (i) {
                     ui.content[i].label = self.templates.userAutocomlete({
-                        item: ui.content[i]
+                        item:ui.content[i]
                     });
                     var runetIdTitle = self.sandBoxUser ? 'ID ' : 'RUNET-ID ';
-                    ui.content[i].value = ui.content[i].FullName + ', '+ runetIdTitle + ui.content[i].RunetId;
+                    ui.content[i].value = ui.content[i].FullName + ', ' + runetIdTitle + ui.content[i].RunetId;
                 });
                 row.find('button.btn-register').show();
             },
-            html : true
+            html:true
         });
         self.initRegisterButton(row);
     },
@@ -265,18 +264,16 @@ CPayRegister.prototype = {
     /**
      *
      */
-    createFillRow: function (productId, item, promoCode) {
+    createFillRow:function (productId, item, promoCode) {
         var self = this;
         var rowTemplate = this.templates.rowWithData({
-            i : self.itemsIterator++,
-            productId : productId,
-            item : item,
-            promoCode : promoCode
+            i:self.itemsIterator++,
+            productId:productId,
+            item:item,
+            promoCode:promoCode
         });
 
-
-
-        var table = self.form.find('table[data-product-id="'+ productId +'"] tbody');
+        var table = self.form.find('table[data-product-id="' + productId + '"] tbody');
         table.append(rowTemplate);
         var row = table.find('tr:last-child');
         self.initRemoveIcon(row);
@@ -286,18 +283,18 @@ CPayRegister.prototype = {
         return row;
     },
 
-    processUserDataRow: function(row, productId, runetId) {
+    processUserDataRow:function (row, productId, runetId) {
         var self = this;
         var inputUser = row.find('.input-user');
 
         $.get('/pay/ajax/userdata', {
-                runetId: runetId,
-                eventIdName: self.eventIdName
+                runetId:runetId,
+                eventIdName:self.eventIdName
             }, function (response) {
                 if (response.showEditArea) {
                     var editUserDataTemplate = self.templates.rowEditUserData({
-                        userInfo: inputUser.val(),
-                        editArea: response.editArea
+                        userInfo:inputUser.val(),
+                        editArea:response.editArea
                     });
                     row.after(editUserDataTemplate);
                     row.hide();
@@ -306,7 +303,7 @@ CPayRegister.prototype = {
                     editForm.find('.form-actions .btn-submit').click(function () {
                         var alertContainer = editForm.find('.alert-error');
                         alertContainer.html('').hide();
-                        $.post('/pay/ajax/edituserdata/?eventIdName='+self.eventIdName+'&runetId='+runetId,
+                        $.post('/pay/ajax/edituserdata/?eventIdName=' + self.eventIdName + '&runetId=' + runetId,
                             editForm.serialize(),
                             function (response) {
                                 if (response.success) {
@@ -317,7 +314,7 @@ CPayRegister.prototype = {
                                 else {
                                     alertContainer.show().html('');
                                     $.each(response.errors, function (field, messsage) {
-                                        alertContainer.append(messsage+'<br/>');
+                                        alertContainer.append(messsage + '<br/>');
                                     });
                                 }
                             },
@@ -337,13 +334,13 @@ CPayRegister.prototype = {
             'json');
     },
 
-    processEmptyRow: function(row, productId, runetId) {
+    processEmptyRow:function (row, productId, runetId) {
         var self = this;
 
         var rowDataFieldsTemplate = self.templates.rowDataFields({
-            i : self.itemsIterator,
-            productId: productId,
-            runetId: runetId
+            i:self.itemsIterator,
+            productId:productId,
+            runetId:runetId
         });
         row.find('.last-child').html(rowDataFieldsTemplate);
         row.find('.input-user').attr('disabled', 'disabled').addClass('no-disabled').blur().after('<i class="icon-remove"></i>');
@@ -355,14 +352,14 @@ CPayRegister.prototype = {
         self.itemsIterator++;
     },
 
-    calculate : function (scenario) {
-        var self     = this,
-            total    = 0;
+    calculate:function (scenario) {
+        var self = this,
+            total = 0;
 
         if (typeof(scenario) == "undefined")
             scenario = self.scenario;
 
-        var form = self.form.find('div[data-scenario="'+scenario+'"]');
+        var form = self.form.find('div[data-scenario="' + scenario + '"]');
 
         switch (scenario) {
             case 'User':
@@ -373,7 +370,7 @@ CPayRegister.prototype = {
                         current = rows.size(),
                         sum = 0;
 
-                    rows.each(function(){
+                    rows.each(function () {
                         var discount = $(this).parents('tr.user-row').find('td.discount').data('discount');
                         if (typeof(discount) == "undefined")
                             discount = 0;

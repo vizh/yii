@@ -8,14 +8,12 @@
 
 namespace api\controllers\iri;
 
-
 use api\components\Action;
 use iri\models\User;
-
-use nastradamus39\slate\annotations\ApiAction;
-use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\ApiAction;
 
 class UserListAction extends Action
 {

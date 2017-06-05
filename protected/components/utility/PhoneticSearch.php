@@ -20,10 +20,10 @@ class PhoneticSearch
     const LANG_EN = 'en';
 
     /** @var array */
-    private static $ALPHABET_RU = ['а','б','в','г','д','е','ё','ж','з','и','й','к','л','м','н','о','п','р','с','м','т','у','ф','х','ц','ч','ш','щ','ъ','ы','ь','э','ю','я'];
+    private static $ALPHABET_RU = ['а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'м', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э', 'ю', 'я'];
 
-    /** @var array согласные русского алфавита  */
-    private static $CONSONANTS_RU = ['б','в','г','д','ж','з','й','к','п','с','т','ф','х','ц','ч','ш','щ'];
+    /** @var array согласные русского алфавита */
+    private static $CONSONANTS_RU = ['б', 'в', 'г', 'д', 'ж', 'з', 'й', 'к', 'п', 'с', 'т', 'ф', 'х', 'ц', 'ч', 'ш', 'щ'];
 
     /**
      * Возвращает фонетический индкс для входной строки
@@ -39,7 +39,6 @@ class PhoneticSearch
         $strings = self::prepareString($string);
         foreach ($strings as $string) {
             $result[] = ($lang === self::LANG_RU ? self::getRuIndex($string) : $string);
-
         }
         return implode(' ', $result);
     }
@@ -77,13 +76,13 @@ class PhoneticSearch
             'ио' => 'и',
             'йе' => 'и',
             'ие' => 'и',
-            'о'  => 'а',
-            'ы'  => 'а',
-            'я'  => 'а',
-            'е'  => 'и',
-            'ё'  => 'и',
-            'э'  => 'и',
-            'ю'  => 'у'
+            'о' => 'а',
+            'ы' => 'а',
+            'я' => 'а',
+            'е' => 'и',
+            'ё' => 'и',
+            'э' => 'и',
+            'ю' => 'у'
         ];
         $result = strtr($result, $replace);
 
@@ -95,10 +94,10 @@ class PhoneticSearch
             'г' => 'к'
         ];
 
-        $patternConsonants = '(' . implode('|', self::$CONSONANTS_RU) . ')';
+        $patternConsonants = '('.implode('|', self::$CONSONANTS_RU).')';
         foreach ($replace as $from => $to) {
-            $result = preg_replace('/' . $from . $patternConsonants . '/u', $to . '$1', $result);
-            $result = preg_replace('/' . $from . '$/u', $to, $result);
+            $result = preg_replace('/'.$from.$patternConsonants.'/u', $to.'$1', $result);
+            $result = preg_replace('/'.$from.'$/u', $to, $result);
         }
 
         $result = self::clearDuplicateChars($result);
@@ -137,7 +136,7 @@ class PhoneticSearch
     private static function clearDuplicateChars($string)
     {
         foreach (self::$ALPHABET_RU as $char) {
-            $string = preg_replace('/' . $char . '{2,}/u', $char, $string);
+            $string = preg_replace('/'.$char.'{2,}/u', $char, $string);
         }
         return $string;
     }

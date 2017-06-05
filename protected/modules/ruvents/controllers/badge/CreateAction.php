@@ -21,12 +21,12 @@ class CreateAction extends \ruvents\components\Action
         //todo: для PHDays
         //$partId = $request->getParam('PartId', 18);
 
-
         $event = $this->getEvent();
         $user = \user\models\User::model()->byRunetId($runetId)->find();
 
-        if ($user === null)
+        if ($user === null) {
             throw new Exception(202, $runetId);
+        }
 
         $badge = new \ruvents\models\Badge();
         $badge->OperatorId = $this->getOperator()->Id;

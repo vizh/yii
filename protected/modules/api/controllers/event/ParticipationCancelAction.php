@@ -4,12 +4,11 @@ namespace api\controllers\event;
 use api\components\Exception;
 use api\models\Account;
 use event\models\Participant;
-
-use nastradamus39\slate\annotations\ApiAction;
-use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
+use nastradamus39\slate\annotations\ApiAction;
 
 /**
  * Метод только для служебного использования. Позволяет отменить участие
@@ -42,19 +41,22 @@ class ParticipationCancelAction extends \api\components\Action
      */
     public function run()
     {
-        if ($this->getAccount()->Role !== Account::ROLE_OWN)
+        if ($this->getAccount()->Role !== Account::ROLE_OWN) {
             throw new Exception(104);
+        }
 
         $participation = Participant::model()
             ->byEventId($this->getEvent()->Id)
             ->byUserId($this->getRequestedUser()->Id)
             ->find();
 
-        if ($participation === null)
+        if ($participation === null) {
             throw new Exception(304);
+        }
 
-        if ($participation->delete() === false)
+        if ($participation->delete() === false) {
             throw new Exception(100, 'Непредвиденная ошибка отмены участия посетителя');
+        }
 
         $this->setSuccessResult();
     }

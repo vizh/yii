@@ -15,19 +15,19 @@ class UnregisterAction extends \ruvents\components\Action
         $runetId = $request->getParam('RunetId', null);
         $partId = $request->getParam('PartId', null);
 
-
         $event = $this->getEvent();
         $user = User::model()
             ->byRunetId($runetId)
             ->find();
-        
-        if ($user === null)
+
+        if ($user === null) {
             throw new Exception(202, $runetId);
+        }
 
         $participant = Participant::model()
             ->byEventId($event->Id)
             ->byUserId($user->Id);
-        
+
         $part = null;
 
         /**
@@ -46,8 +46,9 @@ class UnregisterAction extends \ruvents\components\Action
 
         if (sizeof($event->Parts) > 0) {
             $part = Part::model()->findByPk($partId);
-            if (!$part)
+            if (!$part) {
                 throw new Exception(306, [$partId]);
+            }
 
             $participant->byPartId($part->Id);
         } else {
@@ -67,7 +68,7 @@ class UnregisterAction extends \ruvents\components\Action
         $this->getDetailLog()->save();
 
         $participant->delete();
-        
+
         echo json_encode(['Success' => true]);
     }
 }

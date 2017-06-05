@@ -1,10 +1,10 @@
 <?php
 namespace competence\models\form;
 
-use application\components\form\FormModel;
-use competence\models\Result;
 use application\components\Exception;
+use application\components\form\FormModel;
 use competence\models\Question;
+use competence\models\Result;
 
 abstract class Base extends FormModel
 {
@@ -71,8 +71,9 @@ abstract class Base extends FormModel
             $formData = $this->question->getFormData();
             $formData[$name] = $value;
             $this->question->setFormData($formData);
-        } else
+        } else {
             parent::__set($name, $value);
+        }
     }
 
     public function __isset($name)
@@ -93,10 +94,10 @@ abstract class Base extends FormModel
                 $this->question->setFormData($formData);
             }
             return;
-        } else
+        } else {
             parent::__unset($name);
+        }
     }
-
 
     /**
      * @return \competence\models\Question
@@ -131,7 +132,7 @@ abstract class Base extends FormModel
         $className = get_class($this);
         $className = substr($className, strrpos($className, '\\') + 1);
 
-        return 'competence.views.test.' . $this->question->Test->Code . '.' . strtolower($className);
+        return 'competence.views.test.'.$this->question->Test->Code.'.'.strtolower($className);
     }
 
     /**
@@ -152,7 +153,6 @@ abstract class Base extends FormModel
      */
     public function afterProcess()
     {
-
     }
 
     /**
@@ -202,7 +202,7 @@ abstract class Base extends FormModel
             return $this->question->Next;
         }
 
-        throw new Exception('Необходимо задать Id следующего вопроса или переопределить метод getNext() для ' . get_class($this));
+        throw new Exception('Необходимо задать Id следующего вопроса или переопределить метод getNext() для '.get_class($this));
     }
 
     /**
@@ -219,7 +219,7 @@ abstract class Base extends FormModel
             return $this->question->Prev;
         }
 
-        throw new Exception('Необходимо задать Id предыдущего вопроса или переопределить метод getPrev() для ' . get_class($this));
+        throw new Exception('Необходимо задать Id предыдущего вопроса или переопределить метод getPrev() для '.get_class($this));
     }
 
     /**
@@ -240,7 +240,7 @@ abstract class Base extends FormModel
 
     protected function rotate($key, $values)
     {
-        $rotationKey = 'competence-rotate-' . $this->question->Test->Code;
+        $rotationKey = 'competence-rotate-'.$this->question->Test->Code;
         $rotation = \Yii::app()->getSession()->get($rotationKey, []);
         if (!isset($rotation[$key])) {
             $rotationValues = array_keys($values);
@@ -265,7 +265,7 @@ abstract class Base extends FormModel
 
     public function clearRotation()
     {
-        \Yii::app()->getSession()->remove('competence-rotate-' . $this->question->Test->Code);
+        \Yii::app()->getSession()->remove('competence-rotate-'.$this->question->Test->Code);
     }
 
     public function getNumber()
@@ -276,7 +276,7 @@ abstract class Base extends FormModel
     public function getPercent()
     {
         if ($this->getNumber() != null) {
-            $path = \Yii::getPathOfAlias('competence.models.test.' . $this->question->Test->Code);
+            $path = \Yii::getPathOfAlias('competence.models.test.'.$this->question->Test->Code);
             $questionFiles = scandir($path);
             $count = 0;
             foreach ($questionFiles as $file) {

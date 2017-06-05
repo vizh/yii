@@ -1,7 +1,6 @@
 <?php
 namespace event\models\forms\widgets\header;
 
-use event\components\Widget;
 use event\components\widget\WidgetAdminPanelForm;
 use event\models\Event;
 
@@ -53,7 +52,6 @@ class Header extends WidgetAdminPanelForm
         }
         return $this->model;
     }
-
 
     /**
      * Заполняет параметры формы из POST запроса

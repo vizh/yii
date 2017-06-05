@@ -1,8 +1,8 @@
 <?php
 namespace competence\models\form;
 
-use competence\models\Result;
 use competence\models\form\attribute\CheckboxValue;
+use competence\models\Result;
 
 /**
  * Class Select allows to choose only one answer from select box
@@ -78,7 +78,7 @@ class Select extends Base
 
         foreach ($values as $key => $value) {
             if (empty($value->key)) {
-                $this->question->addError('Title', 'Строка ' . ($key + 1) . ': не задан ключ для варианта ответа');
+                $this->question->addError('Title', 'Строка '.($key + 1).': не задан ключ для варианта ответа');
             }
         }
 

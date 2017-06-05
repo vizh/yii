@@ -2,12 +2,11 @@
 namespace api\controllers\user;
 
 use api\components\builders\Builder;
-
 use api\models\Account;
-use nastradamus39\slate\annotations\ApiAction;
-use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\ApiAction;
 
 class SearchAction extends \api\components\Action
 {

@@ -12,11 +12,11 @@ use application\components\form\EventItemCreateUpdateForm;
 use application\components\helpers\ArrayHelper;
 use event\models\Event;
 use event\models\Part;
+use event\models\Participant as ParticipantModel;
 use event\models\UserData;
 use pay\models\OrderItem;
 use pay\models\Product;
 use user\models\User;
-use event\models\Participant as ParticipantModel;
 
 class Participant extends EventItemCreateUpdateForm
 {
@@ -47,19 +47,21 @@ class Participant extends EventItemCreateUpdateForm
 
         $result->participants = null;
         if (!empty($this->event->Parts)) {
-            $result->participants = ArrayHelper::toArray($this->event->Parts, ['event\models\Part' => [
-                'Title',
-                'role' => function (Part $part) use ($user, $event) {
-                    $participant = ParticipantModel::model()
-                        ->byPartId($part->Id)
-                        ->byUserId($user->Id)
-                        ->find();
-                    return $participant !== null
-                        ? $participant->RoleId
-                        : null;
-                },
-                'part' => 'Id'
-            ]]);
+            $result->participants = ArrayHelper::toArray($this->event->Parts, [
+                'event\models\Part' => [
+                    'Title',
+                    'role' => function (Part $part) use ($user, $event) {
+                        $participant = ParticipantModel::model()
+                            ->byPartId($part->Id)
+                            ->byUserId($user->Id)
+                            ->find();
+                        return $participant !== null
+                            ? $participant->RoleId
+                            : null;
+                    },
+                    'part' => 'Id'
+                ]
+            ]);
         } else {
             $participant = ParticipantModel::model()
                 ->byEventId($event->Id)
@@ -94,15 +96,19 @@ class Participant extends EventItemCreateUpdateForm
             return $product->getPrice() === 0;
         });
 
-        $products = ArrayHelper::toArray($products, ['pay\models\Product' => [
-            'Id', 'Title', 'Paid' => function (Product $product) use ($user) {
-                return OrderItem::model()
-                    ->byAnyOwnerId($user->Id)
-                    ->byProductId($product->Id)
-                    ->byPaid(true)
-                    ->exists();
-            }
-        ]]);
+        $products = ArrayHelper::toArray($products, [
+            'pay\models\Product' => [
+                'Id',
+                'Title',
+                'Paid' => function (Product $product) use ($user) {
+                    return OrderItem::model()
+                        ->byAnyOwnerId($user->Id)
+                        ->byProductId($product->Id)
+                        ->byPaid(true)
+                        ->exists();
+                }
+            ]
+        ]);
 
         $result->products = array_values($products);
     }
@@ -113,27 +119,29 @@ class Participant extends EventItemCreateUpdateForm
      */
     private function fillParticipantJsonData(\stdClass &$result)
     {
-        $result->data = ArrayHelper::toArray($this->event->getUserData($this->model, true), ['event\models\UserData' => [
-            'Id',
-            'titles' => function (UserData $data) {
-                $titles = [];
-                foreach ($data->getManager()->getDefinitions() as $definition) {
-                    $titles[$definition->name] = $definition->title;
+        $result->data = ArrayHelper::toArray($this->event->getUserData($this->model, true), [
+            'event\models\UserData' => [
+                'Id',
+                'titles' => function (UserData $data) {
+                    $titles = [];
+                    foreach ($data->getManager()->getDefinitions() as $definition) {
+                        $titles[$definition->name] = $definition->title;
+                    }
+                    return $titles;
+                },
+                'attributes' => function (UserData $data) {
+                    $manager = $data->getManager();
+                    $attributes = [];
+                    foreach ($manager->getDefinitions() as $definition) {
+                        $attributes[$definition->name] = [
+                            'value' => $definition->getPrintValue($manager, true),
+                            'edit' => $definition->activeEdit($manager, ['class' => 'form-control'])
+                        ];
+                    }
+                    return $attributes;
                 }
-                return $titles;
-            },
-            'attributes' => function (UserData $data) {
-                $manager = $data->getManager();
-                $attributes = [];
-                foreach ($manager->getDefinitions() as $definition) {
-                    $attributes[$definition->name] = [
-                        'value' => $definition->getPrintValue($manager, true),
-                        'edit'  => $definition->activeEdit($manager, ['class' => 'form-control'])
-                    ];
-                }
-                return $attributes;
-            }
-        ]]);
+            ]
+        ]);
     }
 
     /**

@@ -16,16 +16,18 @@ class UtilityController extends ruvents\components\Controller
 
     public function actionOperators()
     {
-        if ($this->getAccount() === null)
+        if ($this->getAccount() === null) {
             throw new Exception(104);
+        }
 
         $operators = Operator::model()
             ->byEventId($this->getAccount()->EventId)
             ->findAll();
 
         $result = [];
-        foreach ($operators as $operator)
+        foreach ($operators as $operator) {
             $result[] = $this->getDataBuilder()->createOperator($operator);
+        }
 
         $this->renderJson(['Operators' => $result]);
     }
@@ -37,9 +39,10 @@ class UtilityController extends ruvents\components\Controller
 
         $user = User::model()
             ->byRunetId($runetId)->find();
-        
-        if ($user === null)
+
+        if ($user === null) {
             throw new Exception(202, $runetId);
+        }
 
         $logModel = \ruvents\models\DetailLog::model()
             ->byEventId($this->getAccount()->EventId)->byUserId($user->Id);

@@ -23,7 +23,6 @@ class m151123_142740_raec_company_users extends CDbMigration
         $this->addForeignKey('RaecCompanyUser_UserId_fkey', 'RaecCompanyUser', 'UserId', 'User', 'Id', 'RESTRICT', 'RESTRICT');
         $this->addForeignKey('RaecCompanyUser_StatusId_fkey', 'RaecCompanyUser', 'StatusId', 'RaecCompanyUserStatus', 'Id', 'RESTRICT', 'RESTRICT');
 
-
         $this->createTable('CompanyLinkCommission', [
             'CompanyId' => 'integer NOT NULL',
             'CommissionId' => 'integer NOT NULL'

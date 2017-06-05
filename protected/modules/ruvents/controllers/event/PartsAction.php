@@ -16,8 +16,9 @@ class PartsAction extends \ruvents\components\Action
 
         $response = [];
 
-        foreach ($parts as $part)
+        foreach ($parts as $part) {
             $response[] = $this->getDataBuilder()->createPart($part);
+        }
 
         $this->renderJson([
             'Parts' => $response

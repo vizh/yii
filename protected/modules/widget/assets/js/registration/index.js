@@ -5,10 +5,10 @@ var CRegistrationIndex = function (options) {
     this.init();
 }
 CRegistrationIndex.prototype = {
-    'init' : function () {
+    'init':function () {
         var self = this;
-        WidgetApp.controller('RegisterIndexController', function($scope, $sce) {
-            $scope.total  = 0;
+        WidgetApp.controller('RegisterIndexController', function ($scope, $sce) {
+            $scope.total = 0;
 
             var products = [];
             for (var id in self.products) {
@@ -18,22 +18,20 @@ CRegistrationIndex.prototype = {
             $scope.products = products;
             $scope.free = false;
 
-            $scope.$watch('products', function() {
+            $scope.$watch('products', function () {
                 $scope.total = 0;
                 $.each($scope.products, function (id, product) {
                     product.total = product.count * product.Price;
-
-
 
                     $scope.total += product.total;
                 });
             }, true);
         })
-        .filter('to_trusted', ['$sce', function($sce){
-            return function(text) {
-                return $sce.trustAsHtml(text);
-            };
-        }]);
+            .filter('to_trusted', ['$sce', function ($sce) {
+                return function (text) {
+                    return $sce.trustAsHtml(text);
+                };
+            }]);
 
     }
 }

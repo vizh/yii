@@ -15,7 +15,7 @@ class PayButtons extends Widget
 
     public $htmlOptions = [];
 
-    public static $PaySystems  = ['uniteller', 'payonline', 'yandexmoney', 'paypal', 'cloudpayments', 'walletone'];
+    public static $PaySystems = ['uniteller', 'payonline', 'yandexmoney', 'paypal', 'cloudpayments', 'walletone'];
     public static $OnlineMoney = ['yandexmoney', 'paypal'];
 
     /**
@@ -70,7 +70,7 @@ class PayButtons extends Widget
         if ($system === null) {
             $system = $name;
         }
-        $this->render('buttons/' . $name, ['account' => $this->account, 'system' => $system]);
+        $this->render('buttons/'.$name, ['account' => $this->account, 'system' => $system]);
     }
 
     /**
@@ -81,7 +81,7 @@ class PayButtons extends Widget
     {
         $options = $this->htmlOptions;
         $options['class'] .= " $name";
-        if ($name === 'payonline'){
+        if ($name === 'payonline') {
             $options['class'] .= ' iframe';
         }
         return $options;

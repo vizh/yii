@@ -3,7 +3,6 @@ namespace company\models\forms\admin;
 
 use application\components\form\CreateUpdateForm;
 use application\components\helpers\ArrayHelper;
-use application\components\validators\RangeValidator;
 use application\models\ProfessionalInterest;
 use commission\models\Commission;
 use company\models\Company as CompanyModel;
@@ -107,7 +106,6 @@ class Company extends CreateUpdateForm
         return false;
     }
 
-
     /**
      * Инициализация поля телефона
      */
@@ -128,30 +126,46 @@ class Company extends CreateUpdateForm
         return [
             ['Name,FullName,Url', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
             ['Code', 'match', 'pattern' => '/^[a-z0-9]+$/'],
-            ['Code', 'unique', 'className' => 'company\models\Company', 'attributeName' => 'Code',
+            [
+                'Code',
+                'unique',
+                'className' => 'company\models\Company',
+                'attributeName' => 'Code',
                 'criteria' => $this->isUpdateMode() ? ['condition' => '"t"."Id" != :Id', 'params' => ['Id' => $this->model->Id]] : []
             ],
             ['Info', 'safe'],
             ['Name', 'required'],
             ['Url', 'url'],
-            ['RaecUsers', 'application\components\validators\MultipleFormValidator', 'when' => function (CompanyUser $form) {
-                return $form->isNotEmpty();
-            }],
-            ['Moderators', 'application\components\validators\MultipleFormValidator', 'when' => function (Moderator $form) {
-                return $form->isNotEmpty();
-            }],
+            [
+                'RaecUsers',
+                'application\components\validators\MultipleFormValidator',
+                'when' => function (CompanyUser $form) {
+                    return $form->isNotEmpty();
+                }
+            ],
+            [
+                'Moderators',
+                'application\components\validators\MultipleFormValidator',
+                'when' => function (Moderator $form) {
+                    return $form->isNotEmpty();
+                }
+            ],
             ['RaecClusters,ProfessionalInterests', 'filter', 'filter' => 'array_filter'],
             ['RaecClusters', '\application\components\validators\RangeValidator', 'range' => array_keys($this->getClustersData())],
             ['PrimaryProfessionalInterest', 'in', 'range' => array_keys($this->getProfessionalInterestsData())],
             ['ProfessionalInterests', '\application\components\validators\RangeValidator', 'range' => array_keys($this->getProfessionalInterestsData())],
-            ['ProfessionalInterests', 'filter', 'filter' => function ($values) {
-                foreach ($values as $k => $id) {
-                    if ($id == $this->PrimaryProfessionalInterest) {
-                        unset($values[$k]);
+            [
+                'ProfessionalInterests',
+                'filter',
+                'filter' => function ($values) {
+                    foreach ($values as $k => $id) {
+                        if ($id == $this->PrimaryProfessionalInterest) {
+                            unset($values[$k]);
+                        }
                     }
+                    return $values;
                 }
-                return $values;
-            }],
+            ],
             ['Email', 'email'],
             ['Logo', 'file', 'types' => 'png,jpg', 'allowEmpty' => true],
             ['OGRN', 'numerical', 'integerOnly' => true, 'allowEmpty' => true],
@@ -184,13 +198,12 @@ class Company extends CreateUpdateForm
         ];
     }
 
-
     /**
      * @inheritdoc
      */
     public function setAttributes($values, $safeOnly = true)
     {
-        $this->RaecUsers  = [];
+        $this->RaecUsers = [];
         $this->Moderators = [];
         if (isset($values['RaecUsers'])) {
             foreach ($values['RaecUsers'] as $attributes) {
@@ -217,13 +230,13 @@ class Company extends CreateUpdateForm
     public function validate($attributes = null, $clearErrors = true)
     {
         $result = parent::validate($attributes, $clearErrors);
-        if (!$this->Address->validate()){
+        if (!$this->Address->validate()) {
             foreach ($this->Address->getErrors() as $messages) {
                 $this->addError('Address', $messages[0]);
             }
             $result = false;
         }
-        if (!$this->Phone->validate()){
+        if (!$this->Phone->validate()) {
             foreach ($this->Phone->getErrors() as $messages) {
                 $this->addError('Phone', $messages[0]);
             }
@@ -231,7 +244,6 @@ class Company extends CreateUpdateForm
         }
         return $result;
     }
-
 
     /**
      * @inheritDoc
@@ -252,7 +264,6 @@ class Company extends CreateUpdateForm
         $this->model = new CompanyModel();
         return $this->updateActiveRecord();
     }
-
 
     /**
      * @inheritDoc
@@ -303,8 +314,6 @@ class Company extends CreateUpdateForm
                     'ProfessionalInterestId' => $id
                 ]);
             }
-
-
 
             foreach (['RaecUsers', 'Moderators'] as $attribute) {
                 /** @var CreateUpdateForm $form */

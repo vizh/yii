@@ -7,7 +7,6 @@
 
 namespace application\components\helpers;
 
-
 /**
  * BaseArrayHelper provides concrete implementation for [[ArrayHelper]].
  *
@@ -86,7 +85,6 @@ class ArrayHelper
             foreach ($object as $key => $value) {
                 $result[$key] = $value;
             }
-
 
             return $recursive ? static::toArray($result) : $result;
         } else {
@@ -349,12 +347,15 @@ class ArrayHelper
     public static function associate($key, $array, $value = null)
     {
         $result = [];
-        if ($value === null)
-            foreach ($array as $item)
+        if ($value === null) {
+            foreach ($array as $item) {
                 $result[$item[$key]] = $item;
-        else
-            foreach ($value as $item)
+            }
+        } else {
+            foreach ($value as $item) {
                 $result[$item[$key]] = $item[$array];
+            }
+        }
 
         return $result;
     }
@@ -654,8 +655,9 @@ class ArrayHelper
     {
         $str = trim($str);
 
-        if (empty($str))
+        if (empty($str)) {
             return [];
+        }
 
         return array_filter(ArrayHelper::each(explode(',', $str), function ($v) {
             return (int)trim($v);

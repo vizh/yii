@@ -4,19 +4,19 @@ namespace partner\controllers\user;
 use application\components\controllers\AjaxController;
 use application\components\Exception;
 use application\components\traits\LoadModelTrait;
+use event\components\UserDataManager;
 use event\models\Part;
 use event\models\Role;
 use event\models\UserData;
 use partner\components\Action;
 use partner\components\Controller;
 use partner\models\forms\user\Participant as ParticipantForm;
+use pay\components\Exception as PayException;
 use pay\models\OrderItem;
 use pay\models\Product;
 use ruvents\models\Visit;
 use user\models\forms\edit\Photo;
 use user\models\User;
-use pay\components\Exception as PayException;
-use event\components\UserDataManager;
 use Yii;
 
 /**
@@ -96,7 +96,7 @@ class EditAction extends Action
             return;
         }
 
-        $method = 'actionAjax' . ucfirst($action);
+        $method = 'actionAjax'.ucfirst($action);
         if (method_exists($this, $method)) {
             $this->returnJSON($this->$method($user));
         }

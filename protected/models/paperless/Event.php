@@ -128,12 +128,14 @@ class Event extends ActiveRecord
      */
     public function process(DeviceSignal $signal)
     {
-        if ($signal->Processed || !$this->Active || $signal->Participant === null)
+        if ($signal->Processed || !$this->Active || $signal->Participant === null) {
             return true;
+        }
 
         // Фильтр ограничения по устройствам
-        if (!in_array($signal->DeviceNumber, ArrayHelper::getColumn($this->DeviceLinks, 'DeviceId')))
+        if (!in_array($signal->DeviceNumber, ArrayHelper::getColumn($this->DeviceLinks, 'DeviceId'))) {
             return true;
+        }
 
         // Фильтр повторных отправок
         if ($this->SendOnce) {

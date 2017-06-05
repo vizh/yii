@@ -1,36 +1,36 @@
 // events-calendar_scroll.js
-$(document).scroll( function(){
-  var fixed = $('#b-fixed').offset().top
-  $('.scroll').each(function() {
-    var element      = $(this),
-        parent       = element.parent(),
-        parentTop    = parent.offset().top,
-        parentBottom = parentTop + parent.outerHeight() - element.outerHeight();
-    if (fixed <= parentTop) {
-      element.removeClass('p-fixed').addClass('p-static');
-    } else if (element.offset().top < fixed && fixed < parentBottom) {
-      element.removeClass('p-static').addClass('p-fixed');
-    } else if (fixed >= parentBottom) {
-      element.removeClass('p-fixed').addClass('p-absolute');
-    } else if (fixed < parentBottom) {
-      element.removeClass('p-absolute').addClass('p-fixed');
-    }
-  });
+$(document).scroll(function () {
+    var fixed = $('#b-fixed').offset().top
+    $('.scroll').each(function () {
+        var element = $(this),
+            parent = element.parent(),
+            parentTop = parent.offset().top,
+            parentBottom = parentTop + parent.outerHeight() - element.outerHeight();
+        if (fixed <= parentTop) {
+            element.removeClass('p-fixed').addClass('p-static');
+        } else if (element.offset().top < fixed && fixed < parentBottom) {
+            element.removeClass('p-static').addClass('p-fixed');
+        } else if (fixed >= parentBottom) {
+            element.removeClass('p-fixed').addClass('p-absolute');
+        } else if (fixed < parentBottom) {
+            element.removeClass('p-absolute').addClass('p-fixed');
+        }
+    });
 });
 ////
 
 // events-calendar_position.js
-var EventsLayout = function() {
+var EventsLayout = function () {
     var
-        COLS = 4,      /* количество колонок */
-        MIN_H = 200,   /* высота пустой колонки */
-        H = 400,       /* высотка колонки с событием */
-        B = 2,         /* ширина бордюра */
-        DAY_W = 80,   /* ширина колонки с датами */
-        EVENT_W = 185; /* ширина колонки с событиями */
+        COLS = 4, /* количество колонок */
+        MIN_H = 200, /* высота пустой колонки */
+        H = 400, /* высотка колонки с событием */
+        B = 2, /* ширина бордюра */
+        DAY_W = 80, /* ширина колонки с датами */
+        EVENT_W = 185;
+    /* ширина колонки с событиями */
 
-
-    this.layout = function(selector) {
+    this.layout = function (selector) {
         var
             $root = $(selector),
             events = collectEvents($root),
@@ -38,19 +38,22 @@ var EventsLayout = function() {
             compiled = _.template("<div class='event datetime'><div class='date scroll'><%= dateName %></div></div>"),
             totalHgt;
 
-        _.each(distributed, function(item) { splitOnColumns(item.data); });
+        _.each(distributed, function (item) {
+            splitOnColumns(item.data);
+        });
         totalHgt = calculatePositions(distributed);
 
-        _.each(distributed, function(item) {
-            $(compiled({dateName: item.date.split('/')[2]}))
+        _.each(distributed, function (item) {
+            $(compiled({dateName:item.date.split('/')[2]}))
                 .css({
-                    height: px(item.height),
-                    left: px(0),
-                    top: px(item.top)})
+                    height:px(item.height),
+                    left:px(0),
+                    top:px(item.top)
+                })
                 .prependTo($root);
         });
 
-        _.each(events, function(e) {
+        _.each(events, function (e) {
             if (e.duration > 1) {
                 e.height -= 2 * B;
             }
@@ -61,27 +64,30 @@ var EventsLayout = function() {
                 top = e.top;
 
             e.el.css({
-                height: px(height),
-                left: px(left),
-                top: px(top)});
+                height:px(height),
+                left:px(left),
+                top:px(top)
+            });
 
             if (e.duration > 1) {
                 e.el.find('.details').addClass('scroll');
             }
         });
 
-        $root.css({height: px(totalHgt)});
+        $root.css({height:px(totalHgt)});
     };
 
-    function px(value) { return value + "px"; }
+    function px(value) {
+        return value + "px";
+    }
 
     function collectEvents($root) {
-        return $root.find('.event').map(function() {
+        return $root.find('.event').map(function () {
             var $this = $(this);
             return {
-                el: $this,
-                startDate: new Date($this.attr('data-startdate')),
-                duration: parseInt($this.attr('data-duration'))
+                el:$this,
+                startDate:new Date($this.attr('data-startdate')),
+                duration:parseInt($this.attr('data-duration'))
             };
         });
     }
@@ -105,9 +111,11 @@ var EventsLayout = function() {
             dateKeys[k] = new Date(date);
         }
 
-        function newEntry(event, type) {return { event: event, fillType: type }; }
+        function newEntry(event, type) {
+            return {event:event, fillType:type};
+        }
 
-        _.each(events, function(event) {
+        _.each(events, function (event) {
             var
                 i, date, type;
 
@@ -116,9 +124,15 @@ var EventsLayout = function() {
             } else {
                 date = event.startDate;
                 for (i = 1; i <= event.duration; i++) {
-                    if (i === 1) { type = 'start'; }
-                    else if (i === event.duration) { type = 'end'; }
-                    else { type = 'fill'; }
+                    if (i === 1) {
+                        type = 'start';
+                    }
+                    else if (i === event.duration) {
+                        type = 'end';
+                    }
+                    else {
+                        type = 'fill';
+                    }
 
                     addElement(date, newEntry(event, type));
                     date.setDate(date.getDate() + 1);
@@ -126,11 +140,15 @@ var EventsLayout = function() {
             }
         });
 
-        dates = _.map(_.uniq(_.sortBy(_.values(dateKeys), function(date) { return date; }), true), function(e) { return key(e); } );
-        return _.map(dates, function(date) {
+        dates = _.map(_.uniq(_.sortBy(_.values(dateKeys), function (date) {
+            return date;
+        }), true), function (e) {
+            return key(e);
+        });
+        return _.map(dates, function (date) {
             return {
-                date: date,
-                data: map[date]
+                date:date,
+                data:map[date]
             };
         });
     }
@@ -141,8 +159,8 @@ var EventsLayout = function() {
             i, j, avail, eventEntry;
 
         // многодневные события должны идти в начале
-        cells.sort(function(a, b) {
-           return b.event.duration - a.event.duration;
+        cells.sort(function (a, b) {
+            return b.event.duration - a.event.duration;
         });
 
         for (i = 0; i < cells.length; i++) {
@@ -157,7 +175,7 @@ var EventsLayout = function() {
         }
 
         avail = makeCols();
-        _.each(cells, function(eventEntry){
+        _.each(cells, function (eventEntry) {
             if (eventEntry.event.column) {
                 avail = _.without(avail, eventEntry.event.column);
             }
@@ -173,7 +191,9 @@ var EventsLayout = function() {
         i = 0;
         for (j = longEventsCount; j < cells.length; j++) {
             eventEntry = cells[j];
-            if (eventEntry.event.column) { throw new Error("unexpected state"); }
+            if (eventEntry.event.column) {
+                throw new Error("unexpected state");
+            }
 
             eventEntry.event.column = avail[i % avail.length];
             i++;
@@ -181,30 +201,32 @@ var EventsLayout = function() {
     }
 
     function calculatePositions(distributed) {
-        return _.reduce(distributed, function(dy, item) {
-            var
-                events = item.data,
-                columnHeight = calcColumnHeightForEvents(events);
+        return _.reduce(distributed, function (dy, item) {
+                var
+                    events = item.data,
+                    columnHeight = calcColumnHeightForEvents(events);
 
-            calculateBoundsForEvents(events, dy, columnHeight);
+                calculateBoundsForEvents(events, dy, columnHeight);
 
-            item.top = dy;
-            item.height = columnHeight - 2 * B;
+                item.top = dy;
+                item.height = columnHeight - 2 * B;
 
-            return dy + columnHeight - B;
-        }, 0) + B;
+                return dy + columnHeight - B;
+            }, 0) + B;
     }
 
     function calcColumnHeightForEvents(events) {
         var
-            onlyFill = !_.find(events, function(e) { return e.fillType != 'fill' && e.fillType != 'end'; }),
+            onlyFill = !_.find(events, function (e) {
+                return e.fillType != 'fill' && e.fillType != 'end';
+            }),
             cols, curValue;
 
         if (onlyFill) {
             return MIN_H + 2 * B;
         } else {
             cols = zeroArray(COLS);
-            _.each(events, function(eventEntry) {
+            _.each(events, function (eventEntry) {
                 curValue = cols[eventEntry.event.column - 1];
                 if (curValue == 0) {
                     cols[eventEntry.event.column - 1] = H + 2 * B;
@@ -217,10 +239,9 @@ var EventsLayout = function() {
         }
     }
 
-
     function calculateBoundsForEvents(events, dy, columnHeight) {
         var hDisp = zeroArray(COLS);
-        _.each(events, function(eventEntry) {
+        _.each(events, function (eventEntry) {
             if (eventEntry.fillType == 'standalone') {
                 if (eventEntry.event.top !== undefined) {
                     throw new Error("unexpected state");
@@ -245,7 +266,6 @@ var EventsLayout = function() {
         });
     }
 
-
     function makeCols() {
         var
             result = [], i;
@@ -258,21 +278,25 @@ var EventsLayout = function() {
 
     function zeroArray(size) {
         var r = [];
-        while(size--) { r[size] = 0; }
+        while (size--) {
+            r[size] = 0;
+        }
         return r;
     }
 
-    function key(date) { return date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate();}
+    function key(date) {
+        return date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate();
+    }
 
 };
 
-$(function() {
+$(function () {
     try {
         new EventsLayout().layout('#events-calendar_content');
-     } catch (e) {
+    } catch (e) {
         try {
             alert(JSON.stringify(e));
-        } catch(e2) {
+        } catch (e2) {
             alert(e);
         }
     }

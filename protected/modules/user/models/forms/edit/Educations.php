@@ -76,8 +76,17 @@ class Educations extends \user\models\forms\edit\Base
         $result = [];
         foreach ($this->educations as $education) {
             $row = ArrayHelper::toArray($education, [
-                'Id', 'CityId', 'CityName', 'UniversityId', 'UniversityName',
-                'FacultyId', 'FacultyName', 'Specialty', 'EndYear', 'Degree', 'Delete'
+                'Id',
+                'CityId',
+                'CityName',
+                'UniversityId',
+                'UniversityName',
+                'FacultyId',
+                'FacultyName',
+                'Specialty',
+                'EndYear',
+                'Degree',
+                'Delete'
             ]);
             if ($education->hasErrors()) {
                 $row['Errors'] = $education->getErrors();
@@ -92,7 +101,7 @@ class Educations extends \user\models\forms\edit\Base
     {
         $year = intval(date('Y'));
         $range = ['' => 'Выберите год'];
-        for ($i=$year; $i > $year-60; $i--) {
+        for ($i = $year; $i > $year - 60; $i--) {
             $range[$i] = $i;
         }
         return $range;

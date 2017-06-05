@@ -28,9 +28,10 @@ class ListAction extends Action
             ->setEvent($this->getEvent())
             ->setApiAccount($this->getApiAccount());
 
-        foreach ($users as &$user)
+        foreach ($users as &$user) {
             $user = $builder->setUser($user)
                 ->build();
+        }
 
         $this->renderJson([
             'Participants' => $users,
@@ -49,22 +50,19 @@ class ListAction extends Action
     {
         $cache = Yii::app()->getCache();
 
-        if ($params->Fount)
-        {
+        if ($params->Fount) {
             /* Если имеется ключ незавершённой постраничной навигации, забираем
              * оставшиеся необработанными идентификаторы оттуда */
             $users = $cache->get('excerpt:participants:'.$params->Fount);
-        }
-
-        else
-        {
+        } else {
             /* Выбираем идентификаторы посетителей, удовлетворяющие запросу */
             $criteria = CDbCriteria::create()
                 ->setSelect('t."Id"')
                 ->setOrder('t."UpdateTime" ASC');
 
-            if ($params->since)
+            if ($params->since) {
                 $criteria->addConditionWithParams('t."UpdateTime" > :UpdateTime', ['UpdateTime' => $params->since]);
+            }
 
             /* Дата следующего запроса запоминается каждый раз перед выборкой посетителей
              * Важно, чтобы клиент запрашивал обновления именно с этой даты */
@@ -80,18 +78,15 @@ class ListAction extends Action
         /* Забираем очередную порцию идентификаторов посетителей на обработку */
         $excerpt = array_splice($users, 0, $params->limit);
 
-        if (count($users))
-        {
+        if (count($users)) {
             /* Если остались необработанные идентификаторы, то запишем их для следующей обработки */
-            if ($params->Fount === null)
-                $params->Fount = md5(implode([microtime(true), mt_rand()]));;
+            if ($params->Fount === null) {
+                $params->Fount = md5(implode([microtime(true), mt_rand()]));
+            };
 
             $cache->delete('excerpt:participants:'.$params->Fount);
             $cache->add('excerpt:participants:'.$params->Fount, $users, Yii::app()->params['RuventsFountLifetime']);
-        }
-
-        else
-        {
+        } else {
             /* Если необработанных посетителей не осталось, - очищаем хранилище */
             if ($params->Fount) {
                 $cache->delete('excerpt:participants:'.$params->Fount);
@@ -123,12 +118,13 @@ class ListAction extends Action
                 ]
             ]);
 
-        if ($this->hasExternalId())
+        if ($this->hasExternalId()) {
             $criteria->with['ExternalAccounts'] = [
                 'together' => false,
                 'on' => '"ExternalAccounts"."AccountId" = :AccountId',
                 'params' => ['AccountId' => $this->getApiAccount()->Id]
             ];
+        }
 
         return $criteria;
     }
@@ -140,10 +136,11 @@ class ListAction extends Action
     {
         static $hasExternalId;
 
-        if ($hasExternalId === null)
+        if ($hasExternalId === null) {
             $hasExternalId = $this->getApiAccount() !== null
                 ? ExternalUser::model()->byAccountId($this->getApiAccount()->Id)->exists()
                 : false;
+        }
 
         return $hasExternalId;
     }

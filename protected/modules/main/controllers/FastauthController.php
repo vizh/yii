@@ -1,8 +1,8 @@
 <?php
 
-use main\models\ShortUrl;
-use application\components\controllers\PublicMainController;
 use application\components\auth\identity\RunetId;
+use application\components\controllers\PublicMainController;
+use main\models\ShortUrl;
 use user\models\User;
 
 /**

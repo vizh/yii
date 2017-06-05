@@ -34,7 +34,6 @@ trait MailBodyFieldsTranslator
         return $content;
     }
 
-
     /**
      * Переводит инсполняемый php код в контект со вставками
      * @param $content
@@ -64,11 +63,10 @@ trait MailBodyFieldsTranslator
     {
         $clear = $this->getClearFieldName($name);
         if ($clear !== $name) {
-            return '/\{' . str_replace(['.'], ['\.'], $clear) . ':([^\}]+)\}/';
+            return '/\{'.str_replace(['.'], ['\.'], $clear).':([^\}]+)\}/';
         }
-        return '/\{' . $clear . '\}/';
+        return '/\{'.$clear.'\}/';
     }
-
 
     /**
      * @param $name
@@ -92,8 +90,8 @@ trait MailBodyFieldsTranslator
     private function parseContent($field, $content)
     {
         $result = [];
-        for ($i = 1;;$i++) {
-            $pattern = '/' . str_replace(['\(.*)', '\.*'], ['(.*)', '.*'], preg_replace(['/\$\_(' . $i . ')/', '/\$\_([0-9])/'], ['(.*)', '.*'], preg_quote($field[1]))) . '/';
+        for ($i = 1; ; $i++) {
+            $pattern = '/'.str_replace(['\(.*)', '\.*'], ['(.*)', '.*'], preg_replace(['/\$\_('.$i.')/', '/\$\_([0-9])/'], ['(.*)', '.*'], preg_quote($field[1]))).'/';
             preg_match($pattern, $content, $matches);
             if (!isset($result['content']) && !empty($matches)) {
                 $result['content'] = $matches[0];
@@ -114,7 +112,7 @@ trait MailBodyFieldsTranslator
     {
         $note = '';
         foreach ($this->initBodyFields() as $name => $field) {
-            $note .= \CHtml::tag('li', [], '<strong>{' . $name . '}</strong> &mdash; ' . $field[0]);
+            $note .= \CHtml::tag('li', [], '<strong>{'.$name.'}</strong> &mdash; '.$field[0]);
         }
         return \CHtml::tag('ul', [], $note);
     }

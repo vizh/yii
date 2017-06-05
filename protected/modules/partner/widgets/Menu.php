@@ -1,7 +1,6 @@
 <?php
 namespace partner\widgets;
 
-
 use application\components\helpers\ArrayHelper;
 use CHtml;
 
@@ -23,7 +22,7 @@ class Menu extends \CMenu
     protected function renderMenuItem($item)
     {
         $item['label'] = CHtml::tag('span', ['class' => 'mm-text mmc-dropdown-delay animated'], $item['label']);
-        $item['label'] = isset($item['icon']) ? (CHtml::tag('i', ['class' => 'fa fa-'.$item['icon']], '') . '&nbsp;' . $item['label']) : $item['label'];
+        $item['label'] = isset($item['icon']) ? (CHtml::tag('i', ['class' => 'fa fa-'.$item['icon']], '').'&nbsp;'.$item['label']) : $item['label'];
         return parent::renderMenuItem($item);
     }
 
@@ -57,7 +56,7 @@ class Menu extends \CMenu
                 if (empty($options['class'])) {
                     $options['class'] = implode(' ', $class);
                 } else {
-                    $options['class'] .= ' ' . implode(' ', $class);
+                    $options['class'] .= ' '.implode(' ', $class);
                 }
             }
 
@@ -65,12 +64,13 @@ class Menu extends \CMenu
 
             // Если текущий пункт меню является разделом, то рендерим его дочерние пункты
             if (!empty($item['items'])) {
-                $class = 'mm-dropdown' . ($item['active'] ? ' open' : '');
-                $options['class'] = isset($options['class']) ? $options['class'] . ' ' . $class : $class;
+                $class = 'mm-dropdown'.($item['active'] ? ' open' : '');
+                $options['class'] = isset($options['class']) ? $options['class'].' '.$class : $class;
                 $childs = $this->renderMenuRecursive($item['items']);
                 // Если текущий пользователь не имеет доступа ко всем дочерним элементам, или их просто нет, то не отображаем родителя
-                if (empty($childs))
+                if (empty($childs)) {
                     continue;
+                }
                 // Добавляем к текущему пункту меню разметку его дочерних пунктов
                 $menu .= CHtml::tag('ul', [], $childs);
             }
@@ -84,11 +84,11 @@ class Menu extends \CMenu
      */
     protected function renderMenu($items)
     {
-        if(count($items)) {
+        if (count($items)) {
             echo
-                CHtml::openTag('ul',$this->htmlOptions),"\n",
-                $this->renderMenuRecursive($items),
-                CHtml::closeTag('ul');
+            CHtml::openTag('ul', $this->htmlOptions), "\n",
+            $this->renderMenuRecursive($items),
+            CHtml::closeTag('ul');
         }
     }
 
@@ -99,7 +99,7 @@ class Menu extends \CMenu
     public function checkAccess($url)
     {
         $parts = explode('/', $url[0]);
-        if (count($parts) != 2){
+        if (count($parts) != 2) {
             return true;
         }
         return $this->getController()->getAccessFilter()->checkAccess('partner', $parts[0], $parts[1]);

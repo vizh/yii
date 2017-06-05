@@ -6,11 +6,13 @@ class EditQuestionAction extends \CAction
     public function run($id)
     {
         $question = \competence\models\Question::model()->findByPk($id);
-        if ($question === null)
+        if ($question === null) {
             throw new \CHttpException(404);
+        }
         $test = \competence\models\Test::model()->findByPk($question->TestId);
-        if ($test === null)
+        if ($test === null) {
             throw new \CHttpException(404);
+        }
 
         $question->Test = $test;
         $request = \Yii::app()->getRequest();

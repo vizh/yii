@@ -1,21 +1,21 @@
 var CAdminUserEdit = function () {
     this.form = $('form.form-horizontal');
     this.iterators = {
-        phone : 0,
-        employment : 0
+        phone:0,
+        employment:0
     }
     this.phones = this.form.find('.control-group.phones');
     this.employments = this.form.find('.control-group.employments');
     this.templates = {
-        'phoneItem' : _.template($('#phone-item-tpl').html()),
-        'phoneItemWithData' : _.template($('#phone-item-withdata-tpl').html()),
-        'employmentItem' : _.template($('#career-item-tpl').html()),
-        'employmentItemWithData' : _.template($('#career-item-withdata-tpl').html())
+        'phoneItem':_.template($('#phone-item-tpl').html()),
+        'phoneItemWithData':_.template($('#phone-item-withdata-tpl').html()),
+        'employmentItem':_.template($('#career-item-tpl').html()),
+        'employmentItemWithData':_.template($('#career-item-withdata-tpl').html())
     }
     this.init();
 }
 CAdminUserEdit.prototype = {
-    init : function () {
+    init:function () {
         var self = this;
         if (typeof phones !== 'undefined') {
             $.each(phones, function (i, data) {
@@ -54,7 +54,7 @@ CAdminUserEdit.prototype = {
         });
     },
 
-    initPhoneDeleteBtn : function (item) {
+    initPhoneDeleteBtn:function (item) {
         item.find('[data-action="remove"]').click(function (e) {
             if (item.find('input[name*="Id"]').size() > 0) {
                 item.find('input[name*="Delete"]').val(1);
@@ -71,16 +71,16 @@ CAdminUserEdit.prototype = {
         });
     },
 
-    initEmploymentItem : function (item) {
+    initEmploymentItem:function (item) {
         var self = this;
 
         item.find('input[name*="Company"]').autocomplete({
-            source : function (request, response) {
-                $.getJSON('/company/ajax/search', {term : request.term},function( data ) {
-                    response( $.map( data, function( item ) {
+            source:function (request, response) {
+                $.getJSON('/company/ajax/search', {term:request.term}, function (data) {
+                    response($.map(data, function (item) {
                         return {
-                            label: item.Name,
-                            value: item.Name
+                            label:item.Name,
+                            value:item.Name
                         }
                     }));
                 });
@@ -133,9 +133,9 @@ CAdminUserEdit.prototype = {
         });
     },
 
-    createPhoneEmptyItem : function () {
+    createPhoneEmptyItem:function () {
         var self = this;
-        var template = self.templates.phoneItem({i : self.iterators.phone});
+        var template = self.templates.phoneItem({i:self.iterators.phone});
         self.phones.find('div.add').before(template);
         var item = self.phones.find('div:not(.add):last');
         self.initPhoneDeleteBtn(item);
@@ -143,7 +143,7 @@ CAdminUserEdit.prototype = {
         self.iterators.phone++;
     },
 
-    createPhoneFillItem : function (data) {
+    createPhoneFillItem:function (data) {
         var self = this;
         data.i = self.iterators.phone;
         var template = self.templates.phoneItemWithData(data);
@@ -153,8 +153,8 @@ CAdminUserEdit.prototype = {
         if (typeof data.Errors != "undefined") {
             var errorUl = $('<ul>');
             $.each(data.Errors, function (field, error) {
-                item.find('[name*='+field+']').addClass('error')
-                errorUl.append('<li>'+error+'</li>');
+                item.find('[name*=' + field + ']').addClass('error')
+                errorUl.append('<li>' + error + '</li>');
             });
             item.find('.alert-error').append(errorUl);
         }
@@ -162,7 +162,7 @@ CAdminUserEdit.prototype = {
         self.iterators.phone++;
     },
 
-    creatEmploymentFillItem : function (data) {
+    creatEmploymentFillItem:function (data) {
         var self = this;
         data.i = self.iterators.employment;
         var template = self.templates.employmentItemWithData(data);
@@ -175,17 +175,17 @@ CAdminUserEdit.prototype = {
         if (typeof data.Errors != "undefined") {
             var errorUl = $('<ul>');
             $.each(data.Errors, function (field, error) {
-                item.find('[name*='+field+']').addClass('error')
-                errorUl.append('<li>'+error+'</li>');
+                item.find('[name*=' + field + ']').addClass('error')
+                errorUl.append('<li>' + error + '</li>');
             });
             item.find('.alert-error').append(errorUl);
         }
         self.iterators.employment++;
     },
 
-    createEmploymentEmptyItem : function () {
+    createEmploymentEmptyItem:function () {
         var self = this;
-        var template = self.templates.employmentItem({i : self.iterators.employment});
+        var template = self.templates.employmentItem({i:self.iterators.employment});
         self.employments.find('div.add').before(template);
         var item = self.employments.find('div.well:last');
         self.initEmploymentItem(item);

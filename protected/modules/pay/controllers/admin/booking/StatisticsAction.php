@@ -2,12 +2,12 @@
 
 namespace pay\controllers\admin\booking;
 
-use pay\models\Product;
-use event\models\Event;
-use pay\models\OrderItem;
+use CAction;
 use CDbCriteria;
 use DateTime;
-use CAction;
+use event\models\Event;
+use pay\models\OrderItem;
+use pay\models\Product;
 
 class StatisticsAction extends CAction
 {
@@ -31,7 +31,7 @@ class StatisticsAction extends CAction
         foreach ($orderItems as $orderItem) {
             $datetime = new DateTime($orderItem->getItemAttribute('DateIn'));
             while ($datetime->format('Y-m-d') < $orderItem->getItemAttribute('DateOut')) {
-                $key = $datetime->format('d') . '-';
+                $key = $datetime->format('d').'-';
                 $datetime->modify('+1 day');
                 $key .= $datetime->format('d');
                 if ($orderItem->Paid) {
@@ -65,7 +65,7 @@ class StatisticsAction extends CAction
         $datetime->modify('-1 day');
         while ($datetime->getTimestamp() < $this->event->getTimeStampEndDate()) {
             $from = $datetime->format('Y-m-d');
-            $key = $datetime->format('d') . '-';
+            $key = $datetime->format('d').'-';
             $datetime->modify('+1 day');
             $key .= $datetime->format('d');
 

@@ -8,13 +8,11 @@
 
 namespace event\widgets\registration;
 
-use event\components\WidgetPosition;
+use event\models\section\Section;
 use event\widgets\ProgramGrid;
 use pay\components\managers\Section as SectionProductManager;
 use pay\models\OrderItem;
 use pay\models\Product;
-use event\models\section\Section;
-use user\models\User;
 
 /**
  * Class Program
@@ -155,6 +153,5 @@ class Program extends ProgramGrid
         }
         return true;
     }
-
 
 }

@@ -33,7 +33,6 @@ class LoyaltyAction extends Action
             'form' => $form,
             'discounts' => $this->getDiscounts()
         ]);
-
     }
 
     /**
@@ -44,7 +43,6 @@ class LoyaltyAction extends Action
         return LoyaltyProgramDiscount::model()->byEventId($this->getEvent()->Id)
             ->with(['Product'])->orderBy(['"StartTime"' => SORT_ASC, '"EndTime"' => SORT_ASC])->findAll();
     }
-
 
     /**
      * Удаление или остановка действия скидки

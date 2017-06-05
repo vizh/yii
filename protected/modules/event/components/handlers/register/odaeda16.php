@@ -8,12 +8,10 @@
 
 namespace event\components\handlers\register;
 
-
 use mail\models\Layout;
 
 class odaeda16 extends Base
 {
-
 
     protected function getRepeat()
     {
@@ -49,6 +47,5 @@ class odaeda16 extends Base
     {
         return 'no-reply@mironline.ru';
     }
-
 
 }

@@ -61,11 +61,13 @@ class SESMailer extends Mailer
                     if ($i < $size - 1) { //if it's not the last item, add to $bn
                         $base .= $arr[$i];
                         //if next one isn't last, add a dot
-                        if ($i < $size - 2)
+                        if ($i < $size - 2) {
                             $base .= ".";
+                        }
                     } else {
-                        if ($i > 0)
+                        if ($i > 0) {
                             $ext = ".";
+                        }
                         $ext .= $arr[$i];
                     }
                 }
@@ -89,12 +91,12 @@ class SESMailer extends Mailer
 
         $commands = [];
         foreach ($mails as $mail) {
-            try
-            {
+            try {
                 $attachments = [];
                 foreach ($mail->getAttachments() as $name => $attachment) {
-                    if (!file_exists($attachment[1]))
+                    if (!file_exists($attachment[1])) {
                         throw new Exception("Ошибка отправки сообщения: Вложенный файл '{$attachment[1]}' не найден");
+                    }
 
                     $attachments[self::cleanFilename($name, 60)]
                         = $attachment[1];
@@ -113,9 +115,7 @@ class SESMailer extends Mailer
                         )
                     ]
                 ]);
-            }
-
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 Yii::log("Error construct email for {$mail->getTo()} because of {$e->getMessage()}: {$e->getTraceAsString()}", \CLogger::LEVEL_ERROR);
             }
         }
@@ -152,8 +152,7 @@ class SESMailer extends Mailer
         $client = $this->getSesClient();
 
         foreach ($mails as $mail) {
-            try
-            {
+            try {
                 $args = [
                     'to' => $mail->getTo(),
                     'subject' => $mail->getSubject(),
@@ -182,9 +181,7 @@ class SESMailer extends Mailer
                 } else {
                     Yii::log("Email by Amazon SES to {$mail->getTo()} was not sent. Error message: {$result['result_text']}", \CLogger::LEVEL_ERROR);
                 }
-            }
-
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 Yii::log("Error construct email for {$mail->getTo()} because of {$e->getMessage()}: {$e->getTraceAsString()}", \CLogger::LEVEL_ERROR);
             }
         }
@@ -278,8 +275,9 @@ class SESMailer extends Mailer
         );
 
         // Для AWS обязательно передавать список получателей в виде массива
-        if (!is_array($to))
+        if (!is_array($to)) {
             $to = [$to];
+        }
 
         try {
             $ses_result = $client->sendRawEmail([
@@ -314,7 +312,7 @@ class SESMailer extends Mailer
             'key' => $prms['AwsKey'],
             'secret' => $prms['AwsSecret'],
             'region' => $prms['AwsSesRegion'],
-            'version'=> 'latest'
+            'version' => 'latest'
         ]);
     }
 }

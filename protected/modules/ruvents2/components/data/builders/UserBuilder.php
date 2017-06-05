@@ -32,12 +32,14 @@ class UserBuilder extends AbstractBuilder
 
     protected function buildData()
     {
-        $this->stash(ArrayHelper::toArray($this->user, ['user\models\User' => [
-            'Id' => 'RunetId',
-            'CreationTime',
-            'Email',
-            'Birthday'
-        ]]));
+        $this->stash(ArrayHelper::toArray($this->user, [
+            'user\models\User' => [
+                'Id' => 'RunetId',
+                'CreationTime',
+                'Email',
+                'Birthday'
+            ]
+        ]));
 
         $this->setExternalId();
         $this->setLocales();
@@ -51,14 +53,17 @@ class UserBuilder extends AbstractBuilder
 
     private function setExternalId()
     {
-        if ($this->apiAccount == null)
+        if ($this->apiAccount == null) {
             return;
+        }
 
-        if (ExternalUser::model()->byAccountId($this->apiAccount->Id)->exists() === false)
+        if (ExternalUser::model()->byAccountId($this->apiAccount->Id)->exists() === false) {
             return;
+        }
 
-        if (empty($this->user->ExternalAccounts))
+        if (empty($this->user->ExternalAccounts)) {
             return;
+        }
 
         $this->stash('ExternalId', $this->user->ExternalAccounts[0]->ExternalId);
     }
@@ -68,15 +73,16 @@ class UserBuilder extends AbstractBuilder
         $localesData = [];
         $employment = $this->user->getEmploymentPrimary();
 
-        foreach (Yii::app()->params['Languages'] as $lang)
-        {
+        foreach (Yii::app()->params['Languages'] as $lang) {
             $this->user->setLocale($lang);
 
-            $localeData = ArrayHelper::toArray($this->user, ['user\models\User' => [
-                'LastName',
-                'FirstName',
-                'FatherName'
-            ]]);
+            $localeData = ArrayHelper::toArray($this->user, [
+                'user\models\User' => [
+                    'LastName',
+                    'FirstName',
+                    'FatherName'
+                ]
+            ]);
 
             if ($employment !== null) {
                 $employment->Company->setLocale($lang);
@@ -88,33 +94,36 @@ class UserBuilder extends AbstractBuilder
 
         $this->stash('Locales', $localesData);
 
-        if ($employment !== null)
+        if ($employment !== null) {
             $this->stash('Position', $employment->Position);
+        }
     }
 
     private function setPhone()
     {
         $phone = null;
 
-        if (!empty($this->user->PrimaryPhone))
+        if (!empty($this->user->PrimaryPhone)) {
             $phone = $this->user->PrimaryPhone;
-        else
-            if ($this->user->getContactPhone() !== null)
-                $data['Phone'] = $this->user->getContactPhone()->__toString();
+        } else if ($this->user->getContactPhone() !== null) {
+            $data['Phone'] = $this->user->getContactPhone()->__toString();
+        }
 
-        if ($phone !== null)
+        if ($phone !== null) {
             $this->stash('Phone', $phone);
+        }
     }
 
     private function setStatuses()
     {
         $statuses = [];
 
-        foreach ($this->user->Participants as $participant)
+        foreach ($this->user->Participants as $participant) {
             $statuses[] = [
                 'StatusId' => $participant->RoleId,
                 'PartId' => $participant->PartId
             ];
+        }
 
         $this->stash('Statuses', $statuses);
     }
@@ -123,9 +132,11 @@ class UserBuilder extends AbstractBuilder
     {
         $time = null;
 
-        foreach ($this->user->Participants as $participant)
-            if ($time === null || $time > $participant->UpdateTime)
+        foreach ($this->user->Participants as $participant) {
+            if ($time === null || $time > $participant->UpdateTime) {
                 $time = $participant->UpdateTime;
+            }
+        }
 
         $this->stash('RegistrationTime', $time);
     }

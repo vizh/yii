@@ -44,53 +44,53 @@ class DemoEventCreator
 
         $transaction = \Yii::app()->db->beginTransaction();
         try {
-            echo 'Creation event...' . "\n";
+            echo 'Creation event...'."\n";
             $event = self::createDemoEvent();
-            echo 'Event has been created' . "\n";
+            echo 'Event has been created'."\n";
             // Участники
-            echo 'Creation participants...' . "\n";
+            echo 'Creation participants...'."\n";
             $productParticipant = self::createParticipantProduct($event, self::PARTICIPANT, self::$beginSalesDate, 10000, self::$changePriceDate, 15000);
             self::createParticipants($event, $productParticipant, 900);
-            echo 'Participants were successfully created' . "\n";
+            echo 'Participants were successfully created'."\n";
             // Видео участники
-            echo 'Creation video-participants...' . "\n";
+            echo 'Creation video-participants...'."\n";
             $productVideoParticipant = self::createParticipantProduct($event, self::VIDEO_PARTICIPANT, self::$beginSalesDate, 2000, self::$changePriceDate, 3000);
             self::createParticipants($event, $productVideoParticipant, 150);
-            echo 'Video-participants were successfully created' . "\n";
+            echo 'Video-participants were successfully created'."\n";
             // Партнеры
-            echo 'Creation partners...' . "\n";
+            echo 'Creation partners...'."\n";
             $product = self::createParticipantProduct($event, self::MASS_MEDIA, self::$beginSalesDate, 0);
             self::createSpecialParticipants($event, $product, 60);
-            echo 'Partners were successfully created' . "\n";
+            echo 'Partners were successfully created'."\n";
             // СМИ
-            echo 'Creation mass media...' . "\n";
+            echo 'Creation mass media...'."\n";
             $product = self::createParticipantProduct($event, self::PARTNER, self::$beginSalesDate, 0);
             self::createSpecialParticipants($event, $product, 70);
-            echo 'Mass media were successfully created' . "\n";
+            echo 'Mass media were successfully created'."\n";
             // Организаторы
-            echo 'Creation organizers...' . "\n";
+            echo 'Creation organizers...'."\n";
             self::createOrganizers($event, 20);
-            echo 'Organizers were successfully created' . "\n";
+            echo 'Organizers were successfully created'."\n";
             // Промо-коды
-            echo 'Creation promos...' . "\n";
+            echo 'Creation promos...'."\n";
             self::createPromos($event, $productParticipant, 100);
             self::createPromos($event, $productVideoParticipant, 100);
-            echo 'Promos were successfully created' . "\n";
+            echo 'Promos were successfully created'."\n";
             // Операторы
-            echo 'Creation operators...' . "\n";
+            echo 'Creation operators...'."\n";
             self::createOperators($event, 10);
-            echo 'Operators were successfully created' . "\n";
+            echo 'Operators were successfully created'."\n";
 
-            echo 'Randomization dates...' . "\n";
+            echo 'Randomization dates...'."\n";
             self::randomizeEventParticipantLogDates($event);
-            echo 'Dates were successfully randomized' . "\n";
+            echo 'Dates were successfully randomized'."\n";
 
             $transaction->commit();
             echo 'Success.';
         } catch (\CException $e) {
             $transaction->rollback();
-            echo 'Error: ' . \application\components\utility\Texts::CyrToLat($e->getMessage());
-            echo 'Trace: ' . $e->getTraceAsString();
+            echo 'Error: '.\application\components\utility\Texts::CyrToLat($e->getMessage());
+            echo 'Trace: '.$e->getTraceAsString();
         }
     }
 
@@ -165,12 +165,13 @@ class DemoEventCreator
         $beforeOneDayChangePriceDate->sub(new \DateInterval('P1D'));
 
         $role = \event\models\Role::model()->findByPk($roleId);
-        if (empty($role))
+        if (empty($role)) {
             throw new \CException('Неизвестный идентификатор роли!');
+        }
 
         $product = new \pay\models\Product();
         $product->ManagerName = 'EventProductManager';
-        $product->Title = 'Участие на мероприятии как ' . $role->Title;
+        $product->Title = 'Участие на мероприятии как '.$role->Title;
         $product->Description = $event->Info;
         $product->EventId = $event->Id;
         $product->Unit = 'шт.';
@@ -228,20 +229,23 @@ class DemoEventCreator
             for ($i = 0; $i < rand(1, 3); ++$i) {
                 $users[] = self::createUser(rand(0, 1));
                 --$count;
-                echo ++$index . "\n";
+                echo ++$index."\n";
             }
 
             // Печать бейджей
             if ($product->getManager()->RoleId != self::VIDEO_PARTICIPANT) {
-                foreach ($users as $user)
+                foreach ($users as $user) {
                     self::printBadge($event, $user, $product->getManager()->RoleId);
+                }
             }
 
             $product->getManager()->createOrderItem($users[0], $users[0]);
-            if (count($users) > 1)
+            if (count($users) > 1) {
                 $product->getManager()->createOrderItem($users[0], $users[1]);
-            if (count($users) > 2)
+            }
+            if (count($users) > 2) {
                 $product->getManager()->createOrderItem($users[0], $users[2]);
+            }
 
             // Прямое проставление статуса
             if (!mt_rand(0, 19)) {
@@ -264,18 +268,20 @@ class DemoEventCreator
                 $coupon->save();
                 $coupon->addProductLinks([$product]);
 
-                foreach ($users as $user)
+                foreach ($users as $user) {
                     $coupon->activate($user, $user);
+                }
 
                 continue;
             }
 
             // Оплата
             $order = new \pay\models\Order();
-            if (!mt_rand(0, 2))
+            if (!mt_rand(0, 2)) {
                 $order->CreationTime = self::generateRandomDate(self::$beginSalesDate, self::$dayBeforeChangePriceDate);
-            else
+            } else {
                 $order->CreationTime = self::generateRandomDate(self::$changePriceDate, self::$dayBeforeEventEndDate);
+            }
 
             $order->create($users[0], $event, rand(1, 3), self::$juridicalData);
 
@@ -288,8 +294,9 @@ class DemoEventCreator
                 $coupon->save();
                 $coupon->addProductLinks([$product]);
 
-                foreach ($users as $user)
+                foreach ($users as $user) {
                     $coupon->activate($user, $user);
+                }
             }
             $order->activate();
         }
@@ -325,7 +332,7 @@ class DemoEventCreator
             $coupon->save();
             $coupon->addProductLinks([$product]);
             $coupon->activate($user, $user);
-            echo ++$index . "\n";
+            echo ++$index."\n";
         }
     }
 
@@ -346,7 +353,7 @@ class DemoEventCreator
             $eventParticipant->RoleId = 6 /* Организатор */
             ;
             $eventParticipant->save();
-            echo ++$index . "\n";
+            echo ++$index."\n";
         }
     }
 
@@ -366,7 +373,7 @@ class DemoEventCreator
             $coupon->Code = $coupon->generateCode();
             $coupon->save();
             $coupon->addProductLinks([$product]);
-            echo ++$index . "\n";
+            echo ++$index."\n";
         }
     }
 
@@ -386,7 +393,7 @@ class DemoEventCreator
             $operator->Password = $email;
             $operator->Role = 'Operator';
             $operator->save();
-            echo ++$index . "\n";
+            echo ++$index."\n";
         }
     }
 
@@ -416,7 +423,6 @@ class DemoEventCreator
         }
     }
 
-
     /**
      * Печатает заданное количество бейджей
      * @param \event\models\Event $event
@@ -429,8 +435,9 @@ class DemoEventCreator
         $count = 1;
         if (!mt_rand(0, 6)) {
             $count = 2;
-            if (!mt_rand(0, 1))
+            if (!mt_rand(0, 1)) {
                 $count = 3;
+            }
         }
 
         for ($i = 0; $i < $count; ++$i) {
@@ -461,8 +468,9 @@ class DemoEventCreator
         $user->register(false);
 
         self::setRandomCompany($user);
-        if ($needPhone)
-            $user->setContactPhone('+7' . rand(9001110000, 9999999999));
+        if ($needPhone) {
+            $user->setContactPhone('+7'.rand(9001110000, 9999999999));
+        }
 
         return $user;
     }
@@ -475,8 +483,8 @@ class DemoEventCreator
     private static function setRandomUserName(\user\models\User $user, $gender)
     {
         $names = \Yii::app()->db->createCommand(
-            'WITH "Names" AS (' .
-            'SELECT "LastName", "FirstName", "FatherName", 1 AS "g" FROM "User" "t" WHERE "Gender" = \'' . $gender . '\' ORDER BY RANDOM() LIMIT 3' .
+            'WITH "Names" AS ('.
+            'SELECT "LastName", "FirstName", "FatherName", 1 AS "g" FROM "User" "t" WHERE "Gender" = \''.$gender.'\' ORDER BY RANDOM() LIMIT 3'.
             ') SELECT (ARRAY_AGG("LastName"))[1] AS "LastName", (ARRAY_AGG("FirstName"))[2] AS "FirstName", (ARRAY_AGG("FatherName"))[3] AS "FatherName" FROM "Names" GROUP BY "g"'
         )->queryRow();
         $user->LastName = $names['LastName'];
@@ -513,10 +521,11 @@ class DemoEventCreator
         $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789';
         $numChars = rand($minLength, $maxLength);
         $mail = '';
-        for ($i = 0; $i < $numChars; $i++)
+        for ($i = 0; $i < $numChars; $i++) {
             $mail .= substr($chars, rand(1, $numChars) - 1, 1);
+        }
 
-        return $mail . '@demoevt.ru';
+        return $mail.'@demoevt.ru';
     }
 
     /**
@@ -544,4 +553,4 @@ class DemoEventCreator
         $endDate = new \DateTime($endDate);
         return date('Y-m-d H:i:s', mt_rand($startDate->format('U'), $endDate->format('U')));
     }
-} 
+}

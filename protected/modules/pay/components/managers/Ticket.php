@@ -51,7 +51,6 @@ class Ticket extends BaseProductManager
         return ['ProductId'];
     }
 
-
     public function checkProduct($user, $params = [])
     {
         return true;
@@ -66,11 +65,10 @@ class Ticket extends BaseProductManager
      *
      * @return bool
      */
-    protected function internalBuy($user, $orderItem = null, $params = array())
+    protected function internalBuy($user, $orderItem = null, $params = [])
     {
         $coupons = [];
-        for ($i = 0; $i < $orderItem->getItemAttribute('Count'); $i++)
-        {
+        for ($i = 0; $i < $orderItem->getItemAttribute('Count'); $i++) {
             $coupon = new \pay\models\Coupon();
             $coupon->EventId = $this->product->EventId;
             $coupon->Code = 'ticket-'.$coupon->generateCode();
@@ -104,7 +102,7 @@ class Ticket extends BaseProductManager
      *
      * @return bool
      */
-    protected function internalChangeOwner($fromUser, $toUser, $params = array())
+    protected function internalChangeOwner($fromUser, $toUser, $params = [])
     {
         return false;
     }

@@ -1,5 +1,6 @@
 <?php
 namespace application\components\traits;
+
 use application\components\Exception;
 
 trait LoadModelTrait

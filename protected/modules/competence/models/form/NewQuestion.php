@@ -14,7 +14,6 @@ class NewQuestion extends \CFormModel
         $this->test = $test;
     }
 
-
     public function rules()
     {
         $criteriaCode = new \CDbCriteria();

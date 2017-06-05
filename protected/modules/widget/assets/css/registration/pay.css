@@ -1,47 +1,50 @@
 #widget-registration table th {
-  background: #EBEBEB;
-  border-bottom-width: 1px;
+    background: #EBEBEB;
+    border-bottom-width: 1px;
 }
 
 #widget-registration table th h4 {
-  padding: 0;
-  margin: 0;
+    padding: 0;
+    margin: 0;
 }
 
 #widget-registration td .discount {
-  padding-top: 8px;
-  white-space: nowrap;
+    padding-top: 8px;
+    white-space: nowrap;
 }
 
 #widget-registration table.thead-actual {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 #widget-registration table.thead-actual th {
-  color: #999;
-  font-size: 11px;
-  white-space: nowrap;
-  background: #fff;
+    color: #999;
+    font-size: 11px;
+    white-space: nowrap;
+    background: #fff;
 }
 
 #widget-registration .pay-buttons {
-  padding-left: 40px;
-  margin-bottom: 30px;
+    padding-left: 40px;
+    margin-bottom: 30px;
 }
 
 @media (max-width: 700px) {
-  #widget-registration table th h4 {
-    font-size: 14px;
-  }
+    #widget-registration table th h4 {
+        font-size: 14px;
+    }
 }
+
 @media (min-width: 768px) {
-  #widget-registration .pay-buttons>div:first-child {
-    text-align: right;
-  }
-  #widget-registration .pay-buttons {
-    padding-left: 0;
-  }
-  #widget-registration .pay-buttons>div:last-child {
-    border-left: 1px solid #eee;
-  }
+    #widget-registration .pay-buttons > div:first-child {
+        text-align: right;
+    }
+
+    #widget-registration .pay-buttons {
+        padding-left: 0;
+    }
+
+    #widget-registration .pay-buttons > div:last-child {
+        border-left: 1px solid #eee;
+    }
 }

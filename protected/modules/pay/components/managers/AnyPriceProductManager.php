@@ -1,8 +1,6 @@
 <?php
 namespace pay\components\managers;
 
-
-use pay\components\Exception;
 use pay\components\MessageException;
 use pay\models\OrderItem;
 
@@ -25,14 +23,13 @@ class AnyPriceProductManager extends BaseProductManager
         return ['Price'];
     }
 
-
     /**
      * Возвращает true - если продукт может быть приобретен пользователем, и false - иначе
      * @param \user\models\User $user
      * @param array $params
      * @return bool
      */
-    public function checkProduct($user, $params = array())
+    public function checkProduct($user, $params = [])
     {
         return true;
     }
@@ -43,7 +40,7 @@ class AnyPriceProductManager extends BaseProductManager
      * @param array $params
      * @return bool
      */
-    public function internalBuy($user, $orderItem = null, $params = array())
+    public function internalBuy($user, $orderItem = null, $params = [])
     {
         return true;
     }
@@ -55,7 +52,7 @@ class AnyPriceProductManager extends BaseProductManager
      */
     public function filter($params, $filter)
     {
-        return array();
+        return [];
     }
 
     /**
@@ -86,7 +83,6 @@ class AnyPriceProductManager extends BaseProductManager
         throw new MessageException(\Yii::t('app', 'Метод отката заказа не реализован для этого типа продукта'));
     }
 
-
     /**
      *
      * @param \user\models\User $fromUser
@@ -95,8 +91,7 @@ class AnyPriceProductManager extends BaseProductManager
      *
      * @return bool
      */
-    public function internalChangeOwner($fromUser, $toUser, $params = array())
+    public function internalChangeOwner($fromUser, $toUser, $params = [])
     {
-
     }
 }

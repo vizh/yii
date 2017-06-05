@@ -18,7 +18,7 @@ class EventCode
      */
     public static function generate(User $user, Test $test)
     {
-        return substr(md5($user->Id . self::HASH_SALT . $test->Id), 5, static::CODE_LENGTH);
+        return substr(md5($user->Id.self::HASH_SALT.$test->Id), 5, static::CODE_LENGTH);
     }
 
     /**
@@ -35,7 +35,7 @@ class EventCode
                 $criteria->addCondition('"User"."RunetId" = :RunetId AND NOT "User"."Visible"');
                 $criteria->params['RunetId'] = $code;
             } else {
-                $criteria->addCondition('substr(MD5(concat("t"."UserId",:HashSalt,:TestId)), 6, '. static::CODE_LENGTH .') = :Code');
+                $criteria->addCondition('substr(MD5(concat("t"."UserId",:HashSalt,:TestId)), 6, '.static::CODE_LENGTH.') = :Code');
                 $criteria->params['HashSalt'] = static::HASH_SALT;
                 $criteria->params['TestId'] = $test->Id;
                 $criteria->params['Code'] = $code;

@@ -3,11 +3,11 @@ namespace connect\models\forms;
 
 use application\components\form\CreateUpdateForm;
 use application\components\utility\Texts;
+use connect\models\Meeting as MeetingAR;
 use connect\models\MeetingLinkUser;
 use connect\models\Place;
 use user\models\User;
 use Yii;
-use connect\models\Meeting as MeetingAR;
 
 class Meeting extends CreateUpdateForm
 {
@@ -29,17 +29,29 @@ class Meeting extends CreateUpdateForm
         return [
             ['PlaceId, CreatorId, Date, Type', 'required'],
             ['CreatorId', 'validateCreator'],
-            ['UserId', 'validateUser', 'when' => function(){ return $this->Type == MeetingAR::TYPE_PRIVATE; }],
+            [
+                'UserId',
+                'validateUser',
+                'when' => function () {
+                    return $this->Type == MeetingAR::TYPE_PRIVATE;
+                }
+            ],
             ['Date', 'validateDate'],
-            ['Purpose, Subject', 'filter', 'filter' => function($value){ return (new \CHtmlPurifier())->purify($value); }],
-            ['File', 'file', 'maxSize' => 10*1024*1024, 'allowEmpty' => true]
+            [
+                'Purpose, Subject',
+                'filter',
+                'filter' => function ($value) {
+                    return (new \CHtmlPurifier())->purify($value);
+                }
+            ],
+            ['File', 'file', 'maxSize' => 10 * 1024 * 1024, 'allowEmpty' => true]
         ];
     }
 
     public function validateCreator($attr, $params)
     {
         $this->Creator = User::model()->findByAttributes(['RunetId' => $this->CreatorId]);
-        if (!$this->Creator){
+        if (!$this->Creator) {
             $this->addError('CreatorId', 'Не найден пользователь с RUNET-ID: '.$this->CreatorId);
         }
     }
@@ -47,25 +59,25 @@ class Meeting extends CreateUpdateForm
     public function validateUser($attr, $params)
     {
         $this->User = User::model()->findByAttributes(['RunetId' => $this->UserId]);
-        if (!$this->User){
+        if (!$this->User) {
             $this->addError('UserId', 'Не найден пользователь с RUNET-ID: '.$this->UserId);
         }
     }
 
     public function validateDate($attr, $params)
     {
-        if (!\DateTime::createFromFormat('Y-m-d\TH:i:sP', $this->Date)){
+        if (!\DateTime::createFromFormat('Y-m-d\TH:i:sP', $this->Date)) {
             $this->addError('Date', 'Неверный формат даты '.$this->Date);
             return;
         }
 
         /** @var Place $place */
         $place = Place::model()->findByPk($this->PlaceId);
-        if (!$place){
+        if (!$place) {
             return;
         }
 
-        if ($place->Reservation && !$place->hasAvailableReservation($this->Date)){
+        if ($place->Reservation && !$place->hasAvailableReservation($this->Date)) {
             $this->addError('Date', 'На выбранное время нет доступных переговорных комнат');
         }
     }
@@ -107,7 +119,7 @@ class Meeting extends CreateUpdateForm
 
             $this->model->Status = MeetingAR::STATUS_OPEN;
 
-            if ($this->File){
+            if ($this->File) {
                 $filepath = $this->model->getFileDir();
                 $filename = Texts::GenerateString(16).'.'.$this->File->extensionName;
                 $this->File->saveAs($filepath.'/'.$filename);
@@ -138,14 +150,14 @@ class Meeting extends CreateUpdateForm
     {
         $transaction = Yii::app()->db->beginTransaction();
 
-        try{
+        try {
             $this->model = new MeetingAR();
             $this->model->Type = MeetingAR::TYPE_PUBLIC;
             $this->model->CreateTime = date('Y-m-d H:i:s');
             $saved = $this->updateActiveRecord();
 
-            if ($saved){
-                if ($this->Type == MeetingAR::TYPE_PRIVATE){
+            if ($saved) {
+                if ($this->Type == MeetingAR::TYPE_PRIVATE) {
                     $link = new MeetingLinkUser();
                     $link->MeetingId = $this->model->Id;
                     $link->UserId = $this->User->Id;
@@ -159,13 +171,11 @@ class Meeting extends CreateUpdateForm
 
                 $transaction->commit();
                 return true;
-            }
-            else{
+            } else {
                 $transaction->rollback();
                 return false;
             }
-        }
-        catch (\Exception $e){
+        } catch (\Exception $e) {
             $transaction->rollback();
             throw $e;
         }

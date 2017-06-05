@@ -57,8 +57,7 @@ class AbstractHack
      * @param $password string
      * @return User|null
      */
-    public function apiCustomLogin(/** @noinspection PhpUnusedParameterInspection */ $email, $password)
-    {
+    public function apiCustomLogin(/** @noinspection PhpUnusedParameterInspection */ $email, $password) {
         return null;
     }
 

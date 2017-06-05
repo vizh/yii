@@ -5,8 +5,8 @@ use application\extensions\behaviors\TimestampableBehavior;
 
 class m160929_041725_user_devices extends CDbMigration
 {
-	public function safeUp()
-	{
+    public function safeUp()
+    {
         $this->execute("CREATE TYPE \"DeviceType\" AS ENUM ('iOS', 'Android')");
 
         $tableSchema = [
@@ -24,12 +24,12 @@ class m160929_041725_user_devices extends CDbMigration
         $this->createTable('UserDevice', $tableSchema);
         $this->createIndex('UserDevice_Token', 'UserDevice', 'Token', true);
         $this->addForeignKey('UserDevice_UserId_fKey', 'UserDevice', 'UserId', 'User', 'Id', 'cascade', 'cascade');
-	}
+    }
 
-	public function safeDown()
-	{
+    public function safeDown()
+    {
         $this->dropForeignKey('UserDevice_UserId_fKey', 'UserDevice');
         $this->dropTable('UserDevice');
         $this->execute('DROP TYPE "DeviceType"');
-	}
+    }
 }

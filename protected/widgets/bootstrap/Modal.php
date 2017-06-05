@@ -8,7 +8,6 @@
 namespace application\widgets\bootstrap;
 
 use application\components\helpers\ArrayHelper;
-use Yii;
 
 /**
  * Modal renders a modal window that can be toggled by clicking on a button.
@@ -95,7 +94,6 @@ class Modal extends Widget
      */
     public $toggleButton = false;
 
-
     /**
      * Initializes the widget.
      */
@@ -104,12 +102,12 @@ class Modal extends Widget
         parent::init();
 
         $this->initOptions();
-        echo $this->renderToggleButton() . "\n";
-        echo \CHtml::tag('div', $this->htmlOptions, false, false) . "\n";
-        echo \CHtml::tag('div', ['class' => 'modal-dialog ' . $this->size], false, false) . "\n";
-        echo \CHtml::tag('div', ['class' => 'modal-content'], false, false) . "\n";
-        echo $this->renderHeader() . "\n";
-        echo $this->renderBodyBegin() . "\n";
+        echo $this->renderToggleButton()."\n";
+        echo \CHtml::tag('div', $this->htmlOptions, false, false)."\n";
+        echo \CHtml::tag('div', ['class' => 'modal-dialog '.$this->size], false, false)."\n";
+        echo \CHtml::tag('div', ['class' => 'modal-content'], false, false)."\n";
+        echo $this->renderHeader()."\n";
+        echo $this->renderBodyBegin()."\n";
     }
 
     /**
@@ -117,25 +115,27 @@ class Modal extends Widget
      */
     public function run()
     {
-        echo "\n" . $this->renderBodyEnd();
-        echo "\n" . $this->renderFooter();
-        echo "\n" . '</div>'; // modal-content
-        echo "\n" . '</div>'; // modal-dialog
-        echo "\n" . '</div>';
+        echo "\n".$this->renderBodyEnd();
+        echo "\n".$this->renderFooter();
+        echo "\n".'</div>'; // modal-content
+        echo "\n".'</div>'; // modal-dialog
+        echo "\n".'</div>';
     }
 
     /**
      * Renders the header HTML markup of the modal
+     *
      * @return string the rendering result
      */
     protected function renderHeader()
     {
-        $this->headerHtmlOptions['class'] = (isset($this->headerHtmlOptions['class']) ? $this->headerHtmlOptions['class'] . ' ' : '') . 'modal-header';
-        echo \CHtml::tag('div', $this->headerHtmlOptions, $this->renderCloseButton() . '<h4 class="modal-title">' . $this->header . '</h4>');;
+        $this->headerHtmlOptions['class'] = (isset($this->headerHtmlOptions['class']) ? $this->headerHtmlOptions['class'].' ' : '').'modal-header';
+        echo \CHtml::tag('div', $this->headerHtmlOptions, $this->renderCloseButton().'<h4 class="modal-title">'.$this->header.'</h4>');;
     }
 
     /**
      * Renders the opening tag of the modal body.
+     *
      * @return string the rendering result
      */
     protected function renderBodyBegin()
@@ -145,6 +145,7 @@ class Modal extends Widget
 
     /**
      * Renders the closing tag of the modal body.
+     *
      * @return string the rendering result
      */
     protected function renderBodyEnd()
@@ -154,13 +155,14 @@ class Modal extends Widget
 
     /**
      * Renders the HTML markup for the footer of the modal
+     *
      * @return string the rendering result
      */
     protected function renderFooter()
     {
         if ($this->footer !== null) {
-            $this->footerHtmlOptions['class'] = (isset($this->footerHtmlOptions['class']) ? $this->footerHtmlOptions['class'] . ' ' : '') . 'modal-footer';
-            return \CHtml::tag('div', $this->footerHtmlOptions, "\n" . $this->footer . "\n");
+            $this->footerHtmlOptions['class'] = (isset($this->footerHtmlOptions['class']) ? $this->footerHtmlOptions['class'].' ' : '').'modal-footer';
+            return \CHtml::tag('div', $this->footerHtmlOptions, "\n".$this->footer."\n");
         } else {
             return null;
         }
@@ -168,6 +170,7 @@ class Modal extends Widget
 
     /**
      * Renders the toggle button.
+     *
      * @return string the rendering result
      */
     protected function renderToggleButton()
@@ -187,6 +190,7 @@ class Modal extends Widget
 
     /**
      * Renders the close button.
+     *
      * @return string the rendering result
      */
     protected function renderCloseButton()
@@ -215,7 +219,7 @@ class Modal extends Widget
             'tabindex' => -1,
         ], $this->htmlOptions);
 
-        $this->htmlOptions['class'] = 'modal fade ' . (isset($this->htmlOptions['class']) ? $this->htmlOptions['class']: '');
+        $this->htmlOptions['class'] = 'modal fade '.(isset($this->htmlOptions['class']) ? $this->htmlOptions['class'] : '');
 
         if ($this->clientHtmlOptions !== false) {
             $this->clientHtmlOptions = array_merge(['show' => false], $this->clientHtmlOptions);
@@ -234,7 +238,7 @@ class Modal extends Widget
                 'data-toggle' => 'modal',
             ], $this->toggleButton);
             if (!isset($this->toggleButton['data-target']) && !isset($this->toggleButton['href'])) {
-                $this->toggleButton['data-target'] = '#' . $this->htmlOptions['id'];
+                $this->toggleButton['data-target'] = '#'.$this->htmlOptions['id'];
             }
         }
     }

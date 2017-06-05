@@ -86,7 +86,7 @@ class BaseDataBuilder
                     //todo: добавить поле UpdateTime, переделать эти поля в timestamp
                 } else {
                     if (!isset($this->user->Status)) {
-                        $this->user->Status = array();
+                        $this->user->Status = [];
                     }
                     $status = new \stdClass();
                     $status->DayId = $participant->DayId;
@@ -95,7 +95,6 @@ class BaseDataBuilder
                     $status->UpdateTime = $participant->UpdateTime;
                     $this->user->Status[] = $status;
                 }
-
             }
         }
 
@@ -124,8 +123,8 @@ class BaseDataBuilder
         $this->event->DateEnd = $event->DateEnd;
 
         $this->event->Image = new \stdClass();
-        $this->event->Image->Mini = 'http://rocid.ru' . $event->GetMiniLogo();
-        $this->event->Image->Normal = 'http://rocid.ru' . $event->GetLogo();
+        $this->event->Image->Mini = 'http://rocid.ru'.$event->GetMiniLogo();
+        $this->event->Image->Normal = 'http://rocid.ru'.$event->GetLogo();
 
         return $this->event;
     }
@@ -136,7 +135,7 @@ class BaseDataBuilder
      */
     public function BuildEventMenu($event)
     {
-        $this->event->Menu = array();
+        $this->event->Menu = [];
 
         $menu = new \stdClass();
         $menu->Type = 'program';
@@ -200,7 +199,7 @@ class BaseDataBuilder
         $this->orderItem->PaidTime = $orderItem->PaidTime;
         $this->orderItem->Booked = $orderItem->Booked;
 
-        $this->orderItem->Params = array();
+        $this->orderItem->Params = [];
         foreach ($orderItem->Params as $param) {
             $this->orderItem->Params[$param->Name] = $param->Value;
         }
@@ -210,7 +209,6 @@ class BaseDataBuilder
 
         return $this->orderItem;
     }
-
 
     protected $product;
 
@@ -228,15 +226,13 @@ class BaseDataBuilder
         $this->product->Title = $product->Title;
         $this->product->Price = $product->GetPrice($time);
 
-        $this->product->Attributes = array();
+        $this->product->Attributes = [];
         foreach ($product->Attributes as $attribute) {
             $this->product->Attributes[$attribute->Name] = $attribute->Value;
         }
 
-
         return $this->product;
     }
-
 
     protected $section;
 
@@ -269,7 +265,6 @@ class BaseDataBuilder
 
         return $this->section;
     }
-
 
     protected $report;
 
@@ -314,8 +309,8 @@ class BaseDataBuilder
         if (file_exists($discImage)) {
             $this->newsPost->Image = new \stdClass();
 
-            $this->newsPost->Image->Small = 'http://rocid.ru' . $newsPost->GetMainTapeImage();
-            $this->newsPost->Image->Large = 'http://rocid.ru' . $newsPost->GetMainTapeImageBig();
+            $this->newsPost->Image->Small = 'http://rocid.ru'.$newsPost->GetMainTapeImage();
+            $this->newsPost->Image->Large = 'http://rocid.ru'.$newsPost->GetMainTapeImageBig();
             $this->newsPost->Image->Copyright = $newsPost->Copyright;
         }
 
@@ -329,7 +324,7 @@ class BaseDataBuilder
      */
     public function BuildNewsPostCategories($newsPost)
     {
-        $categories = array();
+        $categories = [];
 
         foreach ($newsPost->Categories as $category) {
             if ($category->Visible != 0) {
@@ -354,7 +349,7 @@ class BaseDataBuilder
 
     public function CreateAllCategories()
     {
-        $result = array();
+        $result = [];
         $categories = \news\models\Category::GetAll(true);
         foreach ($categories as $category) {
             $result[] = $category->Title;

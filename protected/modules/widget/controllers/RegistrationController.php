@@ -1,12 +1,11 @@
 <?php
-use widget\components\Controller;
-
-use widget\models\forms\ProductCount as ProductCountForm;
-use pay\components\collection\Finder;
 use event\models\Participant;
+use pay\components\collection\Finder;
 use pay\components\OrderItemCollectable;
 use pay\models\Account as PayAccount;
 use pay\models\forms\Juridical as JuridicalForm;
+use widget\components\Controller;
+use widget\models\forms\ProductCount as ProductCountForm;
 
 class RegistrationController extends Controller
 {
@@ -73,7 +72,7 @@ class RegistrationController extends Controller
             if ($form->createActiveRecord() !== null) {
                 echo '
                     <script>
-                        top.location.href=\''. $form->getOrder()->getUrl() .'\';
+                        top.location.href=\''.$form->getOrder()->getUrl().'\';
                     </script>
                 ';
                 \Yii::app()->end();

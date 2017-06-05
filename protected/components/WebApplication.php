@@ -1,7 +1,7 @@
 <?php
 namespace application\components;
+
 use application\components\auth\WebUser;
-use Gregwar\Cache\Cache;
 
 /**
  * @property \application\components\auth\WebUser $user
@@ -25,20 +25,18 @@ use Gregwar\Cache\Cache;
 class WebApplication extends \CWebApplication
 {
 
-  /**
-   * Отключает логгеры, которые выводят результаты логгирования в output
-   *
-   * @return void
-   */
-  public function disableOutputLoggers()
-  {
-    $routes = \Yii::app()->log->getRoutes();
-    foreach ($routes as $route)
+    /**
+     * Отключает логгеры, которые выводят результаты логгирования в output
+     *
+     * @return void
+     */
+    public function disableOutputLoggers()
     {
-      if ($route instanceof \CProfileLogRoute || $route instanceof \CWebLogRoute)
-      {
-        $route->enabled = false;
-      }
+        $routes = \Yii::app()->log->getRoutes();
+        foreach ($routes as $route) {
+            if ($route instanceof \CProfileLogRoute || $route instanceof \CWebLogRoute) {
+                $route->enabled = false;
+            }
+        }
     }
-  }
 }

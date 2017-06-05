@@ -1,8 +1,8 @@
 <?php
 
 use competence\models\Result;
-use \competence\models\tests\mailru2013;
-use \event\models\Participant;
+use event\models\Participant;
+
 \Yii::import('ext.PHPExcel.PHPExcel', true);
 
 class ExportController extends \application\components\controllers\AdminMainController
@@ -13,8 +13,9 @@ class ExportController extends \application\components\controllers\AdminMainCont
     public function actionIndex($id)
     {
         $this->test = \competence\models\Test::model()->findByPk($id);
-        if ($this->test === null)
+        if ($this->test === null) {
             throw new CHttpException(404);
+        }
 
         $request = Yii::app()->getRequest();
 
@@ -30,9 +31,8 @@ class ExportController extends \application\components\controllers\AdminMainCont
             $this->fillTitles($phpExcel);
             $this->fillResults($phpExcel, $type);
 
-
             $objWriter = new PHPExcel_Writer_Excel2007($phpExcel);
-            $path = Yii::getPathOfAlias('competence.data') . sprintf('/%s-%s-%s.xlsx', $this->test->Code, $type, date('YmdHis'));
+            $path = Yii::getPathOfAlias('competence.data').sprintf('/%s-%s-%s.xlsx', $this->test->Code, $type, date('YmdHis'));
             $objWriter->save($path);
 
             Yii::app()->user->setFlash('success', $path);
@@ -56,8 +56,9 @@ class ExportController extends \application\components\controllers\AdminMainCont
         if ($this->questions === null) {
             $this->questions = \competence\models\Question::model()->byTestId($this->test->Id)
                 ->findAll(['order' => '"Sort"']);
-            foreach ($this->questions as $question)
+            foreach ($this->questions as $question) {
                 $question->setTest($this->test);
+            }
         }
         return $this->questions;
     }
@@ -91,15 +92,15 @@ class ExportController extends \application\components\controllers\AdminMainCont
 
     private function fillTitles(PHPExcel $phpExcel)
     {
-        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(0,3, 'RUNET-ID');
-        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(1,3, 'Имя');
-        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(2,3, 'Фамилия');
-        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(3,3, 'Отчество');
-        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(4,3, 'Компания');
-        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(5,3, 'Должность');
-        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(6,3, 'Email');
-        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(7,3, 'Телефон');
-        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(8,3, 'Дата заполнения');
+        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(0, 3, 'RUNET-ID');
+        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(1, 3, 'Имя');
+        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(2, 3, 'Фамилия');
+        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(3, 3, 'Отчество');
+        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(4, 3, 'Компания');
+        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(5, 3, 'Должность');
+        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(6, 3, 'Email');
+        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(7, 3, 'Телефон');
+        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(8, 3, 'Дата заполнения');
 
         $col = 9;
         if (!empty($this->test->Event)) {
@@ -113,8 +114,8 @@ class ExportController extends \application\components\controllers\AdminMainCont
 
             $titles = $question->getForm()->getExportValueTitles();
             $delta = count($titles) - 1;
-            $phpExcel->getActiveSheet()->mergeCellsByColumnAndRow($col, 1, $col+$delta, 1);
-            $phpExcel->getActiveSheet()->mergeCellsByColumnAndRow($col, 2, $col+$delta, 2);
+            $phpExcel->getActiveSheet()->mergeCellsByColumnAndRow($col, 1, $col + $delta, 1);
+            $phpExcel->getActiveSheet()->mergeCellsByColumnAndRow($col, 2, $col + $delta, 2);
             foreach ($titles as $title) {
                 $phpExcel->getActiveSheet()->setCellValueByColumnAndRow($col, 3, strip_tags($title));
                 $col++;

@@ -9,7 +9,7 @@ class Contacts extends \event\components\Widget
     {
         $phones = [];
         foreach ($this->event->LinkPhones as $linkPhone) {
-            $phones[] = (string) $linkPhone->Phone;
+            $phones[] = (string)$linkPhone->Phone;
         }
 
         $viewName = !$this->event->FullWidth ? 'contacts' : 'fullwidth/contacts';

@@ -58,7 +58,6 @@ class Slider extends Widget
         return true;
     }
 
-
     /**
      * @inheritdoc
      */
@@ -67,6 +66,5 @@ class Slider extends Widget
         \Yii::app()->getClientScript()->registerPackage('jquery.fotorama');
         parent::registerDefaultResources();
     }
-
 
 }

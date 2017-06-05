@@ -24,7 +24,6 @@ class PartnerAction extends \CAction
             $this->processActionFoodOrder($action);
         }
 
-
         $this->getController()->render('partner', [
             'owner' => $owner,
             'bookings' => $this->getBookingsWithoutOrder(),
@@ -56,7 +55,6 @@ class PartnerAction extends \CAction
 
         $this->getController()->redirect(['partner', 'owner' => $this->owner]);
     }
-
 
     /**
      * @param string $action

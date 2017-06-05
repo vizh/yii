@@ -1,4 +1,4 @@
 $(function () {
-  CKEDITOR.replace('commission\\models\\forms\\Edit[Description]');
+    CKEDITOR.replace('commission\\models\\forms\\Edit[Description]');
 });
 

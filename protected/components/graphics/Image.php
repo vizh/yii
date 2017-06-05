@@ -42,7 +42,7 @@ class Image
      * @param array $area x1,y1 - левый верхний угол; x2, y2 - правый нижний угол
      * @return void
      */
-    public static function ResizeAndSave($imageName, $newImageName, $width, $height, $area = array(), $saveType = IMAGETYPE_JPEG)
+    public static function ResizeAndSave($imageName, $newImageName, $width, $height, $area = [], $saveType = IMAGETYPE_JPEG)
     {
         $image = self::GetImage($imageName);
         if ($image == null || !$image) {

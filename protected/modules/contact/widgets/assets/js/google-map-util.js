@@ -65,7 +65,7 @@ GoogleMapsUtil.prototype.appendApiScript = function () {
 }
 
 GoogleMapsUtil.prototype.setDefaultPoint = function (lat, lng) {
-    this.initPoint = {lat: lat, lng: lng};
+    this.initPoint = {lat:lat, lng:lng};
     return this;
 };
 GoogleMapsUtil.prototype.bindEvents = function () {
@@ -127,7 +127,7 @@ GoogleMapsUtil.prototype.setInitMarker = function (point) {
         return this;
     }
 
-    this.initMarker = {lat: point[0], lng: point[1]};
+    this.initMarker = {lat:point[0], lng:point[1]};
     this.initScale = point[2];
     return this;
 };
@@ -146,7 +146,7 @@ GoogleMapsUtil.prototype.createMarker = function (point) {
         return this;
     }
 
-    return {lat: parseFloat(point[0]), lng: parseFloat(point[1])};
+    return {lat:parseFloat(point[0]), lng:parseFloat(point[1])};
 };
 GoogleMapsUtil.prototype.clearMarker = function () {
     this.marker.setMap(null);
@@ -155,8 +155,8 @@ GoogleMapsUtil.prototype.placeMarker = function (location) {
     var self = this;
 
     this.marker = new google.maps.Marker({
-        position: location,
-        map: self.map
+        position:location,
+        map:self.map
     });
 
     return this;
@@ -184,7 +184,7 @@ GoogleMapsUtil.prototype.initMap = function () {
     var self = this;
 
     var defaultParams = {
-        zoom: this.initScale,
+        zoom:this.initScale,
     };
 
     if (this.initMarker) {
@@ -218,13 +218,13 @@ GoogleMapsUtil.prototype.getRequestCoordinatesUrl = function () {
 GoogleMapsUtil.prototype.requestCoordinates = function (geocode) {
     var self = this;
     $.ajax({
-        url: this.requestCoordinatesUrl,
-        dataType: "json",
-        context: document.body,
-        data: {
-            geocode: geocode
+        url:this.requestCoordinatesUrl,
+        dataType:"json",
+        context:document.body,
+        data:{
+            geocode:geocode
         },
-        method: 'POST'
+        method:'POST'
     }).done(function (resp) {
         self.onFinishRequestCoordinates(resp);
     });

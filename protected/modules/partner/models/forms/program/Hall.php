@@ -2,7 +2,6 @@
 namespace partner\models\forms\program;
 
 use application\components\form\CreateUpdateForm;
-use application\components\helpers\ArrayHelper;
 use event\models\Event;
 use event\models\section\Hall as HallModel;
 
@@ -33,7 +32,6 @@ class Hall extends CreateUpdateForm
             $model->setLocale($this->locale);
         }
         parent::__construct($model);
-
     }
 
     public function rules()
@@ -96,6 +94,5 @@ class Hall extends CreateUpdateForm
         $this->model->save();
         return $this->model;
     }
-
 
 } 

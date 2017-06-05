@@ -1,9 +1,8 @@
 <?php
-use user\models\User;
 use application\components\controllers\AdminMainController;
-use user\models\forms\admin\User as FormUser;
 use application\helpers\Flash;
-
+use user\models\forms\admin\User as FormUser;
+use user\models\User;
 
 /**
  * Class EditController

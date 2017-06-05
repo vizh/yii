@@ -2,14 +2,13 @@
 namespace api\controllers\pay;
 
 use api\components\Exception as ApiException;
-use pay\components\Exception as PayException;
 use api\models\ExternalUser;
-use pay\models\Coupon;
-
-use nastradamus39\slate\annotations\ApiAction;
-use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\ApiAction;
+use pay\components\Exception as PayException;
+use pay\models\Coupon;
 
 class CouponAction extends \api\components\Action
 {

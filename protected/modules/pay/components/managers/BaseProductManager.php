@@ -203,7 +203,7 @@ abstract class BaseProductManager
             $attribute->Value = $value;
             $attribute->save();
         } else {
-            throw new MessageException('Данный продукт не содержит аттрибута с именем ' . $name);
+            throw new MessageException('Данный продукт не содержит аттрибута с именем '.$name);
         }
     }
 
@@ -280,7 +280,7 @@ abstract class BaseProductManager
         foreach ($this->getRequiredOrderItemAttributeNames() as $key) {
             if (!isset($attributes[$key])) {
                 throw new MessageException(
-                    'Не задан обязательный параметр ' . $key . ' при добавлении заказа.',
+                    'Не задан обязательный параметр '.$key.' при добавлении заказа.',
                     MessageException::ORDER_ITEM_GROUP_CODE
                 );
             }
@@ -420,7 +420,7 @@ abstract class BaseProductManager
      */
     private function sendMail($user)
     {
-        $class = \Yii::getExistClass('\pay\components\handlers\buyproduct\products', 'Product' . $this->product->Id, 'Base');
+        $class = \Yii::getExistClass('\pay\components\handlers\buyproduct\products', 'Product'.$this->product->Id, 'Base');
         $event = new \CModelEvent($this, ['owner' => $user, 'product' => $this->product]);
 
         /** @var Mail $mail */

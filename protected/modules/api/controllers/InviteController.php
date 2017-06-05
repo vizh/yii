@@ -1,8 +1,6 @@
 <?php
 
-
 use nastradamus39\slate\annotations\ApiController;
-use nastradamus39\slate\annotations\ApiObject;
 
 /**
  * @ApiController(
@@ -14,4 +12,4 @@ use nastradamus39\slate\annotations\ApiObject;
 class InviteController extends \api\components\Controller
 {
 
-} 
+}

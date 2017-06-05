@@ -1,10 +1,9 @@
 <?php
 namespace pay\widgets;
 
-
 /**
  * Created by PhpStorm.
- * User: Андрей
+ * User: пїЅпїЅпїЅпїЅпїЅпїЅ
  * Date: 05.08.2015
  * Time: 12:05
  */

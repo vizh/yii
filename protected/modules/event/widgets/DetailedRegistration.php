@@ -100,7 +100,7 @@ class DetailedRegistration extends WidgetRegistration
             $code = \Yii::app()->getRequest()->getParam('invite');
             $this->invite = InviteModel::model()->byEventId($this->getEvent()->Id)->byCode($code)->find();
             if ($this->invite == null || !empty($this->invite->UserId)) {
-                $this->form->addError('Invite', \Yii::t('app','Для регистрации на мероприятие «{event}» требуется приглашение.', ['{event}' => $this->event->Title]));
+                $this->form->addError('Invite', \Yii::t('app', 'Для регистрации на мероприятие «{event}» требуется приглашение.', ['{event}' => $this->event->Title]));
             }
         }
     }

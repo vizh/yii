@@ -17,12 +17,14 @@ class AuthAction extends Action
         $identity = new Password($login, $password);
         $identity->authenticate();
 
-        if ($identity->errorCode !== \CUserIdentity::ERROR_NONE)
+        if ($identity->errorCode !== \CUserIdentity::ERROR_NONE) {
             throw new Exception(210);
+        }
 
         $user = User::model()->findByPk($identity->getId());
-        if ($user === null)
+        if ($user === null) {
             throw new Exception(202, $identity->getName());
+        }
 
         $result = [];
         $this->getDataBuilder()->createUser($user);

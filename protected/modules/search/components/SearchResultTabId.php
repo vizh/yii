@@ -1,10 +1,11 @@
 <?php
 namespace search\components;
-interface SearchResultTabId 
+
+interface SearchResultTabId
 {
-  const User = 'u';
-  const Companies = 'c';
-  const Events = 'e';
+    const User = 'u';
+    const Companies = 'c';
+    const Events = 'e';
 }
 
 ?>

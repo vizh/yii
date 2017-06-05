@@ -16,11 +16,10 @@ class IndexAction extends \partner\components\Action
     private function getProductValues()
     {
         $products = \pay\models\Product::model()->byEventId($this->getEvent()->Id)
-            ->findAll('"t"."ManagerName" != :ManagerName', array('ManagerName' => 'RoomProductManager'));
-        $result = array();
+            ->findAll('"t"."ManagerName" != :ManagerName', ['ManagerName' => 'RoomProductManager']);
+        $result = [];
         $result[''] = '';
-        foreach ($products as $product)
-        {
+        foreach ($products as $product) {
             $result[$product->Id] = $product->Title;
         }
         return $result;

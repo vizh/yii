@@ -2,15 +2,12 @@
 namespace api\controllers\connect;
 
 use application\components\helpers\ArrayHelper;
-use CDbCriteria;
 use event\models\Participant;
-use Yii;
-
-use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
-use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Sample;
+use nastradamus39\slate\annotations\ApiAction;
 
 class SearchAction extends \api\components\Action
 {
@@ -41,8 +38,7 @@ class SearchAction extends \api\components\Action
             ->with('Data', 'User')
             ->byEventId($this->getEvent()->Id);
 
-
-        if ($this->hasRequestParam('RoleId')){
+        if ($this->hasRequestParam('RoleId')) {
             $participants->byRoleId($this->getRequestParam('RoleId'));
         }
 
@@ -52,7 +48,7 @@ class SearchAction extends \api\components\Action
             }
         }
 
-        if ($this->hasRequestParam('q')){
+        if ($this->hasRequestParam('q')) {
             $participants->bySearchString($this->getRequestParam('q'));
         }
 

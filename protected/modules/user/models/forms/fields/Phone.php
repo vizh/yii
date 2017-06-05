@@ -27,7 +27,7 @@ class Phone extends CreateUpdateForm
     public function attributeLabels()
     {
         return [
-            'Phone' =>  \Yii::t('app', 'Телефон')
+            'Phone' => \Yii::t('app', 'Телефон')
         ];
     }
 
@@ -47,6 +47,5 @@ class Phone extends CreateUpdateForm
      */
     public function createActiveRecord()
     {
-
     }
 }

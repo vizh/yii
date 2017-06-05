@@ -2,11 +2,11 @@
 namespace ruvents\controllers\user;
 
 use event\models\UserData;
+use ruvents\components\Action;
 use ruvents\components\Exception;
 use ruvents\models\ChangeMessage;
 use ruvents\models\Setting;
 use user\models\User;
-use ruvents\components\Action;
 use Yii;
 
 class EditAttributeAction extends Action
@@ -20,28 +20,33 @@ class EditAttributeAction extends Action
         $attrName = $request->getParam('AttributeName');
         $attrValue = $request->getParam('AttributeValue');
 
-        if (empty($id))
+        if (empty($id)) {
             throw new Exception(900, 'RunetId');
+        }
 
-        if (empty($attrName))
+        if (empty($attrName)) {
             throw new Exception(900, 'AttributeName');
+        }
 
-        if (empty($attrValue))
+        if (empty($attrValue)) {
             throw new Exception(900, 'AttributeValue');
+        }
 
         $user = User::model()
             ->byRunetId($id)
             ->find();
 
-        if ($user === null)
+        if ($user === null) {
             throw new Exception(202, $id);
+        }
 
         $setting = Setting::model()
             ->byEventId($this->getEvent()->Id)
             ->find();
 
-        if (!in_array($attrName, $setting->EditableUserData ?: []))
+        if (!in_array($attrName, $setting->EditableUserData ?: [])) {
             throw new Exception(901, $attrName);
+        }
 
         $userData = UserData::model()
             ->byEventId($this->getEvent()->Id)
@@ -49,8 +54,9 @@ class EditAttributeAction extends Action
             ->byDeleted(false)
             ->find();
 
-        if ($userData === null)
+        if ($userData === null) {
             $userData = UserData::createEmpty($this->getEvent(), $user);
+        }
 
         $manager = $userData->getManager();
 
@@ -59,8 +65,9 @@ class EditAttributeAction extends Action
         if ($originalAttrValue != $attrName) {
             $manager->$attrName = $attrValue;
 
-            if (!$manager->validate() && ($error = $manager->getError($attrName)) !== null)
+            if (!$manager->validate() && ($error = $manager->getError($attrName)) !== null) {
                 throw new Exception(252, [$attrName, $error]);
+            }
 
             $userData->save(false);
 

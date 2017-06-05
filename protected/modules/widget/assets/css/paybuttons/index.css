@@ -1,28 +1,33 @@
 h5 {
-  font-weight: bold;
+    font-weight: bold;
 }
+
 .btn {
-  height: 40px;
-  line-height: 40px;
-  padding-top: 0;
-  padding-bottom: 0;
+    height: 40px;
+    line-height: 40px;
+    padding-top: 0;
+    padding-bottom: 0;
 }
+
 .cloudpayments {
-  background-image: url(/img/pay/cloudpayments_20.png);
-  background-repeat: no-repeat;
-  background-position: center center;
-  width: 106px;
+    background-image: url(/img/pay/cloudpayments_20.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: 106px;
 }
+
 .btn-primary.cloudpayments {
-  background-image: url(/img/pay/cloudpayments_20_white.png);
+    background-image: url(/img/pay/cloudpayments_20_white.png);
 }
+
 .btn-primary.cloudpayments.loader {
-  background-image: url(/img/pay/cloudpayments_20_loader.gif);
+    background-image: url(/img/pay/cloudpayments_20_loader.gif);
 }
-span.cloudpayments{
-  width: 120px;
-  display: block;
-  background: url("/img/pay/pay-icons.png") no-repeat scroll 0 0 transparent;
-  height: 47px;
-  margin-left: -10px;
+
+span.cloudpayments {
+    width: 120px;
+    display: block;
+    background: url("/img/pay/pay-icons.png") no-repeat scroll 0 0 transparent;
+    height: 47px;
+    margin-left: -10px;
 }

@@ -4,9 +4,11 @@ namespace user\models\forms\admin;
 use application\components\form\CreateUpdateForm;
 use application\helpers\Flash;
 use commission\models\ProjectUser;
+use commission\models\User as CommissionUser;
 use event\models\Participant;
 use event\models\section\LinkUser;
 use event\models\UserData;
+use iri\models\User as IriUser;
 use pay\models\CouponActivation;
 use pay\models\Order;
 use pay\models\OrderItem;
@@ -20,8 +22,6 @@ use user\models\LinkPhone;
 use user\models\LinkProfessionalInterest;
 use user\models\LinkServiceAccount;
 use user\models\User;
-use commission\models\User as CommissionUser;
-use iri\models\User as IriUser;
 
 /**
  * Class Merge
@@ -154,7 +154,7 @@ class Merge extends CreateUpdateForm
         foreach ($this->Employments as $id => $value) {
             $employment = Employment::findOne($id);
             if ($value == 1) {
-                $employment->UserId  = $this->model->Id;
+                $employment->UserId = $this->model->Id;
                 $employment->Primary = ($id == $this->PrimaryEmployment);
                 $employment->save();
             } elseif ($value == 0 && $employment->UserId === $this->model->Id) {
@@ -293,7 +293,7 @@ class Merge extends CreateUpdateForm
     private function mergePhoto()
     {
         $primaryPhoto = $this->model->getPhoto()->getOriginal(true);
-        $secondPhoto  = $this->modelSecond->getPhoto()->getOriginal(true);
+        $secondPhoto = $this->modelSecond->getPhoto()->getOriginal(true);
         if (!file_exists($primaryPhoto) && file_exists($secondPhoto)) {
             $this->model->getPhoto()->save($secondPhoto);
         }
@@ -306,7 +306,7 @@ class Merge extends CreateUpdateForm
      */
     private function mergeLinkModel(\CActiveRecord $model, $by = 'UserId')
     {
-        $models = call_user_func([$model, ('by' . $by)], $this->modelSecond->Id);
+        $models = call_user_func([$model, ('by'.$by)], $this->modelSecond->Id);
 
         /** @var \CActiveRecord[] $links */
         $links = $models->findAll();
@@ -315,7 +315,5 @@ class Merge extends CreateUpdateForm
             $link->save();
         }
     }
-
-
 
 }

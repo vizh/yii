@@ -17,8 +17,9 @@ class ProductGetListAction extends \ruvents\components\Action
             ->byEventId($this->getEvent()->Id)
             ->findByPk($productId);
 
-        if ($product == null)
+        if ($product == null) {
             throw new Exception(401, $productId);
+        }
 
         $criteria->addCondition('"t"."ProductId" = :ProductId');
         $criteria->params['ProductId'] = $product->Id;
@@ -26,8 +27,9 @@ class ProductGetListAction extends \ruvents\components\Action
         if (!empty($fromTime)) {
             $datetime = \DateTime::createFromFormat('Y-m-d H:i:s', $fromTime);
 
-            if ($datetime === false)
+            if ($datetime === false) {
                 throw new Exception(900, 'FromUpdateTime');
+            }
 
             $criteria->addCondition('"t"."CreationTime" >= :Time');
             $criteria->params['Time'] = $datetime->format('Y-m-d H:i:s');

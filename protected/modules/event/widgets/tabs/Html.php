@@ -10,29 +10,29 @@ namespace event\widgets\tabs;
  */
 class Html extends \event\components\Widget
 {
-  public function getAttributeNames()
-  {
-    return ['TabTitle', 'TabContent'];
-  }
+    public function getAttributeNames()
+    {
+        return ['TabTitle', 'TabContent'];
+    }
 
-  public function run()
-  {
-    $this->render('html', ['TabContent' => $this->TabContent]);
-  }
+    public function run()
+    {
+        $this->render('html', ['TabContent' => $this->TabContent]);
+    }
 
-  /**
-   * @return string
-   */
-  public function getTitle()
-  {
-    return isset($this->TabTitle) ? $this->TabTitle : 'Таб 1';
-  }
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return isset($this->TabTitle) ? $this->TabTitle : 'Таб 1';
+    }
 
-  /**
-   * @return string
-   */
-  public function getPosition()
-  {
-    return \event\components\WidgetPosition::Tabs;
-  }
+    /**
+     * @return string
+     */
+    public function getPosition()
+    {
+        return \event\components\WidgetPosition::Tabs;
+    }
 }

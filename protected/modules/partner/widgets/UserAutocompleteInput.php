@@ -1,5 +1,6 @@
 <?php
 namespace partner\widgets;
+
 use user\models\User;
 
 class UserAutocompleteInput extends \CWidget

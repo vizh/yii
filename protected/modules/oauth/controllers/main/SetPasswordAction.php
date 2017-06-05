@@ -1,7 +1,6 @@
 <?php
 namespace oauth\controllers\main;
 
-use oauth\components\Controller;
 use user\models\forms\SetPassword;
 
 class SetPasswordAction extends \CAction

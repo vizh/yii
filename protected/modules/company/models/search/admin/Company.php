@@ -18,7 +18,6 @@ class Company extends SearchFormModel
         ];
     }
 
-
     /**
      * @inheritDoc
      */
@@ -31,19 +30,17 @@ class Company extends SearchFormModel
         ];
     }
 
-
     /**
      * @return \CDataProvider
      */
     public function getDataProvider()
     {
-        $model = CompanyModel::model()->with(['RaecUsers','LinkModerators','EmploymentsAllWithInvisible']);
+        $model = CompanyModel::model()->with(['RaecUsers', 'LinkModerators', 'EmploymentsAllWithInvisible']);
         if ($this->validate()) {
             if (!empty($this->Name)) {
                 $model->bySearch($this->Name);
             }
         }
-
 
         return new \CActiveDataProvider('company\models\Company', [
             'criteria' => $model->getDbCriteria()

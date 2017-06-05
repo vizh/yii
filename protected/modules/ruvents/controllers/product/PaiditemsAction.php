@@ -34,17 +34,25 @@ class PaiditemsAction extends \ruvents\components\Action
             $order = $this->getDataBuilder()->createOrderItem($item);
 
             if ($needCustomFormat) {
-                $customOrder = (object) [
+                $customOrder = (object)[
                     'OrderItemId' => $item->Id,
                     'ProductId' => $order->Product->ProductId,
                     'ProductTitle' => $order->Product->Title,
                     'Price' => $order->Product->Price
                 ];
 
-                if ($order->PromoCode) $customOrder->PromoCode = $order->PromoCode;
-                if ($order->PayType) $customOrder->PayType = $order->PayType;
-                if ($order->Product->Manager) $customOrder->ProductManager = $order->Product->Manager;
-                if ($item->Product->ManagerName == 'RoomProductManager') $customOrder->Lives = $item->Product->getManager()->Hotel;
+                if ($order->PromoCode) {
+                    $customOrder->PromoCode = $order->PromoCode;
+                }
+                if ($order->PayType) {
+                    $customOrder->PayType = $order->PayType;
+                }
+                if ($order->Product->Manager) {
+                    $customOrder->ProductManager = $order->Product->Manager;
+                }
+                if ($item->Product->ManagerName == 'RoomProductManager') {
+                    $customOrder->Lives = $item->Product->getManager()->Hotel;
+                }
 
                 $order = $customOrder;
             }

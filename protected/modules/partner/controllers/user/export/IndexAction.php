@@ -10,7 +10,7 @@ class IndexAction extends Action
     public function run()
     {
         $event = $this->getEvent();
-        $user  = \Yii::app()->getUser()->getCurrentUser();
+        $user = \Yii::app()->getUser()->getCurrentUser();
 
         $form = new ExportForm($event, $user);
         if (\Yii::app()->getRequest()->getIsPostRequest()) {

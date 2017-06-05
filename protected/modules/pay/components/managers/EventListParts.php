@@ -47,11 +47,11 @@ class EventListParts extends BaseProductManager
             $criteria->addInCondition('"t"."Id"', $idList);
             $this->parts = Part::model()->findAll($criteria);
             if (empty($this->parts)) {
-                throw new MessageException('Не корректно задан PartIdList для товара категории EventListParts. Идентификатор товара: ' . $this->product->Id);
+                throw new MessageException('Не корректно задан PartIdList для товара категории EventListParts. Идентификатор товара: '.$this->product->Id);
             }
             foreach ($this->parts as $part) {
                 if ($part->EventId != $this->product->EventId) {
-                    throw new MessageException('Не корректно задана одна из частей параметра PartIdList для товара категории EventListParts. Идентификатор товара: ' . $this->product->Id);
+                    throw new MessageException('Не корректно задана одна из частей параметра PartIdList для товара категории EventListParts. Идентификатор товара: '.$this->product->Id);
                 }
             }
         }
@@ -67,7 +67,7 @@ class EventListParts extends BaseProductManager
      * @throws \pay\components\Exception
      * @return bool
      */
-    public function checkProduct($user, $params = array())
+    public function checkProduct($user, $params = [])
     {
         if (sizeof($this->product->Event->Parts) === 0) {
             throw new MessageException('Данное мероприятие не имеет логической разбивки. Используйте продукт регистрации на всё мероприятие.');
@@ -82,12 +82,9 @@ class EventListParts extends BaseProductManager
         $participants = \event\models\Participant::model()
             ->byEventId($this->product->EventId)->byUserId($user->Id)->with('Role')->findAll();
 
-        foreach ($participants as $participant)
-        {
-            foreach ($this->getParts() as $part)
-            {
-                if ($participant->PartId == $part->Id && $participant->Role->Priority >= $this->role->Priority)
-                {
+        foreach ($participants as $participant) {
+            foreach ($this->getParts() as $part) {
+                if ($participant->PartId == $part->Id && $participant->Role->Priority >= $this->role->Priority) {
                     return false;
                 }
             }
@@ -105,10 +102,9 @@ class EventListParts extends BaseProductManager
      *
      * @return bool
      */
-    protected function internalBuy($user, $orderItem = null, $params = array())
+    protected function internalBuy($user, $orderItem = null, $params = [])
     {
-        foreach ($this->getParts() as $part)
-        {
+        foreach ($this->getParts() as $part) {
             $this->product->Event->registerUserOnPart($part, $user, $this->role);
         }
         return true;
@@ -140,7 +136,7 @@ class EventListParts extends BaseProductManager
     /**
      * @inheritdoc
      */
-    protected function internalChangeOwner($fromUser, $toUser, $params = array())
+    protected function internalChangeOwner($fromUser, $toUser, $params = [])
     {
         throw new MessageException('Не реализовано');
     }

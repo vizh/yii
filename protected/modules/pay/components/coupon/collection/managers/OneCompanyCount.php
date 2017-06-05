@@ -38,7 +38,7 @@ class OneCompanyCount extends Count
                     }
                 }
             }
-            
+
             return array_count_values($companyIds);
         }
     }
@@ -49,7 +49,7 @@ class OneCompanyCount extends Count
     public function getDiscount(OrderItemCollection $collection)
     {
         $countIds = $this->checkOneCompany($collection);
-        
+
         foreach ($countIds as $key => $value) {
             if ($value >= $this->Minimum) {
                 return $this->getMinPrice($collection) / 100 * $this->coupon->Discount;

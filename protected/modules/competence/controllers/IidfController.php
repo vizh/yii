@@ -1,10 +1,10 @@
 <?php
 
-use competence\models\Test;
-use competence\models\Question;
-use user\models\User;
-use application\components\controllers\BaseController;
 use application\components\auth\identity\RunetId;
+use application\components\controllers\BaseController;
+use competence\models\Question;
+use competence\models\Test;
+use user\models\User;
 
 /**
  * Class MSController Опросы для Miscrosoft, голосование, в которых доступно по коду
@@ -170,7 +170,7 @@ class IidfController extends BaseController
     {
         Yii::app()->getUser()->logout();
         Yii::app()->getClientScript()->registerMetaTag(
-            '10; url=' . $this->createUrl('index', ['code' => $this->test->Code]), null, 'refresh'
+            '10; url='.$this->createUrl('index', ['code' => $this->test->Code]), null, 'refresh'
         );
         $this->render('done', [
             'test' => $this->test

@@ -1,12 +1,11 @@
 <?php
 namespace ruvents\controllers\event;
 
-use ruvents\components\Exception;
-use user\models\User;
-use ruvents\models\Badge;
-use pay\models\OrderItem;
 use api\models\ExternalUser;
-use api\models\Account;
+use pay\models\OrderItem;
+use ruvents\components\Exception;
+use ruvents\models\Badge;
+use user\models\User;
 
 /**
  * Class UpdatedUsersAction
@@ -25,8 +24,9 @@ class UpdatedUsersAction extends \ruvents\components\Action
         $byPage = $request->getParam('Limit', 200);
         $needCustomFormat = $request->getParam('CustomFormat', false) == '1';
 
-        if (empty($fromUpdateTime))
+        if (empty($fromUpdateTime)) {
             throw new Exception(900, 'FromUpdateTime');
+        }
 
         $fromUpdateTime = date('Y-m-d H:i:s', strtotime($fromUpdateTime));
         $nextUpdateTime = date('Y-m-d H:i:s');
@@ -65,17 +65,25 @@ class UpdatedUsersAction extends \ruvents\components\Action
                     $order = $this->getDataBuilder()->createOrderItem($item);
 
                     if ($needCustomFormat) {
-                        $customOrder = (object) [
+                        $customOrder = (object)[
                             'OrderItemId' => $item->Id,
                             'ProductId' => $order->Product->ProductId,
                             'ProductTitle' => $order->Product->Title,
                             'Price' => $order->Product->Price
                         ];
 
-                        if ($order->PromoCode) $customOrder->PromoCode = $order->PromoCode;
-                        if ($order->PayType) $customOrder->PayType = $order->PayType;
-                        if ($order->Product->Manager) $customOrder->ProductManager = $order->Product->Manager;
-                        if ($item->Product->ManagerName === 'RoomProductManager') $customOrder->Lives = $item->Product->getManager()->Hotel;
+                        if ($order->PromoCode) {
+                            $customOrder->PromoCode = $order->PromoCode;
+                        }
+                        if ($order->PayType) {
+                            $customOrder->PayType = $order->PayType;
+                        }
+                        if ($order->Product->Manager) {
+                            $customOrder->ProductManager = $order->Product->Manager;
+                        }
+                        if ($item->Product->ManagerName === 'RoomProductManager') {
+                            $customOrder->Lives = $item->Product->getManager()->Hotel;
+                        }
 
                         $order = $customOrder;
                     }
@@ -181,7 +189,7 @@ class UpdatedUsersAction extends \ruvents\components\Action
         $criteria->addCondition('"t"."UpdateTime" > :UpdateTime');
         $criteria->params['UpdateTime'] = $fromUpdateTime;
         $criteria->addCondition(
-            '"t"."Id" IN (SELECT "EventParticipant"."UserId" FROM "EventParticipant" WHERE "EventParticipant"."EventId" = ' . $this->getEvent()->Id . ')'
+            '"t"."Id" IN (SELECT "EventParticipant"."UserId" FROM "EventParticipant" WHERE "EventParticipant"."EventId" = '.$this->getEvent()->Id.')'
         );
 
         $criteria->limit = $byPage;

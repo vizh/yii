@@ -2,7 +2,7 @@
 namespace event\widgets\panels\header;
 
 use event\components\WidgetAdminPanel;
-use \event\models\forms\widgets\header\Banner as WidgetBannerForm;
+use event\models\forms\widgets\header\Banner as WidgetBannerForm;
 
 class Banner extends WidgetAdminPanel
 {

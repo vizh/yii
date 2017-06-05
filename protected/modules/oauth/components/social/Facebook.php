@@ -2,17 +2,10 @@
 
 namespace oauth\components\social;
 
-use Facebook\FacebookSession;
 use Facebook\FacebookRedirectLoginHelper;
 use Facebook\FacebookRequest;
-use Facebook\FacebookResponse;
-use Facebook\FacebookSDKException;
 use Facebook\FacebookRequestException;
-use Facebook\FacebookAuthorizationException;
-use Facebook\GraphObject;
-use Facebook\Entities\AccessToken;
-use Facebook\HttpClients\FacebookCurlHttpClient;
-use Facebook\HttpClients\FacebookHttpable;
+use Facebook\FacebookSession;
 
 class Facebook implements ISocial
 {
@@ -31,10 +24,10 @@ class Facebook implements ISocial
 
     public function __construct($redirectUrl = null)
     {
-        if( is_null($redirectUrl)) {
+        if (is_null($redirectUrl)) {
             $redirectUrl = $this->getRedirectUrl();
         }
-        FacebookSession::setDefaultApplication(static::AppId,static::Secret);
+        FacebookSession::setDefaultApplication(static::AppId, static::Secret);
         $this->redirectLoginHelper = new FacebookRedirectLoginHelper($redirectUrl);
     }
 
@@ -44,10 +37,10 @@ class Facebook implements ISocial
      */
     public function getRedirectUrl()
     {
-        if( is_null($this->redirectUrl) ) {
+        if (is_null($this->redirectUrl)) {
 
             $redirectUrlParams = [
-                'social'=>self::getSocialId()
+                'social' => self::getSocialId()
             ];
 
             if (\Iframe::isFrame()) {
@@ -86,9 +79,9 @@ class Facebook implements ISocial
         if (empty($token)) {
             try {
                 $session = $this->redirectLoginHelper->getSessionFromRedirect();
-            } catch(FacebookRequestException $ex) {
+            } catch (FacebookRequestException $ex) {
                 throw new \CHttpException(400, 'Сервис авторизации FB не отвечает'.$ex);
-            } catch(\Exception $ex) {
+            } catch (\Exception $ex) {
                 throw new \CHttpException(400, 'Сервис авторизации FB не отвечает'.$ex);
             }
             if ($session) {
@@ -120,8 +113,7 @@ class Facebook implements ISocial
     public function getData()
     {
         $session = new FacebookSession($this->getAccessToken());
-        if ($session)
-        {
+        if ($session) {
             $request = new FacebookRequest($session, 'GET', '/me');
             $response = $request->execute();
             $graphObject = $response->getGraphObject();

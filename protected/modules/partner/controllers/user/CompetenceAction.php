@@ -21,7 +21,7 @@ class CompetenceAction extends Action
         $this->getController()->render('competence', [
             'search' => $search,
             'event' => $this->getEvent(),
-            'test'  => $test
+            'test' => $test
         ]);
     }
-} 
+}

@@ -32,7 +32,6 @@ abstract class BaseDocument extends CreateUpdateForm
         parent::__construct($model);
     }
 
-
     /**
      * Наименование документа
      * @return string
@@ -60,10 +59,10 @@ abstract class BaseDocument extends CreateUpdateForm
             'activeForm' => $activeForm
         ];
 
-        $view = $alias . $name;
+        $view = $alias.$name;
         if (!$included) {
             $params['view'] = $view;
-            $view = $alias . 'form';
+            $view = $alias.'form';
         }
         $controller->renderPartial($view, $params);
         if (!$included) {

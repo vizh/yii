@@ -29,7 +29,7 @@ class Users extends \CFormModel
     public function rules()
     {
         return [
-          ['Users', 'validateUsers']
+            ['Users', 'validateUsers']
         ];
     }
 
@@ -49,8 +49,9 @@ class Users extends \CFormModel
             $valid = false;
         }
 
-        if (!$valid)
+        if (!$valid) {
             $this->addError($attribute, \Yii::t('app', 'Ошибка в заполнении поля {label}.', ['{label}' => $this->getAttributeLabel($attribute)]));
+        }
     }
 
     /**
@@ -74,7 +75,7 @@ class Users extends \CFormModel
     public function attributeLabels()
     {
         return [
-          'Users' => \Yii::t('app', 'Представители организации')
+            'Users' => \Yii::t('app', 'Представители организации')
         ];
     }
 
@@ -85,7 +86,6 @@ class Users extends \CFormModel
     {
         return $this->registerForm;
     }
-
 
     private $roleData = null;
 
@@ -98,7 +98,7 @@ class Users extends \CFormModel
             $criteria = new \CDbCriteria();
             $criteria->order = '"t"."Title" ASC';
             $roles = BriefUserRole::model()->findAll($criteria);
-            $this->roleData = \CHtml::listData($roles,'Id','Title');
+            $this->roleData = \CHtml::listData($roles, 'Id', 'Title');
         }
         return $this->roleData;
     }

@@ -19,8 +19,9 @@ class UsersListAction extends StatAction
 
         $groups = $this->fetchUniqueGroups($eventId);
 
-        if (!isset($groups[$group]))
+        if (!isset($groups[$group])) {
             throw new \CHttpException(404);
+        }
 
         $groupName = $groups[$group];
 

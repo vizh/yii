@@ -59,7 +59,7 @@ $params = [
 
     /** Взаимодействие с БудуГуру.org */
     'BuduGuru.jobsExportUrl' => 'http://buduguru.org/vacancies/export',
-    'BuduGuru.coursesExportUrl' => 'http://buduguru.org/courses/export',
+    'BuduGuru.coursesExportUrl' => 'http://buduguru.org/courses/export'
 ];
 
 if (YII_DEBUG) {

@@ -8,7 +8,7 @@ class EducationAction extends \CAction
     public function run()
     {
         $this->getController()->bodyId = 'user-account';
-        $this->getController()->setPageTitle(\Yii::t('app','Редактирование профиля'));
+        $this->getController()->setPageTitle(\Yii::t('app', 'Редактирование профиля'));
 
         $user = \Yii::app()->user->getCurrentUser();
         $request = \Yii::app()->getRequest();

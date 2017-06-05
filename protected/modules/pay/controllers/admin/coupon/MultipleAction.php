@@ -1,7 +1,6 @@
 <?php
 namespace pay\controllers\admin\coupon;
 
-
 use event\models\Participant;
 use pay\models\Coupon;
 

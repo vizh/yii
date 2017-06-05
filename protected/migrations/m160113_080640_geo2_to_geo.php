@@ -1,8 +1,8 @@
 <?php
 
 use geo\models\City;
-use geo\models\Region;
 use geo\models\Country;
+use geo\models\Region;
 
 class m160113_080640_geo2_to_geo extends CDbMigration
 {
@@ -22,7 +22,7 @@ class m160113_080640_geo2_to_geo extends CDbMigration
                 $this->updateCountry($address, $address['CountryId']);
             }
         }*/
-	}
+    }
 
     public function safeDown()
     {
@@ -54,7 +54,7 @@ class m160113_080640_geo2_to_geo extends CDbMigration
             'CityId' => $city->Id,
             'CountryId' => $city->CountryId,
             'RegionId' => $city->RegionId
-        ], '"Id" = ' . $address['Id']);
+        ], '"Id" = '.$address['Id']);
     }
 
     /**
@@ -82,7 +82,7 @@ class m160113_080640_geo2_to_geo extends CDbMigration
         $this->update('ContactAddress', [
             'RegionId' => $region->Id,
             'CountryId' => $region->CountryId
-        ], '"Id" = ' . $address['Id']);
+        ], '"Id" = '.$address['Id']);
         return $region;
     }
 
@@ -107,7 +107,7 @@ class m160113_080640_geo2_to_geo extends CDbMigration
             $country->Name = $oldCountry['Name'];
             $country->save();
         }
-        $this->update('ContactAddress', ['CountryId' => $country->Id], '"Id" = ' . $address['Id']);
+        $this->update('ContactAddress', ['CountryId' => $country->Id], '"Id" = '.$address['Id']);
         return $country;
     }
 }

@@ -29,15 +29,15 @@ class Product extends \CFormModel
     {
         parent::__construct($scenario);
         $this->event = $event;
-        if ($product !== null)
-        {
-            foreach ($product->getAttributes() as $attr => $value)
-            {
-                if ($attr == 'AdditionalAttributes')
+        if ($product !== null) {
+            foreach ($product->getAttributes() as $attr => $value) {
+                if ($attr == 'AdditionalAttributes') {
                     continue;
+                }
 
-                if (in_array($attr, $this->attributeNames()))
+                if (in_array($attr, $this->attributeNames())) {
                     $this->$attr = $value;
+                }
             }
             $this->product = $product;
         }
@@ -45,10 +45,8 @@ class Product extends \CFormModel
 
     public function setAttributes($values, $safeOnly = true)
     {
-        if (isset($values['Prices']))
-        {
-            foreach ($values['Prices'] as $value)
-            {
+        if (isset($values['Prices'])) {
+            foreach ($values['Prices'] as $value) {
                 $form = new \pay\models\forms\ProductPrice();
                 $form->attributes = $value;
                 $this->Prices[] = $form;
@@ -56,10 +54,8 @@ class Product extends \CFormModel
             unset($values['Prices']);
         }
 
-        if (isset($values['AdditionalAttributes']))
-        {
-            foreach($values['AdditionalAttributes'] as $value)
-            {
+        if (isset($values['AdditionalAttributes'])) {
+            foreach ($values['AdditionalAttributes'] as $value) {
                 $form = new \pay\models\forms\AdditionalAttribute();
                 $form->attributes = $value;
                 $this->AdditionalAttributes[] = $form;
@@ -67,8 +63,7 @@ class Product extends \CFormModel
             unset($values['AdditionalAttributes']);
         }
 
-        if (!empty($values['Id']))
-        {
+        if (!empty($values['Id'])) {
             $this->product = \pay\models\Product::model()->findByPk($values['Id']);
         }
         parent::setAttributes($values, $safeOnly);
@@ -76,11 +71,9 @@ class Product extends \CFormModel
 
     public function filterAttributes($attributes)
     {
-        if (!empty($this->product))
-        {
+        if (!empty($this->product)) {
             $manager = $this->getProduct()->getManager();
-            foreach ($manager->getProductAttributeNames() as $name)
-            {
+            foreach ($manager->getProductAttributeNames() as $name) {
                 if (in_array($name, $manager->getRequiredProductAttributeNames()) && (!isset($attributes[$name]) || empty($attributes[$name]))) {
                     $this->addError('Attributes', Yii::t('app', 'Не указан атрибут обязательный для товара').' '.$name);
                 }
@@ -92,26 +85,20 @@ class Product extends \CFormModel
     public function filterPrices($prices)
     {
         $valid = true;
-        foreach ($prices as $price)
-        {
-            if (!$price->validate())
-            {
+        foreach ($prices as $price) {
+            if (!$price->validate()) {
                 $valid = false;
             }
         }
-        if (!$valid)
-        {
+        if (!$valid) {
             $this->addError('Prices', Yii::t('app', 'Ошибка в заполнении цен'));
-        }
-        else
-        {
+        } else {
             $lastEndDate = new \DateTime();
-            foreach ($prices as $i => $price)
-            {
+            foreach ($prices as $i => $price) {
                 $curStartDate = new \DateTime($price->StartDate);
-                if ((empty($price->EndDate) && isset($prices[$i+1]))
-                    || ($i != 0 && $curStartDate->modify('-1 day') != $lastEndDate))
-                {
+                if ((empty($price->EndDate) && isset($prices[$i + 1]))
+                    || ($i != 0 && $curStartDate->modify('-1 day') != $lastEndDate)
+                ) {
                     $this->addError('Prices', Yii::t('app', 'Нарушена непрерывность цен'));
                     break;
                 }
@@ -123,21 +110,18 @@ class Product extends \CFormModel
 
     public function clearPrices()
     {
-        foreach ($this->Prices as $i => $formPrice)
-        {
-            if (!empty($formPrice->Delete))
-            {
-                if (!empty($formPrice->Id))
-                {
+        foreach ($this->Prices as $i => $formPrice) {
+            if (!empty($formPrice->Delete)) {
+                if (!empty($formPrice->Id)) {
                     $price = \pay\models\ProductPrice::model()->findByPk($this->Prices[$i]->Id);
-                    if ($price !== null && $price->ProductId == $this->getProduct()->Id)
+                    if ($price !== null && $price->ProductId == $this->getProduct()->Id) {
                         $price->delete();
+                    }
                 }
                 unset($this->Prices[$i]);
             }
         }
     }
-
 
     public function getProduct()
     {
@@ -157,7 +141,7 @@ class Product extends \CFormModel
         } else {
             $managers = [
                 'EventProductManager' => Yii::t('app', 'Мероприятие'),
-                'EventMicrosoft' =>  Yii::t('app', 'Тип товара для мероприятий Microsoft'),
+                'EventMicrosoft' => Yii::t('app', 'Тип товара для мероприятий Microsoft'),
             ];
         }
         $managers['FoodProductManager'] = Yii::t('app', 'Питание');
@@ -170,12 +154,12 @@ class Product extends \CFormModel
         return $this->getManagerData()[$this->ManagerName];
     }
 
-
     public function getPriorityData()
     {
         $result = [];
-        for ($i = 0; $i <= 100; $i++)
+        for ($i = 0; $i <= 100; $i++) {
             $result[] = $i;
+        }
 
         return $result;
     }
@@ -196,15 +180,12 @@ class Product extends \CFormModel
     public function filterAdditionalAttributes($attributes)
     {
         $valid = true;
-        foreach ($attributes as $attr)
-        {
-            if (!$attr->validate())
-            {
+        foreach ($attributes as $attr) {
+            if (!$attr->validate()) {
                 $valid = false;
             }
         }
-        if (!$valid)
-        {
+        if (!$valid) {
             $this->addError('Prices', Yii::t('app', 'Ошибка в заполнении дополнительных параметров заказа'));
         }
         return $attributes;
@@ -214,7 +195,7 @@ class Product extends \CFormModel
     {
         $purifier = new CHtmlPurifier();
         $purifier->options = [
-            'HTML.AllowedElements'   => ['p', 'ul', 'li', 'br', 'strong', 'em'],
+            'HTML.AllowedElements' => ['p', 'ul', 'li', 'br', 'strong', 'em'],
             'HTML.AllowedAttributes' => ['class'],
         ];
         return trim($purifier->purify($value));

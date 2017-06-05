@@ -17,7 +17,6 @@ class Partners extends SearchFormModel
         ];
     }
 
-
     public function attributeLabels()
     {
         return [
@@ -37,7 +36,7 @@ class Partners extends SearchFormModel
         return new ArrayDataProvider(array_values($this->result));
     }
 
-    /** @var PartnerData[]  */
+    /** @var PartnerData[] */
     private $result = [];
 
     /**

@@ -6,20 +6,37 @@ return [
         'users' => ['@'],
         'module' => 'pay',
         'controllers' => ['ajax'],
-        'actions' => ['addorderitem', 'deleteorderitem', 'checkuserdata'],
+        'actions' => [
+            'addorderitem',
+            'deleteorderitem',
+            'checkuserdata'
+        ]
     ],
+
     [
         'allow',
         'users' => ['*'],
         'module' => 'pay',
         'controllers' => ['ajax'],
-        'actions' => ['couponactivate', 'couponinfo', 'userdata', 'edituserdata'],
+        'actions' => [
+            'couponactivate',
+            'couponinfo',
+            'userdata',
+            'edituserdata'
+        ]
     ],
+
     [
         'allow',
         'users' => ['*'],
         'module' => 'pay',
-        'controllers' => ['cabinet', 'juridical', 'order', 'receipt', 'mailru'],
+        'controllers' => [
+            'cabinet',
+            'juridical',
+            'order',
+            'receipt',
+            'mailru'
+        ]
     ],
 
     /** Admin Rules */
@@ -28,22 +45,32 @@ return [
         'roles' => ['admin'],
         'module' => 'pay',
         'controllers' => [
-            'admin/account', 'admin/failure', 'admin/import', 'admin/oneuse', 'admin/orderjuridicaltemplate', 'internal', 'admin/coupon', 'admin/stats'
-        ],
+            'admin/account',
+            'admin/failure',
+            'admin/import',
+            'admin/oneuse',
+            'admin/orderjuridicaltemplate',
+            'internal',
+            'admin/coupon',
+            'admin/stats'
+        ]
     ],
 
     [
         'allow',
         'roles' => ['booker'],
         'module' => 'pay',
-        'controllers' => ['admin/order'],
+        'controllers' => [
+            'admin/order'
+        ]
     ],
 
     [
         'allow',
         'roles' => ['roommanager', 'admin', 'booker'],
         'module' => 'pay',
-        'controllers' => ['admin/booking'],
-    ],
-
+        'controllers' => [
+            'admin/booking'
+        ]
+    ]
 ];

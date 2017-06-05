@@ -21,24 +21,23 @@ class AddtionalAttributes extends \CFormModel
     }
 
     private $rules = null;
+
     public function rules()
     {
-        if ($this->rules == null)
-        {
+        if ($this->rules == null) {
             $this->rules = [
-                [implode(',', $this->attributeNames()),'required']
+                [implode(',', $this->attributeNames()), 'required']
             ];
         }
         return $this->rules;
     }
 
     private $labels = null;
+
     public function attributeLabels()
     {
-        if ($this->labels == null)
-        {
-            foreach ($this->attributes as $attr)
-            {
+        if ($this->labels == null) {
+            foreach ($this->attributes as $attr) {
                 $this->labels[$attr->Name] = $attr->Label;
             }
         }
@@ -51,8 +50,7 @@ class AddtionalAttributes extends \CFormModel
     public function attributeNames()
     {
         $names = [];
-        foreach ($this->attributes as $attr)
-        {
+        foreach ($this->attributes as $attr) {
             $names[] = $attr->Name;
         }
         return $names;
@@ -60,10 +58,8 @@ class AddtionalAttributes extends \CFormModel
 
     public function __get($name)
     {
-        if (in_array($name, $this->attributeNames()))
-        {
-            if (array_key_exists($name, $this->values))
-            {
+        if (in_array($name, $this->attributeNames())) {
+            if (array_key_exists($name, $this->values)) {
                 return $this->values[$name];
             }
             return '';
@@ -73,14 +69,12 @@ class AddtionalAttributes extends \CFormModel
 
     public function __set($name, $value)
     {
-        if (in_array($name, $this->attributeNames()))
-        {
+        if (in_array($name, $this->attributeNames())) {
             $this->values[$name] = $value;
             return $value;
         }
         return parent::__set($name, $value);
     }
-
 
     /**
      * @param $name
@@ -97,8 +91,9 @@ class AddtionalAttributes extends \CFormModel
             }
         }
 
-        if ($type == null)
+        if ($type == null) {
             throw new \application\components\Exception('Не найдено поле с именем: '.$name);
+        }
 
         $result = '<div class="control-group">';
         switch ($type) {
@@ -112,7 +107,7 @@ class AddtionalAttributes extends \CFormModel
                 break;
             case AdditionalAttribute::TypeBoolean:
                 $result .= \CHtml::label(
-                    \CHtml::activeCheckBox($this, $name) . ' ' . $this->getAttributeLabel($name),
+                    \CHtml::activeCheckBox($this, $name).' '.$this->getAttributeLabel($name),
                     '',
                     ['class' => 'checkbox']
                 );

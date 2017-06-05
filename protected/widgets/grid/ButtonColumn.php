@@ -8,7 +8,6 @@
 
 namespace application\widgets\grid;
 
-
 class ButtonColumn extends \CButtonColumn
 {
 
@@ -70,7 +69,6 @@ class ButtonColumn extends \CButtonColumn
      */
     public $deleteButtonImageUrl = false;
 
-
     /**
      * @var array the HTML options for the view button tag.
      */
@@ -84,10 +82,9 @@ class ButtonColumn extends \CButtonColumn
      */
     protected function renderDataCellContent($row, $data)
     {
-        echo '<div class="text-right pull-right" style="width: ' . (40 * count($this->buttons)) . 'px;"><div class="btn-group" role="group">';
+        echo '<div class="text-right pull-right" style="width: '.(40 * count($this->buttons)).'px;"><div class="btn-group" role="group">';
         parent::renderDataCellContent($row, $data);
         echo '</div></div>';
     }
-
 
 } 

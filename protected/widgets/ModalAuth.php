@@ -7,6 +7,6 @@ class ModalAuth extends \CWidget
 
     public function run()
     {
-        $this->render('auth/modal-bootstrap' . $this->bootstrapVersion);
+        $this->render('auth/modal-bootstrap'.$this->bootstrapVersion);
     }
 }

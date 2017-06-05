@@ -1,13 +1,12 @@
 <?php
 namespace mail\components\filter;
 
-
-class Geo implements  IFilter
+class Geo implements IFilter
 {
-    /** @var GeoCondition[]  */
+    /** @var GeoCondition[] */
     public $positive = [];
 
-    /** @var GeoCondition[]  */
+    /** @var GeoCondition[] */
     public $negative = [];
 
     /**
@@ -31,8 +30,9 @@ class Geo implements  IFilter
      */
     private function fillCriteria($conditions, $in = true)
     {
-        if (empty($conditions))
+        if (empty($conditions)) {
             return;
+        }
 
         $command = \Yii::app()->getDb()->createCommand();
         $command->select('UserId')->from('UserLinkAddress')->leftJoin('ContactAddress', '"ContactAddress"."Id" = "UserLinkAddress"."AddressId"');
@@ -41,12 +41,12 @@ class Geo implements  IFilter
             $this->criteria->params['CountryId_'.$this->criteriaCount] = $condition->countryId;
             $this->criteria->params['RegionId_'.$this->criteriaCount] = $condition->regionId;
             if (!empty($condition->cityId)) {
-                $where.=' AND "ContactAddress"."CityId" = :CityId_'.$this->criteriaCount;
+                $where .= ' AND "ContactAddress"."CityId" = :CityId_'.$this->criteriaCount;
                 $this->criteria->params['CityId_'.$this->criteriaCount] = $condition->cityId;
             }
             $command->orWhere(['and', $where]);
             $this->criteriaCount++;
         }
-        $this->criteria->addCondition('"t"."Id" '.(!$in ? 'NOT' : '').' IN (' . $command->getText(). ')');
+        $this->criteria->addCondition('"t"."Id" '.(!$in ? 'NOT' : '').' IN ('.$command->getText().')');
     }
 }

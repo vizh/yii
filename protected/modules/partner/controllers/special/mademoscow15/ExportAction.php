@@ -29,7 +29,7 @@ class ExportAction extends Action
             }
             $extension = substr($filepath, strrpos($filepath, '.'));
             //$localname = iconv('utf-8', 'CP866//TRANSLIT//IGNORE',  $user->getFullName().' (' . $user->RunetId . ')'.$extension);
-            $localname = $user->getFullName().' (' . $user->RunetId . ')'.$extension;
+            $localname = $user->getFullName().' ('.$user->RunetId.')'.$extension;
             $zip->addFile($filepath, $localname);
         }
         $zip->close();
@@ -41,8 +41,8 @@ class ExportAction extends Action
 
     private function getPath()
     {
-        $path  = \Yii::getPathOfAlias('application') . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR;
-        $path .= 'data' . DIRECTORY_SEPARATOR . 'event' . DIRECTORY_SEPARATOR . 'mademoscow15' . DIRECTORY_SEPARATOR . 'export.zip';
+        $path = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR;
+        $path .= 'data'.DIRECTORY_SEPARATOR.'event'.DIRECTORY_SEPARATOR.'mademoscow15'.DIRECTORY_SEPARATOR.'export.zip';
         return $path;
     }
 }

@@ -11,7 +11,7 @@ class BaseConsoleCommand extends \CConsoleCommand
         $_SERVER['SERVER_NAME'] = RUNETID_HOST;
         \Yii::setPathOfAlias(
             'webroot',
-            \Yii::getPathOfAlias('webroot') . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'www'
+            \Yii::getPathOfAlias('webroot').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'www'
         );
 
         return parent::beforeAction($action, $params);
@@ -30,7 +30,7 @@ class BaseConsoleCommand extends \CConsoleCommand
         }
 
         \Yii::log($message, $level);
-        echo $message . "\n";
+        echo $message."\n";
     }
 
     /**

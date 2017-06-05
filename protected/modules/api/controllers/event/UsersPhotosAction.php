@@ -2,15 +2,13 @@
 namespace api\controllers\event;
 
 use api\components\Action;
+use nastradamus39\slate\annotations\Action\Request;
+use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\ApiAction;
 use PharData;
 use user\models\Photo;
 use user\models\User;
 use Yii;
-
-use nastradamus39\slate\annotations\ApiAction;
-use nastradamus39\slate\annotations\Action\Request;
-use nastradamus39\slate\annotations\Action\Param;
-use nastradamus39\slate\annotations\Action\Response;
 
 class UsersPhotosAction extends Action
 {

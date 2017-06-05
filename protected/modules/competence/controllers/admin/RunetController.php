@@ -1,7 +1,6 @@
 <?php
 use competence\models\form\attribute\RadioValue;
 use competence\models\Question;
-use competence\models\QuestionType;
 use competence\models\Result;
 use competence\models\Test;
 
@@ -35,7 +34,6 @@ class RunetController extends \application\components\controllers\AdminMainContr
             }
         }
 
-
         $types = [
             1 => 'Веб-разработка и мобильная разработка',
             2 => 'Контекстная реклама/ Performance',
@@ -56,7 +54,7 @@ class RunetController extends \application\components\controllers\AdminMainContr
         ];
 
         foreach ($types as $key => $value) {
-            echo $value . ': ' . $markets[$key] . '<br>';
+            echo $value.': '.$markets[$key].'<br>';
         }
 //
 //        echo '<pre>';
@@ -133,9 +131,7 @@ class RunetController extends \application\components\controllers\AdminMainContr
             $this->createQuestions($id, $market);
         }
 
-
         echo 'done';
-
     }
 
     private function createQuestions($id, $market)
@@ -160,7 +156,6 @@ class RunetController extends \application\components\controllers\AdminMainContr
             new RadioValue('2', 'Готов(-а) ответить на вопросы только о рынке в целом', false, 20)
         ];
         $b4 = $this->createQuestion(2, 'B4_'.$id, $title, $values, $subTitle);
-
 
         /**
          * C1
@@ -257,7 +252,6 @@ class RunetController extends \application\components\controllers\AdminMainContr
         $title = 'Если вы хотите оставить комментарий к ответам на вопросы С7, С8, С9 и/или С10, вы можете сделать это здесь.';
         $c10a = $this->createQuestion(3, 'C10A_'.$id, $title);
 
-
         $b3->NextQuestionId = $b4->Id;
         $b3->save();
 
@@ -306,7 +300,6 @@ class RunetController extends \application\components\controllers\AdminMainContr
         }
         $c7->save();
 
-
         $c9->NextQuestionId = $c10->Id;
         $c9->save();
 
@@ -341,7 +334,7 @@ class RunetController extends \application\components\controllers\AdminMainContr
 
     private function getSort()
     {
-        $this->sort = $this->sort+10;
+        $this->sort = $this->sort + 10;
         return $this->sort;
     }
 } 

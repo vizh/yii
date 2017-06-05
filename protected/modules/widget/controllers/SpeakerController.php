@@ -1,6 +1,6 @@
 <?php
-use \user\models\User;
-use \application\components\utility\Paginator;
+use application\components\utility\Paginator;
+use user\models\User;
 
 class SpeakerController extends \widget\components\Controller
 {
@@ -15,7 +15,7 @@ class SpeakerController extends \widget\components\Controller
     {
         $criteria = new \CDbCriteria();
         $criteria->order = '"t"."LastName" ASC, "t"."FirstName" ASC';
-        $criteria->addCondition('"t"."Id" IN ('. $this->getBaseCondition() .')');
+        $criteria->addCondition('"t"."Id" IN ('.$this->getBaseCondition().')');
         $criteria->params['EventId'] = $this->getEvent()->Id;
         $criteria->with = ['Settings', 'Employments.Company'];
 
@@ -36,14 +36,13 @@ class SpeakerController extends \widget\components\Controller
         }
 
         $this->render('index', ['users' => $users, 'alphabet' => $this->getAlphabet(), 'paginator' => $paginator, 'char' => $char]);
-
     }
 
     private function getAlphabet()
     {
         $command = \Yii::app()->getDb()->createCommand();
         $command->select('upper(substring("LastName", 1, 1)) as "FirshChar"')
-            ->from('User')->where('"User"."Id" IN ('. $this->getBaseCondition() .')', ['EventId' => $this->getEvent()->Id])
+            ->from('User')->where('"User"."Id" IN ('.$this->getBaseCondition().')', ['EventId' => $this->getEvent()->Id])
             ->group('FirshChar')->order('FirshChar ASC');
 
         $result = new \stdClass();
@@ -74,4 +73,4 @@ class SpeakerController extends \widget\components\Controller
         }
         return $this->baseCondition;
     }
-} 
+}

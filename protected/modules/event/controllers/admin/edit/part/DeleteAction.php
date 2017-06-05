@@ -8,7 +8,6 @@
 
 namespace event\controllers\admin\edit\part;
 
-
 use event\models\Part;
 
 class DeleteAction extends \CAction

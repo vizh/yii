@@ -3,26 +3,26 @@ namespace contact\models\forms;
 
 class ServiceAccount extends \CFormModel
 {
-  public $TypeId;
-  public $Account;
-  public $Delete = 0;
-  public $Id = null;
-  
-  public function rules()
-  {
-    return array(
-      array('Account', 'filter', 'filter' => array(new \application\components\utility\Texts(), 'filterPurify')),
-      array('Account', 'required'),
-      array('TypeId', 'exist', 'className' => '\contact\models\ServiceType', 'attributeName' => 'Id'),
-      array('Id,Delete', 'numerical', 'allowEmpty' => true)
-    );
-  }
-  
-  public function attributeLabels()
-  {
-    return array(
-      'TypeId' => \Yii::t('app', 'Сервис'),
-      'Account' => \Yii::t('app', 'Аккаунт')
-    );
-  }
+    public $TypeId;
+    public $Account;
+    public $Delete = 0;
+    public $Id = null;
+
+    public function rules()
+    {
+        return [
+            ['Account', 'filter', 'filter' => [new \application\components\utility\Texts(), 'filterPurify']],
+            ['Account', 'required'],
+            ['TypeId', 'exist', 'className' => '\contact\models\ServiceType', 'attributeName' => 'Id'],
+            ['Id,Delete', 'numerical', 'allowEmpty' => true]
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'TypeId' => \Yii::t('app', 'Сервис'),
+            'Account' => \Yii::t('app', 'Аккаунт')
+        ];
+    }
 }

@@ -96,7 +96,7 @@ class Question extends ActiveRecord
     public function getForm()
     {
         if (is_null($this->form)) {
-            $className = "\\competence\\models\\test\\" . $this->Test->Code . "\\" . $this->Code;
+            $className = "\\competence\\models\\test\\".$this->Test->Code."\\".$this->Code;
             $this->form = new $className($this);
         }
 
@@ -162,7 +162,7 @@ class Question extends ActiveRecord
 
     protected function getFormPath()
     {
-        return \Yii::getPathOfAlias('competence.models.test.' . $this->Test->Code . '.' . $this->Code) . '.php';
+        return \Yii::getPathOfAlias('competence.models.test.'.$this->Test->Code.'.'.$this->Code).'.php';
     }
 
     /**

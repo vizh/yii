@@ -10,9 +10,8 @@ class EditAction extends \pay\components\Action
     {
         /** @var $entry \pay\models\ImportEntry */
         $entry = \pay\models\ImportEntry::model()->findByPk($entryId);
-        if (!$entry)
-        {
-            throw new \CHttpException(404, 'Не найден платеж с номером: ' . $entryId);
+        if (!$entry) {
+            throw new \CHttpException(404, 'Не найден платеж с номером: '.$entryId);
         }
 
         if (\Yii::app()->getRequest()->isPostRequest) {

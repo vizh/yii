@@ -4,6 +4,6 @@ return [
     [
         'deny',
         'users' => ['*'],
-        'module' => 'convert',
-    ],
+        'module' => 'convert'
+    ]
 ];

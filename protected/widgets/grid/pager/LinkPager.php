@@ -24,17 +24,19 @@ class LinkPager extends \CLinkPager
      */
     protected function createPageButtons()
     {
-        if(($pageCount=$this->getPageCount())<=1)
+        if (($pageCount = $this->getPageCount()) <= 1) {
             return [];
+        }
 
-        list($beginPage,$endPage) = $this->getPageRange();
-        $currentPage=$this->getCurrentPage(false); // currentPage is calculated in getPageRange()
+        list($beginPage, $endPage) = $this->getPageRange();
+        $currentPage = $this->getCurrentPage(false); // currentPage is calculated in getPageRange()
+
         $buttons = [];
+        for ($i = $beginPage; $i <= $endPage; ++$i) {
+            $buttons[] = $this->createPageButton($i + 1, $i, $this->internalPageCssClass, false, $i == $currentPage);
+        }
 
-        for($i=$beginPage; $i<=$endPage; ++$i)
-            $buttons[]=$this->createPageButton($i+1,$i,$this->internalPageCssClass, false, $i==$currentPage);
         return $buttons;
     }
 
-
-} 
+}

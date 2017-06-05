@@ -15,22 +15,20 @@ class Employment extends \CFormModel
 
     public function rules()
     {
-        return array(
-            array('Company,Position,Primary,Delete', 'filter', 'filter' => '\application\components\utility\Texts::clear'),
-            array('Company', 'required'),
-            array('Position', 'safe'),
-            array('Id,StartMonth,StartYear,EndMonth,EndYear,Primary,Delete', 'numerical', 'allowEmpty' => true)
-        );
+        return [
+            ['Company,Position,Primary,Delete', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
+            ['Company', 'required'],
+            ['Position', 'safe'],
+            ['Id,StartMonth,StartYear,EndMonth,EndYear,Primary,Delete', 'numerical', 'allowEmpty' => true]
+        ];
     }
 
     protected function beforeValidate()
     {
-        if (!empty($this->StartMonth) && empty($this->StartYear))
-        {
+        if (!empty($this->StartMonth) && empty($this->StartYear)) {
             $this->addError('StartYear', \Yii::t('app', 'Необходимо заполнить поле Год начала работы'));
         }
-        if (!empty($this->EndMonth) && empty($this->EndYear))
-        {
+        if (!empty($this->EndMonth) && empty($this->EndYear)) {
             $this->addError('EndYear', \Yii::t('app', 'Необходимо заполнить поле Год окончания работы'));
         }
         return true;
@@ -38,7 +36,7 @@ class Employment extends \CFormModel
 
     public function attributeLabels()
     {
-        return array(
+        return [
             'Company' => \Yii::t('app', 'Компания'),
             'Position' => \Yii::t('app', 'Должность'),
             'StartMonth' => \Yii::t('app', 'Месяц начала работы'),
@@ -47,6 +45,6 @@ class Employment extends \CFormModel
             'EndYear' => \Yii::t('app', 'Год окончания работы'),
             'Primary' => \Yii::t('app', 'Основное место работы'),
             'Delete' => \Yii::t('app', 'Удалить')
-        );
+        ];
     }
 }

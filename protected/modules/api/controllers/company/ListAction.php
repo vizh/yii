@@ -6,12 +6,11 @@ use api\components\Exception;
 use api\models\Account;
 use application\components\CDbCriteria;
 use company\models\Company;
-
-use nastradamus39\slate\annotations\ApiAction;
-use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
+use nastradamus39\slate\annotations\ApiAction;
 
 class ListAction extends Action
 {
@@ -22,7 +21,7 @@ class ListAction extends Action
      *     description="Список компаний из указанного кластера. Пока используется только РАЭК. В списке не присутствуют сотрудники компаний.",
      *     samples={
      *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
-            '{{API_URL}}/company/list?Cluster=%D0%A0%D0%90%D0%AD%D0%9A'")
+    '{{API_URL}}/company/list?Cluster=%D0%A0%D0%90%D0%AD%D0%9A'")
      *     },
      *     request=@Request(
      *          method="GET",

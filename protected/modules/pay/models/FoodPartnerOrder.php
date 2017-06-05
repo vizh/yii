@@ -69,7 +69,6 @@ class FoodPartnerOrder extends ActiveRecord
         ];
     }
 
-
     /**
      * @return int
      */

@@ -1,9 +1,9 @@
 <?php
 use application\components\controllers\AdminMainController;
+use application\helpers\Flash;
+use user\models\forms\admin\Merge as MergeForm;
 use user\models\search\admin\Contacts;
 use user\models\User;
-use user\models\forms\admin\Merge as MergeForm;
-use application\helpers\Flash;
 
 class MainController extends AdminMainController
 {
@@ -30,7 +30,7 @@ class MainController extends AdminMainController
             if (\Yii::app()->getRequest()->getIsPostRequest()) {
                 $form->fillFromPost();
                 if ($form->updateActiveRecord() !== null) {
-                    Flash::setSuccess('Пользователи успешно обьединены. <br/>' . \CHtml::link('Основной пользователь', $form->getActiveRecord()->getUrl()));
+                    Flash::setSuccess('Пользователи успешно обьединены. <br/>'.\CHtml::link('Основной пользователь', $form->getActiveRecord()->getUrl()));
                     $this->redirect(['merge']);
                 }
             }

@@ -3,7 +3,6 @@ namespace api\models\forms\user;
 
 use api\components\Exception;
 use application\components\form\CreateUpdateFormCombiner;
-use CActiveRecord;
 use user\models\forms\fields\Employment;
 use user\models\forms\fields\Phone;
 use user\models\User;

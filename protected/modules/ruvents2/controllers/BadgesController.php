@@ -4,10 +4,10 @@ namespace ruvents2\controllers;
 use application\components\helpers\ArrayHelper;
 use event\models\Part;
 use event\models\Participant;
-use ruvents2\components\data\CDbCriteria;
-use ruvents2\models\Badge;
 use ruvents2\components\Controller;
+use ruvents2\components\data\CDbCriteria;
 use ruvents2\components\Exception;
+use ruvents2\models\Badge;
 use user\models\User;
 
 class BadgesController extends Controller
@@ -22,15 +22,22 @@ class BadgesController extends Controller
         $badges = Badge::model()->byEventId($this->getEvent()->Id)->findAll($criteria);
         $result = [];
         foreach ($badges as $badge) {
-            $result[] = ArrayHelper::toArray($badge, ['ruvents2\models\Badge' => [
-                'Id', 'PartId', 'RoleId', 'OperatorId', 'CreationTime', 'UserId' => function($badge) {
-                    /** @var Badge $badge */
-                    return $badge->User->RunetId;
-                }
-            ]]);
+            $result[] = ArrayHelper::toArray($badge, [
+                'ruvents2\models\Badge' => [
+                    'Id',
+                    'PartId',
+                    'RoleId',
+                    'OperatorId',
+                    'CreationTime',
+                    'UserId' => function ($badge) {
+                        /** @var Badge $badge */
+                        return $badge->User->RunetId;
+                    }
+                ]
+            ]);
         }
 
-        $nextSince = count($badges) == $limit ? $badges[$limit-1]->CreationTime : null;
+        $nextSince = count($badges) == $limit ? $badges[$limit - 1]->CreationTime : null;
         $hasMore = $nextSince !== null;
         $this->renderJson([
             'Badges' => $result,
@@ -74,7 +81,7 @@ class BadgesController extends Controller
             $partId = $request->getParam('PartId');
             $part = $partId !== null ? Part::model()->findByPk($partId) : null;
             if ($partId !== null && ($part == null || $part->EventId != $this->getEvent()->Id)) {
-                throw Exception::createInvalidParam('PartId', 'Не найдена часть с ID: ' . $partId);
+                throw Exception::createInvalidParam('PartId', 'Не найдена часть с ID: '.$partId);
             }
             if ($part !== null) {
                 $participant = Participant::model()
@@ -87,8 +94,9 @@ class BadgesController extends Controller
                             ->setOrder('"Role"."Priority" DESC')
                     );
 
-                if ($participant == null)
+                if ($participant == null) {
                     throw new Exception(Exception::INVALID_PART_ID_FOR_BADGE, [$runetId, $partId]);
+                }
             }
         } else {
             $participant = $user->Participants[0];

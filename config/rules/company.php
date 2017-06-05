@@ -5,13 +5,21 @@ return [
         'deny',
         'users' => ['?'],
         'module' => 'company',
-        'controllers' => ['edit'],
+        'controllers' => [
+            'edit'
+        ]
     ],
+
     [
         'allow',
         'users' => ['*'],
         'module' => 'company',
-        'controllers' => ['ajax', 'list', 'view', 'edit'],
+        'controllers' => [
+            'ajax',
+            'list',
+            'view',
+            'edit'
+        ]
     ],
 
     /** Admin Rules */
@@ -19,6 +27,9 @@ return [
         'allow',
         'roles' => ['admin'],
         'module' => 'company',
-        'controllers' => ['admin/merge', 'admin/main'],
-    ],
+        'controllers' => [
+            'admin/merge',
+            'admin/main'
+        ]
+    ]
 ];

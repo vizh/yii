@@ -9,7 +9,7 @@ class DuplicateController extends \application\components\controllers\AdminMainC
         $data = [];
         $ids = [];
 
-        while (count($data) < 10){
+        while (count($data) < 10) {
             $query = User::model();
             $query->dbCriteria
                 ->addNotInCondition('"t"."Id"', $ids)
@@ -21,7 +21,7 @@ class DuplicateController extends \application\components\controllers\AdminMainC
                     'order' => '"EventCount" desc'
                 ]);
             $user = $query->find();
-            if (!$user){
+            if (!$user) {
                 break;
             }
             $ids[] = $user->Id;
@@ -37,12 +37,14 @@ class DuplicateController extends \application\components\controllers\AdminMainC
                 ]
             ]);
 
-            if (count($duplicates) > 0){
+            if (count($duplicates) > 0) {
                 $data[] = [
                     'user' => $user,
                     'duplicates' => $duplicates
                 ];
-                $ids = array_merge($ids, array_map(function($duplicate){ return $duplicate->Id; }, $duplicates));
+                $ids = array_merge($ids, array_map(function ($duplicate) {
+                    return $duplicate->Id;
+                }, $duplicates));
             }
         }
 
@@ -116,16 +118,15 @@ class DuplicateController extends \application\components\controllers\AdminMainC
         $db = Yii::app()->db;
         $tr = $db->beginTransaction();
         foreach ($tables_to_update as $table => $columns) {
-            if (is_string($columns)){
+            if (is_string($columns)) {
                 $columns = [$columns];
             }
             foreach ($columns as $column) {
                 $db->createCommand()->update($table, [$column => $user_id], '"'.$column.'" = :id', [':id' => $duplicate_id]);
-
             }
         }
         $db->createCommand()->update('Translation', ['ResourceId' => $user_id], '"ResourceName" = \'User\' and "ResourceId" = :id', [':id' => $duplicate_id]);
-        $db->createCommand('delete from "User" where "Id" = :id')->execute([':id' => $duplicate_id]);
+        $db->createCommand('DELETE FROM "User" WHERE "Id" = :id')->execute([':id' => $duplicate_id]);
         $tr->commit();
         $this->redirect(['index']);
     }

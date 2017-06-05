@@ -1,7 +1,6 @@
 <?php
 namespace event\widgets\panels\content;
 
-use event\models\section\Attribute;
 use event\widgets\panels\Base;
 
 class Slider extends Base
@@ -27,7 +26,7 @@ class Slider extends Base
         $request = \Yii::app()->getRequest();
         $this->form->attributes = $request->getParam(get_class($this->form));
         if ($this->showForm && $this->form->validate()) {
-            foreach($this->getWidget()->getAttributeNames() as $name) {
+            foreach ($this->getWidget()->getAttributeNames() as $name) {
                 $attribute = $this->getAttributeActiveRecord($name);
                 foreach ($this->form->getLocaleList() as $locale) {
                     $attribute->setLocale($locale);

@@ -2,7 +2,7 @@
 namespace event\widgets\panels\header;
 
 use event\components\WidgetAdminPanel;
-use \event\models\forms\widgets\header\Header as WidgetHeaderForm;
+use event\models\forms\widgets\header\Header as WidgetHeaderForm;
 
 class Header extends WidgetAdminPanel
 {

@@ -23,9 +23,9 @@ class DownloadAction extends Action
         if ($export == null) {
             throw new \CHttpException(404);
         }
-        $title = \Yii::t('app', 'Участники') . ' ' . $export->Event->Title . '.xlsx';
+        $title = \Yii::t('app', 'Участники').' '.$export->Event->Title.'.xlsx';
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment; filename="' . $title . '"');
+        header('Content-Disposition: attachment; filename="'.$title.'"');
         echo file_get_contents($export->FilePath);
     }
 }

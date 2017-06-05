@@ -2,7 +2,6 @@
 
 namespace pay\components\coupon\managers;
 
-
 class FixPrice extends Base
 {
     /**
@@ -34,6 +33,6 @@ class FixPrice extends Base
      */
     public function getDiscountString()
     {
-        return $this->coupon->Discount . ' ' . \Yii::t('app', 'руб') . '.';
+        return $this->coupon->Discount.' '.\Yii::t('app', 'руб').'.';
     }
 }

@@ -1,7 +1,6 @@
 <?php
 namespace sms\components\gates;
 
-
 use sms\components\Exception;
 use sms\components\Gate;
 use sms\components\Message;

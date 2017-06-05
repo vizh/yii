@@ -1,11 +1,9 @@
 <?php
 
 use application\components\console\BaseConsoleCommand;
-use Aws\Ses\SesClient;
 use event\models\Event;
 use mail\components\Mail;
 use mail\components\Mailer;
-use mail\components\mailers\PhpMailer;
 use mail\components\mailers\SESMailer;
 use pay\models\Order;
 use pay\models\OrderItem;
@@ -19,8 +17,8 @@ class PayCommand extends BaseConsoleCommand
         $date = date('Y-m-d', time() - (4 * 24 * 60 * 60));
         $criteria = new \CDbCriteria();
         $criteria->addCondition('"t"."CreationTime" >= :MinTime AND "t"."CreationTime" <= :MaxTime');
-        $criteria->params['MinTime'] = $date . ' 00:00:00';
-        $criteria->params['MaxTime'] = $date . ' 23:59:59';
+        $criteria->params['MinTime'] = $date.' 00:00:00';
+        $criteria->params['MaxTime'] = $date.' 23:59:59';
 
         $orders = Order::model()->byBankTransfer(true)->byDeleted(false)->byPaid(false)->findAll($criteria);
         $mailer = new SESMailer();
@@ -222,9 +220,7 @@ class PayCommand extends BaseConsoleCommand
                 $criteria->addCondition('OrderItemId', ['$in' => $mongoUpdate]);
                 \pay\models\Failure::model()->updateAll($criteria, $data);
             }
-
         }
-
     }
 
     /**
@@ -243,12 +239,12 @@ class PayCommand extends BaseConsoleCommand
             $body .= '<tr>';
             $body .= '<td>'.(!empty($row['OrderId'])
                     ? CHtml::link($row['OrderId'], Yii::app()->createAbsoluteUrl(
-                        '/pay/admin/order/view', ['orderId'=>$row['OrderId']]), ['target'=>'_blank']
+                        '/pay/admin/order/view', ['orderId' => $row['OrderId']]), ['target' => '_blank']
                     ) : null).'</td>';
             $body .= '<td>'.Yii::app()->getDateFormatter()->format('dd MMMM yyyy, HH:mm', $row['CreationTime']).'</td>';
-            $body .= '<td>'. CHtml::link($row['EventName'], Yii::app()->createAbsoluteUrl(
-                    '/event/admin/edit/index', ['eventId'=>$row['EventId']]
-                ), ['target'=>'_blank']).'</td>';
+            $body .= '<td>'.CHtml::link($row['EventName'], Yii::app()->createAbsoluteUrl(
+                    '/event/admin/edit/index', ['eventId' => $row['EventId']]
+                ), ['target' => '_blank']).'</td>';
             $body .= '<td>'.number_format((float)$row['Total'], 2, '.', ' ').'</td>';
             $body .= '<td>'.$row['FIO'].'</td>';
             $body .= '<td>'.$row['Phone'].'</td>';

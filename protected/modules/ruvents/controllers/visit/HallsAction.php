@@ -13,9 +13,10 @@ class HallsAction extends \ruvents\components\Action
             ->findAll();
 
         $result = [];
-        foreach ($halls as $hall)
+        foreach ($halls as $hall) {
             $result[] = $this->getDataBuilder()->createSectionHall($hall);
-        
+        }
+
         $this->renderJson($result);
     }
 }

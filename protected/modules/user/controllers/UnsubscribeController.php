@@ -9,20 +9,19 @@ class UnsubscribeController extends \application\components\controllers\PublicMa
     {
         $users = \user\models\User::model()->byEmail($email)->findAll();
         if (empty($users)) {
-            throw new CHttpException(500, 'Не найден пользователь с email: ' . $email);
+            throw new CHttpException(500, 'Не найден пользователь с email: '.$email);
         }
 
         $event = null;
         if ($eventIdName !== null) {
             $event = Event::model()->byIdName($eventIdName)->find();
             if ($event == null) {
-                throw new \CHttpException(500, 'Не корректное мероприятие в отписки пользователя. Пришедший idName мероприятия: ' . $eventIdName . ' Email пользователя: ' . $email);
+                throw new \CHttpException(500, 'Не корректное мероприятие в отписки пользователя. Пришедший idName мероприятия: '.$eventIdName.' Email пользователя: '.$email);
             }
         }
 
         /** @var \user\models\User $user */
-        foreach ($users as $user)
-        {
+        foreach ($users as $user) {
             if ($user->getHash() == $hash) {
                 $this->setPageTitle(\Yii::t('app', 'Подписка успешно отменена'));
                 if ($event !== null) {
@@ -43,6 +42,6 @@ class UnsubscribeController extends \application\components\controllers\PublicMa
             }
         }
 
-        throw new \CHttpException(500, 'Не корректный код отписки пользователя. Пришедший код: ' . $hash . ' Email пользователя: ' . $email);
+        throw new \CHttpException(500, 'Не корректный код отписки пользователя. Пришедший код: '.$hash.' Email пользователя: '.$email);
     }
 }

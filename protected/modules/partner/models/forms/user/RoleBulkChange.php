@@ -3,7 +3,6 @@ namespace partner\models\forms\user;
 
 use application\components\form\FormModel;
 use event\models\Event;
-use event\models\Participant;
 use event\models\Role;
 use user\models\User;
 
@@ -41,10 +40,9 @@ class RoleBulkChange extends FormModel
         $role = Role::findOne($this->RoleId);
         $users = User::model()->findAllByPk($this->Ids);
         foreach ($users as $user) {
-            if ($role){
+            if ($role) {
                 $this->Event->registerUser($user, $role);
-            }
-            elseif ($this->RoleId == -1){
+            } elseif ($this->RoleId == -1) {
                 $this->Event->unregisterUser($user);
             }
         }

@@ -3,10 +3,10 @@ CPageCouponIndex = function () {
 }
 
 CPageCouponIndex.prototype.init = function () {
-    var $table  = $('.grid-view table'),
+    var $table = $('.grid-view table'),
         $btnGiveCoupon = $('input#btn-give'),
-        $headCheckbox  = $('thead input:checkbox', $table),
-        $bodyCheckbox  = $('tbody input[name*="Coupons"]:checkbox', $table);
+        $headCheckbox = $('thead input:checkbox', $table),
+        $bodyCheckbox = $('tbody input[name*="Coupons"]:checkbox', $table);
 
     $btnGiveCoupon.click(function (e) {
         $table.closest('form').trigger('submit');
@@ -26,7 +26,7 @@ CPageCouponIndex.prototype.init = function () {
         } else {
             $headCheckbox.attr('checked', 'checked');
         }
-        
+
         if ($bodyCheckbox.filter(':checked').length > 0) {
             $btnGiveCoupon.removeClass('hide');
         } else {

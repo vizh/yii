@@ -97,7 +97,8 @@ class Register extends BaseRegisterForm
     /**
      * @inheritdoc
      */
-    public function validateEmail($attribute, $params) {
+    public function validateEmail($attribute, $params)
+    {
         if (!$this->isHiddenUser()) {
             return call_user_func_array($params['method'], [$attribute, $this->isEmailUnique()]);
         }
@@ -155,9 +156,9 @@ class Register extends BaseRegisterForm
      */
     protected function isHiddenUser()
     {
-        return false === (bool) Yii::app()
-            ->getRequest()
-            ->getParam('Visible', true);
+        return false === (bool)Yii::app()
+                ->getRequest()
+                ->getParam('Visible', true);
     }
 
     /**
@@ -179,7 +180,7 @@ class Register extends BaseRegisterForm
      */
     protected function isEmailUnique()
     {
-        return (bool) Yii::app()->getRequest()->getParam('UniqueEmail', false);
+        return (bool)Yii::app()->getRequest()->getParam('UniqueEmail', false);
     }
 
     /**

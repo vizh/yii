@@ -1,7 +1,6 @@
 <?php
 namespace event\components\handlers\register\system;
 
-
 class Nspk15 extends Base
 {
     public function getFrom()
@@ -21,6 +20,5 @@ class Nspk15 extends Base
         }
         return parent::getBody();
     }
-
 
 } 

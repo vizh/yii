@@ -2,8 +2,8 @@
 
 class m161214_102646_api_quota extends CDbMigration
 {
-	public function safeUp()
-	{
+    public function safeUp()
+    {
         $this->addColumn('ApiAccount', 'QuotaByUser', 'integer');
         $this->addColumn('ApiAccount', 'Blocked', 'boolean');
         $this->createTable('ApiAccountQuotaByUserLog', [
@@ -19,12 +19,12 @@ class m161214_102646_api_quota extends CDbMigration
             'ApiAccountQuotaByUserLog', 'UserId',
             'User', 'Id',
             'cascade', 'cascade');
-	}
+    }
 
-	public function safeDown()
-	{
-	    $this->dropTable('ApiAccountQuotaByUserLog');
-	    $this->dropColumn('ApiAccount', 'Blocked');
+    public function safeDown()
+    {
+        $this->dropTable('ApiAccountQuotaByUserLog');
+        $this->dropColumn('ApiAccount', 'Blocked');
         $this->dropColumn('ApiAccount', 'QuotaByUser');
-	}
+    }
 }

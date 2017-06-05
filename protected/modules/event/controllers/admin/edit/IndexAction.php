@@ -1,18 +1,18 @@
 <?php
 namespace event\controllers\admin\edit;
 
+use application\models\ProfessionalInterest;
+use contact\models\Address;
+use contact\models\Email;
+use contact\models\Phone;
 use event\components\IWidget;
 use event\models\Event;
-use event\models\WidgetClass;
 use event\models\forms\admin\Edit;
-use contact\models\Address;
-use event\models\LinkWidget;
-use application\models\ProfessionalInterest;
-use event\models\LinkProfessionalInterest;
-use contact\models\Phone;
-use event\models\LinkPhone;
-use contact\models\Email;
 use event\models\LinkEmail;
+use event\models\LinkPhone;
+use event\models\LinkProfessionalInterest;
+use event\models\LinkWidget;
+use event\models\WidgetClass;
 
 class IndexAction extends \CAction
 {
@@ -30,8 +30,9 @@ class IndexAction extends \CAction
                 $attributes[$attribute->Name] = $attribute->Value;
             }
             foreach ($attributes as $attribute => $value) {
-                if (property_exists($form, $attribute))
+                if (property_exists($form, $attribute)) {
                     $form->$attribute = $value;
+                }
             }
             $form->StartDate = $event->getFormattedStartDate(Edit::DATE_FORMAT);
             $form->EndDate = $event->getFormattedEndDate(Edit::DATE_FORMAT);
@@ -121,7 +122,7 @@ class IndexAction extends \CAction
                     if (!isset($urlParts['path'])) {
                         $urlParts['path'] = '';
                     }
-                    $url = $urlParts['host'] . $urlParts['path'] . (empty($urlParts['query']) ? '' : '?' . $urlParts['query']);
+                    $url = $urlParts['host'].$urlParts['path'].(empty($urlParts['query']) ? '' : '?'.$urlParts['query']);
 
                     $event->setContactSite($url, $urlParts['scheme'] === 'https');
                 }
@@ -138,8 +139,9 @@ class IndexAction extends \CAction
                 // Сохранение виджетов
                 foreach ($form->Widgets as $class => $params) {
                     $widgetClass = WidgetClass::model()->byClass($class)->find();
-                    if ($widgetClass == null)
+                    if ($widgetClass == null) {
                         continue;
+                    }
 
                     $linkWidget = LinkWidget::model()->byEventId($event->Id)->byClassId($widgetClass->Id)->find();
                     if ($linkWidget == null && $params['Activated'] == 1) {

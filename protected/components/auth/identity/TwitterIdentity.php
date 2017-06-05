@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by JetBrains PhpStorm.
  * User: nikitin
@@ -6,45 +7,40 @@
  * Time: 11:58
  * To change this template use File | Settings | File Templates.
  */
- 
 class TwitterIdentity extends GeneralIdentity
 {
-  private $_id;
+    private $_id;
 
-  /**
-	 * @var string email
-	 */
-	public $twitterHash;
+    /**
+     * @var string email
+     */
+    public $twitterHash;
 
-  public function __construct($twitterHash)
-  {
-    $this->twitterHash = $twitterHash;
-  }
-
-  public function authenticate()
-  {
-    $connectTwitter = UserConnect::GetByHash($this->twitterHash, UserConnect::TwitterId);
-    $user = null;
-    if ($connectTwitter != null)
+    public function __construct($twitterHash)
     {
-      $user = User::GetById($connectTwitter->UserId);
+        $this->twitterHash = $twitterHash;
     }
 
-    if ($user === null || $user->Settings->Visible == 0)
+    public function authenticate()
     {
-      $this->errorCode = self::ERROR_USERNAME_INVALID;
-    }
-    else
-    {
-      $this->_id = $user->UserId;
-      $this->errorCode=self::ERROR_NONE;
-      $user->CreateSecretKey();
-    }
-    return $this->errorCode==self::ERROR_NONE;
-  }
+        $connectTwitter = UserConnect::GetByHash($this->twitterHash, UserConnect::TwitterId);
+        $user = null;
+        if ($connectTwitter != null) {
+            $user = User::GetById($connectTwitter->UserId);
+        }
 
-  public function getId()
-  {
-    return $this->_id;
-  }
+        if ($user === null || $user->Settings->Visible == 0) {
+            $this->errorCode = self::ERROR_USERNAME_INVALID;
+        } else {
+            $this->_id = $user->UserId;
+            $this->errorCode = self::ERROR_NONE;
+            $user->CreateSecretKey();
+        }
+        return $this->errorCode == self::ERROR_NONE;
+    }
+
+    public function getId()
+    {
+        return $this->_id;
+    }
 }

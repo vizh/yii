@@ -5,7 +5,6 @@ namespace widget\models\forms;
 use application\components\form\EventItemCreateUpdateForm;
 use application\components\helpers\ArrayHelper;
 use pay\components\collection\Finder;
-use pay\models\CouponActivation;
 use pay\models\Product;
 use pay\models\ProductPrice;
 use user\models\User;
@@ -50,7 +49,6 @@ class ProductCount extends EventItemCreateUpdateForm
         }
         return true;
     }
-
 
     /**
      * @return string
@@ -115,7 +113,7 @@ class ProductCount extends EventItemCreateUpdateForm
      */
     private function fillProductFuturePrices(Product $product, &$item)
     {
-        if (sizeof ($product->PricesActive) > 1) {
+        if (sizeof($product->PricesActive) > 1) {
             foreach ($product->PricesActive as $i => $price) {
                 if ($i == 0) {
                     continue;
@@ -127,7 +125,7 @@ class ProductCount extends EventItemCreateUpdateForm
                         'Title' => function (ProductPrice $price) {
                             $title = $price->Title;
                             if (empty($title)) {
-                                $title = \Yii::t('app', 'с') . ' ' . \Yii::app()->getDateFormatter()->format('d MMMM', $price->StartTime);
+                                $title = \Yii::t('app', 'с').' '.\Yii::app()->getDateFormatter()->format('d MMMM', $price->StartTime);
                             }
                             return $title;
                         }

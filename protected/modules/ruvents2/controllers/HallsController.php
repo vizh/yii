@@ -32,7 +32,7 @@ class HallsController extends Controller
             $result[] = $this->getCheckData($check);
         }
 
-        $nextSince = count($checks) == $limit ? $checks[$limit-1]->CreationTime : null;
+        $nextSince = count($checks) == $limit ? $checks[$limit - 1]->CreationTime : null;
         $hasMore = $nextSince !== null;
         $this->renderJson([
             'Checks' => $result,
@@ -101,9 +101,13 @@ class HallsController extends Controller
      */
     private function getCheckData(UserVisit $check)
     {
-        $data = ArrayHelper::toArray($check, ['event\models\section\UserVisit' => [
-            'Id', 'CheckTime' => 'VisitTime', 'CreationTime'
-        ]]);
+        $data = ArrayHelper::toArray($check, [
+            'event\models\section\UserVisit' => [
+                'Id',
+                'CheckTime' => 'VisitTime',
+                'CreationTime'
+            ]
+        ]);
         $data['UserId'] = $check->User->RunetId;
         return $data;
     }

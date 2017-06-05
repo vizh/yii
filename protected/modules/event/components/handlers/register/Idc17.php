@@ -8,8 +8,6 @@
 
 namespace event\components\handlers\register;
 
-use mail\models\Layout;
-
 class Idc17 extends Base
 {
     public function getFromName()

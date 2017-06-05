@@ -35,7 +35,7 @@ class IndexAction extends \pay\components\Action
 
         $active_data = [];
         foreach ($events as $i => $event) {
-            $active_data[$i]['index'] = $i+1;
+            $active_data[$i]['index'] = $i + 1;
             $active_data[$i]['event'] = $event;
 
             $orders = Order::model()
@@ -47,12 +47,12 @@ class IndexAction extends \pay\components\Action
             $active_data[$i]['paypal'] = 0;
             $active_data[$i]['types'] = [];
             foreach ($orders as $order) {
-                if (!isset($active_data[$i]['types'][$order->Type])){
+                if (!isset($active_data[$i]['types'][$order->Type])) {
                     $active_data[$i]['types'][$order->Type] = 0;
                 }
                 $active_data[$i]['types'][$order->Type] += $order->Total;
                 $active_data[$i]['total'] += $order->Total;
-                if ($order->Type == OrderType::PaySystem && $order->System == 'paypal'){
+                if ($order->Type == OrderType::PaySystem && $order->System == 'paypal') {
                     $active_data[$i]['paypal'] += $order->Total;
                 }
             }
@@ -71,7 +71,6 @@ class IndexAction extends \pay\components\Action
                 ->bindValue('RoleVirtualParticipant', \event\models\Role::VIRTUAL_ROLE_ID)
                 ->queryScalar();
         }
-
 
         $criteria = new \CDbCriteria();
         $criteria->order = '"t"."StartYear" desc, "t"."StartMonth" desc, "t"."StartMonth" desc';
@@ -97,7 +96,7 @@ class IndexAction extends \pay\components\Action
             $past_data[$i]['total'] = 0;
             $past_data[$i]['types'] = [];
             foreach ($orders as $order) {
-                if (!isset($past_data[$i]['types'][$order->Type])){
+                if (!isset($past_data[$i]['types'][$order->Type])) {
                     $past_data[$i]['types'][$order->Type] = 0;
                 }
                 $past_data[$i]['types'][$order->Type] += $order->Total;

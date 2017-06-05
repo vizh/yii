@@ -3,16 +3,16 @@ namespace pay\models\forms;
 
 class OrderForm extends \CFormModel
 {
-  const ScenarioRegisterUser   = 'User';
-  const ScenarioRegisterTicket = 'Ticket';
+    const ScenarioRegisterUser = 'User';
+    const ScenarioRegisterTicket = 'Ticket';
 
-  public $Scenario;
-  public $Items = array();
+    public $Scenario;
+    public $Items = [];
 
-  public function rules()
-  {
-    return array(
-      array('Items,Scenario', 'safe')
-    );
-  }
+    public function rules()
+    {
+        return [
+            ['Items,Scenario', 'safe']
+        ];
+    }
 }

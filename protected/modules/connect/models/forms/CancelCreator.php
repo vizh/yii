@@ -14,7 +14,13 @@ class CancelCreator extends CreateUpdateForm
     {
         return [
             ['Status', 'in', 'range' => [MeetingAR::STATUS_CANCELLED]],
-            ['Response', 'filter', 'filter' => function($value){ return (new \CHtmlPurifier())->purify($value); }]
+            [
+                'Response',
+                'filter',
+                'filter' => function ($value) {
+                    return (new \CHtmlPurifier())->purify($value);
+                }
+            ]
         ];
     }
 
@@ -65,7 +71,7 @@ class CancelCreator extends CreateUpdateForm
         $this->fillActiveRecord();
         $saved = $this->model->save();
 
-        if ($saved && $this->model->Type == MeetingAR::TYPE_PRIVATE){
+        if ($saved && $this->model->Type == MeetingAR::TYPE_PRIVATE) {
             $event = new \CEvent($this->model);
             $event->params['response'] = $this->Response;
             $this->model->onCancelCreator($event);

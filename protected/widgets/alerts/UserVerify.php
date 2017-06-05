@@ -7,7 +7,7 @@ use user\models\User;
 
 class UserVerify extends Widget
 {
-    /** @var null|User  */
+    /** @var null|User */
     private $user = null;
 
     /**
@@ -27,7 +27,6 @@ class UserVerify extends Widget
         parent::init();
     }
 
-
     /**
      * @inheritdoc
      */
@@ -35,7 +34,6 @@ class UserVerify extends Widget
     {
         return $this->show;
     }
-
 
     public function run()
     {

@@ -20,7 +20,6 @@ class Register extends MailLayout
         $this->password = $event->params['password'];
     }
 
-
     /**
      * @return string
      */
@@ -79,6 +78,5 @@ class Register extends MailLayout
         }
         return true;
     }
-
 
 }

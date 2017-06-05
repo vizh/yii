@@ -216,15 +216,71 @@ class Inflector
      * @var array fallback map for transliteration used by [[transliterate()]] when intl isn't available.
      */
     public static $transliteration = [
-        'À' => 'A', 'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'A', 'Å' => 'A', 'Æ' => 'AE', 'Ç' => 'C',
-        'È' => 'E', 'É' => 'E', 'Ê' => 'E', 'Ë' => 'E', 'Ì' => 'I', 'Í' => 'I', 'Î' => 'I', 'Ï' => 'I',
-        'Ð' => 'D', 'Ñ' => 'N', 'Ò' => 'O', 'Ó' => 'O', 'Ô' => 'O', 'Õ' => 'O', 'Ö' => 'O', 'Ő' => 'O',
-        'Ø' => 'O', 'Ù' => 'U', 'Ú' => 'U', 'Û' => 'U', 'Ü' => 'U', 'Ű' => 'U', 'Ý' => 'Y', 'Þ' => 'TH',
+        'À' => 'A',
+        'Á' => 'A',
+        'Â' => 'A',
+        'Ã' => 'A',
+        'Ä' => 'A',
+        'Å' => 'A',
+        'Æ' => 'AE',
+        'Ç' => 'C',
+        'È' => 'E',
+        'É' => 'E',
+        'Ê' => 'E',
+        'Ë' => 'E',
+        'Ì' => 'I',
+        'Í' => 'I',
+        'Î' => 'I',
+        'Ï' => 'I',
+        'Ð' => 'D',
+        'Ñ' => 'N',
+        'Ò' => 'O',
+        'Ó' => 'O',
+        'Ô' => 'O',
+        'Õ' => 'O',
+        'Ö' => 'O',
+        'Ő' => 'O',
+        'Ø' => 'O',
+        'Ù' => 'U',
+        'Ú' => 'U',
+        'Û' => 'U',
+        'Ü' => 'U',
+        'Ű' => 'U',
+        'Ý' => 'Y',
+        'Þ' => 'TH',
         'ß' => 'ss',
-        'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a', 'å' => 'a', 'æ' => 'ae', 'ç' => 'c',
-        'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e', 'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i',
-        'ð' => 'd', 'ñ' => 'n', 'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'o', 'ő' => 'o',
-        'ø' => 'o', 'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u', 'ű' => 'u', 'ý' => 'y', 'þ' => 'th',
+        'à' => 'a',
+        'á' => 'a',
+        'â' => 'a',
+        'ã' => 'a',
+        'ä' => 'a',
+        'å' => 'a',
+        'æ' => 'ae',
+        'ç' => 'c',
+        'è' => 'e',
+        'é' => 'e',
+        'ê' => 'e',
+        'ë' => 'e',
+        'ì' => 'i',
+        'í' => 'i',
+        'î' => 'i',
+        'ï' => 'i',
+        'ð' => 'd',
+        'ñ' => 'n',
+        'ò' => 'o',
+        'ó' => 'o',
+        'ô' => 'o',
+        'õ' => 'o',
+        'ö' => 'o',
+        'ő' => 'o',
+        'ø' => 'o',
+        'ù' => 'u',
+        'ú' => 'u',
+        'û' => 'u',
+        'ü' => 'u',
+        'ű' => 'u',
+        'ý' => 'y',
+        'þ' => 'th',
         'ÿ' => 'y',
     ];
     /**
@@ -274,7 +330,6 @@ class Inflector
      * @see http://php.net/manual/en/transliterator.transliterate.php
      */
     public static $transliterator = self::TRANSLITERATE_LOOSE;
-
 
     /**
      * Converts a word to its plural form.
@@ -378,7 +433,7 @@ class Inflector
         if ($separator === '_') {
             return trim(strtolower(preg_replace($regex, '_\0', $name)), '_');
         } else {
-            return trim(strtolower(str_replace('_', $separator, preg_replace($regex, $separator . '\0', $name))), $separator);
+            return trim(strtolower(str_replace('_', $separator, preg_replace($regex, $separator.'\0', $name))), $separator);
         }
     }
 
@@ -430,7 +485,7 @@ class Inflector
     {
         $word = static::camelize($word);
 
-        return strtolower($word[0]) . substr($word, 1);
+        return strtolower($word[0]).substr($word, 1);
     }
 
     /**
@@ -519,17 +574,17 @@ class Inflector
     public static function ordinalize($number)
     {
         if (in_array($number % 100, range(11, 13))) {
-            return $number . 'th';
+            return $number.'th';
         }
         switch ($number % 10) {
             case 1:
-                return $number . 'st';
+                return $number.'st';
             case 2:
-                return $number . 'nd';
+                return $number.'nd';
             case 3:
-                return $number . 'rd';
+                return $number.'rd';
             default:
-                return $number . 'th';
+                return $number.'th';
         }
     }
 
@@ -574,7 +629,7 @@ class Inflector
             case 2:
                 return implode($twoWordsConnector, $words);
             default:
-                return implode($connector, array_slice($words, 0, -1)) . $lastWordConnector . end($words);
+                return implode($connector, array_slice($words, 0, -1)).$lastWordConnector.end($words);
         }
     }
 }

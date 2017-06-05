@@ -1,5 +1,6 @@
 <?php
 namespace pay\models;
+
 use application\components\ActiveRecord;
 
 /**

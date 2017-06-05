@@ -1,3 +1,3 @@
 $(function () {
-  $('input[name*="[Phone]"]').initPhoneInputMask();
+    $('input[name*="[Phone]"]').initPhoneInputMask();
 });

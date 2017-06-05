@@ -3,7 +3,6 @@ namespace api\controllers\user;
 
 use api\components\Action;
 use api\components\Exception;
-use event\models\UserData;
 use user\models\User;
 
 class SectionsAction extends Action

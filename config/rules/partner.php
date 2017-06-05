@@ -6,6 +6,6 @@ return [
         'allow',
         'roles' => ['admin'],
         'module' => 'partner',
-        'controllers' => ['admin/account'],
-    ],
+        'controllers' => ['admin/account']
+    ]
 ];

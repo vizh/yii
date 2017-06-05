@@ -32,8 +32,7 @@ class RolesAction extends Action
         if ($this->_canDeleteRoleIdList == null) {
             $this->_canDeleteRoleIdList = [];
             $links = LinkRole::model()->byEventId($this->getEvent()->Id)->findAll();
-            foreach ($links as $link)
-            {
+            foreach ($links as $link) {
                 $exists = Participant::model()->byRoleId($link->RoleId)->byEventId($this->getEvent()->Id)->exists();
                 if (!$exists && !$link->Role->Base) {
                     $this->_canDeleteRoleIdList[] = $link->RoleId;
@@ -43,17 +42,16 @@ class RolesAction extends Action
         return $this->_canDeleteRoleIdList;
     }
 
-
     private function processAjaxAction()
     {
         $request = \Yii::app()->getRequest();
         $action = $request->getParam('Action');
         $handlers = [
-            'link'     => 'processAjaxLinkAction',
-            'create'   => 'processAjaxCreateAction',
-            'delete'   => 'processAjaxDeleteAction',
-            'list'     => 'processAjaxListAction',
-            'search'   => 'processAjaxSearchAction',
+            'link' => 'processAjaxLinkAction',
+            'create' => 'processAjaxCreateAction',
+            'delete' => 'processAjaxDeleteAction',
+            'list' => 'processAjaxListAction',
+            'search' => 'processAjaxSearchAction',
             'setcolor' => 'processAjaxSetColorAction'
         ];
         if ($action !== null && isset($handlers[$action])) {
@@ -144,7 +142,7 @@ class RolesAction extends Action
         $request = \Yii::app()->getRequest();
 
         $color = $request->getParam('Color', null);
-        $role  = Role::model()->findByPk($request->getParam('RoleId'));
+        $role = Role::model()->findByPk($request->getParam('RoleId'));
         if ($role == null) {
             throw new \CHttpException(404);
         }

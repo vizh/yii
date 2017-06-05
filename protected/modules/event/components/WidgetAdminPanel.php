@@ -1,5 +1,6 @@
 <?php
 namespace event\components;
+
 use event\components\widget\WidgetAdminPanelForm;
 
 abstract class WidgetAdminPanel implements IWidgetAdminPanel
@@ -78,11 +79,10 @@ abstract class WidgetAdminPanel implements IWidgetAdminPanel
         $class = get_class($this);
         $class = substr($class, mb_strrpos($class, 'panels\\') + 7, mb_strlen($class));
         $class = str_replace('\\', '.', mb_strtolower($class));
-        $view = 'event.widgets.panels.views.' . $class;
+        $view = 'event.widgets.panels.views.'.$class;
         $params = array_merge($params, ['widget' => $this->getWidget()]);
         return \Yii::app()->getController()->renderPartial($view, $params, true);
     }
-
 
     /**
      *
@@ -92,13 +92,16 @@ abstract class WidgetAdminPanel implements IWidgetAdminPanel
      */
     public function errorSummary($header = '', $footer = '')
     {
-        if (empty($this->errors)) return '';
+        if (empty($this->errors)) {
+            return '';
+        }
 
-        $result = $header . '<div class="errorSummary"><ul>';
-        foreach ($this->errors as $error)
-            $result .= '<li>' . $error . '</li>';
+        $result = $header.'<div class="errorSummary"><ul>';
+        foreach ($this->errors as $error) {
+            $result .= '<li>'.$error.'</li>';
+        }
 
-        $result .= '</ul></div>' . $footer;
+        $result .= '</ul></div>'.$footer;
         return $result;
     }
 

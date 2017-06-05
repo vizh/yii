@@ -15,18 +15,21 @@ class CreateAction extends \ruvents\components\Action
             ->byDeleted(false)
             ->findByPk($hallId);
 
-        if ($hall === null)
+        if ($hall === null) {
             throw new Exception(701, $hallId);
+        }
 
         $user = $this->getUser($runetId, $externalId);
 
-        if ($user === null)
+        if ($user === null) {
             throw new Exception(202, $runetId);
+        }
 
         $visitDatetime = \DateTime::createFromFormat('Y-m-d H:i:s', $visitTime);
 
-        if ($visitDatetime === false)
+        if ($visitDatetime === false) {
             throw new Exception(900, ['VisitTime']);
+        }
 
         $visit = new \event\models\section\UserVisit();
         $visit->UserId = $user->Id;
@@ -43,19 +46,21 @@ class CreateAction extends \ruvents\components\Action
             return \user\models\User::model()->byRunetId($runetId)->find();
         } elseif ($externalId !== null) {
             $externalId = substr($externalId, 0, 8);
-            if (strlen($externalId) !== 8)
+            if (strlen($externalId) !== 8) {
                 return null;
+            }
 
             $criteria = new \CDbCriteria();
             $criteria->addCondition('t."ExternalId" LIKE :ExternalId');
-            $criteria->params = ['ExternalId' => strtolower($externalId) . '%'];
+            $criteria->params = ['ExternalId' => strtolower($externalId).'%'];
 
             $externalUser = ExternalUser::model()
                 ->byPartner(Account::ROLE_MICROSOFT)
                 ->find($criteria);//todo: жестко прописано microsoft!!! переделать
 
-            if ($externalUser === null)
+            if ($externalUser === null) {
                 return null;
+            }
 
             return $externalUser->User;
         }

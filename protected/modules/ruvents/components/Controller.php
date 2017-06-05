@@ -1,8 +1,6 @@
 <?php
 namespace ruvents\components;
 
-use ruvents\components\WebUser;
-
 class Controller extends \CController
 {
     protected $dataBuilder = null;
@@ -78,7 +76,7 @@ class Controller extends \CController
      */
     public function accessRules()
     {
-        $rules = \Yii::getPathOfAlias('ruvents.rules') . '.php';
+        $rules = \Yii::getPathOfAlias('ruvents.rules').'.php';
 
         return require($rules);
     }
@@ -129,9 +127,9 @@ class Controller extends \CController
 
     public function getPageToken($offset)
     {
-        $prefix = substr(base64_encode($this->getId() . $this->getAction()->getId()), 0, $this->suffixLength);
+        $prefix = substr(base64_encode($this->getId().$this->getAction()->getId()), 0, $this->suffixLength);
 
-        return $prefix . base64_encode($offset);
+        return $prefix.base64_encode($offset);
     }
 
     /**
@@ -186,7 +184,7 @@ class Controller extends \CController
                 $log->OperatorId = $this->getOperator()->Id;
             }
         }
-        $log->Route = $this->getId() . '.' . $this->getAction()->getId();
+        $log->Route = $this->getId().'.'.$this->getAction()->getId();
         $log->Params = json_encode($_REQUEST, JSON_UNESCAPED_UNICODE);
         $log->FullTime = \Yii::getLogger()->getExecutionTime();
         $log->save();

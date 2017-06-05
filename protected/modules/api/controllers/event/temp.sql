@@ -1,6 +1,9 @@
-SELECT "count"("UserEmployment"."Id"), "UserEmployment"."CompanyId" FROM "UserEmployment"
+SELECT
+	"count"("UserEmployment"."Id"),
+	"UserEmployment"."CompanyId"
+FROM "UserEmployment"
 
-LEFT JOIN "EventParticipant" ON "UserEmployment"."UserId"="EventParticipant"."UserId"
+	LEFT JOIN "EventParticipant" ON "UserEmployment"."UserId" = "EventParticipant"."UserId"
 
 
 WHERE "EventParticipant"."EventId" = 422 AND "UserEmployment"."Primary"

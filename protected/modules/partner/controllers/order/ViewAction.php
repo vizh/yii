@@ -1,7 +1,6 @@
 <?php
 namespace partner\controllers\order;
 
-use application\helpers\Flash;
 use partner\components\Action;
 use pay\models\Order;
 

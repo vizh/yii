@@ -10,8 +10,7 @@ class CourseCommand extends BaseConsoleCommand
         $coursesData = file_get_contents(Yii::app()->getParams()['BuduGuru.coursesExportUrl']);
         $coursesData = json_decode($coursesData, true);
 
-        foreach ($coursesData as $courseData)
-        {
+        foreach ($coursesData as $courseData) {
             $course = Course::model()
                 ->findByPk($courseData['id']);
 

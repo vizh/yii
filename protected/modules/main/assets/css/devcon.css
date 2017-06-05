@@ -1,127 +1,138 @@
 .devcon .competence-title {
-  font-weight: 300;
-  color: #333;
-  font-size: 48px;
-}
-.devcon-hero {
-  border-top: 2px solid #e5e5e5;
+    font-weight: 300;
+    color: #333;
+    font-size: 48px;
 }
 
+.devcon-hero {
+    border-top: 2px solid #e5e5e5;
+}
 
 .devcon .interview h3 {
-  margin-bottom: 20px;
-  margin-top: 40px;
+    margin-bottom: 20px;
+    margin-top: 40px;
 }
 
 .devcon-rules {
-  font-size: 10px;
-  line-height: 12px;
-  font-weight: 300;
-  color: #666;
-  margin-bottom: 5px;
+    font-size: 10px;
+    line-height: 12px;
+    font-weight: 300;
+    color: #666;
+    margin-bottom: 5px;
 }
 
 .devcon .interview h3.section-title {
-  margin-bottom: 8px;
-  font-size: 20px;
-  line-height: 22px;
+    margin-bottom: 8px;
+    font-size: 20px;
+    line-height: 22px;
 }
+
 .devcon .interview h3.section-title span {
-  font-weight: 300;
-  font-size: 16px;
+    font-weight: 300;
+    font-size: 16px;
 }
 
-@media screen and (max-width:960px) {
-  html {
-    min-width: 480px;
-  }
-  .container {
-    width: 480px;
-  }
+@media screen and (max-width: 960px) {
+    html {
+        min-width: 480px;
+    }
 
-  .row{
-    margin-left: 0;
-  }
-  [class*="span"] {
-    margin-left: 0;
-  }
+    .container {
+        width: 480px;
+    }
 
-  .span12 {
-    width: 100%;
-  }
-  textarea.span9 {
-    width: 90%;
-  }
-  .span9 {
-    width: 80%;
-  }
-  .span8 {
-    width: 100%;
-  }
-  .span5 {
-    width: 60%;
-  }
-  .span2 {
-    width: 20%;
-  }
-  .span2.offset5{
-    margin-left: 60%;
-  }
-  .q9_head {
-    font-size: 12px;
-  }
+    .row {
+        margin-left: 0;
+    }
 
-  .span4 {
-    width: 100%;
-  }
-  input.span4{
-    width: 65%;
-  }
-  input.span3{
-    width: 65%;
-  }
+    [class*="span"] {
+        margin-left: 0;
+    }
 
+    .span12 {
+        width: 100%;
+    }
 
-  .offset2 {
-    margin-left: 10%;
-  }
-  .offset1 {
-    margin-left: 0;
-  }
-  #Q2_platforms .span8 {
-    width: 80%;
-  }
-  #Q2_platforms .offset1 {
-    margin-left: 20%;
-  }
+    textarea.span9 {
+        width: 90%;
+    }
 
+    .span9 {
+        width: 80%;
+    }
 
+    .span8 {
+        width: 100%;
+    }
 
+    .span5 {
+        width: 60%;
+    }
 
-  .table .span8 {
-    width: auto;
-  }
+    .span2 {
+        width: 20%;
+    }
 
-  .welcome .span8 {
-    width: 80%;
-  }
+    .span2.offset5 {
+        margin-left: 60%;
+    }
 
-  .welcome .span6 {
-    width: 60%;
-  }
+    .q9_head {
+        font-size: 12px;
+    }
 
-  .select-buttons .span4 {
-    width: 40%;
-  }
+    .span4 {
+        width: 100%;
+    }
 
+    input.span4 {
+        width: 65%;
+    }
+
+    input.span3 {
+        width: 65%;
+    }
+
+    .offset2 {
+        margin-left: 10%;
+    }
+
+    .offset1 {
+        margin-left: 0;
+    }
+
+    #Q2_platforms .span8 {
+        width: 80%;
+    }
+
+    #Q2_platforms .offset1 {
+        margin-left: 20%;
+    }
+
+    .table .span8 {
+        width: auto;
+    }
+
+    .welcome .span8 {
+        width: 80%;
+    }
+
+    .welcome .span6 {
+        width: 60%;
+    }
+
+    .select-buttons .span4 {
+        width: 40%;
+    }
 
 }
 
-@media screen and (max-width:480px) {
-  html {
-    min-width: 320px;
-  }
-  .container {
-    width: 320px;
-  }
+@media screen and (max-width: 480px) {
+    html {
+        min-width: 320px;
+    }
+
+    .container {
+        width: 320px;
+    }
 }

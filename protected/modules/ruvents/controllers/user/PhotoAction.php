@@ -27,14 +27,16 @@ class PhotoAction extends Action
             ->byRunetId($id)
             ->find();
 
-        if ($user === null)
+        if ($user === null) {
             throw new Exception(202, $id);
+        }
 
         $form = new Photo();
         $form->Image = \CUploadedFile::getInstanceByName('Photo');
-        
-        if (!$form->validate())
+
+        if (!$form->validate()) {
             throw new Exception(105, $form->getError('Image'));
+        }
 
         $user->getPhoto()->saveUploaded($form->Image);
         $user->refreshUpdateTime(true);

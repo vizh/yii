@@ -6,12 +6,11 @@ use connect\models\forms\CancelCreator;
 use connect\models\forms\Response;
 use connect\models\Meeting;
 use connect\models\MeetingLinkUser;
-
-use nastradamus39\slate\annotations\ApiAction;
+use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response as ApiResponse;
-use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Sample;
+use nastradamus39\slate\annotations\ApiAction;
 
 class CancelAction extends \api\components\Action
 {
@@ -43,36 +42,34 @@ class CancelAction extends \api\components\Action
         $meetingId = $this->getRequestParam('MeetingId', null);
 
         $meeting = Meeting::model()->byCreatorId($user->Id)->findByPk($meetingId);
-        if ($meeting){
-            try{
+        if ($meeting) {
+            try {
                 $form = new CancelCreator($meeting);
                 $form->Status = Meeting::STATUS_CANCELLED;
                 $form->Response = \Yii::app()->getRequest()->getParam('Response', null);
                 $form->updateActiveRecord();
                 $this->setSuccessResult();
-            }
-            catch (\Exception $e){
+            } catch (\Exception $e) {
                 $this->setResult(['Success' => false, 'Error' => $e]);
             }
             return;
         }
 
         $meeting = Meeting::model()->byUserId($user->Id)->findByPk($meetingId);
-        if ($meeting){
-            try{
+        if ($meeting) {
+            try {
                 $form = new Response($meeting->UserLinks[0]);
                 $form->Status = MeetingLinkUser::STATUS_CANCELLED;
                 $form->Response = \Yii::app()->getRequest()->getParam('Response', null);
                 $form->updateActiveRecord();
                 $this->setSuccessResult();
-            }
-            catch (\Exception $e){
+            } catch (\Exception $e) {
                 $this->setResult(['Success' => false, 'Error' => $e]);
             }
             return;
         }
 
-        if (!$meeting){
+        if (!$meeting) {
             throw new Exception(4001, [$meeting]);
         }
     }

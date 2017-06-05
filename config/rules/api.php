@@ -6,6 +6,8 @@ return [
         'allow',
         'roles' => ['admin'],
         'module' => 'api',
-        'controllers' => ['admin/account'],
-    ],
+        'controllers' => [
+            'admin/account'
+        ]
+    ]
 ];

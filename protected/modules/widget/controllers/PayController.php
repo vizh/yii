@@ -17,7 +17,6 @@ class PayController extends \widget\components\Controller
         return $value;
     }
 
-
     public function actions()
     {
         return [
@@ -47,10 +46,11 @@ class PayController extends \widget\components\Controller
     public function getNextStepUrl()
     {
         $step = array_search($this->getAction()->getId(), $this->getStepActionMap());
-        if ($step === false || sizeof($this->getStepActionMap()) == ($step+1))
+        if ($step === false || sizeof($this->getStepActionMap()) == ($step + 1)) {
             throw new \CHttpException(404);
+        }
 
-        $action = $this->getStepActionMap()[$step+1];
+        $action = $this->getStepActionMap()[$step + 1];
         return $this->createUrl('/widget/pay/'.$action);
     }
 
@@ -71,10 +71,9 @@ class PayController extends \widget\components\Controller
     public function getAccount()
     {
         $this->account = \pay\models\Account::model()->byEventId($this->getEvent()->Id)->find();
-        if ($this->account === null)
-        {
+        if ($this->account === null) {
             throw new CodeException(CodeException::NO_PAY_ACCOUNT, [$this->getEvent()->Id, $this->getEvent()->IdName, $this->getEvent()->Title]);
         }
         return $this->account;
     }
-} 
+}

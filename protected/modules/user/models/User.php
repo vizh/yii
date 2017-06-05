@@ -2,10 +2,8 @@
 namespace user\models;
 
 use api\models\ExternalUser;
-use application\components\auth\identity\RunetId;
 use application\components\db\ar\OldAttributesStorage;
 use application\components\Exception;
-use application\components\exception\AuthException;
 use application\components\utility\Pbkdf2;
 use application\components\utility\PhoneticSearch;
 use application\components\utility\Texts;
@@ -16,8 +14,8 @@ use commission\models\Commission;
 use competence\models\Result;
 use event\models\Participant;
 use event\models\section\LinkUser;
-use iri\models\User as IriUser;
 use ict\models\User as IctUser;
+use iri\models\User as IriUser;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
@@ -446,7 +444,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
                 $value = PhoneticSearch::getIndex($value);
                 $_names[$i] = Texts::prepareStringForTsvector($value);
             } else {
-                $_names[$i] = Texts::prepareStringForLike($value) . '%';
+                $_names[$i] = Texts::prepareStringForLike($value).'%';
             }
         }
         switch (count($names)) {
@@ -473,7 +471,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
                 ');
                 $search_criteria->params['SearchPart0'] = $_names[0];
                 $search_criteria->params['SearchPart1'] = $_names[1];
-                $search_criteria->params['SearchPart2'] = $_names[2] . '%';
+                $search_criteria->params['SearchPart2'] = $_names[2].'%';
         }
         $criteria->mergeWith($search_criteria, 'or');
 
@@ -1088,7 +1086,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
             .$this->getOldAttributes()['SearchLastName'].' - '.$this->SearchLastName.
             ' at '.PHP_EOL.
             (new Exception())->getTraceAsString(),
-        \CLogger::LEVEL_PROFILE, 'user.search');
+            \CLogger::LEVEL_PROFILE, 'user.search');
 
         $this->setLocale($locale);
     }

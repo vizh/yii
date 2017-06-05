@@ -1,36 +1,37 @@
-.row form{
-    width:90%;
-    margin:0 auto;
+.row form {
+    width: 90%;
+    margin: 0 auto;
 }
 
-.container-fluid{
-    min-width:250px;
+.container-fluid {
+    min-width: 250px;
 }
 
-.form-text{
+.form-text {
     line-height: 34px;
     color: #999;
 }
 
-.g-recaptcha>div>div{
+.g-recaptcha > div > div {
     margin: 0 auto;
 }
 
-.remember, .restore-password{
+.remember, .restore-password {
     width: 50%;
     float: left;
 }
 
-.restore-password{
+.restore-password {
     text-align: right;
 }
 
 @media only screen and (max-width: 400px) {
-    .remember, .restore-password{
+    .remember, .restore-password {
         width: 100%;
         float: none;
     }
-    .restore-password{
+
+    .restore-password {
         text-align: left;
     }
 }

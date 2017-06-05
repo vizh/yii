@@ -7,7 +7,6 @@
 
 namespace application\widgets\bootstrap;
 
-use Yii;
 use yii\helpers\Json;
 
 /**
@@ -31,7 +30,6 @@ class Widget extends \CWidget
      * how to use the "Modal" plugin and the supported options (e.g. "remote").
      */
     public $clientHtmlOptions = [];
-
 
     /**
      * Initializes the widget.

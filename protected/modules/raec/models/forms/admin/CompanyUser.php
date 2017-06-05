@@ -55,19 +55,18 @@ class CompanyUser extends CreateUpdateForm
         ];
     }
 
-
     /**
      * @inheritdoc
      */
     public function attributeLabels()
     {
         return [
-            'UserId'    => \Yii::t('app', 'Пользователь'),
-            'StatusId'  => \Yii::t('app', 'Статус'),
+            'UserId' => \Yii::t('app', 'Пользователь'),
+            'StatusId' => \Yii::t('app', 'Статус'),
             'AllowVote' => \Yii::t('app', 'Голосование'),
-            'JoinTime'  => \Yii::t('app', 'Дата начала'),
-            'ExitTime'  => \Yii::t('app', 'Дата выхода'),
-            'Delete'    => \Yii::t('app', 'Удалить')
+            'JoinTime' => \Yii::t('app', 'Дата начала'),
+            'ExitTime' => \Yii::t('app', 'Дата выхода'),
+            'Delete' => \Yii::t('app', 'Удалить')
         ];
     }
 
@@ -84,7 +83,6 @@ class CompanyUser extends CreateUpdateForm
         }
         return false;
     }
-
 
     /**
      * @return array
@@ -141,6 +139,5 @@ class CompanyUser extends CreateUpdateForm
         }
         return $this->model;
     }
-
 
 }

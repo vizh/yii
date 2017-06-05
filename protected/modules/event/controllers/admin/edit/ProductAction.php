@@ -1,10 +1,10 @@
 <?php
 namespace event\controllers\admin\edit;
 
+use pay\models\forms\AdditionalAttribute as AdditionalAttributeForm;
+use pay\models\forms\Product as ProductForm;
+use pay\models\forms\ProductPrice as ProductPriceForm;
 use pay\models\Product;
-use \pay\models\forms\Product as ProductForm;
-use \pay\models\forms\ProductPrice as ProductPriceForm;
-use \pay\models\forms\AdditionalAttribute as AdditionalAttributeForm;
 
 class ProductAction extends \CAction
 {
@@ -14,9 +14,10 @@ class ProductAction extends \CAction
 
     public function run($eventId)
     {
-        $this->event= \event\models\Event::model()->findByPk($eventId);
-        if ($this->event == null)
+        $this->event = \event\models\Event::model()->findByPk($eventId);
+        if ($this->event == null) {
             throw new \CHttpException(404);
+        }
 
         $criteria = new \CDbCriteria();
         $criteria->condition = 't."ManagerName" != :ManagerName';
@@ -35,11 +36,11 @@ class ProductAction extends \CAction
                 $formProduct->Attributes[$attr->Name] = $attr->Value;
             }
 
-            foreach($product->getAdditionalAttributes() as $attr) {
+            foreach ($product->getAdditionalAttributes() as $attr) {
                 $formAdditionalAttribute = new AdditionalAttributeForm();
-                $formAdditionalAttribute->Name  = $attr->Name;
+                $formAdditionalAttribute->Name = $attr->Name;
                 $formAdditionalAttribute->Label = $attr->Label;
-                $formAdditionalAttribute->Type  = $attr->Type;
+                $formAdditionalAttribute->Type = $attr->Type;
                 $formAdditionalAttribute->Order = $attr->Order;
                 $formProduct->AdditionalAttributes[] = $formAdditionalAttribute;
             }
@@ -72,22 +73,20 @@ class ProductAction extends \CAction
         $form = new ProductForm($this->event);
         $form->attributes = \Yii::app()->getRequest()->getParam(get_class($form));
         $form->clearPrices();
-        if ($form->validate())
-        {
+        if ($form->validate()) {
             $product = $form->getProduct();
-            if ($product == null)
-            {
+            if ($product == null) {
                 $product = new \pay\models\Product();
                 $product->EventId = $this->event->Id;
-            }
-            else if (!empty($form->Delete))
-            {
+            } else if (!empty($form->Delete)) {
                 $product->delete();
-                foreach ($product->Prices as $price)
+                foreach ($product->Prices as $price) {
                     $price->delete();
+                }
 
-                foreach ($product->Attributes as $attribute)
+                foreach ($product->Attributes as $attribute) {
                     $attribute->delete();
+                }
 
                 $this->successAndRefresh();
             }
@@ -104,12 +103,11 @@ class ProductAction extends \CAction
             $product->AdditionalAttributesTitle = !empty($form->AdditionalAttributesTitle) ? $form->AdditionalAttributesTitle : null;
 
             $additionalAttributes = [];
-            foreach($form->AdditionalAttributes as $formAdditionalAttribute)
-            {
+            foreach ($form->AdditionalAttributes as $formAdditionalAttribute) {
                 $additionalAttribute = new \pay\models\AdditionalAttribute();
-                $additionalAttribute->Name  = $formAdditionalAttribute->Name;
+                $additionalAttribute->Name = $formAdditionalAttribute->Name;
                 $additionalAttribute->Label = $formAdditionalAttribute->Label;
-                $additionalAttribute->Type  = $formAdditionalAttribute->Type;
+                $additionalAttribute->Type = $formAdditionalAttribute->Type;
                 $additionalAttribute->Order = $formAdditionalAttribute->Order;
                 $additionalAttributes[] = $additionalAttribute;
             }
@@ -117,11 +115,9 @@ class ProductAction extends \CAction
 
             $product->save();
 
-            foreach ($form->Attributes as $name => $value)
-            {
+            foreach ($form->Attributes as $name => $value) {
                 $attribute = \pay\models\ProductAttribute::model()->byProductId($product->Id)->byName($name)->find();
-                if ($attribute == null)
-                {
+                if ($attribute == null) {
                     $attribute = new \pay\models\ProductAttribute();
                     $attribute->ProductId = $product->Id;
                     $attribute->Name = $name;
@@ -130,14 +126,10 @@ class ProductAction extends \CAction
                 $attribute->save();
             }
 
-            foreach ($form->Prices as $formPrice)
-            {
-                if (!empty($formPrice->Id))
-                {
+            foreach ($form->Prices as $formPrice) {
+                if (!empty($formPrice->Id)) {
                     $price = \pay\models\ProductPrice::model()->findByPk($formPrice->Id);
-                }
-                else
-                {
+                } else {
                     $price = new \pay\models\ProductPrice();
                     $price->ProductId = $product->Id;
                 }
@@ -145,27 +137,20 @@ class ProductAction extends \CAction
                 $price->Price = $formPrice->Price;
                 $price->Title = !empty($formPrice->Title) ? $formPrice->Title : null;
                 $price->StartTime = $formPrice->getStartTime();
-                $price->EndTime   = $formPrice->getEndTime();
+                $price->EndTime = $formPrice->getEndTime();
                 $price->save();
             }
 
             $this->successAndRefresh();
-        }
-        else
-        {
-            if (!empty($form->Id))
-            {
-                foreach ($this->formProducts as $i => $formProduct)
-                {
-                    if ($formProduct->Id == $form->Id)
-                    {
+        } else {
+            if (!empty($form->Id)) {
+                foreach ($this->formProducts as $i => $formProduct) {
+                    if ($formProduct->Id == $form->Id) {
                         $this->formProducts[$i] = $form;
                         break;
                     }
                 }
-            }
-            else
-            {
+            } else {
                 $this->formNewProduct = $form;
             }
         }

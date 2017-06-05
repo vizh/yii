@@ -18,7 +18,7 @@ class m150210_160741_create_new_geo_and_universities_structure extends CDbMigrat
             'Name' => 'varchar(255) NOT NULL',
             'Priority' => 'integer NOT NULL DEFAULT 0'
         ]);
-        $this->execute('CREATE INDEX "Geo2Region_CountryId_idx" ON "Geo2Region" USING btree("CountryId")');
+        $this->execute('CREATE INDEX "Geo2Region_CountryId_idx" ON "Geo2Region" USING BTREE("CountryId")');
         $this->addForeignKey('Geo2Region_CountryId_fkey', 'Geo2Region', 'CountryId', 'Geo2Country', 'Id', 'RESTRICT', 'RESTRICT');
 
         $this->createTable('Geo2City', [
@@ -31,13 +31,12 @@ class m150210_160741_create_new_geo_and_universities_structure extends CDbMigrat
             'Area' => 'varchar(255)',
             'Priority' => 'integer NOT NULL DEFAULT 0'
         ]);
-        $this->execute('CREATE INDEX "Geo2City_CountryId_idx" ON "Geo2City" USING btree("CountryId")');
-        $this->execute('CREATE INDEX "Geo2City_RegionId_idx" ON "Geo2City" USING btree("RegionId")');
-        $this->execute('CREATE INDEX "Geo2City_Name_idx" ON "Geo2City" USING btree("Name")');
-        $this->execute('CREATE INDEX "Geo2City_SearchName_idx" ON "Geo2City" USING gin("SearchName")');
+        $this->execute('CREATE INDEX "Geo2City_CountryId_idx" ON "Geo2City" USING BTREE("CountryId")');
+        $this->execute('CREATE INDEX "Geo2City_RegionId_idx" ON "Geo2City" USING BTREE("RegionId")');
+        $this->execute('CREATE INDEX "Geo2City_Name_idx" ON "Geo2City" USING BTREE("Name")');
+        $this->execute('CREATE INDEX "Geo2City_SearchName_idx" ON "Geo2City" USING GIN("SearchName")');
         $this->addForeignKey('Geo2City_CountryId_fkey', 'Geo2City', 'CountryId', 'Geo2Country', 'Id', 'RESTRICT', 'RESTRICT');
         $this->addForeignKey('Geo2City_RegionId_fkey', 'Geo2City', 'RegionId', 'Geo2Region', 'Id', 'RESTRICT', 'RESTRICT');
-
 
         $this->createTable('EducationUniversity', [
             'Id' => 'serial PRIMARY KEY',
@@ -46,7 +45,7 @@ class m150210_160741_create_new_geo_and_universities_structure extends CDbMigrat
             'Name' => 'varchar(255) NOT NULL',
             'FullName' => 'varchar(1000)'
         ]);
-        $this->execute('CREATE INDEX "EducationUniversity_CityId_idx" ON "EducationUniversity" USING btree("CityId")');
+        $this->execute('CREATE INDEX "EducationUniversity_CityId_idx" ON "EducationUniversity" USING BTREE("CityId")');
         $this->addForeignKey('EducationUniversity_CityId_fkey', 'EducationUniversity', 'CityId', 'Geo2City', 'Id', 'RESTRICT', 'RESTRICT');
 
         $this->createTable('EducationFaculty', [
@@ -55,7 +54,7 @@ class m150210_160741_create_new_geo_and_universities_structure extends CDbMigrat
             'UniversityId' => 'integer NOT NULL',
             'Name' => 'varchar(255) NOT NULL'
         ]);
-        $this->execute('CREATE INDEX "EducationFaculty_UniversityId_idx" ON "EducationFaculty" USING btree("UniversityId")');
+        $this->execute('CREATE INDEX "EducationFaculty_UniversityId_idx" ON "EducationFaculty" USING BTREE("UniversityId")');
         $this->addForeignKey('EducationFaculty_UniversityId_fkey', 'EducationFaculty', 'UniversityId', 'EducationUniversity', 'Id', 'RESTRICT', 'RESTRICT');
 
         // Степени высшего образования
@@ -70,7 +69,7 @@ class m150210_160741_create_new_geo_and_universities_structure extends CDbMigrat
             'EndYear' => 'integer',
             'Degree' => '"EducationDegree"'
         ]);
-        $this->execute('CREATE INDEX "UserEducation_UserId_idx" ON "UserEducation" USING btree("UserId")');
+        $this->execute('CREATE INDEX "UserEducation_UserId_idx" ON "UserEducation" USING BTREE("UserId")');
         $this->addForeignKey('UserEducation_UserId_fkey', 'UserEducation', 'UserId', 'User', 'Id', 'RESTRICT', 'RESTRICT');
         $this->addForeignKey('UserEducation_UniversityId_fkey', 'UserEducation', 'UniversityId', 'EducationUniversity', 'Id', 'RESTRICT', 'RESTRICT');
         $this->addForeignKey('UserEducation_FacultyId_fkey', 'UserEducation', 'FacultyId', 'EducationFaculty', 'Id', 'RESTRICT', 'RESTRICT');
@@ -86,9 +85,6 @@ class m150210_160741_create_new_geo_and_universities_structure extends CDbMigrat
         $this->dropTable('Geo2City');
         $this->dropTable('Geo2Region');
         $this->dropTable('Geo2Country');
-
-
-
 
         $this->execute('DROP TYPE "EducationDegree"');
 

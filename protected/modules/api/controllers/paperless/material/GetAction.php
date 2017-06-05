@@ -2,12 +2,12 @@
 namespace api\controllers\paperless\material;
 
 use api\components\Exception;
-use nastradamus39\slate\annotations\ApiAction;
-use nastradamus39\slate\annotations\Action\Request;
+use application\models\paperless\Material;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
-use application\models\paperless\Material;
+use nastradamus39\slate\annotations\ApiAction;
 
 class GetAction extends \api\components\Action
 {

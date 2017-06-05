@@ -3,15 +3,14 @@
 namespace api\controllers\paperless;
 
 use api\components\Exception;
+use application\models\paperless\Device;
+use application\models\paperless\DeviceSignal;
 use application\models\paperless\Event;
 use CLogger;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
-use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
-use application\models\paperless\Device;
-use application\models\paperless\DeviceSignal;
 use Yii;
 
 class SignalAction extends \api\components\Action

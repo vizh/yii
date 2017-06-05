@@ -1,7 +1,6 @@
 <?php
 namespace partner\components;
 
-
 use CText;
 
 abstract class ImportAction extends Action
@@ -38,14 +37,13 @@ abstract class ImportAction extends Action
      */
     abstract public function getIsEnable();
 
-
     /**
      * @return bool
      */
     abstract public function getIsDebug();
 
-    protected $newRunetId = array();
-    protected $oldRunetId = array();
+    protected $newRunetId = [];
+    protected $oldRunetId = [];
 
     /** @var string */
     private $path = null;
@@ -57,7 +55,7 @@ abstract class ImportAction extends Action
     {
         if ($this->path === null) {
             $path = \Yii::getPathOfAlias('partner.data');
-            $this->path = $path . DIRECTORY_SEPARATOR . $this->getEventId() . DIRECTORY_SEPARATOR . 'import' . DIRECTORY_SEPARATOR;
+            $this->path = $path.DIRECTORY_SEPARATOR.$this->getEventId().DIRECTORY_SEPARATOR.'import'.DIRECTORY_SEPARATOR;
             if (!file_exists($this->path)) {
                 mkdir($this->path, 0755, true);
             }
@@ -77,7 +75,7 @@ abstract class ImportAction extends Action
             return;
         }
 
-        $parser = new \application\components\parsing\CsvParser($this->getPath() . $this->getFileName());
+        $parser = new \application\components\parsing\CsvParser($this->getPath().$this->getFileName());
         $parser->SetInEncoding('utf-8');
 
         $step = (int)\Yii::app()->getRequest()->getParam('step');
@@ -102,7 +100,7 @@ abstract class ImportAction extends Action
             $row->Position = '';
             $row->Status = 'участник';
 
-            $results = array();
+            $results = [];
             $results[] = $row;
         }
 
@@ -124,12 +122,11 @@ abstract class ImportAction extends Action
 
     protected function showMessage($message, $row)
     {
-        echo $message . '<br>';
+        echo $message.'<br>';
         echo '<pre>';
         print_r($row);
         echo '</pre>';
     }
-
 
     /**
      * @param \stdClass $row
@@ -140,14 +137,14 @@ abstract class ImportAction extends Action
     {
         $user = null;
 
-        if (empty($row->Email))
+        if (empty($row->Email)) {
             $row->Email = CText::generateFakeEmail($this->getEventId());
+        }
 
         $user = \user\models\User::model()->byEmail($row->Email)->find();
         if ($user !== null) {
             $this->oldRunetId[] = $user->RunetId;
         }
-
 
         if ($user === null) {
             $user = new \user\models\User();
@@ -169,7 +166,6 @@ abstract class ImportAction extends Action
             } catch (\application\components\Exception $e) {
                 $this->showMessage('--- bad company ---', $row);
             }
-
         }
 
         if (!empty($row->Phone)) {
@@ -215,7 +211,6 @@ abstract class ImportAction extends Action
 
         return $roleId;
     }
-
 
     /**
      * @param \user\models\User $user

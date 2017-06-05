@@ -1,4 +1,5 @@
 <?php
+
 class WidgetModule extends \CWebModule
 {
     /**
@@ -20,9 +21,9 @@ class WidgetModule extends \CWebModule
      */
     public function beforeControllerAction($controller, $action)
     {
-        $redirectRoute = $controller->getId() . '/' . $action->getId();
+        $redirectRoute = $controller->getId().'/'.$action->getId();
         \Yii::app()->getUser()->loginUrl = $controller->createUrl('auth/index', ['redirectRoute' => $redirectRoute]);
         return parent::beforeControllerAction($controller, $action);
     }
 
-} 
+}

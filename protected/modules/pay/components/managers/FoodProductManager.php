@@ -12,7 +12,7 @@ class FoodProductManager extends BaseProductManager
      * @param array $params
      * @return bool
      */
-    public function checkProduct($user, $params = array())
+    public function checkProduct($user, $params = [])
     {
         return true;
     }
@@ -25,7 +25,7 @@ class FoodProductManager extends BaseProductManager
      *
      * @return bool
      */
-    protected function internalBuy($user, $orderItem = null, $params = array())
+    protected function internalBuy($user, $orderItem = null, $params = [])
     {
         return true;
     }
@@ -37,7 +37,7 @@ class FoodProductManager extends BaseProductManager
      */
     public function filter($params, $filter)
     {
-        return array();
+        return [];
     }
 
     /**
@@ -65,10 +65,9 @@ class FoodProductManager extends BaseProductManager
      *
      * @return bool
      */
-    public function internalChangeOwner($fromUser, $toUser, $params = array())
+    public function internalChangeOwner($fromUser, $toUser, $params = [])
     {
         return true;
     }
-
 
 }

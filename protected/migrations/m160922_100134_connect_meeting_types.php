@@ -2,8 +2,8 @@
 
 class m160922_100134_connect_meeting_types extends CDbMigration
 {
-	public function safeUp()
-	{
+    public function safeUp()
+    {
         $this->delete('ConnectMeeting');
         $this->delete('EventMeetingPlace');
 
@@ -30,10 +30,10 @@ class m160922_100134_connect_meeting_types extends CDbMigration
         $this->addColumn('EventMeetingPlace', 'ReservationLimit', 'integer null');
         $this->addColumn('ConnectMeeting', 'CreateTime', 'timestamp without time zone');
         $this->addColumn('ConnectMeeting', 'ReservationNumber', 'integer null');
-	}
+    }
 
-	public function safeDown()
-	{
+    public function safeDown()
+    {
         $this->delete('ConnectMeeting');
         $this->delete('EventMeetingPlace');
 
@@ -47,10 +47,10 @@ class m160922_100134_connect_meeting_types extends CDbMigration
         $this->dropColumn('ConnectMeeting', 'Subject');
         $this->dropColumn('ConnectMeeting', 'Purpose');
         $this->dropColumn('ConnectMeeting', 'Type');
-	    $this->addColumn('ConnectMeeting', 'UserId', 'integer not null');
+        $this->addColumn('ConnectMeeting', 'UserId', 'integer not null');
         $this->addColumn('ConnectMeeting', 'Status', 'integer not null');
         $this->addForeignKey('fk_ConnectMeeting_User__User', 'ConnectMeeting', 'UserId', 'User', 'Id', 'cascade', 'cascade');
 
-	    $this->dropTable('ConnectMeetingLinkUser');
-	}
+        $this->dropTable('ConnectMeetingLinkUser');
+    }
 }

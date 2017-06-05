@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
     //Q2
     $('input[type="radio"][data-group="Q2"]').change(function (event) {
         var target = $(event.currentTarget);
@@ -12,7 +12,6 @@ $(function() {
             platforms.css('display', 'none');
         }
     });
-
 
 //    $('[data-target="#Q2_right_1"]').bind('change', function(event) {
 //

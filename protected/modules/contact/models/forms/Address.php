@@ -78,7 +78,7 @@ class Address extends CreateUpdateForm
 
     public function attributeLabels()
     {
-        return array(
+        return [
             'CityLabel' => \Yii::t('app', 'Город'),
             'House' => \Yii::t('app', 'Дом'),
             'Building' => \Yii::t('app', 'Строение'),
@@ -89,7 +89,7 @@ class Address extends CreateUpdateForm
             'Latitude' => \Yii::t('app', 'Широта'),
             'Longitude' => \Yii::t('app', 'Долгота'),
             'MapScale' => \Yii::t('app', 'Масштаб карты')
-        );
+        ];
     }
 
     /**

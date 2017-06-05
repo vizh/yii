@@ -1,11 +1,11 @@
 <?php
 namespace api\controllers\event;
 
-use nastradamus39\slate\annotations\ApiAction;
-use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Param;
+use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
+use nastradamus39\slate\annotations\ApiAction;
 
 class ListAction extends \api\components\Action
 {
@@ -28,21 +28,20 @@ class ListAction extends \api\components\Action
      *          },
      *          response=@Response(body="['{$EVENT}']")
      *     )
-     * 
+     *
      * )
      */
-  public function run()
-  {
-    $year = (int)\Yii::app()->getRequest()->getParam('Year', date('Y'));
-
-    $events = \event\models\Event::model()->byDate($year)->byVisible(true)->findAll();
-
-    $result = array();
-    foreach ($events as $event)
+    public function run()
     {
-      $result[] = $this->getDataBuilder()->createEvent($event);
-    }
+        $year = (int)\Yii::app()->getRequest()->getParam('Year', date('Y'));
 
-    $this->setResult($result);
-  }
+        $events = \event\models\Event::model()->byDate($year)->byVisible(true)->findAll();
+
+        $result = [];
+        foreach ($events as $event) {
+            $result[] = $this->getDataBuilder()->createEvent($event);
+        }
+
+        $this->setResult($result);
+    }
 }

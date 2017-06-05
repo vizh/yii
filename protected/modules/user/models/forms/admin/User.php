@@ -4,17 +4,17 @@ namespace user\models\forms\admin;
 use application\components\form\CreateUpdateForm;
 use application\components\utility\Texts;
 use application\helpers\Flash;
+use contact\models\Address as AddressModel;
 use contact\models\forms\Address;
 use contact\models\forms\Phone;
+use contact\models\Phone as PhoneModel;
 use CText;
+use user\models\Employment as EmploymentModel;
 use user\models\forms\edit\Contacts;
 use user\models\forms\edit\Employments;
 use user\models\forms\Employment;
 use user\models\LinkPhone;
 use user\models\User as UserModel;
-use contact\models\Address as AddressModel;
-use contact\models\Phone as PhoneModel;
-use user\models\Employment as EmploymentModel;
 
 /**
  * Class User
@@ -53,26 +53,41 @@ class User extends CreateUpdateForm
         parent::__construct($model);
     }
 
-
     public function rules()
     {
         return [
             ['FatherName, DeletePhoto', 'safe'],
             ['Visible, Subscribe', 'boolean'],
             ['Email', 'email', 'allowEmpty' => !$this->isUpdateMode()],
-            ['Email', 'unique', 'className' => '\user\models\User', 'attributeName' => 'Email', 'caseSensitive' => false,
+            [
+                'Email',
+                'unique',
+                'className' => '\user\models\User',
+                'attributeName' => 'Email',
+                'caseSensitive' => false,
                 'criteria' => ['condition' => '"t"."Id" != :UserId AND "t"."Visible"', 'params' => ['UserId' => $this->isUpdateMode() ? $this->model->Id : 0]]
             ],
             ['RunetId', 'numerical', 'integerOnly' => true],
             ['RunetId', 'numerical', 'max' => UserModel::model()->orderBy(['"t"."RunetId"' => SORT_DESC])->find()->RunetId, 'skipOnError' => true],
-            ['RunetId', 'unique', 'className' => '\user\models\User', 'attributeName' => 'RunetId',
+            [
+                'RunetId',
+                'unique',
+                'className' => '\user\models\User',
+                'attributeName' => 'RunetId',
                 'criteria' => ['condition' => '"t"."Id" != :UserId ', 'params' => ['UserId' => $this->isUpdateMode() ? $this->model->Id : 0]]
             ],
             ['FirstName, LastName', 'validateLocaleField'],
             ['NewPassword', 'length', 'min' => \Yii::app()->params['UserPasswordMinLenght'], 'allowEmpty' => true],
             ['PrimaryPhone', 'filter', 'filter' => '\application\components\utility\Texts::getOnlyNumbers'],
-            ['PrimaryPhone', 'unique', 'className' => '\user\models\User', 'attributeName' => 'PrimaryPhone', 'criteria' => [
-                'condition' => '"t"."Id" != :UserId AND "t"."Visible"', 'params' => ['UserId' => $this->isUpdateMode() ? $this->model->Id : 0]]
+            [
+                'PrimaryPhone',
+                'unique',
+                'className' => '\user\models\User',
+                'attributeName' => 'PrimaryPhone',
+                'criteria' => [
+                    'condition' => '"t"."Id" != :UserId AND "t"."Visible"',
+                    'params' => ['UserId' => $this->isUpdateMode() ? $this->model->Id : 0]
+                ]
             ],
             ['Employments, Phones', '\application\components\validators\MultipleFormValidator'],
             ['Photo', 'file', 'types' => 'jpg, jpeg, gif, png', 'allowEmpty' => true]
@@ -122,7 +137,6 @@ class User extends CreateUpdateForm
         }
         return parent::validate($attributes, false);
     }
-
 
     /**
      * @param array $values
@@ -204,15 +218,14 @@ class User extends CreateUpdateForm
         $this->Photo = \CUploadedFile::getInstance($this, 'Photo');
     }
 
-
     /**
      * @return bool
      */
     protected function loadData()
     {
         if (parent::loadData()) {
-            $this->FirstName  = [];
-            $this->LastName   = [];
+            $this->FirstName = [];
+            $this->LastName = [];
             $this->FatherName = [];
             foreach ($this->getLocaleList() as $locale) {
                 $this->model->setReturnTransliteIfEmpty(false);
@@ -221,7 +234,6 @@ class User extends CreateUpdateForm
                     $this->{$attr}[$locale] = $this->model->$attr;
                 }
                 $this->model->resetLocale();
-
             }
             $address = $this->model->getContactAddress();
             if ($address !== null) {
@@ -360,7 +372,6 @@ class User extends CreateUpdateForm
         }
         return false;
     }
-
 
     private function createUpdatePhones()
     {

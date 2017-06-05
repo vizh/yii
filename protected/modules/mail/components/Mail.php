@@ -113,7 +113,7 @@ abstract class Mail
     {
         $log = new \mail\models\Log();
         $log->From = $this->getFrom();
-        $log->To   = $this->getTo();
+        $log->To = $this->getTo();
         $log->Subject = $this->getSubject();
         $log->Hash = $this->getHash();
         return $log;
@@ -177,7 +177,7 @@ abstract class Mail
      */
     protected function isViewExists($view)
     {
-        $path = \Yii::getPathOfAlias($view) . '.php';
+        $path = \Yii::getPathOfAlias($view).'.php';
         return file_exists($path);
     }
 }

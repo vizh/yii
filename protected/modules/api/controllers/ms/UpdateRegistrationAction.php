@@ -15,7 +15,7 @@ class UpdateRegistrationAction extends Action
         $roleId = $request->getParam('RoleId');
         $externalUser = ExternalUser::model()->byExternalId($externalId)->byAccountId($this->getAccount()->Id)->find();
         if ($externalUser === null) {
-            throw new Exception(3003, array($externalId));
+            throw new Exception(3003, [$externalId]);
         }
         $role = Role::model()->findByPk($roleId);
         if ($role === null) {

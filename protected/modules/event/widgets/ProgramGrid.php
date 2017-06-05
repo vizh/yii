@@ -1,5 +1,6 @@
 <?php
 namespace event\widgets;
+
 use event\models\section\Hall;
 use event\models\section\Section;
 
@@ -24,7 +25,6 @@ class ProgramGrid extends \event\components\Widget
             'WidgetProgramGridTabTitle'
         ];
     }
-
 
     public function run()
     {
@@ -51,7 +51,6 @@ class ProgramGrid extends \event\components\Widget
     {
         return true;
     }
-
 
     /**
      * @return string
@@ -112,7 +111,7 @@ class ProgramGrid extends \event\components\Widget
             }
 
             if (!isset($grid[$date]->Intervals[$time])) {
-                $grid[$date]->Intervals[$time] = $time . ' &mdash; ' . date('H:i', strtotime($section->EndTime));
+                $grid[$date]->Intervals[$time] = $time.' &mdash; '.date('H:i', strtotime($section->EndTime));
             }
 
             $item = new \stdClass();

@@ -18,13 +18,12 @@ class PayOnline extends Base
     public $toYandexMoney = false;
     public $SaveRebill = false;
 
-
     /**
      * @return array
      */
     public function getRequiredParams()
     {
-        return array('MerchantId', 'PrivateSecurityKey');
+        return ['MerchantId', 'PrivateSecurityKey'];
     }
 
     protected function initRequiredParams($orderId)
@@ -111,10 +110,11 @@ class PayOnline extends Base
         $event = Event::model()->findByPk($eventId);
         $order = Order::model()->findByPk($orderId);
 
-        if ($order === null)
+        if ($order === null) {
             throw new CHttpException(404);
+        }
 
-        if ($this->SaveRebill && $order->Payer->PayonlineRebill == null){
+        if ($this->SaveRebill && $order->Payer->PayonlineRebill == null) {
             $order->Payer->updateByPk($order->Payer->Id, ['PayonlineRebill' => 'pending']);
         }
         $params = array_merge($params, [
@@ -136,7 +136,7 @@ class PayOnline extends Base
     {
         /** @var $order \pay\models\Order */
         $order = \pay\models\Order::model()->findByPk($this->getOrderId());
-        if ($order->Payer->PayonlineRebill == 'pending'){
+        if ($order->Payer->PayonlineRebill == 'pending') {
             $order->Payer->PayonlineRebill = Yii::app()->request->getParam('RebillAnchor');
             $order->Payer->save(false);
         }

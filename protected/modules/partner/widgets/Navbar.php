@@ -8,7 +8,6 @@
 
 namespace partner\widgets;
 
-
 use event\models\Event;
 
 class Navbar extends \CWidget
@@ -18,12 +17,12 @@ class Navbar extends \CWidget
 
     public function run()
     {
-        $user  = \Yii::app()->getUser();
+        $user = \Yii::app()->getUser();
 
         if (!$user->getIsGuest() && \Yii::app()->partner->getIsSetEvent()) {
             $event = \Yii::app()->partner->getEvent();
             return $this->render('navbar', [
-                'user'  => $user->getCurrentUser(),
+                'user' => $user->getCurrentUser(),
                 'event' => $event
             ]);
         }

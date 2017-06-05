@@ -128,7 +128,7 @@ class EditAction extends \CAction
                 $orderItem->PayerId = $formNewUser->getUser()->Id;
                 $orderItem->OwnerId = $formNewUser->getUser()->Id;
                 $orderItem->ProductId = $this->product->Id;
-                $orderItem->Booked = $formNewUser->Booked . ' 22:59:59';
+                $orderItem->Booked = $formNewUser->Booked.' 22:59:59';
                 $orderItem->save();
 
                 $orderItem->setItemAttribute('DateIn', $formNewUser->DateIn);
@@ -159,7 +159,7 @@ class EditAction extends \CAction
                         $orderItem->setItemAttribute('DateIn', $form->DateIn);
                         $orderItem->setItemAttribute('DateOut', $form->DateOut);
 
-                        $orderItem->Booked = $form->Booked . ' 22:59:59';
+                        $orderItem->Booked = $form->Booked.' 22:59:59';
                         $orderItem->save();
                     } else {
                         $userErrorForms[] = $form;

@@ -3,9 +3,9 @@ namespace oauth\components\social;
 
 class Data
 {
-  public $Hash;
-  public $UserName = null;
-  public $LastName;
-  public $FirstName;
-  public $Email;
+    public $Hash;
+    public $UserName = null;
+    public $LastName;
+    public $FirstName;
+    public $Email;
 }

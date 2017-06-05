@@ -3,7 +3,6 @@ namespace pay\components\systems;
 
 use event\models\Event;
 use pay\components\CodeException;
-use pay\components\Exception;
 
 abstract class Base
 {

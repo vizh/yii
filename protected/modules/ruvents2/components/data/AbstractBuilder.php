@@ -51,9 +51,10 @@ abstract class AbstractBuilder
      */
     protected function stash($name, $value = null)
     {
-        if ($value === null && is_array($name))
+        if ($value === null && is_array($name)) {
             $this->__result = array_merge($this->__result, $name);
-        else
+        } else {
             $this->__result[$name] = $value;
+        }
     }
 }

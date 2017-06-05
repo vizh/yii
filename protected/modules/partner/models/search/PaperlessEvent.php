@@ -46,7 +46,7 @@ class PaperlessEvent extends SearchFormModel
         if ($this->validate()) {
             $criteria->compare('"Id"', $this->Id);
             $criteria->addSearchCondition('"Subject"', $this->Subject, true, 'and', 'ilike');
-            if ($this->activeLabel != ''){
+            if ($this->activeLabel != '') {
                 $criteria->addColumnCondition(['"Active"' => boolval($this->activeLabel)]);
             }
         }

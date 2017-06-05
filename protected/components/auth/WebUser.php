@@ -18,7 +18,7 @@ class WebUser extends \CWebUser
         if (!$this->isGuest && $this->_currentUser === null) {
             $this->_currentUser = User::model()->findByPk($this->getId());
             if ($this->_currentUser !== null) {
-                $this->_currentUser->updateLastVisit();
+                $this->_currentUser->refreshLastVisit();
             }
         }
 
