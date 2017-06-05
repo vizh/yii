@@ -1023,38 +1023,45 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      */
     public function checkHash($hash)
     {
-        return $hash == $this->getHash();
-    }
-
-    public function updateLastVisit()
-    {
-        $this->LastVisit = date('Y-m-d H:i:s');
-        $this->save();
+        return $hash === $this->getHash();
     }
 
     /**
-     * Refreshes update time without save the model
+     * Обновление времени последнего входа пользователя.
+     * Не выполняется чаще чем раз в минуту.
+     */
+    public function refreshLastVisit()
+    {
+        if (strtotime($this->LastVisit) < time() - 60) {
+            $this->LastVisit = date('Y-m-d H:i:s');
+            $this->save();
+        }
+    }
+
+    /**
+     * Обновление времени последнего обновления данных пользователя
      *
-     * @param bool $save Whether the model must be saved
+     * @param bool $save Сохранять ли модель
      */
     public function refreshUpdateTime($save = false)
     {
         $this->UpdateTime = date('Y-m-d H:i:s');
-        if ($save) {
+
+        if ($save === true) {
             $this->save();
         }
     }
 
     protected function beforeSave()
     {
-        if (!$this->getIsNewRecord()) {
-            $this->refreshUpdateTime();
-        }
-
         $this->updateSearchIndex();
-        if (!$this->getIsNewRecord() && $this->PrimaryPhone != $this->getOldAttributes()['PrimaryPhone']) {
-            $this->PrimaryPhoneVerify = false;
-            $this->PrimaryPhoneVerifyTime = null;
+
+        if (false === $this->getIsNewRecord()) {
+            $this->refreshUpdateTime();
+            if ($this->PrimaryPhone !== $this->getOldAttributes()['PrimaryPhone']) {
+                $this->PrimaryPhoneVerify = false;
+                $this->PrimaryPhoneVerifyTime = null;
+            }
         }
 
         return parent::beforeSave();
