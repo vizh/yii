@@ -5,7 +5,7 @@ abstract class Base
 {
     protected $user;
 
-    function __construct(\user\models\User $user)
+    public function __construct(\user\models\User $user)
     {
         $this->user = $user;
     }

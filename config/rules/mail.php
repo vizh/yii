@@ -7,10 +7,7 @@ return [
         'roles' => ['admin'],
         'module' => 'mail',
         'controllers' => [
-            'admin/template',
-            'admin/sendemail',
-            'default',
-            'partner'
+            'admin/template'
         ]
     ]
 ];

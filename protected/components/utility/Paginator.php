@@ -1,6 +1,8 @@
 <?php
 namespace application\components\utility;
 
+use application\components\CDbCriteria;
+
 class Paginator
 {
     const AllPageName = 'all';

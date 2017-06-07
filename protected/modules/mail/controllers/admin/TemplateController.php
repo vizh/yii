@@ -14,9 +14,16 @@ class TemplateController extends AdminMainController
     public function actionIndex()
     {
         $paginator = new Paginator(Template::model()->count());
-        $paginator->perPage = \Yii::app()->getParams()['AdminMailPerPage'];
-        $templates = Template::model()->orderBy(['"t"."Id"' => SORT_DESC])->findAll($paginator->getCriteria());
-        $this->render('index', ['templates' => $templates, 'paginator' => $paginator]);
+        $paginator->perPage = Yii::app()->getParams()['AdminMailPerPage'];
+
+        $templates = Template::model()
+            ->orderBy(['"t"."Id"' => SORT_DESC])
+            ->findAll($paginator->getCriteria());
+
+        $this->render('index', [
+            'templates' => $templates,
+            'paginator' => $paginator
+        ]);
     }
 
     /**
@@ -39,7 +46,7 @@ class TemplateController extends AdminMainController
         }
 
         $form = new TemplateForm($template);
-        if (\Yii::app()->getRequest()->getIsPostRequest()) {
+        if (Yii::app()->getRequest()->getIsPostRequest()) {
             $form->fillFromPost();
             $template = $form->isUpdateMode() ? $form->updateActiveRecord() : $form->createActiveRecord();
             if ($template !== null) {

@@ -1,10 +1,12 @@
 <?php
 
 use application\components\console\BaseConsoleCommand;
+use application\components\mail\MailBuilder;
 use event\models\Event;
 use mail\components\Mail;
 use mail\components\Mailer;
 use mail\components\mailers\SESMailer;
+use pay\models\Failure;
 use pay\models\Order;
 use pay\models\OrderItem;
 use pay\models\OrderLinkOrderItem;
@@ -173,24 +175,21 @@ class PayCommand extends BaseConsoleCommand
      */
     public function actionNotifyOnFailures()
     {
-        $report = \pay\models\Failure::getReport([
+        $report = Failure::getReport([
             'notSent' => true
         ]);
+
         //если данных нет, то ничего не остылаем
         if (empty($report)) {
             return;
         }
-        $mailer = new SESMailer();
-        $emailTo = 'fin@runet-id.com';
-        //$emailTo = 'nikitozina@inbox.ru';
-        $mail = new \mail\components\mail\TemplateForController(
-            $mailer,
-            'info@runet-id.com',
-            'RUNET-ID: reporter',
-            $emailTo,
-            'Отчет о неудачных попытках оплаты заказов',
-            $this->_renderBodyForPayFailureReport($report)
-        );
+
+        $mail = MailBuilder::create()
+            ->setTo('fin@runet-id.com')
+            ->setFrom('info@runet-id.com', 'RUNET-ID: reporter')
+            ->setSubject('Отчет о неудачных попытках оплаты заказов')
+            ->setBody($this->_renderBodyForPayFailureReport($report))
+            ->build();
 
         //если удалось отправить отчет, обновим статус записей отчета
         if ($mail->send()) {
@@ -206,19 +205,17 @@ class PayCommand extends BaseConsoleCommand
                 }
             }
             if (!empty($sqlUpdate)) {
-                Yii::app()->db->createCommand()
-                    ->update(
-                        'PayLog',
-                        ['NotificationSent' => true],
-                        '"OrderId" IN ('.implode(',', $sqlUpdate).')'
-                    )->execute();
+                Yii::app()->getDb()
+                    ->createCommand()
+                    ->update('PayLog', ['NotificationSent' => true], '"OrderId" IN ('.implode(',', $sqlUpdate).')')
+                    ->execute();
             }
 
             if (!empty($mongoUpdate)) {
                 $criteria = new \EMongoCriteria();
                 $data = ['$set' => ['NotificationSent' => true]];
                 $criteria->addCondition('OrderItemId', ['$in' => $mongoUpdate]);
-                \pay\models\Failure::model()->updateAll($criteria, $data);
+                Failure::model()->updateAll($criteria, $data);
             }
         }
     }
