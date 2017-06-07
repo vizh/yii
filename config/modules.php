@@ -16,7 +16,6 @@ $modules = [
     'news',
     'oauth' => ['csrfValidation' => true],
     'pay' => ['csrfValidation' => true],
-    'rbac',
     'tag',
     'user',
     'search',
