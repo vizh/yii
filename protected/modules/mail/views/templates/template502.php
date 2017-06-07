@@ -1,9 +1,0 @@
-<h3>Здравствуйте, <?=$user->getShortName()?>!</h3>
-
-<p><strong>Открытое правительство</strong> совместно с&nbsp;<strong>РАЭК</strong> при поддержке RUNET-ID&nbsp;с 19&nbsp;по&nbsp;24&nbsp;мая 2015 года проводит опрос с&nbsp;целью получения независимой оценки качества официальных интернет-сайтов федеральных органов исполнительной власти.</p>
-<p>Мы&nbsp;будем благодарны, если вы&nbsp;найдете возможность принять участие в&nbsp;этом опросе, результаты которого помогут в&nbsp;улучшении ресурсов, которыми многие из&nbsp;вас пользуется. Для этого просим вас посетить один из&nbsp;ресурсов ФОИВ и&nbsp;затем ответить на&nbsp;несколько вопросов. Заполнение анкеты займет <nobr>5-7 минут.</nobr></p>
-<p>По&nbsp;результатам опроса будут выявлены наиболее острые проблемы, касающиеся работы сайтов госорганов и&nbsp;определены возможные пути решения данных проблем. Итоги опроса будут представлены направлены для анализа в&nbsp;Аппарат Правительства Российской Федерации.</p>
-
-<div class="bordered center" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; text-align: center; margin: 15px 0; padding: 25px; border: 1px solid #05afed;" align="center">
-	<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><a href="<?=$user->getFastauthUrl('/govresources/')?>" class="btn-primary" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 2; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; background: #05AFED; margin: 0 10px 0 0; padding: 0; border-color: #05afed; border-style: solid; border-width: 10px 40px;">ПРОЙТИ ОПРОС</a></p>
-</div>
