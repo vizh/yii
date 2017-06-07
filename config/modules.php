@@ -32,7 +32,6 @@ $modules = [
     'connect',
 
     /** Технические модули */
-    'mytest',
     'mail'
 ];
 
