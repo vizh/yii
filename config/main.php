@@ -92,7 +92,6 @@ $config = CMap::mergeArray($config, require 'db.php');
 $config = CMap::mergeArray($config, require 'api.php');
 $config = CMap::mergeArray($config, require 'partner.php');
 $config = CMap::mergeArray($config, require 'ruvents.php');
-$config = CMap::mergeArray($config, require 'ruvents2.php');
 
 $config['components']['urlManager']['rules'] = CMap::mergeArray(
     $config['components']['urlManager']['rules'],
