@@ -2,17 +2,11 @@
 
 YiiBase::$classMap['application\components\WebApplication'] = dirname(__FILE__).'/components/WebApplication.php';
 
+/**
+ * @method static Yii app()
+ */
 class Yii extends YiiBase
 {
-    /**
-     * @static
-     * @return \application\components\WebApplication
-     */
-    public static function app()
-    {
-        return parent::app();
-    }
-
     /**
      * Creates a Web application instance.
      * @param mixed $config application configuration.
