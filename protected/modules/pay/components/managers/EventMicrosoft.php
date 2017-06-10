@@ -60,7 +60,7 @@ class EventMicrosoft extends EventProductManager
         curl_close($curl);
     }
 
-    protected $account = null;
+    protected $account;
 
     /**
      * @return \api\models\Account

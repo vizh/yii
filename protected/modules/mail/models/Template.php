@@ -290,7 +290,7 @@ class Template extends ActiveRecord
         $this->Filter = base64_encode(serialize($filter));
     }
 
-    private $mailer = null;
+    private $mailer;
 
     /**
      * @return \mail\components\Mailer

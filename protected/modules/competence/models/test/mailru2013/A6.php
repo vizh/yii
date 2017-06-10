@@ -5,7 +5,7 @@ class A6 extends \competence\models\Question
 {
   public $value = [];
 
-  private $options = null;
+  private $options;
   public function getOptions()
   {
     if ($this->options === null)

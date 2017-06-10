@@ -10,7 +10,7 @@ class Q2 extends Base
     public $q2_value;
 
 
-    private $values = null;
+    private $values;
 
     /**
      * @return RadioValue[]
@@ -26,7 +26,7 @@ class Q2 extends Base
         return $this->values;
     }
 
-    private $q2Values = null;
+    private $q2Values;
 
     /**
      * @return RadioValue[]

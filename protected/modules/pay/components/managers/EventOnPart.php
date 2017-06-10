@@ -29,10 +29,10 @@ class EventOnPart extends BaseProductManager
     }
 
     /** @var \event\models\Role */
-    protected $role = null;
+    protected $role;
 
     /** @var \event\models\Part */
-    protected $part = null;
+    protected $part;
 
     /**
      * Возвращает true - если продукт может быть приобретен пользователем, и false - иначе

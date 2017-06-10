@@ -7,7 +7,7 @@ class ConsoleApplicationTemplater extends \CBehavior
     private $_theme;
     private $_viewPath;
     private $_layoutPath;
-    private $_clientScript = null;
+    private $_clientScript;
 
     /**
      * Returns the widget factory.

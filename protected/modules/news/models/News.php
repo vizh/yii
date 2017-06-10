@@ -48,7 +48,7 @@ class News extends ActiveRecord
         return parent::beforeSave();
     }
 
-    private $photo = null;
+    private $photo;
 
     /**
      *

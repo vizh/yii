@@ -87,7 +87,7 @@ class Users extends \CFormModel
         return $this->registerForm;
     }
 
-    private $roleData = null;
+    private $roleData;
 
     /**
      * @return array

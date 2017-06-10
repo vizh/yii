@@ -26,7 +26,7 @@ use user\models\User;
  */
 class Brief extends ActiveRecord
 {
-    private $briefData = null;
+    private $briefData;
 
     /**
      * @param null|string $className

@@ -31,7 +31,7 @@ trait JsonContainer
      * @var Group[]
      */
     private $groups;
-    private $attributes = null;
+    private $attributes;
 
     /**
      * @return CActiveRecord

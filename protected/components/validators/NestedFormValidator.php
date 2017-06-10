@@ -3,7 +3,7 @@ namespace application\components\validators;
 
 class NestedFormValidator extends \CValidator
 {
-    public $when = null;
+    public $when;
 
     protected function validateAttribute($object, $attribute)
     {

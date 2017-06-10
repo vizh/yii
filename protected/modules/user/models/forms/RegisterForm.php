@@ -53,7 +53,7 @@ class RegisterForm extends \CFormModel
         }
     }
 
-    private $event = null;
+    private $event;
 
     /**
      * @return \event\models\Event|null

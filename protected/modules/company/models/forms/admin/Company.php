@@ -60,7 +60,7 @@ class Company extends CreateUpdateForm
     public $Phone;
 
     /** @var CompanyModel */
-    protected $model = null;
+    protected $model;
 
     /**
      * @param Company $model

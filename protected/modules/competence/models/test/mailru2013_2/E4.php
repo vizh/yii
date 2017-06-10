@@ -17,7 +17,7 @@ class E4 extends \competence\models\form\Base {
     return 'E1_1';
   }
 
-  protected $values = null;
+  protected $values;
 
   /**
    * @return array|\competence\models\form\attribute\CheckboxValue[]|null

@@ -4,7 +4,7 @@ namespace application\components\auth;
 class AccessControlFilter extends \CAccessControlFilter
 {
     /** @var \CAccessRule */
-    private $denyRule = null;
+    private $denyRule;
 
     protected function preFilter($filterChain)
     {

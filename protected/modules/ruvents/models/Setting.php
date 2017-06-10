@@ -27,7 +27,7 @@ use JsonSerializable;
  */
 class Setting extends ActiveRecord implements JsonSerializable
 {
-    private $settings = null;
+    private $settings;
 
     /**
      * @param null|string $className

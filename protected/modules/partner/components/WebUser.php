@@ -8,7 +8,7 @@ use Yii;
 class WebUser extends \CWebUser
 {
     /** @var \partner\models\Account */
-    private $account = null;
+    private $account;
 
     /**
      * @return \partner\models\Account
@@ -22,7 +22,7 @@ class WebUser extends \CWebUser
         return $this->account;
     }
 
-    protected $event = null;
+    protected $event;
 
     /**
      * @throws \application\components\Exception

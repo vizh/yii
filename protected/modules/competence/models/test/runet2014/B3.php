@@ -9,7 +9,7 @@ class B3 extends \competence\models\form\Single
 
     protected $prevCodes = [];
 
-    protected $baseCode = null;
+    protected $baseCode;
 
     public function getPrev()
     {

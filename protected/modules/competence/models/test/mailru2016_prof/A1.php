@@ -5,7 +5,7 @@ use competence\models\Result;
 
 class A1 extends \competence\models\form\Base {
 
-    private $options = null;
+    private $options;
 
     public function getOptions()
     {

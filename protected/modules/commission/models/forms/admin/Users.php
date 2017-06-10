@@ -46,7 +46,7 @@ class Users extends \CFormModel
         return $labels;
     }
 
-    private $roleList = null;
+    private $roleList;
 
     public function getRoleList()
     {

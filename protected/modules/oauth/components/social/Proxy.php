@@ -53,7 +53,7 @@ class Proxy implements ISocial
         return ($this->data !== null) || $this->social->isHasAccess();
     }
 
-    protected $data = null;
+    protected $data;
 
     /**
      * @return Data

@@ -8,7 +8,7 @@ class Paginator
     const AllPageName = 'all';
 
     private $count;
-    private $countPages = null;
+    private $countPages;
     private $showButtonAll;
     private $params = [];
 

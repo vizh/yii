@@ -8,7 +8,7 @@ class A10 extends \competence\models\form\Base
 
     public $value = [];
 
-    private $options = null;
+    private $options;
 
     public function getOptions()
     {
@@ -27,7 +27,7 @@ class A10 extends \competence\models\form\Base
         return $this->options;
     }
 
-    private $values = null;
+    private $values;
 
     public function getValues()
     {

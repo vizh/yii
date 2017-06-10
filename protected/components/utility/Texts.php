@@ -304,7 +304,7 @@ class Texts
         return preg_replace('/[^0-9]/i', '', $str);
     }
 
-    private static $clearPurifier = null;
+    private static $clearPurifier;
 
     /**
      * @return \CHtmlPurifier

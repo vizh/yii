@@ -7,7 +7,7 @@ class E1_1 extends \competence\models\form\Multiple {
     return 'E1';
   }
 
-  protected $values = null;
+  protected $values;
 
   /**
    * @return array|\competence\models\form\attribute\CheckboxValue[]|null

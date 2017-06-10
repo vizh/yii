@@ -8,11 +8,11 @@ class C8 extends \competence\models\form\Base
 {
     use RouteMarket;
 
-    protected $baseCode = null;
+    protected $baseCode;
 
-    protected $nextCodeToCompany = null;
+    protected $nextCodeToCompany;
 
-    protected $nextCodeToComment = null;
+    protected $nextCodeToComment;
 
     public $subMarkets = [];
 
@@ -72,4 +72,4 @@ class C8 extends \competence\models\form\Base
         return $data;
     }
 
-} 
+}

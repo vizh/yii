@@ -6,7 +6,7 @@ use pay\components\CodeException;
 
 abstract class Base
 {
-    protected $addition = null;
+    protected $addition;
 
     public function __construct($addition = null)
     {

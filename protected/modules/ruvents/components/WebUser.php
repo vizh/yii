@@ -5,7 +5,7 @@ use ruvents\models\AccountRole;
 
 class WebUser extends \CWebUser
 {
-    private static $instance = null;
+    private static $instance;
 
     /**
      * @static
@@ -21,7 +21,7 @@ class WebUser extends \CWebUser
         return self::$instance;
     }
 
-    private $account = null;
+    private $account;
 
     private function initAccount()
     {
@@ -37,7 +37,7 @@ class WebUser extends \CWebUser
         return $this->account;
     }
 
-    private $operator = null;
+    private $operator;
     private $alreadyTryLoad = false;
 
     /**

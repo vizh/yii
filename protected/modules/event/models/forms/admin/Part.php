@@ -3,7 +3,7 @@ namespace event\models\forms\admin;
 
 class Part extends \CFormModel
 {
-    public $Part = null;
+    public $Part;
 
     public $Title;
 

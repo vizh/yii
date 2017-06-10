@@ -5,7 +5,7 @@ use user\models\User;
 
 class UserAutocompleteInput extends \CWidget
 {
-    public $form = null;
+    public $form;
 
     public $attribute;
 
@@ -15,7 +15,7 @@ class UserAutocompleteInput extends \CWidget
 
     public $htmlOptions = ['class' => 'form-control'];
 
-    public $help = null;
+    public $help;
 
     /**
      *

@@ -18,7 +18,7 @@ class D extends Base
 {
     use MarketParticipant;
 
-    private $initiatives = null;
+    private $initiatives;
     public function getInitiatives()
     {
         if ($this->initiatives == null) {
@@ -95,4 +95,4 @@ class D extends Base
         }
         return $data;
     }
-} 
+}

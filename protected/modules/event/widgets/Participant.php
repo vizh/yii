@@ -26,7 +26,7 @@ class Participant extends Widget
     public $message = '';
 
     /** @var WidgetRegistration */
-    public $widget = null;
+    public $widget;
 
     /**
      * @inheritdoc

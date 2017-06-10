@@ -19,7 +19,7 @@ class OrderItemCollection implements \Countable, \ArrayAccess, \IteratorAggregat
     /**
      * @var int
      */
-    private $_eventId = null;
+    private $_eventId;
 
     /**
      * @var Order

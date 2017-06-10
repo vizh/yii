@@ -67,7 +67,7 @@ class OrderItemCollectable
         }
     }
 
-    private $isGroupDiscount = null;
+    private $isGroupDiscount;
 
     /**
      * @return bool|null
@@ -85,7 +85,7 @@ class OrderItemCollectable
         return $this->isGroupDiscount;
     }
 
-    private $price = null;
+    private $price;
 
     /**
      * Стоимость заказа без учета скидок

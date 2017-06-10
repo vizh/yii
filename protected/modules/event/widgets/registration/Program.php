@@ -89,7 +89,7 @@ class Program extends ProgramGrid
         return null;
     }
 
-    private $productData = null;
+    private $productData;
 
     /**
      * Возвращает массив ввида ID секции => ID товара
@@ -109,7 +109,7 @@ class Program extends ProgramGrid
         return $this->productData;
     }
 
-    private $orderItemData = null;
+    private $orderItemData;
 
     /**
      * Возвращает массив ввида ID секции => OrderItem

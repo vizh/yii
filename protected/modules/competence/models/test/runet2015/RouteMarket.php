@@ -6,7 +6,7 @@ use competence\models\Test;
 
 trait RouteMarket
 {
-    protected $baseCodeMarket = null;
+    protected $baseCodeMarket;
 
     protected $nextCodes = [];
 
@@ -27,4 +27,4 @@ trait RouteMarket
 
         return Question::model()->byTestId($test->Id)->byCode('D1')->find();
     }
-} 
+}

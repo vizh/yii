@@ -114,8 +114,8 @@ class CsvinfoAction extends \partner\components\Action
         fputcsv($this->getFile(), $row, ';');
     }
 
-    private $filename = null;
-    private $file = null;
+    private $filename;
+    private $file;
 
     private function getFile()
     {
@@ -128,7 +128,7 @@ class CsvinfoAction extends \partner\components\Action
         return $this->file;
     }
 
-    private $dataPath = null;
+    private $dataPath;
 
     private function getDataPath()
     {

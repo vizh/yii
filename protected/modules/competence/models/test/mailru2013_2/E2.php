@@ -17,7 +17,7 @@ class E2 extends \competence\models\form\Base {
     6 => 'Раз в месяц и реже',
   ];
 
-  protected $values = null;
+  protected $values;
 
   /**
    * @return array|\competence\models\form\attribute\CheckboxValue[]|null

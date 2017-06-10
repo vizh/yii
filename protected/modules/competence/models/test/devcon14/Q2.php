@@ -14,7 +14,7 @@ class Q2 extends \competence\models\form\Base
 
     public $azure;
 
-    private $values = null;
+    private $values;
 
 
 
@@ -34,7 +34,7 @@ class Q2 extends \competence\models\form\Base
         return $this->values;
     }
 
-    private $platforms = null;
+    private $platforms;
 
     /**
      * @return RadioValue[]

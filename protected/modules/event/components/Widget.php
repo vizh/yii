@@ -98,7 +98,7 @@ abstract class Widget extends CWidget implements IWidget
         return str_replace('\\', '_', $this->getName());
     }
 
-    private $adminPanel = null;
+    private $adminPanel;
 
     public function getAdminPanel()
     {

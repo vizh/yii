@@ -48,7 +48,7 @@ class Widget extends ActiveRecord implements IWidget
         ];
     }
 
-    private $widget = null;
+    private $widget;
 
     /**
      * @return \event\components\Widget

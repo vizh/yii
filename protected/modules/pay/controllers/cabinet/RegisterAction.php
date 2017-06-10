@@ -153,7 +153,7 @@ class RegisterAction extends \pay\components\Action
         return 0;
     }
 
-    private $products = null;
+    private $products;
 
     /**
      * @return \stdClass

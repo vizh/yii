@@ -8,7 +8,7 @@ use Yii;
 
 class WebUser extends \CWebUser
 {
-    private static $instance = null;
+    private static $instance;
 
     /**
      * @static
@@ -26,7 +26,7 @@ class WebUser extends \CWebUser
     /**
      * @var Account|null
      */
-    private $account = null;
+    private $account;
 
     /**
      * @return Account

@@ -291,7 +291,7 @@ class BriefController extends PublicMainController
         return $link;
     }
 
-    private $existBrief = null;
+    private $existBrief;
 
     /**
      * @return Brief

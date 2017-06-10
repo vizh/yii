@@ -8,17 +8,17 @@ class Controller extends \application\components\controllers\BaseController
     const SelfId = 1;
 
     public $layout = '/layouts/oauth';
-    public $bodyId = null;
+    public $bodyId;
 
     /** @var \api\models\Account */
-    protected $Account = null;
+    protected $Account;
 
-    protected $apiKey = null;
-    protected $referer = null;
-    protected $refererHash = null;
-    protected $url = null;
-    protected $social = null;
-    protected $fast = null;
+    protected $apiKey;
+    protected $referer;
+    protected $refererHash;
+    protected $url;
+    protected $social;
+    protected $fast;
 
     protected function initResources()
     {

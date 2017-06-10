@@ -30,10 +30,10 @@ class EventListParts extends BaseProductManager
     }
 
     /** @var \event\models\Role */
-    protected $role = null;
+    protected $role;
 
     /** @var Part[] */
-    private $parts = null;
+    private $parts;
 
     /**
      * @return Part[]

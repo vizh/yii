@@ -564,7 +564,7 @@ class Order extends ActiveRecord
         return 'unknown';
     }
 
-    private $billData = null;
+    private $billData;
 
     /**
      * @return null|BillData
@@ -613,7 +613,7 @@ class Order extends ActiveRecord
         return $this->billData;
     }
 
-    private $viewName = null;
+    private $viewName;
 
     /**
      * @return null|string

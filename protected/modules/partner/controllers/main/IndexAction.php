@@ -154,7 +154,7 @@ class IndexAction extends \partner\components\Action
         return $statistics;
     }
 
-    private $timeSteps = null;
+    private $timeSteps;
 
     private function getTimeSteps()
     {

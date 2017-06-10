@@ -7,7 +7,7 @@ use Yii;
 
 class MailRegister
 {
-    public $Id = null;
+    public $Id;
     public $Body;
     public $BodyRendered;
     public $Subject;

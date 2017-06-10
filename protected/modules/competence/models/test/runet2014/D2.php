@@ -6,7 +6,7 @@ use competence\models\Question;
 
 class D2 extends D
 {
-    private $values = null;
+    private $values;
     public function getValues()
     {
         if ($this->values == null) {
@@ -19,7 +19,7 @@ class D2 extends D
         return $this->values;
     }
 
-    private $questions = null;
+    private $questions;
     public function getQuestions()
     {
         if ($this->questions == null) {

@@ -18,7 +18,7 @@ class AutocompleteInput extends \CInputWidget
      *
      * @var null
      */
-    public $inputFieldName = null;
+    public $inputFieldName;
 
     /** @var string|\Closure */
     public $label = '';

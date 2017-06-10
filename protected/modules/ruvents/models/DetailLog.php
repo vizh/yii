@@ -33,7 +33,7 @@ use application\components\ActiveRecord;
 class DetailLog extends ActiveRecord
 {
     /** @var ChangeMessage[] */
-    private $changeMessages = null;
+    private $changeMessages;
 
     /**
      * @param null|string $className

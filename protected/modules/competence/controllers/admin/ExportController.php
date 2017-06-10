@@ -49,7 +49,7 @@ class ExportController extends \application\components\controllers\AdminMainCont
         ]);
     }
 
-    private $questions = null;
+    private $questions;
 
     private function getQuestions()
     {

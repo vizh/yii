@@ -3,7 +3,7 @@ namespace competence\models\tests\mailru2013;
 
 class E1_1 extends \competence\models\Question
 {
-  private $options = null;
+  private $options;
   public function getOptions()
   {
     if ($this->options === null)

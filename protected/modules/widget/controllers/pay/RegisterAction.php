@@ -116,7 +116,7 @@ class RegisterAction extends \widget\components\pay\Action
         return $activation->getDiscount($product);
     }
 
-    private $products = null;
+    private $products;
 
     /**
      * @return \stdClass

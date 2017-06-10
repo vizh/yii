@@ -12,7 +12,7 @@ class Create extends Mail
     protected $form;
 
     /** @var string */
-    protected $to = null;
+    protected $to;
 
     public function __construct(Mailer $mailer, CreateForm $form, Event $event)
     {

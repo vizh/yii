@@ -3,7 +3,7 @@ namespace ruvents\components;
 
 class Controller extends \CController
 {
-    protected $dataBuilder = null;
+    protected $dataBuilder;
 
     /**
      * @var \ruvents\models\DetailLog

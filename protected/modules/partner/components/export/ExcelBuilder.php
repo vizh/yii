@@ -282,7 +282,7 @@ class ExcelBuilder
     }
 
     /** @var null|array */
-    private $rowMap = null;
+    private $rowMap;
 
     /**
      * Схема, описывающая расположения значений в таблице
@@ -470,7 +470,7 @@ class ExcelBuilder
     }
 
     /** @var null|bool */
-    private $hasExternalId = null;
+    private $hasExternalId;
 
     /**
      * @return bool

@@ -11,7 +11,7 @@ class ActiveForm extends \CActiveForm
     /**
      * @var FormModel|null
      */
-    public $scrollIfHasErrors = null;
+    public $scrollIfHasErrors;
 
     /**
      * @inheritdoc

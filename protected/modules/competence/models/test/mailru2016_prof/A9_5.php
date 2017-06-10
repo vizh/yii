@@ -21,7 +21,7 @@ class A9_5 extends Base
         5 => 'Затрудняюсь ответить'
     ];
 
-    protected $values = null;
+    protected $values;
 
     /**
      * @return array|\competence\models\form\attribute\CheckboxValue[]|null

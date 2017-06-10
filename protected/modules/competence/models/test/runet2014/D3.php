@@ -3,7 +3,7 @@ namespace competence\models\test\runet2014;
 
 class D3 extends D
 {
-    private $values = null;
+    private $values;
     public function getValues()
     {
         if ($this->values == null) {

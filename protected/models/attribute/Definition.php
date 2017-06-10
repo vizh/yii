@@ -111,7 +111,7 @@ class Definition extends ActiveRecord
         return $this;
     }
 
-    private $cachedParams = null;
+    private $cachedParams;
 
     public function getParams()
     {

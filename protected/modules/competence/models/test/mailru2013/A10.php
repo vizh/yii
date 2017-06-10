@@ -5,7 +5,7 @@ class A10 extends \competence\models\Question
 {
   public $value = [];
 
-  private $options = null;
+  private $options;
   public function getOptions()
   {
     if ($this->options === null)
@@ -24,7 +24,7 @@ class A10 extends \competence\models\Question
     return $this->options;
   }
 
-  private $values = null;
+  private $values;
   public function getValues()
   {
     if ($this->values === null)

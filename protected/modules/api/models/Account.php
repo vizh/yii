@@ -76,7 +76,7 @@ class Account extends ActiveRecord
         ];
     }
 
-    protected $_dataBuilder = null;
+    protected $_dataBuilder;
 
     /**
      * @return \api\components\builders\Builder

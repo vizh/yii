@@ -24,7 +24,7 @@ class Subsciption extends \CFormModel
         ];
     }
 
-    private $unsubscribeEventsData = null;
+    private $unsubscribeEventsData;
 
     /**
      * @return array|null

@@ -13,7 +13,7 @@ abstract class CreateUpdateForm extends FormModel
     /**
      * @var \CActiveRecord Редактируемая модель
      */
-    protected $model = null;
+    protected $model;
 
     /**
      * @param \CActiveRecord $model

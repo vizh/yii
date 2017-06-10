@@ -15,7 +15,7 @@ class A9 extends \competence\models\form\Base
         return 'A8';
     }
 
-    protected $options = null;
+    protected $options;
 
     public function getOptions()
     {

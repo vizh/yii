@@ -9,7 +9,7 @@ class RunetController extends \application\components\controllers\AdminMainContr
     /**
      * @var Test
      */
-    public $test = null;
+    public $test;
 
     public function actionResultMarkets()
     {
@@ -337,4 +337,4 @@ class RunetController extends \application\components\controllers\AdminMainContr
         $this->sort = $this->sort + 10;
         return $this->sort;
     }
-} 
+}

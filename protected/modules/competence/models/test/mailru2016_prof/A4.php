@@ -7,7 +7,7 @@ class A4 extends \competence\models\form\Base {
 
     public $value = [];
 
-    private $options = null;
+    private $options;
     public function getOptions()
     {
         if ($this->options === null)

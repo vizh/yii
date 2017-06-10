@@ -11,7 +11,7 @@ class Logo extends \CFormModel
 
     public $Delete;
 
-    protected $logo = null;
+    protected $logo;
 
     public function __construct($logo = null, $scenario = '')
     {

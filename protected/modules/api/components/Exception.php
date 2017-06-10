@@ -5,7 +5,7 @@ class Exception extends \CException
 {
     const PAY_EXCEPTION_PREFIX = 40000;
 
-    private $data = null;
+    private $data;
 
     /**
      * @param int|\CModel $code

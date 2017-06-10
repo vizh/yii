@@ -15,7 +15,7 @@ class DataBuilder
         $this->eventId = $eventId;
     }
 
-    private $activeEvent = null;
+    private $activeEvent;
 
     /**
      * @return \event\models\Event

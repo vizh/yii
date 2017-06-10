@@ -57,7 +57,7 @@ class CollectionCoupon extends ActiveRecord
     }
 
     /** @var CollectionCouponAttribute[] */
-    protected $couponAttributes = null;
+    protected $couponAttributes;
 
     /**
      * @return CollectionCouponAttribute[]
@@ -77,7 +77,7 @@ class CollectionCoupon extends ActiveRecord
     /**
      * @var \pay\components\coupon\collection\managers\Base
      */
-    private $typeManager = null;
+    private $typeManager;
 
     /**
      * @return \pay\components\coupon\collection\managers\Base

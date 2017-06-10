@@ -45,8 +45,8 @@ class PhysicalpayAction extends \partner\components\Action
         fputcsv($this->getFile(), [$log->CreationTime, $log->OrderId, $log->Total, $log->PaySystem], ';');
     }
 
-    private $filename = null;
-    private $file = null;
+    private $filename;
+    private $file;
 
     private function getFile()
     {
@@ -59,7 +59,7 @@ class PhysicalpayAction extends \partner\components\Action
         return $this->file;
     }
 
-    private $dataPath = null;
+    private $dataPath;
 
     private function getDataPath()
     {

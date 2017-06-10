@@ -78,7 +78,7 @@ class ServiceAccount extends ActiveRecord
     }
 
     /** @var string */
-    private $accountUrl = null;
+    private $accountUrl;
 
     public function getAccountUrl()
     {
@@ -98,7 +98,7 @@ class ServiceAccount extends ActiveRecord
         return strpos('http://', $this->getAccountUrl()) !== false ? '_blank' : null;
     }
 
-    private $cleanAccount = null;
+    private $cleanAccount;
 
     /**
      * @return string

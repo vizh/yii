@@ -80,7 +80,7 @@ class PartnerAction extends \CAction
         $this->getController()->redirect(['partner', 'owner' => $this->owner]);
     }
 
-    private $bookings = null;
+    private $bookings;
 
     /**
      * Список всех бронирований номеров
@@ -146,4 +146,4 @@ class PartnerAction extends \CAction
         $foodOrders = FoodPartnerOrder::model()->byOwner($this->owner)->byDeleted(false)->orderBy('"t"."Id"')->with(['Items.Product'])->findAll($criteria);
         return $foodOrders;
     }
-} 
+}

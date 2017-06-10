@@ -5,7 +5,7 @@ use event\models\Participant;
 
 class A2 extends \competence\models\form\Multiple
 {
-    private $options = null;
+    private $options;
 
     public function getOptions()
     {

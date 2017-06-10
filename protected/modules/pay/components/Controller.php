@@ -10,7 +10,7 @@ class Controller extends \application\components\controllers\PublicMainControlle
     public $layout = '/layouts/pay';
 
     /** @var Event */
-    protected $event = null;
+    protected $event;
 
     /**
      * @return \user\models\User
@@ -106,7 +106,7 @@ class Controller extends \application\components\controllers\PublicMainControlle
         $mail->send();
     }
 
-    protected $account = null;
+    protected $account;
 
     /**
      * @return Account

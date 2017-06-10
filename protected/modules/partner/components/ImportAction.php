@@ -46,7 +46,7 @@ abstract class ImportAction extends Action
     protected $oldRunetId = [];
 
     /** @var string */
-    private $path = null;
+    private $path;
 
     /**
      * @return string

@@ -6,7 +6,7 @@ class ServiceAccount extends \CFormModel
     public $TypeId;
     public $Account;
     public $Delete = 0;
-    public $Id = null;
+    public $Id;
 
     public function rules()
     {

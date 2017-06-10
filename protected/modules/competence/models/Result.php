@@ -60,7 +60,7 @@ class Result extends ActiveRecord
         $this->Data = base64_encode(serialize($result));
     }
 
-    protected $result = null;
+    protected $result;
 
     /**
      * @return array

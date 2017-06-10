@@ -417,7 +417,7 @@ class Coupon extends ActiveRecord
         return substr(md5($this->EventId.self::HashSecret.$this->Code), 0, 16);
     }
 
-    private $manager = null;
+    private $manager;
 
     /**
      * @return BaseDiscountManager

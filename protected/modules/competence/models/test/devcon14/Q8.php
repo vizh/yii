@@ -3,7 +3,7 @@ namespace competence\models\test\devcon14;
 
 class Q8 extends \competence\models\form\Base
 {
-    private $questions = null;
+    private $questions;
 
     public function getQuestions() {
         if ($this->questions == null) {
@@ -20,7 +20,7 @@ class Q8 extends \competence\models\form\Base
         return $this->questions;
     }
 
-    private $values = null;
+    private $values;
 
     public function getValues() {
         if ($this->values == null) {

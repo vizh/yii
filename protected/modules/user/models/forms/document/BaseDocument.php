@@ -9,7 +9,7 @@ use user\models\User;
 abstract class BaseDocument extends CreateUpdateForm
 {
     /** @var Document|null */
-    protected $model = null;
+    protected $model;
 
     /** @var DocumentType */
     protected $documentType;
@@ -150,4 +150,4 @@ abstract class BaseDocument extends CreateUpdateForm
     {
         return $this->active;
     }
-} 
+}

@@ -8,7 +8,7 @@ use pay\models\Product;
 
 class PartnerFoodOrder extends BasePartnerOrder
 {
-    public $Owner = null;
+    public $Owner;
     public $ProductIdList;
 
     /**

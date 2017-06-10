@@ -7,7 +7,7 @@ use competence\models\Result;
 
 class D1 extends Base{
 
-    public $questions = null;
+    public $questions;
 
     public function rules()
     {

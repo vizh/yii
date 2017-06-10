@@ -3,7 +3,7 @@ namespace user\models\forms;
 
 class Employment extends \CFormModel
 {
-    public $Id = null;
+    public $Id;
     public $Company;
     public $Position;
     public $StartMonth;

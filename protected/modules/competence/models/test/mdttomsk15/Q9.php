@@ -2,7 +2,7 @@
 namespace competence\models\test\mdttomsk15;
 
 class Q9 extends \competence\models\form\Base {
-    private $questions = null;
+    private $questions;
 
     public function getQuestions() {
         if ($this->questions == null) {
@@ -15,7 +15,7 @@ class Q9 extends \competence\models\form\Base {
         return $this->questions;
     }
 
-    private $values = null;
+    private $values;
 
     public function getValues() {
         if ($this->values == null) {

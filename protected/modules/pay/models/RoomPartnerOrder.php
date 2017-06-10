@@ -46,7 +46,7 @@ use application\components\utility\Texts;
  */
 class RoomPartnerOrder extends ActiveRecord
 {
-    private $total = null;
+    private $total;
 
     /**
      * @param null|string $className

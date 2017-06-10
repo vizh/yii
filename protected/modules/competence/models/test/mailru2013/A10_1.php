@@ -5,7 +5,7 @@ class A10_1 extends \competence\models\Question
 {
   public $value = [];
 
-  private $values = null;
+  private $values;
   public function getValues()
   {
     if ($this->values === null)

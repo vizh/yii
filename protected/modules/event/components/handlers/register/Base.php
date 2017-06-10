@@ -32,7 +32,7 @@ class Base extends MailLayout
     }
 
     /** @var MailRegister */
-    private $registerMail = null;
+    private $registerMail;
 
     /**
      * Возвращает регистрационное письмо, удовлетворяющее критерии

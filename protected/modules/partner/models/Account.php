@@ -77,7 +77,7 @@ class Account extends ActiveRecord
     }
 
     /** @var \partner\components\Notifier */
-    protected $notifier = null;
+    protected $notifier;
 
     /**
      * @return null|\partner\components\Notifier

@@ -138,7 +138,7 @@ class Section extends ActiveRecord
         $attribute->save();
     }
 
-    private $url = null;
+    private $url;
 
     public function getUrl()
     {

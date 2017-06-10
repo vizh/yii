@@ -53,7 +53,7 @@ class LinkWidget extends ActiveRecord implements IWidget
     }
 
     /** @var Widget */
-    private $widget = null;
+    private $widget;
 
     /**
      * Создает виджет

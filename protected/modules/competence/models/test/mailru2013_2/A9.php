@@ -12,7 +12,7 @@ class A9 extends \competence\models\form\Base {
     return 'A6';
   }
 
-  protected $options = null;
+  protected $options;
   public function getOptions()
   {
     if ($this->options == null)

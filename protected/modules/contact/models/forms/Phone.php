@@ -15,11 +15,11 @@ class Phone extends CreateUpdateForm
     public $CityCode;
     public $Phone;
     public $Type = PhoneType::Mobile;
-    public $Id = null;
+    public $Id;
     public $Delete = 0;
 
     /** @var PhoneModel|null */
-    protected $model = null;
+    protected $model;
 
     /**
      * @inheritDoc

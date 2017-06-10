@@ -13,7 +13,7 @@ class Statistics
         $this->eventId = $eventId;
     }
 
-    private $startDate = null;
+    private $startDate;
 
     /**
      * @return string|false
@@ -30,7 +30,7 @@ class Statistics
         return $this->startDate;
     }
 
-    private $endDate = null;
+    private $endDate;
 
     /**
      * @return string|false
@@ -47,7 +47,7 @@ class Statistics
         return $this->endDate;
     }
 
-    private $dates = null;
+    private $dates;
 
     /**
      * @return array
@@ -70,7 +70,7 @@ class Statistics
         return $this->dates;
     }
 
-    private $roles = null;
+    private $roles;
 
     /**
      * @return \event\models\Role[]
@@ -105,7 +105,7 @@ class Statistics
         return $result;
     }
 
-    private $dummy = null;
+    private $dummy;
 
     public function getDummy()
     {

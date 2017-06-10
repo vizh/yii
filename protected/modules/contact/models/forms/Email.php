@@ -5,7 +5,7 @@ class Email extends \CFormModel
 {
     public $Email;
     public $Title;
-    public $Id = null;
+    public $Id;
     public $Delete = 0;
 
     public function rules()

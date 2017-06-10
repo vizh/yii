@@ -38,7 +38,7 @@ class PhotoSlider extends \event\components\Widget
         return $this->getEvent()->getPath('photos', true);
     }
 
-    private $photos = null;
+    private $photos;
 
     public function getPhotos()
     {

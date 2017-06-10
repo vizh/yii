@@ -134,7 +134,7 @@ abstract class Group extends CreateUpdateForm
         ];
     }
 
-    private $usedDefinitionNames = null;
+    private $usedDefinitionNames;
 
     /**
      * @return array

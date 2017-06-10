@@ -17,7 +17,7 @@ abstract class Base extends FormModel
         $this->question = $question;
     }
 
-    protected $baseQuestion = null;
+    protected $baseQuestion;
 
     protected function getBaseQuestionCode()
     {

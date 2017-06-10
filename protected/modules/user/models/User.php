@@ -558,7 +558,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     }
 
     /** @var Photo */
-    private $photo = null;
+    private $photo;
 
     /**
      * Определяет наличие фотографии посетителя.
@@ -1129,7 +1129,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         return $this->getFullName();
     }
 
-    private $hasLoyaltyDiscount = null;
+    private $hasLoyaltyDiscount;
 
     /**
      * @return bool|null

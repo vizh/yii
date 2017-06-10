@@ -6,11 +6,11 @@ use competence\models\Result;
 
 class C7 extends \competence\models\form\Base
 {
-    protected $baseCode = null;
+    protected $baseCode;
 
-    protected $nextCodeToCompany = null;
+    protected $nextCodeToCompany;
 
-    protected $nextCodeToComment = null;
+    protected $nextCodeToComment;
 
     public function rules()
     {

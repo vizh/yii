@@ -27,7 +27,7 @@ use Yii;
  */
 class Company extends ActiveRecord
 {
-    private $logos = null;
+    private $logos;
     protected $fileDir;
 
     /**

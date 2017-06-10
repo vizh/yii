@@ -63,7 +63,7 @@ class Controller extends MainController
         parent::initResources();
     }
 
-    private $apiAccount = null;
+    private $apiAccount;
 
     /**
      * @return null|Account
@@ -122,7 +122,7 @@ class Controller extends MainController
         return $this->getWidgetParamValues()[$name];
     }
 
-    private $widgetParamValues = null;
+    private $widgetParamValues;
 
     /**
      * @return array|null

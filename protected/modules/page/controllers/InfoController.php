@@ -2,7 +2,7 @@
 
 class InfoController extends \application\components\controllers\PublicMainController
 {
-    public $navbar = null;
+    public $navbar;
 
     public function actionAbout()
     {

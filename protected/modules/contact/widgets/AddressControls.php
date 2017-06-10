@@ -11,7 +11,7 @@ class AddressControls extends \CWidget
     public $place = true;
     public $apartment = false;
     public $inputClass = '';
-    public $inputPlaceholder = null;
+    public $inputPlaceholder;
     public $disabled = false;
     public $geoCoordinates = false;
 

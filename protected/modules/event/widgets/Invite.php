@@ -38,7 +38,7 @@ class Invite extends WidgetRegistration
     /**
      * @var UserData
      */
-    protected $userData = null;
+    protected $userData;
 
     public function init()
     {

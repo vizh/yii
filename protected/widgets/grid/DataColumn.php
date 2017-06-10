@@ -11,7 +11,7 @@ namespace application\widgets\grid;
 class DataColumn extends \CDataColumn
 {
     /** @var null|int Фиксированная ширина колонки */
-    public $width = null;
+    public $width;
 
     public $filterInputHtmlOptions = [];
 
@@ -65,4 +65,4 @@ class DataColumn extends \CDataColumn
         }
         return $this->filterWidget;
     }
-} 
+}

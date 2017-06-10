@@ -5,7 +5,7 @@ class Q10 extends \competence\models\form\Base
 {
     public $other;
 
-    private $questions = null;
+    private $questions;
 
     public function getQuestions()
     {

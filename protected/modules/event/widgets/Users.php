@@ -3,12 +3,12 @@ namespace event\widgets;
 
 class Users extends \event\components\Widget
 {
-    public $criteria = null;
+    public $criteria;
     public $showCounter = true;
     public $showPagination = false;
 
-    private $users = null;
-    private $paginator = null;
+    private $users;
+    private $paginator;
 
     private function getUsers()
     {

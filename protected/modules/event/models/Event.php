@@ -729,7 +729,7 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
     }
 
     /** @var Logo */
-    private $logo = null;
+    private $logo;
 
     /**
      * @return Logo
@@ -801,7 +801,7 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
         return isset($attributes[$name]) ? $attributes[$name] : null;
     }
 
-    private $internalAttributesByName = null;
+    private $internalAttributesByName;
 
     /**
      * @return array
@@ -1090,7 +1090,7 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
         return $fbEvent;
     }
 
-    private $roles = null;
+    private $roles;
 
     /**
      * @return Role[]

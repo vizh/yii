@@ -1,21 +1,21 @@
 <?php
 namespace competence\models\test\mdtchel15;
 
-use \competence\models\form\attribute\RadioValue;
-use \competence\models\form\Base;
+use competence\models\form\attribute\RadioValue;
+use competence\models\form\Base;
 use competence\models\Result;
 
 class Q2 extends Base
 {
     public $q2_value;
 
-
-    private $values = null;
+    private $values;
 
     /**
      * @return RadioValue[]
      */
-    public function getValues() {
+    public function getValues()
+    {
         if ($this->values == null) {
             $this->values = [
                 'q2_2' => new RadioValue('q2_2', 'Да', true),
@@ -26,12 +26,13 @@ class Q2 extends Base
         return $this->values;
     }
 
-    private $q2Values = null;
+    private $q2Values;
 
     /**
      * @return RadioValue[]
      */
-    public function getQ2Values() {
+    public function getQ2Values()
+    {
         if ($this->q2Values == null) {
             $this->q2Values = [];
             $this->q2Values['q2value_1'] = new RadioValue('q2value_1', 'Консьюмерские (b2c) для взаимодействия с внешними потребителями, заказчиками');
@@ -74,7 +75,7 @@ class Q2 extends Base
     public function getInternalExportValueTitles()
     {
         $result = [];
-        foreach($this->getValues() as $value) {
+        foreach ($this->getValues() as $value) {
             $result[] = $value->title;
             if ($value->key == 'q2_2') {
                 foreach ($this->getQ2Values() as $q2Value) {
@@ -93,7 +94,7 @@ class Q2 extends Base
     {
         $questionData = $result->getQuestionResult($this->question);
         $data = [];
-        foreach($this->getValues() as $key => $value) {
+        foreach ($this->getValues() as $key => $value) {
             $data[] = $questionData['value'] == $key ? '1' : '0';
             if ($key == 'q2_2') {
                 foreach ($this->getQ2Values() as $q2Key => $q2Value) {

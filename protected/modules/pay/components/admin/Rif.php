@@ -10,7 +10,7 @@ class Rif
 
     const EventId = 3016;
 
-    private static $db = null;
+    private static $db;
 
     /**
      * @return \CDbConnection
@@ -52,7 +52,7 @@ class Rif
         }
     }
 
-    private static $usersByHotel = null;
+    private static $usersByHotel;
 
     public static function getUsersByHotel()
     {

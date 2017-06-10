@@ -5,7 +5,7 @@ class AuthForm extends \CFormModel
 {
     public $Login;
     public $Password;
-    public $RememberMe = null;
+    public $RememberMe;
 
     public function rules()
     {

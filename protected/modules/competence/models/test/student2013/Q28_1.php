@@ -5,7 +5,7 @@ class Q28_1 extends \competence\models\form\Base
 {
   public $value = [];
 
-  protected $rows = null;
+  protected $rows;
 
   public function getRows()
   {

@@ -36,8 +36,8 @@ use user\models\User;
  */
 class Badge extends ActiveRecord
 {
-    public $CountForCriteria = null;
-    public $DateForCriteria = null;
+    public $CountForCriteria;
+    public $DateForCriteria;
 
     /**
      * @param null|string $className

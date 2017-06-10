@@ -10,7 +10,7 @@ class A8 extends \competence\models\form\Base
 
     public $other;
 
-    protected $options = null;
+    protected $options;
 
     /**
      * @param int $id

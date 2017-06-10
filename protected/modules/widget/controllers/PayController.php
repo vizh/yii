@@ -62,7 +62,7 @@ class PayController extends \widget\components\Controller
         $this->redirect($this->getNextStepUrl());
     }
 
-    protected $account = null;
+    protected $account;
 
     /**
      * @return \pay\models\Account

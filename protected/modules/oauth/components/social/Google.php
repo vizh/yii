@@ -7,7 +7,7 @@ class Google implements ISocial
 
     const ClientSecret = 'HKPw-oKWP1RxIgfGVsyIGUP0';
 
-    protected $redirectUrl = null;
+    protected $redirectUrl;
 
     const OauthBaseUrl = 'https://accounts.google.com/o/oauth2/auth?';
 

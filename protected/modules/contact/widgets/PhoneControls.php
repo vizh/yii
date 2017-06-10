@@ -4,7 +4,7 @@ namespace contact\widgets;
 class PhoneControls extends \CWidget
 {
     /** @var \CFormModel */
-    public $form = null;
+    public $form;
     public $name = 'OriginalPhone';
     public $inputClass = 'input-block-level';
     public $errorClass = 'error';
@@ -24,4 +24,4 @@ class PhoneControls extends \CWidget
         $this->render('phonecontrols');
     }
 
-} 
+}

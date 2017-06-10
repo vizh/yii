@@ -52,7 +52,7 @@ class DefinitionsAction extends Action
     }
 
     /** @var null|UserAttributeGroup[] */
-    private $forms = null;
+    private $forms;
 
     /**
      * @return UserAttributeGroup[]

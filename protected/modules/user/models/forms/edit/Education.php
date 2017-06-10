@@ -9,7 +9,7 @@ use geo\models\City;
 
 class Education extends \user\models\forms\edit\Base
 {
-    public $Id = null;
+    public $Id;
     public $CityName;
     public $CityId;
     public $UniversityName;

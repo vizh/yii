@@ -60,7 +60,7 @@ class OperatorAction extends \partner\components\Action
         }
     }
 
-    private $file = null;
+    private $file;
 
     private function getFile()
     {
@@ -70,7 +70,7 @@ class OperatorAction extends \partner\components\Action
         return $this->file;
     }
 
-    private $dataPath = null;
+    private $dataPath;
 
     private function getDataPath()
     {

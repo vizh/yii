@@ -200,7 +200,7 @@ abstract class BaseFacebook
      *
      * @var string
      */
-    protected $accessToken = null;
+    protected $accessToken;
 
     /**
      * Indicates if the CURL based @ syntax for file uploads is enabled.

@@ -80,9 +80,9 @@ class Link extends ActiveRecord
         return Yii::app()->dateFormatter->format($pattern, $this->MeetingTime);
     }
 
-    protected $beforeSaveIsNewRecord = null;
-    protected $beforeSaveMeetingTime = null;
-    protected $beforeSaveApproved = null;
+    protected $beforeSaveIsNewRecord;
+    protected $beforeSaveMeetingTime;
+    protected $beforeSaveApproved;
 
     protected function beforeSave()
     {

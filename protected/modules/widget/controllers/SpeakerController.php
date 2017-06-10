@@ -54,7 +54,7 @@ class SpeakerController extends \widget\components\Controller
         return $result;
     }
 
-    private $baseCondition = null;
+    private $baseCondition;
 
     /**
      * @return CDbCriteria

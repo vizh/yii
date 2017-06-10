@@ -23,7 +23,7 @@ class Ticket
     }
 
     /** @var \mPDF|null */
-    protected $pdf = null;
+    protected $pdf;
 
     /**
      * @return \mPDF

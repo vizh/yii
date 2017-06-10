@@ -22,7 +22,7 @@ class RolesAction extends Action
         $this->getController()->render('roles', []);
     }
 
-    private $_canDeleteRoleIdList = null;
+    private $_canDeleteRoleIdList;
 
     /**
      * @return int[]
@@ -181,4 +181,4 @@ class RolesAction extends Action
         }
         echo json_encode($result);
     }
-} 
+}

@@ -109,7 +109,7 @@ class UserReferralFilter extends \CFilter
     }
 
     /** @var Referral|null */
-    private $referral = null;
+    private $referral;
 
     /**
      * @return Referral

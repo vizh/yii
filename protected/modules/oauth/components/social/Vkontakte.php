@@ -11,7 +11,7 @@ class Vkontakte implements ISocial
 
     const OauthBaseUrl = 'https://oauth.vk.com/authorize?';
 
-    protected $redirectUrl = null;
+    protected $redirectUrl;
 
     public function __construct($redirectUrl = null)
     {

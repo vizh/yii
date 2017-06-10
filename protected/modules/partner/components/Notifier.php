@@ -5,7 +5,7 @@ namespace partner\components;
 
 class Notifier
 {
-    protected $account = null;
+    protected $account;
 
     /**
      * @param $account \partner\models\Account

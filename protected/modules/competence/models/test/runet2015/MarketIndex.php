@@ -3,7 +3,7 @@ namespace competence\models\test\runet2015;
 
 trait MarketIndex
 {
-    private $marketIndex = null;
+    private $marketIndex;
 
     public function getMarketIndex()
     {
@@ -15,4 +15,4 @@ trait MarketIndex
         }
         return $this->marketIndex;
     }
-} 
+}

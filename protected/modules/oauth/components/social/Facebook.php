@@ -17,10 +17,10 @@ class Facebook implements ISocial
 
     private $redirectLoginHelper;
 
-    private $redirectUrl = null;
+    private $redirectUrl;
 
     /** @var \Facebook */
-    protected $connection = null;
+    protected $connection;
 
     public function __construct($redirectUrl = null)
     {

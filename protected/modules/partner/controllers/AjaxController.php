@@ -167,7 +167,7 @@ class AjaxController extends Controller
     }
 
     /** @var null|Order */
-    private $payer = null;
+    private $payer;
 
     /**
      * @return User

@@ -37,7 +37,7 @@ class Competence extends Widget
         return \Yii::t('app', 'Опрос на странице мероприятия');
     }
 
-    private $position = null;
+    private $position;
 
     /**
      * @return string
@@ -47,7 +47,7 @@ class Competence extends Widget
         return WidgetPosition::Content;
     }
 
-    private $test = null;
+    private $test;
 
     /**
      * @return Test|null

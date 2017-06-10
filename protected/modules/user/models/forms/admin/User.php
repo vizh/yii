@@ -94,7 +94,7 @@ class User extends CreateUpdateForm
         ];
     }
 
-    private $attributeLabels = null;
+    private $attributeLabels;
 
     /**
      * @return array|mixed

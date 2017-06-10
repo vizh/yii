@@ -11,7 +11,7 @@ class Q5 extends \competence\models\form\Base
     public $other;
     public $other2;
     public $platform;
-    private $values = null;
+    private $values;
 
 
 
@@ -30,7 +30,7 @@ class Q5 extends \competence\models\form\Base
         return $this->values;
     }
 
-    private $platforms = null;
+    private $platforms;
 
     /**
      * @return RadioValue[]

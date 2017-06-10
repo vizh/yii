@@ -8,7 +8,7 @@ use user\models\User;
 class UserVerify extends Widget
 {
     /** @var null|User */
-    private $user = null;
+    private $user;
 
     /**
      * @var bool

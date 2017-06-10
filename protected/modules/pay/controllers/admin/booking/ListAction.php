@@ -7,7 +7,7 @@ use pay\models\RoomPartnerBooking;
 
 class ListAction extends \CAction
 {
-    private $hotel = null;
+    private $hotel;
     protected $list = [];
 
     public function run()

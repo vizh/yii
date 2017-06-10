@@ -3,7 +3,7 @@ namespace user\models\forms\edit;
 
 class ProfessionalInterests extends \CFormModel
 {
-    private $_names = null;
+    private $_names;
 
     public function attributeNames()
     {
@@ -13,7 +13,7 @@ class ProfessionalInterests extends \CFormModel
         return $this->_names;
     }
 
-    private $_values = null;
+    private $_values;
 
     public function __get($name)
     {

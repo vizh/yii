@@ -45,7 +45,7 @@ use pay\components\managers\BaseProductManager;
  */
 class FoodPartnerOrder extends ActiveRecord
 {
-    private $total = null;
+    private $total;
 
     /**
      * @param null|string $className

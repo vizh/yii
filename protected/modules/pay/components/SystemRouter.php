@@ -6,7 +6,7 @@ class SystemRouter
     public static $SystemNames = ['PayOnline', 'PayPal', 'Uniteller', 'CloudPayments', 'WalletOne'];
     const Prefix = 'pay\components\systems\\';
 
-    private $addition = null;
+    private $addition;
 
     private function __construct($addition = null)
     {
@@ -24,7 +24,7 @@ class SystemRouter
     /**
      * @var \pay\components\systems\Base
      */
-    private $system = null;
+    private $system;
 
     private function init()
     {
