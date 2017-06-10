@@ -14,14 +14,13 @@ class ErrorController extends \application\components\controllers\PublicMainCont
     public function actionIndex()
     {
         $this->bodyId = 'error-page';
-        if ($error = Yii::app()->errorHandler->error) {
-            if ($error['code'] == 404) {
-                $this->render('error404', ['error' => $error]);
-            } elseif ($error['code'] == 503) {
-                $this->render('error503', ['error' => $error]);
-            } else {
-                $this->render('error500', ['error' => $error]);
-            }
+
+        if ($error = Yii::app()->getErrorHandler()->getError()) {
+            $view = in_array($error['code'], [404, 503])
+                ? "error{$error['code']}"
+                : 'error500';
+
+            $this->render($view, ['error' => $error]);
         }
     }
 }
