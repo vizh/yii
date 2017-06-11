@@ -222,7 +222,6 @@ class MainController extends \oauth\components\Controller
 
     public function actionError()
     {
-        $error = Yii::app()->errorHandler->error;
         $this->render('error');
     }
 

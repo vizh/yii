@@ -21,6 +21,7 @@ use application\components\auth\WebUser;
  * @method WebUser getUser()
  * @method \CHttpSession getSession()
  * @method \CCache getCache()
+ * @method \application\components\ErrorHandler getErrorHandler()
  */
 class WebApplication extends \CWebApplication
 {

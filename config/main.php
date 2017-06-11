@@ -64,7 +64,8 @@ $config = [
             'enableCookieValidation' => true,
         ],
         'errorHandler' => [
-            'errorAction' => '/main/error/index',
+            'class' => '\application\components\ErrorHandler',
+            'errorAction' => '/main/error/index'
         ],
         'log' => [
             'class' => 'CLogRouter',

@@ -21,7 +21,10 @@
     "aws/aws-sdk-php": "2.*",
     "guzzlehttp/guzzle": "5.3.*",
     "paypal/rest-api-sdk-php": "*",
-    "nastradamus39/annotation-md": "0.0.8",
-    "twig/twig": "1.33.*"
+    "twig/twig": "1.33.*",
+    "sentry/sentry": "1.7.*"
+  },
+  "require-dev": {
+    "nastradamus39/annotation-md": "0.0.8"
   }
 }

@@ -5,7 +5,7 @@ class ApiModule extends CWebModule
     public function beforeControllerAction($controller, $action)
     {
         if (parent::beforeControllerAction($controller, $action)) {
-            \Yii::app()->attachEventHandler('onException', [$this, 'onException']);
+            Yii::app()->attachEventHandler('onException', [$this, 'onException']);
 
             return true;
         }
@@ -21,6 +21,11 @@ class ApiModule extends CWebModule
         $exception = $event->exception instanceof \api\components\Exception
             ? $event->exception
             : new \api\components\Exception(100, [$event->exception->getMessage()]);
+
+        // Перенаправляем ошибку в Sentry
+        Yii::app()->getErrorHandler()
+            ->getRavenClient()
+            ->captureException($exception);
 
         $exception->sendResponse();
 

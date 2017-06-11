@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "135e59e124be17f0cb7cee3d1054173e",
+    "content-hash": "1a6cc444bb3f4777417c40298820b92e",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -68,128 +68,6 @@
                 "sdk"
             ],
             "time": "2016-07-25 18:03:20"
-        },
-        {
-            "name": "doctrine/annotations",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/annotations.git",
-                "reference": "7c830a576f9471f71096d200d633b6400513ccfb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/7c830a576f9471f71096d200d633b6400513ccfb",
-                "reference": "7c830a576f9471f71096d200d633b6400513ccfb",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/lexer": "1.*",
-                "php": "^5.6 || ^7.0"
-            },
-            "require-dev": {
-                "doctrine/cache": "1.*",
-                "phpunit/phpunit": "^5.7"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.4.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Doctrine\\Common\\Annotations\\": "lib/Doctrine/Common/Annotations"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Roman Borschel",
-                    "email": "roman@code-factory.org"
-                },
-                {
-                    "name": "Benjamin Eberlei",
-                    "email": "kontakt@beberlei.de"
-                },
-                {
-                    "name": "Guilherme Blanco",
-                    "email": "guilhermeblanco@gmail.com"
-                },
-                {
-                    "name": "Jonathan Wage",
-                    "email": "jonwage@gmail.com"
-                },
-                {
-                    "name": "Johannes Schmitt",
-                    "email": "schmittjoh@gmail.com"
-                }
-            ],
-            "description": "Docblock Annotations Parser",
-            "homepage": "http://www.doctrine-project.org",
-            "keywords": [
-                "annotations",
-                "docblock",
-                "parser"
-            ],
-            "time": "2017-05-25 15:48:57"
-        },
-        {
-            "name": "doctrine/lexer",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/lexer.git",
-                "reference": "83893c552fd2045dd78aef794c31e694c37c0b8c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/lexer/zipball/83893c552fd2045dd78aef794c31e694c37c0b8c",
-                "reference": "83893c552fd2045dd78aef794c31e694c37c0b8c",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.2"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Doctrine\\Common\\Lexer\\": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Roman Borschel",
-                    "email": "roman@code-factory.org"
-                },
-                {
-                    "name": "Guilherme Blanco",
-                    "email": "guilhermeblanco@gmail.com"
-                },
-                {
-                    "name": "Johannes Schmitt",
-                    "email": "schmittjoh@gmail.com"
-                }
-            ],
-            "description": "Base library for a lexer that can be used in Top-Down, Recursive Descent Parsers.",
-            "homepage": "http://www.doctrine-project.org",
-            "keywords": [
-                "lexer",
-                "parser"
-            ],
-            "time": "2014-09-09 13:34:57"
         },
         {
             "name": "eo/passbook",
@@ -784,50 +662,6 @@
             "time": "2014-12-14T18:32:11+00:00"
         },
         {
-            "name": "nastradamus39/annotation-md",
-            "version": "0.0.8",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nastradamus39/annotation-md.git",
-                "reference": "190134d24aaa99427d033e431903fb4f7d413a04"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nastradamus39/annotation-md/zipball/190134d24aaa99427d033e431903fb4f7d413a04",
-                "reference": "190134d24aaa99427d033e431903fb4f7d413a04",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/annotations": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "nastradamus39\\slate\\": "",
-                    "nastradamus39\\slate\\md\\": "md",
-                    "nastradamus39\\slate\\md\\Action\\": "md/Action",
-                    "nastradamus39\\slate\\annotations\\": "annotations"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Alex Krizhanovsky",
-                    "email": "alex@enot.vc"
-                }
-            ],
-            "description": "This extension parse phpdoc annotations and generate md document that can be parsed by slate docker",
-            "keywords": [
-                "annotations",
-                "phpdoc",
-                "slate"
-            ],
-            "time": "2017-02-22T08:30:58+00:00"
-        },
-        {
             "name": "paypal/rest-api-sdk-php",
             "version": "dev-master",
             "source": {
@@ -1297,7 +1131,174 @@
             "time": "2016-01-13T16:23:58+00:00"
         }
     ],
-    "packages-dev": [],
+    "packages-dev": [
+        {
+            "name": "doctrine/annotations",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/annotations.git",
+                "reference": "7c830a576f9471f71096d200d633b6400513ccfb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/7c830a576f9471f71096d200d633b6400513ccfb",
+                "reference": "7c830a576f9471f71096d200d633b6400513ccfb",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/lexer": "1.*",
+                "php": "^5.6 || ^7.0"
+            },
+            "require-dev": {
+                "doctrine/cache": "1.*",
+                "phpunit/phpunit": "^5.7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\Common\\Annotations\\": "lib/Doctrine/Common/Annotations"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com"
+                },
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com"
+                }
+            ],
+            "description": "Docblock Annotations Parser",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "annotations",
+                "docblock",
+                "parser"
+            ],
+            "time": "2017-05-25T15:48:57+00:00"
+        },
+        {
+            "name": "doctrine/lexer",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/lexer.git",
+                "reference": "83893c552fd2045dd78aef794c31e694c37c0b8c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/lexer/zipball/83893c552fd2045dd78aef794c31e694c37c0b8c",
+                "reference": "83893c552fd2045dd78aef794c31e694c37c0b8c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Doctrine\\Common\\Lexer\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com"
+                }
+            ],
+            "description": "Base library for a lexer that can be used in Top-Down, Recursive Descent Parsers.",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "lexer",
+                "parser"
+            ],
+            "time": "2014-09-09T13:34:57+00:00"
+        },
+        {
+            "name": "nastradamus39/annotation-md",
+            "version": "0.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nastradamus39/annotation-md.git",
+                "reference": "190134d24aaa99427d033e431903fb4f7d413a04"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nastradamus39/annotation-md/zipball/190134d24aaa99427d033e431903fb4f7d413a04",
+                "reference": "190134d24aaa99427d033e431903fb4f7d413a04",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/annotations": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "nastradamus39\\slate\\": "",
+                    "nastradamus39\\slate\\md\\": "md",
+                    "nastradamus39\\slate\\md\\Action\\": "md/Action",
+                    "nastradamus39\\slate\\annotations\\": "annotations"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Alex Krizhanovsky",
+                    "email": "alex@enot.vc"
+                }
+            ],
+            "description": "This extension parse phpdoc annotations and generate md document that can be parsed by slate docker",
+            "keywords": [
+                "annotations",
+                "phpdoc",
+                "slate"
+            ],
+            "time": "2017-02-22T08:30:58+00:00"
+        }
+    ],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {

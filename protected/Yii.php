@@ -3,7 +3,7 @@
 YiiBase::$classMap['application\components\WebApplication'] = dirname(__FILE__).'/components/WebApplication.php';
 
 /**
- * @method static Yii app()
+ * @method static \application\components\WebApplication app()
  */
 class Yii extends YiiBase
 {
@@ -48,4 +48,19 @@ class Yii extends YiiBase
         return $default !== null ? $namespace.$default : null;
     }
 
+    /**
+     * Отправка сообщения через помощника
+     *
+     * @param mixed $data
+     */
+    public static function tgmsg($data)
+    {
+        (new GuzzleHttp\Client())->get('https://api.telegram.org/bot217593085:AAG-Px7tznYlD76KL18aJa0rV8Ceh1BMiio/sendMessage', [
+            'query' => [
+                'chat_id' => -203177054,
+                'parse_mode' => 'HTML',
+                'text' => is_string($data) ? $data : json_encode($data)
+            ]
+        ]);
+    }
 }
