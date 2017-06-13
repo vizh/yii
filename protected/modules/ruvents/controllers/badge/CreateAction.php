@@ -1,11 +1,7 @@
 <?php
 namespace ruvents\controllers\badge;
 
-use application\components\services\AIS;
-use event\models\Event;
-use event\models\UserData;
 use ruvents\components\Exception;
-use user\models\User;
 use Yii;
 
 class CreateAction extends \ruvents\components\Action
@@ -76,40 +72,18 @@ class CreateAction extends \ruvents\components\Action
         $badge->RoleId = $participant->RoleId;
         $badge->save();
 
-        if ($this->getEvent()->Id == Event::TS16) {
-            $this->notifyAIS($runetId);
+        if ($this->getEvent()->Id == 3443) {
+            (new \GuzzleHttp\Client())->get('http://smspilot.ru/api.php', [
+                'query' => [
+                    'apikey' => 'Y38SCF7589PK591621RQ9M6C94E79GF1750GZS8C8I486M9J8EAY1P5T2L1A3710',
+                    'to' => $user->getPhone(false),
+                    'send' => 'Доброе утро! Рады приветствовать Вас на Национальной Конференции дилеров и уполномоченных партнеров Тойота и Лексус. В полученных материалах Вы сможете найти расписание конференции. Цвет семинара соответствует цвету Вашего бейджа.'
+                ]
+            ]);
         }
 
         $this->renderJson([
             'Success' => true
         ]);
-    }
-
-    /**
-     * ТС16: Уведомляет АИС о том, что участник пришел на мероприятие
-     *
-     * @param int $runetId
-     */
-    private function notifyAIS($runetId)
-    {
-        Yii::log(sprintf('Печать бейджа для %d', $runetId));
-
-        if (!$user = User::model()->byRunetId($runetId)->find()) {
-            return;
-        }
-
-        $data = UserData::fetch(Event::TS16, $user);
-        $m = $data->getManager();
-        if (!$registrationId = $m->ais_registration_id) {
-            Yii::log(sprintf('Пользователь c RunetId:%d не имеет идентификатора в АИС', $runetId));
-            return;
-        }
-
-        try {
-            $ais = new AIS();
-            $ais->notify($registrationId);
-        } catch (Exception $e) {
-            Yii::log(sprintf('Ошибка отправки данных в АИС: %s', $e->getMessage()));
-        }
     }
 }

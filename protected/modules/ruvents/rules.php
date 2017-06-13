@@ -48,7 +48,7 @@ return [
         'roles' => ['Server'],
         'module' => 'ruvents',
         'controllers' => ['badge'],
-        'actions' => ['list']
+        'actions' => ['create', 'list']
     ],
     [
         'allow',
