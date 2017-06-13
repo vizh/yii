@@ -72,7 +72,7 @@ class CreateAction extends \ruvents\components\Action
         $badge->RoleId = $participant->RoleId;
         $badge->save();
 
-        if ($this->getEvent()->Id == 3443) {
+        if (false === empty($user->PrimaryPhone) && $this->getEvent()->Id == 3443) {
             (new \GuzzleHttp\Client())->get('http://smspilot.ru/api.php', [
                 'query' => [
                     'apikey' => 'Y38SCF7589PK591621RQ9M6C94E79GF1750GZS8C8I486M9J8EAY1P5T2L1A3710',
