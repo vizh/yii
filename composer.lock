@@ -4,11 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1a6cc444bb3f4777417c40298820b92e",
+    "content-hash": "b9b1f4038cb4ede8ea303288edfbe2cf",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "2.8.x-dev",
+            "version": "2.8.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
@@ -67,11 +67,11 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2016-07-25 18:03:20"
+            "time": "2016-07-25T18:03:20+00:00"
         },
         {
             "name": "eo/passbook",
-            "version": "dev-master",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/eymengunay/php-passbook.git",
@@ -123,7 +123,7 @@
                 "tickets",
                 "wallet"
             ],
-            "time": "2016-11-16 21:50:09"
+            "time": "2016-11-16T21:50:09+00:00"
         },
         {
             "name": "facebook/php-sdk-v4",
@@ -283,17 +283,17 @@
         },
         {
             "name": "gregwar/image",
-            "version": "dev-master",
+            "version": "v2.0.21",
             "target-dir": "Gregwar/Image",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Gregwar/Image.git",
-                "reference": "0630a2442daccc75046e650ded5f02410e9489eb"
+                "reference": "c9899e4c71009338f89a8c63c12c681692533ede"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Gregwar/Image/zipball/0630a2442daccc75046e650ded5f02410e9489eb",
-                "reference": "0630a2442daccc75046e650ded5f02410e9489eb",
+                "url": "https://api.github.com/repos/Gregwar/Image/zipball/c9899e4c71009338f89a8c63c12c681692533ede",
+                "reference": "c9899e4c71009338f89a8c63c12c681692533ede",
                 "shasum": ""
             },
             "require": {
@@ -331,20 +331,20 @@
                 "gd",
                 "image"
             ],
-            "time": "2017-04-09 10:02:48"
+            "time": "2017-01-24T09:29:39+00:00"
         },
         {
             "name": "guzzle/guzzle",
-            "version": "dev-master",
+            "version": "v3.9.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle3.git",
-                "reference": "f7778ed85e3db90009d79725afd6c3a82dab32fe"
+                "reference": "0645b70d953bc1c067bbc8d5bc53194706b628d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/f7778ed85e3db90009d79725afd6c3a82dab32fe",
-                "reference": "f7778ed85e3db90009d79725afd6c3a82dab32fe",
+                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/0645b70d953bc1c067bbc8d5bc53194706b628d9",
+                "reference": "0645b70d953bc1c067bbc8d5bc53194706b628d9",
                 "shasum": ""
             },
             "require": {
@@ -427,26 +427,25 @@
                 "web service"
             ],
             "abandoned": "guzzlehttp/guzzle",
-            "time": "2016-10-26 18:22:07"
+            "time": "2015-03-18T18:23:50+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "5.3.x-dev",
+            "version": "5.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "9c1d1e20a2ab54b9188198d96c7fab9252c770e2"
+                "reference": "70f1fa53b71c4647bf2762c09068a95f77e12fb8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/9c1d1e20a2ab54b9188198d96c7fab9252c770e2",
-                "reference": "9c1d1e20a2ab54b9188198d96c7fab9252c770e2",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/70f1fa53b71c4647bf2762c09068a95f77e12fb8",
+                "reference": "70f1fa53b71c4647bf2762c09068a95f77e12fb8",
                 "shasum": ""
             },
             "require": {
                 "guzzlehttp/ringphp": "^1.1",
-                "php": ">=5.4.0",
-                "react/promise": "^2.2"
+                "php": ">=5.4.0"
             },
             "require-dev": {
                 "ext-curl": "*",
@@ -480,20 +479,20 @@
                 "rest",
                 "web service"
             ],
-            "time": "2017-05-01 09:23:13"
+            "time": "2016-07-15T19:28:39+00:00"
         },
         {
             "name": "guzzlehttp/ringphp",
-            "version": "dev-master",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/RingPHP.git",
-                "reference": "4c8fe4c48a0fb7cc5e41ef529e43fecd6da4d539"
+                "reference": "dbbb91d7f6c191e5e405e900e3102ac7f261bc0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/RingPHP/zipball/4c8fe4c48a0fb7cc5e41ef529e43fecd6da4d539",
-                "reference": "4c8fe4c48a0fb7cc5e41ef529e43fecd6da4d539",
+                "url": "https://api.github.com/repos/guzzle/RingPHP/zipball/dbbb91d7f6c191e5e405e900e3102ac7f261bc0b",
+                "reference": "dbbb91d7f6c191e5e405e900e3102ac7f261bc0b",
                 "shasum": ""
             },
             "require": {
@@ -531,20 +530,20 @@
                 }
             ],
             "description": "Provides a simple API and specification that abstracts away the details of HTTP into a single PHP function.",
-            "time": "2017-01-13 20:44:38"
+            "time": "2015-05-20T03:37:09+00:00"
         },
         {
             "name": "guzzlehttp/streams",
-            "version": "dev-master",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/streams.git",
-                "reference": "d99a261c616210618ab94fd319cb17eda458cc3e"
+                "reference": "47aaa48e27dae43d39fc1cea0ccf0d84ac1a2ba5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/streams/zipball/d99a261c616210618ab94fd319cb17eda458cc3e",
-                "reference": "d99a261c616210618ab94fd319cb17eda458cc3e",
+                "url": "https://api.github.com/repos/guzzle/streams/zipball/47aaa48e27dae43d39fc1cea0ccf0d84ac1a2ba5",
+                "reference": "47aaa48e27dae43d39fc1cea0ccf0d84ac1a2ba5",
                 "shasum": ""
             },
             "require": {
@@ -581,42 +580,7 @@
                 "Guzzle",
                 "stream"
             ],
-            "time": "2016-04-13 16:32:01"
-        },
-        {
-            "name": "j20/php-uuid",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/j20/php-uuid.git",
-                "reference": "0eea7a057b8a092798f2942e01a4d0d372b6c8a0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/j20/php-uuid/zipball/0eea7a057b8a092798f2942e01a4d0d372b6c8a0",
-                "reference": "0eea7a057b8a092798f2942e01a4d0d372b6c8a0",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "J20\\Uuid": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Generate a UUID v4 with PHP.",
-            "keywords": [
-                "guid",
-                "token",
-                "uuid"
-            ],
-            "time": "2017-01-04 12:35:38"
+            "time": "2014-10-12T19:18:40+00:00"
         },
         {
             "name": "mpdf/mpdf",
@@ -663,16 +627,16 @@
         },
         {
             "name": "paypal/rest-api-sdk-php",
-            "version": "dev-master",
+            "version": "1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paypal/PayPal-PHP-SDK.git",
-                "reference": "bc139915df7310973d3cb69d97d3a925c9cc7140"
+                "reference": "97e5102dc8e8a3c1ee954aa067505671caa65b59"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paypal/PayPal-PHP-SDK/zipball/bc139915df7310973d3cb69d97d3a925c9cc7140",
-                "reference": "bc139915df7310973d3cb69d97d3a925c9cc7140",
+                "url": "https://api.github.com/repos/paypal/PayPal-PHP-SDK/zipball/97e5102dc8e8a3c1ee954aa067505671caa65b59",
+                "reference": "97e5102dc8e8a3c1ee954aa067505671caa65b59",
                 "shasum": ""
             },
             "require": {
@@ -708,11 +672,11 @@
                 "rest",
                 "sdk"
             ],
-            "time": "2017-05-11 17:53:32"
+            "time": "2016-10-21T18:07:19+00:00"
         },
         {
             "name": "psr/log",
-            "version": "dev-master",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
@@ -755,20 +719,20 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-10-10 12:19:37"
+            "time": "2016-10-10T12:19:37+00:00"
         },
         {
             "name": "react/promise",
-            "version": "2.x-dev",
+            "version": "v2.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/promise.git",
-                "reference": "ec953894782a0366a5533677c68972eea848d848"
+                "reference": "62785ae604c8d69725d693eb370e1d67e94c4053"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/promise/zipball/ec953894782a0366a5533677c68972eea848d848",
-                "reference": "ec953894782a0366a5533677c68972eea848d848",
+                "url": "https://api.github.com/repos/reactphp/promise/zipball/62785ae604c8d69725d693eb370e1d67e94c4053",
+                "reference": "62785ae604c8d69725d693eb370e1d67e94c4053",
                 "shasum": ""
             },
             "require": {
@@ -801,7 +765,7 @@
                 "promise",
                 "promises"
             ],
-            "time": "2017-05-08 18:49:20"
+            "time": "2017-03-25T12:08:31+00:00"
         },
         {
             "name": "sammaye/mongoyii",
@@ -920,7 +884,7 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "2.8.x-dev",
+            "version": "v2.8.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
@@ -976,7 +940,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2017-06-02 07:47:27"
+            "time": "2017-06-02T07:47:27+00:00"
         },
         {
             "name": "twig/twig",
@@ -1134,16 +1098,16 @@
     "packages-dev": [
         {
             "name": "doctrine/annotations",
-            "version": "dev-master",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "7c830a576f9471f71096d200d633b6400513ccfb"
+                "reference": "54cacc9b81758b14e3ce750f205a393d52339e97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/7c830a576f9471f71096d200d633b6400513ccfb",
-                "reference": "7c830a576f9471f71096d200d633b6400513ccfb",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/54cacc9b81758b14e3ce750f205a393d52339e97",
+                "reference": "54cacc9b81758b14e3ce750f205a393d52339e97",
                 "shasum": ""
             },
             "require": {
@@ -1198,11 +1162,11 @@
                 "docblock",
                 "parser"
             ],
-            "time": "2017-05-25T15:48:57+00:00"
+            "time": "2017-02-24T16:22:25+00:00"
         },
         {
             "name": "doctrine/lexer",
-            "version": "dev-master",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/lexer.git",
@@ -1300,10 +1264,8 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "dev",
-    "stability-flags": {
-        "eo/passbook": 20
-    },
+    "minimum-stability": "stable",
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

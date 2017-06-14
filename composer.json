@@ -1,26 +1,21 @@
 {
-  "name": "runet-id/runet-id.com",
-  "description": "RUNETID",
-  "keywords": [
-    "event"
-  ],
+  "name": "ruvents/runet-id.com",
   "homepage": "http://runet-id.com/",
   "type": "project",
-  "license": "???",
-  "minimum-stability": "dev",
+  "license": "proprietary",
+  "minimum-stability": "stable",
   "require": {
     "php": ">=5.4.0",
     "yiisoft/yii": "1.1.17",
     "mpdf/mpdf": "5.7.4",
     "facebook/php-sdk-v4": "4.0.*",
     "giggsey/libphonenumber-for-php": "7.0.*",
-    "j20/php-uuid": "*",
-    "sammaye/mongoyii": "*",
-    "gregwar/image": "*",
-    "eo/passbook": "dev-master",
+    "sammaye/mongoyii": "8.0.*",
+    "gregwar/image": "2.0.*",
+    "eo/passbook": "2.0.*",
     "aws/aws-sdk-php": "2.*",
     "guzzlehttp/guzzle": "5.3.*",
-    "paypal/rest-api-sdk-php": "*",
+    "paypal/rest-api-sdk-php": "1.9.*",
     "twig/twig": "1.33.*",
     "sentry/sentry": "1.7.*"
   },
