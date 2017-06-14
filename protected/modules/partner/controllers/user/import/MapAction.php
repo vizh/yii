@@ -5,8 +5,6 @@ use partner\components\Action;
 use partner\models\forms\user\ImportPrepare;
 use partner\models\Import;
 
-\Yii::import('ext.PHPExcel.PHPExcel', true);
-
 /**
  * Class MapAction Makes the map for the user attributes
  */

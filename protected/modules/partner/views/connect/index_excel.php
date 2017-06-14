@@ -1,5 +1,4 @@
 <?php
-\Yii::import('ext.PHPExcel.PHPExcel', true);
 
 use application\modules\partner\models\search\Meeting;
 use event\models\Event;

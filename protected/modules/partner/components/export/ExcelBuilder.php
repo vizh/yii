@@ -4,17 +4,21 @@ namespace partner\components\export;
 use api\models\Account;
 use api\models\ExternalUser;
 use application\components\attribute\Definition;
+use application\components\Exception;
 use application\components\helpers\ArrayHelper;
-use event\models\Event;
+use CText;
 use event\models\Participant;
 use event\models\UserData;
 use partner\models\Export;
 use pay\components\OrderItemCollection;
 use pay\models\OrderItem;
 use pay\models\OrderType;
+use PHPExcel;
+use PHPExcel_IOFactory;
 use ruvents\models\Badge;
 use user\models\DocumentType;
 use user\models\User;
+use Yii;
 
 class ExcelBuilder
 {
@@ -26,26 +30,15 @@ class ExcelBuilder
 
     private $rowIterator = 1;
 
-    function __construct(Export $export)
+    public function __construct(Export $export)
     {
         $this->export = $export;
         $this->config = json_decode($export->Config);
-    }
 
-    /**
-     * @return Event
-     */
-    private function getEvent()
-    {
-        return $this->export->Event;
-    }
-
-    /**
-     * @return array
-     */
-    private function getConfig()
-    {
-        return $this->config;
+        // Если язык экспорта не указан, то устанавливаем ru
+        if (empty($this->config->Language)) {
+            $this->config->Language = Yii::app()->getParams()['Languages'][0];
+        }
     }
 
     /**
@@ -55,44 +48,48 @@ class ExcelBuilder
      */
     public function run()
     {
+        // Попытка запуска уже отработавшей задачи
         if ($this->export->Success) {
             return true;
         }
-        $language = !empty($this->getConfig()->Language) ? $this->getConfig()->Language : 'ru';
-        \Yii::app()->setLanguage($language);
 
-        $title = \Yii::t('app', 'Участники').' '.$this->export->Event->IdName;
-        if (strlen($title) > 30) {
-            $title = substr($title, 0, 28)."...";
-        }
+        Yii::app()->setLanguage($this->config->Language);
 
-        $phpExcel = new \PHPExcel();
-        $phpExcel->setActiveSheetIndex(0);
-        $activeSheet = $phpExcel->getActiveSheet();
-        $activeSheet->setTitle($title);
+        $excel = new PHPExcel();
+        $excel->setActiveSheetIndex();
 
-        $this->setHeaderRow($activeSheet);
+        $sheet = $excel->getActiveSheet();
+        $sheet->setTitle(CText::truncate(Yii::t('app', 'Участники').' '.$this->export->Event->IdName, 28));
 
-        $this->export->TotalRow = User::model()->count($this->getCriteria());
+        $this->setHeaderRow($sheet);
+
+        $users = User::model()
+            ->findAll($this->getCriteria());
+
+        $this->export->TotalRow = count($users);
         $this->export->ExportedRow = 0;
 
-        $users = User::model()->findAll($this->getCriteria());
-        $phpExcelWriter = \PHPExcel_IOFactory::createWriter($phpExcel, 'Excel2007');
+        $writer = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
         foreach ($users as $user) {
-            $this->appendRow($activeSheet, $user);
-            $this->export->ExportedRow = $this->export->ExportedRow + 1;
-            if ($this->export->ExportedRow % 50 == 0) {
+            $this->appendRow($sheet, $user);
+            $this->export->ExportedRow++;
+            // Обновляем статистику в интерфейсе
+            if ($this->export->ExportedRow % 50 === 0) {
                 $this->export->save();
             }
         }
 
-        $path = $this->getFilePath();
-        $phpExcelWriter->save($path);
-
         $this->export->Success = true;
         $this->export->SuccessTime = date('Y-m-d H:i:s');
-        $this->export->FilePath = $path;
-        $this->export->save();
+        $this->export->FilePath = $this->getFilePath();
+
+        $writer->save($this->export->FilePath);
+
+        if (false === $this->export->save()) {
+            throw new Exception($this->export);
+        }
+
+        return true;
     }
 
     /**
@@ -102,8 +99,14 @@ class ExcelBuilder
     private function setHeaderRow(\PHPExcel_Worksheet $sheet)
     {
         foreach (array_values($this->getRowMap()) as $i => $value) {
-            $sheet->setCellValueByColumnAndRow($i, $this->rowIterator, $value);
+            $cell = $sheet->getCellByColumnAndRow($i, $this->rowIterator);
+            $cell->setValue($value);
+            $cell->getStyle()->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_PATTERN_DARKGRAY);
+            $cell->getStyle()->getFill()->getStartColor()->setRGB();
+            $cell->getStyle()->getFont()->getColor()->setRGB('FFFFFF');
+            $cell->getStyle()->getFont()->setSize(14);
         }
+
         $this->rowIterator++;
     }
 
@@ -114,14 +117,14 @@ class ExcelBuilder
      */
     private function appendRow(\PHPExcel_Worksheet $sheet, User $user)
     {
-        $formatter = \Yii::app()->getDateFormatter();
+        $formatter = Yii::app()->getDateFormatter();
 
         $row = $this->getBaseRow($user);
 
         /** @var Participant $participant */
         $participant = null;
         foreach ($user->Participants as $item) {
-            if ($participant == null || $participant->Role->Priority < $item->Role->Priority) {
+            if ($participant === null || $participant->Role->Priority < $item->Role->Priority) {
                 $participant = $item;
             }
         }
@@ -129,7 +132,7 @@ class ExcelBuilder
         if ($participant !== null) {
             $row['Role'] = $participant->Role->Title;
             $row['DateRegister'] = $formatter->format('dd MMMM yyyy HH:mm', $participant->CreationTime);
-            if (!empty($this->getConfig()->PartId)) {
+            if (!empty($this->config->PartId)) {
                 $row['Part'] = $participant->Part->Title;
             }
         }
@@ -141,18 +144,26 @@ class ExcelBuilder
         }
 
         $this->fillRowPayData($user, $row);
-        if (!empty($this->getConfig()->Document)) {
+        if (!empty($this->config->Document)) {
             $this->fillRowDocumentData($user, $row);
         }
 
-        $badge = Badge::model()->byEventId($this->getEvent()->Id)->byUserId($user->Id)->orderBy('"t"."CreationTime"')
+        $badge = Badge::model()
+            ->byEventId($this->export->EventId)
+            ->byUserId($user->Id)
+            ->orderBy('"t"."CreationTime"')
             ->find();
+
         if ($badge !== null) {
             $row['DateBadge'] = $formatter->format('dd MMMM yyyy HH:mm', $badge->CreationTime);
         }
 
         if ($this->hasExternalId()) {
-            $externalUser = ExternalUser::model()->byAccountId($this->getApiAccount()->Id)->byUserId($user->Id)->find();
+            $externalUser = ExternalUser::model()
+                ->byAccountId($this->getApiAccount()->Id)
+                ->byUserId($user->Id)
+                ->find();
+
             if ($externalUser !== null) {
                 $row['ExternalId'] = $externalUser->ExternalId;
             }
@@ -164,13 +175,11 @@ class ExcelBuilder
 
         $i = 0;
         foreach ($row as $value) {
-            $type = \PHPExcel_Cell_DataType::TYPE_STRING;
-            if (is_numeric($value)) {
-                $type = \PHPExcel_Cell_DataType::TYPE_NUMERIC;
-            }
-
-            $sheet->setCellValueExplicitByColumnAndRow($i++, $this->rowIterator, $value, $type);
+            $sheet->setCellValueExplicitByColumnAndRow($i++, $this->rowIterator, $value, is_numeric($value)
+                ? \PHPExcel_Cell_DataType::TYPE_NUMERIC
+                : \PHPExcel_Cell_DataType::TYPE_STRING);
         }
+
         $this->rowIterator++;
     }
 
@@ -218,11 +227,11 @@ class ExcelBuilder
      */
     private function fillRowPayData(User $user, &$row)
     {
-        $formatter = \Yii::app()->getDateFormatter();
+        $formatter = Yii::app()->getDateFormatter();
 
         $orderItems = OrderItem::model()
             ->byAnyOwnerId($user->Id)
-            ->byEventId($this->getEvent()->Id)
+            ->byEventId($this->export->EventId)
             ->byPaid(true)
             ->byRefund(false)
             ->with(['OrderLinks.Order', 'OrderLinks.Order.ItemLinks'])
@@ -249,8 +258,8 @@ class ExcelBuilder
                         break;
                     }
                 }
-                $paidType[] = $order->Type == OrderType::Juridical ? \Yii::t('app', 'Юр. лицо')
-                    : \Yii::t('app', 'Физ. лицо');
+                $paidType[] = $order->Type == OrderType::Juridical ? Yii::t('app', 'Юр. лицо')
+                    : Yii::t('app', 'Физ. лицо');
             } else {
                 $paidType[] = 'Промо-код';
             }
@@ -313,7 +322,7 @@ class ExcelBuilder
                 'Subscription' => 'Получать рассылки',
             ];
 
-            if (!empty($this->getConfig()->Document)) {
+            if (!empty($this->config->Document)) {
                 $this->fillRowMapDocument($map);
             }
 
@@ -321,7 +330,7 @@ class ExcelBuilder
                 $map['ExternalId'] = 'Внешний ID';
             }
 
-            if (!empty($this->getConfig()->PartId)) {
+            if (!empty($this->config->PartId)) {
                 $map['Part'] = 'Часть мероприятия';
             }
 
@@ -356,15 +365,15 @@ class ExcelBuilder
      */
     private function getCriteria()
     {
-        $roles = !empty($this->getConfig()->Roles) ? $this->getConfig()->Roles : [];
+        $roles = !empty($this->config->Roles) ? $this->config->Roles : [];
 
         $criteria = new \CDbCriteria();
         $criteria->with = [
             'Participants' => [
-                'on' => '"Participants"."EventId" = :EventId'.(!empty($this->getConfig()->PartId)
+                'on' => '"Participants"."EventId" = :EventId'.(!empty($this->config->PartId)
                         ? ' AND "Participants"."PartId" = :PartId' : ''),
                 'params' => [
-                    'EventId' => $this->getEvent()->Id,
+                    'EventId' => $this->export->EventId,
                 ],
                 'together' => false,
             ],
@@ -386,26 +395,26 @@ class ExcelBuilder
                 'select' => 'Id',
                 'on' => '"UnsubscribeEventMails"."EventId" = :EventId',
                 'params' => [
-                    'EventId' => $this->getEvent()->Id,
+                    'EventId' => $this->export->EventId,
                 ],
                 'together' => false,
             ],
         ];
         $criteria->order = '"t"."LastName" ASC, "t"."FirstName" ASC';
 
-        if (!empty($this->getConfig()->PartId)) {
-            $criteria->with['Participants']['params']['PartId'] = $this->getConfig()->PartId;
+        if (!empty($this->config->PartId)) {
+            $criteria->with['Participants']['params']['PartId'] = $this->config->PartId;
         }
 
-        $command = \Yii::app()->getDb()->createCommand();
+        $command = Yii::app()->getDb()->createCommand();
         $command->select('EventParticipant.UserId')->from('EventParticipant');
-        $command->where('"EventParticipant"."EventId" = '.$this->getEvent()->Id);
+        $command->where('"EventParticipant"."EventId" = '.$this->export->EventId);
         if (!empty($roles)) {
             $command->andWhere(['in', 'EventParticipant.RoleId', $roles]);
         }
 
-        if (!empty($this->getConfig()->PartId)) {
-            $command->andWhere('"EventParticipant"."PartId" = '.$this->getConfig()->PartId);
+        if (!empty($this->config->PartId)) {
+            $command->andWhere('"EventParticipant"."PartId" = '.$this->config->PartId);
         }
         $criteria->addCondition('"t"."Id" IN ('.$command->getText().')');
 
@@ -436,7 +445,7 @@ class ExcelBuilder
         $initMap = false;
 
         $data = UserData::model()
-            ->byEventId($this->getEvent()->Id)
+            ->byEventId($this->export->EventId)
             ->byDeleted(false)
             ->findAll();
 
@@ -448,7 +457,7 @@ class ExcelBuilder
                 if ($definition->translatable) {
                     $definition->translatable = false;
                     $values = $definition->getPrintValue($item->getManager());
-                    foreach (\Yii::app()->getParams()['Languages'] as $language) {
+                    foreach (Yii::app()->getParams()['Languages'] as $language) {
                         if ($initMap === false) {
                             $this->rowMap[$definition->name.'-'.$language] = $definition->title.'-'.$language;
                         }
@@ -478,10 +487,8 @@ class ExcelBuilder
     private function hasExternalId()
     {
         if ($this->hasExternalId === null) {
-            $this->hasExternalId = false;
-            if ($this->getApiAccount() !== null) {
-                $this->hasExternalId = ExternalUser::model()->byAccountId($this->getApiAccount()->Id)->exists();
-            }
+            $this->hasExternalId = $this->getApiAccount() !== null
+                && ExternalUser::model()->byAccountId($this->getApiAccount()->Id)->exists();
         }
 
         return $this->hasExternalId;
@@ -496,7 +503,7 @@ class ExcelBuilder
     private function getApiAccount()
     {
         if ($this->apiAccount === false) {
-            $this->apiAccount = Account::model()->byEventId($this->getEvent()->Id)->find();
+            $this->apiAccount = Account::model()->byEventId($this->export->EventId)->find();
         }
 
         return $this->apiAccount;
@@ -504,10 +511,12 @@ class ExcelBuilder
 
     private function getFilePath()
     {
-        $path = \Yii::getPathOfAlias('partner.data.'.$this->getEvent()->Id.'.export');
-        if (!file_exists($path)) {
+        $path = Yii::getPathOfAlias("partner.data.{$this->export->EventId}.export");
+
+        if (false === file_exists($path)) {
             mkdir($path, 0777, true);
         }
+
         $path .= DIRECTORY_SEPARATOR.date('Ymd_His').'.xlsx';
 
         return $path;

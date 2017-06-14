@@ -3,8 +3,6 @@
 use competence\models\Result;
 use event\models\Participant;
 
-\Yii::import('ext.PHPExcel.PHPExcel', true);
-
 class ExportController extends \application\components\controllers\AdminMainController
 {
     /** @var  \competence\models\Test */
@@ -65,7 +63,7 @@ class ExportController extends \application\components\controllers\AdminMainCont
 
     /**
      * @param string $type
-     * @return Result
+     * @return Result[]
      */
     private function getResults($type)
     {

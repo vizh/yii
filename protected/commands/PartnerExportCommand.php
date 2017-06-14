@@ -3,8 +3,6 @@ use application\components\console\BaseConsoleCommand;
 use partner\components\export\ExcelBuilder;
 use partner\models\Export;
 
-\Yii::import('ext.PHPExcel.PHPExcel', true);
-
 class PartnerExportCommand extends BaseConsoleCommand
 {
     public function run($args)

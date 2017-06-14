@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0c94829849ab6d9c7023541b3f7956dc",
+    "hash": "278a0776db3a54e7e1b79e2e5f6f5b41",
+    "content-hash": "b64db3e179d6dde39ca5b06c8575b3c8",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -67,7 +68,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2016-07-25T18:03:20+00:00"
+            "time": "2016-07-25 18:03:20"
         },
         {
             "name": "eo/passbook",
@@ -123,7 +124,7 @@
                 "tickets",
                 "wallet"
             ],
-            "time": "2016-11-16T21:50:09+00:00"
+            "time": "2016-11-16 21:50:09"
         },
         {
             "name": "facebook/php-sdk-v4",
@@ -173,7 +174,7 @@
                 "sdk"
             ],
             "abandoned": "facebook/graph-sdk",
-            "time": "2015-04-03T20:31:47+00:00"
+            "time": "2015-04-03 20:31:47"
         },
         {
             "name": "giggsey/libphonenumber-for-php",
@@ -236,7 +237,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2015-09-16T14:33:08+00:00"
+            "time": "2015-09-16 14:33:08"
         },
         {
             "name": "gregwar/cache",
@@ -279,7 +280,7 @@
                 "file-system",
                 "system"
             ],
-            "time": "2016-09-23T08:16:04+00:00"
+            "time": "2016-09-23 08:16:04"
         },
         {
             "name": "gregwar/image",
@@ -331,7 +332,7 @@
                 "gd",
                 "image"
             ],
-            "time": "2017-01-24T09:29:39+00:00"
+            "time": "2017-01-24 09:29:39"
         },
         {
             "name": "guzzle/guzzle",
@@ -427,7 +428,7 @@
                 "web service"
             ],
             "abandoned": "guzzlehttp/guzzle",
-            "time": "2015-03-18T18:23:50+00:00"
+            "time": "2015-03-18 18:23:50"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -479,7 +480,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2016-07-15T19:28:39+00:00"
+            "time": "2016-07-15 19:28:39"
         },
         {
             "name": "guzzlehttp/ringphp",
@@ -530,7 +531,7 @@
                 }
             ],
             "description": "Provides a simple API and specification that abstracts away the details of HTTP into a single PHP function.",
-            "time": "2015-05-20T03:37:09+00:00"
+            "time": "2015-05-20 03:37:09"
         },
         {
             "name": "guzzlehttp/streams",
@@ -580,7 +581,7 @@
                 "Guzzle",
                 "stream"
             ],
-            "time": "2014-10-12T19:18:40+00:00"
+            "time": "2014-10-12 19:18:40"
         },
         {
             "name": "mpdf/mpdf",
@@ -623,7 +624,7 @@
                 "php",
                 "utf-8"
             ],
-            "time": "2014-12-14T18:32:11+00:00"
+            "time": "2014-12-14 18:32:11"
         },
         {
             "name": "paypal/rest-api-sdk-php",
@@ -672,7 +673,64 @@
                 "rest",
                 "sdk"
             ],
-            "time": "2016-10-21T18:07:19+00:00"
+            "time": "2016-10-21 18:07:19"
+        },
+        {
+            "name": "phpoffice/phpexcel",
+            "version": "1.8.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPOffice/PHPExcel.git",
+                "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+                "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+                "shasum": ""
+            },
+            "require": {
+                "ext-xml": "*",
+                "ext-xmlwriter": "*",
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PHPExcel": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Maarten Balliauw",
+                    "homepage": "http://blog.maartenballiauw.be"
+                },
+                {
+                    "name": "Mark Baker"
+                },
+                {
+                    "name": "Franck Lefevre",
+                    "homepage": "http://blog.rootslabs.net"
+                },
+                {
+                    "name": "Erik Tilt"
+                }
+            ],
+            "description": "PHPExcel - OpenXML - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
+            "homepage": "http://phpexcel.codeplex.com",
+            "keywords": [
+                "OpenXML",
+                "excel",
+                "php",
+                "spreadsheet",
+                "xls",
+                "xlsx"
+            ],
+            "time": "2015-05-01 07:00:55"
         },
         {
             "name": "psr/log",
@@ -719,7 +777,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-10-10T12:19:37+00:00"
+            "time": "2016-10-10 12:19:37"
         },
         {
             "name": "react/promise",
@@ -765,7 +823,7 @@
                 "promise",
                 "promises"
             ],
-            "time": "2017-03-25T12:08:31+00:00"
+            "time": "2017-03-25 12:08:31"
         },
         {
             "name": "sammaye/mongoyii",
@@ -815,7 +873,7 @@
                 "orm",
                 "yii"
             ],
-            "time": "2014-09-17T14:20:14+00:00"
+            "time": "2014-09-17 14:20:14"
         },
         {
             "name": "sentry/sentry",
@@ -880,7 +938,7 @@
                 "log",
                 "logging"
             ],
-            "time": "2017-06-07T18:13:17+00:00"
+            "time": "2017-06-07 18:13:17"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -940,7 +998,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2017-06-02T07:47:27+00:00"
+            "time": "2017-06-02 07:47:27"
         },
         {
             "name": "twig/twig",
@@ -1002,7 +1060,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2017-04-20T17:39:48+00:00"
+            "time": "2017-04-20 17:39:48"
         },
         {
             "name": "yiisoft/yii",
@@ -1097,7 +1155,7 @@
                 "framework",
                 "yii"
             ],
-            "time": "2017-06-08T07:19:07+00:00"
+            "time": "2017-06-08 07:19:07"
         }
     ],
     "packages-dev": [
@@ -1167,7 +1225,7 @@
                 "docblock",
                 "parser"
             ],
-            "time": "2017-02-24T16:22:25+00:00"
+            "time": "2017-02-24 16:22:25"
         },
         {
             "name": "doctrine/lexer",
@@ -1221,7 +1279,7 @@
                 "lexer",
                 "parser"
             ],
-            "time": "2014-09-09T13:34:57+00:00"
+            "time": "2014-09-09 13:34:57"
         },
         {
             "name": "nastradamus39/annotation-md",
@@ -1265,7 +1323,7 @@
                 "phpdoc",
                 "slate"
             ],
-            "time": "2017-02-22T08:30:58+00:00"
+            "time": "2017-02-22 08:30:58"
         }
     ],
     "aliases": [],

@@ -3,8 +3,6 @@ namespace ruvents\controllers\stat;
 
 use ruvents\models\Visit;
 
-\Yii::import('ext.PHPExcel.PHPExcel', true);
-
 /**
  * Class DownloadFoodUsersListAction prepares and returns list of users as excel file
  */
@@ -38,11 +36,11 @@ class DownloadFoodUsersListAction extends StatAction
             $this->appendRow($activeSheet, $visit, $line++);
         }
 
-        header("Content-Type:   application/vnd.ms-excel; charset=utf-8");
-        header("Content-Disposition: attachment; filename=$fileName.xls");  //File name extension was wrong
-        header("Expires: 0");
-        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-        header("Cache-Control: private", false);
+        header('Content-Type:   application/vnd.ms-excel; charset=utf-8');
+        header("Content-Disposition: attachment; filename={$fileName}.xls");  //File name extension was wrong
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Cache-Control: private', false);
 
         $phpExcelWriter->save('php://output');
     }

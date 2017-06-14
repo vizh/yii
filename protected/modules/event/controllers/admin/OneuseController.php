@@ -1833,7 +1833,6 @@ class OneuseController extends AdminMainController
     public function actionTersm15()
     {
         ini_set("memory_limit", "512M");
-        \Yii::import('ext.PHPExcel.PHPExcel', true);
         $phpExcel = PHPExcel_IOFactory::createReader('Excel2007');
         $phpExcel = $phpExcel->load(\Yii::getPathOfAlias('application').'/../data/event/tersm15/participants.xlsx');
         $phpExcel->setActiveSheetIndex(0);

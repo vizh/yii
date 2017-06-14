@@ -803,7 +803,6 @@ class OneuseController extends \application\components\controllers\AdminMainCont
             'без проживания' => 2764
         ];
 
-        \Yii::import('ext.PHPExcel.PHPExcel', true);
         $excel = \PHPExcel_IOFactory::load(\Yii::getPathOfAlias('pay.data.DevCon2014_Register').'.xlsx');
         $worksheet = $excel->getSheet(0);
 
@@ -871,7 +870,6 @@ class OneuseController extends \application\components\controllers\AdminMainCont
         echo 'closed';
         exit;
 
-        \Yii::import('ext.PHPExcel.PHPExcel', true);
         $excel = \PHPExcel_IOFactory::load(\Yii::getPathOfAlias('pay.data.halls-all').'.xlsx');
         $worksheet = $excel->getSheet(0);
 
