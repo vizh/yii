@@ -100,7 +100,7 @@ $config['components']['urlManager']['rules'] = CMap::mergeArray(
 );
 
 // Совместимость с php 7.0
-if (strpos(phpversion(), '7.') === 0) {
+if (strpos(PHP_VERSION, '7.') === 0) {
     $config['components']['cache'] = [
         'class' => 'CApcCache',
         'useApcu' => true
@@ -117,7 +117,7 @@ if (YII_DEBUG) {
         ];
     }
     // Большая совместимость с современными версиями php для окружения разработчика
-    if (strpos(phpversion(), '7.') === 0) {
+    if (strpos(PHP_VERSION, '7.') === 0) {
         // Монга тоже не подходит
         unset($config['components']['mongodb']);
     }
