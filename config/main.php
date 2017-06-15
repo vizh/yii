@@ -7,7 +7,7 @@ $config = [
     'name' => 'RUNET-ID',
     'sourceLanguage' => 'ru',
     'language' => 'ru',
-    'preload' => ['log', 'session', 'debug'],
+    'preload' => ['log', 'session'],
     'import' => [
         'application.components.Utils',
         'application.helpers.*',
@@ -108,10 +108,14 @@ if (strpos(phpversion(), '7.') === 0) {
 }
 
 if (YII_DEBUG) {
-    $config['components']['debug'] = [
-        'class' => 'ext.yii2-debug.Yii2Debug',
-        'allowedIPs' => ['127.0.0.1', '::1', '82.142.129.37 '],
-    ];
+    // Если расширение Yii2Debug действительно установлено, а то composer install --no-dev может быть
+    if (file_exists(__DIR__.'/../vendor/zhuravljov/yii2-debug/Yii2Debug.php')) {
+        $config['preload'][] = 'debug';
+        $config['components']['debug'] = [
+            'class' => 'vendor.zhuravljov.yii2-debug.Yii2Debug',
+            'allowedIPs' => ['*']
+        ];
+    }
     // Большая совместимость с современными версиями php для окружения разработчика
     if (strpos(phpversion(), '7.') === 0) {
         // Монга тоже не подходит

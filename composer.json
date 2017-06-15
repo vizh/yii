@@ -21,6 +21,7 @@
     "sentry/sentry": "1.7.*"
   },
   "require-dev": {
+    "zhuravljov/yii2-debug": "1.5.*",
     "nastradamus39/annotation-md": "0.0.8"
   }
 }
