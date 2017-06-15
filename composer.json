@@ -18,7 +18,8 @@
     "guzzlehttp/guzzle": "5.3.*",
     "paypal/rest-api-sdk-php": "1.9.*",
     "twig/twig": "1.33.*",
-    "sentry/sentry": "1.7.*"
+    "sentry/sentry": "1.7.*",
+    "swiftmailer/swiftmailer": "4.3.*"
   },
   "require-dev": {
     "zhuravljov/yii2-debug": "1.5.*",
