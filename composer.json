@@ -19,7 +19,8 @@
     "paypal/rest-api-sdk-php": "1.9.*",
     "twig/twig": "1.33.*",
     "sentry/sentry": "1.7.*",
-    "swiftmailer/swiftmailer": "4.3.*"
+    "swiftmailer/swiftmailer": "4.3.*",
+    "phpmailer/phpmailer": "5.2.*"
   },
   "require-dev": {
     "zhuravljov/yii2-debug": "1.5.*",

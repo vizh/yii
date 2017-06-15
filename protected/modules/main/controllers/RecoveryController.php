@@ -6,17 +6,17 @@ class RecoveryController extends \application\components\controllers\PublicMainC
     {
         $user = user\models\User::model()->byRunetId($runetId)->find();
         if ($user !== null && $user->checkRecoveryHash($hash)) {
-            $mail = new \ext\mailer\PHPMailer(false);
-            $mail->AddAddress($user->Email);
-            $mail->SetFrom('users@'.RUNETID_HOST, \Yii::t('app', 'RUNET-ID'), false);
+            $mail = new PHPMailer(false);
+            $mail->addAddress($user->Email);
+            $mail->setFrom('users@'.RUNETID_HOST, \Yii::t('app', 'RUNET-ID'), false);
             $mail->CharSet = 'utf-8';
             $mail->Subject = '=?UTF-8?B?'.base64_encode(\Yii::t('app', 'Восстановление пароля')).'?=';
-            $mail->IsHTML(true);
+            $mail->isHTML();
             $password = $user->changePassword();
-            $mail->MsgHTML(
+            $mail->msgHTML(
                 \Yii::app()->controller->renderPartial('user.views.mail.recover', ['user' => $user, 'type' => 'withPassword', 'password' => $password], true)
             );
-            $mail->Send();
+            $mail->send();
             $identity = new \application\components\auth\identity\RunetId($user->RunetId);
             $identity->authenticate();
             \Yii::app()->user->login($identity);
