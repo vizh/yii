@@ -53,10 +53,6 @@ $params = [
     'RuventsFountLifetime' => 3660,
     'RuventsMaxResults' => 500,
 
-    /** LittleSms */
-    'LittleSmsUser' => 'acc-3c0a9d79',
-    'LittleSmsKey' => 'ZWyFOkv5',
-
     /** Взаимодействие с БудуГуру.org */
     'BuduGuru.jobsExportUrl' => 'http://buduguru.org/vacancies/export',
     'BuduGuru.coursesExportUrl' => 'http://buduguru.org/courses/export'
