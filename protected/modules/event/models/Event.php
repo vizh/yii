@@ -633,6 +633,7 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
         if (!isset($this->NotSendRegisterMail) || !$this->NotSendRegisterMail) {
             $class = Yii::getExistClass('\event\components\handlers\register', $sender, 'Base');
             $mail = new $class($mailer, $event);
+            $mail->setAttachments( $mail->getAttachments() );
             $mail->send();
         }
 

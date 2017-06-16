@@ -84,6 +84,16 @@ abstract class Mail
     }
 
     /**
+     * Прилогаемые файлы
+     *
+     * @param $attachments
+     */
+    public function setAttachments($attachments)
+    {
+        $this->attributes['attachments'] = $attachments;
+    }
+
+    /**
      * Отправка письма
      * @return bool
      */

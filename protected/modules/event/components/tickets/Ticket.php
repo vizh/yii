@@ -94,7 +94,7 @@ class Ticket
         $name = $this->user->RunetId.'_'.$this->event->IdName.'.pdf';
         $path = \Yii::getPathOfAlias('application').'/../data/tickets/'.substr(md5($name), 0, 3);
         if (!file_exists($path)) {
-            mkdir($path);
+            mkdir($path, 0777, true);
         }
         $path .= '/'.$name;
         $this->getPdf()->Output($path, 'F');

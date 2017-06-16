@@ -133,7 +133,7 @@ class Base extends MailLayout
             ];*/
         }
 
-        if ($mail !== null && $mail->SendTicket && false) {
+        if ($mail !== null && $mail->SendTicket ) {
             $ticket = $this->participant->getTicket();
             $attachments[$ticket->getFileName()] = $ticket->save();
         }
