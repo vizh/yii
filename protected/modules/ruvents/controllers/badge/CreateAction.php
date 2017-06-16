@@ -72,26 +72,6 @@ class CreateAction extends \ruvents\components\Action
         $badge->RoleId = $participant->RoleId;
         $badge->save();
 
-        if (false === empty($user->PrimaryPhone) && $this->getEvent()->Id == 3443) {
-            (new \GuzzleHttp\Client())->get('http://smspilot.ru/api.php', [
-                'query' => [
-                    'apikey' => 'Y38SCF7589PK591621RQ9M6C94E79GF1750GZS8C8I486M9J8EAY1P5T2L1A3710',
-                    'to' => $user->getPhone(false),
-                    'send' => 'Доброе утро! Рады приветствовать Вас на Национальной Конференции дилеров и уполномоченных партнеров Тойота и Лексус. В полученных материалах Вы сможете найти расписание конференции. Цвет семинара соответствует цвету Вашего бейджа.'
-                ]
-            ]);
-        }
-
-        if (false === empty($user->PrimaryPhone) && $this->getEvent()->Id == 3450) {
-            (new \GuzzleHttp\Client())->get('http://smspilot.ru/api.php', [
-                'query' => [
-                    'apikey' => 'Y38SCF7589PK591621RQ9M6C94E79GF1750GZS8C8I486M9J8EAY1P5T2L1A3710',
-                    'to' => $user->getPhone(false),
-                    'send' => 'Доброе утро! Благодарим Вас за регистрацию на Национальную дилерскую конференцию. В полученных материалах Вы найдете программу конференции, расписание трансферов, а также другую полезную информацию. Желаем Вам отличного дня!'
-                ]
-            ]);
-        }
-
         $this->renderJson([
             'Success' => true
         ]);
