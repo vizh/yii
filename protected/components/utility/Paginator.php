@@ -1,8 +1,6 @@
 <?php
 namespace application\components\utility;
 
-use application\components\CDbCriteria;
-
 class Paginator
 {
     const AllPageName = 'all';
@@ -82,7 +80,7 @@ class Paginator
     {
         $count = $this->getCountPages();
         $pages = [];
-        if ($count <= $this->pages) {
+        if ($this->pages === null || $count <= $this->pages) {
             for ($i = 1; $i <= $count; $i++) {
                 $page = new \stdClass();
                 $page->value = $i;
