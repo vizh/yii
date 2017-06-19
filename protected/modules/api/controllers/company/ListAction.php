@@ -40,7 +40,7 @@ class ListAction extends Action
     public function run()
     {
         // Данный метод доступен только для собственных мероприятий
-        if ($this->getAccount()->Role !== Account::ROLE_OWN) {
+        if (false === in_array($this->getAccount()->Role, [Account::ROLE_OWN, Account::ROLE_PARTNER, Account::ROLE_PARTNER_WOC])) {
             throw new Exception(104);
         }
 

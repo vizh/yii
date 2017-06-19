@@ -10,6 +10,7 @@ use CDbCriteria;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
 use pay\models\OrderItem;
 use user\models\User;
@@ -24,8 +25,7 @@ class UsersAction extends Action
      *     title="Участники",
      *     description="Список участников мероприятия с заданной ролью.",
      *     samples={
-    @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
-    '{{API_URL}}/event/users?RoleId=1'")
+     *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}' '{{API_URL}}/event/users?RoleId=1'")
      *     },
      *     request=@Request(
      *          method="GET",

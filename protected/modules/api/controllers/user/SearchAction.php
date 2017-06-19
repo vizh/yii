@@ -21,8 +21,8 @@ class SearchAction extends \api\components\Action
      *          url="/user/search",
      *          body="",
      *          params={
-     *              @Param(title="Query", type="Строка", defaultValue="", description="может принимать значения Email, RunetId, список RunetId через запятую, Фамилия, Фамилия Имя, Имя Фамилия")
-     *              @Param(title="EventId", type="Число", defaultValue="", description="если указан, то поиск происходит только среди посетителей указанного мероприятия")
+     *              @Param(title="Query", type="Строка", defaultValue="", description="может принимать значения Email, RunetId, список RunetId через запятую, Фамилия, Фамилия Имя, Имя Фамилия"),
+     *              @Param(title="EventId", type="Число", defaultValue="", description="если указан, то поиск происходит только среди посетителей указанного мероприятия"),
      *              @Param(title="Visible", type="Число", defaultValue="", description="Только для собственных мероприятий! Возможность искать по скрытым пользователям, если Visible = 0")
      *          },
      *          response=@Response(body="{'Users': 'массив пользователей','NextPageToken':  'указатель на следующую страницу'}")

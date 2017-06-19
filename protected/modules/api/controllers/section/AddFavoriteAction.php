@@ -4,6 +4,7 @@ namespace api\controllers\section;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
+use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
 
 class AddFavoriteAction extends \api\components\Action
@@ -15,8 +16,7 @@ class AddFavoriteAction extends \api\components\Action
      *     title="Добавление в избранное",
      *     description="Добавление секции в избранное",
      *     samples={
-    @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
-    '{{API_URL}}/event/section/addFavorite?RunetId=656438&SectionId=4107'")
+     *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}' '{{API_URL}}/event/section/addFavorite?RunetId=656438&SectionId=4107'")
      *     },
      *     request=@Request(
      *          method="GET",

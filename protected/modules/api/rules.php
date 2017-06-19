@@ -53,12 +53,7 @@ return [
     [
         'allow',
         'roles' => [Account::ROLE_BASE],
-        'controllers' => ['section'],
-    ],
-    [
-        'allow',
-        'roles' => [Account::ROLE_BASE],
-        'controllers' => ['company'],
+        'controllers' => ['section', 'company']
     ],
     [
         'allow',

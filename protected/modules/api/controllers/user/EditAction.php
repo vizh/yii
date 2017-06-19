@@ -17,7 +17,7 @@ class EditAction extends \api\components\Action
     /**
      * @ApiAction(
      *     controller="User",
-     *     title="Создание",
+     *     title="Редактирование",
      *     description="Редактирует пользователя.",
      *     request=@Request(
      *          method="POST",
