@@ -135,15 +135,15 @@ trait JsonContainer
 
     public function __get($name)
     {
-        if (!isset($this->definitions[$name])) {
+        if (false === isset($this->definitions[$name])) {
             throw new Exception("Атрибут '$name' не определён для данного мероприятия");
         }
 
-        $value = $this->attributes[$name];
-
-        if (empty($value)) {
+        if (false === isset($this->attributes[$name]) || empty($this->attributes[$name])) {
             return null;
         }
+
+        $value = $this->attributes[$name];
 
         $options = $this->getAttributesSettings();
 
