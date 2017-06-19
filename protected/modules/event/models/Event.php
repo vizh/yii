@@ -118,6 +118,7 @@ use Yii;
 class Event extends ActiveRecord implements ISearch, \JsonSerializable
 {
     const TS16 = 2783; // Территория смыслов 2016
+    const TS17 = 3408; // Территория смыслов 2017
     const AR17 = 3243; // Арктика 2017
 
     protected $fileDir; // кеш, содержащий путь к файлам мероприятия. использовать только через getPath()

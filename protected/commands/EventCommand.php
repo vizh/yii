@@ -14,7 +14,7 @@ use user\models\User;
  */
 class EventCommand extends BaseConsoleCommand
 {
-    const AIS_PARTICIPANTS_EVENT_ID = 77;
+    const AIS_PARTICIPANTS_EVENT_ID = 3493;
     const AIS_VOLUNTEERS_EVENT_ID = 112;
 
     /**
@@ -82,7 +82,7 @@ class EventCommand extends BaseConsoleCommand
             ->from('RuventsBadge b')
             ->join('EventUserData d', 'd."EventId" = b."EventId" AND d."UserId" = b."UserId"')
             ->where('b."EventId" = :eventId AND d."Attributes"::TEXT ~ \'"ais_registration_id":"\d+"\'', [
-                ':eventId' => Event::TS16
+                ':eventId' => Event::TS17
             ])
             ->query();
 
@@ -105,18 +105,22 @@ class EventCommand extends BaseConsoleCommand
     {
         $ais = new AIS();
 
-        $yesterday = $update ? (new DateTime())->sub(new DateInterval('PT15M'))->format('Y-m-d H:i:s') : null;
+        $yesterday = $update !== true
+            ? (new DateTime())->sub(new DateInterval('PT15M'))->format('Y-m-d H:i:s')
+            : null;
 
         // Find the TS event
-        $event = Event::model()->findByPk(Event::TS16);
+        $event = Event::model()
+            ->findByPk(Event::TS17);
+
         // Disable participants notification
         $event->skipOnRegister = true;
         $rolesMap = [
-            self::AIS_VOLUNTEERS_EVENT_ID => Role::model()->findByPk(Role::VOLUNTEER),
+//            self::AIS_VOLUNTEERS_EVENT_ID => Role::model()->findByPk(Role::VOLUNTEER),
             self::AIS_PARTICIPANTS_EVENT_ID => Role::model()->findByPk(Role::PARTICIPANT)
         ];
 
-        if (!$apiAccount = Account::model()->byEventId(Event::TS16)->find()) {
+        if (!$apiAccount = Account::model()->byEventId(Event::TS17)->find()) {
             echo "API account for the event has not beed found\n";
             return;
         }

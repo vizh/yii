@@ -10,8 +10,8 @@ use Yii;
 class AIS
 {
     const AIS_SITE = 'https://ais.fadm.gov.ru/';
-    const AIS_LOGIN = 'star.absorber@gmail.com';
-    const AIS_PASS = 'Ruvents16';
+    const AIS_LOGIN = 'vnevyanceva@fadm.gov.ru';
+    const AIS_PASS = 'Vl646524';
 
     const URL_LOGIN = 'auth/login';
     const URL_EVENTS = 'getMyAdminEvents';
@@ -99,7 +99,7 @@ class AIS
         }
 
         $url = self::AIS_SITE.self::URL_REGISTRATIONS.'?'.http_build_query($params, null, '&');
-
+        echo '<pre>'.print_r($url, true).'</pre>';
         $res = $this->guzzle->get($url, [
             'cookies' => true
         ]);
