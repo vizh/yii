@@ -161,7 +161,7 @@ trait JsonContainer
     public function __set($name, $value)
     {
         if (!isset($this->definitions[$name])) {
-            throw new Exception('Установка неизвестного аттрибута: '.get_class($this).'::'.$name);
+            throw new Exception('Установка неизвестного аттрибута: '.$name);
         }
 
         if (is_array($value) === false) {
