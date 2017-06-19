@@ -19,7 +19,7 @@ use event\models\Participant;
     }
 
     p {
-        line-height: 10px;
+        line-height: 17px;
         font-family: "Times New Roman";
         font-size: 17px;
     }
@@ -31,9 +31,9 @@ use event\models\Participant;
 
     <p style="text-align: center"><?=$user->LastName.' '.$user->FirstName.' '.$user->FatherName?></p>
 
-    <p style="text-align: center"><?=$user->Employments[0]->Position?></p>
+    <p style="text-align: center"><?=$user->Employments[0]? $user->Employments[0]->Position : ''?></p>
 
-    <p style="text-align: center"><?=$user->Employments[0]->Company->Name?></p>
+    <p style="text-align: center"><?=$user->Employments[0] ? $user->Employments[0]->Company->Name : ''?></p>
     <p style="text-align: center"><?=$participant->Role->Title?></p>
 
     <p style="text-align: center"><barcode code="<?=$user->RunetId?>" type="C128A" class="barcode" size="1" height="2" text="1"/></p>
