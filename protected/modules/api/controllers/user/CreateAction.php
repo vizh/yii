@@ -25,15 +25,16 @@ class CreateAction extends Action
      *          url="/user/create",
      *          body="",
      *          params={
-     *              @Param(title="Email", type="Строка", defaultValue="", description="Email. Обязательно."),
-     *              @Param(title="LastName", type="Строка", defaultValue="", description="Фамилия. Обязательно."),
-     *              @Param(title="FirstName", type="Строка", defaultValue="", description="Имя. Обязательно."),
+     *              @Param(title="Email", type="Строка", defaultValue="", description="Email. Обязательный."),
+     *              @Param(title="LastName", type="Строка", defaultValue="", description="Фамилия. Обязательный."),
+     *              @Param(title="FirstName", type="Строка", defaultValue="", description="Имя. Обязательный."),
      *              @Param(title="FatherName", type="Строка", defaultValue="", description="Отчество."),
      *              @Param(title="Phone", type="Строка", defaultValue="", description="Телефон."),
      *              @Param(title="Company", type="Строка", defaultValue="", description="Компания."),
      *              @Param(title="Position", type="Строка", defaultValue="", description="Должность."),
      *              @Param(title="ExternalId", type="Строка", defaultValue="", description="Внешний идентификатор пользователя для привязки его профиля к сторонним сервисам."),
-     *              @Param(title="Attributes", type="Массив", defaultValue="", description="Расширенные атрибуты пользователя.")
+     *              @Param(title="Attributes", type="Массив", defaultValue="", description="Расширенные атрибуты пользователя."),
+     *              @Param(title="Visible", type="Логический (0 или 1)", defaultValue="true", description="Видимость пользователя.")
      *          }
      *     )
      * )
@@ -43,7 +44,6 @@ class CreateAction extends Action
         $form = new Register($this->getAccount());
         $form->fillFromPost();
 
-        /** @var User $user */
         $user = $form->createActiveRecord();
 
         if ($this->hasRequestParam('Attributes')) {

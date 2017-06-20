@@ -3595,52 +3595,68 @@ $user = \RunetID\Api\User::model($api)->getByToken(token);<br />
 <th>Название</th>
 <th>Тип</th>
 <th>Описание</th>
+<th>Значение по умолчанию</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>Email</td>
 <td>Строка</td>
-<td>Email. Обязательно.</td>
+<td>Email. Обязательный.</td>
+<td></td>
 </tr>
 <tr>
 <td>LastName</td>
 <td>Строка</td>
-<td>Фамилия. Обязательно.</td>
+<td>Фамилия. Обязательный.</td>
+<td></td>
 </tr>
 <tr>
 <td>FirstName</td>
 <td>Строка</td>
-<td>Имя. Обязательно.</td>
+<td>Имя. Обязательный.</td>
+<td></td>
 </tr>
 <tr>
 <td>FatherName</td>
 <td>Строка</td>
 <td>Отчество.</td>
+<td></td>
 </tr>
 <tr>
 <td>Phone</td>
 <td>Строка</td>
 <td>Телефон.</td>
+<td></td>
 </tr>
 <tr>
 <td>Company</td>
 <td>Строка</td>
 <td>Компания.</td>
+<td></td>
 </tr>
 <tr>
 <td>Position</td>
 <td>Строка</td>
 <td>Должность.</td>
+<td></td>
 </tr>
 <tr>
 <td>ExternalId</td>
 <td>Строка</td>
 <td>Внешний идентификатор пользователя для привязки его профиля к сторонним сервисам.</td>
+<td></td>
 </tr>
 <tr>
 <td>Attributes</td>
 <td>Массив</td>
 <td>Расширенные атрибуты пользователя.</td>
+<td></td>
+</tr>
+<tr>
+<td>Visible</td>
+<td>Логический (0 или 1)</td>
+<td>Видимость пользователя.</td>
+<td>true</td>
 </tr>
 </tbody></table>
 
