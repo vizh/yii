@@ -29,7 +29,7 @@ return [
         'allow',
         'roles' => [Account::ROLE_OFFLINE],
         'controllers' => ['user'],
-        'actions' => ['badge', 'get']
+        'actions' => ['badge', 'get', 'search', 'create']
     ],
     [
         'allow',
