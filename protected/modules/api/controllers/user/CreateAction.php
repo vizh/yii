@@ -2,6 +2,7 @@
 namespace api\controllers\user;
 
 use api\components\Action;
+use api\components\Exception;
 use api\models\ExternalUser;
 use api\models\forms\user\Register;
 use event\models\UserData;
@@ -34,7 +35,8 @@ class CreateAction extends Action
      *              @Param(title="Position", type="Строка", defaultValue="", description="Должность."),
      *              @Param(title="ExternalId", type="Строка", defaultValue="", description="Внешний идентификатор пользователя для привязки его профиля к сторонним сервисам."),
      *              @Param(title="Attributes", type="Массив", defaultValue="", description="Расширенные атрибуты пользователя."),
-     *              @Param(title="Visible", type="Логический (0 или 1)", defaultValue="true", description="Видимость пользователя.")
+     *              @Param(title="Visible", type="Логический (0 или 1)", defaultValue="true", description="Видимость пользователя."),
+     *              @Param(title="Unsubscribe", type="Логический (0 или 1)", defaultValue="false", description="Сразу же отписать пользователя от рассылок.")
      *          }
      *     )
      * )
@@ -53,6 +55,14 @@ class CreateAction extends Action
         if ($this->hasRequestParam('ExternalId')) {
             ExternalUser::create($user, $this->getAccount(), $this->getRequestParam('ExternalId'))
                 ->save();
+        }
+
+        if ($this->hasRequestParam('Unsubscribe')) {
+            $userSettings = $user->Settings;
+            $userSettings->UnsubscribeAll = true;
+            if (false === $userSettings->save()) {
+                throw new Exception($userSettings);
+            }
         }
 
         $userData = $this
