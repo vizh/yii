@@ -14,41 +14,41 @@ $config = [
         'vendor.sammaye.mongoyii.*',
         'vendor.sammaye.mongoyii.validators.*',
         'vendor.sammaye.mongoyii.behaviors.*',
-        'vendor.sammaye.mongoyii.util.*',
+        'vendor.sammaye.mongoyii.util.*'
     ],
     'components' => [
         'user' => [
             'loginUrl' => ['/oauth/main/auth', 'url' => $_SERVER['REQUEST_URI']],
             'class' => 'application\components\auth\WebUser',
             'allowAutoLogin' => true,
-            'identityCookie' => ['domain' => '.'.RUNETID_HOST],
+            'identityCookie' => ['domain' => '.'.RUNETID_HOST]
         ],
         'tempUser' => [
             'class' => '\application\components\auth\WebUser',
             'stateKeyPrefix' => 'tempUser',
             'loginUrl' => null,
-            'identityCookie' => ['domain' => '.'.RUNETID_HOST],
+            'identityCookie' => ['domain' => '.'.RUNETID_HOST]
         ],
         'authManager' => [
             'class' => 'application\components\auth\PhpAuthManager',
-            'defaultRoles' => ['guest'],
+            'defaultRoles' => ['guest']
         ],
         'urlManager' => [
             'urlFormat' => 'path',
             'showScriptName' => false,
             'urlSuffix' => '/',
             'useStrictParsing' => true,
-            'rules' => [],
+            'rules' => []
         ],
         'cache' => [
             'class' => 'CXCache'
         ],
         'image' => [
             'class' => 'application.extensions.image.CImageComponent',
-            'driver' => 'GD',
+            'driver' => 'GD'
         ],
         'mobileDetect' => [
-            'class' => 'ext.MobileDetect.MobileDetect',
+            'class' => 'ext.MobileDetect.MobileDetect'
         ],
         'session' => [
             'class' => 'application\components\web\PgDbHttpSession',
@@ -57,11 +57,11 @@ $config = [
             'sessionName' => 'sessid',
             'timeout' => 15552000,
             'gCProbability' => 1,
-            'cookieParams' => ['lifetime' => 0, 'domain' => '.'.RUNETID_HOST, 'httponly' => true],
+            'cookieParams' => ['lifetime' => 0, 'domain' => '.'.RUNETID_HOST, 'httponly' => true]
         ],
         'request' => [
             'class' => '\application\components\HttpRequest',
-            'enableCookieValidation' => true,
+            'enableCookieValidation' => true
         ],
         'errorHandler' => [
             'class' => '\application\components\ErrorHandler',
@@ -69,15 +69,15 @@ $config = [
         ],
         'log' => [
             'class' => 'CLogRouter',
-            'routes' => require 'log-routes.php'
+            'routes' => require __DIR__.'/log-routes.php'
         ],
         'clientScript' => [
-            'packages' => require 'script-packages.php',
+            'packages' => require __DIR__.'/script-packages.php',
             'scriptMap' => []
-        ],
+        ]
     ],
-    'modules' => require 'modules.php',
-    'params' => require 'params.php'
+    'modules' => require __DIR__.'/modules.php',
+    'params' => require __DIR__.'/params.php'
 ];
 
 // Костыль для выключения поддержки сессий в api.
@@ -89,14 +89,14 @@ if (isset($_SERVER['HTTP_HOST']) && preg_match('#^(api|ruvents)\.#', $_SERVER['H
     ];
 }
 
-$config = CMap::mergeArray($config, require 'db.php');
-$config = CMap::mergeArray($config, require 'api.php');
-$config = CMap::mergeArray($config, require 'partner.php');
-$config = CMap::mergeArray($config, require 'ruvents.php');
+$config = CMap::mergeArray($config, require __DIR__.'/db.php');
+$config = CMap::mergeArray($config, require __DIR__.'/api.php');
+$config = CMap::mergeArray($config, require __DIR__.'/partner.php');
+$config = CMap::mergeArray($config, require __DIR__.'/ruvents.php');
 
 $config['components']['urlManager']['rules'] = CMap::mergeArray(
     $config['components']['urlManager']['rules'],
-    require 'routes.php'
+    require __DIR__.'/routes.php'
 );
 
 // Совместимость с php 7.0
