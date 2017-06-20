@@ -31,8 +31,9 @@ class GetAction extends \api\components\Action
      *          url="/user/get",
      *          body="",
      *          params={
-     *              @Param(title="RunetId", type="Число", defaultValue="", description="runetid пользователя. Обязателен, если не указан ExternalId."),
-     *              @Param(title="ExternalId", type="Строка", defaultValue="", description="внешний идентификатор пользователя для привязки его профиля к сторонним сервисам. Не обязателен.")
+     *              @Param(title="RunetId", type="Число", defaultValue="", description="runetid пользователя. Обязателен, если не указан другой параметр."),
+     *              @Param(title="Email", type="Строка", defaultValue="", description="email пользователя. Обязателен, если не указан другой параметр."),
+     *              @Param(title="ExternalId", type="Строка", defaultValue="", description="внешний идентификатор пользователя для привязки его профиля к сторонним сервисам. Обязателен, если не указан другой параметр.")
      *          },
      *          response=@Response(body="{
     'RunetId': 'идентификатор',
@@ -55,12 +56,18 @@ class GetAction extends \api\components\Action
         $filtered = false;
         $user = User::model();
 
-        if ($this->hasRequestParam('RunetId')) {
+        /** @noinspection NotOptimalIfConditionsInspection */
+        if ($this->hasRequestParam('RunetId') && $filtered = true) {
             $user->byRunetId($this->getRequestParam('RunetId'));
-            $filtered = true;
         }
 
-        if ($this->hasRequestParam('ExternalId')) {
+        /** @noinspection NotOptimalIfConditionsInspection */
+        if ($this->hasRequestParam('Email') && $filtered = true) {
+            $user->byEmail($this->getRequestParam('Email'));
+        }
+
+        /** @noinspection NotOptimalIfConditionsInspection */
+        if ($this->hasRequestParam('ExternalId') && $filtered = true) {
             $extuser = ExternalUser::model()
                 ->byExternalId($this->getRequestParam('ExternalId'))
                 ->byAccountId($this->getAccount()->Id)
@@ -71,12 +78,11 @@ class GetAction extends \api\components\Action
             }
 
             $user->byId($extuser->UserId);
-            $filtered = true;
         }
 
         // Если не было определено ни одного фильтра, то ошибка
         if ($filtered === false) {
-            throw new Exception(109, ['RunetId']);
+            throw new Exception(109, implode(', ', ['RunetId', 'Email', 'ExternalId']));
         }
 
         $user = $user->find();
