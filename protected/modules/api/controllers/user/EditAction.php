@@ -28,6 +28,7 @@ class EditAction extends \api\components\Action
      *              @Param(title="LastName", type="Строка", defaultValue="", description="Фамилия."),
      *              @Param(title="FirstName", type="Строка", defaultValue="", description="Имя."),
      *              @Param(title="FatherName", type="Строка", defaultValue="", description="Отчество."),
+     *              @Param(title="Photo", type="Строка", defaultValue="", description="Ссылка на фотографию."),
      *              @Param(title="Attributes", type="Массив", defaultValue="", description="Расширенные атрибуты пользователя."),
      *              @Param(title="ExternalId", type="Строка", defaultValue="", description="Внешний идентификатор пользователя для привязки его профиля к сторонним сервисам.")
      *          }
@@ -65,6 +66,10 @@ class EditAction extends \api\components\Action
 
             $extuser->ExternalId = $this->getRequestParam('ExternalId');
             $extuser->save();
+        }
+
+        if ($this->hasRequestParam('Photo')) {
+            $user->getPhoto()->save($this->getRequestParam('Photo'));
         }
 
         // Возвращаем обновлённые данные пользователя

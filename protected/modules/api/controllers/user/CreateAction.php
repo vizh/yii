@@ -31,6 +31,7 @@ class CreateAction extends Action
      *              @Param(title="FirstName", type="Строка", defaultValue="", description="Имя. Обязательный."),
      *              @Param(title="FatherName", type="Строка", defaultValue="", description="Отчество."),
      *              @Param(title="Phone", type="Строка", defaultValue="", description="Телефон."),
+     *              @Param(title="Photo", type="Строка", defaultValue="", description="Ссылка на фотографию."),
      *              @Param(title="Company", type="Строка", defaultValue="", description="Компания."),
      *              @Param(title="Position", type="Строка", defaultValue="", description="Должность."),
      *              @Param(title="ExternalId", type="Строка", defaultValue="", description="Внешний идентификатор пользователя для привязки его профиля к сторонним сервисам."),
@@ -55,6 +56,10 @@ class CreateAction extends Action
         if ($this->hasRequestParam('ExternalId')) {
             ExternalUser::create($user, $this->getAccount(), $this->getRequestParam('ExternalId'))
                 ->save();
+        }
+
+        if ($this->hasRequestParam('Photo')) {
+            $user->getPhoto()->save($this->getRequestParam('Photo'));
         }
 
         if ($this->getRequestParamBool('DoUnsubscribe')) {
