@@ -36,7 +36,7 @@ class CreateAction extends Action
      *              @Param(title="ExternalId", type="Строка", defaultValue="", description="Внешний идентификатор пользователя для привязки его профиля к сторонним сервисам."),
      *              @Param(title="Attributes", type="Массив", defaultValue="", description="Расширенные атрибуты пользователя."),
      *              @Param(title="Visible", type="Логический (0 или 1)", defaultValue="true", description="Видимость пользователя."),
-     *              @Param(title="Unsubscribe", type="Логический (0 или 1)", defaultValue="false", description="Сразу же отписать пользователя от рассылок.")
+     *              @Param(title="DoUnsubscribe", type="Логический (0 или 1)", defaultValue="false", description="Сразу же отписать пользователя от рассылок.")
      *          }
      *     )
      * )
@@ -57,7 +57,7 @@ class CreateAction extends Action
                 ->save();
         }
 
-        if ($this->hasRequestParam('Unsubscribe')) {
+        if ($this->getRequestParamBool('DoUnsubscribe')) {
             $userSettings = $user->Settings;
             $userSettings->UnsubscribeAll = true;
             if (false === $userSettings->save()) {
