@@ -10,6 +10,7 @@ use application\components\utility\Texts;
 use application\models\translation\ActiveRecord;
 use application\widgets\IAutocompleteItem;
 use CEvent;
+use CModelEvent;
 use commission\models\Commission;
 use competence\models\Result;
 use event\models\Participant;
@@ -507,6 +508,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         if (empty($this->Password)) {
             $this->Password = \Utils::GeneratePassword();
         }
+
         $password = $this->Password;
         $pbkdf2 = new  Pbkdf2();
         $this->Password = $pbkdf2->createHash($password);
@@ -514,8 +516,9 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         $this->refresh();
 
         if ($notify) {
-            $event = new \CModelEvent($this, ['password' => $password]);
-            $this->onRegister($event);
+            $this->onRegister(new CModelEvent($this, [
+                'password' => $password
+            ]));
         }
 
         return $this;
