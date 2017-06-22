@@ -92,6 +92,9 @@ use Yii;
  * @method User byRunetId(int $id, bool $useAnd = true)
  * @method User byTemporary(bool $temporary)
  * @method User byVerified(bool $verified)
+ * @method User byFirstName(string $name)
+ * @method User byLastName(string $name)
+ * @method User byFatherName(string $name)
  * @method User byTranslationFields($locale, $fields, $valueSuffix = '%', $useAnd = true)
  */
 class User extends ActiveRecord implements ISearch, IAutocompleteItem
