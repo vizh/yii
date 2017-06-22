@@ -99,7 +99,7 @@ class AIS
         }
 
         $url = self::AIS_SITE.self::URL_REGISTRATIONS.'?'.http_build_query($params, null, '&');
-        echo '<pre>'.print_r($url, true).'</pre>';
+
         $res = $this->guzzle->get($url, [
             'cookies' => true
         ]);
