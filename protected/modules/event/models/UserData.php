@@ -107,15 +107,12 @@ class UserData extends ActiveRecord
             $user = $user->Id;
         }
 
-        $data = UserData::model()->find([
-            'condition' => '"EventId" = :eventId AND "UserId" = :userId',
-            'params' => [
-                ':eventId' => $event,
-                ':userId' => $user
-            ]
-        ]);
+        $data = UserData::model()
+            ->byEventId($event)
+            ->byUserId($user)
+            ->find();
 
-        if (!$data) {
+        if ($data === null) {
             $data = self::createEmpty($event, $user);
         }
 
