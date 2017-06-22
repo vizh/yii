@@ -1,9 +1,13 @@
 <?php
 namespace user\models;
 
+use application\components\Exception;
+use GuzzleHttp;
+
 class Photo
 {
     private $runetId;
+    private static $guzzle;
 
     /**
      * Constructor
@@ -125,6 +129,7 @@ class Photo
      * Сохраняет изображение из исходного файла
      *
      * @param string $path
+     * @throws Exception
      */
     public function save($path)
     {
@@ -133,10 +138,30 @@ class Photo
             mkdir($dir, 0777, true);
         }
 
+        // Встроенные средства php не могут обрабатывать самоподписанные SSL сертификаты, минихак для этого случая
+        if (filter_var($path, FILTER_VALIDATE_URL) !== false) {
+            // Инициализация GuzzleHttp
+            if (self::$guzzle === null) {
+                self::$guzzle = new GuzzleHttp\Client();
+                self::$guzzle->setDefaultOption('verify', false);
+            }
+            // Генерируем уникальное имя временного файла
+            $pathOverride = tempnam(sys_get_temp_dir(), 'user_photo_');
+            // Скачиваем файл
+            self::$guzzle->get($path, ['sink' => $pathOverride]);
+            // Используем временный файл в качестве устанавливаемого изображения
+            $path = $pathOverride;
+        }
+
         $image = new \Imagick($path);
         $image->writeImage($this->getOriginal(true));
 
         $this->saveResizedImage();
+
+        // Если в процессе работы был создал временный файл, то удаляем его
+        if (isset($pathOverride) && false === unlink($pathOverride)) {
+            throw new Exception('Не удалось удалить временный файл при загрузке фотографии пользователя');
+        }
     }
 
     /**
