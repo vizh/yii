@@ -61,9 +61,8 @@ class AIS
      */
     public function __construct()
     {
-        $this->guzzle = new GuzzleHttp\Client([
-            'cookies' => true
-        ]);
+        $this->guzzle = new GuzzleHttp\Client(['cookies' => true]);
+        $this->guzzle->setDefaultOption('verify', false);
     }
 
     /**
