@@ -144,8 +144,12 @@ class Participant extends ActiveRecord
     public function byAttributeLike($name, $value)
     {
         $this->getDbCriteria()->mergeWith(
-            CDbCriteria::create()->addCondition('"Data"."Attributes"->>\''.$name.'\' ilike \'%'.$value.'%\'')
+            CDbCriteria::create()
+                ->setWith(['Data'])
+                ->addCondition('"Data"."Attributes"->>\''.$name.'\' ilike \'%'.$value.'%\'')
         );
+
+        return $this;
     }
 
     public function bySearchString($search)
@@ -170,8 +174,12 @@ class Participant extends ActiveRecord
     public function byAttribute($name, $value)
     {
         $this->getDbCriteria()->mergeWith(
-            CDbCriteria::create()->addCondition('"Data"."Attributes"->>\''.$name.'\' == \''.$value.'\'')
+            CDbCriteria::create()
+                ->setWith(['Data'])
+                ->addCondition('"Data"."Attributes"->>\''.$name.'\' = \''.$value.'\'')
         );
+
+        return $this;
     }
 
     /**
