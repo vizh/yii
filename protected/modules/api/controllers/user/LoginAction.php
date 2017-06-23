@@ -46,8 +46,9 @@ class LoginAction extends Action
      */
     public function run()
     {
-        // Позволяем реализовать кастомный механизм авторизации
-        $user = AbstractHack::getByEvent($this->getEvent())->apiCustomLogin(
+        // Позволяем реализовать кастомный механизм авторизации. Помним, что у нас есть мультиаккаунты,
+        // что данный хак не будет отрабатывать если для них не указан корректный EventId.
+        $user = AbstractHack::getByEvent($this->getAccount()->Event)->apiCustomLogin(
             $this->getRequestParam('Email'),
             $this->getRequestParam('Password')
         );
