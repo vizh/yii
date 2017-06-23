@@ -148,7 +148,7 @@ class Photo
             // Генерируем уникальное имя временного файла
             $pathOverride = tempnam(sys_get_temp_dir(), 'user_photo_');
             // Скачиваем файл
-            self::$guzzle->get($path, ['sink' => $pathOverride]);
+            self::$guzzle->get($path, ['save_to' => $pathOverride]);
             // Используем временный файл в качестве устанавливаемого изображения
             $path = $pathOverride;
         }
