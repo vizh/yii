@@ -130,6 +130,10 @@ class DataBuilder
         foreach ($user->Participants as $participant) {
             if ($participant->EventId == $this->eventId) {
                 $this->user->Statuses[$participant->PartId ? $participant->PartId : 0] = $participant->RoleId;
+                // Для оффлайн сервисов добавляем в выдачу идентификатор RFID-бейджа
+                if (empty($participant->BadgeUID) !== true) {
+                    $this->user->BadgeUID = $participant->BadgeUID;
+                }
             }
         }
         /**
