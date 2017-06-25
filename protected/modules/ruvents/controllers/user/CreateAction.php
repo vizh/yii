@@ -47,6 +47,13 @@ class CreateAction extends Action
             $user = $form->register();
             $this->updateRoles($user);
 
+            if ($this->getEvent()->Id == 3408) {
+                $user->Visible = false;
+                $user->save();
+                $user->Settings->UnsubscribeAll = true;
+                $user->Settings->save();
+            }
+
             if ($this->getEvent()->Id == 1369) {
                 $externalUser = new ExternalUser();
                 $externalUser->AccountId = 105;
