@@ -321,11 +321,11 @@ class EventCommand extends BaseConsoleCommand
         }
 
         // Если у пользователя нет фотографии, то загружаем её
-        if (false === $user->hasPhoto() && $this->urlExists(AIS::getAvatarUrl($data['user_id']))) {
+        if (false === $user->hasPhoto()) {
             try {
                 $user->getPhoto()->save(AIS::getAvatarUrl($data['user_id']));
             } catch (Exception $e) {
-                echo 'Err';
+                echo $e->getMessage();
             }
         }
 
@@ -407,24 +407,5 @@ class EventCommand extends BaseConsoleCommand
         $data = self::$shifts[$shift];
 
         return [$data['startDate'], $data['endDate'], $data['number']];
-    }
-
-    /**
-     * Checks that the url exists
-     *
-     * @param string $url
-     * @return bool
-     */
-    private function urlExists($url)
-    {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_NOBODY, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_exec($ch);
-        $good = curl_getinfo($ch, CURLINFO_HTTP_CODE) === 200;
-        curl_close($ch);
-
-        return $good;
     }
 }
