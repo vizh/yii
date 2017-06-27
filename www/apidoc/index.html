@@ -3708,6 +3708,11 @@ $user = \RunetID\Api\User::model($api)->getByToken(token);<br />
 <td>Отчество.</td>
 </tr>
 <tr>
+<td>Photo</td>
+<td>Строка</td>
+<td>Ссылка на фотографию.</td>
+</tr>
+<tr>
 <td>Attributes</td>
 <td>Массив</td>
 <td>Расширенные атрибуты пользователя.</td>
@@ -3864,6 +3869,33 @@ $user = \RunetID\Api\User::model($api)->getByToken(token);<br />
 <td>Visible</td>
 <td>Число</td>
 <td>Только для собственных мероприятий! Возможность искать по скрытым пользователям, если Visible = 0</td>
+</tr>
+</tbody></table>
+
+<h2 id="19-7">19.7. Установка фотографии</h2>
+
+<p>Устанавливает фотографию посетителя из файла изображения или ссылки на него.</p>
+
+<p><code class="prettyprint">GET http://api.runet-id.com/user/setphoto</code> </p>
+
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Название</th>
+<th>Тип</th>
+<th>Описание</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Photo</td>
+<td>Файл</td>
+<td>Файл с фотографией посетителя.</td>
+</tr>
+<tr>
+<td>PhotoUrl</td>
+<td>Строка</td>
+<td>URL адрес фотографии посетителя.</td>
 </tr>
 </tbody></table>
 
