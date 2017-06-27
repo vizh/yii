@@ -221,9 +221,7 @@ class EventCommand extends BaseConsoleCommand
                     ->byEventId(Event::TS17)
                     ->exists();
 
-                $isBadgeAssigned = !empty($participant->BadgeUID);
-
-                if ($isBadgeExists === true || $isBadgeAssigned) {
+                if ($isBadgeExists === true) {
                     if ($ais->notify($udataManager->ais_registration_id)) {
                         $this->info("Success send information regID: {$udataManager->ais_registration_id}");
                     } else {
