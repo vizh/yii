@@ -9,6 +9,7 @@ use event\models\Event;
 use event\models\Participant;
 use event\models\Role;
 use event\models\UserData;
+use ruvents\models\Badge;
 use user\models\User;
 
 /**
@@ -201,21 +202,34 @@ class EventCommand extends BaseConsoleCommand
 
     public function actionNotifyAis()
     {
-        $rows = \Yii::app()->getDb()->createCommand()
-            ->select('DISTINCT b."UserId", SUBSTRING(d."Attributes"::TEXT FROM \'"ais_registration_id":"(\d+)"\') AS "RegistrationId"')
-            ->from('RuventsBadge b')
-            ->join('EventUserData d', 'd."EventId" = b."EventId" AND d."UserId" = b."UserId"')
-            ->where('b."EventId" = :eventId AND d."Attributes"::TEXT ~ \'"ais_registration_id":"\d+"\'', [
-                ':eventId' => Event::TS17
-            ])
-            ->query();
-
         $ais = new AIS();
-        foreach ($rows as $row) {
-            if ($ais->notify($row['RegistrationId'])) {
-                $this->info("Success send information regID: {$row['RegistrationId']}");
-            } else {
-                $this->error("Error while processing regID: {$row['RegistrationId']}");
+
+        // Получаем всех посетителей, пришедших к нам из АИС
+        $participants = Participant::model()
+            ->byEventId(Event::TS17)
+            //->byAttribute('ais_registration_id', 'NOTNULL')
+            ->findAll();
+
+        foreach ($participants as $participant) {
+            $udataManager = UserData::fetch(Event::TS17, $participant->UserId)->getManager();
+
+            // Проверим, установлен ли идентификатор АИС
+            if (false === empty($udataManager->ais_registration_id)) {
+                // Проверим, напечатан ли бейдж?
+                $isBadgeExists = Badge::model()
+                    ->byUserId($participant->UserId)
+                    ->byEventId(Event::TS17)
+                    ->exists();
+
+                $isBadgeAssigned = !empty($participant->BadgeUID);
+
+                if ($isBadgeExists === true || $isBadgeAssigned) {
+                    if ($ais->notify($udataManager->ais_registration_id)) {
+                        $this->info("Success send information regID: {$udataManager->ais_registration_id}");
+                    } else {
+                        $this->error("Error while processing regID: {$udataManager->ais_registration_id}");
+                    }
+                }
             }
         }
     }

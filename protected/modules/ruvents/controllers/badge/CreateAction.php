@@ -1,6 +1,8 @@
 <?php
 namespace ruvents\controllers\badge;
 
+use application\components\services\AIS;
+use event\models\UserData;
 use ruvents\components\Exception;
 use Yii;
 
@@ -71,6 +73,10 @@ class CreateAction extends \ruvents\components\Action
 
         $badge->RoleId = $participant->RoleId;
         $badge->save();
+
+        if ($event->Id === 3408 && $regid = UserData::fetch($event, $user)->getManager()->ais_registration_id) {
+            (new AIS())->notify($regid);
+        }
 
         $this->renderJson([
             'Success' => true
