@@ -39,6 +39,7 @@ use event\models\Event;
 class Account extends ActiveRecord
 {
     const ROLE_BASE = 'base';
+    const ROLE_SUPERVISOR = 'supervisor';
     const ROLE_OFFLINE = 'offline';
     const ROLE_OWN = 'own';
     const ROLE_PARTNER = 'partner';
@@ -47,7 +48,6 @@ class Account extends ActiveRecord
     const ROLE_MBLT = 'mblt';
     const ROLE_MOBILE = 'mobile';
     const ROLE_PROFIT = 'profit';
-    const ROLE_OLD_OWN = 'oldown';
 
     const SELF_ID = 1;
 
@@ -217,7 +217,9 @@ class Account extends ActiveRecord
     }
 
     /**
-     * Лейблы для типов ролей
+     * Список ролей и их названий. Только перечисленные тут роли можно назначать из панели управления.
+     * Например self::ROLE_SUPERVISOR не дозволен для назначения, отсутствует в результате выполнения
+     * данного метода, так как только разработчик имеет право генерировать такие уровни доступа.
      *
      * @return array
      */

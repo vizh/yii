@@ -12,6 +12,13 @@ return [
         'data' => null
     ],
 
+    Account::ROLE_SUPERVISOR => [
+        'type' => CAuthItem::TYPE_ROLE,
+        'description' => 'Абсолютный уровень доступа',
+        'bizRule' => null,
+        'data' => null
+    ],
+
     Account::ROLE_BASE => [
         'type' => CAuthItem::TYPE_ROLE,
         'description' => 'Базовый уровень доступа',
