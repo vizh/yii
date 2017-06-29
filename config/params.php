@@ -18,18 +18,12 @@ $params = [
     'UserPerPage' => 20, // Количество результатов пользователей на страницу
     'UserPhotoDir' => '/files/photo/', //
 
-    'AwsKey' => 'AKIAIOYXFNZF7QSJNROA',
-    'AwsSecret' => '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',
-    'AwsSesRegion' => 'eu-west-1',
-    'AwsSnsRegion' => 'eu-central-1',
-
-    'GoogleMapsApiKey' => 'AIzaSyB9oM_NnaB_x1eTqB4Wx4p55BJMVUKnV-w',
-
     'NewsPhotoDir' => '/files/news/',
     'MaxImageSize' => 4194304, //Максимально допустимый размер загружаемых изображений
 
     'ApiMaxResults' => 200, //Максимальное количество результатов поиска в api
     'ApiMaxTop' => 100,
+
     'AdminEventPerPage' => 50,
     'AdminCatalogCompanyPerPage' => 20,
     'AdminPayAccountPerPage' => 50,

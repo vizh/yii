@@ -306,13 +306,17 @@ class SESMailer extends Mailer
 
     private function getSesClient()
     {
-        $prms = Yii::app()->getParams();
+        static $client;
 
-        return SesClient::factory([
-            'key' => $prms['AwsKey'],
-            'secret' => $prms['AwsSecret'],
-            'region' => $prms['AwsSesRegion'],
-            'version' => 'latest'
-        ]);
+        if ($client === null) {
+            $client = SesClient::factory([
+                'key' => $_ENV['AWS_KEY'],
+                'secret' => $_ENV['AWS_SECRET'],
+                'region' => $_ENV['AWS_SES_REGION'],
+                'version' => 'latest'
+            ]);
+        }
+
+        return $client;
     }
 }

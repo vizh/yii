@@ -24,6 +24,11 @@ return [
     ],
     /*** END DENY BLOCK ***/
 
+    [
+        'allow',
+        'roles' => [Account::ROLE_SUPERVISOR]
+    ],
+
     /*** OFFLINE BLOCK ***/
     [
         'allow',

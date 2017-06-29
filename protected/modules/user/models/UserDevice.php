@@ -94,9 +94,9 @@ class UserDevice extends ActiveRecord
 
         if ($client === null) {
             $client = SnsClient::factory([
-                'key' => Yii::app()->getParams()['AwsKey'],
-                'secret' => Yii::app()->getParams()['AwsSecret'],
-                'region' => Yii::app()->getParams()['AwsSnsRegion']
+                'key' => $_ENV['AWS_KEY'],
+                'secret' => $_ENV['AWS_SECRET'],
+                'region' => $_ENV['AWS_SNS_REGION']
             ]);
         }
 

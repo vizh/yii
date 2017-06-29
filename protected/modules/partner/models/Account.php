@@ -2,6 +2,7 @@
 namespace partner\models;
 
 use application\components\ActiveRecord;
+use application\components\utility\Pbkdf2;
 use event\models\Event;
 use Yii;
 
@@ -26,9 +27,25 @@ use Yii;
  *
  * @method Account byId(int $id, bool $useAnd = true)
  * @method Account byEventId(int $id, bool $useAnd = true)
+ * @method Account byLogin(string $login, bool $useAnd = true)
+ * @method Account byRole(string $role, bool $useAnd = true)
  */
 class Account extends ActiveRecord
 {
+    const ROLE_ADMIN = 'Admin';
+    const ROLE_ADMIN_EXTENDED = 'AdminExtended';
+    const ROLE_PARTNER = 'Partner';
+    const ROLE_PARTNER_VERIFED = 'PartnerVerified';
+    const ROLE_PARTNER_LIMITED = 'PartnerLimited';
+    const ROLE_PARTNER_EXTENDED = 'PartnerExtended';
+    const ROLE_PROGRAM = 'Program';
+    const ROLE_MODERATOR = 'moderator';
+    const ROLE_STATISTICS = 'Statistics';
+    const ROLE_MASS_MEDIA = 'MassMedia';
+    const ROLE_APPROVE = 'Approve';
+    const ROLE_EURASIA = 'Eurasia';
+    const ROLE_MEETING = 'Meeting';
+
     /**
      * @param null|string $className
      * @return static
@@ -59,21 +76,16 @@ class Account extends ActiveRecord
      */
     public function checkLogin($password)
     {
-        if ($this->PasswordStrong === null) {
-            $lightHash = md5($password);
-            if ($this->Password == $lightHash) {
-                $pbkdf2 = new \application\components\utility\Pbkdf2();
-                $this->PasswordStrong = $pbkdf2->createHash($password);
-                $this->Password = null;
-                $this->save();
+        // Перевод паролей со старого типа шифрования на новый
+        if ($this->PasswordStrong === null && $this->Password === md5($password)) {
+            $this->Password = null;
+            $this->setPassword($password);
+            $this->save();
 
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return \application\components\utility\Pbkdf2::validatePassword($password, $this->PasswordStrong);
+            return true;
         }
+        // Собственно, валидация пароля
+        return Pbkdf2::validatePassword($password, $this->PasswordStrong);
     }
 
     /** @var \partner\components\Notifier */
@@ -104,5 +116,13 @@ class Account extends ActiveRecord
     public function getIsExtended()
     {
         return strstr(Yii::app()->partner->getAccount()->Role, 'Extended') !== false;
+    }
+
+    /**
+     * @param string $password
+     */
+    public function setPassword($password)
+    {
+        $this->setAttribute('PasswordStrong', (new Pbkdf2())->createHash($password));
     }
 }

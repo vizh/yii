@@ -17,6 +17,22 @@ $config = [
         'vendor.sammaye.mongoyii.util.*'
     ],
     'components' => [
+        'db' => [
+            'class' => '\application\components\db\PgDbConnection',
+            'connectionString' => "pgsql:host={$_ENV['DATABASE_HOST']};port={$_ENV['DATABASE_PORT']};dbname={$_ENV['DATABASE_NAME']}",
+            'username' => $_ENV['DATABASE_USER'],
+            'password' => $_ENV['DATABASE_PASS'],
+            'emulatePrepare' => true,
+            'charset' => 'utf8',
+            'enableProfiling' => true,
+            'enableParamLogging' => true,
+            'schemaCachingDuration' => 600
+        ],
+        'mongodb' => [
+            'class' => 'EMongoClient',
+            'server' => "mongodb://{$_ENV['MONGO_HOST']}",
+            'db' => $_ENV['MONGO_NAME']
+        ],
         'user' => [
             'loginUrl' => ['/oauth/main/auth', 'url' => $_SERVER['REQUEST_URI']],
             'class' => 'application\components\auth\WebUser',
@@ -89,7 +105,6 @@ if (isset($_SERVER['HTTP_HOST']) && preg_match('#^(api|ruvents)\.#', $_SERVER['H
     ];
 }
 
-$config = CMap::mergeArray($config, require __DIR__.'/db.php');
 $config = CMap::mergeArray($config, require __DIR__.'/api.php');
 $config = CMap::mergeArray($config, require __DIR__.'/partner.php');
 $config = CMap::mergeArray($config, require __DIR__.'/ruvents.php');

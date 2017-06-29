@@ -32,7 +32,7 @@ class WebUser extends \CWebUser
     {
         if ($this->event === null) {
             if ($this->getAccount() !== null) {
-                if (!$this->getAccount()->getIsExtended()) {
+                if (false === $this->getAccount()->getIsExtended()) {
                     $this->event = Event::model()->findByPk($this->getAccount()->EventId);
                 } else {
                     $eventId = Yii::app()
@@ -48,6 +48,7 @@ class WebUser extends \CWebUser
                 }
             }
 
+            /** @noinspection NotOptimalIfConditionsInspection */
             if ($this->event === null) {
                 throw new Exception('Не найдено мероприятие для данного пользователя партнерского интерфейса');
             }

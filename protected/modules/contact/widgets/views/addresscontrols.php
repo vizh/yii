@@ -5,9 +5,9 @@
 
 ?>
 <script type="text/javascript">
-    var GeoPoint = [];
-    var GoogleMapsApiKey = '<?= Yii::app()->params['GoogleMapsApiKey'] ?>';
-    var requestCoordinatesUrl = '<?= \Yii::app()->createUrl('/geo/admin/ajax/getCoordinatesByAddress')?>';
+    var GeoPoint = [],
+    	GoogleMapsApiKey = '<?=$_ENV['GOOGLE_MAPS_API_KEY']?>',
+		requestCoordinatesUrl = '<?= \Yii::app()->createUrl('/geo/admin/ajax/getCoordinatesByAddress')?>';
 
     <? if( !empty($form->GeoPoint[0]) && !empty($form->GeoPoint[1]) ): ?>
     GeoPoint = JSON.parse('[<?= implode(',', $form->GeoPoint) ?>]');

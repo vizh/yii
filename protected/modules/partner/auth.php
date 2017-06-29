@@ -1,4 +1,7 @@
 <?php
+
+use partner\models\Account;
+
 return [
     'guest' => [
         'type' => CAuthItem::TYPE_ROLE,
@@ -6,25 +9,25 @@ return [
         'bizRule' => null,
         'data' => null
     ],
-    'PartnerLimited' => [
+    Account::ROLE_PARTNER_LIMITED => [
         'type' => CAuthItem::TYPE_ROLE,
         'description' => 'Partner without payments methods',
         'children' => [
-            'guest',
+            'guest'
         ],
         'bizRule' => null,
         'data' => null
     ],
-    'Partner' => [
+    Account::ROLE_PARTNER => [
         'type' => CAuthItem::TYPE_ROLE,
         'description' => 'Partner',
         'children' => [
-            'PartnerLimited',
+            'PartnerLimited'
         ],
         'bizRule' => null,
         'data' => null
     ],
-    'PartnerVerified' => [
+    Account::ROLE_PARTNER_VERIFED => [
         'type' => CAuthItem::TYPE_ROLE,
         'description' => 'Partner',
         'children' => [
@@ -33,16 +36,16 @@ return [
         'bizRule' => null,
         'data' => null
     ],
-    'PartnerExtended' => [
+    Account::ROLE_PARTNER_EXTENDED => [
         'type' => CAuthItem::TYPE_ROLE,
         'description' => 'PartnerExtended - account for multi-event access',
         'children' => [
-            'Partner',
+            'Partner'
         ],
         'bizRule' => null,
         'data' => null
     ],
-    'Admin' => [
+    Account::ROLE_ADMIN => [
         'type' => CAuthItem::TYPE_ROLE,
         'description' => 'Administrator',
         'children' => [
@@ -51,16 +54,16 @@ return [
         'bizRule' => null,
         'data' => null
     ],
-    'AdminExtended' => [
+    Account::ROLE_ADMIN_EXTENDED => [
         'type' => CAuthItem::TYPE_ROLE,
         'description' => 'AdministratorExtended - account for multi-event access',
         'children' => [
-            'Admin',
+            'Admin'
         ],
         'bizRule' => null,
         'data' => null
     ],
-    'Statistics' => [
+    Account::ROLE_STATISTICS => [
         'type' => CAuthItem::TYPE_ROLE,
         'description' => 'Statistics',
         'children' => [
@@ -70,16 +73,16 @@ return [
         'data' => null
     ],
 
-    'moderator' => [
+    Account::ROLE_MODERATOR => [
         'type' => CAuthItem::TYPE_ROLE,
         'description' => 'Модератор',
         'bizRule' => null,
         'data' => null,
         'children' => [
             'guest'
-        ],
+        ]
     ],
-    'MassMedia' => [
+    Account::ROLE_MASS_MEDIA => [
         'type' => CAuthItem::TYPE_ROLE,
         'description' => 'Модератор СМИ',
         'children' => [
@@ -90,7 +93,7 @@ return [
             'roles' => [316, 337, 343, 344]
         ]
     ],
-    'Program' => [
+    Account::ROLE_PROGRAM  => [
         'type' => CAuthItem::TYPE_ROLE,
         'description' => 'Модератор программы',
         'children' => [
@@ -101,7 +104,7 @@ return [
             'roles' => [180, 333, 358, 359, 360]
         ]
     ],
-    'Approve' => [
+    Account::ROLE_APPROVE => [
         'type' => CAuthItem::TYPE_ROLE,
         'description' => 'Модератор статусов по аппруву',
         'children' => [
@@ -112,7 +115,7 @@ return [
             'roles' => [333, 360, 359, 358, 315, 341, 342, 307, 340, 335, 350, 348, 349, 336, 346, 345, 338]
         ]
     ],
-    'Eurasia' => [
+    Account::ROLE_EURASIA => [
         'type' => CAuthItem::TYPE_ROLE,
         'description' => 'Модератор Евразийская Неделя',
         'children' => [
@@ -123,7 +126,7 @@ return [
             'roles' => [310, 347, 365, 366, 367, 368]
         ]
     ],
-    'Meeting' => [
+    Account::ROLE_MEETING => [
         'type' => CAuthItem::TYPE_ROLE,
         'description' => 'Модератор встреч',
         'children' => [

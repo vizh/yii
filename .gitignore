@@ -1,5 +1,6 @@
 .DS_Store
 .idea
+.env
 nbproject
 *.iml
 runetid-pass.txt
@@ -15,7 +16,5 @@ www/stylesheets/partner.css
 www/stylesheets/pixel-admin/custom.css
 www/images/temp/
 data
-config/db.php
 www/assets/
-config/db.local.php
 /runet-id.api.paw
