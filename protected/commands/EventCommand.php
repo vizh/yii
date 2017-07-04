@@ -3,7 +3,6 @@
 use api\models\Account;
 use api\models\ExternalUser;
 use application\components\console\BaseConsoleCommand;
-use application\components\helpers\ArrayHelper;
 use application\components\services\AIS;
 use event\models\Event;
 use event\models\Participant;
@@ -17,8 +16,12 @@ use user\models\User;
  */
 class EventCommand extends BaseConsoleCommand
 {
-    const AIS_PARTICIPANTS_EVENT_ID = 3493;
-    const AIS_VOLUNTEERS_EVENT_ID = 3514;
+    const TS16 = 2783; // Территория смыслов 2016
+    const TS17 = 3408; // Территория смыслов 2017
+    const AR17 = 3243; // Арктика 2017
+    const TV17 = 3462; // Таврида 2017
+
+    private static $events = [];
 
     /**
      * Shifts for TS
@@ -74,130 +77,28 @@ class EventCommand extends BaseConsoleCommand
         ]
     ];
 
-    public function actionImportCorrection()
+    public function init()
     {
-        $data = [
-            ["Андреева", "Диана", "Юрьевна", "03.07", "11.07", "andianochk@mail.ru"],
-            ["Анисина", "Екатерина", "Викторовна", "27.07", "04.08", "eanisina30.11@gmail.com"],
-            ["Бабирук", "Валентина", "Игоревна", "19.07", "27.07", "marochkina_valen@mail.ru"],
-            ["Балабекова", "Алина", "Аликовна", "26.06", "03.07", "alina_balabekova@mail.ru"],
-            ["Бейдерман", "Валерия", "Владимировна", "04.08", "12.08", "vall.95.95@mail.ru"],
-            ["Березин", "Алексей", "Игоревич", "04.08", "12.08", "alekseyberezin58@gmail.com"],
-            ["Борисов ", "Виталий", "Александрович", "24.06", "20.08", "info@segwayvld.ru"],
-            ["Васильева", "Яна", "Юрьевна", "04.08", "12.08", "yanavasileva1992@gmail.com"],
-            ["Власов ", "Владимир", "Николаевич", "26.07", "30.08", ""],
-            ["Волозина", "Регина", "Сергеевна", "24.06", "20.08", "regina@segwayvld.ru"],
-            ["Гаврилин", "Владислав", "Владимирович", "19.07", "27.07", "pijackorgn@gmail.com"],
-            ["Герасимова", "Ксения", "Александровна", "11.07", "27.07", "ksenia.stern@gmail.com"],
-            ["Голичников ", "Евгений", "Николаевич", "26.07", "30.08", ""],
-            ["Гончаренко", "Антонина", "Николаевна", "26.06", "03.07", "ang.23@bk.ru"],
-            ["Гордеев", "Дмитрий", "Владимирович", "26.06", "20.08", "showparad@list.ru"],
-            ["Горлов ", "Владимир", "Вячеславович", "26.07", "30.08", ""],
-            ["Дегтярев", "Кирилл", "Сергеевич", "11.07", "19.07", "kiridegt@gmail.com"],
-            ["Елисеев ", "Сергей", "Евгеньевич", "26.07", "30.08", ""],
-            ["Ермолова", "Ксения", "Евгеньевна", "11.07", "19.07", "ermolka24@mail.ru"],
-            ["Ефименко ", "Владимир", "Алексеевич", "24.06", "20.08", "vovaeff@yandex.ru"],
-            ["Жимагулов", "Тимур", "Романович", "26.06", "22.08", "tamerlan.np@jmail.com"],
-            ["Зетков ", "Игорь", "Викторович", "26.07", "30.08", ""],
-            ["Иванов", "Владислав", "Игоревич", "27.07", "04.08", "vladislav4ever@mail.ru"],
-            ["Иващенко", "Иван", "Анатольевич", "12.08", "20.08", "ivv1ivv@mail.ru"],
-            ["Ильина", "Ольга", "Сергеевна", "04.08", "20.08", "iamilina@mail.ru"],
-            ["Кадонцева", "Мария", "Владимировна", "27.07", "04.08", "nusha0@yandex.ru"],
-            ["Канда", "Максим", "Витальевич", "26.06", "22.08", "95maxbest@gmai/com"],
-            ["Катаев", "Дмитрий", "Викторович", "19.07", "27.07", "infernal775@bk.ru"],
-            ["Кирюхин", "Алексей", "Вячеславович", "19.07", "27.07", "a-kiryukhin@list.ru"],
-            ["Киселёв", "Михаил", "Александрович", "24.06", "20.08", "info@segwayvld.ru"],
-            ["Кличева", "Фатима", "Олеговна", "26.06", "12.07", "fatimaklicheva@mail.ru"],
-            ["Комков ", "Дмитрий", "Сергеевич", "26.07", "30.08", ""],
-            ["Коновалов ", "Михаил", "Анатольевич", "26.07", "30.08", ""],
-            ["Корзилова", "Татьяна", "Александровна", "11.07", "19.07", "t.korzilova@yandex.ru"],
-            ["Костюков", "Эдуард", "Анатольевич", "26.06", "20.08", "djbelov@yandex.ru"],
-            ["Крылов", "Семен", "Алексеевич", "24.06", "20.08", "ksalador@gmail.com"],
-            ["Кумпаненко", "Анна", "Сергеевна", "19.07", "27.07", "anni.ku@yandex.ru"],
-            ["Ляшков ", "Олег", "Вячеславович", "26.07", "30.08", ""],
-            ["Лапшин", "Владислав", "Станиславович", "11.07", "19.07", "hownbord@gmail.com"],
-            ["Лёвин ", "Валерий", "Валерьевич", "26.07", "30.08", ""],
-            ["Левицкая", "Вероника", "Александровна", "26.06", "03.07", "nickushk@mail.ru"],
-            ["Ломакин ", "Николай", "Иванович", "26.07", "30.08", ""],
-            ["Маврин ", "Евгений", "Дмитриевич ", "24.06", "20.08", "mavrysha1996@gmail.ru"],
-            ["Маковеев", "Михаил", "Сергеевич", "12.08", "20.08", "mm.ttov@gmail.com"],
-            ["Малашенко ", "Евгений", "Николаевич", "26.07", "30.08", ""],
-            ["Матвиенко", "Екатерина", "Олеговна", "27.07", "04.08", "reilafors@yandex.ru"],
-            ["Мелёхин ", "Михаил", "Николаевич", "26.07", "30.08", ""],
-            ["Мелихов", "Евгений", "Александрович", "11.07", "19.07", "weddman63@mail.ru"],
-            ["Мичурин ", "Андрей ", "Васильевич", "26.07", "30.08", ""],
-            ["Мотохов", "Иван", "Русланович", "03.07", "11.07", "motokhovivan1@gmail.com"],
-            ["Муравьёв ", "Александр", "Анатольевич", "26.07", "30.08", ""],
-            ["Мурзина", "Карина", "Антоновна", "04.08", "12.08", "karina-murzina@mail.ru"],
-            ["Муругов", "Дмитрий", "Викторович", "03.07", "11.07", "murugov14@mail.ru"],
-            ["Назаров ", "Михаил", "Владимирович", "26.07", "30.08", ""],
-            ["Никонов", "Ярослав", "Игоревич", "03.07", "11.07", "yanikonov@yandex.ru"],
-            ["Ножкин", "Евгений", "Николаевич", "26.07", "30.08", ""],
-            ["Пилицкий", "Евгений", "Витальевич", "04.08", "12.08", "evgenij.piliczkij.96@mail.ru"],
-            ["Погорелова", "Анастасия", "Вадимовна", "12.08", "20.08", "nastya14999@mail.ru"],
-            ["Половинкина", "Олеся", "Юрьевна", "26.06", "22.08", "smart412@yandex.ru"],
-            ["Полодюк ", "Сергей", "Владимирович", "26.07", "30.08", ""],
-            ["Прохоров ", "Игорь", "Александрович", "26.07", "30.08", ""],
-            ["Прохоров ", "Павел", "Александрович", "26.07", "30.08", ""],
-            ["Рыбаков ", "Николай", "Иванович", "26.07", "30.08", ""],
-            ["Савертокин", "Даниил", "Андреевич", "27.07", "04.08", "pause.vid@gmail.com"],
-            ["Саламонов ", "Артём", "Анатольевич", "26.07", "30.08", ""],
-            ["Самойлова", "Катарина", "Вадимовна", "26.06", "03.07", "katarina.s14@rambler.ru"],
-            ["Сафонова", "Вера", "Олеговна", "03.07", "11.07", "kabinet0213@mail.ru"],
-            ["Сенцов", "Алексей", "Евгеньевич", "24.06", "20.08", "a.sencoff@segwayvld.ru"],
-            ["Сидоров ", "Павел", "Юрьевич", "26.07", "30.08", ""],
-            ["Симоньянц", "Владимир", "Георкович", "26.06", "03.07", "ma333da@gmail.com"],
-            ["Скочилова", "Юлия", "Евгеньевна", "24.06", "20.08", "skochilova86@mail.ru"],
-            ["Степанцов", "Александр", "Николаевич", "24.06", "23.08", "alex.sony@bk.ru"],
-            ["Терентьев ", "Дмитрий", "Вадимович", "26.07", "30.08", ""],
-            ["Трохин ", "Дмитрий", "Анатольевич", "26.07", "30.08", ""],
-            ["Устякина", "Татьяна", "Сергеевна", "12.08", "20.08", "milka20-06@yandex.ru"],
-            ["Утина", "Светлана", "Васильевна", "12.08", "20.08", "sssvetik09@mail.ru"],
-            ["Хохлова", "Анастасия", "Андреевна", "27.07", "04.08", "hohlove1991@mail.ru"],
-            ["Шлепов ", "Сергей", "Владимирович", "26.07", "30.08", ""],
-            ["Никаноров ", "Дмитрий", "Игоревич", "26.07", "30.08", ""],
-            ["Митрохин ", "Виктор", "Алексеевич", "26.07", "30.08", ""],
-            ["Данилов ", "Алексей", "Евгеньевич", "26.07", "30.08", ""],
-            ["Комков ", "Сергей", "Евграфович", "26.07", "30.08", ""],
-            ["Фехретдинов ", "Равиль", "Ислямович", "26.07", "30.08", ""],
-            ["Титов ", "Олег", "Николаевич", "26.07", "30.08", ""],
+        self::$events = [
+            // Таврида
+//            self::TV17 => [
+//                'Event' => null,
+//                'Account' => null,
+//                'Sources' => [
+//                    3169 /* волонтёр */ => Role::model()->findByPk(153),
+//                    2387 /* участник */ => Role::model()->findByPk(Role::PARTICIPANT)
+//                ]
+//            ],
+            // Территория смыслов
+            self::TS17 => [
+                'Event' => null,
+                'Account' => null,
+                'Sources' => [
+                    3514 /* волонтёр */ => Role::model()->findByPk(153),
+                    3493 /* участник */ => Role::model()->findByPk(Role::PARTICIPANT)
+                ]
+            ]
         ];
-
-        foreach ($data as $userData) {
-            $userData = ArrayHelper::each($userData, function ($value) {
-                return trim(preg_replace('@[ 　]@u', '', $value));
-            });
-
-            $users = User::model()
-                ->byEventId(Event::TS17)
-                ->byFirstName($userData[1])
-                ->byLastName($userData[0])
-                ->byFatherName($userData[2]);
-
-            if (false === empty($userData[5])) {
-                $users->byEmail($userData[5]);
-            }
-
-            $users = $users->findAll();
-
-            if (count($users) === 0) {
-                echo '0 => '.implode(', ', $userData)."\n";
-                continue;
-            }
-
-            if (count($users) > 1) {
-                echo count($users).' => '.implode(', ', $userData)."\n";
-                continue;
-            }
-
-            $user = $users[0];
-
-            $uData = UserData::fetch(Event::TS17, $user);
-            $uDataManager = $uData->getManager();
-            $uDataManager->start_date = preg_replace('#^(\d\d\.\d\d).*$#', '$1', $userData[3]);
-            $uDataManager->end_date = preg_replace('#^(\d\d\.\d\d).*$#', '$1', $userData[4]);
-            $uData->save();
-        }
     }
 
     public function actionNotifyAis()
@@ -206,21 +107,21 @@ class EventCommand extends BaseConsoleCommand
 
         // Получаем всех посетителей, пришедших к нам из АИС
         $participants = Participant::model()
-            ->byEventId(Event::TS17)
+            ->byEventId([self::TS17, self::TV17])
             //->byAttribute('ais_registration_id', 'NOTNULL')
             ->findAll();
 
         foreach ($participants as $participant) {
-            $udataManager = UserData::fetch(Event::TS17, $participant->UserId)->getManager();
-
+            // Получаем доступ к расширенным атрибутам посетителя
+            $udataManager = UserData::fetch($participant->EventId, $participant->UserId)->getManager();
             // Проверим, установлен ли идентификатор АИС
             if (false === empty($udataManager->ais_registration_id)) {
                 // Проверим, напечатан ли бейдж?
                 $isBadgeExists = Badge::model()
                     ->byUserId($participant->UserId)
-                    ->byEventId(Event::TS17)
+                    ->byEventId($participant->EventId)
                     ->exists();
-
+                // Отправляем отметку о печати бейджа в АИС
                 if ($isBadgeExists === true) {
                     if ($ais->notify($udataManager->ais_registration_id)) {
                         $this->info("Success send information regID: {$udataManager->ais_registration_id}");
@@ -246,49 +147,45 @@ class EventCommand extends BaseConsoleCommand
             ? (new DateTime())->sub(new DateInterval('PT15M'))->format('Y-m-d H:i:s')
             : null;
 
-        // Find the TS event
-        $event = Event::model()
-            ->findByPk(Event::TS17);
-
-        // Disable participants notification
-        $event->skipOnRegister = true;
-        $rolesMap = [
-            self::AIS_VOLUNTEERS_EVENT_ID => Role::model()->findByPk(153 /* волонтёр */),
-            self::AIS_PARTICIPANTS_EVENT_ID => Role::model()->findByPk(Role::PARTICIPANT)
-        ];
-
-        $apiAccount = Account::model()
-            ->byEventId(Event::TS17)
-            ->find();
-
-        if ($apiAccount === null) {
-            $this->error('Не найден api аккаунт для мероприятия!');
-            return;
-        }
-
         $total = 0;
 
-        foreach ($rolesMap as $aisEventId => $role) {
-            foreach ($ais->fetchRegistrations($aisEventId, $yesterday) as $reg) {
-                if ($drain || $reg['status'] < 12 /* 12 or 13 */) {
-                    continue;
-                }
+        foreach (self::$events as $ridEventId => $cfgEvent) {
+            $event = Event::model()->findByPk($ridEventId);
+            $event->skipOnRegister = true; // Не отправляем регистрационные письма
 
-                $transaction = \Yii::app()->getDb()->beginTransaction();
-                try {
-                    $user = $this->processRegistration($reg, $event, $role, $apiAccount);
+            $apiAccount = Account::model()
+                ->byEventId($ridEventId)
+                ->find();
+
+            if ($apiAccount === null) {
+                $this->error('Не найден api аккаунт для мероприятия!');
+                return;
+            }
+
+            echo "\nОбработка посетителей {$event->IdName}: ";
+
+            foreach ($cfgEvent['Sources'] as $aisEventId => $role) {
+                foreach ($ais->fetchRegistrations($aisEventId, $yesterday) as $reg) {
+                    if ($drain || $reg['status'] < 12 /* 12 or 13 */) {
+                        continue;
+                    }
+
+                    $transaction = \Yii::app()->getDb()->beginTransaction();
+                    try {
+                        $user = $this->processRegistration($reg, $event, $role, $apiAccount);
 
 //                    $this->info("#$total: User {$user->getFullName()} is successfully registered for the event {$event->IdName}");
 
-                    $total++;
-                    $transaction->commit();
-                } catch (CDbException $e) {
-                    $transaction->rollback();
-                    $this->error($e->getMessage());
+                        $total++;
+                        $transaction->commit();
+                    } catch (CDbException $e) {
+                        $transaction->rollback();
+                        $this->error($e->getMessage());
+                    }
                 }
-            }
 
-            $this->log("Total count of users that have been registered: $total.");
+                $this->log("Total count of users that have been registered: $total.");
+            }
         }
     }
 
@@ -412,7 +309,7 @@ class EventCommand extends BaseConsoleCommand
     private function detectShiftDates($shift)
     {
         if (!isset(self::$shifts[$shift])) {
-            echo 'ERROR: Unbale to detect start and end dates!';
+            echo "ERROR: Unbale to detect start and end dates from {$shift}!";
             return [null, null, null];
         }
 
