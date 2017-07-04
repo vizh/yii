@@ -33,7 +33,7 @@ use user\models\User;
  * @method Participant[] findAllByAttributes($attributes, $condition = '', $params = [])
  *
  * @method Participant byId(int $id, $useAnd = true)
- * @method Participant byEventId(int $id, $useAnd = true)
+ * @method Participant byEventId(int|int[] $id, $useAnd = true)
  * @method Participant byUserId(int $id, $useAnd = true)
  * @method Participant byRoleId(int $id, $useAnd = true)
  * @method Participant byBadgeUID(int $uid, $useAnd = true)
