@@ -5,7 +5,7 @@
  * @var $this JuridicalController
  */
 ?>
-<?if($this->getEvent()->IdName === 'forinnovations16'):?>
+<?if(in_array($this->getEvent()->IdName, ['forinnovations16', 'edcrunch17'])):?>
     <style>
         header#header,
         footer#footer,

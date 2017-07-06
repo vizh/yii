@@ -12,7 +12,8 @@ $eventsWithoutHEader = [
     'idc17',
     'testEvent',
     'forinnovations16',
-    'startupvillage17'
+    'startupvillage17',
+	'edcrunch17'
 ]
 ?>
 <?if(in_array($this->getEvent()->IdName, $eventsWithoutHEader)):?>
