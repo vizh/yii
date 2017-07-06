@@ -24,7 +24,7 @@ use nastradamus39\slate\annotations\ApiObject;
 </p>
 <b>SDK</b><br/>
 Для интеграции с API можно использовать готовый клиент. Описание методов так же можно найти на странице клиента.
-- PHP SDK находится <a target='blank' href='https://bitbucket.org/ruvents/runet-id-api-client'>тут</a>
+- PHP SDK находится <a target='blank' href='https://bitbucket.org/ruvents/runet-id-php-api-client'>тут</a>
 "
  * )
  * @ApiContent(
