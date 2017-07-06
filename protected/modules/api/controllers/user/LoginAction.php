@@ -57,6 +57,7 @@ class LoginAction extends Action
         if ($user === null) {
             $user = User::model()
                 ->byEmail($this->getRequestParam('Email'))
+                ->byVisible()
                 ->find();
 
             if ($user !== null && $user->checkLogin($this->getRequestParam('Password')) === false) {
