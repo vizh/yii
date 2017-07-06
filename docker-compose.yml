@@ -23,6 +23,9 @@ services:
       API_SECRET: RxpaG5KhY9nGUitHqlauA9Rgy
       API_STAGE:
       API_HTTPS: 'false'
+      # Реквизиты доступа для авторизации на сайте
+      HTTP_APIKEY: runetid
+      HTTP_HASH: bf9e034fe8293973b44465c6208f2ea9
     volumes:
       - '.:/var/www/html/'
       - './config/docker/bootstrap.sh:/init.sh'
