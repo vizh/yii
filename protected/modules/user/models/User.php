@@ -219,6 +219,17 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     }
 
     /**
+     * @inheritdoc
+     */
+    public static function untrackedAttributes()
+    {
+        return [
+            'UpdateTime',
+            'LastVisit'
+        ];
+    }
+
+    /**
      * @return string[]
      */
     public function getTranslationFields()

@@ -689,10 +689,11 @@ class ArrayHelper
      *
      * @param array $old
      * @param array $new
+     * @param array|null $ignore Список ключей, изменения в которых необходимо игнорировать.
      *
      * @return array
      */
-    public static function difference($old, $new)
+    public static function difference($old, $new, array $ignore = [])
     {
         if ($old === null) {
             return $new;
@@ -710,6 +711,12 @@ class ArrayHelper
         foreach ($old as $key => $value) {
             if (false === array_key_exists($key, $new)) {
                 $result[$key] = null;
+            }
+        }
+
+        foreach ($ignore as $key) {
+            if (false !== array_key_exists($key, $result)) {
+                unset($result[$key]);
             }
         }
 

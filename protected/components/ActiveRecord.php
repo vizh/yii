@@ -1,6 +1,8 @@
 <?php
 namespace application\components;
 
+use application\components\helpers\ArrayHelper;
+use application\models\security\SecurityLog;
 use CDbCriteria;
 
 /**
@@ -17,6 +19,11 @@ abstract class ActiveRecord extends \CActiveRecord
      * @var array Sort params by default
      */
     protected $defaultOrderBy = ['"t"."Id"' => SORT_ASC];
+
+    /**
+     * @var array Оригинальный набор атрибутов, какой он был на момент получения данных из базы
+     */
+    private $attributesBackup;
 
     /**
      * Returns name of the class
@@ -42,6 +49,14 @@ abstract class ActiveRecord extends \CActiveRecord
 
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
+    }
+
+    /**
+     * Атрибуты, изменения которых не журналируются
+     */
+    public static function untrackedAttributes()
+    {
+        return [];
     }
 
     /**
@@ -216,8 +231,53 @@ abstract class ActiveRecord extends \CActiveRecord
             $this->save();
 
             return true;
-        } else {
-            return parent::delete();
         }
+
+        return parent::delete();
+    }
+
+    protected function afterFind()
+    {
+        $this->attributesBackup = $this->attributes;
+
+        parent::afterFind();
+    }
+
+    protected function beforeDelete()
+    {
+        if (null !== $log = SecurityLog::create(SecurityLog::ACTION_DELETE)) {
+            $log->Model = self::className();
+            $log->Attributes = $this->attributes;
+            if (false === $log->save()) {
+                throw new Exception($log);
+            }
+        }
+
+        return parent::beforeDelete();
+    }
+
+    protected function afterSave()
+    {
+        // Не журналируем изменения самих себя
+        if ($this instanceof SecurityLog) {
+            return;
+        }
+
+        $action = $this->getIsNewRecord()
+            ? SecurityLog::ACTION_CREATE
+            : SecurityLog::ACTION_UPDATE;
+
+        // Если есть изменения, то логируем их
+        if (null !== $log = SecurityLog::create($action)) {
+            $log->Model = self::className();
+            $log->Attributes = $this->attributesBackup;
+            $log->Changes = ArrayHelper::difference($this->attributesBackup, $this->attributes, static::untrackedAttributes());
+            // Сохраняем запись в журнале только если есть значимые изменения модели
+            if (false === empty($log->Changes) && false === $log->save()) {
+                throw new Exception($log);
+            }
+        }
+
+        parent::afterSave();
     }
 }
