@@ -404,7 +404,7 @@ class Action extends \CAction
             $params = [];
         }
 
-        if (isset($params[$param]) === false) {
+        if (false === array_key_exists($param, $params)) {
             $params[$param] = Yii::app()
                 ->getRequest()
                 ->getParam($param, $defaultValue === PHP_INT_SIZE ? null : $defaultValue);
@@ -429,6 +429,14 @@ class Action extends \CAction
 
     protected function getRequestParamArray($param, $defaultValue = PHP_INT_SIZE)
     {
-        return explode(',', $this->getRequestParam($param, $defaultValue));
+        $value = $this->getRequestParam($param, $defaultValue);
+
+        // В случае, если параметр запроса отсутствует, и задано значение по-умолчанию,
+        // то мы тут свалимся без дополнительной проверки.
+        if (false === is_array($value)) {
+            $value = explode(',', $value);
+        }
+
+        return $value;
     }
 }
