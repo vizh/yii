@@ -2,6 +2,7 @@
 
 namespace api\controllers\user;
 
+use api\components\builders\Builder;
 use api\components\Exception;
 use api\models\Account;
 use api\models\ExternalUser;
@@ -110,9 +111,20 @@ class GetAction extends \api\components\Action
 
         $userData = $this
             ->getDataBuilder()
-            ->createUser($user);
+            ->createUser($user, $this->getRequestParamArray('Builders', [
+                Builder::USER_PERSON,
+                Builder::USER_PHOTO,
+                Builder::USER_DATA,
+                Builder::USER_ATTRIBUTES,
+                Builder::USER_EMPLOYMENT,
+                Builder::USER_EVENT,
+                Builder::USER_BADGE,
+                Builder::USER_CONTACTS,
+                Builder::USER_EXTERNALID,
+                Builder::USER_DEPRECATED_DATA
+            ]));
 
-        if (!empty($user->MergeUserId)) {
+        if (false === empty($user->MergeUserId)) {
             $userData->RedirectRunetId = $user->RunetId;
         }
 

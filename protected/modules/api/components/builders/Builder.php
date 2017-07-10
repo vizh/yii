@@ -51,14 +51,17 @@ class Builder
     /**
      * Набор доступных билдеров
      */
-    const USER_EMPLOYMENT = 'buildUserEmployment';
-    const USER_EVENT = 'buildUserEvent';
-    const USER_DATA = 'buildUserData';
-    const USER_BADGE = 'buildUserBadge';
-    const USER_CONTACTS = 'buildUserContacts';
-    const USER_ATTRIBUTES = 'buildUserAttributes';
-    const USER_EXTERNALID = 'buildUserExternalId';
-    const USER_AUTH = 'buildAuthData';
+    const USER_PERSON = 'Person';
+    const USER_EMPLOYMENT = 'Employment';
+    const USER_EVENT = 'Event';
+    const USER_DATA = 'Data';
+    const USER_BADGE = 'Badge';
+    const USER_CONTACTS = 'Contacts';
+    const USER_ATTRIBUTES = 'Attributes';
+    const USER_EXTERNALID = 'ExternalId';
+    const USER_AUTH = 'AuthData';
+    const USER_PHOTO = 'Photo';
+    const USER_DEPRECATED_DATA = 'UserDeprecatedData';
 
     /**
      * Построение схемы данных посетителя
@@ -89,19 +92,23 @@ class Builder
         // Строим полную схему данных посетителя если набор билдеров не определён
         if ($builders === null) {
             $builders = [
+                self::USER_PERSON,
+                self::USER_PHOTO,
                 self::USER_DATA,
                 self::USER_ATTRIBUTES,
                 self::USER_EMPLOYMENT,
                 self::USER_EVENT,
                 self::USER_BADGE,
                 self::USER_CONTACTS,
-                self::USER_EXTERNALID
+                self::USER_EXTERNALID,
+                self::USER_DEPRECATED_DATA
             ];
         }
 
         // Строим модель данных посетителя только из указанных блоков
         foreach ($builders as $builderName) {
-            $this->$builderName($user);
+            $builder = "buildUser{$builderName}";
+            $this->$builder($user);
         }
 
         return $this->user;
@@ -117,11 +124,7 @@ class Builder
 
         $this->user = new \stdClass();
 
-        $this->user->RocId = $user->RunetId; //todo: deprecated
         $this->user->RunetId = $user->RunetId;
-        $this->user->LastName = $user->LastName;
-        $this->user->FirstName = $user->FirstName;
-        $this->user->FatherName = $user->FatherName;
 
         if ($this->hasPrivatePermission($user)) {
             $this->user->CreationTime = $user->CreationTime;
@@ -130,18 +133,23 @@ class Builder
             $this->user->Gender = $user->Gender;
         }
 
-        $this->user->Photo = new \stdClass();
-        $this->user->Photo->Small = SCHEMA.'://'.RUNETID_HOST.$user->getPhoto()->get50px();;
-        $this->user->Photo->Medium = SCHEMA.'://'.RUNETID_HOST.$user->getPhoto()->get90px();
-        $this->user->Photo->Large = SCHEMA.'://'.RUNETID_HOST.$user->getPhoto()->get200px();
-
         return $this->user;
+    }
+
+    /**
+     * @param \user\models\User|\commission\models\User $user
+     */
+    protected function buildUserPerson($user)
+    {
+        $this->user->LastName = $user->LastName;
+        $this->user->FirstName = $user->FirstName;
+        $this->user->FatherName = $user->FatherName;
     }
 
     /** @noinspection PhpUnusedPrivateMethodInspection
      * @return \stdClass
      */
-    protected function buildAuthData()
+    protected function buildUserAuthData()
     {
         $this->user->AuthCode = Texts::GenerateString(10);
 
@@ -157,7 +165,7 @@ class Builder
         if ($this->hasPrivatePermission($user)) {
             $attributes = UserData::getDefinedAttributeValues($this->account->Event, $user);
 
-            if (!empty($attributes)) {
+            if (false === empty($attributes)) {
                 $this->user->Attributes = $attributes;
             }
         }
@@ -296,7 +304,6 @@ class Builder
     }
 
     /**
-     * @noinspection PhpUnusedPrivateMethodInspection
      * @param User|\commission\models\User $user
      * @return \stdClass
      */
@@ -310,6 +317,33 @@ class Builder
         if ($extuser !== null) {
             $this->user->ExternalId = $extuser->ExternalId;
         }
+
+        return $this->user;
+    }
+
+    /**
+     * @param User|\commission\models\User $user
+     *
+     * @return \stdClass
+     */
+    protected function buildUserPhoto($user)
+    {
+        $this->user->Photo = new \stdClass();
+        $this->user->Photo->Small = SCHEMA.'://'.RUNETID_HOST.$user->getPhoto()->get50px();
+        $this->user->Photo->Medium = SCHEMA.'://'.RUNETID_HOST.$user->getPhoto()->get90px();
+        $this->user->Photo->Large = SCHEMA.'://'.RUNETID_HOST.$user->getPhoto()->get200px();
+
+        return $this->user;
+    }
+
+    /**
+     * @param User|\commission\models\User $user
+     *
+     * @return \stdClass
+     */
+    protected function buildUserDeprecatedData($user)
+    {
+        $this->user->RocId = $user->RunetId;
 
         return $this->user;
     }
