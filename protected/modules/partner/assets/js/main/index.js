@@ -1,8 +1,5 @@
 var partnerStatistics = null;
 
-$(function () {
-
-});
 CParnerStatistics = function () {
     this.Roles = null;
     this.Dates = null;
