@@ -41,7 +41,7 @@ $clientScript->registerScript('init', 'new CUserEdit('.$form->getParticipantJson
     }
 </style>
 
-<div ng-controller="UserEditController">
+<div ng-controller="UserEditController" ng-cloak>
     <?=$this->renderPartial('edit/info', [
         'user' => $form->getActiveRecord(),
         'event' => $this->getEvent(),
@@ -60,31 +60,35 @@ $clientScript->registerScript('init', 'new CUserEdit('.$form->getParticipantJson
                 </button>
             </span>
         </div>
-        <table class="table table-bordered table-striped table-attributes">
-            <tbody>
-                <tr ng-repeat="(i, attribute) in data[0].attributes">
-                    <th style="width:250px;height:49px;padding-top:14px">{{data[0].titles[i]}}</th>
-                    <td ng-class="{'editable-data' : attribute.edit}">
-                        <div class="table-attributes-value" ng-bind-html="attribute.value" ng-show="!data[0].edit"></div>
-                        <div ng-bind-html="attribute.edit" ng-show="data[0].edit"></div>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                    <div class="btn-group btn-group-xs">
-                        <button
-                            class="btn"
-                            ng-class="{'btn btn-success' : row.edit, 'btn' : !row.edit}"
-                            ng-click="updateDataValues(data[0])" type="button">{{!data[0].edit ? '<?=Yii::t('app', 'Редактировать')?>' : '<?=Yii::t('app', 'Сохранить')?>'}}
-                        </button>
-                    </div>
-                    <div class="{{data[0].class ? 'text-' + data[0].class : '' }}" ng-if="row.class">
-                        <small>{{data[0].message}}</small>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+
+        <div ng-repeat="(y, group) in data[0].groups">
+            <h3 style="padding-left:20px">{{ group.title }}</h3>
+            <table class="table table-bordered table-striped table-attributes">
+                <tbody>
+                        <tr ng-repeat="(i, attribute) in data[0].attributes" ng-if="attribute.group == group.id">
+                            <th style="width:250px;height:49px;padding-top:14px;padding-left:20px">{{data[0].titles[i]}}</th>
+                        <td ng-class="{'editable-data' : attribute.edit}">
+                            <div class="table-attributes-value" ng-bind-html="attribute.value" ng-show="!data[0].edit"></div>
+                            <div ng-bind-html="attribute.edit" ng-show="data[0].edit"></div>
+                        </td>
+                    </tr>
+                        <tr ng-if="data[0].message">
+                        <td colspan="2">
+                            <div class="{{data[0].class ? 'text-' + data[0].class : '' }}" ng-if="row.class">
+                            <small>{{data[0].message}}</small>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="padding-left: 20px; padding-bottom: 10px;">
+            <button
+                    class="btn"
+                    ng-class="{'btn btn-success' : row.edit, 'btn' : !row.edit}"
+                    ng-click="updateDataValues(data[0])" type="button">{{!data[0].edit ? '<?=Yii::t('app', 'Редактировать')?>' : '<?=Yii::t('app', 'Сохранить')?>'}}
+            </button>
+        </div>
     </div>
 
     <?if($visits):?>

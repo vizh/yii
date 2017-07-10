@@ -17,6 +17,7 @@ use event\models\UserData;
 use pay\models\OrderItem;
 use pay\models\Product;
 use user\models\User;
+use application\models\attribute\Group;
 
 class Participant extends EventItemCreateUpdateForm
 {
@@ -135,10 +136,22 @@ class Participant extends EventItemCreateUpdateForm
                     foreach ($manager->getDefinitions() as $definition) {
                         $attributes[$definition->name] = [
                             'value' => $definition->getPrintValue($manager, true),
-                            'edit' => $definition->activeEdit($manager, ['class' => 'form-control'])
+                            'edit' => $definition->activeEdit($manager, ['class' => 'form-control']),
+                            'group' => $definition->groupId
                         ];
                     }
                     return $attributes;
+                },
+                'groups' => function(UserData $data){
+                    $manager = $data->getManager();
+                    $groups = [];
+                    foreach ($manager->getDefinitions() as $definition) {
+                        $groups[$definition->groupId] = [
+                            'id' => $definition->groupId,
+                            'title' => Group::findOne($definition->groupId)->Title
+                        ];
+                    }
+                    return $groups;
                 }
             ]
         ]);
