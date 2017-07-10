@@ -328,10 +328,16 @@ class Builder
      */
     protected function buildUserPhoto($user)
     {
-        $this->user->Photo = new \stdClass();
-        $this->user->Photo->Small = SCHEMA.'://'.RUNETID_HOST.$user->getPhoto()->get50px();
-        $this->user->Photo->Medium = SCHEMA.'://'.RUNETID_HOST.$user->getPhoto()->get90px();
-        $this->user->Photo->Large = SCHEMA.'://'.RUNETID_HOST.$user->getPhoto()->get200px();
+        $photo = $user->getPhoto();
+        // toDo: А ведь SCHEMA тут лишняя. В целях совместимости меж http|https протоколами скорее всего надо просто '//'.RUNETID_HOST
+        $prefx = SCHEMA.'://'.RUNETID_HOST;
+
+        $this->user->Photo = (object)[
+            'Small' => $prefx.$photo->get50px(),
+            'Medium' => $prefx.$photo->get90px(),
+            'Large' => $prefx.$photo->get200px(),
+            'Original' => $prefx.$photo->getOriginal()
+        ];
 
         return $this->user;
     }
