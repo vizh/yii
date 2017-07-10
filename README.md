@@ -32,6 +32,7 @@ API_STAGE =
 API_HTTPS = false
 
 # Разное
+SENTRY_DSN = http://b054994571ae48ff1c57cf9be99s3b5:8b0s45bs3f8s4ccrafc64sfp45bda890@sentry.ruvents.com/2
 GOOGLE_MAPS_API_KEY = xxnLDLUvPrKeFkAAsypBQfLAqrNXYjgafvyoRet
 ```
 

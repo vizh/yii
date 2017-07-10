@@ -15,7 +15,7 @@ class ErrorHandler extends \CErrorHandler
     public function getRavenClient()
     {
         if ($this->ravenClient === null) {
-            $this->ravenClient = new Raven_Client('http://b058994671ae47ffacc97cf9be99d3b5:8b0e45ba3b8a4ccaa1c6408ac8bda890@sentry.ruvents.com/2', [
+            $this->ravenClient = new Raven_Client($_ENV['SENTRY_DSN'], [
                 'site' => isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'],
                 'environment' => YII_DEBUG ? 'development' : 'production',
                 'tags' => [
