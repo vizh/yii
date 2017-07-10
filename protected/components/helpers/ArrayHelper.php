@@ -683,4 +683,36 @@ class ArrayHelper
             return (int)trim($v);
         }));
     }
+
+    /**
+     * Вычисляет расхождение массивов с учётом ключей и значений в обоих направлениях
+     *
+     * @param array $old
+     * @param array $new
+     *
+     * @return array
+     */
+    public static function difference($old, $new)
+    {
+        if ($old === null) {
+            return $new;
+        }
+
+        $result = [];
+
+        foreach ($new as $key => $value) {
+            /** @noinspection TypeUnsafeComparisonInspection */
+            if (false === array_key_exists($key, $old) || $old[$key] != $value) {
+                $result[$key] = $value;
+            }
+        }
+
+        foreach ($old as $key => $value) {
+            if (false === array_key_exists($key, $new)) {
+                $result[$key] = null;
+            }
+        }
+
+        return $result;
+    }
 }
