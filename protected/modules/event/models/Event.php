@@ -831,9 +831,7 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
      */
     public function getTimeStampStartDate()
     {
-        $date = $this->StartDay.'.'.$this->StartMonth.'.'.$this->StartYear;
-
-        return strtotime($date);
+        return strtotime("{$this->StartDay}.{$this->StartMonth}.{$this->StartYear}");
     }
 
     /**
@@ -841,9 +839,7 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
      */
     public function getTimeStampEndDate()
     {
-        $date = $this->EndDay.'.'.$this->EndMonth.'.'.$this->EndYear;
-
-        return strtotime($date);
+        return strtotime("{$this->EndDay}.{$this->EndMonth}.{$this->EndYear}");
     }
 
     /**
