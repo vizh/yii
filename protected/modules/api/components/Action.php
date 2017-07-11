@@ -424,7 +424,11 @@ class Action extends \CAction
      */
     protected function getRequestParamBool($param, $defaultValue = false)
     {
-        return (boolean)$this->getRequestParam($param, $defaultValue);
+        $value = $this->getRequestParam($param, $defaultValue);
+
+        return $value === 'false'
+            ? false
+            : (bool)$value;
     }
 
     protected function getRequestParamArray($param, $defaultValue = PHP_INT_SIZE)
