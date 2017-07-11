@@ -68,6 +68,7 @@ class Builder
     const USER_DEPRECATED_DATA = 'DeprecatedData';
     const USER_PARTICIPATIONS = 'Participations';
     const USER_EMPLOYMENTS = 'Employments';
+    const USER_SETTINGS = 'Settings';
 
     /**
      * Построение схемы данных посетителя
@@ -363,6 +364,18 @@ class Builder
         }
 
         return $this->user;
+    }
+
+    protected function buildUserSettings(User $user)
+    {
+        if (false === in_array($this->account->Role, [Account::ROLE_SUPERVISOR, Account::ROLE_OWN, Account::ROLE_MOBILE])) {
+            throw new Exception(104);
+        }
+
+        $this->user->Settings = [
+            'SubscribedForMailings' => !$user->Settings->UnsubscribeAll,
+            'SubscribedForPushes' => !$user->Settings->UnsubscribePush
+        ];
     }
 
     /**

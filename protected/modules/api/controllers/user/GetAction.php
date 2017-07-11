@@ -35,7 +35,7 @@ class GetAction extends \api\components\Action
      *              @Param(title="RunetId", type="Число", defaultValue="", description="runetid пользователя. Обязателен, если не указан другой параметр."),
      *              @Param(title="Email", type="Строка", defaultValue="", description="email пользователя. Обязателен, если не указан другой параметр."),
      *              @Param(title="ExternalId", type="Строка", defaultValue="", description="внешний идентификатор пользователя для привязки его профиля к сторонним сервисам. Обязателен, если не указан другой параметр."),
-     *              @Param(title="Builders", type="Список, разделённый запятами", defaultValue="", description="Набор идентификаторов, модифицирующий результат выполнения запроса. Возможные значения: Person, Birthday, Employment, Event, Data, Badge, Contacts, Address, Attributes, ExternalId, AuthData, Photo, DeprecatedData, Participations, Employments")
+     *              @Param(title="Builders", type="Список, разделённый запятами", defaultValue="", description="Набор идентификаторов, модифицирующий результат выполнения запроса. Возможные значения: Person, Birthday, Employment, Event, Data, Badge, Contacts, Address, Attributes, ExternalId, AuthData, Photo, DeprecatedData, Participations, Employments, Settings")
      *          },
      *          response=@Response(body="{
     'RunetId': 'идентификатор',
