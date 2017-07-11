@@ -1,6 +1,7 @@
 <?php
 namespace api\components\builders;
 
+use api\components\Exception;
 use api\models\Account;
 use api\models\AccoutQuotaByUserLog;
 use api\models\ExternalUser;
@@ -153,9 +154,11 @@ class Builder
 
     protected function buildUserBirthday(User $user)
     {
+        if (false === in_array($this->account->Role, [Account::ROLE_SUPERVISOR, Account::ROLE_OWN])) {
+            throw new Exception(104);
+        }
+
         $this->user->Birthday = $user->Birthday;
-        $this->user->FirstName = $user->FirstName;
-        $this->user->FatherName = $user->FatherName;
     }
 
     /** @noinspection PhpUnusedPrivateMethodInspection
@@ -205,8 +208,13 @@ class Builder
         return $this->user;
     }
 
+    /** @noinspection PhpUnusedPrivateMethodInspection */
     private function buildUserAddress(User $user)
     {
+        if (false === in_array($this->account->Role, [Account::ROLE_SUPERVISOR, Account::ROLE_OWN])) {
+            throw new Exception(104);
+        }
+
         if ($user->LinkAddress !== null && $user->LinkAddress->Address->CityId !== 0) {
             $this->user->Address = [
                 'City' => $user->LinkAddress->Address->City->Name
@@ -242,9 +250,14 @@ class Builder
      * @param \user\models\User $user
      *
      * @return \stdClass
+     * @throws \api\components\Exception
      */
     protected function buildUserEmployments(User $user)
     {
+        if (false === in_array($this->account->Role, [Account::ROLE_SUPERVISOR, Account::ROLE_OWN])) {
+            throw new Exception(104);
+        }
+
         $employments = [];
 
         foreach ($user->Employments as $employment) {
@@ -407,9 +420,14 @@ class Builder
      * @param User|\commission\models\User $user
      *
      * @return \stdClass
+     * @throws \api\components\Exception
      */
     protected function buildUserParticipations($user)
     {
+        if (false === in_array($this->account->Role, [Account::ROLE_SUPERVISOR, Account::ROLE_OWN])) {
+            throw new Exception(104);
+        }
+
         // Результирующий массив, обладающий необходимой информацией об участиях посетителя
         $participations = [];
         $participationsAnalytics = [
