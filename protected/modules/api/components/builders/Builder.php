@@ -64,6 +64,7 @@ class Builder
     const USER_PHOTO = 'Photo';
     const USER_DEPRECATED_DATA = 'DeprecatedData';
     const USER_PARTICIPATIONS = 'Participations';
+    const USER_EMPLOYMENTS = 'Employments';
 
     /**
      * Построение схемы данных посетителя
@@ -213,6 +214,34 @@ class Builder
                 $this->user->Work->EndMonth = $employment->EndMonth;
             }
         }
+
+        return $this->user;
+    }
+
+    /**
+     * Генерирует информацию обо всех трудоустройствах пользователя
+     *
+     * @param \user\models\User $user
+     *
+     * @return \stdClass
+     */
+    protected function buildUserEmployments(User $user)
+    {
+        $employments = [];
+
+        foreach ($user->Employments as $employment) {
+            if ($employment->CompanyId !== null) {
+                $employments[] = [
+                    'CompanyId' => $employment->CompanyId,
+                    'CompanyName' => $employment->Company->Name,
+                    'Position' => $employment->Position,
+                    'StartDate' => $employment->GetFormatedStartWorking('y-M'),
+                    'EndDate' => $employment->GetFormatedFinishWorking('y-M')
+                ];
+            }
+        }
+
+        $this->user->Employments = $employments;
 
         return $this->user;
     }
