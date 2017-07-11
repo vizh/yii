@@ -8,19 +8,17 @@ final class RoleType
     const SPEAKER = 'speaker';
     const MASTER = 'master';
 
-    static public function compare($role1, $role2)
+    private static $roleWeights = [
+        self::NONE => 0,
+        self::LISTENER => 1,
+        self::SPEAKER => 2,
+        self::MASTER => 3
+    ];
+
+    public static function compare($role1, $role2)
     {
-        $weight = [
-            self::NONE => 0,
-            self::LISTENER => 1,
-            self::SPEAKER => 2,
-            self::MASTER => 3
-        ];
-
-        if ($weight[$role1] > $weight[$role2]) {
-            return $role1;
-        }
-
-        return $role2;
+        return self::$roleWeights[$role1] > self::$roleWeights[$role2]
+            ? $role1
+            : $role2;
     }
 }
