@@ -168,6 +168,12 @@ return [
         'roles' => [Account::ROLE_OWN],
         'controllers' => ['ict'],
     ],
+    [
+        'allow',
+        'roles' => [Account::ROLE_OWN, Account::ROLE_MOBILE],
+        'controllers' => ['user'],
+        'actions' => ['settings']
+    ],
 
     /***  ЗАПРЕЩЕНО ВСЕ ЧТО НЕ РАЗРЕШЕНО   ***/
     [

@@ -3783,7 +3783,7 @@ $user = \RunetID\Api\User::model($api)->getByToken(token);<br />
 <tr>
 <td>Builders</td>
 <td>Список, разделённый запятами</td>
-<td>Набор идентификаторов, модифицирующий результат выполнения запроса. Возможные значения: Person, Birthday, Employment, Event, Data, Badge, Contacts, Address, Attributes, ExternalId, AuthData, Photo, DeprecatedData, Participations, Employments</td>
+<td>Набор идентификаторов, модифицирующий результат выполнения запроса. Возможные значения: Person, Birthday, Employment, Event, Data, Badge, Contacts, Address, Attributes, ExternalId, AuthData, Photo, DeprecatedData, Participations, Employments, Settings</td>
 </tr>
 </tbody></table>
 
@@ -3905,6 +3905,38 @@ $user = \RunetID\Api\User::model($api)->getByToken(token);<br />
 <td>PhotoUrl</td>
 <td>Строка</td>
 <td>URL адрес фотографии посетителя.</td>
+</tr>
+</tbody></table>
+
+<h2 id="19-8">19.8. Настройки пользователя</h2>
+
+<p>Позволяет отписать и подписать пользователя на следующие события: EMail рассылки, Push уведомления, индексацию профиля в поисковых системах.</p>
+
+<p><code class="prettyprint">POST http://api.runet-id.com/user/settings</code> </p>
+
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Название</th>
+<th>Тип</th>
+<th>Описание</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>SubscribedForMailings</td>
+<td>Логический</td>
+<td>Не обязательный. Отписка от EMail рассылок.</td>
+</tr>
+<tr>
+<td>SubscribedForPushes</td>
+<td>Логический</td>
+<td>Не обязательный. Отказ от Push уведомлений.</td>
+</tr>
+<tr>
+<td>SonetIndexing</td>
+<td>Логический</td>
+<td>Отказ от индексации профиля в поисковых системах.</td>
 </tr>
 </tbody></table>
 

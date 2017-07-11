@@ -79,7 +79,7 @@ class WebUser extends \CWebUser
             // Предоставляем возможность иметь api-аккаунты с динамической привязкой к мероприятию
             // Важно понимать, что есть единственный метод-исключение: event/list, для вызова которого
             // мы не можем знать конкретный EventId
-            if ($account->EventId === null && !in_array($request->pathInfo, ['event/list', 'user/auth', 'user/login'])) {
+            if ($account->EventId === null && !in_array($request->pathInfo, ['event/list', 'user/auth', 'user/login', 'user/settings'])) {
                 $account->EventId = $request->getParam('EventId');
                 // Параметр EventId обязателен для отправки запроса из под мультиаккаунта
                 /** @noinspection NotOptimalIfConditionsInspection */
