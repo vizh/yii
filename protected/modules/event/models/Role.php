@@ -7,6 +7,7 @@ use JsonSerializable;
 /**
  * @property int $Id
  * @property string $Code
+ * @property string $Type
  * @property string $Title
  * @property int $Priority
  * @property string $Color
@@ -24,6 +25,7 @@ use JsonSerializable;
  *
  * @method Role byId(int $id, bool $useAnd = true)
  * @method Role byCode(string $code, bool $useAnd = true)
+ * @method Role byType(string $code, bool $useAnd = true)
  * @method Role byTitle(string $title, bool $useAnd = true)
  * @method Role byVisible(bool $visible, bool $useAnd = true)
  * @method Role byBase(bool $visible, bool $useAnd = true)
