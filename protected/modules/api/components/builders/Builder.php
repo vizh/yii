@@ -59,6 +59,7 @@ class Builder
     const USER_DATA = 'Data';
     const USER_BADGE = 'Badge';
     const USER_CONTACTS = 'Contacts';
+    const USER_ADDRESS = 'Address';
     const USER_ATTRIBUTES = 'Attributes';
     const USER_EXTERNALID = 'ExternalId';
     const USER_AUTH = 'AuthData';
@@ -202,6 +203,15 @@ class Builder
         }
 
         return $this->user;
+    }
+
+    private function buildUserAddress(User $user)
+    {
+        if ($user->LinkAddress !== null && $user->LinkAddress->Address->CityId !== 0) {
+            $this->user->Address = [
+                'City' => $user->LinkAddress->Address->City->Name
+            ];
+        }
     }
 
     /**
@@ -1175,8 +1185,8 @@ class Builder
                     $permissions[$user->RunetId] = $this->account->Event->hasParticipant($user);
                     break;
 
-                case Account::ROLE_MOBILE: // toDo: Не совсем понятна причина такого, но текущая версия api именно так и выбирала данные в списках посетителей, потом я это добавил сюда
-                    $permissions[$user->RunetId] = false;
+                case Account::ROLE_MOBILE:
+                    $permissions[$user->RunetId] = true;
                     break;
 
                 case Account::ROLE_PROFIT:
