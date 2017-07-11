@@ -53,6 +53,7 @@ class Builder
      * Набор доступных билдеров
      */
     const USER_PERSON = 'Person';
+    const USER_BIRTHDAY = 'Birthday';
     const USER_EMPLOYMENT = 'Employment';
     const USER_EVENT = 'Event';
     const USER_DATA = 'Data';
@@ -145,6 +146,13 @@ class Builder
     protected function buildUserPerson($user)
     {
         $this->user->LastName = $user->LastName;
+        $this->user->FirstName = $user->FirstName;
+        $this->user->FatherName = $user->FatherName;
+    }
+
+    protected function buildUserBirthday(User $user)
+    {
+        $this->user->Birthday = $user->Birthday;
         $this->user->FirstName = $user->FirstName;
         $this->user->FatherName = $user->FatherName;
     }
