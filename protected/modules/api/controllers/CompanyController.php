@@ -40,6 +40,10 @@ use nastradamus39\slate\annotations\ApiObject;
 {
 Error: {Code: int, Message: string}
 }
+<strong>Мультиаккаунты:</strong>
+В некоторых случаях выдаётся аккаунт без конкретной привязки к мероприятию. В этом случае большинство методов
+начинают требовать передачи дополнительного параметра: EventId, с идентификатором мероприятия в контексте которого
+необходимо выполнить действие.
 <strong>При использовании php-API:</strong>
 $api = new \RunetID\Api\Api(ApiKey, Secret, Cache = null);
 где Cache - объект класса, реализующего интерфейс \RunetID\Api\ICache"
