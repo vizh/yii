@@ -249,6 +249,10 @@
 {<br />
 Error: {Code: int, Message: string}<br />
 }<br />
+<strong>Мультиаккаунты:</strong><br />
+В некоторых случаях выдаётся аккаунт без конкретной привязки к мероприятию. В этом случае большинство методов<br />
+начинают требовать передачи дополнительного параметра: EventId, с идентификатором мероприятия в контексте которого<br />
+необходимо выполнить действие.<br />
 <strong>При использовании php-API:</strong><br />
 $api = new \RunetID\Api\Api(ApiKey, Secret, Cache = null);<br />
 где Cache - объект класса, реализующего интерфейс \RunetID\Api\ICache
@@ -3727,7 +3731,7 @@ $user = \RunetID\Api\User::model($api)->getByToken(token);<br />
 <h2 id="19-4">19.4. Детальная информация</h2>
 
 <p>Возвращает данные пользователя, включая информацию о статусе участия в мероприятии.</p>
-<pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span> <span class="nv">$user</span> <span class="o">=</span> <span class="nx">\RunetID\Api\User</span><span class="o">::</span><span class="na">model</span><span class="p">(</span><span class="nv">$api</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">getByRunetId</span><span class="p">(</span><span class="nx">RunetId</span><span class="p">);</span>
+<pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span> <span class="nv">$user</span> <span class="o">=</span> <span class="nx">\RunetID\Api\User</span><span class="o">::</span><span class="na">model</span><span class="p">(</span><span class="nv">$api</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">getByRunetId</span><span class="p">(</span><span class="nx">RunetId</span><span class="p">);</span> 
 </code></pre>
 <blockquote>
 <p>Ответ: </p>
@@ -3775,6 +3779,11 @@ $user = \RunetID\Api\User::model($api)->getByToken(token);<br />
 <td>ExternalId</td>
 <td>Строка</td>
 <td>внешний идентификатор пользователя для привязки его профиля к сторонним сервисам. Обязателен, если не указан другой параметр.</td>
+</tr>
+<tr>
+<td>Builders</td>
+<td>Список, разделённый запятами</td>
+<td>Набор идентификаторов, модифицирующий результат выполнения запроса. Возможные значения: Person, Birthday, Employment, Event, Data, Badge, Contacts, Address, Attributes, ExternalId, AuthData, Photo, DeprecatedData, Participations, Employments</td>
 </tr>
 </tbody></table>
 
