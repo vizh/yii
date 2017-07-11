@@ -86,6 +86,25 @@ class GetAction extends \api\components\Action
             throw new Exception(109, implode(', ', ['RunetId', 'Email', 'ExternalId']));
         }
 
+        // Получим необходимый набор билдеров для определения какие связи необходимо загрузить жадно.
+        $builders = $this->getRequestParamArray('Builders', [
+            Builder::USER_PERSON,
+            Builder::USER_PHOTO,
+            Builder::USER_DATA,
+            Builder::USER_ATTRIBUTES,
+            Builder::USER_EMPLOYMENT,
+            Builder::USER_EVENT,
+            Builder::USER_BADGE,
+            Builder::USER_CONTACTS,
+            Builder::USER_EXTERNALID,
+            Builder::USER_DEPRECATED_DATA
+        ]);
+
+        if (in_array(Builder::USER_PARTICIPATIONS, $builders)) {
+            $user->with(['Participants' => ['with' => ['Role', 'Event']]]);
+        }
+
+        // Производим посик пользователя, подготовительный этап закончен
         $user = $user->find();
 
         if ($user === null) {
@@ -111,18 +130,7 @@ class GetAction extends \api\components\Action
 
         $userData = $this
             ->getDataBuilder()
-            ->createUser($user, $this->getRequestParamArray('Builders', [
-                Builder::USER_PERSON,
-                Builder::USER_PHOTO,
-                Builder::USER_DATA,
-                Builder::USER_ATTRIBUTES,
-                Builder::USER_EMPLOYMENT,
-                Builder::USER_EVENT,
-                Builder::USER_BADGE,
-                Builder::USER_CONTACTS,
-                Builder::USER_EXTERNALID,
-                Builder::USER_DEPRECATED_DATA
-            ]));
+            ->createUser($user, $builders);
 
         if (false === empty($user->MergeUserId)) {
             $userData->RedirectRunetId = $user->RunetId;

@@ -14,6 +14,7 @@ use competence\models\Result;
 use competence\models\Test;
 use connect\models\Meeting;
 use event\models\Event;
+use event\models\RoleType;
 use event\models\section\Favorite;
 use event\models\section\Hall;
 use event\models\section\LinkUser;
@@ -61,7 +62,8 @@ class Builder
     const USER_EXTERNALID = 'ExternalId';
     const USER_AUTH = 'AuthData';
     const USER_PHOTO = 'Photo';
-    const USER_DEPRECATED_DATA = 'UserDeprecatedData';
+    const USER_DEPRECATED_DATA = 'DeprecatedData';
+    const USER_PARTICIPATIONS = 'Participations';
 
     /**
      * Построение схемы данных посетителя
@@ -354,6 +356,107 @@ class Builder
         return $this->user;
     }
 
+    /**
+     * @param User|\commission\models\User $user
+     *
+     * @return \stdClass
+     */
+    protected function buildUserParticipations($user)
+    {
+        // Результирующий массив, обладающий необходимой информацией об участиях посетителя
+        $participations = [];
+        $participationsAnalytics = [
+            'Total' => 0, // общее число мероприятий к которым причастен пользователь
+            'ByYear' => [],
+            'ByRoleType' => [
+                RoleType::NONE => 0,
+                RoleType::LISTENER => 0,
+                RoleType::MASTER => 0,
+                RoleType::SPEAKER => 0
+            ]
+        ];
+
+        // Собираем статистику участия на мероприятиях
+        foreach ($user->Participants as $participation) {
+            // Участия в скрытых мероприятиях не учитываются
+            if ($participation->Event === null || !$participation->Event->Visible) {
+                continue;
+            }
+            // Добавляем участие пользователя
+            $participations[$participation->EventId] = [
+                'RoleId' => $participation->Role->Id,
+                'RoleName' => $participation->Role->Title,
+                'RoleType' => $participation->Role->Type,
+                'EventId' => $participation->Event->Id,
+                'EventAlias' => $participation->Event->IdName,
+                'EventName' => $participation->Event->Title,
+                'EventUrl' => $participation->Event->getUrl(),
+                'EventLogo' => 'http://'.RUNETID_HOST.$participation->Event->getLogo()->getOriginal(),
+                'EventStartDate' => $participation->Event->getFormattedStartDate('yyyy-MM-dd')
+            ];
+        }
+
+        // Собираем статистику участия в секциях мероприятий
+        $sectionsParticipation = LinkUser::model()
+            ->byUserId($user->Id)
+            ->byDeleted(false)
+            ->with(['Section' => ['with' => ['Event']], 'Role'])
+            ->findAll();
+
+        foreach ($sectionsParticipation as $participation) {
+            $event = $participation->Section->Event;
+
+            // Если пользователь уже зарегистрирован на мероприятие с другим статусом то выберем максимальный
+            if (isset($participations[$event->Id])) {
+                $participations[$event->Id]['RoleType'] = RoleType::compare(
+                    $participations[$event->Id]['RoleType'],
+                    $participation->Role->Type
+                );
+                // Дело сделано, идём дальше
+                continue;
+            }
+
+            // Выбираем максимальный статус для участия
+            $participations[$event->Id] = [
+                'RoleId' => $participation->Role->Id,
+                'RoleName' => $participation->Role->Title,
+                'RoleType' => $participation->Role->Type,
+                'EventId' => $event->Id,
+                'EventAlias' => $event->IdName,
+                'EventTitle' => $event->Title,
+                'EventUrl' => $event->getUrl(),
+                'EventLogo' => 'http://'.RUNETID_HOST.$event->getLogo()->getOriginal(),
+                'EventStartDate' => $event->getFormattedStartDate('yyyy-MM-dd')
+            ];
+        }
+
+       // Рассчёт аналитики по участиям
+        foreach ($participations as $participation) {
+            $participationsAnalytics['ByYear'][(int)$participation['EventStartDate']]++;
+            if (RoleType::exists($participation['RoleType'])) {
+                $participationsAnalytics['ByRoleType'][$participation['RoleType']]++;
+            }
+        }
+
+        // Добавляем общий список участий
+        $participationsAnalytics['All'] = array_values($participations);
+
+        // Нам не нужна статистика по RoleType::NONE
+        unset($participationsAnalytics['ByRoleType'][RoleType::NONE]);
+
+        // Рассчёт общего кол-ва участий
+        $participationsAnalytics['Total'] = count($participations);
+
+        // Сортируем статистику участий по-годам, по годам :)
+        ksort($participationsAnalytics['ByYear'], SORT_NUMERIC);
+        $participationsAnalytics['ByYear'] = array_reverse($participationsAnalytics['ByYear'], true);
+
+        // Отправляем результат на золото!
+        $this->user->Participations = $participationsAnalytics;
+
+        return $this->user;
+    }
+
     protected $company;
 
     /**
@@ -468,6 +571,7 @@ class Builder
 
         $this->event->EventId = $event->Id;
         $this->event->IdName = $event->IdName;
+        $this->event->Alias = $event->IdName;
         $this->event->Name = html_entity_decode($event->Title); //todo: deprecated
         $this->event->Title = html_entity_decode($event->Title);
         $this->event->Info = $event->Info;

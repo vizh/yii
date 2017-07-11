@@ -15,6 +15,11 @@ final class RoleType
         self::MASTER => 3
     ];
 
+    public static function exists($role)
+    {
+        return isset(self::$roleWeights[$role]);
+    }
+
     public static function compare($role1, $role2)
     {
         return self::$roleWeights[$role1] > self::$roleWeights[$role2]
