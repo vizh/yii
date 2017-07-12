@@ -10,14 +10,15 @@ use application\components\ActiveRecord;
  * @property int $Agreement
  * @property int $IndexProfile
  * @property string $WhoView
- * @property int $ProjNews Новости системы rocID
- * @property int $EventNews Еженедельный дайджест событий на rocID
- * @property int $NoticePhoto Уведомлять о фотографиях и видео, на которых вас отметили
- * @property int $NoticeMsg
- * @property int $NoticeProfile
- * @property int $HideFatherName
- * @property int $HideBirthdayYear
- * @property bool $UnsubscribeAll
+ * @property int  $ProjNews Новости системы rocID
+ * @property int  $EventNews Еженедельный дайджест событий на rocID
+ * @property int  $NoticePhoto Уведомлять о фотографиях и видео, на которых вас отметили
+ * @property int  $NoticeMsg
+ * @property int  $NoticeProfile
+ * @property int  $HideFatherName
+ * @property int  $HideBirthdayYear
+ * @property bool $UnsubscribeAll Отписан ли пользователь от всех рассылок. Он ещё может быть отписан только от рассылок конкретного мероприятия, но в другом месте.
+ * @property bool $UnsubscribePush Отписан ли пользователь ото всех push нотификаций.
  *
  * Описание вспомогательных методов
  * @method Settings   with($condition = '')
