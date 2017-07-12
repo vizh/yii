@@ -8,11 +8,8 @@ use application\components\auth\WebUser;
  * @property \application\components\auth\WebUser $tempUser
  * @property \partner\components\WebUser $partner
  *
- *
  * @property \partner\components\PhpAuthManager $partnerAuthManager
  * @property \ruvents\components\PhpAuthManager $ruventsAuthManager
- *
- * @property array $params
  *
  * @method \CHttpRequest getRequest()
  * @method \CClientScript getClientScript()
@@ -22,10 +19,10 @@ use application\components\auth\WebUser;
  * @method \CHttpSession getSession()
  * @method \CCache getCache()
  * @method \application\components\ErrorHandler getErrorHandler()
+ * @method ParamsCollection getParams()
  */
 class WebApplication extends \CWebApplication
 {
-
     /**
      * Отключает логгеры, которые выводят результаты логгирования в output
      *
