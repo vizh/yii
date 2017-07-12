@@ -437,10 +437,6 @@ class Builder
      */
     protected function buildUserParticipations($user)
     {
-        if (false === in_array($this->account->Role, [Account::ROLE_SUPERVISOR, Account::ROLE_OWN])) {
-            throw new Exception(104);
-        }
-
         // Результирующий массив, обладающий необходимой информацией об участиях посетителя
         $participations = [];
         $participationsAnalytics = [
