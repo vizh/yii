@@ -32,6 +32,8 @@ class UserLoginAction extends Action
         }
 
         $userData = $this->getDataBuilder()->createUser($user, [
+            Builder::USER_PERSON,
+            Builder::USER_PHOTO,
             Builder::USER_EMPLOYMENT,
             Builder::USER_EVENT,
             Builder::USER_AUTH

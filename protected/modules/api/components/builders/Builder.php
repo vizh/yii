@@ -999,6 +999,8 @@ class Builder
         $this->report->Id = $link->Id;
         if (!empty($link->User)) {
             $this->report->User = $this->createUser($link->User, [
+                self::USER_PERSON,
+                self::USER_PHOTO,
                 self::USER_ATTRIBUTES,
                 self::USER_EMPLOYMENT
             ]);

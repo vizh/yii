@@ -29,6 +29,8 @@ class SearchAction extends Action
         $builder = $this->getAccount()->getDataBuilder();
         foreach ($users as $user) {
             $result['Users'][] = $builder->createUser($user, [
+                Builder::USER_PERSON,
+                Builder::USER_PHOTO,
                 Builder::USER_EMPLOYMENT,
                 Builder::USER_EVENT
             ]);

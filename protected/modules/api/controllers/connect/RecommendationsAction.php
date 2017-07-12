@@ -42,6 +42,8 @@ class RecommendationsAction extends \api\components\Action
         $result = [];
         foreach ($users as $user) {
             $result[] = $this->getDataBuilder()->createUser($user, [
+                Builder::USER_PERSON,
+                Builder::USER_PHOTO,
                 Builder::USER_EMPLOYMENT,
                 Builder::USER_CONTACTS,
                 Builder::USER_DATA

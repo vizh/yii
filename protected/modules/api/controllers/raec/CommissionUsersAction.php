@@ -43,6 +43,7 @@ class CommissionUsersAction extends \api\components\Action
         $result = [];
         foreach ($users as $user) {
             $builder->createUser($user->User, [
+                Builder::USER_PERSON,
                 Builder::USER_EMPLOYMENT
             ]);
 
