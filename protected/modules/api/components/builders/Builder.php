@@ -178,7 +178,7 @@ class Builder
      */
     protected function buildUserData($user)
     {
-        if ($this->hasPrivatePermission($user)) {
+        if ($this->hasPrivatePermission($user) && $this->account->EventId !== null) {
             $attributes = UserData::getDefinedAttributeValues($this->account->Event, $user);
 
             if (false === empty($attributes)) {
