@@ -5,6 +5,8 @@
  * @var \user\controllers\view\ParticipantCollection $participation
  */
 
+use event\models\RoleType;
+
 $hasContacts = !empty($user->LinkSite) || !empty($user->LinkServiceAccounts);
 ?>
 <script type="text/javascript">
@@ -21,9 +23,9 @@ $hasContacts = !empty($user->LinkSite) || !empty($user->LinkServiceAccounts);
                 color: "#e6e6e6"
             },
             parts: [
-                {color: "#ffd02e", val: <?=isset($participation->count[\event\models\RoleType::LISTENER]) ? $participation->count[\event\models\RoleType::LISTENER] : 0?>, role: "слушателя"},
-                {color: "#6363d2", val: <?=isset($participation->count[\event\models\RoleType::SPEAKER]) ? $participation->count[\event\models\RoleType::SPEAKER] : 0?>, role: "докладчика"},
-                {color: "#7d45a1", val: <?=isset($participation->count[\event\models\RoleType::MASTER]) ? $participation->count[\event\models\RoleType::MASTER] : 0?>, role: "ведущего"}
+                {color: "#ffd02e", val: <?=isset($participation->count[RoleType::LISTENER]) ? $participation->count[RoleType::LISTENER] : 0?>, role: "слушателя"},
+                {color: "#6363d2", val: <?=isset($participation->count[RoleType::SPEAKER]) ? $participation->count[RoleType::SPEAKER] : 0?>, role: "докладчика"},
+                {color: "#7d45a1", val: <?=isset($participation->count[RoleType::MASTER]) ? $participation->count[RoleType::MASTER] : 0?>, role: "ведущего"}
             ],
             charts: [
                 'charts-pie-canvas-1',
@@ -43,7 +45,7 @@ $hasContacts = !empty($user->LinkSite) || !empty($user->LinkServiceAccounts);
     <div class="container">
         <div class="title">
             <span class="backing runet">Runet</span>
-            <span class="backing text"><?=\Yii::t('app', 'Профиль пользователя')?></span>
+            <span class="backing text"><?=Yii::t('app', 'Профиль пользователя')?></span>
         </div>
     </div>
 </h2>
@@ -72,7 +74,7 @@ $hasContacts = !empty($user->LinkSite) || !empty($user->LinkServiceAccounts);
                                 <?$age = $user->getBirthDate()?>
                                 <?if($age > 0 || $user->LinkAddress !== null):?>
                                     <small class="muted">
-                                        <?if($age > 0):?><?=\Yii::t('app', 'День рождения')?> <span itemprop="birthDate" datetime="<?=$user->Birthday?>"><?=$age?></span>,<?endif?>
+                                        <?if($age > 0):?><?=Yii::t('app', 'День рождения')?> <span itemprop="birthDate" datetime="<?=$user->Birthday?>"><?=$age?></span>,<?endif?>
                                         <?if($user->getContactAddress() !== null && $user->getContactAddress()->City !== null):?><?=$user->getContactAddress()->City->Name?><?endif?>
                                     </small>
                                 <?endif?>
@@ -99,7 +101,7 @@ $hasContacts = !empty($user->LinkSite) || !empty($user->LinkServiceAccounts);
                                 <?if(!empty($professionalInterests)):?>
                                     <div class="b-interests">
                                         <header>
-                                            <h6 class="title"><?=\Yii::t('app', 'Профессиональные интересы')?></h6>
+                                            <h6 class="title"><?=Yii::t('app', 'Профессиональные интересы')?></h6>
                                         </header>
                                         <article>
                                             <p class="text"><?=implode(', ', $professionalInterests)?></p>
@@ -119,7 +121,7 @@ $hasContacts = !empty($user->LinkSite) || !empty($user->LinkServiceAccounts);
 
                             <?if(!empty($user->IRIParticipantsActive)):?>
                                 <div class="b-iri">
-                                    <?=\CHtml::link(\CHtml::image('/images/content/iri-logo_small.jpg', \Yii::t('app', 'Институт Развития Интернета'), ['class' => 'logo']), 'http://ири.рф', ['target' => '_blank'])?>
+                                    <?=\CHtml::link(\CHtml::image('/images/content/iri-logo_small.jpg', Yii::t('app', 'Институт Развития Интернета'), ['class' => 'logo']), 'http://ири.рф', ['target' => '_blank'])?>
                                     <?foreach($user->IRIParticipantsActive as $participant):?>
                                         <p class="text"><?=$participant?></p>
                                     <?endforeach?>
@@ -128,7 +130,7 @@ $hasContacts = !empty($user->LinkSite) || !empty($user->LinkServiceAccounts);
 
                             <?if(!empty($user->ICTParticipantsActive)):?>
                                 <div class="b-iri">
-                                    <?=\CHtml::link(\CHtml::image('/images/content/ict-logo-small.png', \Yii::t('app', 'ICT'), ['class' => 'logo']), 'http://ict.moskow', ['target' => '_blank'])?>
+                                    <?=\CHtml::link(\CHtml::image('/images/content/ict-logo-small.png', Yii::t('app', 'ICT'), ['class' => 'logo']), 'http://ict.moskow', ['target' => '_blank'])?>
                                     <?foreach($user->ICTParticipantsActive as $participant):?>
                                         <p class="text"><?=$participant?></p>
                                     <?endforeach?>
@@ -139,8 +141,8 @@ $hasContacts = !empty($user->LinkSite) || !empty($user->LinkServiceAccounts);
 
                         <div id="user-account-tabs" class="span4 tabs">
                             <ul class="nav">
-                                <?if(!empty($employmentHistory)):?><li><a href="#user-account-tab_career" class="pseudo-link"><?=\Yii::t('app', 'Карьера')?></a></li><?endif?>
-                                <?if($hasContacts):?><li><a href="#user-account-tab_contacts" class="pseudo-link"><?=\Yii::t('app', 'Контакты')?></a></li><?endif?>
+                                <?if(!empty($employmentHistory)):?><li><a href="#user-account-tab_career" class="pseudo-link"><?=Yii::t('app', 'Карьера')?></a></li><?endif?>
+                                <?if($hasContacts):?><li><a href="#user-account-tab_contacts" class="pseudo-link"><?=Yii::t('app', 'Контакты')?></a></li><?endif?>
                             </ul>
 
                             <?if(!empty($employmentHistory)):?>
@@ -155,10 +157,10 @@ $hasContacts = !empty($user->LinkSite) || !empty($user->LinkServiceAccounts);
                                                         <?if(($interval = $employment->getWorkingInterval()) !== null):?>
                                                             <p class="b-career_length muted"><small>
                                                                     <?if($interval->Years > 0):?>
-                                                                        <?=\Yii::t('app', '{n} год |{n} года |{n} лет |{n} года ', $interval->Years)?>
+                                                                        <?=Yii::t('app', '{n} год |{n} года |{n} лет |{n} года ', $interval->Years)?>
                                                                     <?endif?>
                                                                     <?if($interval->Months > 0):?>
-                                                                        <?=\Yii::t('app', '{n} месяц|{n} месяца|{n} месяцев|{n} месяца', $interval->Months)?>
+                                                                        <?=Yii::t('app', '{n} месяц|{n} месяца|{n} месяцев|{n} месяца', $interval->Months)?>
                                                                     <?endif?>
                                                                 </small></p>
                                                         <?endif?>
@@ -170,9 +172,9 @@ $hasContacts = !empty($user->LinkSite) || !empty($user->LinkServiceAccounts);
                                             $end = $employments[0]->EndYear;
                                            ?>
                                             <?if(!empty($start)):?>
-                                                <dt><?=$start?> &mdash; <?=!empty($end) ? $end : \Yii::t('app', 'н.в.')?></dt>
+                                                <dt><?=$start?> &mdash; <?=!empty($end) ? $end : Yii::t('app', 'н.в.')?></dt>
                                             <?php elseif (!empty($end)):?>
-                                                <dt><?=\Yii::t('app', 'до')?> <?=$end?></dt>
+                                                <dt><?=Yii::t('app', 'до')?> <?=$end?></dt>
                                             <?endif?>
                                         </dl>
                                     <?endforeach?>
@@ -183,7 +185,7 @@ $hasContacts = !empty($user->LinkSite) || !empty($user->LinkServiceAccounts);
                                 <div id="user-account-tab_contacts" class="tab b-contacts">
                                     <?if($user->LinkSite !== null):?>
                                         <dl class="dl-horizontal">
-                                            <dt><?=\Yii::t('app', 'Сайт:')?></dt>
+                                            <dt><?=Yii::t('app', 'Сайт:')?></dt>
                                             <dd><a href="<?=$user->LinkSite->Site?>" target="_blank"><?=parse_url($user->LinkSite->Site, PHP_URL_HOST)?></a></dd>
                                         </dl>
                                     <?endif?>
@@ -210,7 +212,7 @@ $hasContacts = !empty($user->LinkSite) || !empty($user->LinkServiceAccounts);
             <div class="line"></div>
             <div class="container">
                 <div class="title">
-                    <span class="backing text"><?=\Yii::t('app','Участие в профильных мероприятиях')?></span>
+                    <span class="backing text"><?=Yii::t('app','Участие в профильных мероприятиях')?></span>
                 </div>
             </div>
         </h4>
@@ -226,9 +228,7 @@ $hasContacts = !empty($user->LinkSite) || !empty($user->LinkServiceAccounts);
                 </div>
             </div>
         </div>
-
         <?$this->renderPartial('index-participant', ['participation' => $participation])?>
-
     </div>
 </div>
 
@@ -237,7 +237,7 @@ $hasContacts = !empty($user->LinkSite) || !empty($user->LinkServiceAccounts);
         <div class="line"></div>
         <div class="container">
             <div class="title">
-                <span class="backing text"><?=\Yii::t('app', 'Примите участие')?></span>
+                <span class="backing text"><?=Yii::t('app', 'Примите участие')?></span>
             </div>
         </div>
     </h4>
@@ -257,7 +257,7 @@ $hasContacts = !empty($user->LinkSite) || !empty($user->LinkServiceAccounts);
                     </article>
                     <footer class="f">
                         <a href="<?=$event->getUrl()?>" class="a">
-                            <i class="icon-circle-arrow-right"></i><?=\Yii::t('app', 'Посетить мероприятие')?>
+                            <i class="icon-circle-arrow-right"></i><?=Yii::t('app', 'Посетить мероприятие')?>
                         </a>
                     </footer>
                 </div>
@@ -270,7 +270,7 @@ $hasContacts = !empty($user->LinkSite) || !empty($user->LinkServiceAccounts);
     <div class="item">
         <div class="info">
             <div class="val"><%= value %></div>
-            <div class="description"><?=\Yii::t('app', 'В качестве')?> <b><%= role%></b></div>
+            <div class="description"><?=Yii::t('app', 'В качестве')?> <b><%= role%></b></div>
         </div>
     </div>
 </script>

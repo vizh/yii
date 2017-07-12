@@ -11,10 +11,10 @@
       <div class="container">
         <div class="title">
             <span class="backing text">
-              <?=\Yii::t('app', 'Участие в мероприятиях за')?>
+              <?=Yii::t('app', 'Участие в мероприятиях за')?>
               <form action="#" class="form-inline">
                 <select name="participationYears" id="participationYears">
-                  <option value="0"><?=\Yii::t('app', 'За все время')?></option>
+                  <option value="0"><?=Yii::t('app', 'За все время')?></option>
                   <?foreach($participation->years as $year):?>
                     <?if($year > 0):?>
                       <option value="<?=$year?>"><?=$year?></option>
@@ -67,7 +67,7 @@
         <?endforeach?>
       </div>
       <div class="all">
-        <a href="#" class="pseudo-link"><?=\Yii::t('app', 'Все мероприятия')?></a>
+        <a href="#" class="pseudo-link"><?=Yii::t('app', 'Все мероприятия')?></a>
       </div>
     </div>
   </div>

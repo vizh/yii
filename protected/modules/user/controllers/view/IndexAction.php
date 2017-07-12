@@ -1,6 +1,7 @@
 <?php
 namespace user\controllers\view;
 
+use event\models\RoleType;
 use event\models\section\LinkUser;
 use user\models\User;
 
@@ -62,20 +63,25 @@ class IndexAction extends \CAction
 
     private function getParticipation()
     {
-        $criteria = new \CDbCriteria();
-        $criteria->with = ['Section', 'Report', 'Role'];
-        $criteria->order = '"Role"."Priority" DESC';
-
-        $linkUsers = LinkUser::model()->byUserId($this->user->Id)->byDeleted(false)->findAll($criteria);
+        $linkUsers = LinkUser::model()
+            ->byUserId($this->user->Id)
+            ->byDeleted(false)
+            ->with(['Section', 'Report', 'Role'])
+            ->orderBy(['"Role"."Priority"' => SORT_DESC])
+            ->findAll();
 
         $collection = new ParticipantCollection($this->user);
+
         foreach ($this->user->Participants as $participant) {
             $collection->parseParticipant($participant);
         }
+
         foreach ($linkUsers as $linkUser) {
             $collection->parseSection($linkUser);
         }
+
         $collection->finalCalc();
+
         return $collection;
     }
 
@@ -254,7 +260,7 @@ class ParticipantDetail
     public $sectionRoleDetails = [];
 
     /** @var string */
-    public $roleType = \event\models\RoleType::NONE;
+    public $roleType = RoleType::NONE;
 
     /**
      * @param \event\models\Participant $participant
@@ -267,7 +273,7 @@ class ParticipantDetail
         } elseif ($participant->Role->Priority > $this->role->Priority) {
             $this->role = $participant->Role;
         }
-        $this->roleType = \event\models\RoleType::compare($this->roleType, $this->role->Type);
+        $this->roleType = RoleType::compare($this->roleType, $this->role->Type);
     }
 
     /**
@@ -279,7 +285,7 @@ class ParticipantDetail
             $this->sectionRoleDetails[$linkUser->RoleId] = new RoleDetail();
         }
         $this->sectionRoleDetails[$linkUser->RoleId]->addSectionUserLink($linkUser);
-        $this->roleType = \event\models\RoleType::compare($this->roleType, $linkUser->Role->Type);
+        $this->roleType = RoleType::compare($this->roleType, $linkUser->Role->Type);
     }
 }
 
