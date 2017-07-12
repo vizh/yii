@@ -108,23 +108,17 @@ class Employment extends ActiveRecord
     /**
      * Возвращает отформатированную дату начала работы
      *
-     * @return array
+     * @param string $format
+     *
+     * @return string
      */
-    public function GetFormatedStartWorking()
+    public function GetFormatedStartWorking($format = 'LLLL yyyy')
     {
-        $date = strtotime($this->StartWorking);
-
-        if (!$date || strpos($this->StartWorking, '9999') !== false || strpos($this->StartWorking, '0000') !== false) {
+        if (-1 === $date = mktime(0, 0, 0, $this->StartMonth, 1, $this->StartYear)) {
             return 'неизвестно';
         }
 
-        if (strpos($this->StartWorking, '-00-00')) {
-            return intval(substr($this->StartWorking, 0, 4));
-        } elseif (strpos($this->StartWorking, '-00')) {
-            $date = strtotime(str_replace('-00', '-01', $this->StartWorking));
-        }
-
-        return Yii::app()->dateFormatter->format('LLLL yyyy', $date);
+        return Yii::app()->getDateFormatter()->format($format, $date);
     }
 
     /**
@@ -173,26 +167,19 @@ class Employment extends ActiveRecord
     }
 
     /**
-     * Возвращает отформатированную дату окончания работы
+     * Возвращает отформатированную дату начала работы
      *
-     * @return array
+     * @param string $format
+     *
+     * @return string
      */
-    public function GetFormatedFinishWorking()
+    public function GetFormatedFinishWorking($format = 'LLLL yyyy')
     {
-        if (strpos($this->FinishWorking, '9999') !== false) {
-            return 'по настоящее время';
-        }
-        $date = strtotime($this->FinishWorking);
-        if (!$date) {
-            return 'по настоящее время';
-        }
-        if (strpos($this->FinishWorking, '-00-00')) {
-            return intval(substr($this->FinishWorking, 0, 4));
-        } elseif (strpos($this->FinishWorking, '-00')) {
-            $date = strtotime(str_replace('-00', '-01', $this->FinishWorking));
+        if (-1 === $date = mktime(0, 0, 0, $this->EndMonth, 1, $this->EndYear)) {
+            return 'неизвестно';
         }
 
-        return Yii::app()->dateFormatter->format('LLLL yyyy', $date);
+        return Yii::app()->getDateFormatter()->format($format, $date);
     }
 
     /**
