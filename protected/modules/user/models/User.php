@@ -566,15 +566,21 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     /**
      * Установка пароля пользователя
      *
-     * @param $currentPassword
      * @param $newPassword
+     * @param $currentPassword
      *
      * @return bool
      */
-    public function setPassword($currentPassword, $newPassword)
+    public function setPassword($newPassword, $currentPassword = null)
     {
-        // Дополнительная степень защиты. Тольк пользователь имеет право менять свой пароль!
-        if ($this->checkLogin($currentPassword)) {
+        // Проверяем, что у данного пользователя уже есть пароль
+        $hasPassword = $currentPassword !== null
+            || $this->Password !== null
+            || $this->OldPassword !== null;
+
+        // Дополнительная степень защиты. Толькo пользователь имеет право менять свой пароль!
+        // Без проверок можно завести только пароль для того пользователя у которого его ещё нет.
+        if ($hasPassword === false || $this->checkLogin($currentPassword)) {
             $this->Password = (new Pbkdf2())->createHash($newPassword);
             $this->OldPassword = null;
 

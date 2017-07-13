@@ -32,8 +32,8 @@ class EditPasswordAction extends Action
 
         // Меняем пароль, в случае, если текущий задан верно
         $isSuccess = $user->setPassword(
-            $this->getRequestParam('CurrentPassword'),
-            $this->getRequestParam('NewPassword')
+            $this->getRequestParam('NewPassword'),
+            $this->getRequestParam('CurrentPassword')
         );
 
         // Сообщим об ошибке, если пароль не изменён, что означает неверность CurrentPassword
