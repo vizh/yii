@@ -508,6 +508,19 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      */
     public function register($notify = true)
     {
+        // toDo: Обкатать в работе и внедрить новый алгоритм установки пароля
+        // $password = $this->setPassword($this->Password);
+        //
+        // if ($password && $this->save()) {
+        //     $this->refresh();
+        //
+        //     if ($notify === true) {
+        //         $this->onRegister(new CModelEvent($this, [
+        //             'password' => $password
+        //         ]));
+        //     }
+        // }
+
         if (empty($this->Password)) {
             $this->Password = \Utils::GeneratePassword();
         }
@@ -564,27 +577,39 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     }
 
     /**
-     * Установка пароля пользователя
+     * Установка пароля пользователя. Возвращает установленный пароль в случае успеха или FALSE в случае неудачи.
+     * В случае, если пользователь уже имеет пароль, то требуется указывать вплоть до выброса исключения.
      *
-     * @param $newPassword
-     * @param $currentPassword
+     * @param $password
+     * @param $current
      *
-     * @return bool
+     * @return bool|string
+     * @throws \application\components\Exception
      */
-    public function setPassword($newPassword, $currentPassword = null)
+    public function setPassword($password, $current = null)
     {
+        // Если планируется установить пустой пароль, то генерируем его случайным образом
+        if (empty($password)) {
+            $password = \Utils::GeneratePassword();
+        }
+
         // Проверяем, что у данного пользователя уже есть пароль
-        $hasPassword = $currentPassword !== null
+        $hasPassword = $current !== null
             || $this->Password !== null
             || $this->OldPassword !== null;
 
+        // Требуем что бы был передан текущий пароль, если у пользователя уже есть какой-то
+        if ($hasPassword && empty($current)) {
+            throw new Exception('Пользователь уже имеет установленный пароль, нужно его указать что бы установить новый');
+        }
+
         // Дополнительная степень защиты. Толькo пользователь имеет право менять свой пароль!
         // Без проверок можно завести только пароль для того пользователя у которого его ещё нет.
-        if ($hasPassword === false || $this->checkLogin($currentPassword)) {
-            $this->Password = (new Pbkdf2())->createHash($newPassword);
+        if (false === $hasPassword || $this->checkLogin($current)) {
+            $this->Password = (new Pbkdf2())->createHash($password);
             $this->OldPassword = null;
 
-            return true;
+            return $password;
         }
 
         return false;
