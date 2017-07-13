@@ -155,10 +155,6 @@ class Builder
 
     protected function buildUserBirthday(User $user)
     {
-        if (false === in_array($this->account->Role, [Account::ROLE_SUPERVISOR, Account::ROLE_OWN])) {
-            throw new Exception(104);
-        }
-
         $this->user->Birthday = $user->Birthday;
     }
 
@@ -255,10 +251,6 @@ class Builder
      */
     protected function buildUserEmployments(User $user)
     {
-        if (false === in_array($this->account->Role, [Account::ROLE_SUPERVISOR, Account::ROLE_OWN])) {
-            throw new Exception(104);
-        }
-
         $employments = [];
 
         foreach ($user->Employments as $employment) {
@@ -550,6 +542,7 @@ class Builder
                 'Small' => 'http://'.RUNETID_HOST.$company->getLogo()->get50px(),
                 'Medium' => 'http://'.RUNETID_HOST.$company->getLogo()->get90px(),
                 'Large' => 'http://'.RUNETID_HOST.$company->getLogo()->get200px(),
+                'Original' => 'http://'.RUNETID_HOST.$company->getLogo()->original()
             ],
             'Url' => (string)$company->getContactSite(),
             'Phone' => !empty($company->LinkPhones[0]) ? (string)$company->LinkPhones[0]->Phone : null,
@@ -565,6 +558,10 @@ class Builder
             $this->company->Cluster = $company->Cluster;
             $this->company->ClusterGroups = ArrayHelper::columnGet('Id', $company->RaecClusters);
             $this->company->OGRN = $company->OGRN;
+        }
+
+        if ($company->Cluster === Company::CLUSTER_RAEC) {
+            $this->buildCompanyRaecUser($company);
         }
 
         return $this->company;
