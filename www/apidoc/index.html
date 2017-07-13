@@ -2944,15 +2944,18 @@ $user = \RunetID\Api\User::model($api)->getByToken(token);<br />
 <table><thead>
 <tr>
 <th>Название</th>
+<th>Тип</th>
 <th>Описание</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>OrderItemId</td>
+<td>Число</td>
 <td>Идентификатор заказа.</td>
 </tr>
 <tr>
 <td>PayerRunetId</td>
+<td>Число</td>
 <td>Идентификатор плательщика.</td>
 </tr>
 </tbody></table>
@@ -3715,13 +3718,13 @@ $user = \RunetID\Api\User::model($api)->getByToken(token);<br />
 </tr>
 <tr>
 <td>Visible</td>
-<td>Логический (0 или 1)</td>
+<td>Логическое</td>
 <td>Видимость пользователя.</td>
 <td>true</td>
 </tr>
 <tr>
 <td>DoUnsubscribe</td>
-<td>Логический (0 или 1)</td>
+<td>Логическое</td>
 <td>Сразу же отписать пользователя от рассылок.</td>
 <td>false</td>
 </tr>
@@ -3779,7 +3782,37 @@ $user = \RunetID\Api\User::model($api)->getByToken(token);<br />
 </tr>
 </tbody></table>
 
-<h2 id="19-4">19.4. Детальная информация</h2>
+<h2 id="19-4">19.4. Редактирование пароля</h2>
+
+<p>Позволяет сменить пароль указанного пользователя.</p>
+
+<p><code class="prettyprint">POST http://api.runet-id.com/user/edit/password</code> </p>
+
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Название</th>
+<th>Тип</th>
+<th>Описание</th>
+<th>Обязательно</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>CurrentPassword</td>
+<td>Cтрока</td>
+<td>Текущий пароль</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>NewPassword</td>
+<td>Cтрока</td>
+<td>Новый пароль</td>
+<td>Y</td>
+</tr>
+</tbody></table>
+
+<h2 id="19-5">19.5. Детальная информация</h2>
 
 <p>Возвращает данные пользователя, включая информацию о статусе участия в мероприятии.</p>
 <pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span> <span class="nv">$user</span> <span class="o">=</span> <span class="nx">\RunetID\Api\User</span><span class="o">::</span><span class="na">model</span><span class="p">(</span><span class="nv">$api</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">getByRunetId</span><span class="p">(</span><span class="nx">RunetId</span><span class="p">);</span> 
@@ -3838,7 +3871,7 @@ $user = \RunetID\Api\User::model($api)->getByToken(token);<br />
 </tr>
 </tbody></table>
 
-<h2 id="19-5">19.5. Авторизация</h2>
+<h2 id="19-6">19.6. Авторизация</h2>
 
 <p>Авторизация, проверка связки Email и Password.</p>
 
@@ -3892,7 +3925,7 @@ $user = \RunetID\Api\User::model($api)->getByToken(token);<br />
 </tr>
 </tbody></table>
 
-<h2 id="19-6">19.6. Поиск</h2>
+<h2 id="19-7">19.7. Поиск</h2>
 
 <p>Поиск пользователей по базе RUNET-ID.</p>
 
@@ -3932,7 +3965,7 @@ $user = \RunetID\Api\User::model($api)->getByToken(token);<br />
 </tr>
 </tbody></table>
 
-<h2 id="19-7">19.7. Установка фотографии</h2>
+<h2 id="19-8">19.8. Установка фотографии</h2>
 
 <p>Устанавливает фотографию посетителя из файла изображения или ссылки на него.</p>
 
@@ -3959,7 +3992,7 @@ $user = \RunetID\Api\User::model($api)->getByToken(token);<br />
 </tr>
 </tbody></table>
 
-<h2 id="19-8">19.8. Настройки</h2>
+<h2 id="19-9">19.9. Настройки</h2>
 
 <p>Позволяет отписать и подписать пользователя на следующие события: EMail рассылки, Push уведомления, индексацию профиля в поисковых системах.</p>
 

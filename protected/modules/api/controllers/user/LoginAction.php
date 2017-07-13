@@ -9,6 +9,7 @@ use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\ApiAction;
 use user\models\User;
+use Yii;
 
 class LoginAction extends Action
 {
@@ -46,6 +47,9 @@ class LoginAction extends Action
      */
     public function run()
     {
+        // Данный метод не будет работать быстро во избежание перебора пароля
+        sleep(Yii::app()->getParams()->SecureLoginCheckDelay);
+
         // Позволяем реализовать кастомный механизм авторизации. Помним, что у нас есть мультиаккаунты,
         // что данный хак не будет отрабатывать если для них не указан корректный EventId.
         $user = AbstractHack::getByEvent($this->getAccount()->Event)->apiCustomLogin(

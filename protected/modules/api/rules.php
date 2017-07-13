@@ -172,7 +172,7 @@ return [
         'allow',
         'roles' => [Account::ROLE_OWN, Account::ROLE_MOBILE],
         'controllers' => ['user'],
-        'actions' => ['settings']
+        'actions' => ['settings', 'editPassword']
     ],
 
     /***  ЗАПРЕЩЕНО ВСЕ ЧТО НЕ РАЗРЕШЕНО   ***/

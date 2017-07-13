@@ -549,7 +549,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
             $lightHash = md5($password);
             $lightHash2 = md5($password2);
             if ($this->OldPassword == $lightHash || $this->OldPassword == $lightHash2) {
-                $pbkdf2 = new \application\components\utility\Pbkdf2();
+                $pbkdf2 = new Pbkdf2();
                 $this->Password = $pbkdf2->createHash($password);
                 $this->OldPassword = null;
                 $this->save();
@@ -559,8 +559,29 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
                 return false;
             }
         } else {
-            return \application\components\utility\Pbkdf2::validatePassword($password, $this->Password);
+            return Pbkdf2::validatePassword($password, $this->Password);
         }
+    }
+
+    /**
+     * Установка пароля пользователя
+     *
+     * @param $currentPassword
+     * @param $newPassword
+     *
+     * @return bool
+     */
+    public function setPassword($currentPassword, $newPassword)
+    {
+        // Дополнительная степень защиты. Тольк пользователь имеет право менять свой пароль!
+        if ($this->checkLogin($currentPassword)) {
+            $this->Password = (new Pbkdf2())->createHash($newPassword);
+            $this->OldPassword = null;
+
+            return true;
+        }
+
+        return false;
     }
 
     /** @var Photo */
@@ -875,7 +896,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         if ($password == null) {
             $password = \Utils::GeneratePassword();
         }
-        $pbkdf2 = new \application\components\utility\Pbkdf2();
+        $pbkdf2 = new Pbkdf2();
         $this->Password = $pbkdf2->createHash($password);
         $this->save();
 
