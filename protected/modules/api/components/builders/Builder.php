@@ -535,6 +535,7 @@ class Builder
 
         $this->company = (object)[
             'Id' => $company->Id,
+            'Code' => $company->Code,
             'Name' => $company->Name,
             'FullName' => $company->FullName,
             'Info' => $company->Info,
@@ -547,7 +548,8 @@ class Builder
             'Url' => (string)$company->getContactSite(),
             'Phone' => !empty($company->LinkPhones[0]) ? (string)$company->LinkPhones[0]->Phone : null,
             'Email' => null,
-            'Address' => (string)$company->getContactAddress()
+            'Address' => (string)$company->getContactAddress(),
+            'EmploymentsCount' => $company->EmploymentsCount
         ];
 
         if (null !== ($email = $company->getContactEmail())) {

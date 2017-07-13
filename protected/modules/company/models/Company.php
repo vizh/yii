@@ -40,6 +40,7 @@ use search\components\interfaces\ISearch;
  * @property \user\models\Employment[] $Employments
  * @property \user\models\Employment[] $EmploymentsAll
  * @property \user\models\Employment[] $EmploymentsAllWithInvisible
+ * @property int $EmploymentsCount Число всех сотрудников, включая невидимых сотрудников
  *
  * Описание вспомогательных методов
  * @method Company   with($condition = '')
@@ -99,6 +100,7 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
             'Employments' => [self::HAS_MANY, '\user\models\Employment', 'CompanyId', 'condition' => '"Employments"."EndYear" IS NULL AND "User"."Visible"', 'with' => ['User']],
             'EmploymentsAll' => [self::HAS_MANY, '\user\models\Employment', 'CompanyId', 'with' => ['User'], 'condition' => '"User"."Visible"'],
             'EmploymentsAllWithInvisible' => [self::HAS_MANY, '\user\models\Employment', 'CompanyId'],
+            'EmploymentsCount' => [self::STAT, '\user\models\Employment', 'CompanyId'],
 
             'ActiveRaecUsers' => [self::HAS_MANY, '\raec\models\CompanyUser', 'CompanyId', 'on' => '"ActiveRaecUsers"."ExitTime" IS NULL', 'with' => ['User']],
             'RaecUsers' => [self::HAS_MANY, '\raec\models\CompanyUser', 'CompanyId'],

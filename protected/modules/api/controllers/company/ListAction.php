@@ -72,12 +72,14 @@ class ListAction extends Action
         }
 
         $companies = $model
-            ->ordered()
+            ->with('EmploymentsCount')
             ->findAll($criteria);
 
         $result = ['Companies' => []];
         foreach ($companies as $company) {
-            $result['Companies'][] = $this->getDataBuilder()->createCompany($company);
+            $result['Companies'][] = $this
+                ->getDataBuilder()
+                ->createCompany($company);
         }
 
         if ($criteria->limit === count($companies)) {
