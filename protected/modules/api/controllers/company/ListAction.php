@@ -39,13 +39,12 @@ class ListAction extends Action
      */
     public function run()
     {
-        // Данный метод доступен только для собственных мероприятий
-        if (false === in_array($this->getAccount()->Role, [Account::ROLE_OWN, Account::ROLE_PARTNER, Account::ROLE_PARTNER_WOC])) {
+        if ($this->getAccount()->Key !== '9f42ryhrzt') {
             throw new Exception(104);
         }
 
         // Сейчас возможна работа только с компаниями кластера РАЭК
-        if ($this->getRequestParam('Cluster') !== Company::CLUSTER_RAEC) {
+        if (false === $this->hasRequestParam('Query') && $this->getRequestParam('Cluster') !== Company::CLUSTER_RAEC) {
             throw new Exception('В данный момент реализована поддержка только кластера РАЭК');
         }
 
