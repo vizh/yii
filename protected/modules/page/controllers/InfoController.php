@@ -20,6 +20,12 @@ class InfoController extends \application\components\controllers\PublicMainContr
     public function actionAgreement()
     {
         $this->bodyId = 'about-page';
+
+        // Позволяем отображать лицензионное соглашение без оформления
+        if (Yii::app()->getRequest()->getParam('simple') === 'yes') {
+            $this->layout = 'clear';
+        }
+        
         $this->render('agreement');
     }
 
