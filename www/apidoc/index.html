@@ -1393,11 +1393,10 @@ $user = \RunetID\Api\User::model($api)->getByToken(token);<br />
 </tr>
 </tbody></table>
 
-<h2 id="6-2">6.2. Информация о компании</h2>
+<h2 id="6-2">6.2. Детальная информация</h2>
 
 <p>Возвращает подробную информацию о компании. Так же в ответе будет список сотрудников компании (Employments).</p>
-<pre class="highlight shell tab-shell"><code>curl -X GET -H <span class="s1">'ApiKey: XXX'</span> -H <span class="s1">'Hash: XXX'</span>
-    <span class="s1">'http://api.runet-id.com/company/get?CompanyId=77529'</span>
+<pre class="highlight shell tab-shell"><code>curl -X GET -H <span class="s1">'ApiKey: XXX'</span> -H <span class="s1">'Hash: XXX'</span> <span class="s1">'http://api.runet-id.com/company/get?CompanyId=77529'</span>
 </code></pre>
 <blockquote>
 <p>Ответ: </p>
