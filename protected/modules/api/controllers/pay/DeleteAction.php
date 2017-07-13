@@ -18,10 +18,9 @@ class DeleteAction extends \api\components\Action
      *     request=@Request(
      *          method="GET",
      *          url="/pay/delete",
-     *          body="",
      *          params={
-     *              @Param(title="OrderItemId", type="", defaultValue="", description="Идентификатор заказа."),
-     *              @Param(title="PayerRunetId", type="", defaultValue="", description="Идентификатор плательщика.")
+     *              @Param(title="OrderItemId", type="Число", description="Идентификатор заказа."),
+     *              @Param(title="PayerRunetId", type="Число", description="Идентификатор плательщика.")
      *          },
      *          response=@Response(body="{'Success': 'true'}")
      *     )

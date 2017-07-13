@@ -26,18 +26,18 @@ class CreateAction extends Action
      *          url="/user/create",
      *          body="",
      *          params={
-     *              @Param(title="Email", type="Строка", defaultValue="", description="Email. Обязательный."),
-     *              @Param(title="LastName", type="Строка", defaultValue="", description="Фамилия. Обязательный."),
-     *              @Param(title="FirstName", type="Строка", defaultValue="", description="Имя. Обязательный."),
-     *              @Param(title="FatherName", type="Строка", defaultValue="", description="Отчество."),
-     *              @Param(title="Phone", type="Строка", defaultValue="", description="Телефон."),
-     *              @Param(title="Photo", type="Строка", defaultValue="", description="Ссылка на фотографию."),
-     *              @Param(title="Company", type="Строка", defaultValue="", description="Компания."),
-     *              @Param(title="Position", type="Строка", defaultValue="", description="Должность."),
-     *              @Param(title="ExternalId", type="Строка", defaultValue="", description="Внешний идентификатор пользователя для привязки его профиля к сторонним сервисам."),
-     *              @Param(title="Attributes", type="Массив", defaultValue="", description="Расширенные атрибуты пользователя."),
-     *              @Param(title="Visible", type="Логический (0 или 1)", defaultValue="true", description="Видимость пользователя."),
-     *              @Param(title="DoUnsubscribe", type="Логический (0 или 1)", defaultValue="false", description="Сразу же отписать пользователя от рассылок.")
+     *              @Param(title="Email", type="Строка", description="Email. Обязательный."),
+     *              @Param(title="LastName", type="Строка", description="Фамилия. Обязательный."),
+     *              @Param(title="FirstName", type="Строка", description="Имя. Обязательный."),
+     *              @Param(title="FatherName", type="Строка", description="Отчество."),
+     *              @Param(title="Phone", type="Строка", description="Телефон."),
+     *              @Param(title="Photo", type="Строка", description="Ссылка на фотографию."),
+     *              @Param(title="Company", type="Строка", description="Компания."),
+     *              @Param(title="Position", type="Строка", description="Должность."),
+     *              @Param(title="ExternalId", type="Строка", description="Внешний идентификатор пользователя для привязки его профиля к сторонним сервисам."),
+     *              @Param(title="Attributes", type="Массив", description="Расширенные атрибуты пользователя."),
+     *              @Param(title="Visible", type="Логическое", defaultValue="true", description="Видимость пользователя."),
+     *              @Param(title="DoUnsubscribe", type="Логическое", defaultValue="false", description="Сразу же отписать пользователя от рассылок.")
      *          }
      *     )
      * )
