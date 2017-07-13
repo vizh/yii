@@ -18,12 +18,11 @@ class SettingsAction extends Action
     /**
      * @ApiAction(
      *     controller="User",
-     *     title="Настройки пользователя",
+     *     title="Настройки",
      *     description="Позволяет отписать и подписать пользователя на следующие события: EMail рассылки, Push уведомления, индексацию профиля в поисковых системах.",
      *     request=@Request(
      *          method="POST",
      *          url="/user/settings",
-     *          body="",
      *          params={
      *              @Param(title="SubscribedForMailings", type="Логический", defaultValue="", description="Не обязательный. Отписка от EMail рассылок."),
      *              @Param(title="SubscribedForPushes", type="Логический", defaultValue="", description="Не обязательный. Отказ от Push уведомлений."),
