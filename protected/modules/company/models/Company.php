@@ -74,6 +74,15 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
         return 'Company';
     }
 
+    public function rules()
+    {
+        return [
+            ['Name,FullName,Code,OGRN', 'length', 'allowEmpty' => false, 'max' => 255],
+            ['Info,FullInfo', 'safe'],
+            ['Cluster', 'in', 'range' => [self::CLUSTER_RAEC]]
+        ];
+    }
+
     public function relations()
     {
         return [

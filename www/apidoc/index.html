@@ -1341,7 +1341,59 @@ $user = \RunetID\Api\User::model($api)->getByToken(token);<br />
 
 <p>Описаие методов для работы с компаниями</p>
 
-<h2 id="6-1">6.1. Информация о компании</h2>
+<h2 id="6-1">6.1. Изменение</h2>
+
+<p>Позволяет изменять данные о компании.</p>
+
+<p><code class="prettyprint">POST http://api.runet-id.com/company/edit/</code> </p>
+
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Название</th>
+<th>Описание</th>
+<th>Обязательно</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>CompanyId</td>
+<td>Айди компании.</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>Code</td>
+<td>Псевдоним компании, подходящий для генерации ЧПУ.</td>
+<td>N</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>Краткое название компании.</td>
+<td>N</td>
+</tr>
+<tr>
+<td>FullName</td>
+<td>Полное название компании.</td>
+<td>N</td>
+</tr>
+<tr>
+<td>Info</td>
+<td>Краткое описание компании.</td>
+<td>N</td>
+</tr>
+<tr>
+<td>FullInfo</td>
+<td>Подробное описание компании.</td>
+<td>N</td>
+</tr>
+<tr>
+<td>Cluster</td>
+<td>Кластер, к которому принадлежит компания. Возможные значения: РАЭК</td>
+<td>N</td>
+</tr>
+</tbody></table>
+
+<h2 id="6-2">6.2. Информация о компании</h2>
 
 <p>Возвращает подробную информацию о компании. Так же в ответе будет список сотрудников компании (Employments).</p>
 <pre class="highlight shell tab-shell"><code>curl -X GET -H <span class="s1">'ApiKey: XXX'</span> -H <span class="s1">'Hash: XXX'</span>
@@ -1370,7 +1422,7 @@ $user = \RunetID\Api\User::model($api)->getByToken(token);<br />
 </tr>
 </tbody></table>
 
-<h2 id="6-2">6.2. Список</h2>
+<h2 id="6-3">6.3. Список</h2>
 
 <p>Список компаний из указанного кластера. Пока используется только РАЭК. В списке не присутствуют сотрудники компаний.</p>
 <pre class="highlight shell tab-shell"><code>curl -X GET -H <span class="s1">'ApiKey: XXX'</span> -H <span class="s1">'Hash: XXX'</span>
