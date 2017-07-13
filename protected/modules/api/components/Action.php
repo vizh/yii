@@ -2,6 +2,7 @@
 namespace api\components;
 
 use application\components\helpers\ArrayHelper;
+use company\models\Company;
 use connect\models\Meeting;
 use pay\models\OrderItem;
 use pay\models\Product;
@@ -9,16 +10,11 @@ use Throwable;
 use user\models\User;
 use Yii;
 
+/**
+ * @method Action getController()
+ */
 class Action extends \CAction
 {
-    /**
-     * @return Controller
-     */
-    public function getController()
-    {
-        return parent::getController();
-    }
-
     /**
      * @return \api\models\Account
      */
@@ -184,6 +180,40 @@ class Action extends \CAction
         }
 
         return $users[$param];
+    }
+
+    /**
+     * @param string $param параметр запроса из которого взять идентификатор компании
+     *
+     * @return Company
+     * @throws Exception
+     */
+    protected function getRequestedCompany($param = 'CompanyId')
+    {
+        static $companies;
+
+        if (isset($companies[$param]) === false) {
+            if ($companies !== null) {
+                $companies = [];
+            }
+
+            try {
+                $company = Company::model()
+                    ->findByPk($this->getRequestParam($param));
+
+                if ($company === null) {
+                    throw new Exception(241, [$this->getRequestParam($param)]);
+                }
+
+                $companies[$param] = $company;
+            } catch (Exception $e) {
+                throw $e;
+            } catch (Throwable $e) {
+                throw new Exception(100, [$e->getMessage()]);
+            }
+        }
+
+        return $companies[$param];
     }
 
     /**
