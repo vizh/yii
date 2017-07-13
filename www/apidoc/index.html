@@ -4038,7 +4038,7 @@ $user = \RunetID\Api\User::model($api)->getByToken(token);<br />
 
 <h2 id="19-10">19.10. Настройки</h2>
 
-<p>Позволяет отписать и подписать пользователя на следующие события: EMail рассылки, Push уведомления, индексацию профиля в поисковых системах.</p>
+<p>Позволяет отписать и подписать пользователя на следующие события: EMail рассылки, Push уведомления, индексацию профиля в поисковых системах. Важное замечание: изменяется состояние только тех полей, которые были переданы.</p>
 
 <p><code class="prettyprint">POST http://api.runet-id.com/user/settings</code> </p>
 
@@ -4049,22 +4049,26 @@ $user = \RunetID\Api\User::model($api)->getByToken(token);<br />
 <th>Название</th>
 <th>Тип</th>
 <th>Описание</th>
+<th>Обязательно</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>SubscribedForMailings</td>
 <td>Логический</td>
-<td>Не обязательный. Отписка от EMail рассылок.</td>
+<td>Отписка от EMail рассылок.</td>
+<td>N</td>
 </tr>
 <tr>
 <td>SubscribedForPushes</td>
 <td>Логический</td>
-<td>Не обязательный. Отказ от Push уведомлений.</td>
+<td>Отказ от Push уведомлений.</td>
+<td>N</td>
 </tr>
 <tr>
-<td>SonetIndexing</td>
+<td>AllowProfileIndexing</td>
 <td>Логический</td>
-<td>Отказ от индексации профиля в поисковых системах.</td>
+<td>Управление запретом индексации профиля в поисковых системах.</td>
+<td>N</td>
 </tr>
 </tbody></table>
 

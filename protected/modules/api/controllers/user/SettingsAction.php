@@ -19,14 +19,14 @@ class SettingsAction extends Action
      * @ApiAction(
      *     controller="User",
      *     title="Настройки",
-     *     description="Позволяет отписать и подписать пользователя на следующие события: EMail рассылки, Push уведомления, индексацию профиля в поисковых системах.",
+     *     description="Позволяет отписать и подписать пользователя на следующие события: EMail рассылки, Push уведомления, индексацию профиля в поисковых системах. Важное замечание: изменяется состояние только тех полей, которые были переданы.",
      *     request=@Request(
      *          method="POST",
      *          url="/user/settings",
      *          params={
-     *              @Param(title="SubscribedForMailings", type="Логический", defaultValue="", description="Не обязательный. Отписка от EMail рассылок."),
-     *              @Param(title="SubscribedForPushes", type="Логический", defaultValue="", description="Не обязательный. Отказ от Push уведомлений."),
-     *              @Param(title="SonetIndexing", type="Логический", defaultValue="", description="Отказ от индексации профиля в поисковых системах.")
+     *              @Param(title="SubscribedForMailings", type="Логический", mandatory="N", description="Отписка от EMail рассылок."),
+     *              @Param(title="SubscribedForPushes", type="Логический", mandatory="N", description="Отказ от Push уведомлений."),
+     *              @Param(title="AllowProfileIndexing", type="Логический", mandatory="N", description="Управление запретом индексации профиля в поисковых системах.")
      *          }
      *     )
      * )
@@ -39,14 +39,16 @@ class SettingsAction extends Action
             $settings = new Settings();
         }
 
-        /** @noinspection NotOptimalIfConditionsInspection */
         if ($this->hasRequestParam('SubscribedForMailings') && $modelChanged = true) {
             $settings->UnsubscribeAll = !$this->getRequestParamBool('SubscribedForMailings');
         }
 
-        /** @noinspection NotOptimalIfConditionsInspection */
         if ($this->hasRequestParam('SubscribedForPushes') && $modelChanged = true) {
             $settings->UnsubscribePush = !$this->getRequestParamBool('SubscribedForPushes');
+        }
+
+        if ($this->hasRequestParam('AllowProfileIndexing') && $modelChanged = true) {
+            $settings->IndexProfile = $this->getRequestParamBool('AllowProfileIndexing');
         }
 
         if (isset($modelChanged) && false === $settings->save()) {

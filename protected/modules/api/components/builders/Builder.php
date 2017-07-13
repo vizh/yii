@@ -366,7 +366,8 @@ class Builder
 
         $this->user->Settings = [
             'SubscribedForMailings' => !$user->Settings->UnsubscribeAll,
-            'SubscribedForPushes' => !$user->Settings->UnsubscribePush
+            'SubscribedForPushes' => !$user->Settings->UnsubscribePush,
+            'AllowProfileIndexing' => (bool)$user->Settings->IndexProfile
         ];
     }
 
