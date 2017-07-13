@@ -7,37 +7,34 @@ use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
+use user\models\User;
 
 class GetAction extends Action
 {
     /**
      * @ApiAction(
      *     controller="Company",
-     *     title="Информация о компании",
+     *     title="Детальная информация",
      *     description="Возвращает подробную информацию о компании. Так же в ответе будет список сотрудников компании (Employments).",
      *     samples={
-     *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}'
-    '{{API_URL}}/company/get?CompanyId=77529'")
+     *          @Sample(lang="shell", code="curl -X GET -H 'ApiKey: {{API_KEY}}' -H 'Hash: {{HASH}}' '{{API_URL}}/company/get?CompanyId=77529'")
      *     },
      *     request=@Request(
-     *
      *          method="GET",
      *          url="/company/get",
      *          body="",
-     *          params={ @Param(title="CompanyId", description="Айди компании.", mandatory="Y")},
+     *          params={
+     *              @Param(title="CompanyId", description="Айди компании.", mandatory="Y")
+     *          },
      *          response=@Response(body="'{$COMPANY}'")
      *      )
      * )
      */
     public function run()
     {
-        $companyId = \Yii::app()->getRequest()->getParam('CompanyId', null);
-
-        $company = \company\models\Company::model()->findByPk($companyId);
-        if ($company === null) {
-            throw new \api\components\Exception(241, [$companyId]);
-        }
-        $result = $this->getDataBuilder()->createCompany($company);
+        $result = $this
+            ->getDataBuilder()
+            ->createCompany($this->getRequestedCompany());
 
         $criteria = new \CDbCriteria();
         $criteria->with = [
@@ -48,10 +45,13 @@ class GetAction extends Action
         $criteria->addCondition('"Employments"."CompanyId" = :CompanyId');
         $criteria->addCondition('"Participants"."EventId" = :EventId');
         $criteria->params['EventId'] = $this->getEvent()->Id;
-        $criteria->params['CompanyId'] = $company->Id;
+        $criteria->params['CompanyId'] = $this->getRequestedCompany()->Id;
         $criteria->order = '"t"."LastName", "t"."FirstName"';
 
-        $users = \user\models\User::model()->byVisible(true)->findAll($criteria);
+        $users = User::model()
+            ->byVisible()
+            ->findAll($criteria);
+
         $result->Employments = [];
         foreach ($users as $user) {
             $result->Employments[] = $this->getDataBuilder()->createUser($user);
