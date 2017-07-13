@@ -23,6 +23,16 @@ $params = [
 
     'ApiMaxResults' => 200, //Максимальное количество результатов поиска в api
     'ApiMaxTop' => 100,
+    'ApiEventlessMethods' => [
+        'event/list',
+        'user/auth',
+        'user/login',
+        'user/settings',
+        'user/editPassword',
+        'user/restPassword',
+        'user/passwordChange',
+        'user/passwordRestore'
+    ],
 
     'AdminEventPerPage' => 50,
     'AdminCatalogCompanyPerPage' => 20,

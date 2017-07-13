@@ -9,7 +9,7 @@
     "yiisoft/yii": "1.1.19",
     "mpdf/mpdf": "5.7.4",
     "facebook/php-sdk-v4": "4.0.*",
-    "giggsey/libphonenumber-for-php": "7.0.*",
+    "giggsey/libphonenumber-for-php": "8.3.*",
     "phpoffice/phpexcel": "1.8.*",
     "sammaye/mongoyii": "8.0.*",
     "gregwar/image": "2.0.*",

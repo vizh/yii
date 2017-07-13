@@ -9,16 +9,16 @@ use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\ApiAction;
 use Yii;
 
-class EditPasswordAction extends Action
+class PasswordChangeAction extends Action
 {
     /**
      * @ApiAction(
      *     controller="User",
-     *     title="Редактирование пароля",
+     *     title="Смена пароля",
      *     description="Позволяет сменить пароль указанного пользователя.",
      *     request=@Request(
      *          method="POST",
-     *          url="/user/edit/password",
+     *          url="/user/passwordChange",
      *          params={
      *              @Param(title="CurrentPassword", type="Cтрока", mandatory="Y", description="Текущий пароль"),
      *              @Param(title="NewPassword", type="Cтрока", mandatory="Y", description="Новый пароль")}))
