@@ -105,21 +105,10 @@ class UsersAction extends Action
             'NextUpdateTime' => $nextUpdateTime
         ];
 
-        // Билдеры по умолчанию
-        $defaultBuilders = [
-            Builder::USER_EVENT,
-            Builder::USER_EMPLOYMENT,
-            Builder::USER_ATTRIBUTES,
-            Builder::USER_CONTACTS
-        ];
-
-        // toDo: Выпилить.
-        $builders = $request->getParam('Builders', $defaultBuilders);
-
         foreach ($users as $user) {
             $userData = $this
                 ->getDataBuilder()
-                ->createUser($user, $builders);
+                ->createUser($user);
 
             if (isset($orderItems[$user->Id])) {
                 /** @var OrderItem $item */

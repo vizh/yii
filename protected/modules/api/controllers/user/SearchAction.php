@@ -92,11 +92,7 @@ class SearchAction extends \api\components\Action
         foreach ($users as $user) {
             $result['Users'][] = $this
                 ->getDataBuilder()
-                ->createUser($user, [
-                    Builder::USER_EMPLOYMENT,
-                    Builder::USER_EVENT,
-                    Builder::USER_ATTRIBUTES
-                ]);
+                ->createUser($user);
         }
 
         if (count($users) === $maxResults) {
