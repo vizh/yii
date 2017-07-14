@@ -3,6 +3,8 @@
 use api\models\Account as ApiAccount;
 use application\components\console\BaseConsoleCommand;
 use application\components\Exception;
+use application\models\admin\Group;
+use application\models\admin\GroupUser;
 use event\models\Event;
 use partner\models\Account as PartnerAccount;
 use user\models\User;
@@ -38,6 +40,31 @@ class DeveloperCommand extends BaseConsoleCommand
         $user->changePassword('thyRi6xmcLWB');
         if (false === $user->save()) {
             throw new Exception($user);
+        }
+
+        // Заводим административные группы и назначаем нашего пользователя их членом
+        foreach (['Administrator', 'Booker', 'RoomManager'] as $title) {
+            $group = Group::model()
+                ->byTitle($title)
+                ->find();
+
+            if ($group === null) {
+                $group = new Group();
+                $group->Title = $title;
+                $group->save();
+            }
+
+            $groupUser = GroupUser::model()
+                ->byUserId($user->Id)
+                ->byGroupId($group->Id)
+                ->find();
+
+            if ($groupUser === null) {
+                $groupUser = new GroupUser();
+                $groupUser->UserId = $user->Id;
+                $groupUser->GroupId = $group->Id;
+                $groupUser->save();
+            }
         }
 
         // Аккаунт API для OAuth авторизации на самом себе
