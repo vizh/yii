@@ -41,16 +41,16 @@ services:
       - app
   mongo:
     image: 'mongo'
-#    ports:
-#     - '27017:27017'
+    ports:
+     - '8001:27017'
   database:
     image: 'postgres'
     environment:
       POSTGRES_PASSWORD: uRaiy1ThiexaGhai
       POSTGRES_USER: runetid
       POSTGRES_DB: runetid
-#    ports:
-#      - '5432:5432'
+    ports:
+      - '8002:5432'
     volumes:
       - 'fs_database:/var/lib/postgresql/data'
       - './config/docker/database.sql:/docker-entrypoint-initdb.d/dump.sql'
