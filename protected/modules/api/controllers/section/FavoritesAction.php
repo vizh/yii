@@ -1,6 +1,8 @@
 <?php
+
 namespace api\controllers\section;
 
+use api\components\Action;
 use event\models\section\Favorite;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
@@ -8,9 +10,8 @@ use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
 
-class FavoritesAction extends \api\components\Action
+class FavoritesAction extends Action
 {
-
     /**
      * @ApiAction(
      *     controller="Section",

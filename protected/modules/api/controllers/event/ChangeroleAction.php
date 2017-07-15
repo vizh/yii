@@ -1,23 +1,21 @@
 <?php
+
 namespace api\controllers\event;
 
+use api\components\Action;
 use api\components\Exception;
 use event\models\Participant;
+use event\models\Role;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
-use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\Action\Response as ApiResponse;
+use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
+use user\models\User;
+use Yii;
 
-/**
- * Изменение статуса на мероприятии
- * параметры: RunetId -участник RoleId - id новой роли
- * Class ChangeroleAction
- * @package api\controllers\event
- */
-class ChangeroleAction extends \api\components\Action
+class ChangeroleAction extends Action
 {
-
     /**
      * @ApiAction(
      *     controller="Event",
@@ -40,16 +38,16 @@ class ChangeroleAction extends \api\components\Action
      */
     public function run()
     {
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
         $runetId = $request->getParam('RunetId');
         $roleId = $request->getParam('RoleId');
 
-        $user = \user\models\User::model()->byRunetId($runetId)->find();
+        $user = User::model()->byRunetId($runetId)->find();
         if (empty($user)) {
             throw new Exception(202, [$runetId]);
         }
 
-        $role = \event\models\Role::model()->findByPk($roleId);
+        $role = Role::model()->findByPk($roleId);
         if (empty($role)) {
             throw new Exception(302, [$roleId]);
         }

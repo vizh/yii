@@ -1,14 +1,19 @@
 <?php
+
 namespace api\controllers\invite;
 
+use api\components\Action;
+use api\components\Exception;
+use event\models\InviteRequest;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\ApiAction;
+use user\models\User;
+use Yii;
 
-class GetAction extends \api\components\Action
+class GetAction extends Action
 {
-
     /**
      * @ApiAction(
      *     controller="Invite",
@@ -32,18 +37,20 @@ class GetAction extends \api\components\Action
      */
     public function run()
     {
-        $runetId = \Yii::app()->getRequest()->getParam('RunetId', null);
-        $user = \user\models\User::model()->byRunetId($runetId)->find();
+        $runetId = Yii::app()->getRequest()->getParam('RunetId', null);
+        $user = User::model()->byRunetId($runetId)->find();
         if ($user == null) {
-            throw new \api\components\Exception(202, [$runetId]);
+            throw new Exception(202, [$runetId]);
         }
 
-        $request = \event\models\InviteRequest::model()->byEventId($this->getEvent()->Id)->byOwnerUserId($user->Id)->find();
+        $request = InviteRequest::model()->byEventId($this->getEvent()->Id)->byOwnerUserId($user->Id)
+            ->find();
         if ($request == null) {
-            throw new \api\components\Exception(702, [$user->RunetId]);
+            throw new Exception(702, [$user->RunetId]);
         }
 
         $result = $this->getDataBuilder()->createInviteRequest($request);
+
         return $this->setResult($result);
     }
-} 
+}

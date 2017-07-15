@@ -1,13 +1,16 @@
 <?php
 namespace api\controllers\event;
 
+use api\components\Action;
+use event\models\Event;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
+use Yii;
 
-class ListAction extends \api\components\Action
+class ListAction extends Action
 {
 
     /**
@@ -33,9 +36,9 @@ class ListAction extends \api\components\Action
      */
     public function run()
     {
-        $year = (int)\Yii::app()->getRequest()->getParam('Year', date('Y'));
+        $year = (int)Yii::app()->getRequest()->getParam('Year', date('Y'));
 
-        $events = \event\models\Event::model()->byDate($year)->byVisible(true)->findAll();
+        $events = Event::model()->byDate($year)->byVisible(true)->findAll();
 
         $result = [];
         foreach ($events as $event) {

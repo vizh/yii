@@ -1,4 +1,5 @@
 <?php
+
 namespace api\controllers\pay;
 
 use api\components\Action;
@@ -9,9 +10,6 @@ use nastradamus39\slate\annotations\ApiAction;
 use pay\components\collection\Finder;
 use pay\components\OrderItemCollection;
 
-/**
- * Class ListAction Returns list of products
- */
 class ListAction extends Action
 {
     /**

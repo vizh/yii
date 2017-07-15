@@ -1,6 +1,7 @@
 <?php
 
-class PurposeController extends \api\components\Controller
-{
+use api\components\Controller;
 
+class PurposeController extends Controller
+{
 }

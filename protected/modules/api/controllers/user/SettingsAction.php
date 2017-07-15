@@ -5,13 +5,10 @@ namespace api\controllers\user;
 use api\components\Action;
 use api\components\builders\Builder;
 use api\components\Exception;
-use CUploadedFile;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\ApiAction;
-use user\models\forms\edit\Photo;
 use user\models\Settings;
-use user\models\UnsubscribeEventMail;
 
 class SettingsAction extends Action
 {

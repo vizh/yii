@@ -1,4 +1,6 @@
 <?php
+
+use api\components\Controller;
 use nastradamus39\slate\annotations\ApiController;
 
 /**
@@ -8,7 +10,6 @@ use nastradamus39\slate\annotations\ApiController;
  *     description=""
  * )
  */
-class IriController extends \api\components\Controller
+class IriController extends Controller
 {
-
 }

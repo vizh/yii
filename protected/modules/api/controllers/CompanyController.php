@@ -1,5 +1,6 @@
 <?php
 
+use api\components\Controller;
 use nastradamus39\slate\annotations\ApiContent;
 use nastradamus39\slate\annotations\ApiController;
 use nastradamus39\slate\annotations\ApiError;
@@ -125,7 +126,6 @@ $api = new \RunetID\Api\Api(ApiKey, Secret, Cache = null);
  * @ApiError(code="500", description="Internal Server Error.")
  * @ApiError(code="503", description="Service Unavailable.")
  */
-class CompanyController extends \api\components\Controller
+class CompanyController extends Controller
 {
-
 }

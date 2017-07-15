@@ -1,12 +1,14 @@
 <?php
 namespace api\controllers\event;
 
+use api\components\Action;
+use event\models\LinkPurpose;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
 
-class PurposesAction extends \api\components\Action
+class PurposesAction extends Action
 {
 
     /**
@@ -33,10 +35,10 @@ class PurposesAction extends \api\components\Action
         $criteria->with = ['Purpose'];
         $criteria->order = '"Purpose"."Title" ASC';
         $criteria->addCondition('"Purpose"."Visible"');
-        $links = \event\models\LinkPurpose::model()->byEventId($this->getEvent()->Id)->findAll($criteria);
+        $links = LinkPurpose::model()->byEventId($this->getEvent()->Id)->findAll($criteria);
 
         $result = [];
-        /** @var \event\models\LinkPurpose $link */
+        /** @var LinkPurpose $link */
         foreach ($links as $link) {
             $result[] = $this->getDataBuilder()->createEventPuprose($link->Purpose);
         }

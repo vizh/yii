@@ -1,16 +1,18 @@
 <?php
+
 namespace api\controllers\ms;
 
 use api\components\Action;
 use api\components\builders\Builder;
 use api\components\Exception;
 use user\models\User;
+use Yii;
 
 class SearchAction extends Action
 {
     public function run()
     {
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
         $query = $request->getParam('Query', null);
         $limit = min($request->getParam('MaxResults', $this->getMaxResults()), $this->getMaxResults());
         $token = $request->getParam('PageToken', null);
@@ -44,8 +46,9 @@ class SearchAction extends Action
     }
 
     /**
-     * @param int $limit
+     * @param int  $limit
      * @param null $token
+     *
      * @return \CDbCriteria
      * @throws Exception
      */
@@ -66,7 +69,7 @@ class SearchAction extends Action
             ]
         ];
         $criteria->addCondition('"Participants"."Id" IS NOT NULL');
+
         return $criteria;
     }
-
 }

@@ -1,14 +1,17 @@
 <?php
+
 namespace api\controllers\event;
 
+use api\components\Action;
+use company\models\Company;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response as ApiResponse;
 use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
+use Yii;
 
-class CompaniesAction extends \api\components\Action
+class CompaniesAction extends Action
 {
-
     /**
      * @ApiAction(
      *     controller="Event",
@@ -28,7 +31,7 @@ class CompaniesAction extends \api\components\Action
      */
     public function run()
     {
-        $command = \Yii::app()->getDb()->createCommand();
+        $command = Yii::app()->getDb()->createCommand();
         $command->select = '"count"("UserEmployment"."Id") as "CountParticipants", "UserEmployment"."CompanyId"';
         $command->from('UserEmployment');
         $command->leftJoin(
@@ -44,7 +47,7 @@ class CompaniesAction extends \api\components\Action
             ['EventId' => $this->getEvent()->Id]
         );
         $command->group('CompanyId');
-        $command->limit(\Yii::app()->params['ApiMaxTop']);
+        $command->limit(Yii::app()->params['ApiMaxTop']);
         $command->order('CountParticipants DESC');
 
         $commandResult = $command->queryAll();
@@ -59,7 +62,7 @@ class CompaniesAction extends \api\components\Action
 
         $criteria = new \CDbCriteria();
         $criteria->addInCondition('"t"."Id"', $companiesId);
-        $companies = \company\models\Company::model()->findAll($criteria);
+        $companies = Company::model()->findAll($criteria);
 
         foreach ($companies as $company) {
             $resultCompany = $this->getDataBuilder()->createCompany($company);

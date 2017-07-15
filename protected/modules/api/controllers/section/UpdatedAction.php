@@ -1,14 +1,15 @@
 <?php
+
 namespace api\controllers\section;
 
+use api\components\Action;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
 
-class UpdatedAction extends \api\components\Action
+class UpdatedAction extends Action
 {
-
     /**
      * @ApiAction(
      *     controller="Section",

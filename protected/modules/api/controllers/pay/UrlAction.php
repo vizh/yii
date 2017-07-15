@@ -1,9 +1,11 @@
 <?php
+
 namespace api\controllers\pay;
 
+use api\components\Action;
 use Yii;
 
-class UrlAction extends \api\components\Action
+class UrlAction extends Action
 {
     public function run()
     {

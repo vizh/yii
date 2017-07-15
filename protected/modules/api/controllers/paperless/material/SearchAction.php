@@ -2,6 +2,7 @@
 
 namespace api\controllers\paperless\material;
 
+use api\components\Action;
 use api\components\Exception;
 use application\components\CDbCriteria;
 use application\models\paperless\Material;
@@ -12,7 +13,7 @@ use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
 
-class SearchAction extends \api\components\Action
+class SearchAction extends Action
 {
     /**
      * @ApiAction(

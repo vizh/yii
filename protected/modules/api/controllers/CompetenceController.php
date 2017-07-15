@@ -1,5 +1,6 @@
 <?php
 
+use api\components\Controller;
 use nastradamus39\slate\annotations\ApiController;
 use nastradamus39\slate\annotations\ApiObject;
 
@@ -59,7 +60,6 @@ use nastradamus39\slate\annotations\ApiObject;
  *     params={}
  * )
  */
-class CompetenceController extends \api\components\Controller
+class CompetenceController extends Controller
 {
-
 }

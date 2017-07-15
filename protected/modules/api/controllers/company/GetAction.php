@@ -1,4 +1,5 @@
 <?php
+
 namespace api\controllers\company;
 
 use api\components\Action;

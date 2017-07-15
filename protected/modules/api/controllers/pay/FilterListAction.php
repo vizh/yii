@@ -1,4 +1,5 @@
 <?php
+
 namespace api\controllers\pay;
 
 use api\components\Action;
@@ -8,10 +9,8 @@ use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\ApiAction;
 use pay\models\Product;
+use Yii;
 
-/**
- * Class FilterListAction Returns list of the products
- */
 class FilterListAction extends Action
 {
     /**
@@ -33,9 +32,7 @@ class FilterListAction extends Action
      */
     public function run()
     {
-//        tgmsg($_POST);
-
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
         $manager = $request->getParam('Manager');
         $params = $request->getParam('Params', []);
         $filter = $request->getParam('Filter', []);

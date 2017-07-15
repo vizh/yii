@@ -1,5 +1,6 @@
 <?php
 
+use api\components\Controller;
 use nastradamus39\slate\annotations\ApiController;
 use nastradamus39\slate\annotations\ApiObject;
 
@@ -65,7 +66,6 @@ use nastradamus39\slate\annotations\ApiObject;
  *     }
  * )
  */
-class PayController extends \api\components\Controller
+class PayController extends Controller
 {
-
 }

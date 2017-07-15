@@ -1,6 +1,7 @@
 <?php
 
-class UserDocumentController extends \api\components\Controller
-{
+use api\components\Controller;
 
+class UserDocumentController extends Controller
+{
 }

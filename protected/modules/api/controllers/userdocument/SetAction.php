@@ -1,4 +1,5 @@
 <?php
+
 namespace api\controllers\userdocument;
 
 use api\components\Action;
@@ -6,14 +7,15 @@ use api\components\Exception;
 use user\models\DocumentType;
 use user\models\forms\document\BaseDocument;
 use user\models\User;
+use Yii;
 
 class SetAction extends Action
 {
     public function run()
     {
-        $runetId = \Yii::app()->getRequest()->getPost('RunetId', null);
-        $documentTypeId = \Yii::app()->getRequest()->getPost('DocumentTypeId', null);
-        $attributes = \Yii::app()->getRequest()->getPost('Attributes', null);
+        $runetId = Yii::app()->getRequest()->getPost('RunetId', null);
+        $documentTypeId = Yii::app()->getRequest()->getPost('DocumentTypeId', null);
+        $attributes = Yii::app()->getRequest()->getPost('Attributes', null);
 
         $documentType = DocumentType::model()->byId($documentTypeId)->find();
         if ($documentType === null) {
@@ -43,5 +45,4 @@ class SetAction extends Action
             $this->setSuccessResult();
         }
     }
-
 }

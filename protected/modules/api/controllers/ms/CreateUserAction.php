@@ -1,4 +1,5 @@
 <?php
+
 namespace api\controllers\ms;
 
 use api\components\Action;
@@ -10,13 +11,6 @@ use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\ApiAction;
 use pay\models\Product;
 
-/**
- * Class CreateUserAction
- *
- * @package api\controllers\ms
- *
- * @method \MsController getController()
- */
 class CreateUserAction extends Action
 {
     /**

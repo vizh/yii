@@ -1,5 +1,6 @@
 <?php
 
+use api\components\Controller;
 use nastradamus39\slate\annotations\ApiController;
 use nastradamus39\slate\annotations\ApiObject;
 
@@ -57,7 +58,6 @@ use nastradamus39\slate\annotations\ApiObject;
  *     }
  * )
  */
-class ConnectController extends \api\components\Controller
+class ConnectController extends Controller
 {
-
 }

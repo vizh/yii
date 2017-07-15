@@ -1,4 +1,5 @@
 <?php
+
 namespace api\controllers\pay;
 
 use api\components\Action;
@@ -6,10 +7,10 @@ use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\ApiAction;
 use pay\models\Product;
+use Yii;
 
 class ProductsAction extends Action
 {
-
     /**
      * @ApiAction(
      *     controller="Pay",
@@ -26,8 +27,7 @@ class ProductsAction extends Action
      */
     public function run()
     {
-        /** @var \CHttpRequest $request */
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
         $model = Product::model()->byEventId($this->getEvent()->Id)->byDeleted(false);
         if ($request->getParam('OnlyPublic')) {
             $model->byPublic(true);

@@ -1,6 +1,8 @@
 <?php
+
 namespace api\controllers\pay;
 
+use api\components\Action;
 use api\components\Exception as ApiException;
 use api\models\ExternalUser;
 use nastradamus39\slate\annotations\Action\Param;
@@ -10,9 +12,8 @@ use nastradamus39\slate\annotations\ApiAction;
 use pay\components\Exception as PayException;
 use pay\models\Coupon;
 
-class CouponAction extends \api\components\Action
+class CouponAction extends Action
 {
-
     /**
      * @ApiAction(
      *     controller="Pay",

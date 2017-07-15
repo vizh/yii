@@ -1,15 +1,20 @@
 <?php
+
 namespace api\controllers\section;
 
+use api\components\Action;
+use api\components\Exception;
+use event\models\section\Section;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
+use user\models\User;
+use Yii;
 
-class UserAction extends \api\components\Action
+class UserAction extends Action
 {
-
     /**
      * @ApiAction(
      *     controller="Section",
@@ -31,15 +36,15 @@ class UserAction extends \api\components\Action
      */
     public function run()
     {
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
         $runetId = $request->getParam('RunetId', null);
         if ($runetId === null) {
             $runetId = $request->getParam('RocId', null);
         }
-        /** @var $user \user\models\User */
-        $user = \user\models\User::model()->byRunetId($runetId)->find();
+
+        $user = User::model()->byRunetId($runetId)->find();
         if ($user === null) {
-            throw new \api\components\Exception(202, [$runetId]);
+            throw new Exception(202, [$runetId]);
         }
 
         $result = [];
@@ -48,8 +53,7 @@ class UserAction extends \api\components\Action
         $criteria->condition = '"LinkUsers"."UserId" = :UserId';
         $criteria->params = ['UserId' => $user->Id];
 
-        /** @var $sections \event\models\section\Section[] */
-        $sections = \event\models\section\Section::model()
+        $sections = Section::model()
             ->byEventId($this->getEvent()->Id)->byDeleted(false)
             ->with(['LinkUsers' => ['together' => true]])->findAll($criteria);
 

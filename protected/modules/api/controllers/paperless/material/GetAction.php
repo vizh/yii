@@ -1,6 +1,8 @@
 <?php
+
 namespace api\controllers\paperless\material;
 
+use api\components\Action;
 use api\components\Exception;
 use application\models\paperless\Material;
 use nastradamus39\slate\annotations\Action\Param;
@@ -9,9 +11,8 @@ use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
 
-class GetAction extends \api\components\Action
+class GetAction extends Action
 {
-
     /**
      * @ApiAction(
      *     controller="Paperlessmaterial",

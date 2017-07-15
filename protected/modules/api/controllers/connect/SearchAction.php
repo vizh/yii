@@ -1,6 +1,8 @@
 <?php
+
 namespace api\controllers\connect;
 
+use api\components\Action;
 use application\components\helpers\ArrayHelper;
 use event\models\Participant;
 use nastradamus39\slate\annotations\Action\Param;
@@ -9,9 +11,8 @@ use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
 
-class SearchAction extends \api\components\Action
+class SearchAction extends Action
 {
-
     /**
      * @ApiAction(
      *     controller="Connect",

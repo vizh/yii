@@ -1,6 +1,9 @@
 <?php
+
 namespace api\controllers\section;
 
+use api\components\Action;
+use api\components\Exception;
 use event\models\section\LinkUser;
 use event\models\section\Section;
 use nastradamus39\slate\annotations\Action\Param;
@@ -9,9 +12,8 @@ use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
 
-class ReportsAction extends \api\components\Action
+class ReportsAction extends Action
 {
-
     /**
      * @ApiAction(
      *     controller="Section",
@@ -41,7 +43,7 @@ class ReportsAction extends \api\components\Action
             ->findByPk($this->getRequestParam('SectionId'));
 
         if ($section === null) {
-            throw new \api\components\Exception(310, [$this->getRequestParam('SectionId')]);
+            throw new Exception(310, [$this->getRequestParam('SectionId')]);
         }
 
         $model = LinkUser::model()

@@ -60,4 +60,4 @@ class ResultAction extends Action
 
         $this->setResult($builtResult);
     }
-} 
+}

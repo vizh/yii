@@ -1,4 +1,6 @@
 <?php
+
+use api\components\Controller;
 use nastradamus39\slate\annotations\ApiController;
 
 /**
@@ -7,7 +9,6 @@ use nastradamus39\slate\annotations\ApiController;
  *     title="ICT"
  * )
  */
-class IctController extends \api\components\Controller
+class IctController extends Controller
 {
-
 }

@@ -1,6 +1,8 @@
 <?php
+
 namespace api\controllers\connect;
 
+use api\components\Action;
 use api\components\Exception;
 use connect\models\forms\Signup;
 use connect\models\Meeting;
@@ -10,9 +12,8 @@ use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
 
-class SignupAction extends \api\components\Action
+class SignupAction extends Action
 {
-
     /**
      * @ApiAction(
      *     controller="Connect",

@@ -1,6 +1,8 @@
 <?php
+
 namespace api\controllers\connect;
 
+use api\components\Action;
 use api\components\builders\Builder;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
@@ -9,9 +11,8 @@ use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
 use user\models\User;
 
-class RecommendationsAction extends \api\components\Action
+class RecommendationsAction extends Action
 {
-
     /**
      * @ApiAction(
      *     controller="Connect",

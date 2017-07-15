@@ -1,4 +1,5 @@
 <?php
+
 namespace api\controllers\iri;
 
 use api\components\Action;
@@ -11,10 +12,10 @@ use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\ApiAction;
 use user\models\User;
+use Yii;
 
 class UserAddAction extends Action
 {
-
     /**
      * @ApiAction(
      *     controller="Iri",
@@ -35,7 +36,7 @@ class UserAddAction extends Action
      */
     public function run()
     {
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
 
         $runetId = $request->getParam('RunetId');
         $roleId = $request->getParam('RoleId');

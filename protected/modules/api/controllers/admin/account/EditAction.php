@@ -1,28 +1,35 @@
 <?php
+
 namespace api\controllers\admin\account;
 
+use api\models\Account;
 use api\models\Domain;
+use api\models\forms\admin\Account as AccountForm;
 use api\models\Ip;
 use application\components\utility\Texts;
 use Yii;
 
 class EditAction extends \CAction
 {
-    /** @var \api\models\forms\admin\Account */
+    /**
+     * @var AccountForm
+     */
     private $form;
 
-    /** @var \api\models\Account */
+    /**
+     * @var Account
+     */
     private $account;
 
     public function run($accountId = null)
     {
         if ($accountId !== null) {
-            $this->account = \api\models\Account::model()->findByPk($accountId);
+            $this->account = Account::model()->findByPk($accountId);
         } else {
-            $this->account = new \api\models\Account();
+            $this->account = new Account();
         }
 
-        $this->form = new \api\models\forms\admin\Account();
+        $this->form = new AccountForm();
         $request = Yii::app()->getRequest();
         if ($request->getIsPostRequest()) {
             $this->form->attributes = $request->getParam(get_class($this->form));

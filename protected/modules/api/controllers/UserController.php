@@ -1,5 +1,6 @@
 <?php
 
+use api\components\Controller;
 use nastradamus39\slate\annotations\ApiContent;
 use nastradamus39\slate\annotations\ApiController;
 use nastradamus39\slate\annotations\ApiObject;
@@ -84,7 +85,6 @@ Language – переключение языка приложения и его 
  *     params={}
  * )
  */
-class UserController extends \api\components\Controller
+class UserController extends Controller
 {
-
 }

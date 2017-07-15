@@ -2,6 +2,7 @@
 
 namespace api\controllers\user;
 
+use api\components\Action;
 use api\components\builders\Builder;
 use api\components\Exception;
 use api\models\Account;
@@ -14,10 +15,7 @@ use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
 use user\models\User;
 
-/**
- * Class GetAction
- */
-class GetAction extends \api\components\Action
+class GetAction extends Action
 {
     /**
      * @ApiAction(

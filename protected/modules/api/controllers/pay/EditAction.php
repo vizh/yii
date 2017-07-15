@@ -1,6 +1,8 @@
 <?php
+
 namespace api\controllers\pay;
 
+use api\components\Action;
 use api\components\Exception;
 use api\models\Account;
 use nastradamus39\slate\annotations\Action\Param as ApiParam;
@@ -8,21 +10,8 @@ use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\ApiAction;
 
-/**
- * Class EditAction
- *
- * Редактирование позиции заказа.
- *
- * @param ProductId int
- * @param OrderItemId int
- * @param PayerRunetId int
- * @param OwnerRunetId int
- *
- * @package api\controllers\pay
- */
-class EditAction extends \api\components\Action
+class EditAction extends Action
 {
-
     /**
      * @ApiAction(
      *     controller="Pay",

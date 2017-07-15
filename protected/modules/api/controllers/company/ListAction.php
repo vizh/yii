@@ -1,9 +1,9 @@
 <?php
+
 namespace api\controllers\company;
 
 use api\components\Action;
 use api\components\Exception;
-use api\models\Account;
 use application\components\CDbCriteria;
 use company\models\Company;
 use nastradamus39\slate\annotations\Action\Param;

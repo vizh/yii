@@ -1,4 +1,5 @@
 <?php
+
 namespace api\controllers\ms;
 
 use api\components\Action;
@@ -8,10 +9,10 @@ use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\ApiAction;
 use user\models\User;
+use Yii;
 
 class CheckFastauthAction extends Action
 {
-
     /**
      * @ApiAction(
      *     controller="ms",
@@ -30,7 +31,7 @@ class CheckFastauthAction extends Action
      */
     public function run()
     {
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
 
         $id = $request->getParam('RunetId');
         $hash = $request->getParam('AuthHash');

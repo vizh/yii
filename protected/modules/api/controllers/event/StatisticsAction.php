@@ -1,12 +1,15 @@
 <?php
 namespace api\controllers\event;
 
+use api\components\Action;
+use event\models\Participant;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
+use Yii;
 
-class StatisticsAction extends \api\components\Action
+class StatisticsAction extends Action
 {
     /**
      * @ApiAction(
@@ -39,7 +42,7 @@ class StatisticsAction extends \api\components\Action
             $criteria->params['EventId'] = $this->getEvent()->Id;
             $criteria->group = '"t"."RoleId"';
 
-            $participants = \event\models\Participant::model()->findAll($criteria);
+            $participants = Participant::model()->findAll($criteria);
             $statistics['Total'] = 0;
             $total = 0;
 
@@ -52,7 +55,7 @@ class StatisticsAction extends \api\components\Action
 
             $result['Total'] = $total;
         } else {
-            $command = \Yii::app()->getDb()->createCommand();
+            $command = Yii::app()->getDb()->createCommand();
             $command->select('count(DISTINCT "UserId")')->from('EventParticipant')->where('"EventId" = :EventId');
             $command->bindValue('EventId', $this->getEvent()->Id);
             $result['Total'] = $command->queryScalar();

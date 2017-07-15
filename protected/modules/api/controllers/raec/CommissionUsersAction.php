@@ -1,15 +1,18 @@
 <?php
+
 namespace api\controllers\raec;
 
+use api\components\Action;
 use api\components\builders\Builder;
+use commission\models\User;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\ApiAction;
+use Yii;
 
-class CommissionUsersAction extends \api\components\Action
+class CommissionUsersAction extends Action
 {
-
     /**
      * @ApiAction(
      *     controller="Raek",
@@ -27,7 +30,7 @@ class CommissionUsersAction extends \api\components\Action
      */
     public function run()
     {
-        $commissionId = \Yii::app()->getRequest()->getParam('CommissionId');
+        $commissionId = Yii::app()->getRequest()->getParam('CommissionId');
 
         if (!is_array($commissionId)) {
             $commissionId = [intval($commissionId)];
@@ -35,10 +38,10 @@ class CommissionUsersAction extends \api\components\Action
         $criteria = new \CDbCriteria();
         $criteria->addInCondition('"t"."CommissionId"', $commissionId);
         $criteria->addCondition('"t"."ExitTime" IS NULL OR "t"."ExitTime" > NOW()');
-        /** @var \commission\models\User $users */
-        $users = \commission\models\User::model()->findAll($criteria);
 
-        $builder = new \api\components\builders\Builder(null); //todo: быстрое решение, исправить
+        $users = User::model()->findAll($criteria);
+
+        $builder = new Builder(null); //todo: быстрое решение, исправить
 
         $result = [];
         foreach ($users as $user) {

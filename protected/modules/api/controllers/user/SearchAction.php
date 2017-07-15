@@ -1,16 +1,19 @@
 <?php
+
 namespace api\controllers\user;
 
-use api\components\builders\Builder;
+use api\components\Action;
+use api\components\Exception;
 use api\models\Account;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\ApiAction;
+use user\models\User;
+use Yii;
 
-class SearchAction extends \api\components\Action
+class SearchAction extends Action
 {
-
     /**
      * @ApiAction(
      *     controller="User",
@@ -31,14 +34,14 @@ class SearchAction extends \api\components\Action
      */
     public function run()
     {
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
         $query = $request->getParam('Query', null);
         $maxResults = $request->getParam('MaxResults', $this->getMaxResults());
         $maxResults = min($maxResults, $this->getMaxResults());
         $pageToken = $request->getParam('PageToken', null);
 
         if (strlen($query) === 0) {
-            throw new \api\components\Exception(203);
+            throw new Exception(203);
         }
 
         $criteria = new \CDbCriteria();
@@ -71,7 +74,7 @@ class SearchAction extends \api\components\Action
         $with[] = 'Participants.Role';
         $with[] = 'Participants.Event';
 
-        $model = \user\models\User::model();
+        $model = User::model();
         if (filter_var($query, FILTER_VALIDATE_EMAIL)) {
             $model
                 ->byEmail($query)
@@ -84,7 +87,6 @@ class SearchAction extends \api\components\Action
         }
         $model->with($with);
 
-        /** @var $users \user\models\User[] */
         $users = $model->findAll($criteria);
 
         $result = [];
@@ -96,10 +98,11 @@ class SearchAction extends \api\components\Action
         }
 
         if (count($users) === $maxResults) {
-            $result['NextPageToken'] = $this->getController()->getPageToken($criteria->offset + $maxResults);
+            $result['NextPageToken'] = $this
+                ->getController()
+                ->getPageToken($criteria->offset + $maxResults);
         }
 
         $this->setResult($result);
     }
-
 }

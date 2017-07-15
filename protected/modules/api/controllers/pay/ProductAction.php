@@ -1,4 +1,5 @@
 <?php
+
 namespace api\controllers\pay;
 
 use api\components\Action;
@@ -8,9 +9,6 @@ use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\ApiAction;
 use pay\models\Product;
 
-/**
- * Class ProductAction Returns list of products
- */
 class ProductAction extends Action
 {
     /**

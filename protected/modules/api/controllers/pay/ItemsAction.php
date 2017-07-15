@@ -1,6 +1,8 @@
 <?php
+
 namespace api\controllers\pay;
 
+use api\components\Action;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
@@ -8,9 +10,8 @@ use nastradamus39\slate\annotations\ApiAction;
 use pay\components\OrderItemCollection;
 use pay\models\OrderItem;
 
-class ItemsAction extends \api\components\Action
+class ItemsAction extends Action
 {
-
     /**
      * @ApiAction(
      *     controller="Pay",

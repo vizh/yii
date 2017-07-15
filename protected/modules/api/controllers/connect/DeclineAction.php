@@ -1,6 +1,8 @@
 <?php
+
 namespace api\controllers\connect;
 
+use api\components\Action;
 use api\components\Exception;
 use connect\models\forms\Response;
 use connect\models\MeetingLinkUser;
@@ -9,10 +11,10 @@ use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response as ApiResponse;
 use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
+use Yii;
 
-class DeclineAction extends \api\components\Action
+class DeclineAction extends Action
 {
-
     /**
      * @ApiAction(
      *     controller="Connect",
@@ -48,7 +50,7 @@ class DeclineAction extends \api\components\Action
         try {
             $form = new Response($link);
             $form->Status = MeetingLinkUser::STATUS_DECLINED;
-            $form->Response = \Yii::app()->getRequest()->getParam('Response', null);
+            $form->Response = Yii::app()->getRequest()->getParam('Response', null);
             $form->updateActiveRecord();
             $this->setSuccessResult();
         } catch (\Exception $e) {

@@ -1,15 +1,16 @@
 <?php
+
 namespace api\controllers\pay;
 
+use api\components\Action;
 use api\components\Exception;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\ApiAction;
 
-class DeleteAction extends \api\components\Action
+class DeleteAction extends Action
 {
-
     /**
      * @ApiAction(
      *     controller="Pay",

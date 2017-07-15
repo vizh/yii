@@ -1,6 +1,8 @@
 <?php
+
 namespace api\controllers\connect;
 
+use api\components\Action;
 use api\components\Exception;
 use connect\models\forms\Response;
 use connect\models\MeetingLinkUser;
@@ -10,7 +12,7 @@ use nastradamus39\slate\annotations\Action\Response as ApiResponse;
 use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
 
-class AcceptAction extends \api\components\Action
+class AcceptAction extends Action
 {
     /**
      * @ApiAction(

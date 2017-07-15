@@ -8,10 +8,10 @@ use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\ApiAction;
+use Yii;
 
 class UserListAction extends Action
 {
-
     /**
      * @ApiAction(
      *     controller="Ict",
@@ -29,7 +29,7 @@ class UserListAction extends Action
      */
     public function run()
     {
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
         $type = $request->getParam('Type');
 
         $criteria = new \CDbCriteria();
@@ -42,4 +42,4 @@ class UserListAction extends Action
         }
         $this->setResult($result);
     }
-} 
+}

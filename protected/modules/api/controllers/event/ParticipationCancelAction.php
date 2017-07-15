@@ -1,6 +1,7 @@
 <?php
 namespace api\controllers\event;
 
+use api\components\Action;
 use api\components\Exception;
 use api\models\Account;
 use event\models\Participant;
@@ -16,7 +17,7 @@ use nastradamus39\slate\annotations\ApiAction;
  *
  * @package api\controllers\event
  */
-class ParticipationCancelAction extends \api\components\Action
+class ParticipationCancelAction extends Action
 {
 
     /**

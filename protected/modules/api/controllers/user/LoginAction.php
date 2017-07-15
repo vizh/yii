@@ -1,4 +1,5 @@
 <?php
+
 namespace api\controllers\user;
 
 use api\components\Action;
@@ -13,7 +14,6 @@ use Yii;
 
 class LoginAction extends Action
 {
-
     /**
      * @ApiAction(
      *     controller="User",

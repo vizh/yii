@@ -1,4 +1,5 @@
 <?php
+
 namespace api\controllers\iri;
 
 use api\components\Action;
@@ -11,6 +12,7 @@ use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\ApiAction;
 use user\models\User;
+use Yii;
 
 class UserDeleteAction extends Action
 {
@@ -34,7 +36,7 @@ class UserDeleteAction extends Action
      */
     public function run()
     {
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
 
         $runetId = $request->getParam('RunetId');
         $roleId = $request->getParam('RoleId');
@@ -78,4 +80,4 @@ class UserDeleteAction extends Action
         $iriUser->save();
         $this->setResult(['Success' => true]);
     }
-} 
+}

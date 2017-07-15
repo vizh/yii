@@ -8,6 +8,7 @@ use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
+use Yii;
 
 class HallsAction extends Action
 {
@@ -35,7 +36,7 @@ class HallsAction extends Action
      */
     public function run()
     {
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
         $model = Hall::model()->byEventId($this->getEvent()->Id);
 
         if ($this->hasRequestParam('FromUpdateTime')) {

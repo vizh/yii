@@ -1,5 +1,6 @@
 <?php
 
+use api\components\Controller;
 use nastradamus39\slate\annotations\ApiController;
 
 /**
@@ -9,7 +10,6 @@ use nastradamus39\slate\annotations\ApiController;
  *     description="Приглашения на мероприятия."
  * )
  */
-class InviteController extends \api\components\Controller
+class InviteController extends Controller
 {
-
 }

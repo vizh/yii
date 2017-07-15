@@ -1,4 +1,5 @@
 <?php
+
 namespace api\controllers\iri;
 
 use api\components\Action;
@@ -32,4 +33,4 @@ class RolesAction extends Action
         }
         $this->setResult($result);
     }
-} 
+}

@@ -1,4 +1,5 @@
 <?php
+
 namespace api\controllers\user;
 
 use api\components\Action;
@@ -9,11 +10,7 @@ use event\models\UserData;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\ApiAction;
-use user\models\User;
 
-/**
- * Class CreateAction Creates a new user
- */
 class CreateAction extends Action
 {
     /**

@@ -1,6 +1,8 @@
 <?php
+
 namespace api\controllers\section;
 
+use api\components\Action;
 use event\models\section\Section;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
@@ -9,9 +11,8 @@ use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
 use Yii;
 
-class ListAction extends \api\components\Action
+class ListAction extends Action
 {
-
     /**
      * @ApiAction(
      *     controller="Section",
@@ -66,7 +67,6 @@ class ListAction extends \api\components\Action
 
     /**
      * @param Section $model
-     * @return \CDbCriteria
      */
     private function applyFilterCriteria($model)
     {

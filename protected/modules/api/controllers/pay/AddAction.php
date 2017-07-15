@@ -1,4 +1,5 @@
 <?php
+
 namespace api\controllers\pay;
 
 use api\components\Action;
@@ -14,7 +15,6 @@ use Yii;
 
 class AddAction extends Action
 {
-
     /**
      * @ApiAction(
      *     controller="Pay",

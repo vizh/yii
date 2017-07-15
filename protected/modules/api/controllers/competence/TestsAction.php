@@ -40,4 +40,4 @@ class TestsAction extends Action
 
         $this->setResult($builtTests);
     }
-} 
+}

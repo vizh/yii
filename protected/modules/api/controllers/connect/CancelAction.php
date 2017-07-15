@@ -1,6 +1,8 @@
 <?php
+
 namespace api\controllers\connect;
 
+use api\components\Action;
 use api\components\Exception;
 use connect\models\forms\CancelCreator;
 use connect\models\forms\Response;
@@ -11,8 +13,9 @@ use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response as ApiResponse;
 use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
+use Yii;
 
-class CancelAction extends \api\components\Action
+class CancelAction extends Action
 {
     /**
      * @ApiAction(
@@ -46,12 +49,13 @@ class CancelAction extends \api\components\Action
             try {
                 $form = new CancelCreator($meeting);
                 $form->Status = Meeting::STATUS_CANCELLED;
-                $form->Response = \Yii::app()->getRequest()->getParam('Response', null);
+                $form->Response = Yii::app()->getRequest()->getParam('Response', null);
                 $form->updateActiveRecord();
                 $this->setSuccessResult();
             } catch (\Exception $e) {
                 $this->setResult(['Success' => false, 'Error' => $e]);
             }
+
             return;
         }
 
@@ -60,12 +64,13 @@ class CancelAction extends \api\components\Action
             try {
                 $form = new Response($meeting->UserLinks[0]);
                 $form->Status = MeetingLinkUser::STATUS_CANCELLED;
-                $form->Response = \Yii::app()->getRequest()->getParam('Response', null);
+                $form->Response = Yii::app()->getRequest()->getParam('Response', null);
                 $form->updateActiveRecord();
                 $this->setSuccessResult();
             } catch (\Exception $e) {
                 $this->setResult(['Success' => false, 'Error' => $e]);
             }
+
             return;
         }
 

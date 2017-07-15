@@ -1,30 +1,42 @@
 <?php
+
 namespace api\controllers\user;
 
-class PurposesAction extends \api\components\Action
+use api\components\Action;
+use api\components\Exception;
+use event\models\Participant;
+use user\models\LinkEventPurpose;
+
+class PurposesAction extends Action
 {
     public function run()
     {
-        $runetId = \Yii::app()->getRequest()->getParam('RunetId', null);
-        $user = \user\models\User::model()->byRunetId($runetId)->find();
-        if ($user !== null) {
-            $participant = \event\models\Participant::model()->byUserId($user->Id)->byEventId($this->getEvent()->Id)->find();
-            if ($participant === null) {
-                throw new \api\components\Exception(202, [$runetId]);
-            }
-        } else {
-            throw new \api\components\Exception(202, [$runetId]);
+        $user = $this->getRequestedUser();
+
+        $participant = Participant::model()
+            ->byUserId($user->Id)
+            ->byEventId($this->getEvent()->Id)
+            ->find();
+
+        if ($participant === null) {
+            throw new Exception(202, [$user->RunetId]);
         }
 
-        $criteria = new \CDbCriteria();
-        $criteria->with = ['Purpose'];
-        $criteria->order = '"Purpose"."Title" ASC';
-        $links = \user\models\LinkEventPurpose::model()->byUserId($user->Id)->byEventId($this->getEvent()->Id)->findAll($criteria);
+
+        $links = LinkEventPurpose::model()
+            ->byUserId($user->Id)
+            ->byEventId($this->getEvent()->Id)
+            ->with('Purpose')
+            ->orderBy(['"Purpose"."Title"' => SORT_ASC])
+            ->findAll();
+
         $result = [];
-        /** @var \user\models\LinkEventPurpose $link */
         foreach ($links as $link) {
-            $result[] = $this->getDataBuilder()->createEventPuprose($link->Purpose);
+            $result[] = $this
+                ->getDataBuilder()
+                ->createEventPuprose($link->Purpose);
         }
+
         $this->setResult($result);
     }
-} 
+}

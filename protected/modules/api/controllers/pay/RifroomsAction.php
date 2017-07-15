@@ -1,11 +1,15 @@
 <?php
+
 namespace api\controllers\pay;
 
+use api\components\Action;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\ApiAction;
+use pay\models\OrderItem;
+use pay\models\Product;
 
-class RifroomsAction extends \api\components\Action
+class RifroomsAction extends Action
 {
     /**
      * @ApiAction(
@@ -23,9 +27,9 @@ class RifroomsAction extends \api\components\Action
      */
     public function run()
     {
-        //$hotel = \Yii::app()->getRequest()->getParam('Hotel');
+        //$hotel = Yii::app()->getRequest()->getParam('Hotel');
 
-        $products = \pay\models\Product::model()
+        $products = Product::model()
             ->byEventId($this->getEvent()->Id)->byManagerName('RoomProductManager')->findAll();
 
         $idList = [];
@@ -35,7 +39,7 @@ class RifroomsAction extends \api\components\Action
         $criteria = new \CDbCriteria();
         $criteria->addInCondition('"t"."ProductId"', $idList);
 
-        $orderItems = \pay\models\OrderItem::model()->byPaid(true)->findAll($criteria);
+        $orderItems = OrderItem::model()->byPaid(true)->findAll($criteria);
 
         $result = [];
         foreach ($orderItems as $item) {

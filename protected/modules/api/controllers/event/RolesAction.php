@@ -1,12 +1,13 @@
 <?php
 namespace api\controllers\event;
 
+use api\components\Action;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
 
-class RolesAction extends \api\components\Action
+class RolesAction extends Action
 {
     /**
      * @ApiAction(

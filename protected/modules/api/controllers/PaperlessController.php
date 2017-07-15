@@ -1,5 +1,6 @@
 <?php
 
+use api\components\Controller;
 use nastradamus39\slate\annotations\ApiController;
 use nastradamus39\slate\annotations\ApiObject;
 
@@ -36,7 +37,7 @@ use nastradamus39\slate\annotations\ApiObject;
  *     }
  * )
  */
-class PaperlessController extends \api\components\Controller
+class PaperlessController extends Controller
 {
     public function actions()
     {
@@ -46,5 +47,4 @@ class PaperlessController extends \api\components\Controller
             'materialSearch' => '\api\controllers\paperless\material\SearchAction'
         ];
     }
-
 }

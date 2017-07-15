@@ -1,11 +1,14 @@
 <?php
+
 namespace api\controllers\professionalinterest;
 
+use api\components\Action;
+use application\models\ProfessionalInterest;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\ApiAction;
 
-class ListAction extends \api\components\Action
+class ListAction extends Action
 {
     /**
      * @ApiAction(
@@ -24,11 +27,11 @@ class ListAction extends \api\components\Action
     {
         $criteria = new \CDbCriteria();
         $criteria->order = '"t"."Title" ASC';
-        $interests = \application\models\ProfessionalInterest::model()->findAll($criteria);
+        $interests = ProfessionalInterest::model()->findAll($criteria);
         $result = [];
         foreach ($interests as $interes) {
             $result[] = $this->getDataBuilder()->createProfessionalInterest($interes);
         }
         $this->setResult($result);
     }
-} 
+}

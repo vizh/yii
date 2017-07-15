@@ -1,6 +1,8 @@
 <?php
+
 namespace api\controllers\pay;
 
+use api\components\Action;
 use api\components\Exception;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
@@ -10,10 +12,7 @@ use pay\components\OrderItemCollection;
 use pay\models\Product;
 use Yii;
 
-/**
- * Class FilterBookAction
- */
-class FilterBookAction extends \api\components\Action
+class FilterBookAction extends Action
 {
     /**
      * @ApiAction(

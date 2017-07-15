@@ -1,6 +1,8 @@
 <?php
+
 namespace api\controllers\user;
 
+use api\components\Action;
 use api\components\Exception;
 use api\models\Account;
 use api\models\ExternalUser;
@@ -12,7 +14,7 @@ use nastradamus39\slate\annotations\ApiAction;
 use user\models\User;
 use Yii;
 
-class EditAction extends \api\components\Action
+class EditAction extends Action
 {
     /**
      * @ApiAction(
@@ -82,6 +84,7 @@ class EditAction extends \api\components\Action
 
     /**
      * @param User $user
+     *
      * @return bool
      */
     private function hasEditPermission(User $user)
@@ -97,17 +100,16 @@ class EditAction extends \api\components\Action
             default:
                 return false;
         }
+        /*$permission = Permission::model()
+            ->byUserId($user->Id)
+            ->byAccountId($this->getAccount()->Id)
+            ->find();
 
-//        $permission = Permission::model()
-//            ->byUserId($user->Id)
-//            ->byAccountId($this->getAccount()->Id)
-//            ->find();
-//
-//        $participant = Participant::model()
-//            ->byEventId($this->getAccount()->EventId)
-//            ->byUserId($user->Id)
-//            ->find();
-//
-//        return $permission !== null && $participant !== null;
+        $participant = Participant::model()
+            ->byEventId($this->getAccount()->EventId)
+            ->byUserId($user->Id)
+            ->find();
+
+        return $permission !== null && $participant !== null;*/
     }
 }

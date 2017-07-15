@@ -1,15 +1,19 @@
 <?php
+
 namespace api\controllers\section;
 
+use api\components\Action;
+use api\components\Exception;
+use event\models\section\Section;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
+use Yii;
 
-class InfoAction extends \api\components\Action
+class InfoAction extends Action
 {
-
     /**
      * @ApiAction(
      *     controller="Section",
@@ -31,14 +35,14 @@ class InfoAction extends \api\components\Action
      */
     public function run()
     {
-        $sectionId = \Yii::app()->getRequest()->getParam('SectionId');
+        $sectionId = Yii::app()->getRequest()->getParam('SectionId');
 
-        $section = \event\models\section\Section::model()->byDeleted(false)->findByPk($sectionId);
+        $section = Section::model()->byDeleted(false)->findByPk($sectionId);
         if ($section === null) {
-            throw new \api\components\Exception(310, [$sectionId]);
+            throw new Exception(310, [$sectionId]);
         }
         if ($section->EventId != $this->getEvent()->Id) {
-            throw new \api\components\Exception(311);
+            throw new Exception(311);
         }
 
         $this->setResult($this->getAccount()->getDataBuilder()->createSection($section));

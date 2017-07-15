@@ -1,12 +1,19 @@
 <?php
+
 namespace api\controllers\professionalinterest;
 
+use api\components\Action;
+use api\components\Exception;
+use event\models\Participant;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\ApiAction;
+use user\models\LinkProfessionalInterest;
+use user\models\User;
+use Yii;
 
-class DeleteAction extends \api\components\Action
+class DeleteAction extends Action
 {
     /**
      * @ApiAction(
@@ -26,19 +33,20 @@ class DeleteAction extends \api\components\Action
      */
     public function run()
     {
-        $runetId = \Yii::app()->getRequest()->getParam('RunetId');
-        $user = \user\models\User::model()->byRunetId($runetId)->find();
+        $runetId = Yii::app()->getRequest()->getParam('RunetId');
+        $user = User::model()->byRunetId($runetId)->find();
         if ($user !== null) {
-            $participant = \event\models\Participant::model()->byUserId($user->Id)->byEventId($this->getEvent()->Id)->find();
+            $participant = Participant::model()->byUserId($user->Id)->byEventId($this->getEvent()->Id)->find();
             if ($participant === null) {
-                throw new \api\components\Exception(202, [$runetId]);
+                throw new Exception(202, [$runetId]);
             }
         } else {
-            throw new \api\components\Exception(202, [$runetId]);
+            throw new Exception(202, [$runetId]);
         }
 
-        $professionalInterestId = \Yii::app()->getRequest()->getParam('ProfessionalInterestId');
-        $link = \user\models\LinkProfessionalInterest::model()->byUserId($user->Id)->byProfessionalInterestId($professionalInterestId)->find();
+        $professionalInterestId = Yii::app()->getRequest()->getParam('ProfessionalInterestId');
+        $link = LinkProfessionalInterest::model()->byUserId($user->Id)
+            ->byProfessionalInterestId($professionalInterestId)->find();
         if ($link !== null) {
             $link->delete();
         }

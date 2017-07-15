@@ -1,16 +1,18 @@
 <?php
+
 namespace api\controllers\ms;
 
 use api\components\Action;
 use api\components\Exception;
 use api\models\ExternalUser;
 use event\models\Role;
+use Yii;
 
 class UpdateRegistrationAction extends Action
 {
     public function run()
     {
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
         $externalId = $request->getParam('ExternalId');
         $roleId = $request->getParam('RoleId');
         $externalUser = ExternalUser::model()->byExternalId($externalId)->byAccountId($this->getAccount()->Id)->find();

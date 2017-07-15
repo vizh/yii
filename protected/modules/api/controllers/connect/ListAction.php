@@ -1,6 +1,8 @@
 <?php
+
 namespace api\controllers\connect;
 
+use api\components\Action;
 use application\components\CDbCriteria;
 use application\components\helpers\ArrayHelper;
 use connect\models\Meeting;
@@ -10,9 +12,8 @@ use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
 
-class ListAction extends \api\components\Action
+class ListAction extends Action
 {
-
     /**
      * @ApiAction(
      *     controller="Connect",
