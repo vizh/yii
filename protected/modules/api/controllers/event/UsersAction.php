@@ -3,16 +3,12 @@
 namespace api\controllers\event;
 
 use api\components\Action;
-use api\components\builders\Builder;
-use api\models\Account;
-use application\components\helpers\ArrayHelper;
 use CDbCriteria;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
-use pay\models\OrderItem;
 use user\models\User;
 use Yii;
 
@@ -95,10 +91,6 @@ class UsersAction extends Action
 
         $users = $users->findAll($criteria);
 
-        if ($this->getEvent()->IdName === 'forinnovations16' && $this->getAccount()->Role !== Account::ROLE_MOBILE) {
-            $orderItems = $this->getOrderItems(ArrayHelper::columnGet('Id', $users));
-        }
-
         $result = [
             'Users' => [],
             'TotalCount' => $this->getTotalCount(),
@@ -106,38 +98,9 @@ class UsersAction extends Action
         ];
 
         foreach ($users as $user) {
-            $userData = $this
+            $result['Users'][] = $this
                 ->getDataBuilder()
                 ->createUser($user);
-
-            if (isset($orderItems[$user->Id])) {
-                /** @var OrderItem $item */
-                foreach ($orderItems[$user->Id] as $item) {
-                    switch ($item->ProductId) {
-                        case 6160:
-                            $userData->Products = ['Id' => $item->ProductId, 'Days' => 1];
-                            break;
-                        case 6161:
-                            $userData->Products = ['Id' => $item->ProductId, 'Days' => 3];
-                            break;
-                        case 6158:
-                            $userData->Products = ['Id' => $item->ProductId, 'Days' => 1];
-                            break;
-                        case 6159:
-                            $userData->Products = ['Id' => $item->ProductId, 'Days' => 3];
-                            break;
-                        case 6182:
-                            $userData->Products = ['Id' => $item->ProductId, 'Days' => 2];
-                            break;
-                    }
-                }
-            } else {
-                $userData->Products = [
-                    'Days' => 3
-                ];
-            }
-
-            $result['Users'][] = $userData;
         }
 
         if (count($users) === $maxResults) {
@@ -145,30 +108,6 @@ class UsersAction extends Action
         }
 
         $this->setResult($result);
-    }
-
-    private function getOrderItems(array $ids)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->addInCondition('"t"."OwnerId"', $ids);
-        $criteria->addCondition('"t"."ChangedOwnerId" IS NULL');
-        $criteria->addInCondition('"t"."ChangedOwnerId"', $ids, 'OR');
-
-        $orderItems = OrderItem::model()
-            ->byEventId($this->getEvent()->Id)
-            ->byPaid(true)
-            ->findAll($criteria);
-
-        $result = [];
-        foreach ($orderItems as $item) {
-            $ownerId = $item->ChangedOwnerId === null
-                ? $item->OwnerId
-                : $item->ChangedOwnerId;
-
-            $result[$ownerId][] = $item;
-        }
-
-        return $result;
     }
 
     /**
