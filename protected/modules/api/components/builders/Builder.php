@@ -664,6 +664,7 @@ class Builder
 
         if (null !== $address = $event->getContactAddress()) {
             $this->event->Place = $address->__toString();
+            $this->event->PlaceGeoPoint = array_combine(['Longitude', 'Latitude', 'Zoom'], $address->GeoPoint);
         }
 
         if ($event->getLogo()->exists()) {
