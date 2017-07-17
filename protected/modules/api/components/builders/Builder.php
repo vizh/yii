@@ -645,37 +645,37 @@ class Builder
             'EventId' => $event->Id,
             'IdName' => $event->IdName,
             'Alias' => $event->IdName,
-            'Name' => html_entity_decode($event->Title),
-            'Title' => html_entity_decode($event->Title),
+            'Name' => $event->Title,
+            'Title' => $event->Title,
             'Info' => $event->Info,
-            'Url' => $event->getContactSite() !== null ? (string)$event->getContactSite() : '',
+            'Url' => '',
             'StartYear' => $event->StartYear,
             'StartMonth' => $event->StartMonth,
             'StartDay' => $event->StartDay,
             'EndYear' => $event->EndYear,
             'EndMonth' => $event->EndMonth,
             'EndDay' => $event->EndDay,
-            'VisibleOnMain' => $event->VisibleOnMain,
-            'Image' => [
-                'Mini' => SCHEMA.'://'.RUNETID_HOST.'/files/event/none_50.png',
-                'Normal' => SCHEMA.'://'.RUNETID_HOST.'/files/event/none_120.png',
-                'Original' => SCHEMA.'://'.RUNETID_HOST.'/files/event/none.png'
-            ]
+            'VisibleOnMain' => $event->VisibleOnMain
         ];
 
-        if ($event->getContactAddress() !== null) {
-            $this->event->Place = $event->getContactAddress()->__toString();
+        if (null !== $site = $event->getContactSite()) {
+            $this->event->Url = $site->Url;
+        }
+
+        if (null !== $address = $event->getContactAddress()) {
+            $this->event->Place = $address->__toString();
         }
 
         if ($event->getLogo()->exists()) {
             $webRoot = Yii::getPathOfAlias('webroot');
+            $urlPrefix = SCHEMA.'://'.RUNETID_HOST;
             $logo = $event->getLogo();
             $this->event->Image = [
-                'Mini' => SCHEMA.'://'.RUNETID_HOST.$logo->getMini(),
+                'Mini' => $urlPrefix.$logo->getMini(),
                 'MiniSize' => $this->getImageSize($webRoot.$logo->getNormal()),
-                'Normal' => SCHEMA.'://'.RUNETID_HOST.$logo->getNormal(),
+                'Normal' => $urlPrefix.$logo->getNormal(),
                 'NormalSize' => $this->getImageSize($webRoot.$logo->getNormal()),
-                'Original' => SCHEMA.'://'.RUNETID_HOST.$logo->getOriginal()
+                'Original' => $urlPrefix.$logo->getOriginal()
             ];
         }
 

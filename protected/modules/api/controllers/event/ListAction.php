@@ -39,6 +39,7 @@ class ListAction extends Action
     {
         $events = Event::model()
             ->byDate($this->getRequestParam('Year', date('Y')))
+            ->with(['LinkSite', 'LinkAddress' => ['with' => ['Address' => ['with' => ['City']]]]])
             ->byVisible();
 
         if ($this->hasRequestParam('VisibleOnMain')) {

@@ -148,12 +148,12 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
     {
         return [
             'Parts' => [self::HAS_MANY, '\event\models\Part', 'EventId'],
-            'Participants' => [self::HAS_MANY, '\event\models\Participant', 'EventId', 'with' => ['Role']],
+            'Participants' => [self::HAS_MANY, '\event\models\Participant', 'EventId', 'with' => 'Role'],
             'Type' => [self::BELONGS_TO, '\event\models\Type', 'TypeId'],
-            'LinkAddress' => [self::HAS_ONE, '\event\models\LinkAddress', 'EventId'],
+            'LinkAddress' => [self::HAS_ONE, '\event\models\LinkAddress', 'EventId', 'with' => 'Address'],
             'LinkPhones' => [self::HAS_MANY, '\event\models\LinkPhone', 'EventId'],
             'LinkEmails' => [self::HAS_MANY, '\event\models\LinkEmail', 'EventId'],
-            'LinkSite' => [self::HAS_ONE, '\event\models\LinkSite', 'EventId'],
+            'LinkSite' => [self::HAS_ONE, '\event\models\LinkSite', 'EventId', 'with' => 'Site'],
             'Sections' => [
                 self::HAS_MANY,
                 '\event\models\section\Section',

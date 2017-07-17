@@ -19,7 +19,7 @@ use geo\models\Region;
  * @property string $Wing
  * @property string $Apartment
  * @property string $Place
- * @property string $GeoPoint
+ * @property int[] $GeoPoint
  *
  * @property Country $Country
  * @property Region $Region
