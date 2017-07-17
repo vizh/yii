@@ -159,7 +159,7 @@ foreach ($widgets->All as $widget) {
                 </div>
                 <div class="control-group">
                     <div class="controls">
-                        <?=CHtml::label($form->getAttributeLabel('ShowOnMain').CHtml::activeCheckBox($form, 'ShowOnMain'), null, ['class' => 'checkbox'])?>
+                        <?=CHtml::label($form->getAttributeLabel('VisibleOnMain').CHtml::activeCheckBox($form, 'VisibleOnMain'), null, ['class' => 'checkbox'])?>
                     </div>
                 </div>
                 <div class="control-group">

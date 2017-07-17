@@ -16,6 +16,11 @@ class Logo
         $this->event = $event;
     }
 
+    public function exists()
+    {
+        return strpos($this->getOriginal(), 'none.png') === false;
+    }
+
     private function getEventPath($fileName = '', $absolute = false)
     {
         return $this->event->getPath($fileName, $absolute);

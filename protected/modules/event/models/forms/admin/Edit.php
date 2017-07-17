@@ -15,7 +15,7 @@ class Edit extends \CFormModel
     public $FullInfo;
     public $Visible;
     public $TypeId;
-    public $ShowOnMain;
+    public $VisibleOnMain;
     public $Approved = 0;
     public $Free;
     public $Top;
@@ -62,7 +62,7 @@ class Edit extends \CFormModel
             ['Email', 'email', 'allowEmpty' => true],
             ['StartDate', 'date', 'format' => self::DATE_FORMAT, 'timestampAttribute' => 'StartDateTS'],
             ['EndDate', 'date', 'format' => self::DATE_FORMAT, 'timestampAttribute' => 'EndDateTS'],
-            ['Title, IdName, Info, FullInfo, Info, Visible, TypeId, ShowOnMain, Approved, Widgets, ProfInterest, SiteUrl, OrganizerInfo', 'safe'],
+            ['Title, IdName, Info, FullInfo, Info, Visible, TypeId, VisibleOnMain, Approved, Widgets, ProfInterest, SiteUrl, OrganizerInfo', 'safe'],
             ['Logo, TicketImage', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true],
             ['FullWidth, UserScope', 'boolean']
         ];
@@ -77,7 +77,7 @@ class Edit extends \CFormModel
             'Date' => Yii::t('app', 'Дата проведения'),
             'Type' => Yii::t('app', 'Тип'),
             'Visible' => Yii::t('app', 'Публиковать'),
-            'ShowOnMain' => Yii::t('app', 'Публиковать на главной'),
+            'VisibleOnMain' => Yii::t('app', 'Публиковать на главной'),
             'Widgets' => Yii::t('app', 'Виджеты'),
             'ProfInterest' => Yii::t('app', 'Профессиональные интересы'),
             'Approved' => Yii::t('app', 'Статус'),

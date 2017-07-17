@@ -641,35 +641,43 @@ class Builder
     {
         $this->applyLocale($event);
 
-        $this->event = new \stdClass();
+        $this->event = (object)[
+            'EventId' => $event->Id,
+            'IdName' => $event->IdName,
+            'Alias' => $event->IdName,
+            'Name' => html_entity_decode($event->Title),
+            'Title' => html_entity_decode($event->Title),
+            'Info' => $event->Info,
+            'Url' => $event->getContactSite() !== null ? (string)$event->getContactSite() : '',
+            'StartYear' => $event->StartYear,
+            'StartMonth' => $event->StartMonth,
+            'StartDay' => $event->StartDay,
+            'EndYear' => $event->EndYear,
+            'EndMonth' => $event->EndMonth,
+            'EndDay' => $event->EndDay,
+            'VisibleOnMain' => $event->VisibleOnMain,
+            'Image' => [
+                'Mini' => SCHEMA.'://'.RUNETID_HOST.'/files/event/none_50.png',
+                'Normal' => SCHEMA.'://'.RUNETID_HOST.'/files/event/none_120.png',
+                'Original' => SCHEMA.'://'.RUNETID_HOST.'/files/event/none.png'
+            ]
+        ];
 
-        $this->event->EventId = $event->Id;
-        $this->event->IdName = $event->IdName;
-        $this->event->Alias = $event->IdName;
-        $this->event->Name = html_entity_decode($event->Title); //todo: deprecated
-        $this->event->Title = html_entity_decode($event->Title);
-        $this->event->Info = $event->Info;
         if ($event->getContactAddress() !== null) {
             $this->event->Place = $event->getContactAddress()->__toString();
         }
-        $this->event->Url = $event->getContactSite() !== null ? (string)$event->getContactSite() : '';
-        $this->event->UrlRegistration = '';//$event->UrlRegistration;
-        $this->event->UrlProgram = '';// $event->UrlProgram;
-        $this->event->StartYear = $event->StartYear;
-        $this->event->StartMonth = $event->StartMonth;
-        $this->event->StartDay = $event->StartDay;
-        $this->event->EndYear = $event->EndYear;
-        $this->event->EndMonth = $event->EndMonth;
-        $this->event->EndDay = $event->EndDay;
 
-        $this->event->Image = new \stdClass();
-
-        $webRoot = Yii::getPathOfAlias('webroot');
-        $logo = $event->getLogo();
-        $this->event->Image->Mini = 'http://'.RUNETID_HOST.$logo->getMini();
-        $this->event->Image->MiniSize = $this->getImageSize($webRoot.$logo->getMini());
-        $this->event->Image->Normal = 'http://'.RUNETID_HOST.$logo->getNormal();
-        $this->event->Image->NormalSize = $this->getImageSize($webRoot.$logo->getNormal());
+        if ($event->getLogo()->exists()) {
+            $webRoot = Yii::getPathOfAlias('webroot');
+            $logo = $event->getLogo();
+            $this->event->Image = [
+                'Mini' => SCHEMA.'://'.RUNETID_HOST.$logo->getMini(),
+                'MiniSize' => $this->getImageSize($webRoot.$logo->getNormal()),
+                'Normal' => SCHEMA.'://'.RUNETID_HOST.$logo->getNormal(),
+                'NormalSize' => $this->getImageSize($webRoot.$logo->getNormal()),
+                'Original' => SCHEMA.'://'.RUNETID_HOST.$logo->getOriginal()
+            ];
+        }
 
         return $this->event;
     }

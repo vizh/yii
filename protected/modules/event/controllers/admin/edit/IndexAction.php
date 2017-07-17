@@ -79,7 +79,7 @@ class IndexAction extends \CAction
                 $event->FullInfo = $form->FullInfo;
                 $event->Visible = $form->Visible;
                 $event->TypeId = $form->TypeId;
-                $event->ShowOnMain = $form->ShowOnMain;
+                $event->VisibleOnMain = $form->VisibleOnMain;
                 $event->Approved = $form->Approved;
                 $event->StartDay = date('d', $form->StartDateTS);
                 $event->StartMonth = date('m', $form->StartDateTS);

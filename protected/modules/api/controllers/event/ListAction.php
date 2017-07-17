@@ -1,4 +1,5 @@
 <?php
+
 namespace api\controllers\event;
 
 use api\components\Action;
@@ -8,7 +9,6 @@ use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;
 use nastradamus39\slate\annotations\Action\Sample;
 use nastradamus39\slate\annotations\ApiAction;
-use Yii;
 
 class ListAction extends Action
 {
@@ -27,7 +27,8 @@ class ListAction extends Action
      *          url="/event/list",
      *          body="",
      *          params={
-     *              @Param(title="Year", description="Год.", mandatory="N")
+     *              @Param(title="Year",          mandatory="N", defaultValue="текущий год", description="Год."),
+     *              @Param(title="VisibleOnMain", mandatory="N",                             description="Главные новости, или новости с установленным флагом отображения на титульной странице.")
      *          },
      *          response=@Response(body="['{$EVENT}']")
      *     )
@@ -36,13 +37,21 @@ class ListAction extends Action
      */
     public function run()
     {
-        $year = (int)Yii::app()->getRequest()->getParam('Year', date('Y'));
+        $events = Event::model()
+            ->byDate($this->getRequestParam('Year', date('Y')))
+            ->byVisible();
 
-        $events = Event::model()->byDate($year)->byVisible(true)->findAll();
+        if ($this->hasRequestParam('VisibleOnMain')) {
+            $events->byVisibleOnMain($this->getRequestParamBool('VisibleOnMain'));
+        }
+
+        $events = $events->findAll();
 
         $result = [];
         foreach ($events as $event) {
-            $result[] = $this->getDataBuilder()->createEvent($event);
+            $result[] = $this
+                ->getDataBuilder()
+                ->createEvent($event);
         }
 
         $this->setResult($result);

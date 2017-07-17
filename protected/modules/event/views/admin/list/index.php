@@ -51,7 +51,7 @@ use event\models\Approved;
                     </td>
                     <td><label class="label"><?=$event->Type->Title?></label></td>
                     <td class="icons">
-                        <i class="icon-eye-open <?if(!$event->ShowOnMain):?>muted<?endif?>" title="Опубликовано на главной"></i>
+                        <i class="icon-eye-open <?if(!$event->VisibleOnMain):?>muted<?endif?>" title="Опубликовано на главной"></i>
                         <i class="icon-fullscreen <?if(!isset($event->Top) || $event->Top == 0):?>muted<?endif?>" title="Используется выделение в большой блок"></i>
                         <i class="icon-list <?if(empty($event->LinkProfessionalInterests)):?>muted<?endif?>" title="Проставлены проф. интересы"></i>
 

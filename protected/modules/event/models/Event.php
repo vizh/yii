@@ -25,26 +25,26 @@ use Yii;
  *
  * Fields
  *
- * @property int $Id
+ * @property int    $Id
  * @property string $IdName
  * @property string $Title
  * @property string $Info
  * @property string $FullInfo
- * @property int $StartYear
- * @property int $StartMonth
- * @property int $StartDay
- * @property int $EndYear
- * @property int $EndMonth
- * @property int $EndDay
- * @property bool $Visible
- * @property bool $ShowOnMain
- * @property bool $External Для мероприятий, добавленных пользователями через форму на сайте - true, иначе - false
- * @property int $Approved Имеет значение только для мероприятий, добавленных пользователями, 0 - не определено, 1 - одобрено, -1 - отклонено
- * @property int $TypeId
+ * @property int    $StartYear
+ * @property int    $StartMonth
+ * @property int    $StartDay
+ * @property int    $EndYear
+ * @property int    $EndMonth
+ * @property int    $EndDay
+ * @property bool   $Visible
+ * @property bool   $VisibleOnMain Позволено ли отображение на главной странице сайта. Так называемые "Главные новости".
+ * @property bool   $External Для мероприятий, добавленных пользователями через форму на сайте - true, иначе - false
+ * @property int    $Approved Имеет значение только для мероприятий, добавленных пользователями, 0 - не определено, 1 - одобрено, -1 - отклонено
+ * @property int    $TypeId
  * @property string $LogoSource
  * @property string $CreationTime
- * @property bool $FullWidth
- * @property bool $UserScope
+ * @property bool   $FullWidth
+ * @property bool   $UserScope
  * @property string $FbId Идентификатор мероприятия на Facebook. Если его нет, то мероприятие считает не опубликованным
  * @property bool $Deleted
  * @property string $DeletionTime
@@ -107,7 +107,7 @@ use Yii;
  * @method Event byId(int $id, bool $useAnd = true)
  * @method Event byIdName(string $idName, bool $useAnd = true)
  * @method Event byVisible(bool $visible = true, bool $useAnd = true)
- * @method Event byShowOnMain(bool $showOnMain = true, bool $useAnd = true)
+ * @method Event byVisibleOnMain(bool $visible = true, bool $useAnd = true)
  * @method Event byExternal(bool $external = true, bool $useAnd = true)
  * @method Event byApproved(bool $approved = true, bool $useAnd = true)
  * @method Event byTypeId(int $id, bool $useAnd = true)

@@ -12,7 +12,7 @@ class DefaultController extends \application\components\controllers\PublicMainCo
 
         $date = getdate();
         $criteria = new CDbCriteria();
-        $criteria->order = '"t"."ShowOnMain" DESC, "t"."StartYear", "t"."StartMonth", "t"."StartDay", "t"."EndYear", "t"."EndMonth", "t"."EndDay"';
+        $criteria->order = '"t"."VisibleOnMain" DESC, "t"."StartYear", "t"."StartMonth", "t"."StartDay", "t"."EndYear", "t"."EndMonth", "t"."EndDay"';
         $criteria->limit = 3;
         $events = Event::model()
             ->byVisible()
