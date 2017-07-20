@@ -648,6 +648,7 @@ class Builder
             'Name' => $event->Title,
             'Title' => $event->Title,
             'Info' => $event->Info,
+            'FullInfo' => $event->FullInfo,
             'Url' => '',
             'StartYear' => $event->StartYear,
             'StartMonth' => $event->StartMonth,
