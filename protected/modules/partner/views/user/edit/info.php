@@ -108,6 +108,12 @@ use event\models\Event;
                 </div>
 
                 <div class="text-center">
+                    <button id="crop-rotate-left" type="button" class="btn btn-primary">
+                        <i class="fa fa-rotate-left"></i>
+                    </button>
+                    <button id="crop-rotate-right" type="button" class="btn btn-primary">
+                        <i class="fa fa-rotate-right"></i>
+                    </button>
                     <button id="save-crop" type="button" class="btn btn-primary">Сохранить</button>
                 </div>
             </div>

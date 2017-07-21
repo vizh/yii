@@ -13,7 +13,7 @@ CUserEdit.prototype = {
             $scope.products = self.data.products;
             $scope.data = self.data.data;
 
-            if (typeof($scope.data) != "undefined") {
+            if (typeof($scope.data) !== 'undefined') {
                 $.each($scope.data, function (i, row) {
                     $.each(row.attributes, function (j, item) {
                         $scope.data[i]['attributes'][j].edit = $sce.trustAsHtml(item.edit);
@@ -47,7 +47,7 @@ CUserEdit.prototype = {
                         'message':$modal.find('.modal-body textarea').val()
                     };
 
-                    if (typeof (participant.part) != "undefined") {
+                    if (typeof (participant.part) !== 'undefined') {
                         params.part = participant.part;
                     }
 
@@ -134,7 +134,7 @@ CUserEdit.prototype = {
 
             $scope.setErrorState = function (item, message) {
                 item['class'] = 'error';
-                item.message = typeof(message) != "undefined" ? message : 'Ошибка при сохранении!';
+                item.message = typeof(message) !== 'undefined' ? message : 'Ошибка при сохранении!';
                 $scope.$apply();
                 $scope.clearState(item);
             }
@@ -168,12 +168,12 @@ $(document).ready(function () {
 
         var cropper = new Cropper(img[0], {
             aspectRatio:3 / 4,
+            checkOrientation:false,
             strict:true,
             background:false,
             scalable:false,
             guides:false,
             autoCropArea:0.6,
-            rotatable:false,
             minContainerWidth:500,
             minContainerHeight:500,
             minCropBoxWidth:50,
@@ -184,6 +184,14 @@ $(document).ready(function () {
                 width = Math.round(e.detail.width);
                 height = Math.round(e.detail.height);
             }
+        });
+
+        $('#crop-rotate-left').click(function () {
+            cropper.rotate(-90);
+        });
+
+        $('#crop-rotate-right').click(function () {
+            cropper.rotate(90);
         });
     });
 
