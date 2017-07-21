@@ -10,8 +10,8 @@ use Yii;
 class AIS
 {
     const AIS_SITE = 'https://ais.fadm.gov.ru/';
-    const AIS_LOGIN = 'vnevyanceva@fadm.gov.ru';
-    const AIS_PASS = 'Vl646524';
+    const AIS_LOGIN = 'terina_m@mail.ru';
+    const AIS_PASS = 'Ts201701';
 
     const URL_LOGIN = 'auth/login';
     const URL_EVENTS = 'getMyAdminEvents';
