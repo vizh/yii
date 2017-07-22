@@ -449,6 +449,22 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
     }
 
     /**
+     * Полнотекстовый поиск по названию мероприятия
+     *
+     * @param $string
+     *
+     * @return $this
+     */
+    public function byTitleSearch($string)
+    {
+        $criteria = $this->getDbCriteria();
+        $criteria->addCondition('to_tsvector(\'russian\', t."Title") @@ plainto_tsquery(\'russian\', :Term)');
+        $criteria->params['Term'] = $string;
+
+        return $this;
+    }
+
+    /**
      * Assigns custom number for the participant
      *
      * @param UserData $data
@@ -636,6 +652,7 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
             $mail->send();
         }
 
+        /** @noinspection SuspiciousAssignmentsInspection */
         $class = Yii::getExistClass('\event\components\handlers\register\system', $sender, 'Base');
         $mail = new $class($mailer, $event);
         $mail->send();

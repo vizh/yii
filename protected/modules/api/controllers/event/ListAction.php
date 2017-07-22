@@ -27,6 +27,7 @@ class ListAction extends Action
      *          url="/event/list",
      *          body="",
      *          params={
+     *              @Param(title="TitleSearch",   mandatory="N",                             description="Поисковая строка для поиска по названию мероприятий."),
      *              @Param(title="Year",          mandatory="N", defaultValue="текущий год", description="Год."),
      *              @Param(title="VisibleOnMain", mandatory="N",                             description="Главные новости, или новости с установленным флагом отображения на титульной странице.")
      *          },
@@ -41,6 +42,10 @@ class ListAction extends Action
             ->byDate($this->getRequestParam('Year', date('Y')))
             ->with(['LinkSite', 'LinkAddress' => ['with' => ['Address' => ['with' => ['City']]]]])
             ->byVisible();
+
+        if ($this->hasRequestParam('TitleSearch')) {
+            $events->byTitleSearch($this->getRequestParam('TitleSearch'));
+        }
 
         if ($this->hasRequestParam('VisibleOnMain')) {
             $events->byVisibleOnMain($this->getRequestParamBool('VisibleOnMain'));
