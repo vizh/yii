@@ -3,7 +3,7 @@ namespace user\models\forms\admin;
 
 use application\components\form\CreateUpdateForm;
 use application\helpers\Flash;
-use commission\models\ProjectUser;
+use raec\models\ProjectUser;
 use raec\models\User as CommissionUser;
 use event\models\Participant;
 use event\models\section\LinkUser;

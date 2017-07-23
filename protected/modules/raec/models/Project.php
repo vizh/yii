@@ -45,7 +45,7 @@ class Project extends ActiveRecord
     public function relations()
     {
         return [
-            'Users' => [self::HAS_MANY, '\commission\models\ProjectUser', 'ProjectId'],
+            'Users' => [self::HAS_MANY, '\raec\models\ProjectUser', 'ProjectId'],
         ];
     }
 }
