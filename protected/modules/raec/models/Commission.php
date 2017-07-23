@@ -1,5 +1,5 @@
 <?php
-namespace commission\models;
+namespace raec\models;
 
 use application\components\ActiveRecord;
 
@@ -11,9 +11,9 @@ use application\components\ActiveRecord;
  * @property string $CreationTime
  * @property bool $Deleted
  *
- * @property User[] $Users
- * @property Project[] $Projects
- * @property User[] $UsersActive
+ * @property \raec\models\User[] $Users
+ * @property \raec\models\Project[] $Projects
+ * @property \raec\models\User[] $UsersActive
  *
  * Описание вспомогательных методов
  * @method Commission   with($condition = '')
@@ -53,9 +53,9 @@ class Commission extends ActiveRecord
     public function relations()
     {
         return [
-            'Users' => [self::HAS_MANY, 'commission\models\User', 'CommissionId'],
-            'UsersActive' => [self::HAS_MANY, 'commission\models\User', 'CommissionId', 'on' => '"UsersActive"."ExitTime" IS NULL OR "UsersActive"."ExitTime" > NOW()'],
-            'Projects' => [self::HAS_MANY, 'commission\models\Project', 'CommissionId'],
+            'Users' => [self::HAS_MANY, 'raec\models\User', 'CommissionId'],
+            'UsersActive' => [self::HAS_MANY, 'raec\models\User', 'CommissionId', 'on' => '"UsersActive"."ExitTime" IS NULL OR "UsersActive"."ExitTime" > NOW()'],
+            'Projects' => [self::HAS_MANY, 'raec\models\Project', 'CommissionId']
         ];
     }
 

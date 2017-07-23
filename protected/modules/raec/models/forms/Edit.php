@@ -1,5 +1,7 @@
 <?php
-namespace commission\models\forms;
+namespace raec\models\forms;
+
+use Yii;
 
 class Edit extends \CFormModel
 {
@@ -18,9 +20,9 @@ class Edit extends \CFormModel
     public function attributeLabels()
     {
         return [
-            'Title' => \Yii::t('app', 'Название'),
-            'Description' => \Yii::t('app', 'Описание'),
-            'Url' => \Yii::t('app', 'Ссылка на страницу комиссии')
+            'Title' => Yii::t('app', 'Название'),
+            'Description' => Yii::t('app', 'Описание'),
+            'Url' => Yii::t('app', 'Ссылка на страницу комиссии')
         ];
     }
 }

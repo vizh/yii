@@ -4,7 +4,7 @@ namespace api\controllers\raec;
 
 use api\components\Action;
 use api\components\builders\Builder;
-use commission\models\User;
+use raec\models\User;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;

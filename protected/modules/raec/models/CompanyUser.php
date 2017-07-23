@@ -6,16 +6,16 @@ use company\models\Company;
 use user\models\User;
 
 /**
- * @property integer $Id
- * @property integer $CompanyId
- * @property integer $UserId
- * @property integer $StatusId
- * @property string $JoinTime
- * @property string $ExitTime
- * @property bool $AllowVote
+ * @property integer           $Id
+ * @property integer           $CompanyId
+ * @property integer           $UserId
+ * @property integer           $StatusId
+ * @property string            $JoinTime
+ * @property string            $ExitTime
+ * @property bool              $AllowVote
  *
- * @property Company $Company
- * @property User $User
+ * @property Company           $Company
+ * @property User              $User
  * @property CompanyUserStatus $Status
  *
  * Описание вспомогательных методов

@@ -5,7 +5,7 @@ return [
         'allow',
         'roles' => ['raec'],
         'module' => 'raec',
-        'controllers' => ['admin/brief']
+        'controllers' => ['admin/brief', 'admin/commission']
     ],
 
     [
@@ -13,5 +13,5 @@ return [
         'users' => ['*'],
         'module' => 'raec',
         'controllers' => ['brief']
-    ],
+    ]
 ];

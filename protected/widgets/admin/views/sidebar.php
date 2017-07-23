@@ -46,8 +46,8 @@
 
 	<a data-toggle="collapse" class="nav-header" href="#menu-commissions"><i class="icon-th icon-white"></i><span class="hidden-phone">РАЭК</span></a>
 	<ul class="nav nav-list collapse" id="menu-commissions">
-		<li><a href="<?=Yii::app()->createUrl('/commission/admin/list/index')?>">Группы РАЭК</a></li>
-		<li><a href="<?=Yii::app()->createUrl('/commission/admin/export/index')?>">Экспорт</a></li>
+		<li><a href="<?=Yii::app()->createUrl('/raec/admin/commission/list')?>">Комиссии РАЭК</a></li>
+		<li><a href="<?=Yii::app()->createUrl('/raec/admin/commission/export')?>">Экспорт</a></li>
 		<li><a href="<?=Yii::app()->createUrl('/raec/admin/brief/index')?>">Анкеты</a></li>
 	</ul>
 

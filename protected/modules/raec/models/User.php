@@ -1,5 +1,5 @@
 <?php
-namespace commission\models;
+namespace raec\models;
 
 use application\components\ActiveRecord;
 
@@ -12,7 +12,7 @@ use application\components\ActiveRecord;
  * @property string $ExitTime
  *
  * @property \user\models\User $User
- * @property Role $Role
+ * @property \raec\models\Role $Role
  *
  * Описание вспомогательных методов
  * @method User   with($condition = '')
@@ -21,7 +21,6 @@ use application\components\ActiveRecord;
  * @method User   findByAttributes($attributes, $condition = '', $params = [])
  * @method User[] findAll($condition = '', $params = [])
  * @method User[] findAllByAttributes($attributes, $condition = '', $params = [])
- *
  * @method User byId(int $id, bool $useAnd = true)
  * @method User byCommissionId(int $id, bool $useAnd = true)
  * @method User byUserId(int $id, bool $useAnd = true)
@@ -47,8 +46,8 @@ class User extends ActiveRecord
     public function relations()
     {
         return [
-            'Commission' => [self::BELONGS_TO, '\commission\models\Commission', 'CommissionId'],
-            'Role' => [self::BELONGS_TO, '\commission\models\Role', 'RoleId'],
+            'Commission' => [self::BELONGS_TO, '\raec\models\Commission', 'CommissionId'],
+            'Role' => [self::BELONGS_TO, '\raec\models\Role', 'RoleId'],
             'User' => [self::BELONGS_TO, '\user\models\User', 'UserId']
         ];
     }

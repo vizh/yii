@@ -4,7 +4,7 @@ namespace company\models\forms\admin;
 use application\components\form\CreateUpdateForm;
 use application\components\helpers\ArrayHelper;
 use application\models\ProfessionalInterest;
-use commission\models\Commission;
+use raec\models\Commission;
 use company\models\Company as CompanyModel;
 use company\models\LinkCommission;
 use company\models\LinkProfessionalInterest;

@@ -6,12 +6,12 @@ use raec\components\BriefData;
 use user\models\User;
 
 /**
- * @property int $Id
- * @property int $UserId
+ * @property int    $Id
+ * @property int    $UserId
  * @property string $CreationTime
  * @property string $Data
  *
- * @property User $User
+ * @property User   $User
  *
  * Описание вспомогательных методов
  * @method Brief   with($condition = '')
@@ -75,6 +75,6 @@ class Brief extends ActiveRecord
             }
         }
 
-        return round($count / sizeof($attributes) * 100);
+        return round($count / count($attributes) * 100);
     }
 }

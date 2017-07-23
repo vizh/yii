@@ -5,7 +5,7 @@ use application\components\Image;
 use application\models\ProfessionalInterest;
 use application\models\translation\ActiveRecord;
 use application\widgets\IAutocompleteItem;
-use commission\models\Commission;
+use raec\models\Commission;
 use contact\models\Email;
 use contact\models\Site;
 use raec\models\CompanyUser;
@@ -104,7 +104,7 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
 
             'ActiveRaecUsers' => [self::HAS_MANY, '\raec\models\CompanyUser', 'CompanyId', 'on' => '"ActiveRaecUsers"."ExitTime" IS NULL', 'with' => ['User']],
             'RaecUsers' => [self::HAS_MANY, '\raec\models\CompanyUser', 'CompanyId'],
-            'RaecClusters' => [self::HAS_MANY, '\commission\models\Commission', ['CommissionId' => 'Id'], 'through' => 'LinkRaecClusters'],
+            'RaecClusters' => [self::HAS_MANY, '\raec\models\Commission', ['CommissionId' => 'Id'], 'through' => 'LinkRaecClusters'],
             'ProfessionalInterests' => [self::HAS_MANY, '\application\models\ProfessionalInterest', ['ProfessionalInterestId' => 'Id'], 'through' => 'LinkProfessionalInterests', 'condition' => 'NOT "LinkProfessionalInterests"."Primary"'],
             'PrimaryProfessionalInterest' => [self::HAS_ONE, '\application\models\ProfessionalInterest', ['ProfessionalInterestId' => 'Id'], 'through' => 'LinkProfessionalInterests', 'condition' => '"LinkProfessionalInterests"."Primary"']
         ];

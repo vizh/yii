@@ -1,5 +1,5 @@
 <?php
-namespace commission\models;
+namespace raec\models;
 
 use application\components\ActiveRecord;
 use user\models\User;

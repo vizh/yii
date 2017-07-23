@@ -11,7 +11,7 @@ use application\models\translation\ActiveRecord;
 use application\widgets\IAutocompleteItem;
 use CEvent;
 use CModelEvent;
-use commission\models\Commission;
+use raec\models\Commission;
 use competence\models\Result;
 use event\models\Participant;
 use event\models\section\LinkUser;
@@ -166,10 +166,10 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
                 'order' => '"Educations"."EndYear" DESC'
             ],
 
-            'Commissions' => [self::HAS_MANY, '\commission\models\User', 'UserId', 'with' => ['Commission', 'Role']],
+            'Commissions' => [self::HAS_MANY, '\raec\models\User', 'UserId', 'with' => ['Commission', 'Role']],
             'CommissionsActive' => [
                 self::HAS_MANY,
-                '\commission\models\User',
+                '\raec\models\User',
                 'UserId',
                 'with' => ['Commission', 'Role'],
                 'on' => '"CommissionsActive"."ExitTime" IS NULL OR "CommissionsActive"."ExitTime" > NOW()'

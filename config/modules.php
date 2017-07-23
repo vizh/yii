@@ -6,7 +6,6 @@
  */
 $modules = [
     'catalog',
-    'commission',
     'company',
     'contact',
     'event',

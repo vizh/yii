@@ -1,8 +1,13 @@
 <?php
-namespace commission\models\forms\admin;
+
+namespace raec\models\forms\admin;
+
+use raec\models\forms\User as UserForm;
+use Yii;
 
 class Users extends \CFormModel
 {
+    /** @var UserForm[] */
     public $Users = [];
 
     public function rules()
@@ -16,7 +21,7 @@ class Users extends \CFormModel
     {
         if (isset($values['Users'])) {
             foreach ($values['Users'] as $value) {
-                $form = new \commission\models\forms\User();
+                $form = new UserForm();
                 $form->attributes = $value;
                 $this->Users[] = $form;
             }
@@ -29,31 +34,36 @@ class Users extends \CFormModel
     {
         $valid = true;
         foreach ($users as $user) {
-            if (!$user->validate()) {
+            if (false === $user->validate()) {
                 $valid = false;
             }
         }
-        if (!$valid) {
-            $this->addError('Users', \Yii::t('app', 'Ошибка в заполнении участников.'));
+        if ($valid === false) {
+            $this->addError('Users', Yii::t('app', 'Ошибка в заполнении участников.'));
         }
+
         return $users;
     }
 
     public function attributeLabels()
     {
-        $formUser = new \commission\models\forms\User();
-        $labels = $formUser->attributeLabels();
+        static $labels;
+
+        if ($labels === null) {
+            $labels = (new UserForm())->attributeLabels();
+        }
+
         return $labels;
     }
 
-    private $roleList;
-
     public function getRoleList()
     {
-        if ($this->roleList == null) {
-            $formUser = new \commission\models\forms\User();
-            $this->roleList = $formUser->getRoleList();
+        static $roles;
+
+        if ($roles === null) {
+            $roles = (new UserForm())->getRoleList();
         }
-        return $this->roleList;
+
+        return $roles;
     }
 }

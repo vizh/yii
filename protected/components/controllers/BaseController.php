@@ -2,6 +2,7 @@
 namespace application\components\controllers;
 
 use application\components\WebModule;
+use Yii;
 
 /**
  * Class BaseController
@@ -53,8 +54,8 @@ abstract class BaseController extends \CController
     public function filterValidateCsrf($filterChain)
     {
         if (isset($this->getModule()->csrfValidation) && $this->getModule()->csrfValidation) {
-            \Yii::app()->request->enableCsrfValidation = true;
-            \Yii::app()->request->validateCsrfToken(new \CEvent($this));
+            Yii::app()->request->enableCsrfValidation = true;
+            Yii::app()->request->validateCsrfToken(new \CEvent($this));
         }
         $filterChain->run();
     }
@@ -67,7 +68,7 @@ abstract class BaseController extends \CController
     {
         $googleApis = $this->registeredGoogleApis();
         if (!empty($googleApis)) {
-            $cs = \Yii::app()->getClientScript();
+            $cs = Yii::app()->getClientScript();
             $cs->registerScriptFile('https:'.\CGoogleApi::$bootstrapUrl, \CClientScript::POS_HEAD);
             $i = 0;
             foreach ($googleApis as $apiName => $config) {
@@ -96,7 +97,7 @@ abstract class BaseController extends \CController
      */
     protected function getParam($name, $defaultValue = null)
     {
-        return \Yii::app()->request->getParam($name, $defaultValue);
+        return Yii::app()->request->getParam($name, $defaultValue);
     }
 
     protected function initResources()
@@ -108,7 +109,7 @@ abstract class BaseController extends \CController
     protected function registerDefaultResources($resourcesType)
     {
         $resourcesMap = [];
-        $assetsPath = \Yii::getPathOfAlias($this->module->name.'.assets.'.$resourcesType).DIRECTORY_SEPARATOR;
+        $assetsPath = Yii::getPathOfAlias($this->module->name.'.assets.'.$resourcesType).DIRECTORY_SEPARATOR;
         $resourcesMap[] = $assetsPath.'module.'.$resourcesType;
         $resourcesMap[] = $assetsPath.$this->getId().'.'.$resourcesType;
         $resourcesMap[] = $assetsPath.$this->getId().DIRECTORY_SEPARATOR.$this->action->getId().'.'.$resourcesType;
@@ -117,14 +118,14 @@ abstract class BaseController extends \CController
             if (!file_exists($path)) {
                 continue;
             }
-            $path = \Yii::app()->assetManager->publish($path);
+            $path = Yii::app()->assetManager->publish($path);
             switch ($resourcesType) {
                 case 'js':
-                    \Yii::app()->clientScript->registerScriptFile($path);
+                    Yii::app()->clientScript->registerScriptFile($path);
                     break;
 
                 case 'css':
-                    \Yii::app()->clientScript->registerCssFile($path);
+                    Yii::app()->clientScript->registerCssFile($path);
                     break;
             }
         }
@@ -151,11 +152,15 @@ abstract class BaseController extends \CController
      */
     public function createWidget($className, $properties = [], $skipInit = false)
     {
-        $widget = \Yii::app()->getWidgetFactory()->createWidget($this, $className, $properties);
+        $widget = Yii::app()->getWidgetFactory()->createWidget($this, $className, $properties);
         if (!$skipInit) {
             $widget->init();
         }
         return $widget;
     }
 
+    public function getClientScripts()
+    {
+        return Yii::app()->getClientScript();
+    }
 }

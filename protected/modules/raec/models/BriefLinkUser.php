@@ -12,13 +12,13 @@ use application\components\ActiveRecord;
 use user\models\User;
 
 /**
- * @property int $Id
- * @property int $UserId
- * @property int $BriefId
- * @property int $RoleId
+ * @property int   $Id
+ * @property int   $UserId
+ * @property int   $BriefId
+ * @property int   $RoleId
  *
  * @property Brief $Brief
- * @property User $User
+ * @property User  $User
  *
  * Описание вспомогательных методов
  * @method BriefLinkUser   with($condition = '')

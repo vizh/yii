@@ -73,7 +73,7 @@ class Builder
     /**
      * Построение схемы данных посетителя
      *
-     * @param User|\commission\models\User $user
+     * @param User|\raec\models\User $user
      * @param array|null $builders набор билдеров вида Builder::EMPLOYMENT или null для построения полной схемы
      * @return mixed
      */
@@ -122,7 +122,7 @@ class Builder
     }
 
     /**
-     * @param \user\models\User|\commission\models\User $user
+     * @param \user\models\User|\raec\models\User $user
      * @return \stdClass
      */
     protected function createBaseUser($user)
@@ -144,7 +144,7 @@ class Builder
     }
 
     /**
-     * @param \user\models\User|\commission\models\User $user
+     * @param \user\models\User|\raec\models\User $user
      */
     protected function buildUserPerson($user)
     {
@@ -169,7 +169,7 @@ class Builder
     }
 
     /** @noinspection PhpUnusedPrivateMethodInspection
-     * @param \user\models\User|\commission\models\User $user
+     * @param \user\models\User|\raec\models\User $user
      * @return \stdClass
      */
     protected function buildUserData($user)
@@ -186,7 +186,7 @@ class Builder
     }
 
     /** @noinspection PhpUnusedPrivateMethodInspection
-     * @param \user\models\User|\commission\models\User $user
+     * @param \user\models\User|\raec\models\User $user
      * @return \stdClass
      */
     protected function buildUserContacts($user)
@@ -271,7 +271,7 @@ class Builder
     }
 
     /** @noinspection PhpUnusedPrivateMethodInspection
-     * @param \user\models\User|\commission\models\User $user
+     * @param \user\models\User|\raec\models\User $user
      * @return \stdClass
      */
     protected function buildUserEvent($user)
@@ -311,7 +311,7 @@ class Builder
     }
 
     /** @noinspection PhpUnusedPrivateMethodInspection
-     * @param \user\models\User|\commission\models\User $user
+     * @param \user\models\User|\raec\models\User $user
      * @return
      */
     protected function buildUserBadge($user)
@@ -328,7 +328,7 @@ class Builder
 
     /**
      * @noinspection PhpUnusedPrivateMethodInspection
-     * @param User|\commission\models\User $user
+     * @param User|\raec\models\User $user
      * @return \stdClass
      */
     protected function buildUserAttributes($user)
@@ -372,7 +372,7 @@ class Builder
     }
 
     /**
-     * @param User|\commission\models\User $user
+     * @param User|\raec\models\User $user
      * @return \stdClass
      */
     protected function buildUserExternalId($user)
@@ -390,7 +390,7 @@ class Builder
     }
 
     /**
-     * @param User|\commission\models\User $user
+     * @param User|\raec\models\User $user
      *
      * @return \stdClass
      */
@@ -411,7 +411,7 @@ class Builder
     }
 
     /**
-     * @param User|\commission\models\User $user
+     * @param User|\raec\models\User $user
      *
      * @return \stdClass
      */
@@ -423,7 +423,7 @@ class Builder
     }
 
     /**
-     * @param User|\commission\models\User $user
+     * @param User|\raec\models\User $user
      *
      * @return \stdClass
      * @throws \api\components\Exception
@@ -858,7 +858,7 @@ class Builder
     protected $commission;
 
     /**
-     * @param \commission\models\Commission $commission
+     * @param \raec\models\Commission $commission
      * @return \stdClass
      */
     public function createCommision($commission)
@@ -874,7 +874,7 @@ class Builder
     }
 
     /**
-     * @param \commission\models\Role $role
+     * @param \raec\models\Role $role
      *
      * @return \stdClass
      */
@@ -890,7 +890,7 @@ class Builder
     }
 
     /**
-     * @param \commission\models\Commission $comission
+     * @param \raec\models\Commission $comission
      *
      * @return \stdClass
      */
