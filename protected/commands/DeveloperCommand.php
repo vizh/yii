@@ -4,6 +4,7 @@ use api\models\Account as ApiAccount;
 use application\components\console\BaseConsoleCommand;
 use application\components\Exception;
 use application\models\admin\Group;
+use application\models\admin\GroupRole;
 use application\models\admin\GroupUser;
 use event\models\Event;
 use partner\models\Account as PartnerAccount;
@@ -43,7 +44,7 @@ class DeveloperCommand extends BaseConsoleCommand
         }
 
         // Заводим административные группы и назначаем нашего пользователя их членом
-        foreach (['Administrator', 'Booker', 'RoomManager'] as $title) {
+        foreach (['Administrator' => 'admin', 'Booker' => 'booker', 'RoomManager' => 'roommanager'] as $title => $role) {
             $group = Group::model()
                 ->byTitle($title)
                 ->find();
@@ -65,6 +66,18 @@ class DeveloperCommand extends BaseConsoleCommand
                 $groupUser->GroupId = $group->Id;
                 $groupUser->save();
             }
+
+            $groupRole = GroupRole::model()
+                ->byCode($role)
+                ->find();
+
+            if ($groupRole === null) {
+                $groupRole = new GroupRole();
+            }
+
+            $groupRole->Code = $role;
+            $groupRole->GroupId = $group->Id;
+            $groupRole->save();
         }
 
         // Аккаунт API для OAuth авторизации на самом себе

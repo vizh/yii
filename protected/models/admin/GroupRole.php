@@ -7,7 +7,29 @@ namespace application\models\admin;
  * @property string $Code
  * @property string $Title
  */
-class GroupRole extends \CActiveRecord
+
+use application\components\ActiveRecord;
+
+/**
+ * @property int $Id
+ * @property int $GroupId
+ * @property string $Code
+ * @property string $Title
+ *
+ * Описание вспомогательных методов
+ * @method GroupRole   with($condition = '')
+ * @method GroupRole   find($condition = '', $params = [])
+ * @method GroupRole   findByPk($pk, $condition = '', $params = [])
+ * @method GroupRole   findByAttributes($attributes, $condition = '', $params = [])
+ * @method GroupRole[] findAll($condition = '', $params = [])
+ * @method GroupRole[] findAllByAttributes($attributes, $condition = '', $params = [])
+ *
+ * @method GroupRole byId(int $id, bool $useAnd = true)
+ * @method GroupRole byGroupId(int $id, bool $useAnd = true)
+ * @method GroupRole byCode(string $code, bool $useAnd = true)
+ * @method GroupRole byTitle(string $title, bool $useAnd = true)
+ */
+class GroupRole extends ActiveRecord
 {
     /**
      * @param string $className
@@ -15,6 +37,7 @@ class GroupRole extends \CActiveRecord
      */
     public static function model($className = __CLASS__)
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::model($className);
     }
 
