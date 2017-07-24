@@ -40,7 +40,7 @@ class ImportEntry extends ActiveRecord
     public function relations()
     {
         return [
-            'orders' => [self::HAS_MANY, ImportOrder::className(), 'EntryId']
+            'orders' => [self::HAS_MANY, '\pay\models\ImportOrder', 'EntryId']
         ];
     }
 
@@ -52,20 +52,27 @@ class ImportEntry extends ActiveRecord
 
     public function afterSave()
     {
+        /** @noinspection PhpParamsInspection */
         $this->Data = unserialize($this->Data);
         parent::afterSave();
     }
 
     public function afterFind()
     {
+        /** @noinspection PhpParamsInspection */
         $this->Data = unserialize($this->Data);
         parent::afterFind();
     }
 
     public function matchOrders()
     {
+        $ids = $this->extractOrderIds(
+            ArrayHelper::getValue($this->Data, 'НазначениеПлатежа', ''),
+            ArrayHelper::getValue($this->Data, 'ПлательщикИНН', ''),
+            ArrayHelper::getValue($this->Data, 'Сумма', '')
+        );
+
         $orders = [];
-        $ids = $this->extractOrderIds(ArrayHelper::getValue($this->Data, 'НазначениеПлатежа', ''), ArrayHelper::getValue($this->Data, 'ПлательщикИНН', ''));
         foreach ($ids as $id) {
             $order = new ImportOrder();
             $order->EntryId = $this->Id;
@@ -74,35 +81,52 @@ class ImportEntry extends ActiveRecord
             $order->save();
             $orders[] = $order;
         }
+
         $this->orders = $orders;
     }
 
-    protected function extractOrderIds($text, $inn)
+    protected function extractOrderIds($text, $inn, $sum)
     {
         $ids = [];
-        $parts = array_filter(preg_split('/[\s*]|счету|№/i', $text));
-        foreach ($parts as $part) {
-            $ids[] = $this->findOrder($part, $inn);
+        foreach (array_filter(preg_split('/[\s*]|счету|№|\.|#/i', $text)) as $part) {
+            $ids[] = $this->findOrder($part, $inn, $sum);
         }
-        $ids = array_filter($ids);
-        return $ids;
+
+        return array_unique(array_filter($ids));
     }
 
-    protected function findOrder($number, $inn)
+    protected function findOrder($number, $inn, $sum)
     {
-        $number = trim($number, '№');
+        $number = trim($number, '№#');
 
-        $criteria = new \CDbCriteria();
-        $criteria->with[] = 'OrderJuridical';
-        $criteria->addColumnCondition([
-            '"Number"' => $number,
-            '"OrderJuridical"."INN"' => $inn
-        ]);
+        $orders = Order::model()
+            ->byNumber($number)
+            ->byJuridicalINN($inn)
+            ->with('OrderJuridical')
+            ->findAll();
 
-        $orders = Order::model()->findAll($criteria);
-        if (count($orders) == 1) {
+        if (count($orders) === 1) {
             return $orders[0]->Id;
         }
+
+        $orders = Order::model()
+            ->byNumber($number)
+            ->findAll();
+
+        if (count($orders) === 1) {
+            return $orders[0]->Id;
+        }
+
+        $orders = Order::model()
+            ->byTotal($sum)
+            ->byJuridicalINN($inn)
+            ->with('OrderJuridical')
+            ->findAll();
+
+        if (count($orders) === 1) {
+            return $orders[0]->Id;
+        }
+
         return null;
     }
 }

@@ -44,8 +44,8 @@ class ImportOrder extends ActiveRecord
     public function relations()
     {
         return [
-            'entry' => [self::BELONGS_TO, ImportEntry::className(), 'EntryId'],
-            'order' => [self::BELONGS_TO, Order::className(), 'OrderId'],
+            'entry' => [self::BELONGS_TO, '\pay\models\ImportEntry', 'EntryId'],
+            'order' => [self::BELONGS_TO, '\pay\models\Order', 'OrderId']
         ];
     }
 }

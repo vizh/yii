@@ -50,6 +50,7 @@ use Yii;
  * @method Order byTemplateId(int $id, bool $useAnd = true)
  * @method Order byNumber(string $number, bool $useAnd = true)
  * @method Order byPaid(bool $paid = true, bool $useAnd = true)
+ * @method Order byTotal(int $total, bool $useAnd = true)
  * @method Order byDeleted(bool $deleted = true, bool $useAnd = true)
  */
 class Order extends ActiveRecord
@@ -143,6 +144,15 @@ class Order extends ActiveRecord
         }
 
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
+        return $this;
+    }
+
+    public function byJuridicalINN($inn, $useAnd = true)
+    {
+        $this->getDbCriteria()->addCondition([
+            '"OrderJuridical"."INN"' => $inn
+        ]);
 
         return $this;
     }
@@ -395,9 +405,10 @@ class Order extends ActiveRecord
 
         $days = 0;
         while ($days < self::BookDayCount) {
+            /** @noinspection SummerTimeUnsafeTimeManipulationInspection */
             $timestamp += 60 * 60 * 24;
-            $dayOfWeek = intval(date('N', $timestamp));
-            if ($dayOfWeek == 6 || $dayOfWeek == 7) {
+            $dayOfWeek = (int) date('N', $timestamp);
+            if ($dayOfWeek === 6 || $dayOfWeek === 7) {
                 continue;
             }
             $days++;
