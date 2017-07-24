@@ -9,7 +9,8 @@ class SettingsController extends Controller
             'roles' => '\partner\controllers\settings\RolesAction',
             'loyalty' => '\partner\controllers\settings\LoyaltyAction',
             'api' => '\partner\controllers\settings\ApiAction',
-            'definitions' => '\partner\controllers\settings\DefinitionsAction'
+            'definitions' => '\partner\controllers\settings\DefinitionsAction',
+            'counter' => '\partner\controllers\settings\CounterAction'
         ];
     }
 }

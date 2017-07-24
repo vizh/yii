@@ -15,7 +15,7 @@ class DefaultController extends \application\components\controllers\PublicMainCo
         $criteria->order = '"t"."VisibleOnMain" DESC, "t"."StartYear", "t"."StartMonth", "t"."StartDay", "t"."EndYear", "t"."EndMonth", "t"."EndDay"';
         $criteria->limit = 3;
         $events = Event::model()
-            ->byVisible()
+            ->byVisible(true)
             ->byFromDate($date['year'], $date['mon'], $date['mday'])
             ->findAll($criteria);
 

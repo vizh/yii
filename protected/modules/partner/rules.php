@@ -112,7 +112,7 @@ return [
         'roles' => ['Admin'],
         'module' => 'partner',
         'controllers' => ['settings'],
-        'actions' => ['loyalty', 'roles', 'api', 'definitions']
+        'actions' => ['loyalty', 'roles', 'api', 'definitions', 'counter']
     ],
     [
         'allow',

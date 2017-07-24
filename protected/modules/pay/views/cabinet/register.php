@@ -12,6 +12,17 @@
  */
 use \pay\models\Product;
 
+if ($event->CounterHeadHTML) {
+    $this->beginClip('event-counter-head');
+    echo $event->CounterHeadHTML;
+    $this->endClip();
+}
+if ($event->CounterBodyHTML) {
+    $this->beginClip('event-counter-body');
+    echo $event->CounterBodyHTML;
+    $this->endClip();
+}
+
 $runetIdTitle = $account->SandBoxUser ? '' : ' или RUNET-ID';
 $runetIdTitle2 = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
 $hasTickets = !empty($products->tickets);

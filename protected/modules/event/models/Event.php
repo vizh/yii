@@ -95,6 +95,8 @@ use Yii;
  * @property string $MailRegisterAdditionalText
  * @property bool $Free
  * @property bool $Top
+ * @property string $CounterHeadHTML
+ * @property string $CounterBodyHTML
  *
  * Описание вспомогательных методов
  * @method Event   with($condition = '')
