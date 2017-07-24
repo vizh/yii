@@ -16,6 +16,7 @@ use event\models\Event;
  * @property integer $QuotaByUser
  * @property bool $Blocked
  * @property string $BlockedReason
+ * @property string $Comment
  *
  * @property Event $Event
  * @property Domain[] $Domains

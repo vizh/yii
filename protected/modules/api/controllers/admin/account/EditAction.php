@@ -45,6 +45,7 @@ class EditAction extends \CAction
                 $this->form->QuotaByUserCounter = count($this->account->QuotaUsers);
                 $this->form->Blocked = $this->account->Blocked;
                 $this->form->BlockedReason = $this->account->BlockedReason;
+                $this->form->Comment = $this->account->Comment;
                 if (!empty($this->account->Event)) {
                     $this->form->EventId = $this->account->EventId;
                     $this->form->EventTitle = $this->account->Event->Title;
@@ -78,6 +79,7 @@ class EditAction extends \CAction
                 ? 'Заблокировано вручную пользователем RunetId:'.Yii::app()->user->getCurrentUser()->RunetId.' в '.date('Y-m-d H:i')
                 : $this->account->BlockedReason;
             $this->account->Blocked = $this->form->Blocked;
+            $this->account->Comment = $this->form->Comment;
             $this->account->save();
 
             $ips = [];

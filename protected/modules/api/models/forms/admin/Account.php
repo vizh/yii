@@ -21,6 +21,7 @@ class Account extends \CFormModel
     public $QuotaByUserCounter;
     public $Blocked;
     public $BlockedReason;
+    public $Comment;
 
     public function rules()
     {
@@ -31,7 +32,7 @@ class Account extends \CFormModel
             ['EventId', 'exist', 'attributeName' => 'Id', 'className' => '\event\models\Event', 'on' => 'insert'],
             ['Ips', 'filter', 'filter' => [$this, 'filterIps']],
             ['Domains', 'filter', 'filter' => [$this, 'filterDomains']],
-            ['Key, Secret', 'safe'],
+            ['Key,Secret,Comment', 'safe'],
             ['QuotaByUser', 'numerical'],
             ['Blocked', 'boolean']
         ];
@@ -47,7 +48,8 @@ class Account extends \CFormModel
             'Role' => Yii::t('app', 'Тип аккаунта'),
             'RequestPhoneOnRegistration' => Yii::t('app', 'Запрашивать номер телефона при регистрации'),
             'QuotaByUser' => Yii::t('app', 'Квота'),
-            'Blocked' => Yii::t('app', 'Заблокирован')
+            'Blocked' => Yii::t('app', 'Заблокирован'),
+            'Comment' => Yii::t('app', 'Комментарий')
         ];
     }
 

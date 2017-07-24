@@ -14,13 +14,13 @@ CApiAccountEdit.prototype = {
             }
         });
 
-        if (typeof domains != "undefined") {
+        if (typeof domains !== 'undefined') {
             $.each(domains, function (i, value) {
                 self.createDomainInput(value);
             });
         }
 
-        if (typeof ips != "undefined") {
+        if (typeof ips !== 'undefined') {
             $.each(ips, function (i, value) {
                 self.createIpInput(value);
             });
