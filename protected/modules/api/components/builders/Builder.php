@@ -659,6 +659,10 @@ class Builder
             'VisibleOnMain' => $event->VisibleOnMain
         ];
 
+        if ($event->hasRelated('Type')) {
+            $this->event->Type = $event->Type;
+        }
+
         if (null !== $site = $event->getContactSite()) {
             $this->event->Url = $site->Url;
         }
@@ -667,19 +671,12 @@ class Builder
             $this->event->Place = $address->__toString();
             $this->event->PlaceGeoPoint = array_combine(['Longitude', 'Latitude', 'Zoom'], $address->GeoPoint);
 
-            if ($address->hasRelated('City')) {
-                $city = $address->City;
+            if ($address->hasRelated('City') && null !== $city = $address->City) {
                 $this->event->Address = [
-                    'CityName' => $city->Name
+                    'CityName' => $city->Name,
+                    'CountryName' => $city->hasRelated('Country') ? $city->Country->Name : null,
+                    'RegionName' => $city->hasRelated('Region') ? $city->Region->Name : null
                 ];
-
-                if ($city->hasRelated('Country')) {
-                    $this->event->Address['CountryName'] = $city->Country->Name;
-                }
-
-                if ($city->hasRelated('Region')) {
-                    $this->event->Address['RegionName'] = $city->Region->Name;
-                }
             }
         }
 

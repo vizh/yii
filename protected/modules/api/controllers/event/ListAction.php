@@ -41,7 +41,7 @@ class ListAction extends Action
     {
         $events = Event::model()
             ->byDate($this->getRequestParam('Year', date('Y')))
-            ->with(['LinkSite', 'LinkAddress' => ['with' => ['Address' => ['with' => ['City']]]]])
+            ->with(['LinkSite', 'LinkAddress' => ['with' => ['Address' => ['with' => ['City' => ['with' => ['Region', 'Country']]]]]]])
             ->byVisible();
 
         if ($this->hasRequestParam('CityName')) {
