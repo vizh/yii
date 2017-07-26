@@ -29,7 +29,7 @@ class ListAction extends Action
      *          params={
      *              @Param(title="TitleSearch",   mandatory="N",                             description="Поисковая строка для поиска по названию мероприятий."),
      *              @Param(title="Type",          mandatory="N",                             description="Фильтр по идентификатору или названию типа мероприятия."),
-     *              @Param(title="CityName",      mandatory="N",                             description="Если указано название города, то отображаются только проходящие в нём мероприятия."),
+     *              @Param(title="City",          mandatory="N",                             description="Фильтр по названию города проведения мероприятия."),
      *              @Param(title="Year",          mandatory="N", defaultValue="текущий год", description="Год."),
      *              @Param(title="VisibleOnMain", mandatory="N",                             description="Главные новости, или новости с установленным флагом отображения на титульной странице.")
      *          },
@@ -54,8 +54,8 @@ class ListAction extends Action
             }
         }
 
-        if ($this->hasRequestParam('CityName')) {
-            $events->byTown($this->getRequestParam('CityName'));
+        if ($this->hasRequestParam('City')) {
+            $events->byTown($this->getRequestParam('City'));
         }
 
         if ($this->hasRequestParam('TitleSearch')) {
