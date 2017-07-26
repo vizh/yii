@@ -32,6 +32,7 @@ class EditAction extends \CAction
         $this->form = new AccountForm();
         $request = Yii::app()->getRequest();
         if ($request->getIsPostRequest()) {
+            $this->form->setScenario($this->account->getScenario());
             $this->form->attributes = $request->getParam(get_class($this->form));
             $this->proccessForm();
         } else {

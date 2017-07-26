@@ -30,6 +30,7 @@ class Account extends \CFormModel
             ['EventTitle', 'required', 'on' => 'insert'],
             ['RequestPhoneOnRegistration', 'safe'],
             ['EventId', 'exist', 'attributeName' => 'Id', 'className' => '\event\models\Event', 'on' => 'insert'],
+            ['EventId', 'default', 'setOnEmpty' => null, 'on' => 'update'],
             ['Ips', 'filter', 'filter' => [$this, 'filterIps']],
             ['Domains', 'filter', 'filter' => [$this, 'filterDomains']],
             ['Key,Secret,Comment', 'safe'],
