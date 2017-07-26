@@ -2,6 +2,7 @@
 namespace event\models;
 
 use application\models\translation\ActiveRecord;
+use JsonSerializable;
 
 /**
  * @property int $Id
@@ -9,6 +10,8 @@ use application\models\translation\ActiveRecord;
  * @property string $Title
  * @property string $CssClass
  * @property int $Priority
+ *
+ * @property int $EventsCount Количество мероприятий обладающих данным типом.
  *
  * Описание вспомогательных методов
  * @method Type   with($condition = '')
@@ -21,7 +24,7 @@ use application\models\translation\ActiveRecord;
  * @method Type byId(int $id, bool $useAnd = true)
  * @method Type byCode(string $code, bool $useAnd = true)
  */
-class Type extends ActiveRecord
+class Type extends ActiveRecord implements JsonSerializable
 {
     /**
      * @param null|string $className
@@ -38,11 +41,40 @@ class Type extends ActiveRecord
         return 'EventType';
     }
 
+    public function relations()
+    {
+        return [
+            'EventsCount' => [self::STAT, '\event\models\Event', 'TypeId']
+        ];
+    }
+
     /**
      * @return string[]
      */
     public function getTranslationFields()
     {
         return ['Title'];
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     *
+     * @link  http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    public function jsonSerialize()
+    {
+        $result = $this->getAttributes([
+            'Id',
+            'Title'
+        ]);
+
+        if ($this->hasRelated('EventsCount')) {
+            $result['EventsCount'] = $this->EventsCount;
+        }
+
+        return $result;
     }
 }

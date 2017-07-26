@@ -2272,7 +2272,33 @@ $user = \RunetID\Api\User::model($api)->getByToken(token);<br />
 </span></code></pre>
 <p><code class="prettyprint">GET http://api.runet-id.com/event/statistics</code> </p>
 
-<h2 id="9-12">9.12. Участники</h2>
+<h2 id="9-12">9.12. Типы мероприятия</h2>
+
+<p>Список возможных типов мероприятий. Используются для фильтрации в методе eventList.</p>
+<pre class="highlight shell tab-shell"><code>curl -X GET -H <span class="s1">'ApiKey: XXX'</span> -H <span class="s1">'Hash: XXX'</span>
+    <span class="s1">'http://api.runet-id.com/event/types'</span>
+</code></pre>
+<p><code class="prettyprint">GET http://api.runet-id.com/event/types</code> </p>
+
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Название</th>
+<th>Тип</th>
+<th>Описание</th>
+<th>Значение по умолчанию</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>EventCounts</td>
+<td>логический</td>
+<td>Если установлен в true, то отображается количество мероприятий каждого типа участия.</td>
+<td>N</td>
+</tr>
+</tbody></table>
+
+<h2 id="9-13">9.13. Участники</h2>
 
 <p>Список участников мероприятия с заданной ролью.</p>
 <pre class="highlight shell tab-shell"><code>curl -X GET -H <span class="s1">'ApiKey: XXX'</span> -H <span class="s1">'Hash: XXX'</span> <span class="s1">'http://api.runet-id.com/event/users?RoleId=1'</span>
@@ -2305,13 +2331,13 @@ $user = \RunetID\Api\User::model($api)->getByToken(token);<br />
 </tr>
 </tbody></table>
 
-<h2 id="9-13">9.13. Фотографии участников</h2>
+<h2 id="9-14">9.14. Фотографии участников</h2>
 
 <p>Возвращает Фотографии участников одним архивом.</p>
 
 <p><code class="prettyprint">GET http://api.runet-id.com/event/usersphotos</code> </p>
 
-<h2 id="9-14">9.14. Добавление цели мероприятия</h2>
+<h2 id="9-15">9.15. Добавление цели мероприятия</h2>
 
 <p>Добавляет новую цель посещения мероприятия пользователем.&lsquo;</p>
 
@@ -2345,7 +2371,7 @@ $user = \RunetID\Api\User::model($api)->getByToken(token);<br />
 </tr>
 </tbody></table>
 
-<h2 id="9-15">9.15. Удаление цели мероприятия</h2>
+<h2 id="9-16">9.16. Удаление цели мероприятия</h2>
 
 <p>Удаляет цель посещения мероприятия пользователем.&rsquo;</p>
 

@@ -25,6 +25,7 @@ $params = [
     'ApiMaxTop' => 100,
     'ApiEventlessMethods' => [
         'event/list',
+        'event/types',
         'user/auth',
         'user/login',
         'user/settings',

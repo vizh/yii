@@ -64,7 +64,7 @@ return [
         'allow',
         'roles' => [Account::ROLE_BASE],
         'controllers' => ['event'],
-        'actions' => ['roles', 'register', 'list', 'info', 'companies', 'statistics', 'users', 'purposes', 'halls', 'changerole', 'usersPhotos', 'runetids', 'participationCancel'],
+        'actions' => ['roles', 'register', 'list', 'info', 'companies', 'statistics', 'users', 'purposes', 'halls', 'changerole', 'usersPhotos', 'runetids', 'participationCancel', 'types']
     ],
     [
         'allow',
