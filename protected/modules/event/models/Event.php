@@ -464,6 +464,13 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
         return $this;
     }
 
+    public function byTown($townName)
+    {
+        $this->getDbCriteria()->addColumnCondition([
+            '"City"."Name"' => $townName
+        ]);
+    }
+
     /**
      * Assigns custom number for the participant
      *
