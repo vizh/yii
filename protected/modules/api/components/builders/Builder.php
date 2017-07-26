@@ -666,6 +666,21 @@ class Builder
         if (null !== $address = $event->getContactAddress()) {
             $this->event->Place = $address->__toString();
             $this->event->PlaceGeoPoint = array_combine(['Longitude', 'Latitude', 'Zoom'], $address->GeoPoint);
+
+            if ($address->hasRelated('City')) {
+                $city = $address->City;
+                $this->event->Address = [
+                    'CityName' => $city->Name
+                ];
+
+                if ($city->hasRelated('Country')) {
+                    $this->event->Address['CountryName'] = $city->Country->Name;
+                }
+
+                if ($city->hasRelated('Region')) {
+                    $this->event->Address['RegionName'] = $city->Region->Name;
+                }
+            }
         }
 
         if ($event->getLogo()->exists()) {
