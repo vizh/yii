@@ -825,12 +825,19 @@ class Builder
         /** todo: deprecated **/
         $this->orderItem->Id = $orderItem->Id;
         $this->orderItem->Product = $this->CreateProduct($orderItem->Product, $orderItem->PaidTime);
-        $this->createBaseUser($orderItem->Payer);
-        $this->orderItem->Payer = $this->buildUserEmployment($orderItem->Payer);
 
-        $owner = $orderItem->ChangedOwner !== null ? $orderItem->ChangedOwner : $orderItem->Owner;
-        $this->createBaseUser($owner);
-        $this->orderItem->Owner = $this->buildUserEmployment($owner);
+        $this->createUser($orderItem->Payer);
+        $this->buildUserEmployment($orderItem->Payer);
+        $this->orderItem->Payer = $this->user;
+
+        $owner = $orderItem->ChangedOwner !== null
+            ? $orderItem->ChangedOwner
+            : $orderItem->Owner;
+
+        $this->createUser($owner);
+        $this->buildUserEmployment($owner);
+
+        $this->orderItem->Owner = $this->user;
 
         $this->orderItem->PriceDiscount = $item->getPriceDiscount();
         $this->orderItem->Paid = $orderItem->Paid == 1;
