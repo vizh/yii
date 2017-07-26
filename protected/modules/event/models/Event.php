@@ -471,6 +471,13 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
         ]);
     }
 
+    public function byTypeName($type)
+    {
+        $this->getDbCriteria()->addColumnCondition([
+            '"Type"."Title"' => $type
+        ]);
+    }
+
     /**
      * Assigns custom number for the participant
      *

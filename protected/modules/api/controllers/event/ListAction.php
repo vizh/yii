@@ -28,6 +28,7 @@ class ListAction extends Action
      *          body="",
      *          params={
      *              @Param(title="TitleSearch",   mandatory="N",                             description="Поисковая строка для поиска по названию мероприятий."),
+     *              @Param(title="Type",          mandatory="N",                             description="Фильтр по идентификатору или названию типа мероприятия."),
      *              @Param(title="CityName",      mandatory="N",                             description="Если указано название города, то отображаются только проходящие в нём мероприятия."),
      *              @Param(title="Year",          mandatory="N", defaultValue="текущий год", description="Год."),
      *              @Param(title="VisibleOnMain", mandatory="N",                             description="Главные новости, или новости с установленным флагом отображения на титульной странице.")
@@ -41,8 +42,17 @@ class ListAction extends Action
     {
         $events = Event::model()
             ->byDate($this->getRequestParam('Year', date('Y')))
-            ->with(['LinkSite', 'LinkAddress' => ['with' => ['Address' => ['with' => ['City' => ['with' => ['Region', 'Country']]]]]]])
+            ->with(['LinkSite', 'Type', 'LinkAddress' => ['with' => ['Address' => ['with' => ['City' => ['with' => ['Region', 'Country']]]]]]])
             ->byVisible();
+
+        if ($this->hasRequestParam('Type')) {
+            $type = $this->getRequestParam('Type');
+            if (is_numeric($type)) {
+                $events->byTypeId($type);
+            } else {
+                $events->byTypeName($type);
+            }
+        }
 
         if ($this->hasRequestParam('CityName')) {
             $events->byTown($this->getRequestParam('CityName'));
