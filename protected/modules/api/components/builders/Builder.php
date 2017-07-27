@@ -459,7 +459,8 @@ class Builder
                 'EventName' => $participation->Event->Title,
                 'EventUrl' => $participation->Event->getUrl(),
                 'EventLogo' => 'http://'.RUNETID_HOST.$participation->Event->getLogo()->getOriginal(),
-                'EventStartDate' => $participation->Event->getFormattedStartDate('yyyy-MM-dd')
+                'EventStartDate' => $participation->Event->getFormattedStartDate('yyyy-MM-dd'),
+                'Event' => $this->createEvent($participation->Event)
             ];
         }
 
@@ -493,11 +494,12 @@ class Builder
                 'EventTitle' => $event->Title,
                 'EventUrl' => $event->getUrl(),
                 'EventLogo' => 'http://'.RUNETID_HOST.$event->getLogo()->getOriginal(),
-                'EventStartDate' => $event->getFormattedStartDate('yyyy-MM-dd')
+                'EventStartDate' => $event->getFormattedStartDate('yyyy-MM-dd'),
+                'Event' => $this->createEvent($event)
             ];
         }
 
-       // Рассчёт аналитики по участиям
+        // Рассчёт аналитики по участиям
         foreach ($participations as $participation) {
             $participationsAnalytics['ByYear'][(int)$participation['EventStartDate']]++;
             if (RoleType::exists($participation['RoleType'])) {
