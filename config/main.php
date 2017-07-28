@@ -85,7 +85,29 @@ $config = [
         ],
         'log' => [
             'class' => 'CLogRouter',
-            'routes' => require __DIR__.'/log-routes.php'
+            'routes' => [
+                'file' => [
+                    'class' => 'CFileLogRoute',
+                    'levels' => 'error, warning, info',
+                    'except' => 'exception.CHttpException.404'
+                ],
+
+                'telegram' => [
+                    'class' => '\application\components\logging\TelegramLogRoute',
+                    'categories' => ['paperless.*']
+                ],
+
+                'email' => [
+                    'class' => 'CEmailLogRoute',
+                    'levels' => 'error',
+                    'except' => ['exception.CHttpException.404', 'exception.api\components\Exception'],
+                    'emails' => ['error.runetid@ruvents.com'],
+                    'subject' => 'RUNET-ID Exception',
+                    'sentFrom' => 'yii@runet-id.com',
+                    'utf8' => true
+                ]
+
+            ]
         ],
         'clientScript' => [
             'packages' => require __DIR__.'/script-packages.php',
@@ -136,6 +158,8 @@ if (YII_DEBUG) {
         // Монга тоже не подходит
         unset($config['components']['mongodb']);
     }
+    // Убираем логирование на почту
+    unset($config['components']['log']['routes']['email']);
 }
 
 CHtml::setModelNameConverter(function ($model) {
