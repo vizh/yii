@@ -432,6 +432,8 @@ class Builder
     {
         // Результирующий массив, обладающий необходимой информацией об участиях посетителя
         $participations = [];
+        // Собираем все мероприятия что бы потом выдать из в профиле под Events
+        $events = [];
         $participationsAnalytics = [
             'Total' => 0, // общее число мероприятий к которым причастен пользователь
             'ByYear' => [],
@@ -449,6 +451,8 @@ class Builder
             if ($participation->Event === null || !$participation->Event->Visible) {
                 continue;
             }
+            // Запоминаем мероприятие
+            $events[$participation->EventId] = $this->createEvent($participation->Event);
             // Добавляем участие пользователя
             $participations[$participation->EventId] = [
                 'RoleId' => $participation->Role->Id,
@@ -459,8 +463,7 @@ class Builder
                 'EventName' => $participation->Event->Title,
                 'EventUrl' => $participation->Event->getUrl(),
                 'EventLogo' => 'http://'.RUNETID_HOST.$participation->Event->getLogo()->getOriginal(),
-                'EventStartDate' => $participation->Event->getFormattedStartDate('yyyy-MM-dd'),
-                'Event' => $this->createEvent($participation->Event)
+                'EventStartDate' => $participation->Event->getFormattedStartDate('yyyy-MM-dd')
             ];
         }
 
@@ -484,6 +487,12 @@ class Builder
                 continue;
             }
 
+            // Запоминаем мероприятие
+            if (false === isset($events[$event->Id])) {
+                $events[$event->Id] = $this->createEvent($event);
+            }
+
+
             // Выбираем максимальный статус для участия
             $participations[$event->Id] = [
                 'RoleId' => $participation->Role->Id,
@@ -494,8 +503,7 @@ class Builder
                 'EventTitle' => $event->Title,
                 'EventUrl' => $event->getUrl(),
                 'EventLogo' => 'http://'.RUNETID_HOST.$event->getLogo()->getOriginal(),
-                'EventStartDate' => $event->getFormattedStartDate('yyyy-MM-dd'),
-                'Event' => $this->createEvent($event)
+                'EventStartDate' => $event->getFormattedStartDate('yyyy-MM-dd')
             ];
         }
 
@@ -521,6 +529,7 @@ class Builder
         $participationsAnalytics['ByYear'] = array_reverse($participationsAnalytics['ByYear'], true);
 
         // Отправляем результат на золото!
+        $this->user->Events = array_values($events);
         $this->user->Participations = $participationsAnalytics;
 
         return $this->user;
