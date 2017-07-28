@@ -60,6 +60,7 @@ class Builder
     const USER_DATA = 'Data';
     const USER_BADGE = 'Badge';
     const USER_CONTACTS = 'Contacts';
+    const USER_CONTACTS_EXTENDED = 'ContactsExtended';
     const USER_ADDRESS = 'Address';
     const USER_ATTRIBUTES = 'Attributes';
     const USER_EXTERNALID = 'ExternalId';
@@ -200,6 +201,27 @@ class Builder
             foreach ($user->LinkPhones as $link) {
                 $this->user->Phones[] = (string)$link->Phone;
             }
+        }
+
+        return $this->user;
+    }
+
+    /** @noinspection PhpUnusedPrivateMethodInspection
+     * @param \user\models\User $user
+     *
+     * @return \stdClass
+     */
+    private function buildUserContactsExtended(User $user)
+    {
+        if ($this->account->Role === Account::ROLE_OWN && $user->hasRelated('LinkServiceAccounts')) {
+            $accounts = [];
+            foreach ($user->LinkServiceAccounts as $linkServiceAccount) {
+                $accounts[] = [
+                    'Type' => $linkServiceAccount->ServiceAccount->Type->Title,
+                    'Account' => $linkServiceAccount->ServiceAccount->Account
+                ];
+            }
+            $this->user->ServiceAccounts = $accounts;
         }
 
         return $this->user;

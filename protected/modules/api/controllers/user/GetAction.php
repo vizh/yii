@@ -100,7 +100,19 @@ class GetAction extends Action
         ]);
 
         if (in_array(Builder::USER_PARTICIPATIONS, $builders)) {
-            $user->with(['Participants' => ['with' => ['Role', 'Event.Type', 'Event.LinkAddress.Address.City']]]);
+            $user->with(['Participants' => ['with' => [
+                'Role',
+                'Event' => ['with' => [
+                    'Type',
+                    'LinkSite.Site',
+                    'Parts',
+                    'LinkPhones.Phone',
+                    'LinkAddress.Address.City'
+                ]]]]]);
+        }
+
+        if (in_array(Builder::USER_CONTACTS_EXTENDED, $builders)) {
+            $user->with('LinkServiceAccounts.ServiceAccount');
         }
 
         // Производим посик пользователя, подготовительный этап закончен
