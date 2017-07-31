@@ -189,6 +189,26 @@ class ArrayHelper
     }
 
     /**
+     * Получение среза ассоциативного массива по указанным ключам.
+     *
+     * @param array $array
+     * @param array $keys
+     *
+     * @return array
+     */
+    public static function getValues(array $array, array $keys)
+    {
+        $result = [];
+        foreach ($keys as $key) {
+            $result[$key] = true === isset($array[$key])
+                ? $array[$key]
+                : null;
+        }
+
+        return $result;
+    }
+
+    /**
      * Removes an item from an array and returns the value. If the key does not exist in the array, the default value
      * will be returned instead.
      *
