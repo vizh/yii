@@ -6,17 +6,19 @@
 
 use event\components\WidgetPosition;
 
+$renderTabs = true;
+
 if ($event->CounterHeadHTML) {
     $this->beginClip('event-counter-head');
     echo $event->CounterHeadHTML;
     $this->endClip();
 }
+
 if ($event->CounterBodyHTML) {
     $this->beginClip('event-counter-body');
     echo $event->CounterBodyHTML;
     $this->endClip();
 }
-$renderTabs = true;
 
 foreach ($event->Widgets as $widget) {
     if ($widget->getPosition() == WidgetPosition::Header) {

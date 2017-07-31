@@ -8,97 +8,81 @@ body {
   color: #555555;
   background-color: #ffffff;
 }
-
-#main-navbar {
-  .navbar-brand {
-    float: none;
-    height: 46px !important;
-    padding: 0 15px;
-    font-size: 18px;
-    line-height: 46px;
-
-    & > img {
-      display: inline;
-    }
-  }
-
-  ul.nav > li > span {
-    height: 46px;
-    line-height: 46px;
-    padding: 0 10px;
-    display: inline-block;
-  }
+#main-navbar .navbar-brand {
+  float: none;
+  height: 46px !important;
+  padding: 0 15px;
+  font-size: 18px;
+  line-height: 46px;
 }
-
-
-input, select, textarea {
+#main-navbar .navbar-brand > img {
+  display: inline;
+}
+#main-navbar ul.nav > li > span {
+  height: 46px;
+  line-height: 46px;
+  padding: 0 10px;
+  display: inline-block;
+}
+input,
+select,
+textarea {
   border-radius: 2px !important;
 }
-
 /*********************************************************
 * TABLES
 **********************************************************/
 .table {
   margin-bottom: 18px;
 }
-
-thead {
-  & a {
-    color: #ffffff;
-    font-weight: bold;
-
-    &:hover, &:focus {
-      color: #ffffff;
-      text-decoration: none;
-    }
-
-    &.asc:after, &.desc:after {
-      position: relative;
-      top: 1px;
-      display: inline-block;
-      font-family: FontAwesome;
-      font-size: inherit;
-      font-style: normal;
-      font-variant: normal;
-      font-weight: normal;
-      font-stretch: normal;
-      line-height: 1;
-      padding-left: 5px;
-    }
-
-    &.asc:after {
-      content: "\f160";
-    }
-
-    &.desc:after {
-      content: "\f161";
-    }
-  }
-
-  td > .form-control {
-    border: 0;
-  }
+thead a {
+  color: #ffffff;
+  font-weight: bold;
 }
-
+thead a:hover,
+thead a:focus {
+  color: #ffffff;
+  text-decoration: none;
+}
+thead a.asc:after,
+thead a.desc:after {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: FontAwesome;
+  font-size: inherit;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 1;
+  padding-left: 5px;
+}
+thead a.asc:after {
+  content: "\f160";
+}
+thead a.desc:after {
+  content: "\f161";
+}
+thead td > .form-control {
+  border: 0;
+}
 .table-bordered > thead > tr > td {
-  border-left-color: rgb(61, 161, 191);
-  border-right-color: rgb(61, 161, 191);
+  border-left-color: #3da1bf;
+  border-right-color: #3da1bf;
 }
-
 /* Выравнивание данные по середине ячеек в таблицах */
-.table > thead > tr > th, .table > tbody > tr > td {
+.table > thead > tr > th,
+.table > tbody > tr > td {
   vertical-align: middle;
   text-align: center;
 }
-
 .text-right {
   text-align: right !important;
 }
-
 .text-left {
   text-align: left !important;
 }
-
 /*********************************************************
 * INPUTS
 **********************************************************/
@@ -106,44 +90,32 @@ thead {
   content: "\00a0*";
   color: #e66454;
 }
-
 input[type="text"].lg {
   height: 39px;
 }
-
 /*********************************************************
 * OTHER
 **********************************************************/
-
 .nav-tabs-panel-heading {
   border-bottom: 0;
 }
-
-.modal-fullscreen {
-  .modal-content {
-    background: transparent;
-    border: 0;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-  }
-
-  .modal-dialog {
-    margin-right: auto;
-    margin-left: auto;
-    width: 90%;
-  }
-
-  .modal-body{
-    background-color: #fff;
-  }
+.modal-fullscreen .modal-content {
+  background: transparent;
+  border: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
-
-.panel-heading .nav-tabs {
-  &.nav-tabs-left {
-    right: auto;
-  }
+.modal-fullscreen .modal-dialog {
+  margin-right: auto;
+  margin-left: auto;
+  width: 90%;
 }
-
+.modal-fullscreen .modal-body {
+  background-color: #fff;
+}
+.panel-heading .nav-tabs.nav-tabs-left {
+  right: auto;
+}
 .errorSummary {
   padding: 15px;
   margin-bottom: 18px;
@@ -152,12 +124,10 @@ input[type="text"].lg {
   border-color: #ebccd1;
   color: #a94442;
 }
-
 .errorSummary > p,
 .errorSummary > ul {
   margin-bottom: 0;
 }
-
 .errorSummary > p + p {
   margin-top: 5px;
 }

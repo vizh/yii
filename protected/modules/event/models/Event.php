@@ -143,6 +143,13 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
         return 'Event';
     }
 
+    public function rules()
+    {
+        return [
+            ['CounterHeadHTML,CounterBodyHTML', 'safe']
+        ];
+    }
+
     /**
      * @return array
      */

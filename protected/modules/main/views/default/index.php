@@ -1,11 +1,15 @@
 <?php
+
 /**
  * @var $events \event\models\Event[]
  * @var $courses \buduguru\models\Course[]
  * @var $jobs \job\models\Job[]
  * @var $this DefaultController
  */
+
 use application\components\utility\Texts;
+
+$this->setPageTitle('RUNET-ID');
 
 ?>
 

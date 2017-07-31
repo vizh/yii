@@ -42,7 +42,7 @@ class Sidebar extends \CWidget
     /**
      * Отрисовка виджета
      *
-     * @return string|void
+     * @return string
      * @throws \CException
      */
     public function run()
@@ -109,7 +109,7 @@ class Sidebar extends \CWidget
                     ['label' => 'Статистика', 'url' => ['ruvents/index']],
                     ['label' => 'Генерация операторов', 'url' => ['ruvents/operator']],
                     ['label' => 'Итоги мероприятия (csv)', 'url' => ['ruvents/csvinfo']],
-                    ['label' => 'Настройки клиента', 'url' => ['ruvents/settings']],
+                    ['label' => 'Настройки клиента', 'url' => ['ruvents/settings']]
                 ]
             ],
             [
@@ -136,7 +136,7 @@ class Sidebar extends \CWidget
                         'label' => 'Атрибуты пользователей',
                         'url' => ['user/data'],
                         'visible' => $this->event->hasAttributeDefinitions()
-                    ],
+                    ]
                 ]
             ],
             [
@@ -174,7 +174,7 @@ class Sidebar extends \CWidget
                 'items' => [
                     ['label' => 'Устройства', 'url' => ['paperless/deviceIndex']],
                     ['label' => 'Материалы', 'url' => ['paperless/materialIndex']],
-                    ['label' => 'Правила обработки', 'url' => ['paperless/eventIndex']],
+                    ['label' => 'Правила обработки', 'url' => ['paperless/eventIndex']]
                 ]
             ],
             [
@@ -186,7 +186,7 @@ class Sidebar extends \CWidget
                     ['label' => 'Программа лояльности', 'url' => ['settings/loyalty']],
                     ['label' => 'Виджет регистрации', 'url' => ['settings/api']],
                     ['label' => 'Дополнительные атрибуты пользователей', 'url' => ['settings/definitions']],
-                    ['label' => 'Коды счетчиков', 'url' => ['settings/counter']],
+                    ['label' => 'Коды счетчиков', 'url' => ['settings/counter']]
                 ]
             ],
             [
@@ -195,9 +195,9 @@ class Sidebar extends \CWidget
                 'url' => false,
                 'items' => [
                     ['label' => 'Список', 'url' => ['connect/index']],
-                    ['label' => 'Статистика', 'url' => ['connect/stats']],
+                    ['label' => 'Статистика', 'url' => ['connect/stats']]
                 ]
-            ],
+            ]
         ];
 
         // Применение модификаций меню в зависимости от мероприятия, если они определены

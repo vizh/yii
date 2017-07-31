@@ -22,7 +22,7 @@
     <!--[if lte IE 7]>
     <link rel="stylesheet" href="/stylesheets/ie/lte-ie-7.css">
     <![endif]-->
-    <?php $this->renderClip('event-counter-head'); ?>
+    <?$this->renderClip('event-counter-head')?>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -163,6 +163,6 @@
 <?$this->renderPartial('//layouts/counters/yandex')?>
 
 <?$this->widget('application\widgets\ModalAuth')?>
-<?php $this->renderClip('event-counter-body'); ?>
+<?$this->renderClip('event-counter-body')?>
 </body>
 </html>

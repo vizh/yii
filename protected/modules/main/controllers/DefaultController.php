@@ -8,16 +8,14 @@ class DefaultController extends \application\components\controllers\PublicMainCo
 {
     public function actionIndex()
     {
-        $this->setPageTitle('RUNET-ID');
-
         $date = getdate();
-        $criteria = new CDbCriteria();
-        $criteria->order = '"t"."VisibleOnMain" DESC, "t"."StartYear", "t"."StartMonth", "t"."StartDay", "t"."EndYear", "t"."EndMonth", "t"."EndDay"';
-        $criteria->limit = 3;
+
         $events = Event::model()
-            ->byVisible(true)
+            ->byVisible()
             ->byFromDate($date['year'], $date['mon'], $date['mday'])
-            ->findAll($criteria);
+            ->orderBy(['"t"."VisibleOnMain"' => SORT_DESC, '"t"."StartYear", "t"."StartMonth", "t"."StartDay", "t"."EndYear", "t"."EndMonth", "t"."EndDay"'])
+            ->limit(3)
+            ->findAll();
 
         $criteria = new \CDbCriteria();
         $criteria->order = '"t"."Id" DESC';

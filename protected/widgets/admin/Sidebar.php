@@ -9,7 +9,7 @@ class Sidebar extends \CWidget
     {
         $counts = new \stdClass();
         $counts->Event = Event::model()
-            ->byExternal(true)
+            ->byExternal()
             ->byApproved(false)
             ->byDeleted(false)
             ->count();

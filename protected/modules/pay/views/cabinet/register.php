@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \pay\components\Controller $this
  * @var \event\models\Event $event
@@ -10,6 +11,7 @@
  * @var \user\models\forms\RegisterForm $registerForm
  * @var array $countRows
  */
+
 use \pay\models\Product;
 
 if ($event->CounterHeadHTML) {
@@ -17,6 +19,7 @@ if ($event->CounterHeadHTML) {
     echo $event->CounterHeadHTML;
     $this->endClip();
 }
+
 if ($event->CounterBodyHTML) {
     $this->beginClip('event-counter-body');
     echo $event->CounterBodyHTML;

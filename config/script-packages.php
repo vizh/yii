@@ -171,7 +171,7 @@ return [
         'css' => [
             'stylesheets/pixel-admin/bootstrap.css',
             'stylesheets/pixel-admin/pixel-admin.css',
-            'stylesheets/pixel-admin/custom.css',
+            'stylesheets/pixel-admin/custom.css?1',
             'stylesheets/pixel-admin/themes.css',
             'stylesheets/pixel-admin/pages.css'
         ]
