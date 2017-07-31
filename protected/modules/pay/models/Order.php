@@ -148,9 +148,9 @@ class Order extends ActiveRecord
         return $this;
     }
 
-    public function byJuridicalINN($inn, $useAnd = true)
+    public function byJuridicalINN($inn)
     {
-        $this->getDbCriteria()->addCondition([
+        $this->getDbCriteria()->addColumnCondition([
             '"OrderJuridical"."INN"' => $inn
         ]);
 
