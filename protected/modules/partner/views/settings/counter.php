@@ -27,15 +27,17 @@ $event = $this->getEvent();
         <p>Счетчики бывают двух вариантов: видимые и невидимые. Как правило для сайта не имеет большого смысла размещать много счетчиков — достаточно одного-двух. На страницах сервиса RUNET–ID могут быть размещены только невидимые счетчики.</p>
         <p>Скопируйте HTML-код счетчика (или счетчиков) в поле ниже и они автоматически будут добавлены на все страницы, связанные с вашим мероприятием.</p>
         <div class="form-group">
-            <?=CHtml::textField('CounterHeadHTML', $event->CounterHeadHTML, [
+            <?=CHtml::textArea('CounterHeadHTML', $event->CounterHeadHTML, [
                 'class' => 'form-control',
-                'placeholder' => $event->getAttributeLabel('CounterHeadHTML')
+                'placeholder' => $event->getAttributeLabel('CounterHeadHTML'),
+                'rows' => 10
             ])?>
         </div>
         <div class="form-group">
-            <?=CHtml::textField('CounterBodyHTML', $event->CounterBodyHTML, [
+            <?=CHtml::textArea('CounterBodyHTML', $event->CounterBodyHTML, [
                 'class' => 'form-control',
-                'placeholder' => $event->getAttributeLabel('CounterHeadHTML')
+                'placeholder' => $event->getAttributeLabel('CounterBodyHTML'),
+                'rows' => 10
             ])?>
         </div>
     </div>
