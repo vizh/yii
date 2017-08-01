@@ -86,4 +86,46 @@ class CText
     {
         return preg_match("#^nomail.+?@{$domain}$#", $email) === 0;
     }
+
+    /**
+     * Заменяет токены в переданном тексте
+     * @param $text string
+     * @param $params array
+     * @return string
+     */
+    public static function replaceTokens($text, $params)
+    {
+        foreach ($params as $key => $param) {
+            if (is_array($param)) {
+                //заменяет блоки {for }
+                $pattern = '/(\{for '.$key.'\})(.*)(\{endfor\})/Uims';
+                while (true) {
+                    preg_match($pattern, $text, $brace_matches, PREG_OFFSET_CAPTURE);
+                    if (empty($brace_matches[0])) {
+                        break;
+                    }
+
+                    $replacement = '';
+                    foreach ($param as $sub_param) {
+                        $item_replacement = $brace_matches[2][0];
+                        foreach ($sub_param as $sub_key => $sub_value) {
+                            $item_replacement = preg_replace('/\{'.$sub_key.'\}/Uims', $sub_value, $item_replacement);
+                        }
+                        $replacement .= $item_replacement;
+                    }
+                    $text = substr($text, 0, $brace_matches[0][1]) . $replacement . substr($text, $brace_matches[3][1]+strlen('{endfor}'));
+                }
+
+                //заменяет параметры массива вне блоков {for }
+                //значениями из первого элемента массива
+                foreach ($param[0] as $sub_key => $sub_param) {
+                    $text = preg_replace('/\{'.$sub_key.'\}/ims', $sub_param, $text);
+                }
+            } else {
+                //заменяет строковый параметр
+                $text = preg_replace('/\{'.$key.'\}/ims', $param, $text);
+            }
+        }
+        return $text;
+    }
 }

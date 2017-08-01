@@ -123,12 +123,13 @@ abstract class Base
     /**
      * Возвращает url обрабатывающий каллбек оплаты заказа
      * @param int $id Id мероприятия
+     * @param int $orderId Id заказа
      * @return string
      */
-    protected function getReturnUrl($id)
+    protected function getReturnUrl($id, $orderId)
     {
         $event = Event::model()->findByPk($id);
-        return \Yii::app()->createAbsoluteUrl('/pay/cabinet/return', ['eventIdName' => $event->IdName]);
+        return \Yii::app()->createAbsoluteUrl('/pay/cabinet/return', ['eventIdName' => $event->IdName, 'orderId' => $orderId]);
     }
 
 }

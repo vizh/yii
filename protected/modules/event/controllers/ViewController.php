@@ -8,7 +8,7 @@ use user\models\User;
 
 class ViewController extends PublicMainController
 {
-    public function actionIndex($idName)
+    public function actionIndex($idName, $orderId = null)
     {
         /** @var $event \event\models\Event */
         $event = Event::model()
@@ -20,6 +20,16 @@ class ViewController extends PublicMainController
         if ($event === null) {
             throw new CHttpException(404);
         }
+
+        if ($orderId) {
+            $order = \pay\models\Order::model()->byId($orderId)->find();
+            if ($order) {
+                $this->beginClip('event-after-payment-code');
+                echo CText::replaceTokens($order->Event->AfterPaymentHTMLCode, $order->getAfterPaymentHTMLData());
+                $this->endClip();
+            }
+        }
+
 
         $user = Yii::app()
             ->getUser()

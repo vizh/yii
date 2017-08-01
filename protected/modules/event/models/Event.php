@@ -97,6 +97,7 @@ use Yii;
  * @property bool $Top
  * @property string $CounterHeadHTML
  * @property string $CounterBodyHTML
+ * @property string $AfterPaymentHTMLCode
  *
  * Описание вспомогательных методов
  * @method Event   with($condition = '')
@@ -141,13 +142,6 @@ class Event extends ActiveRecord implements ISearch, \JsonSerializable
     public function tableName()
     {
         return 'Event';
-    }
-
-    public function rules()
-    {
-        return [
-            ['CounterHeadHTML,CounterBodyHTML', 'safe']
-        ];
     }
 
     /**
