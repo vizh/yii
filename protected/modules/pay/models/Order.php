@@ -624,6 +624,34 @@ class Order extends ActiveRecord
         return $this->billData;
     }
 
+    /**
+     * Подгатавливает данные для подстановки в HTML-код для страницы после оплаты
+     * @return array
+     */
+    public function getAfterPaymentHTMLData()
+    {
+        $data = [
+            'transactionId' => $this->Id,
+            'revenue' => 0,
+            'products' => []
+        ];
+        $total = 0;
+        foreach (\pay\components\OrderItemCollection::createByOrder($this) as $item) {
+            $orderItem = $item->getOrderItem();
+            $item = [
+                'productId' => $orderItem->ProductId,
+                'productName' => $orderItem->Product->getManager()->GetTitle($orderItem),
+                'productCategory' => (new \ReflectionClass($orderItem->Product->getManager()))->getShortName(),
+                'productQuantity' => $orderItem->Product->getManager()->getCount($orderItem),
+                'productPrice' => $orderItem->Product->ManagerName == 'Ticket' ? $orderItem->Product->getPrice($this->CreationTime) : $item->getPriceDiscount($this->CreationTime)
+            ];
+            $data['products'][] = $item;
+            $total += $item['productQuantity']*$item['productPrice'];
+        }
+        $data['revenue'] = $total;
+        return $data;
+    }
+
     private $viewName;
 
     /**

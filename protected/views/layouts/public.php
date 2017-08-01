@@ -22,7 +22,6 @@
     <!--[if lte IE 7]>
     <link rel="stylesheet" href="/stylesheets/ie/lte-ie-7.css">
     <![endif]-->
-    <?$this->renderClip('event-counter-head')?>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -30,6 +29,7 @@
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
         })(window,document,'script','dataLayer','GTM-T5ZMCQC');</script>
     <!-- End Google Tag Manager -->
+    <? $this->renderClip('event-counter-head'); ?>
 </head>
 <body id="<?=$this->bodyId?>">
 <!-- Google Tag Manager (noscript) -->
@@ -164,5 +164,6 @@
 
 <?$this->widget('application\widgets\ModalAuth')?>
 <?$this->renderClip('event-counter-body')?>
+<?$this->renderClip('event-after-payment-code')?>
 </body>
 </html>

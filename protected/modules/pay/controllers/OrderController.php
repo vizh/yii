@@ -28,6 +28,10 @@ class OrderController extends \application\components\controllers\MainController
             \Yii::app()->end();
         }
 
+        $this->beginClip('event-after-payment-code');
+        echo CText::replaceTokens($order->Event->AfterPaymentHTMLCode, $order->getAfterPaymentHTMLData());
+        $this->endClip();
+
         $this->render($order->getViewName(), [
             'order' => $order,
             'billData' => $order->getBillData()->Data,

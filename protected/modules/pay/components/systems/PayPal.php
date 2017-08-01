@@ -152,7 +152,7 @@ class PayPal extends Base
     {
         /** @var $order \pay\models\Order */
         $order = \pay\models\Order::model()->findByPk($this->getOrderId());
-        $url = \Yii::app()->createAbsoluteUrl('/pay/cabinet/return', ['eventIdName' => $order->Event->IdName]);
+        $url = \Yii::app()->createAbsoluteUrl('/pay/cabinet/return', ['eventIdName' => $order->Event->IdName, 'orderId' => $order->Id]);
         \Yii::app()->getController()->redirect($url);
     }
 

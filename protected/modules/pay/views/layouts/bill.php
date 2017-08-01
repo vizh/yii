@@ -18,6 +18,7 @@ use application\components\utility\Texts;
 <body>
 <div class="content">
   <?=$content?>
+  <? $this->renderClip('event-after-payment-code'); ?>
 </div>
 </body>
 </html>

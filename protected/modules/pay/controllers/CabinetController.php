@@ -41,9 +41,10 @@ class CabinetController extends Controller
      * Редирект после оплаты
      *
      * @param $eventIdName
+     * @param $orderId
      * @throws CHttpException
      */
-    public function actionReturn($eventIdName)
+    public function actionReturn($eventIdName, $orderId = null)
     {
         $account = Account::model()
             ->byEventId($this->getEvent()->Id)
@@ -59,7 +60,7 @@ class CabinetController extends Controller
             }
         }
 
-        $this->redirect(['/event/view/index', 'idName' => $eventIdName]);
+        $this->redirect(['/event/view/index', 'idName' => $eventIdName, 'orderId' => $orderId]);
     }
 
 }
