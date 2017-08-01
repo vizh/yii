@@ -87,6 +87,14 @@
         </div>
     </div>
 
+    <div class="form-group">
+        <div class="checkbox">
+            <label>
+                <?=$activeForm->checkBox($form, 'AcceptPolicy')?> <?=$form->getAttributeLabel('AcceptPolicy')?>
+            </label>
+        </div>
+    </div>
+
     <p class="muted agreement">Нажимая кнопку «<?=Yii::t('app', 'Зарегистрироваться')?>», я принимаю условия <?=\CHtml::link('Пользовательского соглашения', ['/page/info/agreement'], ['target' => '_blank'])?> и даю своё согласие RUNET-ID на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ «О персональных данных»</p>
 
     <button type="submit" class="btn btn-large btn-block btn-primary"><i class="icon-ok-sign icon-white"></i>&nbsp;<?=Yii::t('app', 'Зарегистрироваться')?></button>
