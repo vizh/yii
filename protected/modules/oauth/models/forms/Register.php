@@ -16,7 +16,7 @@ use oauth\components\social\Proxy;
 use user\models\forms\Register as BaseRegisterForm;
 use user\models\Log;
 
-;
+
 
 class Register extends BaseRegisterForm
 {
@@ -28,6 +28,8 @@ class Register extends BaseRegisterForm
     public $Subscribe;
 
     public $Captcha;
+
+    public $AcceptPolicy;
 
     /** @var AddressForm */
     public $Address;
@@ -51,6 +53,7 @@ class Register extends BaseRegisterForm
         $rules[] = ['Phone', 'required'];
         $rules[] = ['Subscribe', 'boolean'];
         $rules[] = ['Captcha', 'validateCaptcha'];
+        $rules[] = ['AcceptPolicy', 'compare', 'compareValue' => true, 'message'=>'Дайте согласие на обработку персональных данных'];
 
         if (\Yii::app()->getRequest()->getParam('apikey') === '3thn47hihr') {
             $rules[] = ['Company', 'required'];
@@ -114,6 +117,8 @@ class Register extends BaseRegisterForm
     {
         $labels = parent::attributeLabels();
         $labels['Subscribe'] = \Yii::t('app', 'Я хочу получать информационные рассылки RUNET-ID');
+        $labels['AcceptPolicy'] = \Yii::t('app', 'Я даю согласие на обработку персональных данных');
+
         return $labels;
     }
 
