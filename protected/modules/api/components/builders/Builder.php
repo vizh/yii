@@ -881,6 +881,7 @@ class Builder
 
         $this->createUser($owner);
         $this->buildUserEmployment($owner);
+        $this->buildUserEvent($owner);
 
         $this->orderItem->Owner = $this->user;
 
