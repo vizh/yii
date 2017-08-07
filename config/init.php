@@ -24,7 +24,7 @@ if (false === isset($_ENV['DOCKER'])) {
 
 define('YII_DEBUG', $_ENV['ENVIRONMENT'] !== 'production');
 define('YII_TRACE_LEVEL', 3);
-define('RUNETID_HOST', YII_DEBUG ? 'runet-id.dev' : 'runet-id.com');
-define('SCHEMA', YII_DEBUG ? 'http' : 'https');
+define('RUNETID_HOST', $_ENV['PROJECT_HOSTNAME']);
+define('SCHEMA', $_ENV['PROJECT_SCHEMA']);
 
 define('RUNETID_TIME_FORMAT', 'Y-m-d H:i:s');

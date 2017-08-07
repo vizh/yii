@@ -14,11 +14,6 @@ class DeveloperCommand extends BaseConsoleCommand
 {
     public function actionBootstrap()
     {
-        if (YII_DEBUG === false) {
-            echo "Нельзя запускать процесс инициализации базы в PRODUCTION режиме!\n";
-            return;
-        }
-
         // Тестовое мероприятие
         $event = Event::model()->findByPk(1) ?: new Event();
         $event->IdName = 'test';

@@ -7,6 +7,10 @@
 # Режим работы
 ENVIRONMENT = production|debug
 
+# Настройки проекта
+PROJECT_SCHEMA = http|https
+PROJECT_HOSTNAME = runet-id.dev
+
 # Подключение к базе данных
 DATABASE_HOST = localhost
 DATABASE_PORT = 5432

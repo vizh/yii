@@ -26,6 +26,9 @@ services:
       # Реквизиты доступа для авторизации на сайте
       HTTP_APIKEY: runetid
       HTTP_HASH: bf9e034fe8293973b44465c6208f2ea9
+      # Настройки проекта
+      PROJECT_SCHEMA: http
+      PROJECT_HOSTNAME: runet-id.dev
     volumes:
       - '.:/var/www/html/'
       - './config/docker/bootstrap.sh:/init.sh'

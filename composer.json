@@ -4,11 +4,6 @@
   "type": "project",
   "license": "proprietary",
   "minimum-stability": "stable",
-  "config": {
-    "platform": {
-      "php": "5.4.0"
-    }
-  },
   "require": {
     "php": ">=5.4.0",
     "yiisoft/yii": "1.1.19",
