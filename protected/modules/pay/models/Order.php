@@ -531,19 +531,23 @@ class Order extends ActiveRecord
         return $hash == $this->getHash();
     }
 
-    public function getUrl($clear = false)
+    public function getUrl($clear = false, $format = 'html')
     {
         if (OrderType::getIsBank($this->Type)) {
             $params = [
                 'orderId' => $this->Id,
-                'hash' => $this->getHash()
+                'hash' => $this->getHash(),
+                'format' => $format
             ];
+
             if ($clear) {
                 $params['clear'] = 'clear';
             }
 
             return Yii::app()->createAbsoluteUrl('/pay/order/index', $params);
-        } elseif ($this->Type == OrderType::MailRu) {
+        }
+
+        if ($this->Type == OrderType::MailRu) {
             return $this->OrderJuridical->UrlPay;
         }
 

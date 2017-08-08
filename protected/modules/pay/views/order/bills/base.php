@@ -28,14 +28,14 @@ $vatMultiply = $template->VAT ? 1.18 : 1;
 </table>
 
 <h4>Образец заполнения платежного поручения</h4>
-<table class="payment-info">
+<table class="payment-info" style="border:1px solid #000">
   <tbody>
-  <tr>
+  <tr style="border:1px solid #000">
     <td <?=$template->KPP == null ? 'colspan="2"' : ''?> >ИНН <?=$template->INN?></td>
     <?if($template->KPP != null):?><td>КПП <?=$template->KPP?></td><?endif?>
     <td colspan="2">&nbsp;</td>
   </tr>
-  <tr>
+  <tr style="border:1px solid #000">
     <td	colSpan=2>Получатель<br><?=$template->Recipient?></td>
     <td><br>Сч.	№</td>
     <td><br><?=$template->AccountNumber?></td></tr>
@@ -62,9 +62,9 @@ $vatMultiply = $template->VAT ? 1.18 : 1;
 </p>
 
 
-<table class="orderitems">
+<table class="orderitems"  style="border:1px solid #000">
   <thead>
-  <tr>
+  <tr style="border:1px solid #000">
     <th>№</th>
     <th>Наименование товара (услуги)</th>
     <th>Единица<br>измерения</th>
@@ -78,7 +78,7 @@ $vatMultiply = $template->VAT ? 1.18 : 1;
   $i = 1;
   foreach ($billData as $data):
    ?>
-    <tr>
+    <tr style="border:1px solid #000">
       <td><?=$i?></td>
       <td><?=$data['Title']?></td>
       <td class="center"><?=$data['Unit']?></td>
@@ -92,7 +92,7 @@ $vatMultiply = $template->VAT ? 1.18 : 1;
   endforeach?>
 
   <?if($template->VAT):?>
-    <tr>
+    <tr style="border:1px solid #000">
       <td class="right" colspan="4">
         <strong>Итого:</strong><br>
         <strong>Итого НДС:</strong><br>
@@ -105,7 +105,7 @@ $vatMultiply = $template->VAT ? 1.18 : 1;
       </td>
     </tr>
   <?else:?>
-    <tr>
+    <tr style="border:1px solid #000">
       <td class="right" colspan="4">
         <strong>Итого:</strong><br>
         <strong><i>НДС не облагается</i></strong>

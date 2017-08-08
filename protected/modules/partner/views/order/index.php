@@ -111,18 +111,28 @@ $controller = $this;
                     ],
                     [
                         'class' => '\application\widgets\grid\ButtonColumn',
-                        'template' => '{view}{update}{paid}{print}',
+                        'template' => '{view}{update}{paid}{printHtml}{printPdf}',
                         'buttons' => [
                             'update' => [
                                 'visible' => '$data->getIsBankTransfer() && !$data->Paid && !$data->Deleted && Yii::app()->controller->getAccessFilter()->checkAccess("partner", "order", "edit")'
                             ],
-                            'print' => [
+                            'printHtml' => [
                                 'label' => '<i class="fa fa-print"></i>',
                                 'url' => '$data->getUrl(true)',
                                 'options' => [
                                     'class' => 'btn btn-default',
                                     'target' => '_blank',
                                     'title' => 'Печать'
+                                ],
+                                'visible' => '$data->getIsBankTransfer()'
+                            ],
+                            'printPdf' => [
+                                'label' => '<i class="fa fa-file-pdf-o"></i>',
+                                'url' => '$data->getUrl(true, "pdf")',
+                                'options' => [
+                                    'class' => 'btn btn-default',
+                                    'target' => '_blank',
+                                    'title' => 'PDF'
                                 ],
                                 'visible' => '$data->getIsBankTransfer()'
                             ],

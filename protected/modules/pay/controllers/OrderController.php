@@ -32,13 +32,21 @@ class OrderController extends \application\components\controllers\MainController
         echo CText::replaceTokens($order->Event->AfterPaymentHTMLCode, $order->getAfterPaymentHTMLData());
         $this->endClip();
 
-        $this->render($order->getViewName(), [
+        $content = $this->render($order->getViewName(), [
             'order' => $order,
             'billData' => $order->getBillData()->Data,
             'total' => $order->getBillData()->Total,
             'nds' => $order->getBillData()->Nds,
             'withSign' => $clear === null,
             'template' => $order->getViewTemplate()
-        ]);
+        ], true);
+
+        if (Yii::app()->getRequest()->getParam('format', 'html') === 'pdf') {
+            $pdf = new \mPDF('', 'A4', 0, '', 5, 5, 5, 5);
+            $pdf->WriteHTML($content);
+            $content = $pdf->Output("{$hash}.pdf", 'I');
+        }
+
+        echo $content;
     }
 }
