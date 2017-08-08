@@ -44,7 +44,7 @@ class OrderController extends \application\components\controllers\MainController
         if (Yii::app()->getRequest()->getParam('format', 'html') === 'pdf') {
             $pdf = new \mPDF('', 'A4', 0, '', 5, 5, 5, 5);
             $pdf->WriteHTML($content);
-            $content = $pdf->Output("{$hash}.pdf", 'I');
+            $content = $pdf->Output("{$order->Number}.pdf", 'I');
         }
 
         echo $content;

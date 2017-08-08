@@ -151,7 +151,7 @@ $this->setPageTitle('Управление счетом № ' . $order->Number)
                 <?endif?>
                 <?=\CHtml::link('<span class="fa fa-print"></span> Счет с печатью', $order->getUrl(), ['class' => 'btn', 'target' => '_blank'])?>
                 <?=\CHtml::link('<span class="fa fa-print"></span> Счет без печати', $order->getUrl(true), ['class' => 'btn', 'target' => '_blank'])?>
-                <?=\CHtml::link('<span class="fa fa-file-pdf-o"></span> PDF', $order->getUrl(true, 'pdf'), ['class' => 'btn', 'target' => '_blank'])?>
+                <?=\CHtml::link('<span class="fa fa-file-pdf-o"></span> Скачать в PDF', $order->getUrl(true, 'pdf'), ['class' => 'btn', 'target' => '_blank'])?>
             </div>
         </div>
     <?endif?>
