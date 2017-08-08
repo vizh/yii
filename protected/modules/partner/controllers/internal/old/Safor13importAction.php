@@ -178,14 +178,17 @@ class Safor13importAction extends \partner\components\Action
     private function processUser($user, $row)
     {
         $event = \event\models\Event::GetById(self::EventId);
-        $role = \event\models\Role::GetById(self::RoleId);
+        $role = \event\models\Role::model()->findByPk(self::RoleId);
         $participant = $event->RegisterUser($user, $role);
         if (empty($participant)) {
             /** @var $participant \event\models\Participant */
             $participant = \event\models\Participant::model()
                 ->byEventId($event->EventId)
-                ->byUserId($user->UserId)->find();
-            $participant->UpdateRole($role);
+                ->byUserId($user->UserId)
+                ->find();
+
+            $participant->RoleId = $role->Id;
+            $participant->save();
         } else {
             $this->newParticipants[] = $user->RocId;
         }

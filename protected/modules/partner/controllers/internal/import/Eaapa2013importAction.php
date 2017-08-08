@@ -180,7 +180,7 @@ class Eaapa2013importAction extends \partner\components\Action
             default:
                 $roleId = null;
         }
-        $role = \event\models\Role::GetById($roleId);
+        $role = \event\models\Role::model()->findByPk($roleId);
         if (empty($role)) {
             echo '------------- error role --------- <br><pre>';
             print_r($row);
@@ -193,8 +193,11 @@ class Eaapa2013importAction extends \partner\components\Action
             /** @var $participant \event\models\Participant */
             $participant = \event\models\Participant::model()
                 ->byEventId($event->EventId)
-                ->byUserId($user->UserId)->find();
-            $participant->UpdateRole($role);
+                ->byUserId($user->UserId)
+                ->find();
+
+            $participant->RoleId = $role->Id;
+            $participant->save();
         } else {
             $this->newParticipants[] = $user->RocId;
         }

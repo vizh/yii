@@ -3,7 +3,6 @@ use application\components\controllers\PublicMainController;
 use application\components\utility\Texts;
 use event\models\Event;
 use event\models\Role;
-use partner\models\PartnerCallback;
 use user\models\User;
 
 class ViewController extends PublicMainController
@@ -34,11 +33,6 @@ class ViewController extends PublicMainController
         $user = Yii::app()
             ->getUser()
             ->getCurrentUser();
-
-        PartnerCallback::start($event);
-        if ($user !== null) {
-            PartnerCallback::registration($event, $user);
-        }
 
         $this->setPageTitle("{$event->Title}  / RUNET-ID");
         if (!$event->Visible) {

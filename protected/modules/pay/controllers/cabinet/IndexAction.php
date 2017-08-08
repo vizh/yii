@@ -1,7 +1,6 @@
 <?php
 namespace pay\controllers\cabinet;
 
-use partner\models\PartnerCallback;
 use pay\models\EventUserAdditionalAttribute;
 use pay\models\Failure;
 use pay\models\forms\AddtionalAttributes as FormAdditionalAttributes;
@@ -11,11 +10,6 @@ class IndexAction extends \pay\components\Action
     public function run($eventIdName, $iframe = false)
     {
         $this->getController()->setPageTitle(\Yii::t('app', 'Оплата').' / '.$this->getEvent()->Title);
-
-        PartnerCallback::start($this->getEvent());
-        if ($this->getUser() != null) {
-            PartnerCallback::registration($this->getEvent(), $this->getUser());
-        }
 
         $finder = \pay\components\collection\Finder::create($this->getEvent()->Id, $this->getUser()->Id);
         $unpaidItems = new \stdClass();

@@ -3,6 +3,7 @@ namespace pay\models;
 
 use application\components\ActiveRecord;
 use Guzzle\Http\Client;
+use partner\models\PartnerCallback;
 use pay\components\Exception;
 use pay\components\MessageException;
 use user\models\User;
@@ -312,27 +313,21 @@ class OrderItem extends ActiveRecord
     }
 
     /**
-     * @param User $newOwner
+     * @param User $targetOwner
      *
      * @return bool
      */
-    public function changeOwner(User $newOwner)
+    public function changeOwner(User $targetOwner)
     {
-        $fromOwner = empty($this->ChangedOwner) ? $this->Owner : $this->ChangedOwner;
-        if ($this->Product->getManager()->changeOwner($fromOwner, $newOwner)) {
-            $this->ChangedOwnerId = $newOwner->Id;
+        $sourceOwner = empty($this->ChangedOwner)
+            ? $this->Owner
+            : $this->ChangedOwner;
+
+        if ($this->Product->getManager()->changeOwner($sourceOwner, $targetOwner)) {
+            $this->ChangedOwnerId = $targetOwner->Id;
             $this->save();
 
-            if ($this->Event->IdName === 'startupvillage17') {
-                (new Client())->post('https://startupvillage.ru/runet-id/redirect', [
-                    'json' => [
-                        'PayerId' => $this->Payer->RunetId,
-                        'NewOwnerId' => $newOwner->RunetId,
-                        'OldOwnerId' => $fromOwner->RunetId,
-                        'OrderItemId' => $this->Id
-                    ]
-                ]);
-            }
+            PartnerCallback::onOrderItemRedirect($this->Product->Event, $this, $sourceOwner->RunetId);
 
             return true;
         }

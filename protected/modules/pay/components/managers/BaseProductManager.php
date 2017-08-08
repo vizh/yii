@@ -11,6 +11,7 @@ use pay\models\OrderItem;
 use pay\models\Product;
 use pay\models\ProductAttribute;
 use user\models\User;
+use Yii;
 
 /**
  * Class BaseProductManager
@@ -242,7 +243,7 @@ abstract class BaseProductManager
      */
     protected function internalRollback(OrderItem $orderItem)
     {
-        throw new MessageException(\Yii::t('app', 'Метод отката заказа не реализован для этого типа продукта'));
+        throw new MessageException(Yii::t('app', 'Метод отката заказа не реализован для этого типа продукта'));
     }
 
     /**
@@ -327,7 +328,7 @@ abstract class BaseProductManager
             }
         }
 
-        if ($_SERVER['REQUEST_URI'] === '/event/updatedusers/' || \Yii::app()->controller->route == 'pay/admin/stats/index') {
+        if ($_SERVER['REQUEST_URI'] === '/event/updatedusers/' || Yii::app()->controller->route == 'pay/admin/stats/index') {
             return 0;
         }
 
@@ -377,7 +378,7 @@ abstract class BaseProductManager
      */
     final public function buy($user, $orderItem = null, $params = [])
     {
-        if (!$this->checkProduct($user, $params)) {
+        if (false === $this->checkProduct($user, $params)) {
             return false;
         }
 
@@ -420,7 +421,7 @@ abstract class BaseProductManager
      */
     private function sendMail($user)
     {
-        $class = \Yii::getExistClass('\pay\components\handlers\buyproduct\products', 'Product'.$this->product->Id, 'Base');
+        $class = Yii::getExistClass('\pay\components\handlers\buyproduct\products', 'Product'.$this->product->Id, 'Base');
         $event = new \CModelEvent($this, ['owner' => $user, 'product' => $this->product]);
 
         /** @var Mail $mail */

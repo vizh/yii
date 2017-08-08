@@ -4,6 +4,16 @@
   "type": "project",
   "license": "proprietary",
   "minimum-stability": "stable",
+  "scripts": {
+    "post-install-cmd": [
+      "yarn install",
+      "node node_modules/gulp/bin/gulp.js --build"
+    ],
+    "post-update-cmd": [
+      "yarn upgrade",
+      "node node_modules/gulp/bin/gulp.js --build"
+    ]
+  },
   "require": {
     "php": ">=5.4.0",
     "yiisoft/yii": "1.1.19",

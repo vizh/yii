@@ -4,9 +4,9 @@ namespace event\models;
 use application\components\ActiveRecord;
 use application\components\CDbCriteria;
 use application\hacks\AbstractHack;
+use CHtml;
 use event\components\tickets\Ticket;
 use mail\components\mailers\SESMailer;
-use partner\models\Account;
 use user\models\User;
 
 /**
@@ -154,11 +154,12 @@ class Participant extends ActiveRecord
 
     public function bySearchString($search)
     {
-        $users = User::model()->bySearch($search)->findAll();
-        $ids = \CHtml::listData($users, 'Id', 'Id');
+        $users = User::model()
+            ->bySearch($search)
+            ->findAll();
 
         $criteria = new \CDbCriteria();
-        $criteria->addInCondition('"t"."UserId"', $ids);
+        $criteria->addInCondition('"t"."UserId"', CHtml::listData($users, 'Id', 'Id'));
         $criteria->mergeWith(
             CDbCriteria::create()
                 ->addCondition('"Data"."Attributes"->>\'firstName\' ilike \'%'.$search.'%\'', null, 'or')
@@ -180,31 +181,6 @@ class Participant extends ActiveRecord
         );
 
         return $this;
-    }
-
-    /**
-     * @param Role $role
-     * @param bool $usePriority
-     * @return bool
-     */
-    public function UpdateRole($role, $usePriority = false)
-    {
-        if (!$usePriority || $this->Role->Priority <= $role->Priority) {
-            $oldRole = $this->Role;
-
-            $this->RoleId = $role->RoleId;
-            $this->UpdateTime = time();
-            $this->save();
-
-            /** @var Account $partnerAccount */
-            if ($partnerAccount = Account::model()->byEventId($this->EventId)->find()) {
-                $partnerAccount->GetNotifier()->NotifyRoleChange($this->User, $oldRole, $role);
-            }
-
-            return true;
-        }
-
-        return false;
     }
 
     public function getHash()

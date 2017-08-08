@@ -1,4 +1,5 @@
 <?php
+
 namespace partner\components;
 
 use event\models\Event;
@@ -31,6 +32,7 @@ class Controller extends \application\components\controllers\BaseController
             $this->accessFilter = new AccessControlFilter();
             $this->accessFilter->setRules($this->accessRules());
         }
+
         return $this->accessFilter;
     }
 
@@ -42,6 +44,7 @@ class Controller extends \application\components\controllers\BaseController
     public function accessRules()
     {
         $rules = Yii::getPathOfAlias('partner.rules').'.php';
+
         return require($rules);
     }
 
@@ -57,6 +60,7 @@ class Controller extends \application\components\controllers\BaseController
             if (Yii::app()->user->getIsGuest()) {
                 Yii::app()->getClientScript()->registerPackage('runetid.auth');
                 $this->render('partner.views.system.need-user-auth');
+
                 return false;
             }
             $this->parseExtendedAccountRequest();
@@ -64,6 +68,7 @@ class Controller extends \application\components\controllers\BaseController
                 $this->render('partner.views.system.select-event', [
                     'events' => $this->getExtendedAccountEventData()
                 ]);
+
                 return false;
             }
         }
@@ -98,6 +103,7 @@ class Controller extends \application\components\controllers\BaseController
             $item->id = $event->Id;
             $data[] = $item;
         }
+
         return $data;
     }
 

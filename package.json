@@ -1,0 +1,14 @@
+{
+  "name": "@ruvents/runet-id.com",
+  "repository": "git@bitbucket.org:ruvents/runet-id.git",
+  "author": "RUVENTS",
+  "license": "proprietary",
+  "homepage": "http://runet-id.com/",
+  "scripts": [],
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "ladda": "^1.0.1",
+    "vue": "^2.4.1"
+  }
+}

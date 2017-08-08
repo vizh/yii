@@ -3,6 +3,7 @@ namespace pay\models;
 
 use application\components\ActiveRecord;
 use Guzzle\Http\Client;
+use partner\models\PartnerCallback;
 use pay\components\CodeException;
 use pay\components\coupon\managers\Base as BaseDiscountManager;
 use pay\components\Exception;
@@ -162,6 +163,11 @@ class Coupon extends ActiveRecord
             $this->processOldActivations($owner);
             $this->createActivation($owner);
         }
+
+        if ($product !== null && $product->EventId) {
+            PartnerCallback::onCouponActivate($product->Event, $payer, $owner, $product);
+        }
+
         // toDo: Заменить на калбек из настроек мероприятия
         if ($this->EventId === 3061) {
             (new Client())->post('https://startupvillage.ru/runet-id/coupon', [

@@ -48,11 +48,11 @@ class EventProductManager extends BaseProductManager
             ->with('Role')
             ->find();
 
-        if (!$this->participant) {
+        if ($this->participant === null) {
             return true;
         }
 
-        if (!$role = Role::model()->findByPk($this->RoleId)) {
+        if (null === $role = Role::model()->findByPk($this->RoleId)) {
             return false;
         }
 

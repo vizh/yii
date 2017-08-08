@@ -1,22 +1,22 @@
 <?php
+
 namespace partner\models;
 
 use application\components\ActiveRecord;
 use application\components\utility\Pbkdf2;
 use event\models\Event;
+use JsonSerializable;
 use Yii;
 
 /**
- * @property int $Id
- * @property int $EventId
+ * @property int    $Id
+ * @property int    $EventId
  * @property string $Login
  * @property string $Password
  * @property string $PasswordStrong
  * @property string $NoticeEmail
  * @property string $Role
- *
- * @property Event $Event
- *
+ * @property Event  $Event
  * Описание вспомогательных методов
  * @method Account   with($condition = '')
  * @method Account   find($condition = '', $params = [])
@@ -24,13 +24,12 @@ use Yii;
  * @method Account   findByAttributes($attributes, $condition = '', $params = [])
  * @method Account[] findAll($condition = '', $params = [])
  * @method Account[] findAllByAttributes($attributes, $condition = '', $params = [])
- *
  * @method Account byId(int $id, bool $useAnd = true)
  * @method Account byEventId(int $id, bool $useAnd = true)
  * @method Account byLogin(string $login, bool $useAnd = true)
  * @method Account byRole(string $role, bool $useAnd = true)
  */
-class Account extends ActiveRecord
+class Account extends ActiveRecord implements JsonSerializable
 {
     const ROLE_ADMIN = 'Admin';
     const ROLE_ADMIN_EXTENDED = 'AdminExtended';
@@ -48,6 +47,7 @@ class Account extends ActiveRecord
 
     /**
      * @param null|string $className
+     *
      * @return static
      */
     public static function model($className = __CLASS__)
@@ -72,6 +72,7 @@ class Account extends ActiveRecord
      * Проверяет пароль партнера и обновляет хэш на безопасный
      *
      * @param string $password
+     *
      * @return bool
      */
     public function checkLogin($password)
@@ -84,23 +85,9 @@ class Account extends ActiveRecord
 
             return true;
         }
+
         // Собственно, валидация пароля
         return Pbkdf2::validatePassword($password, $this->PasswordStrong);
-    }
-
-    /** @var \partner\components\Notifier */
-    protected $notifier;
-
-    /**
-     * @return null|\partner\components\Notifier
-     */
-    public function getNotifier()
-    {
-        if (empty($this->notifier)) {
-            $this->notifier = new \partner\components\Notifier($this);
-        }
-
-        return $this->notifier;
     }
 
     public function getIsAdmin()
@@ -124,5 +111,21 @@ class Account extends ActiveRecord
     public function setPassword($password)
     {
         $this->setAttribute('PasswordStrong', (new Pbkdf2())->createHash($password));
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     *
+     * @link  http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'Id' => $this->Id,
+            'Login' => $this->Login
+        ];
     }
 }

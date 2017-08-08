@@ -2,6 +2,7 @@
 namespace application\components\controllers;
 
 use application\components\WebModule;
+use CClientScript;
 use Yii;
 
 /**
@@ -121,7 +122,7 @@ abstract class BaseController extends \CController
             $path = Yii::app()->assetManager->publish($path);
             switch ($resourcesType) {
                 case 'js':
-                    Yii::app()->clientScript->registerScriptFile($path);
+                    Yii::app()->clientScript->registerScriptFile($path, CClientScript::POS_END);
                     break;
 
                 case 'css':

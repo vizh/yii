@@ -4,6 +4,11 @@ use api\models\Account;
 
 return [
 
+    [
+        'allow',
+        'roles' => [Account::ROLE_SUPERVISOR]
+    ],
+
     /***  DENY BLOCK  ***/
     [
         'deny',
@@ -23,11 +28,6 @@ return [
         'controllers' => ['pay'],
     ],
     /*** END DENY BLOCK ***/
-
-    [
-        'allow',
-        'roles' => [Account::ROLE_SUPERVISOR]
-    ],
 
     /*** OFFLINE BLOCK ***/
     [

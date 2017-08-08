@@ -16,11 +16,6 @@ class RegisterAction extends \pay\components\Action
         $this->getController()->bodyId = 'event-register';
         $this->getController()->setPageTitle('Регистрация  / '.$this->getEvent()->Title.' / RUNET-ID');
 
-        \partner\models\PartnerCallback::start($this->getEvent());
-        if ($this->getUser() != null) {
-            \partner\models\PartnerCallback::registration($this->getEvent(), $this->getUser());
-        }
-
         $request = \Yii::app()->getRequest();
         $products = $this->getProducts();
 
@@ -274,7 +269,6 @@ class RegisterAction extends \pay\components\Action
             if (\pay\models\OrderItem::model()->byPayerId($this->getUser()->Id)->byEventId($this->getEvent()->Id)->byDeleted(false)->exists() == false) {
                 $this->form->addError('Items', \Yii::t('app', 'Пожалуйста, добавьте информацию об участниках для продолжения'));
             } else {
-                \partner\models\PartnerCallback::addOrderItem($this->getEvent(), $this->getUser());
                 $this->getController()->redirect(
                     $this->getController()->createUrl('/pay/cabinet/index', ['eventIdName' => $this->getEvent()->IdName])
                 );

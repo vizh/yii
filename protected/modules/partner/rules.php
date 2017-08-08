@@ -10,6 +10,11 @@ return [
     ],
     [
         'allow',
+        'roles' => ['AdminExtended'],
+        'module' => 'partner'
+    ],
+    [
+        'allow',
         'module' => 'partner',
         'controllers' => ['auth'],
         'actions' => ['logout']
@@ -100,12 +105,6 @@ return [
         'roles' => ['Admin'],
         'module' => 'partner',
         'controllers' => ['paperless/event', 'paperless/material']
-    ],
-    [
-        'allow',
-        'roles' => ['AdminExtended'],
-        'module' => 'partner',
-        'controllers' => ['paperless']
     ],
     [
         'allow',

@@ -4,6 +4,7 @@
  * @var Controller $this
  * @source https://wrapbootstrap.com/theme/pixeladmin-premium-admin-theme-WB07403R9
  */
+
 use partner\components\Controller;
 
 $sidebar = $this->showSidebar && Yii::app()->partner->getIsSetEvent();
@@ -20,8 +21,10 @@ $language = Yii::app()->getLanguage();
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/partner/vendor.css">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <script src="/partner/vendor.js"></script>
     <title><?=CHtml::encode($this->pageTitle)?></title>
 </head>
 <body class="theme-default <?=$this->bodyClass?>" ng-app="PartnerApp">
@@ -84,7 +87,7 @@ $language = Yii::app()->getLanguage();
         <div id="main-menu-bg"></div>
     <?endif?>
 </div>
-<script>window.PixelAdmin.start(init);</script>
+<script>window.PixelAdmin.start(init)</script>
 <?$this->widget('\application\widgets\ModalAuth', ['bootstrapVersion' => 3])?>
 </body>
 </html>

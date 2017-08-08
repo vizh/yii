@@ -209,20 +209,23 @@ class Order extends ActiveRecord
         $activations = [];
 
         foreach ($collection as $item) {
-            if ($item->getOrderItem()->Refund) {
+            $position = $item->getOrderItem();
+
+            if ($position->Refund) {
                 continue;
             }
 
-            $activation = $item->getOrderItem()->getCouponActivation();
-            if ($item->getOrderItem()->activate($this)) {
-                if ($activation !== null) {
-                    $activations[$activation->Id][] = $item->getOrderItem()->Id;
-                }
-            } else {
-                $errorItems[] = $item->getOrderItem()->Id;
+            $total += $item->getPriceDiscount();
+
+            // Ошибка активации позиции заказа?
+            if (false === $position->activate()) {
+                $errorItems[] = $position->Id;
+                continue;
             }
 
-            $total += $item->getPriceDiscount();
+            if (null !== $activation = $position->getCouponActivation()) {
+                $activations[$activation->Id][] = $position->Id;
+            }
         }
 
         foreach ($activations as $activationId => $items) {
@@ -239,7 +242,7 @@ class Order extends ActiveRecord
         $this->Total = $total;
         $this->save();
 
-        PartnerCallback::pay($this->Event, $this, strtotime($this->CreationTime));
+        PartnerCallback::onOrderPaid($this->Event, $this);
 
         if ($this->Event->IdName === 'startupvillage17') {
             (new Client())->post('https://startupvillage.ru/runet-id/payed', [
@@ -299,8 +302,6 @@ class Order extends ActiveRecord
         if ($collection->count() == 0) {
             throw new MessageException('У вас нет не оплаченных товаров, для выставления счета.');
         }
-
-        PartnerCallback::tryPay($event, $user);
 
         $this->PayerId = $user->Id;
         $this->EventId = $event->Id;

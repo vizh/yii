@@ -186,6 +186,7 @@ class Sidebar extends \CWidget
                     ['label' => 'Программа лояльности', 'url' => ['settings/loyalty']],
                     ['label' => 'Виджет регистрации', 'url' => ['settings/api']],
                     ['label' => 'Дополнительные атрибуты пользователей', 'url' => ['settings/definitions']],
+                    ['label' => 'Обратные вызовы', 'url' => ['settings/callbacks']],
                     ['label' => 'Коды счетчиков', 'url' => ['settings/counter']]
                 ]
             ],
