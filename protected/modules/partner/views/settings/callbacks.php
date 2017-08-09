@@ -28,7 +28,7 @@ $labels = (new PartnerCallback())->attributeLabels();
                         <div class="col-sm-9">
                             <input v-model="callback.OnOrderPaid" class="form-control">
                             <div class="help-block">
-                                {{ error&&error.Fields&&error.Fields.OnOrderPaid ? error.Fields.OnOrderPaid[0] : 'Вызывается в момент оплаты счёта.' }}
+                                {{ error&&error.Fields&&error.Fields.OnOrderPaid ? error.Fields.OnOrderPaid[0] : 'Возвращает данные: OrderId, PayerId.' }}
                             </div>
                         </div>
                     </div>
@@ -37,7 +37,7 @@ $labels = (new PartnerCallback())->attributeLabels();
                         <div class="col-sm-9">
                             <input v-model="callback.OnOrderItemRefund" class="form-control">
                             <div class="help-block">
-                                {{ error&&error.Fields&&error.Fields.OnOrderItemRefund ? error.Fields.OnOrderItemRefund[0] : 'Вызывается в момент возврата заказа.' }}
+                                {{ error&&error.Fields&&error.Fields.OnOrderItemRefund ? error.Fields.OnOrderItemRefund[0] : 'Возвращает данные: OrderItemId, PayerId, OwnerId.' }}
                             </div>
                         </div>
                     </div>
@@ -46,7 +46,7 @@ $labels = (new PartnerCallback())->attributeLabels();
                         <div class="col-sm-9">
                             <input v-model="callback.OnOrderItemChangeOwner" class="form-control">
                             <div class="help-block">
-                                {{ error&&error.Fields&&error.Fields.OnOrderItemChangeOwner ? error.Fields.OnOrderItemChangeOwner[0] : 'Вызывается в момент смены владельца заказа.' }}
+                                {{ error&&error.Fields&&error.Fields.OnOrderItemChangeOwner ? error.Fields.OnOrderItemChangeOwner[0] : 'Возвращает данные: OrderItemId, PayerId, SourceOwnerId, TargetOwnerId.' }}
                             </div>
                         </div>
                     </div>
@@ -67,7 +67,6 @@ $labels = (new PartnerCallback())->attributeLabels();
         </div>
         <div class="panel-footer">
             <ladda v-on:click.native="save(callback)" type="btn-primary">Сохранить</ladda>
-            <ladda v-on:click.native="reload">Обновить</ladda>
         </div>
     </div>
 </div>
