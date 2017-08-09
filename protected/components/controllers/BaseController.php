@@ -119,14 +119,14 @@ abstract class BaseController extends \CController
             if (!file_exists($path)) {
                 continue;
             }
-            $path = Yii::app()->assetManager->publish($path);
+            $path = Yii::app()->getAssetManager()->publish($path);
             switch ($resourcesType) {
                 case 'js':
-                    Yii::app()->clientScript->registerScriptFile($path, CClientScript::POS_END);
+                    Yii::app()->getClientScript()->registerScriptFile($path, CClientScript::POS_HEAD);
                     break;
 
                 case 'css':
-                    Yii::app()->clientScript->registerCssFile($path);
+                    Yii::app()->getClientScript()->registerCssFile($path);
                     break;
             }
         }

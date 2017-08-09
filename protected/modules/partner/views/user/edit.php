@@ -13,7 +13,7 @@ use ruvents\models\Visit;
 $this->setPageTitle('Редактирование участника мероприятия');
 $clientScript = Yii::app()->getClientScript();
 $clientScript->registerPackage('angular');
-$clientScript->registerScript('init', 'new CUserEdit('.$form->getParticipantJson().')', CClientScript::POS_HEAD);
+$clientScript->registerScript('init', 'new CUserEdit('.$form->getParticipantJson().')', CClientScript::POS_END);
 
 ?>
 

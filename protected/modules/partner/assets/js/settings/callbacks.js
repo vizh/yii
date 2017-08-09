@@ -29,34 +29,36 @@ Vue.component('ladda', {
     }
 })
 
-new Vue({
-    el:'#partner-callbacks',
-    data:{
-        callbacks:[],
-        error:null
-    },
-    created:function(){
-        //noinspection JSUnresolvedVariable
-        this.callbacks = Callbacks
-    },
-    methods:{
-        reload:function(){
-            var app = this
-            $.getJSON('?ajaxAction=list', function(response){
-                setTimeout(Ladda.stopAll, 300)
-                if (null === (app.error = response.hasOwnProperty('Error') ? response.Error : null))
-                    app.callbacks = response
-            })
+$(function(){
+    new Vue({
+        el:'#partner-callbacks',
+        data:{
+            callbacks:[],
+            error:null
         },
-        save:function(callback){
-            var app = this
-            $.post('?ajaxAction=update', callback, function(response){
-                response = $.parseJSON(response);
-                if (null === (app.error = response.hasOwnProperty('Error') ? response.Error : null))
-                    app.reload()
-                else
-                    setTimeout(Ladda.stopAll, 2000)
-            })
+        created:function(){
+            //noinspection JSUnresolvedVariable
+            this.callbacks = Callbacks
+        },
+        methods:{
+            reload:function(){
+                var app = this
+                $.getJSON('?ajaxAction=list', function(response){
+                    setTimeout(Ladda.stopAll, 300)
+                    if (null === (app.error = response.hasOwnProperty('Error') ? response.Error : null))
+                        app.callbacks = response
+                })
+            },
+            save:function(callback){
+                var app = this
+                $.post('?ajaxAction=update', callback, function(response){
+                    response = $.parseJSON(response);
+                    if (null === (app.error = response.hasOwnProperty('Error') ? response.Error : null))
+                        app.reload()
+                    else
+                        setTimeout(Ladda.stopAll, 2000)
+                })
+            }
         }
-    }
+    })
 })
