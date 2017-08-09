@@ -9,7 +9,7 @@
 $clientScript = \Yii::app()->getClientScript();
 $clientScript->registerScript('init', '
     new CRegistrationIndex({products : ' . $form->getProductsJson() . '});
-', \CClientScript::POS_HEAD);
+', \CClientScript::POS_END);
 ?>
 
 <div class="container-fluid">
