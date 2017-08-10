@@ -32,7 +32,7 @@ class DeveloperCommand extends BaseConsoleCommand
 
         // Администратор
         $user = User::model()->findByPk(1) ?: new User();
-        $user->Email = 'admin@runet-id.com';
+        $user->Email = 'admin@ruvents.com';
         $user->changePassword('thyRi6xmcLWB');
         if (false === $user->save()) {
             throw new Exception($user);

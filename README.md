@@ -63,3 +63,8 @@ GOOGLE_MAPS_API_KEY = xxnLDLUvPrKeFkAAsypBQfLAqrNXYjgafvyoRet
 2. Если требуется синхронизация загруженных файлов с боевым сервером, то `docker-compose exec app bash`
    * apt-get update && apt-get install -yq rsync openssh-client
    * rsync -rcv runetid@runet-id.com:www/ www/
+
+## Учётные записи
+
+1. Cуперпользователь: admin@ruvents.com / thyRi6xmcLWB
+2. Администратор мероприятий: root / 922FEEhBK9
