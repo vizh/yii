@@ -11,4 +11,13 @@ use nastradamus39\slate\annotations\ApiController;
  */
 class IctController extends Controller
 {
+    public function actions()
+    {
+        return [
+            'roles' => '\api\controllers\ict\RolesAction',
+            'userAdd' => '\api\controllers\ict\UserAddAction',
+            'userDelete' => '\api\controllers\ict\UserDeleteAction',
+            'userList' => '\api\controllers\ict\UserListAction'
+        ];
+    }
 }

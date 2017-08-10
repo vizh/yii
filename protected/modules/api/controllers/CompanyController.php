@@ -128,4 +128,12 @@ $api = new \RunetID\Api\Api(ApiKey, Secret, Cache = null);
  */
 class CompanyController extends Controller
 {
+    public function actions()
+    {
+        return [
+            'edit' => '\api\controllers\company\EditAction',
+            'get' => '\api\controllers\company\GetAction',
+            'list' => '\api\controllers\company\ListAction'
+        ];
+    }
 }

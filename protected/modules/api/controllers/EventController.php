@@ -95,4 +95,23 @@ use nastradamus39\slate\annotations\ApiObject;
  */
 class EventController extends Controller
 {
+    public function actions()
+    {
+        return [
+            'changerole' => '\api\controllers\event\ChangeroleAction',
+            'companies' => '\api\controllers\event\CompaniesAction',
+            'halls' => '\api\controllers\event\HallsAction',
+            'info' => '\api\controllers\event\InfoAction',
+            'list' => '\api\controllers\event\ListAction',
+            'participationCancel' => '\api\controllers\event\ParticipationCancelAction',
+            'purposes' => '\api\controllers\event\PurposesAction',
+            'register' => '\api\controllers\event\RegisterAction',
+            'roles' => '\api\controllers\event\RolesAction',
+            'runetids' => '\api\controllers\event\RunetidsAction',
+            'statistics' => '\api\controllers\event\StatisticsAction',
+            'types' => '\api\controllers\event\TypesAction',
+            'users' => '\api\controllers\event\UsersAction',
+            'usersPhotos' => '\api\controllers\event\UsersPhotosAction'
+        ];
+    }
 }

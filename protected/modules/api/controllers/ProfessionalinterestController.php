@@ -12,4 +12,12 @@ use nastradamus39\slate\annotations\ApiController;
  */
 class ProfessionalinterestController extends Controller
 {
+    public function actions()
+    {
+        return [
+            'add' => '\api\controllers\professionalinterest\AddAction',
+            'delete' => '\api\controllers\professionalinterest\DeleteAction',
+            'list' => '\api\controllers\professionalinterest\ListAction'
+        ];
+    }
 }

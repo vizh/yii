@@ -79,4 +79,17 @@ use nastradamus39\slate\annotations\ApiObject;
  */
 class SectionController extends Controller
 {
+    public function actions()
+    {
+        return [
+            'addFavorite' => '\api\controllers\section\AddFavoriteAction',
+            'deleteFavorite' => '\api\controllers\section\DeleteFavoriteAction',
+            'favorites' => '\api\controllers\section\FavoritesAction',
+            'info' => '\api\controllers\section\InfoAction',
+            'list' => '\api\controllers\section\ListAction',
+            'reports' => '\api\controllers\section\ReportsAction',
+            'updated' => '\api\controllers\section\UpdatedAction',
+            'user' => '\api\controllers\section\UserAction'
+        ];
+    }
 }

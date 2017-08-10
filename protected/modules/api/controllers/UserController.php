@@ -87,4 +87,25 @@ Language – переключение языка приложения и его 
  */
 class UserController extends Controller
 {
+    public function actions()
+    {
+        return [
+            'address' => '\api\controllers\user\AddressAction',
+            'auth' => '\api\controllers\user\AuthAction',
+            'badge' => '\api\controllers\user\BadgeAction',
+            'create' => '\api\controllers\user\CreateAction',
+            'edit' => '\api\controllers\user\EditAction',
+            'get' => '\api\controllers\user\GetAction',
+            'login' => '\api\controllers\user\LoginAction',
+            'passwordChange' => '\api\controllers\user\PasswordChangeAction',
+            'passwordRestore' => '\api\controllers\user\PasswordRestoreAction',
+            'professionalinterests' => '\api\controllers\user\ProfessionalinterestsAction',
+            'purposes' => '\api\controllers\user\PurposesAction',
+            'search' => '\api\controllers\user\SearchAction',
+            'sections' => '\api\controllers\user\SectionsAction',
+            'setdata' => '\api\controllers\user\SetdataAction',
+            'setphoto' => '\api\controllers\user\SetphotoAction',
+            'settings' => '\api\controllers\user\SettingsAction'
+        ];
+    }
 }

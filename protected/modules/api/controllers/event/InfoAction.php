@@ -2,6 +2,7 @@
 namespace api\controllers\event;
 
 use api\components\Action;
+use api\components\Exception;
 use nastradamus39\slate\annotations\Action\Param;
 use nastradamus39\slate\annotations\Action\Request;
 use nastradamus39\slate\annotations\Action\Response;

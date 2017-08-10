@@ -68,4 +68,21 @@ use nastradamus39\slate\annotations\ApiObject;
  */
 class PayController extends Controller
 {
+    public function actions()
+    {
+        return [
+            'add' => '\api\controllers\pay\AddAction',
+            'coupon' => '\api\controllers\pay\CouponAction',
+            'delete' => '\api\controllers\pay\DeleteAction',
+            'edit' => '\api\controllers\pay\EditAction',
+            'filterBook' => '\api\controllers\pay\FilterBookAction',
+            'filterList' => '\api\controllers\pay\FilterListAction',
+            'items' => '\api\controllers\pay\ItemsAction',
+            'list' => '\api\controllers\pay\ListAction',
+            'product' => '\api\controllers\pay\ProductAction',
+            'products' => '\api\controllers\pay\ProductsAction',
+            'rifrooms' => '\api\controllers\pay\RifroomsAction',
+            'url' => '\api\controllers\pay\UrlAction'
+        ];
+    }
 }

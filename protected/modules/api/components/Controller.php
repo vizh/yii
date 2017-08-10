@@ -5,41 +5,7 @@ use Yii;
 
 class Controller extends \application\components\controllers\BaseController
 {
-    const MaxResult = 200;
-
     protected $result;
-
-    public function actions()
-    {
-        return $this->getVersioningActions();
-    }
-
-    /**
-     * @return array
-     */
-    protected function getVersioningActions()
-    {
-        $path = Yii::getPathOfAlias('api.controllers.'.$this->getId());
-        $result = [];
-
-        // toDo: Вообще, - это не правильно считывать содержимое директории на каждом хите.
-        foreach (scandir($path) as $file) {
-            if (preg_match('/((\w*?)Action(\d*?)).php$/i', $file, $matches) === 1) {
-                //$matches[3] - дата новой версии action
-                //todo: даполнить метод версионностью
-                $key = lcfirst($matches[2]);
-                $val = '\\api\\controllers\\'.$this->getId().'\\'.$matches[1];
-                $result[$key] = $val;
-
-                if ($key !== strtolower($key)) {
-                    $key = strtolower($key);
-                    $result[$key] = $val;
-                }
-            }
-        }
-
-        return $result;
-    }
 
     /**
      * @param mixed $result
@@ -69,8 +35,6 @@ class Controller extends \application\components\controllers\BaseController
     public function afterAction($action)
     {
         echo json_encode($this->result, JSON_UNESCAPED_UNICODE);
-        // toDo: Отключено логирование успешных запросов api
-        // $this->createLog();
     }
 
     /**

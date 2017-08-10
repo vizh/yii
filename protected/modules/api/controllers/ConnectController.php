@@ -60,4 +60,19 @@ use nastradamus39\slate\annotations\ApiObject;
  */
 class ConnectController extends Controller
 {
+    public function actions()
+    {
+        return [
+            'accept' => '\api\controllers\connect\AcceptAction',
+            'cancel' => '\api\controllers\connect\CancelAction',
+            'create' => '\api\controllers\connect\CreateAction',
+            'decline' => '\api\controllers\connect\DeclineAction',
+            'invite' => '\api\controllers\connect\InviteAction',
+            'list' => '\api\controllers\connect\ListAction',
+            'places' => '\api\controllers\connect\PlacesAction',
+            'recommendations' => '\api\controllers\connect\RecommendationsAction',
+            'search' => '\api\controllers\connect\SearchAction',
+            'signup' => '\api\controllers\connect\SignupAction'
+        ];
+    }
 }

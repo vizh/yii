@@ -12,4 +12,11 @@ use nastradamus39\slate\annotations\ApiController;
  */
 class InviteController extends Controller
 {
+    public function actions()
+    {
+        return [
+            'get' => '\api\controllers\invite\GetAction',
+            'request' => '\api\controllers\invite\RequestAction'
+        ];
+    }
 }

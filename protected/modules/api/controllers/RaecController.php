@@ -12,4 +12,11 @@ use nastradamus39\slate\annotations\ApiController;
  */
 class RaecController extends Controller
 {
+    public function actions()
+    {
+        return [
+            'commissionList' => '\api\controllers\raec\CommissionListAction',
+            'commissionUsers' => '\api\controllers\raec\CommissionUsersAction'
+        ];
+    }
 }

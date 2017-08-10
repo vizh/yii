@@ -62,4 +62,11 @@ use nastradamus39\slate\annotations\ApiObject;
  */
 class CompetenceController extends Controller
 {
+    public function actions()
+    {
+        return [
+            'result' => '\api\controllers\competence\ResultAction',
+            'tests' => '\api\controllers\competence\TestsAction'
+        ];
+    }
 }

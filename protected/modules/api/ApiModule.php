@@ -23,20 +23,26 @@ class ApiModule extends CWebModule
             : new \api\components\Exception(100, [$event->exception->getMessage()]);
 
         // Перенаправляем ошибку в Sentry
-        Yii::app()->getErrorHandler()
-            ->getRavenClient()
-            ->captureException($exception);
+        if (YII_DEBUG === false) {
+            Yii::app()->getErrorHandler()
+                ->getRavenClient()
+                ->captureException($exception);
+        }
 
         $exception->sendResponse();
 
         $event->handled = true;
 
-        /** @var \api\components\Controller $controller */
-        $controller = Yii::app()->getController();
+        if (YII_DEBUG === false) {
+            /** @var \api\components\Controller $controller */
+            $controller = Yii::app()->getController();
 
-        $controller->createLog(
-            $exception->getCode(),
-            $exception->getMessage()
-        );
+            $controller->createLog(
+                $exception->getCode(),
+                $exception->getMessage()
+            );
+        }
+
+        Yii::app()->end();
     }
 }
