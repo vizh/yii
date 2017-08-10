@@ -9,14 +9,16 @@ use JsonSerializable;
 use Yii;
 
 /**
- * @property int    $Id
- * @property int    $EventId
+ * @property int $Id
+ * @property int $EventId
  * @property string $Login
  * @property string $Password
  * @property string $PasswordStrong
  * @property string $NoticeEmail
+ *
  * @property string $Role
- * @property Event  $Event
+ * @property Event $Event
+ *
  * Описание вспомогательных методов
  * @method Account   with($condition = '')
  * @method Account   find($condition = '', $params = [])
@@ -90,11 +92,6 @@ class Account extends ActiveRecord implements JsonSerializable
         return Pbkdf2::validatePassword($password, $this->PasswordStrong);
     }
 
-    public function getIsAdmin()
-    {
-        return strstr(Yii::app()->partner->getAccount()->Role, 'Admin') !== false;
-    }
-
     /**
      * Возвращает true, если инстанс - расширенный аккаунт для работы с любым мероприятием
      *
@@ -102,7 +99,7 @@ class Account extends ActiveRecord implements JsonSerializable
      */
     public function getIsExtended()
     {
-        return strstr(Yii::app()->partner->getAccount()->Role, 'Extended') !== false;
+        return strpos($this->Role, 'Extended') !== false;
     }
 
     /**
