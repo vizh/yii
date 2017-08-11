@@ -215,7 +215,7 @@ class Product extends ActiveRecord
      */
     public function getPrice($time = null)
     {
-        return $this->getManager()->getPriceByTime($time);
+        return $this->getManager()->getPriceValueByTime($time);
     }
 
     /**

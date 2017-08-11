@@ -27,17 +27,24 @@ class ProductsAction extends Action
      */
     public function run()
     {
-        $request = Yii::app()->getRequest();
-        $model = Product::model()->byEventId($this->getEvent()->Id)->byDeleted(false);
-        if ($request->getParam('OnlyPublic')) {
-            $model->byPublic(true);
+        $products = Product::model()
+            ->byEventId($this->getEvent()->Id)
+            ->byDeleted(false)
+            ->orderBy(['"t"."Priority"' => SORT_DESC, '"t"."Id"' => SORT_ASC]);
+
+        if ($this->hasRequestParam('OnlyPublic')) {
+            $products->byPublic();
         }
 
-        $products = $model->findAll(['order' => '"t"."Priority" DESC, "t"."Id" ASC']);
+        $products = $products->findAll();
+
         $result = [];
         foreach ($products as $product) {
-            $result[] = $this->getAccount()->getDataBuilder()->createProduct($product);
+            $result[] = $this->getAccount()
+                ->getDataBuilder()
+                ->createProduct($product);
         }
+
         $this->setResult($result);
     }
 }

@@ -862,13 +862,17 @@ class Builder
     {
         $this->applyLocale($product);
 
+        $price = $product->getManager()->getPriceByTime($time);
+
         $this->product = new \stdClass();
         $this->product->Id = $product->Id;
         $this->product->ProductId = $product->Id;
         /** todo: deprecated **/
         $this->product->Manager = $product->ManagerName;
         $this->product->Title = $product->Title;
-        $this->product->Price = $product->getPrice($time);
+        $this->product->Price = $price->Price;
+        $this->product->PriceStartTime = $price->StartTime;
+        $this->product->PriceEndTime = $price->EndTime;
         $this->product->Attributes = [];
         foreach ($product->Attributes as $attribute) {
             $this->product->Attributes[$attribute->Name] = $attribute->Value;

@@ -79,7 +79,7 @@ class FoodPartnerOrder extends ActiveRecord
             foreach ($this->Items as $item) {
                 /** @var BaseProductManager $manager */
                 $manager = $item->Product->getManager();
-                $this->total += $manager->getPriceByTime($this->CreationTime) * $item->Count;
+                $this->total += $manager->getPriceValueByTime($this->CreationTime) * $item->Count;
             }
         }
 

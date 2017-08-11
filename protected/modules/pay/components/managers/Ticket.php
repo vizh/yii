@@ -123,7 +123,7 @@ class Ticket extends BaseProductManager
         return $count * parent::getPrice($orderItem);
     }
 
-    public function getPriceByTime($time = null)
+    public function getPriceValueByTime($time = null)
     {
         return $this->getPaidProduct()->getPrice($time);
     }

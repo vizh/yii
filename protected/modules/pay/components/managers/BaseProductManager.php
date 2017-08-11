@@ -310,7 +310,7 @@ abstract class BaseProductManager
      */
     public function getPrice($orderItem)
     {
-        return $this->getPriceByTime($orderItem->PaidTime);
+        return $this->getPriceValueByTime($orderItem->PaidTime);
     }
 
     /**
@@ -318,18 +318,35 @@ abstract class BaseProductManager
      * @return int
      * @throws Exception
      */
+    public function getPriceValueByTime($time = null)
+    {
+        $price = $this->getPriceByTime($time);
+
+        return $price !== null
+            ? $price->Price
+            : 0;
+    }
+
+    /**
+     * @param string $time
+     * @return \pay\models\ProductPrice|null
+     * @throws Exception
+     */
     public function getPriceByTime($time = null)
     {
-        $time = $time ?: date('Y-m-d H:i:s', time());
+        if ($time === null) {
+            /** @noinspection CallableParameterUseCaseInTypeContextInspection */
+            $time = date('Y-m-d H:i:s', time());
+        }
 
         foreach ($this->product->Prices as $price) {
-            if ($price->StartTime <= $time && ($price->EndTime == null || $time < $price->EndTime)) {
-                return $price->Price;
+            if ($price->StartTime <= $time && (empty($price->EndTime) || $time < $price->EndTime)) {
+                return $price;
             }
         }
 
         if ($_SERVER['REQUEST_URI'] === '/event/updatedusers/' || Yii::app()->controller->route == 'pay/admin/stats/index') {
-            return 0;
+            return null;
         }
 
         throw new MessageException('Не удалось определить цену продукта!!');
