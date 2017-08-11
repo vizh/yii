@@ -99,7 +99,7 @@ class GetAction extends Action
             Builder::USER_DEPRECATED_DATA
         ]);
 
-        if (in_array(Builder::USER_TICKETS, $builders)) {
+        if (in_array(Builder::USER_ORDERED_TICKETS, $builders)) {
             $user->with([
                 'OrderItems:byPaid:byNotDeleted:byNotRefund' => [
                     'with' => ['Product:byEventManager', 'Participant' => ['with' => ['User.Settings', 'Role', 'Event']]],

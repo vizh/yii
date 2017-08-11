@@ -68,7 +68,7 @@ class Builder
     const USER_PHOTO = 'Photo';
     const USER_DEPRECATED_DATA = 'DeprecatedData';
     const USER_PARTICIPATIONS = 'Participations';
-    const USER_TICKETS = 'OrderedTickets';
+    const USER_ORDERED_TICKETS = 'OrderedTickets';
     const USER_EMPLOYMENTS = 'Employments';
     const USER_SETTINGS = 'Settings';
 
@@ -582,7 +582,7 @@ class Builder
             ];
         }
 
-        $this->user->OrderItems = $tickets;
+        $this->user->OrderedTickets = $tickets;
 
         return $this->user;
     }

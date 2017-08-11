@@ -82,7 +82,7 @@ use Yii;
  * @property CEvent $onRegister
  *
  * Описание вспомогательных методов
- * @method User   with1($condition = '')
+ * @method User   with($condition = '')
  * @method User   find($condition = '', $params = [])
  * @method User   findByPk($pk, $condition = '', $params = [])
  * @method User   findByAttributes($attributes, $condition = '', $params = [])
