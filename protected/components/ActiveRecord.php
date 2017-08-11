@@ -126,11 +126,16 @@ abstract class ActiveRecord extends \CActiveRecord
         if (strpos($name, 'by') === 0) {
             $column = substr($name, 2);
             $schema = $this->getTableSchema();
+            if (preg_match('/^Not[A-Z]/', $column)) {
+                $parameters[0] = false;
+                $column = substr($column, 3);
+            }
             if (isset($schema->columns[$column]) === true) {
+                $columnName = "\"{$this->getTableAlias()}\".\"{$column}\"";
                 $columnType = $schema->getColumn($column)->dbType;
                 $criteria = new CDbCriteria();
                 if ($columnType === 'boolean') {
-                    $criteria->addCondition(($parameters[0] === false ? 'NOT ' : '').'"t"."'.$column.'"');
+                    $criteria->addCondition(($parameters[0] === false ? 'NOT ' : '').$columnName);
                 } else {
                     $value = $parameters[0];
                     $isarr = is_array($value);
@@ -147,13 +152,13 @@ abstract class ActiveRecord extends \CActiveRecord
                     }
                     if ($value) {
                         if ($isarr === true) {
-                            $criteria->addInCondition('"t"."'.$column.'"', $value);
+                            $criteria->addInCondition($columnName, $value);
                         } else {
-                            $criteria->addCondition('"t"."'.$column.'" = :'.$column);
+                            $criteria->addCondition("{$columnName} = :".$column);
                             $criteria->params[$column] = $value;
                         }
                     } else {
-                        $criteria->addCondition('"t"."'.$column.'" IS NULL');
+                        $criteria->addCondition("{$columnName} IS NULL");
                     }
                 }
                 $this->getDbCriteria()->mergeWith($criteria, true);
