@@ -68,6 +68,7 @@ class Builder
     const USER_PHOTO = 'Photo';
     const USER_DEPRECATED_DATA = 'DeprecatedData';
     const USER_PARTICIPATIONS = 'Participations';
+    const USER_TICKETS = 'OrderedTickets';
     const USER_EMPLOYMENTS = 'Employments';
     const USER_SETTINGS = 'Settings';
 
@@ -553,6 +554,35 @@ class Builder
         // Отправляем результат на золото!
         $this->user->Events = array_values($events);
         $this->user->Participations = $participationsAnalytics;
+
+        return $this->user;
+    }
+
+    public function buildUserOrderedTickets(User $user)
+    {
+        // Все билеты пользователя на его мероприятия и те, которые он покупал кому-то
+        $tickets = [];
+
+        // Все билеты пользователя
+        foreach ($user->Participants as $participant) {
+            $tickets[$participant->EventId][$participant->User->RunetId] = [
+                'RunetId' => $participant->User->RunetId,
+                'FullName' => $participant->User->getFullName(),
+                'RoleName' => $participant->Role->Title,
+                'TicketUrl' => $participant->getTicketUrl()
+            ];
+        }
+
+        foreach ($user->OrderItems as $item) {
+            $tickets[$item->Product->EventId][$item->Participant->User->RunetId] = [
+                'RunetId' => $item->Participant->User->RunetId,
+                'FullName' => $item->Participant->User->getFullName(),
+                'RoleName' => $item->Participant->Role->Title,
+                'TicketUrl' => $item->Participant->getTicketUrl()
+            ];
+        }
+
+        $this->user->OrderItems = $tickets;
 
         return $this->user;
     }

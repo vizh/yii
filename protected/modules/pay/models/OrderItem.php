@@ -2,7 +2,6 @@
 namespace pay\models;
 
 use application\components\ActiveRecord;
-use Guzzle\Http\Client;
 use partner\models\PartnerCallback;
 use pay\components\Exception;
 use pay\components\MessageException;
@@ -31,6 +30,7 @@ use user\models\User;
  * @property OrderLinkOrderItem[] $OrderLinks
  * @property CouponActivationLinkOrderItem $CouponActivationLink
  * @property OrderItemAttribute[] $Attributes
+ * @property \event\models\Participant $Participant Участие на мероприятии, приобретённое данным заказом, если это EventProductManager, конечно.
  *
  * Описание вспомогательных методов
  * @method OrderItem   with($condition = '')
@@ -93,7 +93,8 @@ class OrderItem extends ActiveRecord
             'ChangedOwner' => [self::BELONGS_TO, 'user\models\User', 'ChangedOwnerId'],
             'OrderLinks' => [self::HAS_MANY, 'pay\models\OrderLinkOrderItem', 'OrderItemId'],
             'CouponActivationLink' => [self::HAS_ONE, 'pay\models\CouponActivationLinkOrderItem', 'OrderItemId'],
-            'Attributes' => [self::HAS_MANY, 'pay\models\OrderItemAttribute', 'OrderItemId']
+            'Attributes' => [self::HAS_MANY, 'pay\models\OrderItemAttribute', 'OrderItemId'],
+            'Participant' => [self::HAS_ONE, '\event\models\Participant', ['UserId' => 'OwnerId'], 'join' => 'LEFT JOIN "PayProduct" ON "PayProduct"."Id" = "OrderItems"."ProductId"', 'condition' => '"PayProduct"."EventId" = "Participant"."EventId"']
         ];
     }
 

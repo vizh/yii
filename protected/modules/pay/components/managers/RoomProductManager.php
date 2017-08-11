@@ -124,7 +124,7 @@ class RoomProductManager extends BaseProductManager
             ->findAll();
 
         foreach ($orderItems as $item) {
-            if ($item->Product->ManagerName == 'EventProductManager') {
+            if ($item->Product->ManagerName === BaseProductManager::EVENT) {
                 return true;
             }
         }

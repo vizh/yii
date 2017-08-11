@@ -99,16 +99,33 @@ class GetAction extends Action
             Builder::USER_DEPRECATED_DATA
         ]);
 
+        if (in_array(Builder::USER_TICKETS, $builders)) {
+            $user->with([
+                'OrderItems:byPaid:byNotDeleted:byNotRefund' => [
+                    'with' => ['Product:byEventManager', 'Participant' => ['with' => ['User.Settings', 'Role', 'Event']]],
+                    'condition' => '"Product"."Id" NOTNULL'
+                ],
+                'Participants' => [
+                    'with' => ['User.Settings', 'Role', 'Event']
+                ]
+            ]);
+        }
+
         if (in_array(Builder::USER_PARTICIPATIONS, $builders)) {
             $user->with(['Participants' => ['with' => [
                 'Role',
-                'Event' => ['with' => [
-                    'Type',
-                    'LinkSite.Site',
-                    'Parts',
-                    'LinkPhones.Phone',
-                    'LinkAddress.Address.City'
-                ]]]]]);
+                'Event.Parts',
+                'Event.LinkSite.Site',
+                'Event.LinkAddress.Address.City',
+                'Event.LinkPhones.Phone',
+                'User.Settings'
+            ]]]);
+        } elseif (in_array(Builder::USER_EVENT, $builders)) {
+            $user->with(['Participants' => ['with' => [
+                'User.Settings',
+                'Role',
+                'Event'
+            ]]]);
         }
 
         if (in_array(Builder::USER_CONTACTS_EXTENDED, $builders)) {

@@ -1,6 +1,8 @@
 <?php
 namespace event\components;
 
+use pay\components\managers\BaseProductManager;
+
 /**
  * Class DemoEventCreator
  *
@@ -170,7 +172,7 @@ class DemoEventCreator
         }
 
         $product = new \pay\models\Product();
-        $product->ManagerName = 'EventProductManager';
+        $product->ManagerName = BaseProductManager::EVENT;
         $product->Title = 'Участие на мероприятии как '.$role->Title;
         $product->Description = $event->Info;
         $product->EventId = $event->Id;

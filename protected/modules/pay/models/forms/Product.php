@@ -2,6 +2,7 @@
 namespace pay\models\forms;
 
 use CHtmlPurifier;
+use pay\components\managers\BaseProductManager;
 use Yii;
 
 class Product extends \CFormModel
@@ -140,7 +141,7 @@ class Product extends \CFormModel
             ];
         } else {
             $managers = [
-                'EventProductManager' => Yii::t('app', 'Мероприятие'),
+                BaseProductManager::EVENT => Yii::t('app', 'Мероприятие'),
                 'EventMicrosoft' => Yii::t('app', 'Тип товара для мероприятий Microsoft'),
             ];
         }

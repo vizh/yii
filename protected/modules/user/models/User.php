@@ -76,12 +76,13 @@ use Yii;
  * @property Document[] $Documents
  * @property UnsubscribeEventMail[] $UnsubscribeEventMails
  * @property UserDevice[] $Devices
+ * @property \pay\models\OrderItem[] $OrderItems Заказы пользователя
  *
  * События
  * @property CEvent $onRegister
  *
  * Описание вспомогательных методов
- * @method User   with($condition = '')
+ * @method User   with1($condition = '')
  * @method User   find($condition = '', $params = [])
  * @method User   findByPk($pk, $condition = '', $params = [])
  * @method User   findByAttributes($attributes, $condition = '', $params = [])
@@ -214,7 +215,11 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
             ],
 
             'UnsubscribeEventMails' => [self::HAS_MANY, '\user\models\UnsubscribeEventMail', 'UserId'],
-            'Devices' => [self::HAS_MANY, '\user\models\UserDevice', 'UserId']
+            'Devices' => [self::HAS_MANY, '\user\models\UserDevice', 'UserId'],
+
+            'OrderItems' => [self::HAS_MANY, '\pay\models\OrderItem', 'PayerId',
+                'together' => false
+            ],
         ];
     }
 

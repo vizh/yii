@@ -1,11 +1,13 @@
 <?php
 namespace partner\controllers\special\rif13;
 
+use pay\components\managers\BaseProductManager;
+
 class FixchangesAction extends \partner\components\Action
 {
     public function run()
     {
-        $products = \pay\models\Product::model()->byManagerName('EventProductManager')
+        $products = \pay\models\Product::model()->byManagerName(BaseProductManager::EVENT)
             ->byEventId($this->getEvent()->Id)->findAll();
         $idList = [];
         foreach ($products as $product) {

@@ -176,6 +176,21 @@ class Product extends ActiveRecord
         return $this;
     }
 
+    public function byEventManager()
+    {
+        $this->byManagerName(BaseProductManager::EVENT);
+    }
+
+    public function byFoodManager()
+    {
+        $this->byManagerName(BaseProductManager::FOOD);
+    }
+
+    public function byRoomManager()
+    {
+        $this->byManagerName(BaseProductManager::ROOM);
+    }
+
     /**
      * Исключить менеджер комнат
      *
