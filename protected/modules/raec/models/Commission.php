@@ -26,7 +26,7 @@ use application\components\ActiveRecord;
  * @method Commission byId(int $id, bool $useAnd = true)
  * @method Commission byTitle(string $title, bool $useAnd = true)
  * @method Commission byUrl(string $url, bool $useAnd = true)
- * @method Commission byDeleted(bool $deleted, bool $useAnd = true)
+ * @method Commission byDeleted(bool $deleted = true, bool $useAnd = true)
  */
 class Commission extends ActiveRecord
 {

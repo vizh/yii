@@ -29,7 +29,7 @@ use event\models\Event;
  *
  * @method Import byId(int $id, bool $useAnd = true)
  * @method Import byEventId(int $id, bool $useAnd = true)
- * @method Import byVisible(bool $visible, bool $useAnd = true)
+ * @method Import byVisible(bool $visible = true, bool $useAnd = true)
  */
 class Import extends ActiveRecord
 {

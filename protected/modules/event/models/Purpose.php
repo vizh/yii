@@ -18,7 +18,7 @@ use application\components\ActiveRecord;
  * @method Purpose[] findAllByAttributes($attributes, $condition = '', $params = [])
  *
  * @method Purpose byId(int $id, bool $useAnd = true)
- * @method Purpose byVisible(bool $visible, bool $useAnd = true)
+ * @method Purpose byVisible(bool $visible = true, bool $useAnd = true)
  */
 class Purpose extends ActiveRecord
 {

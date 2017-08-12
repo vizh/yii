@@ -23,8 +23,8 @@ use application\components\ActiveRecord;
  * @method Permission byId(int $id, bool $useAnd = true)
  * @method Permission byUserId(int $id, bool $useAnd = true)
  * @method Permission byAccountId(int $id, bool $useAnd = true)
- * @method Permission byVerifed(bool $verifed, bool $useAnd = true)
- * @method Permission byDeleted(bool $deleted, bool $useAnd = true)
+ * @method Permission byVerifed(bool $verifed = true, bool $useAnd = true)
+ * @method Permission byDeleted(bool $deleted = true, bool $useAnd = true)
  */
 class Permission extends ActiveRecord
 {

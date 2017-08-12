@@ -38,7 +38,7 @@ use event\models\Event;
  * @method Section byEventId(int $id, bool $useAnd = true)
  * @method Section byTypeId(int $id, bool $useAnd = true)
  * @method Section byCode(string $code, bool $useAnd = true)
- * @method Section byDeleted(bool $deleted, bool $useAnd = true)
+ * @method Section byDeleted(bool $deleted = true, bool $useAnd = true)
  */
 class Section extends ActiveRecord
 {

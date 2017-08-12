@@ -24,7 +24,7 @@ use application\components\ActiveRecord;
  * @method Device byId(int $id, bool $useAnd = true)
  * @method Device byEventId(int $id, bool $useAnd = true)
  * @method Device byDeviceNumber(int $id, bool $useAnd = true)
- * @method Device byActive(bool $active, bool $useAnd = true)
+ * @method Device byActive(bool $active = true, bool $useAnd = true)
  * @method Device byName(string $name, bool $useAnd = true)
  * @method Device byType(string $type, bool $useAnd = true)
  */

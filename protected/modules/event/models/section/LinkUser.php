@@ -39,7 +39,7 @@ use user\models\User;
  * @method LinkUser byRoleId(int $id, bool $useAnd = true)
  * @method LinkUser byReportId(int $id, bool $useAnd = true)
  * @method LinkUser byCompanyId(int $id, bool $useAnd = true)
- * @method LinkUser byDeleted(bool $deleted, bool $useAnd = true)
+ * @method LinkUser byDeleted(bool $deleted = true, bool $useAnd = true)
  */
 class LinkUser extends ActiveRecord
 {

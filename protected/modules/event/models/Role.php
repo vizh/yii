@@ -27,9 +27,9 @@ use JsonSerializable;
  * @method Role byCode(string $code, bool $useAnd = true)
  * @method Role byType(string $code, bool $useAnd = true)
  * @method Role byTitle(string $title, bool $useAnd = true)
- * @method Role byVisible(bool $visible, bool $useAnd = true)
- * @method Role byBase(bool $visible, bool $useAnd = true)
- * @method Role byNotification(bool $notofication, bool $useAnd = true)
+ * @method Role byVisible(bool $visible = true, bool $useAnd = true)
+ * @method Role byBase(bool $visible = true, bool $useAnd = true)
+ * @method Role byNotification(bool $notofication = true, bool $useAnd = true)
  */
 class Role extends ActiveRecord implements JsonSerializable
 {

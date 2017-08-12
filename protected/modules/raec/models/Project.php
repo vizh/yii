@@ -23,7 +23,7 @@ use application\components\ActiveRecord;
  * @method Project byId(int $id, bool $useAnd = true)
  * @method Project byCommissionId(int $id, bool $useAnd = true)
  * @method Project byTitle(string $title, bool $useAnd = true)
- * @method Project byVisible(bool $visible, bool $useAnd = true)
+ * @method Project byVisible(bool $visible = true, bool $useAnd = true)
  */
 class Project extends ActiveRecord
 {

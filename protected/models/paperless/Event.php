@@ -38,10 +38,10 @@ use Yii;
  * @method Event byId(int $id, bool $useAnd = true)
  * @method Event byEventId(int $id, bool $useAnd = true)
  * @method Event bySubject(string $subject, bool $useAnd = true)
- * @method Event bySend(bool $send, bool $useAnd = true)
- * @method Event bySendOnce(bool $once, bool $useAnd = true)
- * @method Event byConditionLike(bool $like, bool $useAnd = true)
- * @method Event byConditionNotLike(bool $notLike, bool $useAnd = true)
+ * @method Event bySend(bool $send = true, bool $useAnd = true)
+ * @method Event bySendOnce(bool $once = true, bool $useAnd = true)
+ * @method Event byConditionLike(bool $like = true, bool $useAnd = true)
+ * @method Event byConditionNotLike(bool $notLike = true, bool $useAnd = true)
  * @method Event byActive(bool $active = true, bool $useAnd = true)
  */
 class Event extends ActiveRecord

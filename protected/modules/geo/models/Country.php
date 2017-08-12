@@ -21,7 +21,7 @@ use application\components\ActiveRecord;
  * @method Country byId(int $id, bool $useAnd = true)
  * @method Country byExtId(int $id, bool $useAnd = true)
  * @method Country byName(string $name, bool $useAnd = true)
- * @method Country byCitiesParsed(bool $parsed, bool $useAnd = true)
+ * @method Country byCitiesParsed(bool $parsed = true, bool $useAnd = true)
  */
 class Country extends ActiveRecord
 {

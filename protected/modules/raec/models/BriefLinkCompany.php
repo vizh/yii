@@ -24,7 +24,7 @@ use company\models\Company;
  * @method BriefLinkCompany byId(int $id, bool $useAnd = true)
  * @method BriefLinkCompany byCompanyId(int $id, bool $useAnd = true)
  * @method BriefLinkCompany byBriefId(int $id, bool $useAnd = true)
- * @method BriefLinkCompany byPrimary(bool $primary, bool $useAnd = true)
+ * @method BriefLinkCompany byPrimary(bool $primary = true, bool $useAnd = true)
  */
 class BriefLinkCompany extends ActiveRecord
 {

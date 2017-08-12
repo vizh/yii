@@ -19,7 +19,7 @@ use application\components\ActiveRecord;
  * @method ServiceType[] findAllByAttributes($attributes, $condition = '', $params = [])
  *
  * @method ServiceType byId(int $id, bool $useAnd = true)
- * @method ServiceType byVisible(bool $visible, bool $useAnd = true)
+ * @method ServiceType byVisible(bool $visible = true, bool $useAnd = true)
  */
 class ServiceType extends ActiveRecord
 {

@@ -33,7 +33,7 @@ use Yii;
  * @method UserData byEventId(int $id, bool $useAnd = true)
  * @method UserData byUserId(int $id, bool $useAnd = true)
  * @method UserData byCreatorId(int $id, bool $useAnd = true)
- * @method UserData byDeleted(bool $deleted, bool $useAnd = true)
+ * @method UserData byDeleted(bool $deleted = true, bool $useAnd = true)
  */
 class UserData extends ActiveRecord
 {

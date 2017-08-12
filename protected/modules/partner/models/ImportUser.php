@@ -46,8 +46,8 @@ use user\models\User;
  *
  * @method ImportUser byId(int $id, bool $useAnd = true)
  * @method ImportUser byImportId(int $id, bool $useAnd = true)
- * @method ImportUser byImported(bool $imported, bool $useAnd = true)
- * @method ImportUser byError(bool $error, bool $useAnd = true)
+ * @method ImportUser byImported(bool $imported = true, bool $useAnd = true)
+ * @method ImportUser byError(bool $error = true, bool $useAnd = true)
  */
 class ImportUser extends ActiveRecord
 {

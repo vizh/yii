@@ -22,7 +22,7 @@ use application\models\translation\ActiveRecord;
  *
  * @method Hall byId(int $id, bool $useAnd = true)
  * @method Hall byEventId(int $id, bool $useAnd = true)
- * @method Hall byDeleted(bool $deleted, bool $useAnd = true)
+ * @method Hall byDeleted(bool $deleted = true, bool $useAnd = true)
  */
 class Hall extends ActiveRecord
 {

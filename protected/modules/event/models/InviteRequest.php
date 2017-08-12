@@ -29,7 +29,7 @@ use user\models\User;
  * @method InviteRequest byEventId(int $id, bool $useAnd = true)
  * @method InviteRequest byOwnerUserId(int $id, bool $useAnd = true)
  * @method InviteRequest bySenderUserId(int $id, bool $useAnd = true)
- * @method InviteRequest byApproved(bool $approved, bool $useAnd = true)
+ * @method InviteRequest byApproved(bool $approved = true, bool $useAnd = true)
  */
 class InviteRequest extends ActiveRecord
 {

@@ -24,7 +24,7 @@ use application\models\translation\ActiveRecord;
  * @method Definition findByPk($pk, $condition = '', $params = [])
  * @method Definition[] findAll($condition = '', $params = [])
  *
- * @method Definition byPublic(boolean $public)
+ * @method Definition byPublic(bool $public)
  * @method Definition byGroupId(int $id)
  */
 class Definition extends ActiveRecord

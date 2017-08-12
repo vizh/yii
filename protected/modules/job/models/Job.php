@@ -34,7 +34,7 @@ use application\components\ActiveRecord;
  * @method Job byPositionId(int $id, bool $useAnd = true)
  * @method Job byTitle(string $title, bool $useAnd = true)
  * @method Job byUrl(string $url, bool $useAnd = true)
- * @method Job byVisible(bool $visible, bool $useAnd = true)
+ * @method Job byVisible(bool $visible = true, bool $useAnd = true)
  */
 class Job extends ActiveRecord
 {

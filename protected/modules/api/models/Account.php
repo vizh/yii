@@ -35,7 +35,7 @@ use event\models\Event;
  * @method Account bySecret(string $key, bool $useAnd = true)
  * @method Account byEventId(int $id, bool $useAnd = true)
  * @method Account byRole(string $role, bool $useAnd = true)
- * @method Account byBlocked(bool $blocked, bool $useAnd = true)
+ * @method Account byBlocked(bool $blocked = true, bool $useAnd = true)
  */
 class Account extends ActiveRecord
 {

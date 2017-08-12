@@ -19,7 +19,7 @@ use event\components\IWidget;
  *
  * @method WidgetClass byId(int $id, bool $useAnd = true)
  * @method WidgetClass byClass(string $class, bool $useAnd = true)
- * @method WidgetClass byVisible(bool $visible, bool $useAnd = true)
+ * @method WidgetClass byVisible(bool $visible = true, bool $useAnd = true)
  */
 class WidgetClass extends ActiveRecord
 {

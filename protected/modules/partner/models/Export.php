@@ -36,7 +36,7 @@ use user\models\User;
  * @method Export byUserId(int $id, bool $useAnd = true)
  * @method Export byEventId(int $id, bool $useAnd = true)
  * @method Export byTotalRow(int $success, bool $useAnd = true)
- * @method Export bySuccess(bool $success, bool $useAnd = true)
+ * @method Export bySuccess(bool $success = true, bool $useAnd = true)
  */
 class Export extends ActiveRecord
 {

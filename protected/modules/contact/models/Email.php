@@ -6,6 +6,7 @@ use application\components\ActiveRecord;
 /**
  * @property int $Id
  * @property string $Email
+ * @property string $Title
  * @property bool $Verified
  *
  * Описание вспомогательных методов
@@ -18,7 +19,7 @@ use application\components\ActiveRecord;
  *
  * @method Email byId(int $id, bool $useAnd = true)
  * @method Email byEmail(int $id, bool $useAnd = true)
- * @method Email byVerifed(bool $verifed, bool $useAnd = true)
+ * @method Email byVerifed(bool $verifed = true, bool $useAnd = true)
  */
 class Email extends ActiveRecord
 {

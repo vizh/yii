@@ -31,7 +31,7 @@ use application\models\translation\ActiveRecord;
  * @method City byExtId(int $id, bool $useAnd = true)
  * @method City byCountryId(int $id, bool $useAnd = true)
  * @method City byRegionId(int $id, bool $useAnd = true)
- * @method City byParsed(bool $parsed, bool $useAnd = true)
+ * @method City byParsed(bool $parsed = true, bool $useAnd = true)
  *
  */
 class City extends ActiveRecord

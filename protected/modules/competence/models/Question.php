@@ -48,9 +48,9 @@ use competence\models\form;
  * @method Question byNextQuestionId(int $id, bool $useAnd = true)
  * @method Question byCode(string $code, bool $useAnd = true)
  * @method Question byTitle(string $title, bool $useAnd = true)
- * @method Question byFirst(bool $first, bool $useAnd = true)
- * @method Question byLast(bool $last, bool $useAnd = true)
- * @method Question byRequired(bool $required, bool $useAnd = true)
+ * @method Question byFirst(bool $first = true, bool $useAnd = true)
+ * @method Question byLast(bool $last = true, bool $useAnd = true)
+ * @method Question byRequired(bool $required = true, bool $useAnd = true)
  */
 class Question extends ActiveRecord
 {

@@ -25,7 +25,7 @@ use user\models\User;
  * @method Favorite byId(int $id, bool $useAnd = true)
  * @method Favorite bySectionId(int $id, bool $useAnd = true)
  * @method Favorite byUserId(int $id, bool $useAnd = true)
- * @method Favorite byDeleted(bool $deleted, bool $useAnd = true)
+ * @method Favorite byDeleted(bool $deleted = true, bool $useAnd = true)
  */
 class Favorite extends ActiveRecord
 {

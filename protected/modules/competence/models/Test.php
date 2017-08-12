@@ -42,12 +42,12 @@ use user\models\User;
  *
  * @method Test byId(int $id, bool $useAnd = true)
  * @method Test byCode(string $code, bool $useAnd = true)
- * @method Test byEnable(bool $enable, bool $useAnd = true)
- * @method Test byTest(bool $test, bool $useAnd = true)
- * @method Test byMultiple(bool $multiple, bool $useAnd = true)
- * @method Test byFastAuth(bool $fastAuth, bool $useAnd = true)
- * @method Test byEventId(bool $fastAuth, bool $useAnd = true)
- * @method Test byParticipantsOnly(bool $participantsOnly, bool $useAnd = true)
+ * @method Test byEnable(bool $enable = true, bool $useAnd = true)
+ * @method Test byTest(bool $test = true, bool $useAnd = true)
+ * @method Test byMultiple(bool $multiple = true, bool $useAnd = true)
+ * @method Test byFastAuth(bool $fastAuth = true, bool $useAnd = true)
+ * @method Test byEventId(bool $fastAuth = true, bool $useAnd = true)
+ * @method Test byParticipantsOnly(bool $participantsOnly = true, bool $useAnd = true)
  *
  */
 class Test extends ActiveRecord

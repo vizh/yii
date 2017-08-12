@@ -49,7 +49,7 @@ use event\models\Event;
  *
  * @method Account byId(int $id, bool $useAnd = true)
  * @method Account byEventId(int $id, bool $useAnd = true)
- * @method Account byOwn(bool $own, bool $useAnd = true)
+ * @method Account byOwn(bool $own = true, bool $useAnd = true)
  */
 class Account extends ActiveRecord
 {

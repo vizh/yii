@@ -19,7 +19,7 @@ use application\components\ActiveRecord;
  * @method LinkProfessionalInterest byId(int $id, bool $useAnd = true)
  * @method LinkProfessionalInterest byCompanyId(int $id, bool $useAnd = true)
  * @method LinkProfessionalInterest byProfessionalInterestId(int $id, bool $useAnd = true)
- * @method LinkProfessionalInterest byPrimary(bool $primary, bool $useAnd = true)
+ * @method LinkProfessionalInterest byPrimary(bool $primary = true, bool $useAnd = true)
  */
 class LinkProfessionalInterest extends ActiveRecord
 {

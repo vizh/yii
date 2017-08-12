@@ -18,7 +18,7 @@ use application\models\translation\ActiveRecord;
  *
  * @method Site byId(int $id, bool $useAnd = true)
  * @method Site byUrl(string $url, bool $useAnd = true)
- * @method Site bySecure(bool $secure, bool $useAnd = true)
+ * @method Site bySecure(bool $secure = true, bool $useAnd = true)
  */
 class Site extends ActiveRecord
 {
