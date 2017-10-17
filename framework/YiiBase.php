@@ -133,6 +133,7 @@ class YiiBase
 	/**
 	 * Returns the application singleton or null if the singleton has not been created yet.
 	 * @return CApplication the application singleton, null if the singleton has not been created yet.
+	 * @deprecated since 1.3.0
 	 */
 	public static function app()
 	{
