@@ -53,7 +53,7 @@ class GameController extends CController
 			$params=array(
 				'levels'=>$levels,
 				// if this is a POST request, it means the level is not chosen
-				'error'=>Yii::app()->request->isPostRequest,
+				'error'=>Yii::$app->request->isPostRequest,
 			);
 			// show the difficulty level page
 			$this->render('play',$params);

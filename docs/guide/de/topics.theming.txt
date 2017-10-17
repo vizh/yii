@@ -30,7 +30,7 @@ oder während der Laufzeit in einer Controller-Action geschehen.
 
 > Note|Hinweis: Beim Namen eines Themes spielt die Groß-/Kleinschreibung eine
 > Rolle. Wenn man ein Theme konfiguriert, das es gar nicht gibt,
-> liefert `Yii::app()->theme` den Wert `null` zurück. 
+> liefert `Yii::$app->theme` den Wert `null` zurück.
 
 
 
@@ -75,7 +75,7 @@ vorgegeben.
 >
 > ~~~
 > [php]
-> Yii::app()->theme->baseUrl . '/images/BildName.gif'
+> Yii::$app->theme->baseUrl . '/images/BildName.gif'
 > ~~~
 
 Nachfolgend ein Beispiel für die Verzeichnisstruktur einer Anwendung mit den

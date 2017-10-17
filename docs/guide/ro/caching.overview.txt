@@ -28,7 +28,7 @@ array(
 ~~~
 
 Cand aplicatia ruleaza, componenta cache poate fi accesata prin
-`Yii::app()->cache`.
+`Yii::$app->cache`.
 
 Yii pune la dispozitie mai multe componente cache, pentru a asigura memorarea
 datelor pe mai multe medii de stocare, in functie de necesitati.

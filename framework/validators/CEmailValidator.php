@@ -122,7 +122,7 @@ class CEmailValidator extends CValidator
 	{
 		if($this->validateIDN)
 		{
-			Yii::app()->getClientScript()->registerCoreScript('punycode');
+			Yii::$app->getClientScript()->registerCoreScript('punycode');
 			// punycode.js works only with the domains - so we have to extract it before punycoding
 			$validateIDN='
 var info = value.match(/^(.[^@]+)@(.+)$/);

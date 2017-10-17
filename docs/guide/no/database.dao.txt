@@ -71,7 +71,7 @@ array(
 )
 ~~~
 
-Da kan du aksessere databasetilkoblingen via `Yii::app()->db` som allerede
+Da kan du aksessere databasetilkoblingen via `Yii::$app->db` som allerede
 er aktivert (med mindre du eksplisitt setter [CDbConnection::autoConnect] til 
 `false`). Ved å bruke denne teknikken kan samme databasetilkobling deles
 mange steder i koden.

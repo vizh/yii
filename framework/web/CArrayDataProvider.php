@@ -23,7 +23,7 @@
  * 
  * CArrayDataProvider may be used in the following way:
  * <pre>
- * $rawData=Yii::app()->db->createCommand('SELECT * FROM tbl_user')->queryAll();
+ * $rawData=Yii::$app->db->createCommand('SELECT * FROM tbl_user')->queryAll();
  * // or using: $rawData=User::model()->findAll();
  * $dataProvider=new CArrayDataProvider($rawData, array(
  *     'id'=>'user',
@@ -176,7 +176,7 @@ class CArrayDataProvider extends CDataProvider
 			foreach($fields as $field)
 				$data=isset($data[$field]) ? $data[$field] : null;
 		}
-		return $this->caseSensitiveSort ? $data : mb_strtolower($data,Yii::app()->charset);
+		return $this->caseSensitiveSort ? $data : mb_strtolower($data,Yii::$app->charset);
 	}
 
 	/**

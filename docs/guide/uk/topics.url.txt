@@ -56,7 +56,7 @@ array(
 
 Зверніть увагу, що вказувати клас компонента [urlManager|CWebApplication::urlManager] не потрібно, тому що він вже оголошений як [CUrlManager] в [CWebApplication].
 
-> Tip|Підказка: Адреса URL, генерована методом [createUrl|CController::createUrl] є відносним. Для того, щоб отримати абсолютну адресу, потрібно додати префікс, використовуючи `Yii::app()->request->hostInfo`, або викликати метод [createAbsoluteUrl|CController::createAbsoluteUrl].
+> Tip|Підказка: Адреса URL, генерована методом [createUrl|CController::createUrl] є відносним. Для того, щоб отримати абсолютну адресу, потрібно додати префікс, використовуючи `Yii::$app->request->hostInfo`, або викликати метод [createAbsoluteUrl|CController::createAbsoluteUrl].
 
 Людинозрозумілі URL
 -------------------

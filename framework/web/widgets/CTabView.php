@@ -155,7 +155,7 @@ class CTabView extends CWidget
 	 */
 	public function registerClientScript()
 	{
-		$cs=Yii::app()->getClientScript();
+		$cs=Yii::$app->getClientScript();
 		$cs->registerCoreScript('yiitab');
 		$id=$this->getId();
 		$cs->registerScript('Yii.CTabView#'.$id,"jQuery(\"#{$id}\").yiitab();");
@@ -170,7 +170,7 @@ class CTabView extends CWidget
 	 */
 	public static function registerCssFile($url=null)
 	{
-		$cs=Yii::app()->getClientScript();
+		$cs=Yii::$app->getClientScript();
 		if($url===null)
 			$url=$cs->getCoreScriptUrl().'/yiitab/jquery.yiitab.css';
 		$cs->registerCssFile($url,'screen');

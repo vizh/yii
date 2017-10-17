@@ -92,6 +92,6 @@ class CJuiAutoComplete extends CJuiInputWidget
 			$this->options['source']=$this->source;
 
 		$options=CJavaScript::encode($this->options);
-		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').autocomplete($options);");
+		Yii::$app->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').autocomplete($options);");
 	}
 }

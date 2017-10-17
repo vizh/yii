@@ -154,13 +154,13 @@ class CDetailView extends CWidget
 			$this->htmlOptions['id']=$this->id;
 
 		if($this->baseScriptUrl===null)
-			$this->baseScriptUrl=Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('zii.widgets.assets')).'/detailview';
+			$this->baseScriptUrl=Yii::$app->getAssetManager()->publish(Yii::getPathOfAlias('zii.widgets.assets')).'/detailview';
 
 		if($this->cssFile!==false)
 		{
 			if($this->cssFile===null)
 				$this->cssFile=$this->baseScriptUrl.'/styles.css';
-			Yii::app()->getClientScript()->registerCssFile($this->cssFile);
+			Yii::$app->getClientScript()->registerCssFile($this->cssFile);
 		}
 	}
 
@@ -246,7 +246,7 @@ class CDetailView extends CWidget
 	public function getFormatter()
 	{
 		if($this->_formatter===null)
-			$this->_formatter=Yii::app()->format;
+			$this->_formatter=Yii::$app->format;
 		return $this->_formatter;
 	}
 

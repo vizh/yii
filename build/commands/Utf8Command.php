@@ -149,7 +149,7 @@ EOD;
 	public function findTranslationFiles()
 	{
 		return CFileHelper::findFiles(
-			dirname(Yii::app()->basePath),
+			dirname(Yii::$app->basePath),
 			array(
 				'fileTypes' => array('txt', 'php'),
 				'exclude' => array(

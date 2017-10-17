@@ -41,14 +41,14 @@ class CrudCode extends CCodeModel
 
 	public function init()
 	{
-		if(Yii::app()->db===null)
+		if(Yii::$app->db===null)
 			throw new CHttpException(500,'An active "db" connection is required to run this generator.');
 		parent::init();
 	}
 
 	public function successMessage()
 	{
-		$link=CHtml::link('try it now', Yii::app()->createUrl($this->controller), array('target'=>'_blank'));
+		$link=CHtml::link('try it now', Yii::$app->createUrl($this->controller), array('target'=>'_blank'));
 		return "The controller has been generated successfully. You may $link.";
 	}
 
@@ -118,15 +118,15 @@ class CrudCode extends CCodeModel
 		if(($pos=strpos($this->controller,'/'))!==false)
 		{
 			$id=substr($this->controller,0,$pos);
-			if(($module=Yii::app()->getModule($id))!==null)
+			if(($module=Yii::$app->getModule($id))!==null)
 				return $module;
 		}
-		return Yii::app();
+		return Yii::$app;
 	}
 
 	public function getControllerID()
 	{
-		if($this->getModule()!==Yii::app())
+		if($this->getModule()!==Yii::$app)
 			$id=substr($this->controller,strpos($this->controller,'/')+1);
 		else
 			$id=$this->controller;

@@ -81,12 +81,12 @@ return array(
 ~~~
 [php]
 // שליפת העוגיה עם שם ספציפי
-$cookie=Yii::app()-»request-»cookies[$name];
+$cookie=Yii::$app-»request-»cookies[$name];
 $value=$cookie-»value;
 ......
 // שמירת עוגיה
 $cookie=new CHttpCookie($name,$value);
-Yii::app()-»request-»cookies[$name]=$cookie;
+Yii::$app-»request-»cookies[$name]=$cookie;
 ~~~
 
 

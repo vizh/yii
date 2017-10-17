@@ -96,7 +96,7 @@ class MyTabView extends CTabView
 		if($this->cssFile===null)
 		{
 			$file=dirname(__FILE__).DIRECTORY_SEPARATOR.'tabview.css';
-			$this->cssFile=Yii::app()->getAssetManager()->publish($file);
+			$this->cssFile=Yii::$app->getAssetManager()->publish($file);
 		}
 		parent::init();
 	}
@@ -134,7 +134,7 @@ class MyWidget extends CWidget
 	protected function registerClientScript()
 	{
 		// ...publish CSS or JavaScript file here...
-		$cs=Yii::app()->clientScript;
+		$cs=Yii::$app->clientScript;
 		$cs->registerCssFile($cssFile);
 		$cs->registerScriptFile($jsFile);
 	}

@@ -232,7 +232,7 @@ class CAutoComplete extends CInputWidget
 		$acOptions=$this->getClientOptions();
 		$options=$acOptions===array()?'{}' : CJavaScript::encode($acOptions);
 
-		$cs=Yii::app()->getClientScript();
+		$cs=Yii::$app->getClientScript();
 		$cs->registerCoreScript('autocomplete');
 		if($this->data!==null)
 			$data=CJavaScript::encode($this->data);
@@ -253,7 +253,7 @@ class CAutoComplete extends CInputWidget
 	 */
 	public static function registerCssFile($url=null)
 	{
-		$cs=Yii::app()->getClientScript();
+		$cs=Yii::$app->getClientScript();
 		if($url===null)
 			$url=$cs->getCoreScriptUrl().'/autocomplete/jquery.autocomplete.css';
 		$cs->registerCssFile($url);

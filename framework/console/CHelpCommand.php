@@ -57,7 +57,7 @@ class CHelpCommand extends CConsoleCommand
 			{
 				echo "No available commands.\n";
 				echo "Please define them under the following directory:\n";
-				echo "\t".Yii::app()->getCommandPath()."\n";
+				echo "\t".Yii::$app->getCommandPath()."\n";
 			}
 		}
 		else

@@ -69,7 +69,7 @@ abstract class CWebTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	 */
 	public function getFixtureManager()
 	{
-		return Yii::app()->getComponent('fixture');
+		return Yii::$app->getComponent('fixture');
 	}
 
 	/**

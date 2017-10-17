@@ -62,7 +62,7 @@ protected function newComment($post)
 		if($post->addComment($comment))
 		{
 			if($comment->status==Comment::STATUS_PENDING)
-				Yii::app()->user->setFlash('commentSubmitted','コメント、有難うございます。コメントは承認後に投稿されます。');
+				Yii::$app->user->setFlash('commentSubmitted','コメント、有難うございます。コメントは承認後に投稿されます。');
 			$this->refresh();
 		}
 	}
@@ -76,7 +76,7 @@ protected function newComment($post)
 [php]
 public function addComment($comment)
 {
-	if(Yii::app()->params['commentNeedApproval'])
+	if(Yii::$app->params['commentNeedApproval'])
 		$comment->status=Comment::STATUS_PENDING;
 	else
 		$comment->status=Comment::STATUS_APPROVED;
@@ -96,9 +96,9 @@ public function addComment($comment)
 	......
 	<h3>コメントする</h3>
 
-	<?php if(Yii::app()->user->hasFlash('commentSubmitted')): ?>
+	<?php if(Yii::$app->user->hasFlash('commentSubmitted')): ?>
 		<div class="flash-success">
-			<?php echo Yii::app()->user->getFlash('commentSubmitted'); ?>
+			<?php echo Yii::$app->user->getFlash('commentSubmitted'); ?>
 		</div>
 	<?php else: ?>
 		<?php $this->renderPartial('/comment/_form',array(
@@ -144,7 +144,7 @@ protected function newComment($post)
 	if(isset($_POST['ajax']) && $_POST['ajax']==='comment-form')
 	{
 		echo CActiveForm::validate($comment);
-		Yii::app()->end();
+		Yii::$app->end();
 	}
 
 	if(isset($_POST['Comment']))
@@ -153,7 +153,7 @@ protected function newComment($post)
 		if($post->addComment($comment))
 		{
 			if($comment->status==Comment::STATUS_PENDING)
-				Yii::app()->user->setFlash('commentSubmitted','コメント、有難うございます。コメントは承認後に投稿されます。');
+				Yii::$app->user->setFlash('commentSubmitted','コメント、有難うございます。コメントは承認後に投稿されます。');
 			$this->refresh();
 		}
 	}

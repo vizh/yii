@@ -662,7 +662,7 @@ class Content extends CActiveRecord
 	public function defaultScope()
 	{
 		return array(
-			'condition'=>"sprache='".Yii::app()->language."'",
+			'condition'=>"sprache='".Yii::$app->language."'",
 		);
 	}
 }

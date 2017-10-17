@@ -82,7 +82,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	{
 		parent::init();
 		if($this->keyPrefix===null)
-			$this->keyPrefix=Yii::app()->getId();
+			$this->keyPrefix=Yii::$app->getId();
 	}
 
 	/**

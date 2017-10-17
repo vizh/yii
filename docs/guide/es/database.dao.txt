@@ -72,7 +72,7 @@ array(
 ~~~
 
 Podemos entonces acceder a la conexión de la base de datos a través de
-`Yii::app()->db` (donde `db` es el nombre que le pusimos al componente)
+`Yii::$app->db` (donde `db` es el nombre que le pusimos al componente)
 que ya está activada, a menos que explicitamente configuremos a
 [CDbConnection::autoConnect] en `false`. Usar este enfoque, una simple
 conexión con la base de datos puede ser usada en diferentes lugares en

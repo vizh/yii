@@ -59,7 +59,7 @@ class CWebLogRoute extends CLogRoute
 	 */
 	protected function render($view,$data)
 	{
-		$app=Yii::app();
+		$app=Yii::$app;
 		$isAjax=$app->getRequest()->getIsAjaxRequest();
 		$isFlash=$app->getRequest()->getIsFlashRequest();
 

@@ -45,7 +45,7 @@ class GuideController extends CController
 		$markdown=new MarkdownParser;
 		$content=$markdown->safeTransform($content);
 
-		$imageUrl=Yii::app()->baseUrl.'/guide/images';
+		$imageUrl=Yii::$app->baseUrl.'/guide/images';
 		$content=preg_replace('/<p>\s*<img(.*?)src="(.*?)"\s+alt="(.*?)"\s*\/>\s*<\/p>/',
 			"<div class=\"image\"><p>\\3</p><img\\1src=\"$imageUrl/\\2\" alt=\"\\3\" /></div>",$content);
 

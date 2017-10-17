@@ -1,5 +1,5 @@
 <?php
-$cs=Yii::app()->clientScript;
+$cs=Yii::$app->clientScript;
 $cs->coreScriptPosition=CClientScript::POS_HEAD;
 $cs->scriptMap=array();
 $baseUrl=$this->module->assetsUrl;
@@ -35,9 +35,9 @@ $cs->registerCssFile($baseUrl.'/js/fancybox/jquery.fancybox-1.3.1.css');
 	<div id="header">
 		<div class="top-menus">
 		<?php echo CHtml::link('help','http://www.yiiframework.com/doc/guide/topics.gii'); ?> |
-		<?php echo CHtml::link('webapp',Yii::app()->homeUrl); ?> |
+		<?php echo CHtml::link('webapp',Yii::$app->homeUrl); ?> |
 		<a href="http://www.yiiframework.com">yii</a>
-		<?php if(!Yii::app()->user->isGuest): ?>
+		<?php if(!Yii::$app->user->isGuest): ?>
 			| <?php echo CHtml::link('logout',array('default/logout')); ?>
 		<?php endif; ?>
 		</div>

@@ -5,7 +5,7 @@ Yii Query Builder menyediakan cara berorientasi objek dalam menulis statement SQ
 
 ~~~
 [php]
-$user = Yii::app()->db->createCommand()
+$user = Yii::$app->db->createCommand()
 	->select('id, username, profile')
 	->from('tbl_user u')
 	->join('tbl_profile p', 'u.id=p.user_id')
@@ -32,7 +32,7 @@ Menggunakan Query Builder bukanlah sebuah keharusan. Bahkan, jika query Anda cuk
 >
 > ~~~
 > [php]
-> $command = Yii::app()->db->createCommand('SELECT * FROM tbl_user');
+> $command = Yii::$app->db->createCommand('SELECT * FROM tbl_user');
 > // baris berikut tidak akan menambahkan WHERE ke klausa SQL di atas.
 > $command->where('id=:id', array(':id'=>$id));
 > ~~~
@@ -49,10 +49,10 @@ Untuk menggunakan Query Builder, kita membuat sebuah instance baru dari [CDbComm
 
 ~~~
 [php]
-$command = Yii::app()->db->createCommand();
+$command = Yii::$app->db->createCommand();
 ~~~
 
-Begitulah, kita menggunakan `Yii::app()->db` untuk mendapatkan koneksi DB, kemudian melakukan pemanggilanpada [CDbConnection::createCommand()] untuk membuat instance command yang diperlukan.
+Begitulah, kita menggunakan `Yii::$app->db` untuk mendapatkan koneksi DB, kemudian melakukan pemanggilanpada [CDbConnection::createCommand()] untuk membuat instance command yang diperlukan.
 
 Perhatikan bahwa alih-alih kita mem-pass semua statement SQL ke `createCommand()` seperti yang dilakukan di [Data Access Objects](/doc/guide/database.dao), kita membiarkannya kosong. Ini dikarenakan kita akan membangun bagian-bagian individu dari statement SQL dengan menggunakan method Query Builder yang akan dijelaskan pada bagian berikut.
 
@@ -354,7 +354,7 @@ Berikut beberapa contohnya :
 
 ~~~
 [php]
-$users = Yii::app()->db->createCommand()
+$users = Yii::$app->db->createCommand()
 	->select('*')
 	->from('tbl_user')
 	->queryAll();
@@ -367,7 +367,7 @@ Selain menjalankan query yang dibuat oleh Query Builder, kita juga dapat menarik
 
 ~~~
 [php]
-$sql = Yii::app()->db->createCommand()
+$sql = Yii::$app->db->createCommand()
 	->select('*')
 	->from('tbl_user')
 	->text;
@@ -390,7 +390,7 @@ Selain itu, method [CDbConnection::createCommand()] dapat menerima array sebagai
 
 ~~~
 [php]
-$row = Yii::app()->db->createCommand(array(
+$row = Yii::$app->db->createCommand(array(
 	'select' => array('id', 'username'),
 	'from' => 'tbl_user',
 	'where' => 'id=:id',
@@ -405,7 +405,7 @@ Sebuah instance [CDbCommand] dapat dipakai ulang beberapa kali untuk membuat beb
 
 ~~~
 [php]
-$command = Yii::app()->db->createCommand();
+$command = Yii::$app->db->createCommand();
 $users = $command->select('*')->from('tbl_users')->queryAll();
 $command->reset();  // clean up the previous query
 $posts = $command->select('*')->from('tbl_posts')->queryAll();

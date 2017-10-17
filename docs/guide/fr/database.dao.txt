@@ -75,7 +75,7 @@ array(
 )
 ~~~
 
-Il est dès lors possible d'accéder à la connexion au travers de `Yii::app()->db`
+Il est dès lors possible d'accéder à la connexion au travers de `Yii::$app->db`
 qui est activé automatiquement, à moins que [CDbConnection::autoConnect] ne soit explicitement
 fixé à false. Grâce à cette méthode, cette connexion unique sera accessible partout où que l'on soit
 dans le code.
@@ -89,7 +89,7 @@ en appelant [CDbConnection::createCommand()] et en spécifiant la requête SQL.
 
 ~~~
 [php]
-$connection=Yii::app()->db;   // vous devez avoir une connexion "db"
+$connection=Yii::$app->db;   // vous devez avoir une connexion "db"
 // Sinon il est possible de créer cette connexion explicitement:
 // $connection=new CDbConnection($dsn,$username,$password);
 $command=$connection->createCommand($sql);

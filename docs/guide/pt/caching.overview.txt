@@ -28,7 +28,7 @@ array(
 ~~~
 
 Quando a aplicação está em execução, o componente pode ser acessado via:
-`Yii::app()->cache`.
+`Yii::$app->cache`.
 
 O Yii fornece diversos componentes de cache que podem armazenar dados 
 em diferentes meios. Por exemplo, o componente [CMemCache] encapsula a 
@@ -63,8 +63,8 @@ A finalidade deste componente é simplificar o desenvolvimento de código que pr
 trabalhar com dados em cache. Por exemplo, durante o desenvolvimento ou quando 
 o servidor atual não tem suporte a cache, podemos utilizar esse componente. Assim, 
 quando o suporte a cache estiver disponível basta apenas trocar o componente. 
-Em ambos os casos, podemos utilizar utilizar o `Yii::app()->cache->get($key)` 
-para recuperar dados do cache, sem se preocupar se `Yii::app()->cache` é `null`. 
+Em ambos os casos, podemos utilizar utilizar o `Yii::$app->cache->get($key)`
+para recuperar dados do cache, sem se preocupar se `Yii::$app->cache` é `null`.
 Este componente está disponível a partir da versão 1.0.5;
 
 > Tip|Dica: Como todos os componentes de cache são derivados da classe [CCache],

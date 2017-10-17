@@ -100,7 +100,7 @@ De exemplu, pentru a accesa informatia `postPerPage` de mai sus, putem folosi ur
 
 ~~~
 [php]
-$postPerPage=Yii::app()->controller->module->postPerPage;
+$postPerPage=Yii::$app->controller->module->postPerPage;
 // sau urmatoarea daca $this se refera la instanta controller-ului
 // $postPerPage=$this->module->postPerPage;
 ~~~

@@ -93,7 +93,7 @@ class User extends CActiveRecord
 возвращает значение `id` пользователя, найденного в таблице `tbl_user`.
 Родительская реализация возвратила бы имя пользователя вместо `id`. И
 `username` и `id` будут сохранены в сессии и доступны через
-`Yii::app()->user` в любом месте нашего кода.
+`Yii::$app->user` в любом месте нашего кода.
 
 
 > Tip|Подсказка: В классе `UserIdentity` мы используем [CUserIdentity]
@@ -132,7 +132,7 @@ $identity->authenticate();
 switch($identity->errorCode)
 {
 	case UserIdentity::ERROR_NONE:
-		Yii::app()->user->login($identity);
+		Yii::$app->user->login($identity);
 		break;
 	…
 }

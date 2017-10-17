@@ -49,10 +49,10 @@ Usage of the `TagCloud` portlet is very simple. We modify the layout file `/wwwr
 ......
 <div id="sidebar">
 
-	<?php if(!Yii::app()->user->isGuest) $this->widget('UserMenu'); ?>
+	<?php if(!Yii::$app->user->isGuest) $this->widget('UserMenu'); ?>
 
 	<?php $this->widget('TagCloud', array(
-		'maxTags'=>Yii::app()->params['tagCloudCount'],
+		'maxTags'=>Yii::$app->params['tagCloudCount'],
 	)); ?>
 
 </div>

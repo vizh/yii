@@ -28,7 +28,7 @@ configuration](/doc/guide/basics.application#application-configuration) or durin
 controller actions.
 
 > Note: Theme name is case-sensitive. If you attempt to activate a theme
-that does not exist, `Yii::app()->theme` will return `null`.
+that does not exist, `Yii::$app->theme` will return `null`.
 
 
 Creating a Theme
@@ -66,7 +66,7 @@ Otherwise, it falls back to the default location as specified by
 >
 > ~~~
 > [php]
-> Yii::app()->theme->baseUrl . '/images/FileName.gif'
+> Yii::$app->theme->baseUrl . '/images/FileName.gif'
 > ~~~
 >
 

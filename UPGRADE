@@ -17,6 +17,10 @@ General upgrade instructions
 - Check if everything is OK, if not — revert from backup and post
   issues to Yii issue tracker.
 
+Upgrading from v1.2.0
+----------------------
+
+Change all Yii::app() to Yii::$app notation.
 
 Upgrading from v1.1.19
 ----------------------

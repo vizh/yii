@@ -129,12 +129,12 @@ zamiast bezpośrednio przez `$_COOKIES`:
 ~~~
 [php]
 // zwraca ciasteczko o określonej nazwie
-$cookie=Yii::app()->request->cookies[$name];
+$cookie=Yii::$app->request->cookies[$name];
 $value=$cookie->value;
 ......
 // wysyła ciasteczko
 $cookie=new CHttpCookie($name,$value);
-Yii::app()->request->cookies[$name]=$cookie;
+Yii::$app->request->cookies[$name]=$cookie;
 ~~~
 
 

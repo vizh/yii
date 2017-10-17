@@ -108,7 +108,7 @@ au lieu d'accéder à `postPerPage`, il est possible d'utiliser l'expression sui
 
 ~~~
 [php]
-$postPerPage=Yii::app()->controller->module->postPerPage;
+$postPerPage=Yii::$app->controller->module->postPerPage;
 // où $this référence l'instance du contrôleur
 // $postPerPage=$this->module->postPerPage;
 ~~~

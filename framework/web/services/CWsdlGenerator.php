@@ -879,6 +879,6 @@ th, td{font-size: 12px;font-family: courier;padding: 3px;}
 			return $html;
 
 		echo $html;
-		Yii::app()->end(); // end the app to avoid conflict with text/xml header
+		Yii::$app->end(); // end the app to avoid conflict with text/xml header
 	}
 }

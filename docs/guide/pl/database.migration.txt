@@ -98,7 +98,7 @@ class m101129_185401_create_news_table extends CDbMigration
 }
 ~~~
 
-Klasa bazowa [CDbMigration] dostarcza metod manipulujących danymi oraz schematem bazy danych. Na przykład, metoda [CDbMigration::createTable] utworzy tabelę w bazie danych, zaś metoda [CDbMigration::insert] wstawi wiersz danych. Wszystkie te metody używają połączenia z bazą danych zwracanego przez metodę [CDbMigration::getDbConnection()], która domyślnie zwraca `Yii::app()->db`.
+Klasa bazowa [CDbMigration] dostarcza metod manipulujących danymi oraz schematem bazy danych. Na przykład, metoda [CDbMigration::createTable] utworzy tabelę w bazie danych, zaś metoda [CDbMigration::insert] wstawi wiersz danych. Wszystkie te metody używają połączenia z bazą danych zwracanego przez metodę [CDbMigration::getDbConnection()], która domyślnie zwraca `Yii::$app->db`.
 
 > Info|Info: Jak zauważyłeś, metody bazodanowe dostarczane przez [CDbMigration] są bardzo podobne do tych z [CDbCommand]. Rzeczywiście są one prawie takie same z tym wyjątkien, że metody [CDbMigration] odmierzają czas zużyty na ich wykonanie oraz wyświetlają pewne dodatkowe informację o parametrach metody.
 

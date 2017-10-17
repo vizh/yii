@@ -40,7 +40,7 @@ return array(
 );
 ~~~
 
-Apoi, putem accesa componenta oriunde in cod, folosind `Yii::app()->xyz`. Componenta
+Apoi, putem accesa componenta oriunde in cod, folosind `Yii::$app->xyz`. Componenta
 la fi creata prin abordarea lazy (adica, ea va fi creata atunci cand este accesata prima data).
 Putem specifica incarcarea ei in proprietatea `preload`, pentru a fi creata automat o data cu aplicatia.
 

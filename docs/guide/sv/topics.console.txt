@@ -76,9 +76,9 @@ public function run($args) { ... }
 
 där `$args` refererar till de extra parametrarna givna från kommandoraden.
 
-Inuti ett konsolkommando kan vi använda `Yii::app()` för tillgång till konsolapplikationens 
+Inuti ett konsolkommando kan vi använda `Yii::$app` för tillgång till konsolapplikationens
 instans och därigenom även få tillgång till resurser så som databasanslutningar
-(t.ex. `Yii::app()->db`). Som framgått är användningen mycket snarlik det vi kan göra 
+(t.ex. `Yii::$app->db`). Som framgått är användningen mycket snarlik det vi kan göra
 i en webbapplikation.
 
 > Info: Med start från version 1.1.1, är det även möjligt att skapa globala kommandon 

@@ -8,7 +8,7 @@ tárolásának központi helyeként is szolgál. Ezért az alkalmazást `front-c
 is szokták nevezni.
 
 A [belépési szkript] (/doc/guide/basics.entry) az alkalmazást 'singleton'-ként hozza létre.
-Az alkalmazás 'singleton' bárhol elérhető a kovetkezőn keresztül: [Yii::app()|YiiBase::app].
+Az alkalmazás 'singleton' bárhol elérhető a kovetkezőn keresztül: [Yii::$app|YiiBase::app].
 
 
 Alkalmazás beállítás
@@ -109,8 +109,8 @@ A fentiekben hozzáadjuk a `cache` elemet a `components` tömbhöz. A `cache` el
 meghatározza, hogy a komponens `CMemCache` osztályú és `servers` tulajdonsága a
 megadottak szerint legyen beállítva.
 
-Egy komponenst a `Yii::app()->ComponentID` használatával érhetünk el, ahol is
-`ComponentID` a komponens azonosítójára hivatkozik (pl.: `Yii::app()->cache`).
+Egy komponenst a `Yii::$app->ComponentID` használatával érhetünk el, ahol is
+`ComponentID` a komponens azonosítójára hivatkozik (pl.: `Yii::$app->cache`).
 
 Egy alkalmazás komponenst letilthatunk, ha beállításakor az `enabled` tulajdonságát
 `false`-ra állítjuk. Ha egy letiltott komponenst próbálunk elérni `null`-t kapunk

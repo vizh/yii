@@ -76,7 +76,7 @@ array(
 )
 ~~~
 
-Selanjutnya kita dapat mengakses koneksi DB via `Yii::app()->db` yang sudah
+Selanjutnya kita dapat mengakses koneksi DB via `Yii::$app->db` yang sudah
 diaktifkan secara otomatis, kecuali dikonfigurasi secara eksplisit
 [CDbConnection::autoConnect] menjadi false. Menggunakan pendekatan ini, koneksi DB
 tunggal dapat dibagi dalam tempat multipel pada kode kita.
@@ -90,7 +90,7 @@ menggunakan [CDbCommand]. Membuat instance [CDbCommand] dengan memanggil
 
 ~~~
 [php]
-$connection=Yii::app()->db;   // asumsi bahwa Anda memiliki koneksi "db" yang terkonfigurasi
+$connection=Yii::$app->db;   // asumsi bahwa Anda memiliki koneksi "db" yang terkonfigurasi
 // Jika tidak, Anda bisa membuat sebuah koneksi secara eksplisit
 // $connection=new CDbConnection($dsn,$username,$password);
 $command=$connection->createCommand($sql);

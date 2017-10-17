@@ -105,7 +105,7 @@ class CHtml
 	 */
 	public static function encode($text)
 	{
-		return htmlspecialchars($text,ENT_QUOTES,Yii::app()->charset);
+		return htmlspecialchars($text,ENT_QUOTES,Yii::$app->charset);
 	}
 
 	/**
@@ -136,9 +136,9 @@ class CHtml
 		foreach($data as $key=>$value)
 		{
 			if(is_string($key))
-				$key=htmlspecialchars($key,ENT_QUOTES,Yii::app()->charset);
+				$key=htmlspecialchars($key,ENT_QUOTES,Yii::$app->charset);
 			if(is_string($value))
-				$value=htmlspecialchars($value,ENT_QUOTES,Yii::app()->charset);
+				$value=htmlspecialchars($value,ENT_QUOTES,Yii::$app->charset);
 			elseif(is_array($value))
 				$value=self::encodeArray($value);
 			$d[$key]=$value;
@@ -269,7 +269,7 @@ class CHtml
 		$content="$seconds";
 		if($url!=='')
 			$content.=';url='.self::normalizeUrl($url);
-		Yii::app()->clientScript->registerMetaTag($content,null,'refresh');
+		Yii::$app->clientScript->registerMetaTag($content,null,'refresh');
 	}
 
 	/**
@@ -361,7 +361,7 @@ class CHtml
 					$hiddens[]=self::hiddenField(urldecode($pair),'',array('id'=>false));
 			}
 		}
-		$request=Yii::app()->request;
+		$request=Yii::$app->request;
 		if($request->enableCsrfValidation && !strcasecmp($method,'post'))
 			$hiddens[]=self::hiddenField($request->csrfTokenName,$request->getCsrfToken(),array('id'=>false));
 		if($customMethod!==false)
@@ -1200,7 +1200,7 @@ jQuery("input[name='$name']").click(function() {
 });
 jQuery('#$id').prop('checked', !jQuery("input[name='$name']:not(:checked)").length);
 EOD;
-			$cs=Yii::app()->getClientScript();
+			$cs=Yii::$app->getClientScript();
 			$cs->registerCoreScript('jquery');
 			$cs->registerScript($id,$js);
 		}
@@ -1357,7 +1357,7 @@ EOD;
 	 */
 	public static function ajax($options)
 	{
-		Yii::app()->getClientScript()->registerCoreScript('jquery');
+		Yii::$app->getClientScript()->registerCoreScript('jquery');
 		if(!isset($options['url']))
 			$options['url']=new CJavaScriptExpression('location.href');
 		else
@@ -1397,7 +1397,7 @@ EOD;
 	 */
 	public static function asset($path,$hashByName=false)
 	{
-		return Yii::app()->getAssetManager()->publish($path,$hashByName);
+		return Yii::$app->getAssetManager()->publish($path,$hashByName);
 	}
 
 	/**
@@ -1424,15 +1424,15 @@ EOD;
 		{
 			if(isset($url[0]))
 			{
-				if(($c=Yii::app()->getController())!==null)
+				if(($c=Yii::$app->getController())!==null)
 					$url=$c->createUrl($url[0],array_splice($url,1));
 				else
-					$url=Yii::app()->createUrl($url[0],array_splice($url,1));
+					$url=Yii::$app->createUrl($url[0],array_splice($url,1));
 			}
 			else
 				$url='';
 		}
-		return $url==='' ? Yii::app()->getRequest()->getUrl() : $url;
+		return $url==='' ? Yii::$app->getRequest()->getUrl() : $url;
 	}
 
 	/**
@@ -2622,13 +2622,13 @@ EOD;
 		else
 			$id=$htmlOptions['id']=isset($htmlOptions['name'])?$htmlOptions['name']:self::ID_PREFIX.self::$count++;
 
-		$cs=Yii::app()->getClientScript();
+		$cs=Yii::$app->getClientScript();
 		$cs->registerCoreScript('jquery');
 
 		if(isset($htmlOptions['submit']))
 		{
 			$cs->registerCoreScript('yii');
-			$request=Yii::app()->getRequest();
+			$request=Yii::$app->getRequest();
 			if($request->enableCsrfValidation && isset($htmlOptions['csrf']) && $htmlOptions['csrf'])
 				$htmlOptions['params'][$request->csrfTokenName]=$request->getCsrfToken();
 			if(isset($htmlOptions['params']))

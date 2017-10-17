@@ -113,7 +113,7 @@ CSS. Так как каждый файл равен дополнительном
 
 ~~~
 [php]
-$cs=Yii::app()->clientScript;
+$cs=Yii::$app->clientScript;
 $cs->scriptMap=array(
 	'jquery.js'=>'/js/all.js',
 	'jquery.ajaxqueue.js'=>'/js/all.js',
@@ -139,7 +139,7 @@ JavaScript в один файл и записать результат в `js/al
 
 ~~~
 [php]
-$cs=Yii::app()->clientScript;
+$cs=Yii::$app->clientScript;
 $cs->scriptMap=array(
 	'jquery.js'=>false,
 	'jquery.ajaxqueue.js'=>false,

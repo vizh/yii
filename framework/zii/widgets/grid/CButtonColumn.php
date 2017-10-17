@@ -67,7 +67,7 @@ class CButtonColumn extends CGridColumn
 	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
 	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
 	 */
-	public $viewButtonUrl='Yii::app()->controller->createUrl("view",array("id"=>$data->primaryKey))';
+	public $viewButtonUrl='Yii::$app->controller->createUrl("view",array("id"=>$data->primaryKey))';
 	/**
 	 * @var array the HTML options for the view button tag.
 	 */
@@ -96,7 +96,7 @@ class CButtonColumn extends CGridColumn
 	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
 	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
 	 */
-	public $updateButtonUrl='Yii::app()->controller->createUrl("update",array("id"=>$data->primaryKey))';
+	public $updateButtonUrl='Yii::$app->controller->createUrl("update",array("id"=>$data->primaryKey))';
 	/**
 	 * @var array the HTML options for the update button tag.
 	 */
@@ -125,7 +125,7 @@ class CButtonColumn extends CGridColumn
 	 * A PHP expression can be any PHP code that has a value. To learn more about what an expression is,
 	 * please refer to the {@link http://www.php.net/manual/en/language.expressions.php php manual}.
 	 */
-	public $deleteButtonUrl='Yii::app()->controller->createUrl("delete",array("id"=>$data->primaryKey))';
+	public $deleteButtonUrl='Yii::$app->controller->createUrl("delete",array("id"=>$data->primaryKey))';
 	/**
 	 * @var array the HTML options for the delete button tag.
 	 */
@@ -250,10 +250,10 @@ class CButtonColumn extends CGridColumn
 			else
 				$confirmation='';
 
-			if(Yii::app()->request->enableCsrfValidation)
+			if(Yii::$app->request->enableCsrfValidation)
 			{
-				$csrfTokenName = Yii::app()->request->csrfTokenName;
-				$csrfToken = Yii::app()->request->csrfToken;
+				$csrfTokenName = Yii::$app->request->csrfTokenName;
+				$csrfToken = Yii::$app->request->csrfToken;
 				$csrf = "\n\t\tdata:{ '$csrfTokenName':'$csrfToken' },";
 			}
 			else
@@ -301,7 +301,7 @@ EOD;
 		}
 
 		if($js!==array())
-			Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$this->id, implode("\n",$js));
+			Yii::$app->getClientScript()->registerScript(__CLASS__.'#'.$this->id, implode("\n",$js));
 	}
 
 	/**

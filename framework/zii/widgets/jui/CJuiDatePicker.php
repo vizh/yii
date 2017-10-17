@@ -116,7 +116,7 @@ class CJuiDatePicker extends CJuiInputWidget
 			$js = "jQuery('#{$id}').datepicker(jQuery.extend({showMonthAfterYear:false},jQuery.datepicker.regional['{$this->language}'],{$options}));";
 		}
 
-		$cs = Yii::app()->getClientScript();
+		$cs = Yii::$app->getClientScript();
 
 		if(isset($this->defaultOptions))
 		{

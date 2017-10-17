@@ -8,7 +8,7 @@ para o processamento de configurações a nível da aplicação. Por esta razão
 é também chamada de `controle de frente`.
 
 A aplicação é criada como um singleton pelo [script de entrada](/doc/guide/basics.entry).
-O singleton da aplicação significa que esta pode ser acessada em qualquer lugar pelo [Yii::app()|YiiBase::app].
+O singleton da aplicação significa que esta pode ser acessada em qualquer lugar pelo [Yii::$app|YiiBase::app].
 
 Configuração da Aplicação
 -------------------------
@@ -110,8 +110,8 @@ Acima, adicionamos o elemento `cache` ao array `components`. O elemento
 `cache` indica a classe do componente, que é `CMemCache` e sua propriedade
 `servers` deve ser inicializada como no exemplo.
 
-Para acessar um componente da aplicação, use `Yii::app()->ComponentID`, onde
-`ComponentID` refere=se ao ID do componente (ex.: `Yii::app()->cache`).
+Para acessar um componente da aplicação, use `Yii::$app->ComponentID`, onde
+`ComponentID` refere=se ao ID do componente (ex.: `Yii::$app->cache`).
 
 Um componente da aplicação pode ser desativado setando a propriedade `enabled`
 para `false` na configuração. O valor Null é retornado quando um componente

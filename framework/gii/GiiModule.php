@@ -115,7 +115,7 @@ class GiiModule extends CWebModule
 	{
 		parent::init();
 		Yii::setPathOfAlias('gii',dirname(__FILE__));
-		Yii::app()->setComponents(array(
+		Yii::$app->setComponents(array(
 			'errorHandler'=>array(
 				'class'=>'CErrorHandler',
 				'errorAction'=>$this->getId().'/default/error',
@@ -123,7 +123,7 @@ class GiiModule extends CWebModule
 			'user'=>array(
 				'class'=>'CWebUser',
 				'stateKeyPrefix'=>'gii',
-				'loginUrl'=>Yii::app()->createUrl($this->getId().'/default/login'),
+				'loginUrl'=>Yii::$app->createUrl($this->getId().'/default/login'),
 			),
 			'widgetFactory' => array(
 				'class'=>'CWidgetFactory',
@@ -140,7 +140,7 @@ class GiiModule extends CWebModule
 	public function getAssetsUrl()
 	{
 		if($this->_assetsUrl===null)
-			$this->_assetsUrl=Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('gii.assets'));
+			$this->_assetsUrl=Yii::$app->getAssetManager()->publish(Yii::getPathOfAlias('gii.assets'));
 		return $this->_assetsUrl;
 	}
 
@@ -166,15 +166,15 @@ class GiiModule extends CWebModule
 		if(parent::beforeControllerAction($controller, $action))
 		{
 			$route=$controller->id.'/'.$action->id;
-			if(!$this->allowIp(Yii::app()->request->userHostAddress) && $route!=='default/error')
+			if(!$this->allowIp(Yii::$app->request->userHostAddress) && $route!=='default/error')
 				throw new CHttpException(403,"You are not allowed to access this page.");
 
 			$publicPages=array(
 				'default/login',
 				'default/error',
 			);
-			if($this->password!==false && Yii::app()->user->isGuest && !in_array($route,$publicPages))
-				Yii::app()->user->loginRequired();
+			if($this->password!==false && Yii::$app->user->isGuest && !in_array($route,$publicPages))
+				Yii::$app->user->loginRequired();
 			else
 				return true;
 		}

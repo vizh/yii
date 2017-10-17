@@ -73,7 +73,7 @@ Dalam data grid `admin`, terdapat sebuah tombol delete di tiap baris. Dengan men
 [php]
 public function actionDelete()
 {
-	if(Yii::app()->request->isPostRequest)
+	if(Yii::$app->request->isPostRequest)
 	{
 		// we only allow deletion via POST request
 		$this->loadModel()->delete();

@@ -270,7 +270,7 @@ abstract class CCodeModel extends CFormModel
 	 */
 	public function getTemplates()
 	{
-		return Yii::app()->controller->templates;
+		return Yii::$app->controller->templates;
 	}
 
 	/**
@@ -393,7 +393,7 @@ abstract class CCodeModel extends CFormModel
 	 */
 	public function getStickyFile()
 	{
-		return Yii::app()->runtimePath.'/gii-'.Yii::getVersion().'/'.get_class($this).'.php';
+		return Yii::$app->runtimePath.'/gii-'.Yii::getVersion().'/'.get_class($this).'.php';
 	}
 
 	/**

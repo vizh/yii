@@ -128,7 +128,7 @@ class CCaptchaAction extends CAction
 		}
 		else
 			$this->renderImage($this->getVerifyCode());
-		Yii::app()->end();
+		Yii::$app->end();
 	}
 
 	/**
@@ -154,7 +154,7 @@ class CCaptchaAction extends CAction
 		if($this->fixedVerifyCode !== null)
 			return $this->fixedVerifyCode;
 
-		$session = Yii::app()->session;
+		$session = Yii::$app->session;
 		$session->open();
 		$name = $this->getSessionKey();
 		if($session[$name] === null || $regenerate)
@@ -175,7 +175,7 @@ class CCaptchaAction extends CAction
 	{
 		$code = $this->getVerifyCode();
 		$valid = $caseSensitive ? ($input === $code) : strcasecmp($input,$code)===0;
-		$session = Yii::app()->session;
+		$session = Yii::$app->session;
 		$session->open();
 		$name = $this->getSessionKey() . 'count';
 		$session[$name] = $session[$name] + 1;
@@ -218,7 +218,7 @@ class CCaptchaAction extends CAction
 	 */
 	protected function getSessionKey()
 	{
-		return self::SESSION_VAR_PREFIX . Yii::app()->getId() . '.' . $this->getController()->getUniqueId() . '.' . $this->getId();
+		return self::SESSION_VAR_PREFIX . Yii::$app->getId() . '.' . $this->getController()->getUniqueId() . '.' . $this->getId();
 	}
 
 	/**

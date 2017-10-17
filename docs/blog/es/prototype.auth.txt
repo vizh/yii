@@ -63,7 +63,7 @@ class User extends CActiveRecord
 }
 ~~~
 
-En la clase `UserIdentity`, vamos a sobrecargar el método `getId()` que devuelve el valor del `id` del usuario encontrado en la tabla `tbl_user`. Su implementación anterior retornaba el nombre de usuario. Las propiedades de `nombre de usuario` e `id` van a ser guardadas en la sesión de usuario y pueden ser accedidas via `Yii::app()->user` desde cualquier parte de nuestro código.
+En la clase `UserIdentity`, vamos a sobrecargar el método `getId()` que devuelve el valor del `id` del usuario encontrado en la tabla `tbl_user`. Su implementación anterior retornaba el nombre de usuario. Las propiedades de `nombre de usuario` e `id` van a ser guardadas en la sesión de usuario y pueden ser accedidas via `Yii::$app->user` desde cualquier parte de nuestro código.
 
 > Tip|Consejo: En la clase `UserIdentity`, nos referimos a la clase [CUserIdentity] sin incluirla explícitamente en el archivo de la clase correspondiente. Esto se debe a que [CUserIdentity] es una clase del núcleo de Yii. Yii incluirá automáticamente el archivo de la clase o cualquier otra clase del núcleo cuando sea referenciada por primera vez.
 >
@@ -92,7 +92,7 @@ $identity->authenticate();
 switch($identity->errorCode)
 {
 	case UserIdentity::ERROR_NONE:
-		Yii::app()->user->login($identity);
+		Yii::$app->user->login($identity);
 		break;
 	......
 }

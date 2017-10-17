@@ -63,7 +63,7 @@ class User extends CActiveRecord
 }
 ~~~
 
-Di dalam kelas `UserIdentity`, kita juga meng-override method `getId()` yang mengembalikan nilai `id` dari user yang ditemukan di tabel `tbl_user`. Implementasi kelas induk akan mengembalikan username. Baik properti `username` dan `id` akan disimpan di dalam session user dan bisa diakses dengan `Yii::app()->user` dari manapun di kode kita.
+Di dalam kelas `UserIdentity`, kita juga meng-override method `getId()` yang mengembalikan nilai `id` dari user yang ditemukan di tabel `tbl_user`. Implementasi kelas induk akan mengembalikan username. Baik properti `username` dan `id` akan disimpan di dalam session user dan bisa diakses dengan `Yii::$app->user` dari manapun di kode kita.
 
 > Tip: Di dalam kelas `UserIdentity`, kita mereferensikan kelas [CUserIdentity] tanpa secara eksplisit meng-include file tersebut. Ini dikarenakan [CUserIdentity] adalah kelas inti yang disediakan oleh framework Yii. Yii akan meng-include file kelas secara otomatis untuk setiap kelas inti yang direferensikan pada saat pertama kali.
 >
@@ -92,7 +92,7 @@ $identity->authenticate();
 switch($identity->errorCode)
 {
 	case UserIdentity::ERROR_NONE:
-		Yii::app()->user->login($identity);
+		Yii::$app->user->login($identity);
 		break;
 	......
 }

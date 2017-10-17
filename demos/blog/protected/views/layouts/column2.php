@@ -7,14 +7,14 @@
 	</div>
 	<div class="span-6 last">
 		<div id="sidebar">
-			<?php if(!Yii::app()->user->isGuest) $this->widget('UserMenu'); ?>
+			<?php if(!Yii::$app->user->isGuest) $this->widget('UserMenu'); ?>
 
 			<?php $this->widget('TagCloud', array(
-				'maxTags'=>Yii::app()->params['tagCloudCount'],
+				'maxTags'=>Yii::$app->params['tagCloudCount'],
 			)); ?>
 
 			<?php $this->widget('RecentComments', array(
-				'maxComments'=>Yii::app()->params['recentCommentCount'],
+				'maxComments'=>Yii::$app->params['recentCommentCount'],
 			)); ?>
 		</div><!-- sidebar -->
 	</div>

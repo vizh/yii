@@ -77,7 +77,7 @@ array(
 )
 ~~~
 
-Über `Yii::app()->db` kann man dann auf eine bereits aktivierte
+Über `Yii::$app->db` kann man dann auf eine bereits aktivierte
 Verbindung zugreifen, es sei denn, [CDbConnection::autoConnect]
 wurde auf false gesetzt. Auf diese Weise steht in der gesamten 
 Anwendung die selbe DB-Verbindung zur Verfügung. 
@@ -92,7 +92,7 @@ aufruft:
 
 ~~~
 [php]
-$connection=Yii::app()->db;   // Vorausgesetzt, Sie haben eine "db"-Komponente konfiguriert
+$connection=Yii::$app->db;   // Vorausgesetzt, Sie haben eine "db"-Komponente konfiguriert
 // Falls nicht, können Sie auch eine neue Verbindung erstellen:
 // $connection=new CDbConnection($dsn,$username,$password);
 $command=$connection->createCommand($sql);

@@ -51,12 +51,12 @@ class CLocaleTest extends CTestCase
 		);
 
 		new TestApplication($config);
-		Yii::app()->configure($config);
+		Yii::$app->configure($config);
 	}
 
 	function testRequiredDataExistence(){
 		foreach($this->criticalLocaleCodes as $localeCode){
-			$locale = Yii::app()->getLocale($localeCode);
+			$locale = Yii::$app->getLocale($localeCode);
 			// AM/PM
 			$this->assertNotNull($locale->getAMName(), "$localeCode: getAMName failed.");
 			$this->assertNotNull($locale->getPMName(), "$localeCode: getPMName failed.");

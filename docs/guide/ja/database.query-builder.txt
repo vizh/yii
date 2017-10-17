@@ -9,7 +9,7 @@ Yii のクエリビルダはオブジェクト指向で SQL 文を書く方法�
 
 ~~~
 [php]
-$user = Yii::app()->db->createCommand()
+$user = Yii::$app->db->createCommand()
 	->select('id, username, profile')
 	->from('tbl_user u')
 	->join('tbl_profile p', 'u.id=p.user_id')
@@ -37,7 +37,7 @@ $user = Yii::app()->db->createCommand()
 >
 > ~~~
 > [php]
-> $command = Yii::app()->db->createCommand('SELECT * FROM tbl_user');
+> $command = Yii::$app->db->createCommand('SELECT * FROM tbl_user');
 > // 次の行は上記の SQL に WHERE 句を追加しない
 > $command->where('id=:id', array(':id'=>$id));
 > ~~~
@@ -54,10 +54,10 @@ Yii のクエリビルダは [CDbCommand]、すなわち、[データアクセ�
 
 ~~~
 [php]
-$command = Yii::app()->db->createCommand();
+$command = Yii::$app->db->createCommand();
 ~~~
 
-すなわち、`Yii::app()->db` を使って DB 接続を取得し、次に [CDbConnection::createCommand()] を呼んで必要なコマンドのインスタンスを作成します。
+すなわち、`Yii::$app->db` を使って DB 接続を取得し、次に [CDbConnection::createCommand()] を呼んで必要なコマンドのインスタンスを作成します。
 
 [データアクセスオブジェクト](/doc/guide/database.dao) では `createCommand()` の呼出しに SQL 文全体を渡しますが、ここではそうせず、空のままにしておくことに注意して下さい。
 これは、下記で説明するクエリビルダのメソッドを使って、SQL 文の個々の部分を組み上げていくことになるからです。
@@ -431,7 +431,7 @@ union('select * from tbl_profile')
 
 ~~~
 [php]
-$users = Yii::app()->db->createCommand()
+$users = Yii::$app->db->createCommand()
 	->select('*')
 	->from('tbl_user')
 	->queryAll();
@@ -445,7 +445,7 @@ $users = Yii::app()->db->createCommand()
 
 ~~~
 [php]
-$sql = Yii::app()->db->createCommand()
+$sql = Yii::$app->db->createCommand()
 	->select('*')
 	->from('tbl_user')
 	->text;
@@ -474,7 +474,7 @@ $command->select = array('id', 'username');
 
 ~~~
 [php]
-$row = Yii::app()->db->createCommand(array(
+$row = Yii::$app->db->createCommand(array(
 	'select' => array('id', 'username'),
 	'from' => 'tbl_user',
 	'where' => 'id=:id',
@@ -491,7 +491,7 @@ $row = Yii::app()->db->createCommand(array(
 
 ~~~
 [php]
-$command = Yii::app()->db->createCommand();
+$command = Yii::$app->db->createCommand();
 $users = $command->select('*')->from('tbl_users')->queryAll();
 $command->reset();  // 前のクエリをクリーンアップする
 $posts = $command->select('*')->from('tbl_posts')->queryAll();

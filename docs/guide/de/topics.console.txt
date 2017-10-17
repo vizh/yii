@@ -77,9 +77,9 @@ public function run($args) { ... }
 wobei `$args` die Aufrufparameter enthält.
 
 Innerhalb eines Befehls kann das Anwendungsobjekt wie gewohnt über
-`Yii::app()` angesprochen werden. Auch die konfigurierten Komponenten, wie
+`Yii::$app` angesprochen werden. Auch die konfigurierten Komponenten, wie
 etwa die Datenbankverbindung, stehen wie bei einer Webanwendung zur Verfügung 
-(z.B. `Yii::app()->db`).
+(z.B. `Yii::$app->db`).
 
 > Info: Seit Version 1.1.1 ermöglicht Yii auch globale Befehle, die von
 allen Yii-Anwendungen auf einem Server verwendet werden können. Dazu muss die

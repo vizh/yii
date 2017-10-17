@@ -131,7 +131,7 @@ class CWidgetFactory extends CApplicationComponent implements IWidgetFactory
 		parent::init();
 
 		if($this->enableSkin && $this->skinPath===null)
-			$this->skinPath=Yii::app()->getViewPath().DIRECTORY_SEPARATOR.'skins';
+			$this->skinPath=Yii::$app->getViewPath().DIRECTORY_SEPARATOR.'skins';
 	}
 
 	/**
@@ -178,7 +178,7 @@ class CWidgetFactory extends CApplicationComponent implements IWidgetFactory
 			else
 				$this->_skins[$className]=array();
 
-			if(($theme=Yii::app()->getTheme())!==null)
+			if(($theme=Yii::$app->getTheme())!==null)
 			{
 				$skinFile=$theme->getSkinPath().DIRECTORY_SEPARATOR.$className.'.php';
 				if(is_file($skinFile))

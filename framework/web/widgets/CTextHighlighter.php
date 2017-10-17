@@ -119,6 +119,6 @@ class CTextHighlighter extends COutputProcessor
 	{
 		if($url===null)
 			$url=CHtml::asset(Yii::getPathOfAlias('system.vendors.TextHighlighter.highlight').'.css');
-		Yii::app()->getClientScript()->registerCssFile($url);
+		Yii::$app->getClientScript()->registerCssFile($url);
 	}
 }

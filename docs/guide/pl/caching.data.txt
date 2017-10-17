@@ -11,7 +11,7 @@ Aby zachować zmienną `$value` w buforze, wybieramy unikalne ID oraz wywołujem
 
 ~~~
 [php]
-Yii::app()->cache->set($id, $value);
+Yii::$app->cache->set($id, $value);
 ~~~
 
 Zbuforowane dane pozostaną w buforze na zawsze, dopóki nie zostaną z niego usunięte
@@ -23,7 +23,7 @@ określonego okresu czasu:
 ~~~
 [php]
 // trzymaj wartość w buforze najdłużej przez 30 sekund
-Yii::app()->cache->set($id, $value, 30);
+Yii::$app->cache->set($id, $value, 30);
 ~~~
 
 Następnie, jeśli potrzebujemy uzyskać dostęp do tej zmiennej (albo w tym samym lub też innym żądaniu) 
@@ -33,12 +33,12 @@ wygenerować.
 
 ~~~
 [php]
-$value=Yii::app()->cache->get($id);
+$value=Yii::$app->cache->get($id);
 if($value===false)
 {
   // odnów $value ponieważ nie została znaleziona w buforze
 	// i zachowaj ja w nim do ponownego użycia 
-	// Yii::app()->cache->set($id,$value);
+	// Yii::$app->cache->set($id,$value);
 }
 ~~~
 
@@ -63,7 +63,7 @@ zbuforowane dla innych aplikacji.
 > komponent cache może być używany jak tablica. Poniżej znajduje się kilka przykładów:
 > ~~~
 > [php]
-> $cache=Yii::app()->cache;
+> $cache=Yii::$app->cache;
 > $cache['var1']=$value1;  // równoznaczne z: $cache->set('var1',$value1);
 > $value2=$cache['var2'];  // równoznaczne z: $value2=$cache->get('var2');
 > ~~~
@@ -83,7 +83,7 @@ Przekazujemy instancję zależności wraz z danymi do buforowania gdy wywołujem
 [php]
 // wartość wygasa w ciągu 30 sekund
 // może ona również stracić ważność wcześniej jeśli zależny plik jest zmieniony
-Yii::app()->cache->set($id, $value, 30, new CFileCacheDependency('NazwaPliku'));
+Yii::$app->cache->set($id, $value, 30, new CFileCacheDependency('NazwaPliku'));
 ~~~
 
 Teraz jeśli zwrócimy `$value` z buforu poprzez wywołanie [get()|CCache::get] zależność
@@ -140,7 +140,7 @@ bazodanowego. Poniżej znajduje się przykład:
 [php]
 $sql = 'SELECT * FROM tbl_post LIMIT 20';
 $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM tbl_post');
-$rows = Yii::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
+$rows = Yii::$app->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
 ~~~
 
 Podczas wykonywania powyższej instrukcji, Yii sprawdzi najpierw czy bufor zawiera odpowiedni
@@ -184,9 +184,9 @@ NIE BĘDĄ buforowane dopóki nie wywołamy ponownie metody `cache()`. Na przyk�
 $sql = 'SELECT * FROM tbl_post LIMIT 20';
 $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM tbl_post');
 
-$rows = Yii::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
+$rows = Yii::$app->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
 // buforowanie zapytań NIE BĘDZIE użyte
-$rows = Yii::app()->db->createCommand($sql)->queryAll();
+$rows = Yii::$app->db->createCommand($sql)->queryAll();
 ~~~
 
 Poprzez wprowadzenie dodatkowego parametru `$queryCount` w metodzie `cache()`, możemy
@@ -196,9 +196,9 @@ określimy, iż buforowanie zapytań powinno nastąpić dla dwóch kolejnych zap
 ~~~
 [php]
 // ...
-$rows = Yii::app()->db->cache(1000, $dependency, 2)->createCommand($sql)->queryAll();
+$rows = Yii::$app->db->cache(1000, $dependency, 2)->createCommand($sql)->queryAll();
 // buforowanie zapytań BĘDZIE używane
-$rows = Yii::app()->db->createCommand($sql)->queryAll();
+$rows = Yii::$app->db->createCommand($sql)->queryAll();
 ~~~
 
 Jak wiadomo (poprzez sprawdzanie [rejestrowania komunikatów](/doc/guide/topics.logging))

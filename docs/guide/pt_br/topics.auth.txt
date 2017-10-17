@@ -17,7 +17,7 @@ A parte central no framework auth do Yii é a pré-declaração do *componente
 de aplicação do usuário* que é um objeto implementando a interface
 [IWebUser]. O componente de usuário representa a persistência da informação
 de identidade para o usuário corrente. Pode ser acessado de qualquer lugar, utilizando
-`Yii::app()->user`.
+`Yii::$app->user`.
 
 Utilizando o componente de usuário, podemos verificar se um usuário está conectado ou não através de
 [CWebUser::isGuest]; podemos [conectar|CWebUser::login] e 
@@ -76,7 +76,7 @@ class UserIdentity extends CUserIdentity
 ~~~
 
 Quando falarmos sobre login e logout na próxima seção, veremos que passamos a classe identidade como parâmetro ao método login de um usuário. Qualquer informação que precisarmos armazenar no estado (apenas chamando [CBaseUserIdentity::setState])) serão passadas para a classe [CWebUser], que por sua vez irá armazenar de forma persistente, como uma sessão.
-Esta informação pode ser acessada como uma propriedade da classe [CWebUser]. No nosso exemplo, armazenamos a informação do título do usuário através de `$this->setState('title', $record->title);`. Uma vez finalizado o processo de login, podemos obter a informação `title` do usuário corrente, simplesmente usando `Yii::app()->user->title`.
+Esta informação pode ser acessada como uma propriedade da classe [CWebUser]. No nosso exemplo, armazenamos a informação do título do usuário através de `$this->setState('title', $record->title);`. Uma vez finalizado o processo de login, podemos obter a informação `title` do usuário corrente, simplesmente usando `Yii::$app->user->title`.
 
 > Info: Por padrão, [CWebUser] utiliza sessão para armazenamento persistente de informação 
 sobre identidade de usuário. Caso o login estiver ativo e baseado na utilização de cookies (a configuração
@@ -94,17 +94,17 @@ Agora que já vimos um exemplo de criação de identidade de usuário, usaremos 
 // Login de um usuário com usuário e senha fornecidos.
 $identity=new UserIdentity($username,$password);
 if($identity->authenticate())
-	Yii::app()->user->login($identity);
+	Yii::$app->user->login($identity);
 else
 	echo $identity->errorMessage;
 ......
 // Logout do usuário corrente
-Yii::app()->user->logout();
+Yii::$app->user->logout();
 ~~~
 
 Estamos criando um novo objeto de UserIdentity e passando as credenciais de autenticação (ou seja, os valores de `$username` e `$password` enviados pelo usuário) para o construtor. Então simplesmente chamamos o método `authenticate()`. Se bem sucedido, passamos a informação de identidade no método [CWebUser::login], e armazenamos a informação de identidade em um armazenamento persistente (Por padrão, sessão do PHP) para recuperação em uma requisição subsequente. Caso a autenticação falhe, podemos verificar a propriedade `errorMessage` para obter mais informações sobre a falha.
 
-Seja autenticado ou não, um usuário pode ser verificado em qualquer parte do aplicativo usando `Yii::app()->user->isGuest`. Se usarmos armazenamento persistente como sessão (o padrão) e/ou cookie (discutiremos abaixo) para armazenar a informação de identidade, o usuário pode ficar conectado e responder as requisições subsequentes. Neste caso, não precisamos utilizar a classe UserIdentity e todo o processo de login em casa solicitação. Por sua vez a classe CWebUser irá cuidar automaticamente do carregamento das informações de identidade do armazenamento persistente e podemos utilizá-lo para determinar se `Yii::app()->user->isGuest` retorna verdadeiro (true) ou falso (false).
+Seja autenticado ou não, um usuário pode ser verificado em qualquer parte do aplicativo usando `Yii::$app->user->isGuest`. Se usarmos armazenamento persistente como sessão (o padrão) e/ou cookie (discutiremos abaixo) para armazenar a informação de identidade, o usuário pode ficar conectado e responder as requisições subsequentes. Neste caso, não precisamos utilizar a classe UserIdentity e todo o processo de login em casa solicitação. Por sua vez a classe CWebUser irá cuidar automaticamente do carregamento das informações de identidade do armazenamento persistente e podemos utilizá-lo para determinar se `Yii::$app->user->isGuest` retorna verdadeiro (true) ou falso (false).
 
 Login baseado em Cookie
 -----------------------
@@ -121,13 +121,13 @@ esta funcionalidade requer que o navegador do usuário aceite cookies.
 [php]
 // Manter o usuário conectado por 7 dias.
 // Tenha certeza de que allowAutoLogin está setado como verdadeiro (true) no componente de usuário.
-Yii::app()->user->login($identity,3600*24*7);
+Yii::$app->user->login($identity,3600*24*7);
 ~~~
 
 Conforme mencionado acima, quando o login baseado em cookie estiver habilitado, os estados
 armazenados através de [CBaseUserIdentity::setState] serão gravados no cookie.
 Na próxima vez que o usuário conectado entrar, estes estados serão lidos do
-cookie e preparados para serem acessados através de `Yii::app()->user`.
+cookie e preparados para serem acessados através de `Yii::$app->user`.
 
 Embora o Yii possua medidas para previnir que o estado do cookie sejam alterados
 no lado do cliente, sugerimos fortemente que informações sensíveis de seguranção não sejam
@@ -276,7 +276,7 @@ tarefas e operações.
    - [verbs|CAccessRule::verbs]: especifica com quais tipos de requisição (exemplo: `GET`,
 `POST`) esta regra bate. A comparação não diferencia maiúsculas/minúsculas (case-insensitive).
    - [expression|CAccessRule::expression]: especifica uma expressão PHP cujo valor indica se
-esta regra bate. Na expressão você pode a variável `$user` que se refere a `Yii::app()->user`.
+esta regra bate. Na expressão você pode a variável `$user` que se refere a `Yii::$app->user`.
 
 
 Manipulando o Resultado da Autorização
@@ -320,7 +320,7 @@ executar o redirecionamento:
 
 ~~~
 [php]
-Yii::app()->request->redirect(Yii::app()->user->returnUrl);
+Yii::$app->request->redirect(Yii::$app->user->returnUrl);
 ~~~
 
 Role-Based Access Control
@@ -385,7 +385,7 @@ assignment, this can be done easily as follows:
 
 ~~~
 [php]
-if(Yii::app()->user->checkAccess('deletePost'))
+if(Yii::$app->user->checkAccess('deletePost'))
 {
 	// delete the post
 }
@@ -421,7 +421,7 @@ return array(
 ~~~
 
 We can then access the [authManager|CWebApplication::authManager]
-application component using `Yii::app()->authManager`.
+application component using `Yii::$app->authManager`.
 
 Defining Authorization Hierarchy
 --------------------------------
@@ -458,14 +458,14 @@ the provided APIs:
 
 ~~~
 [php]
-$auth=Yii::app()->authManager;
+$auth=Yii::$app->authManager;
 
 $auth->createOperation('createPost','create a post');
 $auth->createOperation('readPost','read a post');
 $auth->createOperation('updatePost','update a post');
 $auth->createOperation('deletePost','delete a post');
 
-$bizRule='return Yii::app()->user->id==$params["post"]->authID;';
+$bizRule='return Yii::$app->user->id==$params["post"]->authID;';
 $task=$auth->createTask('updateOwnPost','update a post by author himself',$bizRule);
 $task->addChild('updatePost');
 
@@ -518,7 +518,7 @@ access checking:
 
 ~~~
 [php]
-if(Yii::app()->user->checkAccess('createPost'))
+if(Yii::$app->user->checkAccess('createPost'))
 {
 	// create post
 }
@@ -531,7 +531,7 @@ check if a user can update a post, we would pass in the post data in the `$param
 ~~~
 [php]
 $params=array('post'=>$post);
-if(Yii::app()->user->checkAccess('updateOwnPost',$params))
+if(Yii::$app->user->checkAccess('updateOwnPost',$params))
 {
 	// update post
 }
@@ -574,10 +574,10 @@ users and guest users, respectively.
 
 ~~~
 [php]
-$bizRule='return !Yii::app()->user->isGuest;';
+$bizRule='return !Yii::$app->user->isGuest;';
 $auth->createRole('authenticated', 'authenticated user', $bizRule);
 
-$bizRule='return Yii::app()->user->isGuest;';
+$bizRule='return Yii::$app->user->isGuest;';
 $auth->createRole('guest', 'guest user', $bizRule);
 ~~~
 

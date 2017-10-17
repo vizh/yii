@@ -90,7 +90,7 @@ aplicação Yii típica, exceto por uma coisa: ele não inclui a chamada do mét
 
 Agora você pode utilizar a maioria das funcionalidades oferecidas pelo Yii ao
 desenvolver melhorias em softwares de terceiros. Por exemplo, você pode usar
-`Yii::app()` para acessar a instância da aplicação; nós podemos utilizar as
+`Yii::$app` para acessar a instância da aplicação; nós podemos utilizar as
 funcionalidades de banco de dados tais como DAO e ActiveRecord; podemos utilizar
 a funcionalidade de modelos e validações; e assim por diante.
 

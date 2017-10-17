@@ -64,7 +64,7 @@ class CGoogleApi
 	 */
 	public static function register($name,$version='1',$options=array(),$apiKey=null)
 	{
-		$cs=Yii::app()->getClientScript();
+		$cs=Yii::$app->getClientScript();
 		$url=$apiKey===null?self::$bootstrapUrl:self::$bootstrapUrl.'?key='.$apiKey;
 		$cs->registerScriptFile($url,CClientScript::POS_HEAD);
 

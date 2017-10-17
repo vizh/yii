@@ -118,7 +118,7 @@ class COutputCache extends CFilterWidget
 	public $varyByExpression;
 	/**
 	 * @var boolean whether the content being cached should be differentiated according to user's language.
-	 * A language is retrieved via Yii::app()->language.
+	 * A language is retrieved via Yii::$app->language.
 	 * Defaults to false.
 	 * @since 1.1.14
 	 */
@@ -232,7 +232,7 @@ class COutputCache extends CFilterWidget
 	 */
 	protected function checkContentCache()
 	{
-		if((empty($this->requestTypes) || in_array(Yii::app()->getRequest()->getRequestType(),$this->requestTypes))
+		if((empty($this->requestTypes) || in_array(Yii::$app->getRequest()->getRequestType(),$this->requestTypes))
 			&& ($this->_cache=$this->getCache())!==null)
 		{
 			if($this->duration>0 && ($data=$this->_cache->get($this->getCacheKey()))!==false)
@@ -254,7 +254,7 @@ class COutputCache extends CFilterWidget
 	 */
 	protected function getCache()
 	{
-		return Yii::app()->getComponent($this->cacheID);
+		return Yii::$app->getComponent($this->cacheID);
 	}
 
 	/**
@@ -291,7 +291,7 @@ class COutputCache extends CFilterWidget
 			$key.='.';
 
 			if($this->varyBySession)
-				$key.=Yii::app()->getSession()->getSessionID();
+				$key.=Yii::$app->getSession()->getSessionID();
 			$key.='.';
 
 			if(is_array($this->varyByParam) && isset($this->varyByParam[0]))
@@ -313,7 +313,7 @@ class COutputCache extends CFilterWidget
 			$key.='.';
 
 			if($this->varyByLanguage)
-				$key.=Yii::app()->language;
+				$key.=Yii::$app->language;
 			$key.='.';
 
 			return $this->_key=$key;
@@ -342,7 +342,7 @@ class COutputCache extends CFilterWidget
 		if(empty($this->_actions))
 			return;
 		$controller=$this->getController();
-		$cs=Yii::app()->getClientScript();
+		$cs=Yii::$app->getClientScript();
 		foreach($this->_actions as $action)
 		{
 			if($action[0]==='clientScript')

@@ -120,7 +120,7 @@ class m101129_185401_create_news_table extends CDbMigration
 Basklassen [CDbMigration] erbjuder en uppsättning metoder för manipulering av data och databasens schema. 
 Till exempel, [CDbMigration::createTable] skapar en databastabell, medan [CDbMigration::insert] lägger till 
 en rad med data. Dessa metoder använder alla databasanslutningen som returneras av [CDbMigration::getDbConnection()], 
-som standard `Yii::app()->db`.
+som standard `Yii::$app->db`.
 
 > Info: Noterbart är att databasmetoderna som [CDbMigration] erbjuder är mycket lika de i [CDbCommand]. 
 Faktiskt så är de likadana med undantaget att [CDbMigration]-metoderna mäter tidåtgång och skriver ut 

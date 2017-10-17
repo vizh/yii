@@ -96,11 +96,11 @@ Yii によって供給されるクッキーバリデーションを利用する�
 ~~~
 [php]
 // 特定の名前のクッキーを取得します。
-$cookie=Yii::app()->request->cookies[$name];
+$cookie=Yii::$app->request->cookies[$name];
 $value=$cookie->value;
 ......
 // クッキーを送ります。
 $cookie=new CHttpCookie($name,$value);
-Yii::app()->request->cookies[$name]=$cookie;
+Yii::$app->request->cookies[$name]=$cookie;
 ~~~
 

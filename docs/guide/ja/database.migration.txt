@@ -112,7 +112,7 @@ class m101129_185401_create_news_table extends CDbMigration
 
 基本クラスである [CDbMigration] が、データベースのデータとスキーマを操作するために、一連のメソッドを提供しています。
 例えば、[CDbMigration::createTable] はデータベーステーブルを作成しますし、[CDbMigration::insert] はデータを一行挿入します。
-これらのメソッドは、すべて、[CDbMigration::getDbConnection()] が返すデータベース接続(デフォルトでは、`Yii::app()->db`)を使用します。
+これらのメソッドは、すべて、[CDbMigration::getDbConnection()] が返すデータベース接続(デフォルトでは、`Yii::$app->db`)を使用します。
 
 > Info|情報: お気付きのように、[CDbMigration] によって提供されるメソッドは [CDbCommand] のものと非常によく似ています。
 実際、[CDbMigration] のメソッドが実行にかかった時間を計測することと、メソッドのパラメータに関していくつかメッセージを表示することを除けば、両者はほとんど同じです。

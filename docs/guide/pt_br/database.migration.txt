@@ -98,7 +98,7 @@ class m101129_185401_create_news_table extends CDbMigration
 }
 ~~~
 
-A classe base [CDbMigration] fornece um conjunto de métodos para a manupulação de dados e da estrutura  de um banco de dados. Por exemplo, [CDbMigration::createTable] criará uma tabela, enquanto [CDbMigration::insert] vai inserir uma linha de dados. Todos estes métodos usam a conexão de banco de dados retornada por [CDbMigration::getDbConnection()], a qual por padrão retorna `Yii::app()->db`.
+A classe base [CDbMigration] fornece um conjunto de métodos para a manupulação de dados e da estrutura  de um banco de dados. Por exemplo, [CDbMigration::createTable] criará uma tabela, enquanto [CDbMigration::insert] vai inserir uma linha de dados. Todos estes métodos usam a conexão de banco de dados retornada por [CDbMigration::getDbConnection()], a qual por padrão retorna `Yii::$app->db`.
 
 > Info|Informação: Você pode notar que os métodos de banco de dados fornecidos pela classe [CDbMigration] são muito similares aos em [CDbCommand]. De fato, eles são praticamente os mesmos, exceto que os métodos de [CDbMigration] vão medir o tempo usado e imprimir algumas mensagens sobre os parâmetros passados.
 

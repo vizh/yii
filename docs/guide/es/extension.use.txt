@@ -39,7 +39,7 @@ return array(
 );
 ~~~
 
-Entonces, podemos acceder al componente en cualquier lugar, usando `Yii::app()->xyz`.
+Entonces, podemos acceder al componente en cualquier lugar, usando `Yii::$app->xyz`.
 El componente será creado cuando se lo acceda por primera vez a menos que lo listemos
 en la propiedad `preload`.
 

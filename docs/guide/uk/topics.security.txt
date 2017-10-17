@@ -83,10 +83,10 @@ return array(
 ~~~
 [php]
 // Отримуємо cookie із заданим імям
-$cookie=Yii::app()->request->cookies[$name];
+$cookie=Yii::$app->request->cookies[$name];
 $value=$cookie->value;
 …
 // Відсилаємно cookie
 $cookie=new CHttpCookie($name,$value);
-Yii::app()->request->cookies[$name]=$cookie;
+Yii::$app->request->cookies[$name]=$cookie;
 ~~~

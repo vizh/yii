@@ -41,7 +41,7 @@ Yii フレームワークはそれ自体としては[非常に効率的](http://
 <?php if($this->beginCache('tagCloud', array('duration'=>3600))) { ?>
 
 	<?php $this->widget('TagCloud', array(
-		'maxTags'=>Yii::app()->params['tagCloudCount'],
+		'maxTags'=>Yii::$app->params['tagCloudCount'],
 	)); ?>
 
 <?php $this->endCache(); } ?>

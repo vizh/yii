@@ -133,12 +133,12 @@ direkt genom `$_COOKIES`:
 ~~~
 [php]
 // hämta cookien med det angivna namnet
-$cookie=Yii::app()->request->cookies[$name];
+$cookie=Yii::$app->request->cookies[$name];
 $value=$cookie->value;
 ......
 // skicka en cookie
 $cookie=new CHttpCookie($name,$value);
-Yii::app()->request->cookies[$name]=$cookie;
+Yii::$app->request->cookies[$name]=$cookie;
 ~~~
 
 

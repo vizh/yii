@@ -95,7 +95,7 @@ class CThemeManager extends CApplicationComponent
 	public function getBasePath()
 	{
 		if($this->_basePath===null)
-			$this->setBasePath(dirname(Yii::app()->getRequest()->getScriptFile()).DIRECTORY_SEPARATOR.self::DEFAULT_BASEPATH);
+			$this->setBasePath(dirname(Yii::$app->getRequest()->getScriptFile()).DIRECTORY_SEPARATOR.self::DEFAULT_BASEPATH);
 		return $this->_basePath;
 	}
 
@@ -116,7 +116,7 @@ class CThemeManager extends CApplicationComponent
 	public function getBaseUrl()
 	{
 		if($this->_baseUrl===null)
-			$this->_baseUrl=Yii::app()->getBaseUrl().'/'.self::DEFAULT_BASEPATH;
+			$this->_baseUrl=Yii::$app->getBaseUrl().'/'.self::DEFAULT_BASEPATH;
 		return $this->_baseUrl;
 	}
 

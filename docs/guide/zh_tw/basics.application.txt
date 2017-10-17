@@ -5,7 +5,7 @@
 它同時作為服務中心，維護應用程式級別的配置。有鑒於此，應用程式也叫做`前端控制器`。
 
 應用程式由 [入口腳本](/doc/guide/basics.entry) 實體化為一個獨立的物件。這個獨立的應用程式可以在任何地方通過
- [Yii::app()|YiiBase::app] 存取。
+ [Yii::$app|YiiBase::app] 存取。
 
 
 應用程式配置
@@ -91,7 +91,7 @@ array(
 如上所示，我們在 `components` 陣列中增加了 `cache` 元素。`cache` 元素表示此元件的類別是 `CMemCache`,
 他的 `servers` 屬性應依此初始化。
 
-要訪問一個應用程式元件，使用 `Yii::app()->ComponentID` ，其中的 `ComponentID` 是指元件的ID（例如 `Yii::app()->cache`）。
+要訪問一個應用程式元件，使用 `Yii::$app->ComponentID` ，其中的 `ComponentID` 是指元件的ID（例如 `Yii::$app->cache`）。
 
 應用程式的元件可以通過在其配置中設置 `enabled` 為 false 禁用。當我們存取被禁用的元件時將返回 Null。
 

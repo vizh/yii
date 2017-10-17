@@ -122,7 +122,7 @@ Kita dapat menulis action `error` seperti berikut:
 [php]
 public function actionError()
 {
-	if($error=Yii::app()->errorHandler->error)
+	if($error=Yii::$app->errorHandler->error)
 		$this->render('error', $error);
 }
 ~~~

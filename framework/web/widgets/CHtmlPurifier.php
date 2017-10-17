@@ -124,7 +124,7 @@ class CHtmlPurifier extends COutputProcessor
 	protected function createNewHtmlPurifierInstance()
 	{
 		$this->_purifier=new HTMLPurifier($this->getOptions());
-		$this->_purifier->config->set('Cache.SerializerPath',Yii::app()->getRuntimePath());
+		$this->_purifier->config->set('Cache.SerializerPath',Yii::$app->getRuntimePath());
 		return $this->_purifier;
 	}
 }

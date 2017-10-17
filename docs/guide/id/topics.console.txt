@@ -74,9 +74,9 @@ public function run($args) { ... }
 
 di mana `$args` merupakan parameter ekstra yang diberikan dalam command line.
 
-Di dalam console command, kita dapat menggunakan `Yii::app()` untuk mengakses instance aplikasi
+Di dalam console command, kita dapat menggunakan `Yii::$app` untuk mengakses instance aplikasi
 console, melalui ini juga kita dapat mengakses sumber daya seperti koneksi database
-(misalnya `Yii::app()->db`). Seperti yang bisa kita lihat, penggunaan ini sangat mirip
+(misalnya `Yii::$app->db`). Seperti yang bisa kita lihat, penggunaan ini sangat mirip
 dengan yang dilakukan pada aplikasi Web.
 
 > Info|Catatan: Mulai dari versi 1.1.1, kita juga dapat membuat perintah global 

@@ -72,7 +72,7 @@ class CJuiSelectable extends CJuiWidget {
 			$this->htmlOptions['id']=$id;
 
 		$options=CJavaScript::encode($this->options);
-		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').selectable({$options});");
+		Yii::$app->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').selectable({$options});");
 
 		echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
 		foreach($this->items as $id=>$content)

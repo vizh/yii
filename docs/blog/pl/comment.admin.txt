@@ -21,7 +21,7 @@ Utworzymy metodę `actionApprove()` w kontrolerze `CommentController` następuj�
 [php]
 public function actionApprove()
 {
-	if(Yii::app()->request->isPostRequest)
+	if(Yii::$app->request->isPostRequest)
 	{
 		$comment=$this->loadModel();
 		$comment->approve();

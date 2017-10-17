@@ -278,7 +278,7 @@ abstract class CModule extends CComponent
 				Yii::trace("Loading \"$id\" module",'system.base.CModule');
 				$class=$config['class'];
 				unset($config['class'], $config['enabled']);
-				if($this===Yii::app())
+				if($this===Yii::$app)
 					$module=Yii::createComponent($class,$id,null,$config);
 				else
 					$module=Yii::createComponent($class,$this->getId().'/'.$id,$this,$config);

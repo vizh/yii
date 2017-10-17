@@ -77,7 +77,7 @@ class CMarkdownParser extends MarkdownExtra_Parser
 	{
 		$content=$this->transform($content);
 		$purifier=new HTMLPurifier($this->purifierOptions);
-		$purifier->config->set('Cache.SerializerPath',Yii::app()->getRuntimePath());
+		$purifier->config->set('Cache.SerializerPath',Yii::$app->getRuntimePath());
 		return $purifier->purify($content);
 	}
 

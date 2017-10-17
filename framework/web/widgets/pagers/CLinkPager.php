@@ -234,6 +234,6 @@ class CLinkPager extends CBasePager
 	{
 		if($url===null)
 			$url=CHtml::asset(Yii::getPathOfAlias('system.web.widgets.pagers.pager').'.css');
-		Yii::app()->getClientScript()->registerCssFile($url);
+		Yii::$app->getClientScript()->registerCssFile($url);
 	}
 }

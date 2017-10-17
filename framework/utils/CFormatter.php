@@ -38,7 +38,7 @@
  * </ul>
  *
  * By default, {@link CApplication} registers {@link CFormatter} as an application component whose ID is 'format'.
- * Therefore, one may call <code>Yii::app()->format->boolean(1)</code>.
+ * Therefore, one may call <code>Yii::$app->format->boolean(1)</code>.
  * You might want to replace this component with {@link CLocalizedFormatter} to enable formatting based on the
  * current locale settings.
  *

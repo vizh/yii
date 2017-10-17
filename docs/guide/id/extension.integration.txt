@@ -84,7 +84,7 @@ pada umumnya kecuali satu hal, dia tidak memanggil method `run()` setelah membua
 instance aplikasi web.
 
 Sekarang kita dapat menggunakan fitur yang ditawari Yii ketika mengembangkan aplikasi pihak ketiga. Misalnya,
-kita dapat menggunakan `Yii::app()` untuk mengakses instance aplikasi; kita dapat menggunakan fitur database
+kita dapat menggunakan `Yii::$app` untuk mengakses instance aplikasi; kita dapat menggunakan fitur database
 seperti DAO dan ActiveRecord; kita dapat menggunakan model dan fitur validasi dan lain-lain.
 
 

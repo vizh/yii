@@ -8,7 +8,7 @@ un rol central pentru pastrarea configuratiilor la nivel de aplicatie. De aceea,
 application mai este numita `front-controller` (controller radacina, principal).
 
 Application este creata ca singleton de catre [fisierul de intrare](/doc/guide/basics.entry).
-In acest fel, accesul este posibil de oriunde via [Yii::app()|YiiBase::app].
+In acest fel, accesul este posibil de oriunde via [Yii::$app|YiiBase::app].
 
 
 Configurare
@@ -103,8 +103,8 @@ Adaugam elementul `cache` la array-ul `components`. Elementul
 `cache` retine clasa folosita de componenta, clasa fiind `CMemCache`, iar proprietarea `servers`
 ar trebui initializata in acest fel.
 
-ca sa accesam o componenta, folosim `Yii::app()->ComponentID`, unde
-`ComponentID` se refera la ID-ul componentei (ex. `Yii::app()->cache`).
+ca sa accesam o componenta, folosim `Yii::$app->ComponentID`, unde
+`ComponentID` se refera la ID-ul componentei (ex. `Yii::$app->cache`).
 
 O componenta poate fi dezactivata atribuind lui `enabled` valoarea false. Daca incercam sa accesam
 o componenta dezactivata, atunci primim null.

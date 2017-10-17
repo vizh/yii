@@ -69,7 +69,7 @@ return array(
 ~~~
 
 Dessa forma, podemos acessar o componente em qualquer lugar utilizando 
-`Yii::app()->xyz`. O componente será criado somente quando for acessado pela primeira vez, 
+`Yii::$app->xyz`. O componente será criado somente quando for acessado pela primeira vez,
 a não ser que ele tenha sido adicionado na propriedade `preload`.
 
 Comportamento

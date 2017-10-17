@@ -50,7 +50,7 @@ abstract class CMessageSource extends CApplicationComponent
 	 */
 	public function getLanguage()
 	{
-		return $this->_language===null ? Yii::app()->sourceLanguage : $this->_language;
+		return $this->_language===null ? Yii::$app->sourceLanguage : $this->_language;
 	}
 
 	/**
@@ -80,7 +80,7 @@ abstract class CMessageSource extends CApplicationComponent
 	public function translate($category,$message,$language=null)
 	{
 		if($language===null)
-			$language=Yii::app()->getLanguage();
+			$language=Yii::$app->getLanguage();
 		if($this->forceTranslation || $language!==$this->getLanguage())
 			return $this->translateMessage($category,$message,$language);
 		else

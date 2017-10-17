@@ -127,7 +127,7 @@ Die `error`-Action kann einfach so aussehen:
 [php]
 public function actionError()
 {
-	if($error=Yii::app()->errorHandler->error)
+	if($error=Yii::$app->errorHandler->error)
 		$this->render('error', $error);
 }
 ~~~

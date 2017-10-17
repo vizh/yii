@@ -96,12 +96,12 @@ return array(
 ~~~
 [php]
 // 取出一個名為 $name的cookie 值
-$cookie=Yii::app()->request->cookies[$name];
+$cookie=Yii::$app->request->cookies[$name];
 $value=$cookie->value;
 ......
 // 設置一個 cookie
 $cookie=new CHttpCookie($name,$value);
-Yii::app()->request->cookies[$name]=$cookie;
+Yii::$app->request->cookies[$name]=$cookie;
 ~~~
 
 

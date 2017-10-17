@@ -63,11 +63,11 @@ class CCaptchaValidator extends CValidator
 	 */
 	protected function getCaptchaAction()
 	{
-		if(($captcha=Yii::app()->getController()->createAction($this->captchaAction))===null)
+		if(($captcha=Yii::$app->getController()->createAction($this->captchaAction))===null)
 		{
 			if(strpos($this->captchaAction,'/')!==false) // contains controller or module
 			{
-				if(($ca=Yii::app()->createController($this->captchaAction))!==null)
+				if(($ca=Yii::$app->createController($this->captchaAction))!==null)
 				{
 					list($controller,$actionID)=$ca;
 					$captcha=$controller->createAction($actionID);

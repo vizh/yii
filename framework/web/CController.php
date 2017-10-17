@@ -259,7 +259,7 @@ class CController extends CBaseController
 		if(($action=$this->createAction($actionID))!==null)
 		{
 			if(($parent=$this->getModule())===null)
-				$parent=Yii::app();
+				$parent=Yii::$app;
 			if($parent->beforeControllerAction($this,$action))
 			{
 				$this->runActionWithFilters($action,$this->filters());
@@ -349,7 +349,7 @@ class CController extends CBaseController
 	 */
 	public function processOutput($output)
 	{
-		Yii::app()->getClientScript()->render($output);
+		Yii::$app->getClientScript()->render($output);
 
 		// if using page caching, we should delay dynamic output replacement
 		if($this->_dynamicOutput!==null && $this->isCachingStackEmpty())
@@ -551,7 +551,7 @@ class CController extends CBaseController
 	public function getViewPath()
 	{
 		if(($module=$this->getModule())===null)
-			$module=Yii::app();
+			$module=Yii::$app;
 		return $module->getViewPath().DIRECTORY_SEPARATOR.$this->getId();
 	}
 
@@ -586,9 +586,9 @@ class CController extends CBaseController
 	 */
 	public function getViewFile($viewName)
 	{
-		if(($theme=Yii::app()->getTheme())!==null && ($viewFile=$theme->getViewFile($this,$viewName))!==false)
+		if(($theme=Yii::$app->getTheme())!==null && ($viewFile=$theme->getViewFile($this,$viewName))!==false)
 			return $viewFile;
-		$moduleViewPath=$basePath=Yii::app()->getViewPath();
+		$moduleViewPath=$basePath=Yii::$app->getViewPath();
 		if(($module=$this->getModule())!==null)
 			$moduleViewPath=$module->getViewPath();
 		return $this->resolveViewFile($viewName,$this->getViewPath(),$basePath,$moduleViewPath);
@@ -637,7 +637,7 @@ class CController extends CBaseController
 	{
 		if($layoutName===false)
 			return false;
-		if(($theme=Yii::app()->getTheme())!==null && ($layoutFile=$theme->getLayoutFile($this,$layoutName))!==false)
+		if(($theme=Yii::$app->getTheme())!==null && ($layoutFile=$theme->getLayoutFile($this,$layoutName))!==false)
 			return $layoutFile;
 
 		if(empty($layoutName))
@@ -652,13 +652,13 @@ class CController extends CBaseController
 				$module=$module->getParentModule();
 			}
 			if($module===null)
-				$module=Yii::app();
+				$module=Yii::$app;
 			$layoutName=$module->layout;
 		}
 		elseif(($module=$this->getModule())===null)
-			$module=Yii::app();
+			$module=Yii::$app;
 
-		return $this->resolveViewFile($layoutName,$module->getLayoutPath(),Yii::app()->getViewPath(),$module->getViewPath());
+		return $this->resolveViewFile($layoutName,$module->getLayoutPath(),Yii::$app->getViewPath(),$module->getViewPath());
 	}
 
 	/**
@@ -695,7 +695,7 @@ class CController extends CBaseController
 		if($moduleViewPath===null)
 			$moduleViewPath=$basePath;
 
-		if(($renderer=Yii::app()->getViewRenderer())!==null)
+		if(($renderer=Yii::$app->getViewRenderer())!==null)
 			$extension=$renderer->fileExtension;
 		else
 			$extension='.php';
@@ -712,9 +712,9 @@ class CController extends CBaseController
 			$viewFile=$viewPath.DIRECTORY_SEPARATOR.$viewName;
 
 		if(is_file($viewFile.$extension))
-			return Yii::app()->findLocalizedFile($viewFile.$extension);
+			return Yii::$app->findLocalizedFile($viewFile.$extension);
 		elseif($extension!=='.php' && is_file($viewFile.'.php'))
-			return Yii::app()->findLocalizedFile($viewFile.'.php');
+			return Yii::$app->findLocalizedFile($viewFile.'.php');
 		else
 			return false;
 	}
@@ -752,10 +752,10 @@ class CController extends CBaseController
 		{
 			if($route[0]!=='/' && ($module=$this->getModule())!==null)
 				$route=$module->getId().'/'.$route;
-			Yii::app()->runController($route);
+			Yii::$app->runController($route);
 		}
 		if($exit)
-			Yii::app()->end();
+			Yii::$app->end();
 	}
 
 	/**
@@ -967,7 +967,7 @@ class CController extends CBaseController
 			$route=$this->getId().'/'.$route;
 		if($route[0]!=='/' && ($module=$this->getModule())!==null)
 			$route=$module->getId().'/'.$route;
-		return Yii::app()->createUrl(trim($route,'/'),$params,$ampersand);
+		return Yii::$app->createUrl(trim($route,'/'),$params,$ampersand);
 	}
 
 	/**
@@ -986,7 +986,7 @@ class CController extends CBaseController
 		if(strpos($url,'http')===0)
 			return $url;
 		else
-			return Yii::app()->getRequest()->getHostInfo($schema).$url;
+			return Yii::$app->getRequest()->getHostInfo($schema).$url;
 	}
 
 	/**
@@ -1000,9 +1000,9 @@ class CController extends CBaseController
 		{
 			$name=ucfirst(basename($this->getId()));
 			if($this->getAction()!==null && strcasecmp($this->getAction()->getId(),$this->defaultAction))
-				return $this->_pageTitle=Yii::app()->name.' - '.ucfirst($this->getAction()->getId()).' '.$name;
+				return $this->_pageTitle=Yii::$app->name.' - '.ucfirst($this->getAction()->getId()).' '.$name;
 			else
-				return $this->_pageTitle=Yii::app()->name.' - '.$name;
+				return $this->_pageTitle=Yii::$app->name.' - '.$name;
 		}
 	}
 
@@ -1030,7 +1030,7 @@ class CController extends CBaseController
 			$route=isset($url[0]) ? $url[0] : '';
 			$url=$this->createUrl($route,array_splice($url,1));
 		}
-		Yii::app()->getRequest()->redirect($url,$terminate,$statusCode);
+		Yii::$app->getRequest()->redirect($url,$terminate,$statusCode);
 	}
 
 	/**
@@ -1043,7 +1043,7 @@ class CController extends CBaseController
 	 */
 	public function refresh($terminate=true,$anchor='')
 	{
-		$this->redirect(Yii::app()->getRequest()->getUrl().$anchor,$terminate);
+		$this->redirect(Yii::$app->getRequest()->getUrl().$anchor,$terminate);
 	}
 
 	/**
@@ -1115,7 +1115,7 @@ class CController extends CBaseController
 	 */
 	public function filterPostOnly($filterChain)
 	{
-		if(Yii::app()->getRequest()->getIsPostRequest())
+		if(Yii::$app->getRequest()->getIsPostRequest())
 			$filterChain->run();
 		else
 			throw new CHttpException(400,Yii::t('yii','Your request is invalid.'));
@@ -1129,7 +1129,7 @@ class CController extends CBaseController
 	 */
 	public function filterAjaxOnly($filterChain)
 	{
-		if(Yii::app()->getRequest()->getIsAjaxRequest())
+		if(Yii::$app->getRequest()->getIsAjaxRequest())
 			$filterChain->run();
 		else
 			throw new CHttpException(400,Yii::t('yii','Your request is invalid.'));
@@ -1211,7 +1211,7 @@ class CController extends CBaseController
 			{
 				if(extension_loaded('zlib'))
 					$data=@gzuncompress($data);
-				if(($data=Yii::app()->getSecurityManager()->validateData($data))!==false)
+				if(($data=Yii::$app->getSecurityManager()->validateData($data))!==false)
 					return unserialize($data);
 			}
 		}
@@ -1225,7 +1225,7 @@ class CController extends CBaseController
 	 */
 	protected function savePageStates($states,&$output)
 	{
-		$data=Yii::app()->getSecurityManager()->hashData(serialize($states));
+		$data=Yii::$app->getSecurityManager()->hashData(serialize($states));
 		if(extension_loaded('zlib'))
 			$data=gzcompress($data);
 		$value=base64_encode($data);

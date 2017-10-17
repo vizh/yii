@@ -63,7 +63,7 @@ protected function newComment($post)
 		if($post->addComment($comment))
 		{
 			if($comment->status==Comment::STATUS_PENDING)
-				Yii::app()->user->setFlash('commentSubmitted','Thank you for your comment. Your comment will be posted once it is approved.');
+				Yii::$app->user->setFlash('commentSubmitted','Thank you for your comment. Your comment will be posted once it is approved.');
 			$this->refresh();
 		}
 	}
@@ -77,7 +77,7 @@ And then we modify the `Post` model class by adding the method `addComment()` as
 [php]
 public function addComment($comment)
 {
-	if(Yii::app()->params['commentNeedApproval'])
+	if(Yii::$app->params['commentNeedApproval'])
 		$comment->status=Comment::STATUS_PENDING;
 	else
 		$comment->status=Comment::STATUS_APPROVED;
@@ -97,9 +97,9 @@ We also need to modify `/wwwroot/blog/protected/views/post/view.php` furthermore
 	......
 	<h3>Leave a Comment</h3>
 
-	<?php if(Yii::app()->user->hasFlash('commentSubmitted')): ?>
+	<?php if(Yii::$app->user->hasFlash('commentSubmitted')): ?>
 		<div class="flash-success">
-			<?php echo Yii::app()->user->getFlash('commentSubmitted'); ?>
+			<?php echo Yii::$app->user->getFlash('commentSubmitted'); ?>
 		</div>
 	<?php else: ?>
 		<?php $this->renderPartial('/comment/_form',array(
@@ -145,7 +145,7 @@ protected function newComment($post)
 	if(isset($_POST['ajax']) && $_POST['ajax']==='comment-form')
 	{
 		echo CActiveForm::validate($comment);
-		Yii::app()->end();
+		Yii::$app->end();
 	}
 
 	if(isset($_POST['Comment']))
@@ -154,7 +154,7 @@ protected function newComment($post)
 		if($post->addComment($comment))
 		{
 			if($comment->status==Comment::STATUS_PENDING)
-				Yii::app()->user->setFlash('commentSubmitted','Thank you for your comment. Your comment will be posted once it is approved.');
+				Yii::$app->user->setFlash('commentSubmitted','Thank you for your comment. Your comment will be posted once it is approved.');
 			$this->refresh();
 		}
 	}

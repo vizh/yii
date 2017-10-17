@@ -9,7 +9,7 @@
 
 ~~~
 [php]
-$user = Yii::app()->db->createCommand()
+$user = Yii::$app->db->createCommand()
 	->select('id, username, profile')
 	->from('tbl_user u')
 	->join('tbl_profile p', 'u.id=p.user_id')
@@ -37,7 +37,7 @@ $user = Yii::app()->db->createCommand()
 >
 > ~~~
 > [php]
-> $command = Yii::app()->db->createCommand('SELECT * FROM tbl_user');
+> $command = Yii::$app->db->createCommand('SELECT * FROM tbl_user');
 > // наступний рядок НЕ додасть WHERE до SQL
 > $command->where('id=:id', array(':id'=>$id));
 > ~~~
@@ -55,10 +55,10 @@ $user = Yii::app()->db->createCommand()
 
 ~~~
 [php]
-$command = Yii::app()->db->createCommand();
+$command = Yii::$app->db->createCommand();
 ~~~
 
-Тут ми використовуємо `Yii::app()->db` для отримання зʼєднання з базою даних і,
+Тут ми використовуємо `Yii::$app->db` для отримання зʼєднання з базою даних і,
 потім, викликаємо [CDbConnection::createCommand()] для створення екземпляра команди.
 
 Варто зазначити, що замість передачі `createCommand()` цілого SQL,
@@ -407,7 +407,7 @@ union('select * from tbl_profile')
 
 ~~~
 [php]
-$users = Yii::app()->db->createCommand()
+$users = Yii::$app->db->createCommand()
 	->select('*')
 	->from('tbl_user')
 	->queryAll();
@@ -421,7 +421,7 @@ $users = Yii::app()->db->createCommand()
 
 ~~~
 [php]
-$sql = Yii::app()->db->createCommand()
+$sql = Yii::$app->db->createCommand()
 	->select('*')
 	->from('tbl_user')
 	->text;
@@ -449,7 +449,7 @@ $command->select = array('id', 'username');
 
 ~~~
 [php]
-$row = Yii::app()->db->createCommand(array(
+$row = Yii::$app->db->createCommand(array(
 	'select' => array('id', 'username'),
 	'from' => 'tbl_user',
 	'where' => 'id=:id',
@@ -466,7 +466,7 @@ $row = Yii::app()->db->createCommand(array(
 
 ~~~
 [php]
-$command = Yii::app()->db->createCommand();
+$command = Yii::$app->db->createCommand();
 $users = $command->select('*')->from('tbl_users')->queryAll();
 $command->reset();  // clean up the previous query
 $posts = $command->select('*')->from('tbl_posts')->queryAll();

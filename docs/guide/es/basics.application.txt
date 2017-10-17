@@ -9,7 +9,7 @@ razón application es también llamado `front-controller` (controlador principal
 
 Application es creado como un singleton por el [script de entrada](/doc/guide/basics.entry).
 El singleton Application puede ser accedido en cualquier lugar 
-mediante [Yii::app()|YiiBase::app].
+mediante [Yii::$app|YiiBase::app].
 
 
 Configuración de Aplicación
@@ -115,9 +115,9 @@ En el ejemplo anterior agregamos el elemento `cache` en el arreglo `components`.
 El elemento cache define que la clase del componente será `CMemCache y 
 la propiedad `servers` debe ser inicializada como lo indica.
 
-Para acceder a un componente de application utilice `Yii::app()->ComponentID`,
+Para acceder a un componente de application utilice `Yii::$app->ComponentID`,
 en donde `ComponentID` indica el ID del componente que desea
-(ejemplo: `Yii::app()->cache`).
+(ejemplo: `Yii::$app->cache`).
 
 Un componente de aplicación puede ser deshabilitado mediante su configuración indicando
 la propiedad `enabled` con un valor false en su configuración.

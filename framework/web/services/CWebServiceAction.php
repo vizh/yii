@@ -82,7 +82,7 @@ class CWebServiceAction extends CAction
 	 */
 	public function run()
 	{
-		$hostInfo=Yii::app()->getRequest()->getHostInfo();
+		$hostInfo=Yii::$app->getRequest()->getHostInfo();
 		$controller=$this->getController();
 		if(($serviceUrl=$this->serviceUrl)===null)
 			$serviceUrl=$hostInfo.$controller->createUrl($this->getId(),array($this->serviceVar=>1));
@@ -104,7 +104,7 @@ class CWebServiceAction extends CAction
 		else
 			$this->_service->renderWsdl();
 
-		Yii::app()->end();
+		Yii::$app->end();
 	}
 
 	/**

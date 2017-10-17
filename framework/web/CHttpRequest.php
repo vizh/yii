@@ -140,7 +140,7 @@ class CHttpRequest extends CApplicationComponent
 		}
 
 		if($this->enableCsrfValidation)
-			Yii::app()->attachEventHandler('onBeginRequest',array($this,'validateCsrfToken'));
+			Yii::$app->attachEventHandler('onBeginRequest',array($this,'validateCsrfToken'));
 	}
 
 
@@ -888,7 +888,7 @@ class CHttpRequest extends CApplicationComponent
 			$url=$this->getHostInfo().$url;
 		header('Location: '.$url, true, $statusCode);
 		if($terminate)
-			Yii::app()->end();
+			Yii::$app->end();
 	}
 
 	/**
@@ -1172,7 +1172,7 @@ class CHttpRequest extends CApplicationComponent
 			// clean up the application first because the file downloading could take long time
 			// which may cause timeout of some resources (such as DB connection)
 			ob_start();
-			Yii::app()->end(0,false);
+			Yii::$app->end(0,false);
 			ob_end_clean();
 			echo $content;
 			exit(0);
@@ -1220,7 +1220,7 @@ class CHttpRequest extends CApplicationComponent
 	 * <b>Example</b>:
 	 * <pre>
 	 * <?php
-	 *    Yii::app()->request->xSendFile('/home/user/Pictures/picture1.jpg',array(
+	 *    Yii::$app->request->xSendFile('/home/user/Pictures/picture1.jpg',array(
 	 *        'saveName'=>'image1.jpg',
 	 *        'mimeType'=>'image/jpeg',
 	 *        'terminate'=>false,
@@ -1268,7 +1268,7 @@ class CHttpRequest extends CApplicationComponent
 		header(trim($options['xHeader']).': '.$filePath);
 
 		if(!isset($options['terminate']) || $options['terminate'])
-			Yii::app()->end();
+			Yii::$app->end();
 	}
 
 	/**
@@ -1303,7 +1303,7 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	protected function createCsrfCookie()
 	{
-		$securityManager=Yii::app()->getSecurityManager();
+		$securityManager=Yii::$app->getSecurityManager();
 		$token=$securityManager->generateRandomBytes(32);
 		$maskedToken=$securityManager->maskToken($token);
 		$cookie=new CHttpCookie($this->csrfTokenName,$maskedToken);
@@ -1350,7 +1350,7 @@ class CHttpRequest extends CApplicationComponent
 
 			if (!empty($maskedUserToken) && $cookies->contains($this->csrfTokenName))
 			{
-				$securityManager=Yii::app()->getSecurityManager();
+				$securityManager=Yii::$app->getSecurityManager();
 				$maskedCookieToken=$cookies->itemAt($this->csrfTokenName)->value;
 				$cookieToken=$securityManager->unmaskToken($maskedCookieToken);
 				$userToken=$securityManager->unmaskToken($maskedUserToken);
@@ -1433,7 +1433,7 @@ class CCookieCollection extends CMap
 		$cookies=array();
 		if($this->_request->enableCookieValidation)
 		{
-			$sm=Yii::app()->getSecurityManager();
+			$sm=Yii::$app->getSecurityManager();
 			foreach($_COOKIE as $name=>$value)
 			{
 				if(is_string($value) && ($value=$sm->validateData($value))!==false)
@@ -1479,8 +1479,8 @@ class CCookieCollection extends CMap
 	 *
 	 * <pre>
 	 * $options=array('domain'=>'.domain.tld');
-	 * Yii::app()->request->cookies['foo']=new CHttpCookie('cookie','value',$options);
-	 * Yii::app()->request->cookies->remove('cookie',$options);
+	 * Yii::$app->request->cookies['foo']=new CHttpCookie('cookie','value',$options);
+	 * Yii::$app->request->cookies->remove('cookie',$options);
 	 * </pre>
 	 *
 	 * @param mixed $name Cookie name.
@@ -1509,7 +1509,7 @@ class CCookieCollection extends CMap
 	{
 		$value=$cookie->value;
 		if($this->_request->enableCookieValidation)
-			$value=Yii::app()->getSecurityManager()->hashData(serialize($value));
+			$value=Yii::$app->getSecurityManager()->hashData(serialize($value));
 		if(version_compare(PHP_VERSION,'5.2.0','>='))
 			setcookie($cookie->name,$value,$cookie->expire,$cookie->path,$cookie->domain,$cookie->secure,$cookie->httpOnly);
 		else

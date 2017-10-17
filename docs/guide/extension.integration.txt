@@ -122,7 +122,7 @@ except one thing: it does not call the `run()` method after creating the Web app
 instance.
 
 Now we can use most features offered by Yii when developing 3rd-party enhancements. For example,
-we can use `Yii::app()` to access the application instance; we can use the database features
+we can use `Yii::$app` to access the application instance; we can use the database features
 such as DAO and ActiveRecord; we can use the model and validation feature; and so on.
 
 

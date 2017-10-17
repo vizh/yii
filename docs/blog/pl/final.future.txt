@@ -40,7 +40,7 @@ Możemy używać wyrafinowanych [funkcji buforowania](http://www.yiiframework.co
 <?php if($this->beginCache('tagCloud', array('duration'=>3600))) { ?>
 
 	<?php $this->widget('TagCloud', array(
-		'maxTags'=>Yii::app()->params['tagCloudCount'],
+		'maxTags'=>Yii::$app->params['tagCloudCount'],
 	)); ?>
 
 <?php $this->endCache(); } ?>

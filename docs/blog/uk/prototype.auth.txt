@@ -88,7 +88,7 @@ class User extends CActiveRecord
 У класі `UserIdentity` ми також перевизначаємо метод `getId()`, 
 який повертає значення `id` користувача, знайденого у таблиці `tbl_user`. 
 Батьківська реалізація повернула б імʼя користувача замість `id`. 
-І `username` і `id` будуть збережені в сесії і доступні через `Yii::app()->user` 
+І `username` і `id` будуть збережені в сесії і доступні через `Yii::$app->user`
 у будь-якому місці нашого коду.
 
 > Tip|Підказка: У класі `UserIdentity` ми використовуємо [CUserIdentity]
@@ -127,7 +127,7 @@ $identity->authenticate();
 switch($identity->errorCode)
 {
 	case UserIdentity::ERROR_NONE:
-		Yii::app()->user->login($identity);
+		Yii::$app->user->login($identity);
 		break;
 	…
 }

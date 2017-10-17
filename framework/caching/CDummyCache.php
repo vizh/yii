@@ -12,7 +12,7 @@
  * CDummyCache is a placeholder cache component.
  *
  * CDummyCache does not cache anything. It is provided so that one can always configure
- * a 'cache' application component and he does not need to check if Yii::app()->cache is null or not.
+ * a 'cache' application component and he does not need to check if Yii::$app->cache is null or not.
  * By replacing CDummyCache with some other cache component, one can quickly switch from
  * non-caching mode to caching mode.
  *
@@ -35,7 +35,7 @@ class CDummyCache extends CApplicationComponent implements ICache, ArrayAccess
 	{
 		parent::init();
 		if($this->keyPrefix===null)
-			$this->keyPrefix=Yii::app()->getId();
+			$this->keyPrefix=Yii::$app->getId();
 	}
 
 	/**

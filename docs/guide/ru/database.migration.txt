@@ -127,7 +127,7 @@ class m101129_185401_create_news_table extends CDbMigration
 и структурой базы данных. К примеру, при помощи [CDbMigration::createTable]
 можно создать новую таблицу, а [CDbMigration::insert] добавит строку с данными.
 Все эти методы используют подключение к базе данных, возвращаемое
-[CDbMigration::getDbConnection()], что по умолчанию эквивалентно `Yii::app()->db`.
+[CDbMigration::getDbConnection()], что по умолчанию эквивалентно `Yii::$app->db`.
 
 > Info|Информация: Как вы могли заметить, методы [CDbMigration] очень похожи на
 методы [CDbCommand]. И это на самом деле так. Единственно отличие состоит в том, что

@@ -67,10 +67,15 @@ class YiiBase
 	 */
 	public static $enableIncludePath=true;
 
+	/**
+	 * @var \CApplication the application instance
+	 * @since 1.2.0
+	 */
+	public static $app;
+
 	private static $_aliases=array('system'=>YII_PATH,'zii'=>YII_ZII_PATH); // alias => path
 	private static $_imports=array();					// alias => class name or directory
 	private static $_includePaths;						// list of include paths
-	private static $_app;
 	private static $_logger;
 
 
@@ -131,7 +136,7 @@ class YiiBase
 	 */
 	public static function app()
 	{
-		return self::$_app;
+		return self::$app;
 	}
 
 	/**
@@ -146,8 +151,8 @@ class YiiBase
 	 */
 	public static function setApplication($app)
 	{
-		if(self::$_app===null || $app===null)
-			self::$_app=$app;
+		if(self::$app===null || $app===null)
+			self::$app=$app;
 		else
 			throw new CException(Yii::t('yii','Yii application can only be created once.'));
 	}
@@ -365,9 +370,9 @@ class YiiBase
 			$rootAlias=substr($alias,0,$pos);
 			if(isset(self::$_aliases[$rootAlias]))
 				return self::$_aliases[$alias]=rtrim(self::$_aliases[$rootAlias].DIRECTORY_SEPARATOR.str_replace('.',DIRECTORY_SEPARATOR,substr($alias,$pos+1)),'*'.DIRECTORY_SEPARATOR);
-			elseif(self::$_app instanceof CWebApplication)
+			elseif(self::$app instanceof CWebApplication)
 			{
-				if(self::$_app->findModule($rootAlias)!==null)
+				if(self::$app->findModule($rootAlias)!==null)
 					return self::getPathOfAlias($alias);
 			}
 		}
@@ -581,11 +586,11 @@ class YiiBase
 	 */
 	public static function t($category,$message,$params=array(),$source=null,$language=null)
 	{
-		if(self::$_app!==null)
+		if(self::$app!==null)
 		{
 			if($source===null)
 				$source=($category==='yii'||$category==='zii')?'coreMessages':'messages';
-			if(($source=self::$_app->getComponent($source))!==null)
+			if(($source=self::$app->getComponent($source))!==null)
 				$message=$source->translate($category,$message,$language);
 		}
 		if($params===array())
@@ -599,7 +604,7 @@ class YiiBase
 				if(strpos($message,'#')===false)
 				{
 					$chunks=explode('|',$message);
-					$expressions=self::$_app->getLocale($language)->getPluralRules();
+					$expressions=self::$app->getLocale($language)->getPluralRules();
 					if($n=min(count($chunks),count($expressions)))
 					{
 						for($i=0;$i<$n;$i++)

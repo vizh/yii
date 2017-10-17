@@ -257,7 +257,7 @@ EOD;
 		}
 		$className=$args[0];
 
-		if(($db=Yii::app()->getDb())===null)
+		if(($db=Yii::$app->getDb())===null)
 		{
 			echo "Error: an active 'db' connection is required.\n";
 			echo "If you already added 'db' component in application configuration,\n";
@@ -468,7 +468,7 @@ EOD;
 
 	protected function removePrefix($tableName,$addBrackets=false)
 	{
-		$tablePrefix=Yii::app()->getDb()->tablePrefix;
+		$tablePrefix=Yii::$app->getDb()->tablePrefix;
 		if($tablePrefix!='' && !strncmp($tableName,$tablePrefix,strlen($tablePrefix)))
 		{
 			$tableName=substr($tableName,strlen($tablePrefix));
@@ -480,7 +480,7 @@ EOD;
 
 	protected function addPrefix($tableName)
 	{
-		$tablePrefix=Yii::app()->getDb()->tablePrefix;
+		$tablePrefix=Yii::$app->getDb()->tablePrefix;
 		if($tablePrefix!='' && strncmp($tableName,$tablePrefix,strlen($tablePrefix)))
 			$tableName=$tablePrefix.$tableName;
 		return $tableName;

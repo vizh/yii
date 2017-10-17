@@ -107,7 +107,7 @@ EOD;
 		$_runner_=$this->createCommandRunner();
 		$this->addCommands($_runner_);
 		$_commands_=$_runner_->commands;
-		$log=Yii::app()->log;
+		$log=Yii::$app->log;
 
 		while(($_line_=$this->prompt("\n>>"))!==false)
 		{

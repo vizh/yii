@@ -142,7 +142,7 @@ class CWebService extends CComponent
 	public function generateWsdl()
 	{
 		$providerClass=is_object($this->provider) ? get_class($this->provider) : Yii::import($this->provider,true);
-		if($this->wsdlCacheDuration>0 && $this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
+		if($this->wsdlCacheDuration>0 && $this->cacheID!==false && ($cache=Yii::$app->getComponent($this->cacheID))!==null)
 		{
 			$key='Yii.CWebService.'.$providerClass.$this->serviceUrl.$this->encoding;
 			if(($wsdl=$cache->get($key))!==false)
@@ -164,7 +164,7 @@ class CWebService extends CComponent
 		if(YII_DEBUG)
 			ini_set("soap.wsdl_cache_enabled",0);
 		$server=new SoapServer($this->wsdlUrl,$this->getOptions());
-		Yii::app()->attachEventHandler('onError',array($this,'handleError'));
+		Yii::$app->attachEventHandler('onError',array($this,'handleError'));
 		try
 		{
 			if($this->persistence!==null)
@@ -224,7 +224,7 @@ class CWebService extends CComponent
 
 			// We need to end application explicitly because of
 			// http://bugs.php.net/bug.php?id=49513
-			Yii::app()->onEndRequest(new CEvent($this));
+			Yii::$app->onEndRequest(new CEvent($this));
 			$server->fault(get_class($e),$message);
 			exit(1);
 		}

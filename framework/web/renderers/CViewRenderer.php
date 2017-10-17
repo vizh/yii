@@ -86,7 +86,7 @@ abstract class CViewRenderer extends CApplicationComponent implements IViewRende
 		if($this->useRuntimePath)
 		{
 			$crc=sprintf('%x', crc32(get_class($this).Yii::getVersion().dirname($file)));
-			$viewFile=Yii::app()->getRuntimePath().DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.$crc.DIRECTORY_SEPARATOR.basename($file);
+			$viewFile=Yii::$app->getRuntimePath().DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.$crc.DIRECTORY_SEPARATOR.basename($file);
 			if(!is_file($viewFile))
 				@mkdir(dirname($viewFile),$this->filePermission,true);
 			return $viewFile;

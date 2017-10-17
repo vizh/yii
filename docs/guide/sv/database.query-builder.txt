@@ -9,7 +9,7 @@ Nedan visas exempel på typisk användning av frågeverktyget för att bygga en 
 
 ~~~
 [php]
-$user = Yii::app()->db->createCommand()
+$user = Yii::$app->db->createCommand()
 	->select('id, username, profile')
 	->from('tbl_user u')
 	->join('tbl_profile p', 'u.id=p.user_id')
@@ -41,7 +41,7 @@ skrivas direkt med SQL-satser.
 >
 > ~~~
 > [php]
-> $command = Yii::app()->db->createCommand('SELECT * FROM tbl_user');
+> $command = Yii::$app->db->createCommand('SELECT * FROM tbl_user');
 > // Nedanstående rad kommer INTE att lägga till ett WHERE-led till ovanstående SQL
 > $command->where('id=:id', array(':id'=>$id));
 > ~~~
@@ -58,10 +58,10 @@ För att börja använda frågeverktyget skapar vi en ny instans av [CDbCommand]
 
 ~~~
 [php]
-$command = Yii::app()->db->createCommand();
+$command = Yii::$app->db->createCommand();
 ~~~
 
-Det vill säga, vi använder `Yii::app()->db` för att erhålla DB-anslutningen och anropar sedan [CDbConnection::createCommand()] 
+Det vill säga, vi använder `Yii::$app->db` för att erhålla DB-anslutningen och anropar sedan [CDbConnection::createCommand()]
 för att skapa den önskade command-instansen.
 
 Märk att i stället för att lämna med en komplett SQL-sats vid anropet av `createCommand()`, så som är brukligt 
@@ -421,7 +421,7 @@ Exempel:
 
 ~~~
 [php]
-$users = Yii::app()->db->createCommand()
+$users = Yii::$app->db->createCommand()
 	->select('*')
 	->from('tbl_user')
 	->queryAll();
@@ -435,7 +435,7 @@ Detta kan ske genom anrop av [CDbCommand::getText()].
 
 ~~~
 [php]
-$sql = Yii::app()->db->createCommand()
+$sql = Yii::$app->db->createCommand()
 	->select('*')
 	->from('tbl_user')
 	->text;
@@ -464,7 +464,7 @@ Detta innebär att vi kan använda följande kod för att bygga en fråga:
 
 ~~~
 [php]
-$row = Yii::app()->db->createCommand(array(
+$row = Yii::$app->db->createCommand(array(
 	'select' => array('id', 'username'),
 	'from' => 'tbl_user',
 	'where' => 'id=:id',
@@ -482,7 +482,7 @@ Till exempel:
 
 ~~~
 [php]
-$command = Yii::app()->db->createCommand();
+$command = Yii::$app->db->createCommand();
 $users = $command->select('*')->from('tbl_users')->queryAll();
 $command->reset();  // clean up the previous query
 $posts = $command->select('*')->from('tbl_posts')->queryAll();

@@ -8,7 +8,7 @@ Den tjänar också som central plats för konfigurationsinställningar på appli
 Av denna anledning kallas Application även `front-controller`.
 
 Application instantieras av [startskriptet](/doc/guide/basics.entry) som en singleton 
-vilken alltid kan nås via [Yii::app()|YiiBase::app].
+vilken alltid kan nås via [Yii::$app|YiiBase::app].
 
 
 Applikationens konfiguration
@@ -111,8 +111,8 @@ I ovanstående exempel lades elementet `cache` till i arrayen `components`.
 Av elementet `cache` framgår att komponentens klass är `CMemCache` samt hur dess 
 `servers`-property skall initialiseras.
 
-För tillgång till en applikationskomponent, använd `Yii::app()->ComponentID`, 
-där `ComponentID` refererar till komponentens ID (t.ex. `Yii::app()->cache`).
+För tillgång till en applikationskomponent, använd `Yii::$app->ComponentID`,
+där `ComponentID` refererar till komponentens ID (t.ex. `Yii::$app->cache`).
 
 En applikationskomponent kan avaktiveras genom att `enabled` sätts till false i 
 dess konfiguration. För en avaktiverad komponent erhålls null som returvärde.

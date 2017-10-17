@@ -29,7 +29,7 @@
  *             array('label'=>'New Arrivals', 'url'=>array('product/new', 'tag'=>'new')),
  *             array('label'=>'Most Popular', 'url'=>array('product/index', 'tag'=>'popular')),
  *         )),
- *         array('label'=>'Login', 'url'=>array('site/login'), 'visible'=>Yii::app()->user->isGuest),
+ *         array('label'=>'Login', 'url'=>array('site/login'), 'visible'=>Yii::$app->user->isGuest),
  *     ),
  * ));
  * </pre>

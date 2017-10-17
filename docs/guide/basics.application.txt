@@ -8,7 +8,7 @@ as the central place for keeping application-level configuration settings. For t
 reason, the application object is also called the `front-controller`.
 
 The application object is instantiated as a singleton by the [entry script](/doc/guide/basics.entry).
-The application singleton can be accessed at any place via [Yii::app()|YiiBase::app].
+The application singleton can be accessed at any place via [Yii::$app|YiiBase::app].
 
 
 Application Configuration
@@ -126,8 +126,8 @@ In the above, we added the `cache` element to the `components` array. The
 `cache` element states that the class of the component is
 [CMemCache] and its [servers|CMemcache::servers] property should be initialized as such.
 
-To access an application component, use `Yii::app()->ComponentID`, where
-`ComponentID` refers to the ID of the component (e.g. `Yii::app()->cache`).
+To access an application component, use `Yii::$app->ComponentID`, where
+`ComponentID` refers to the ID of the component (e.g. `Yii::$app->cache`).
 
 An application component may be disabled by setting `enabled` to false
 in its configuration. Null is returned when we access a disabled component.

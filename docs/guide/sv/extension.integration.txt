@@ -83,7 +83,7 @@ Ovanstående kod är mycket lik kod som används i startskriptet för en typisk 
 med undantag för en sak: metoden `run()` anropas inte när webapplikationens instans skapats.
 
 Nu kan de flesta finesser som Yii erbjuder användas för vidareutveckling av tredjepartskod. 
-Till exempel kan `Yii::app()` användas för att ge tillgång till applikationsinstansen; 
+Till exempel kan `Yii::$app` användas för att ge tillgång till applikationsinstansen;
 databasfinesser som DAO och ActiveRecord kan användas liksom modell och valideringsfinesser 
 för att nämna några.
 

@@ -1023,7 +1023,7 @@ abstract class CModule extends CComponent
 			{
 				$class=$config['class'];
 				unset($config['class'], $config['enabled']);
-				if($this===Yii::app())
+				if($this===Yii::$app)
 					$module=Yii::createComponent($class,$id,null,$config);
 				else
 					$module=Yii::createComponent($class,$this->getId().'/'.$id,$this,$config);
@@ -2313,7 +2313,7 @@ class CHttpRequest extends CApplicationComponent
 				$_COOKIE=$this->stripSlashes($_COOKIE);
 		}
 		if($this->enableCsrfValidation)
-			Yii::app()->attachEventHandler('onBeginRequest',array($this,'validateCsrfToken'));
+			Yii::$app->attachEventHandler('onBeginRequest',array($this,'validateCsrfToken'));
 	}
 	public function stripSlashes(&$data)
 	{
@@ -2692,7 +2692,7 @@ class CHttpRequest extends CApplicationComponent
 			$url=$this->getHostInfo().$url;
 		header('Location: '.$url, true, $statusCode);
 		if($terminate)
-			Yii::app()->end();
+			Yii::$app->end();
 	}
 	public static function parseAcceptHeader($header)
 	{
@@ -2888,7 +2888,7 @@ class CHttpRequest extends CApplicationComponent
 			// clean up the application first because the file downloading could take long time
 			// which may cause timeout of some resources (such as DB connection)
 			ob_start();
-			Yii::app()->end(0,false);
+			Yii::$app->end(0,false);
 			ob_end_clean();
 			echo $content;
 			exit(0);
@@ -2921,7 +2921,7 @@ class CHttpRequest extends CApplicationComponent
 		}
 		header(trim($options['xHeader']).': '.$filePath);
 		if(!isset($options['terminate']) || $options['terminate'])
-			Yii::app()->end();
+			Yii::$app->end();
 	}
 	public function getCsrfToken()
 	{
@@ -2939,7 +2939,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 	protected function createCsrfCookie()
 	{
-		$securityManager=Yii::app()->getSecurityManager();
+		$securityManager=Yii::$app->getSecurityManager();
 		$token=$securityManager->generateRandomBytes(32);
 		$maskedToken=$securityManager->maskToken($token);
 		$cookie=new CHttpCookie($this->csrfTokenName,$maskedToken);
@@ -2975,7 +2975,7 @@ class CHttpRequest extends CApplicationComponent
 			}
 			if (!empty($maskedUserToken) && $cookies->contains($this->csrfTokenName))
 			{
-				$securityManager=Yii::app()->getSecurityManager();
+				$securityManager=Yii::$app->getSecurityManager();
 				$maskedCookieToken=$cookies->itemAt($this->csrfTokenName)->value;
 				$cookieToken=$securityManager->unmaskToken($maskedCookieToken);
 				$userToken=$securityManager->unmaskToken($maskedUserToken);
@@ -3018,7 +3018,7 @@ class CCookieCollection extends CMap
 		$cookies=array();
 		if($this->_request->enableCookieValidation)
 		{
-			$sm=Yii::app()->getSecurityManager();
+			$sm=Yii::$app->getSecurityManager();
 			foreach($_COOKIE as $name=>$value)
 			{
 				if(is_string($value) && ($value=$sm->validateData($value))!==false)
@@ -3060,7 +3060,7 @@ class CCookieCollection extends CMap
 	{
 		$value=$cookie->value;
 		if($this->_request->enableCookieValidation)
-			$value=Yii::app()->getSecurityManager()->hashData(serialize($value));
+			$value=Yii::$app->getSecurityManager()->hashData(serialize($value));
 		if(version_compare(PHP_VERSION,'5.2.0','>='))
 			setcookie($cookie->name,$value,$cookie->expire,$cookie->path,$cookie->domain,$cookie->secure,$cookie->httpOnly);
 		else
@@ -3101,7 +3101,7 @@ class CUrlManager extends CApplicationComponent
 	{
 		if(empty($this->rules) || $this->getUrlFormat()===self::GET_FORMAT)
 			return;
-		if($this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
+		if($this->cacheID!==false && ($cache=Yii::$app->getComponent($this->cacheID))!==null)
 		{
 			$hash=md5(serialize($this->rules));
 			if(($data=$cache->get(self::CACHE_KEY))!==false && isset($data[1]) && $data[1]===$hash)
@@ -3284,9 +3284,9 @@ class CUrlManager extends CApplicationComponent
 		else
 		{
 			if($this->showScriptName)
-				$this->_baseUrl=Yii::app()->getRequest()->getScriptUrl();
+				$this->_baseUrl=Yii::$app->getRequest()->getScriptUrl();
 			else
-				$this->_baseUrl=Yii::app()->getRequest()->getBaseUrl();
+				$this->_baseUrl=Yii::$app->getRequest()->getBaseUrl();
 			return $this->_baseUrl;
 		}
 	}
@@ -3436,7 +3436,7 @@ class CUrlRule extends CBaseUrlRule
 		$url=strtr($this->template,$tr);
 		if($this->hasHostInfo)
 		{
-			$hostInfo=Yii::app()->getRequest()->getHostInfo();
+			$hostInfo=Yii::$app->getRequest()->getHostInfo();
 			if(stripos($url,$hostInfo)===0)
 				$url=substr($url,strlen($hostInfo));
 		}
@@ -3505,7 +3505,7 @@ abstract class CBaseController extends CComponent
 	public function renderFile($viewFile,$data=null,$return=false)
 	{
 		$widgetCount=count($this->_widgetStack);
-		if(($renderer=Yii::app()->getViewRenderer())!==null && $renderer->fileExtension==='.'.CFileHelper::getExtension($viewFile))
+		if(($renderer=Yii::$app->getViewRenderer())!==null && $renderer->fileExtension==='.'.CFileHelper::getExtension($viewFile))
 			$content=$renderer->renderFile($this,$viewFile,$data,$return);
 		else
 			$content=$this->renderInternal($viewFile,$data,$return);
@@ -3537,7 +3537,7 @@ abstract class CBaseController extends CComponent
 	}
 	public function createWidget($className,$properties=array())
 	{
-		$widget=Yii::app()->getWidgetFactory()->createWidget($this,$className,$properties);
+		$widget=Yii::$app->getWidgetFactory()->createWidget($this,$className,$properties);
 		$widget->init();
 		return $widget;
 	}
@@ -3660,7 +3660,7 @@ class CController extends CBaseController
 		if(($action=$this->createAction($actionID))!==null)
 		{
 			if(($parent=$this->getModule())===null)
-				$parent=Yii::app();
+				$parent=Yii::$app;
 			if($parent->beforeControllerAction($this,$action))
 			{
 				$this->runActionWithFilters($action,$this->filters());
@@ -3705,7 +3705,7 @@ class CController extends CBaseController
 	}
 	public function processOutput($output)
 	{
-		Yii::app()->getClientScript()->render($output);
+		Yii::$app->getClientScript()->render($output);
 		// if using page caching, we should delay dynamic output replacement
 		if($this->_dynamicOutput!==null && $this->isCachingStackEmpty())
 		{
@@ -3819,14 +3819,14 @@ class CController extends CBaseController
 	public function getViewPath()
 	{
 		if(($module=$this->getModule())===null)
-			$module=Yii::app();
+			$module=Yii::$app;
 		return $module->getViewPath().DIRECTORY_SEPARATOR.$this->getId();
 	}
 	public function getViewFile($viewName)
 	{
-		if(($theme=Yii::app()->getTheme())!==null && ($viewFile=$theme->getViewFile($this,$viewName))!==false)
+		if(($theme=Yii::$app->getTheme())!==null && ($viewFile=$theme->getViewFile($this,$viewName))!==false)
 			return $viewFile;
-		$moduleViewPath=$basePath=Yii::app()->getViewPath();
+		$moduleViewPath=$basePath=Yii::$app->getViewPath();
 		if(($module=$this->getModule())!==null)
 			$moduleViewPath=$module->getViewPath();
 		return $this->resolveViewFile($viewName,$this->getViewPath(),$basePath,$moduleViewPath);
@@ -3835,7 +3835,7 @@ class CController extends CBaseController
 	{
 		if($layoutName===false)
 			return false;
-		if(($theme=Yii::app()->getTheme())!==null && ($layoutFile=$theme->getLayoutFile($this,$layoutName))!==false)
+		if(($theme=Yii::$app->getTheme())!==null && ($layoutFile=$theme->getLayoutFile($this,$layoutName))!==false)
 			return $layoutFile;
 		if(empty($layoutName))
 		{
@@ -3849,12 +3849,12 @@ class CController extends CBaseController
 				$module=$module->getParentModule();
 			}
 			if($module===null)
-				$module=Yii::app();
+				$module=Yii::$app;
 			$layoutName=$module->layout;
 		}
 		elseif(($module=$this->getModule())===null)
-			$module=Yii::app();
-		return $this->resolveViewFile($layoutName,$module->getLayoutPath(),Yii::app()->getViewPath(),$module->getViewPath());
+			$module=Yii::$app;
+		return $this->resolveViewFile($layoutName,$module->getLayoutPath(),Yii::$app->getViewPath(),$module->getViewPath());
 	}
 	public function resolveViewFile($viewName,$viewPath,$basePath,$moduleViewPath=null)
 	{
@@ -3862,7 +3862,7 @@ class CController extends CBaseController
 			return false;
 		if($moduleViewPath===null)
 			$moduleViewPath=$basePath;
-		if(($renderer=Yii::app()->getViewRenderer())!==null)
+		if(($renderer=Yii::$app->getViewRenderer())!==null)
 			$extension=$renderer->fileExtension;
 		else
 			$extension='.php';
@@ -3878,9 +3878,9 @@ class CController extends CBaseController
 		else
 			$viewFile=$viewPath.DIRECTORY_SEPARATOR.$viewName;
 		if(is_file($viewFile.$extension))
-			return Yii::app()->findLocalizedFile($viewFile.$extension);
+			return Yii::$app->findLocalizedFile($viewFile.$extension);
 		elseif($extension!=='.php' && is_file($viewFile.'.php'))
-			return Yii::app()->findLocalizedFile($viewFile.'.php');
+			return Yii::$app->findLocalizedFile($viewFile.'.php');
 		else
 			return false;
 	}
@@ -3899,10 +3899,10 @@ class CController extends CBaseController
 		{
 			if($route[0]!=='/' && ($module=$this->getModule())!==null)
 				$route=$module->getId().'/'.$route;
-			Yii::app()->runController($route);
+			Yii::$app->runController($route);
 		}
 		if($exit)
-			Yii::app()->end();
+			Yii::$app->end();
 	}
 	public function render($view,$data=null,$return=false)
 	{
@@ -3983,7 +3983,7 @@ class CController extends CBaseController
 			$route=$this->getId().'/'.$route;
 		if($route[0]!=='/' && ($module=$this->getModule())!==null)
 			$route=$module->getId().'/'.$route;
-		return Yii::app()->createUrl(trim($route,'/'),$params,$ampersand);
+		return Yii::$app->createUrl(trim($route,'/'),$params,$ampersand);
 	}
 	public function createAbsoluteUrl($route,$params=array(),$schema='',$ampersand='&')
 	{
@@ -3991,7 +3991,7 @@ class CController extends CBaseController
 		if(strpos($url,'http')===0)
 			return $url;
 		else
-			return Yii::app()->getRequest()->getHostInfo($schema).$url;
+			return Yii::$app->getRequest()->getHostInfo($schema).$url;
 	}
 	public function getPageTitle()
 	{
@@ -4001,9 +4001,9 @@ class CController extends CBaseController
 		{
 			$name=ucfirst(basename($this->getId()));
 			if($this->getAction()!==null && strcasecmp($this->getAction()->getId(),$this->defaultAction))
-				return $this->_pageTitle=Yii::app()->name.' - '.ucfirst($this->getAction()->getId()).' '.$name;
+				return $this->_pageTitle=Yii::$app->name.' - '.ucfirst($this->getAction()->getId()).' '.$name;
 			else
-				return $this->_pageTitle=Yii::app()->name.' - '.$name;
+				return $this->_pageTitle=Yii::$app->name.' - '.$name;
 		}
 	}
 	public function setPageTitle($value)
@@ -4017,11 +4017,11 @@ class CController extends CBaseController
 			$route=isset($url[0]) ? $url[0] : '';
 			$url=$this->createUrl($route,array_splice($url,1));
 		}
-		Yii::app()->getRequest()->redirect($url,$terminate,$statusCode);
+		Yii::$app->getRequest()->redirect($url,$terminate,$statusCode);
 	}
 	public function refresh($terminate=true,$anchor='')
 	{
-		$this->redirect(Yii::app()->getRequest()->getUrl().$anchor,$terminate);
+		$this->redirect(Yii::$app->getRequest()->getUrl().$anchor,$terminate);
 	}
 	public function recordCachingAction($context,$method,$params)
 	{
@@ -4050,14 +4050,14 @@ class CController extends CBaseController
 	}
 	public function filterPostOnly($filterChain)
 	{
-		if(Yii::app()->getRequest()->getIsPostRequest())
+		if(Yii::$app->getRequest()->getIsPostRequest())
 			$filterChain->run();
 		else
 			throw new CHttpException(400,Yii::t('yii','Your request is invalid.'));
 	}
 	public function filterAjaxOnly($filterChain)
 	{
-		if(Yii::app()->getRequest()->getIsAjaxRequest())
+		if(Yii::$app->getRequest()->getIsAjaxRequest())
 			$filterChain->run();
 		else
 			throw new CHttpException(400,Yii::t('yii','Your request is invalid.'));
@@ -4097,7 +4097,7 @@ class CController extends CBaseController
 			{
 				if(extension_loaded('zlib'))
 					$data=@gzuncompress($data);
-				if(($data=Yii::app()->getSecurityManager()->validateData($data))!==false)
+				if(($data=Yii::$app->getSecurityManager()->validateData($data))!==false)
 					return unserialize($data);
 			}
 		}
@@ -4105,7 +4105,7 @@ class CController extends CBaseController
 	}
 	protected function savePageStates($states,&$output)
 	{
-		$data=Yii::app()->getSecurityManager()->hashData(serialize($states));
+		$data=Yii::$app->getSecurityManager()->hashData(serialize($states));
 		if(extension_loaded('zlib'))
 			$data=gzcompress($data);
 		$value=base64_encode($data);
@@ -4228,7 +4228,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	public function init()
 	{
 		parent::init();
-		Yii::app()->getSession()->open();
+		Yii::$app->getSession()->open();
 		if($this->getIsGuest() && $this->allowAutoLogin)
 			$this->restoreFromCookie();
 		elseif($this->autoRenewCookie && $this->allowAutoLogin)
@@ -4264,17 +4264,17 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		{
 			if($this->allowAutoLogin)
 			{
-				Yii::app()->getRequest()->getCookies()->remove($this->getStateKeyPrefix());
+				Yii::$app->getRequest()->getCookies()->remove($this->getStateKeyPrefix());
 				if($this->identityCookie!==null)
 				{
 					$cookie=$this->createIdentityCookie($this->getStateKeyPrefix());
 					$cookie->value=null;
 					$cookie->expire=0;
-					Yii::app()->getRequest()->getCookies()->add($cookie->name,$cookie);
+					Yii::$app->getRequest()->getCookies()->add($cookie->name,$cookie);
 				}
 			}
 			if($destroySession)
-				Yii::app()->getSession()->destroy();
+				Yii::$app->getSession()->destroy();
 			else
 				$this->clearStates();
 			$this->_access=array();
@@ -4308,7 +4308,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	{
 		if($defaultUrl===null)
 		{
-			$defaultReturnUrl=Yii::app()->getUrlManager()->showScriptName ? Yii::app()->getRequest()->getScriptUrl() : Yii::app()->getRequest()->getBaseUrl().'/';
+			$defaultReturnUrl=Yii::$app->getUrlManager()->showScriptName ? Yii::$app->getRequest()->getScriptUrl() : Yii::$app->getRequest()->getBaseUrl().'/';
 		}
 		else
 		{
@@ -4322,7 +4322,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	}
 	public function loginRequired()
 	{
-		$app=Yii::app();
+		$app=Yii::$app;
 		$request=$app->getRequest();
 		if(!$request->getIsAjaxRequest())
 		{
@@ -4340,7 +4340,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		elseif(isset($this->loginRequiredAjaxResponse))
 		{
 			echo $this->loginRequiredAjaxResponse;
-			Yii::app()->end();
+			Yii::$app->end();
 		}
 		throw new CHttpException(403,Yii::t('yii','Login Required'));
 	}
@@ -4360,7 +4360,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	}
 	protected function restoreFromCookie()
 	{
-		$app=Yii::app();
+		$app=Yii::$app;
 		$request=$app->getRequest();
 		$cookie=$request->getCookies()->itemAt($this->getStateKeyPrefix());
 		if($cookie && !empty($cookie->value) && is_string($cookie->value) && ($data=$app->getSecurityManager()->validateData($cookie->value))!==false)
@@ -4383,10 +4383,10 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	}
 	protected function renewCookie()
 	{
-		$request=Yii::app()->getRequest();
+		$request=Yii::$app->getRequest();
 		$cookies=$request->getCookies();
 		$cookie=$cookies->itemAt($this->getStateKeyPrefix());
-		if($cookie && !empty($cookie->value) && ($data=Yii::app()->getSecurityManager()->validateData($cookie->value))!==false)
+		if($cookie && !empty($cookie->value) && ($data=Yii::$app->getSecurityManager()->validateData($cookie->value))!==false)
 		{
 			$data=@unserialize($data);
 			if(is_array($data) && isset($data[0],$data[1],$data[2],$data[3]))
@@ -4397,7 +4397,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	}
 	protected function saveToCookie($duration)
 	{
-		$app=Yii::app();
+		$app=Yii::$app;
 		$cookie=$this->createIdentityCookie($this->getStateKeyPrefix());
 		$cookie->expire=time()+$duration;
 		$data=array(
@@ -4424,7 +4424,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		if($this->_keyPrefix!==null)
 			return $this->_keyPrefix;
 		else
-			return $this->_keyPrefix=md5('Yii.'.get_class($this).'.'.Yii::app()->getId());
+			return $this->_keyPrefix=md5('Yii.'.get_class($this).'.'.Yii::$app->getId());
 	}
 	public function setStateKeyPrefix($value)
 	{
@@ -4501,7 +4501,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	}
 	protected function changeIdentity($id,$name,$states)
 	{
-		Yii::app()->getSession()->regenerateID(true);
+		Yii::$app->getSession()->regenerateID(true);
 		$this->setId($id);
 		$this->setName($name);
 		$this->loadIdentityStates($states);
@@ -4559,7 +4559,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	{
 		if($allowCaching && $params===array() && isset($this->_access[$operation]))
 			return $this->_access[$operation];
-		$access=Yii::app()->getAuthManager()->checkAccess($operation,$this->getId(),$params);
+		$access=Yii::$app->getAuthManager()->checkAccess($operation,$this->getId(),$params);
 		if($allowCaching && $params===array())
 			$this->_access[$operation]=$access;
 		return $access;
@@ -4834,7 +4834,7 @@ class CHtml
 	private static $_modelNameConverter;
 	public static function encode($text)
 	{
-		return htmlspecialchars($text,ENT_QUOTES,Yii::app()->charset);
+		return htmlspecialchars($text,ENT_QUOTES,Yii::$app->charset);
 	}
 	public static function decode($text)
 	{
@@ -4846,9 +4846,9 @@ class CHtml
 		foreach($data as $key=>$value)
 		{
 			if(is_string($key))
-				$key=htmlspecialchars($key,ENT_QUOTES,Yii::app()->charset);
+				$key=htmlspecialchars($key,ENT_QUOTES,Yii::$app->charset);
 			if(is_string($value))
-				$value=htmlspecialchars($value,ENT_QUOTES,Yii::app()->charset);
+				$value=htmlspecialchars($value,ENT_QUOTES,Yii::$app->charset);
 			elseif(is_array($value))
 				$value=self::encodeArray($value);
 			$d[$key]=$value;
@@ -4907,7 +4907,7 @@ class CHtml
 		$content="$seconds";
 		if($url!=='')
 			$content.=';url='.self::normalizeUrl($url);
-		Yii::app()->clientScript->registerMetaTag($content,null,'refresh');
+		Yii::$app->clientScript->registerMetaTag($content,null,'refresh');
 	}
 	public static function cssFile($url,$media='')
 	{
@@ -4957,7 +4957,7 @@ class CHtml
 					$hiddens[]=self::hiddenField(urldecode($pair),'',array('id'=>false));
 			}
 		}
-		$request=Yii::app()->request;
+		$request=Yii::$app->request;
 		if($request->enableCsrfValidation && !strcasecmp($method,'post'))
 			$hiddens[]=self::hiddenField($request->csrfTokenName,$request->getCsrfToken(),array('id'=>false));
 		if($customMethod!==false)
@@ -5318,7 +5318,7 @@ jQuery("input[name='$name']").click(function() {
 });
 jQuery('#$id').prop('checked', !jQuery("input[name='$name']:not(:checked)").length);
 EOD;
-			$cs=Yii::app()->getClientScript();
+			$cs=Yii::$app->getClientScript();
 			$cs->registerCoreScript('jquery');
 			$cs->registerScript($id,$js);
 		}
@@ -5391,7 +5391,7 @@ EOD;
 	}
 	public static function ajax($options)
 	{
-		Yii::app()->getClientScript()->registerCoreScript('jquery');
+		Yii::$app->getClientScript()->registerCoreScript('jquery');
 		if(!isset($options['url']))
 			$options['url']=new CJavaScriptExpression('location.href');
 		else
@@ -5421,7 +5421,7 @@ EOD;
 	}
 	public static function asset($path,$hashByName=false)
 	{
-		return Yii::app()->getAssetManager()->publish($path,$hashByName);
+		return Yii::$app->getAssetManager()->publish($path,$hashByName);
 	}
 	public static function normalizeUrl($url)
 	{
@@ -5429,15 +5429,15 @@ EOD;
 		{
 			if(isset($url[0]))
 			{
-				if(($c=Yii::app()->getController())!==null)
+				if(($c=Yii::$app->getController())!==null)
 					$url=$c->createUrl($url[0],array_splice($url,1));
 				else
-					$url=Yii::app()->createUrl($url[0],array_splice($url,1));
+					$url=Yii::$app->createUrl($url[0],array_splice($url,1));
 			}
 			else
 				$url='';
 		}
-		return $url==='' ? Yii::app()->getRequest()->getUrl() : $url;
+		return $url==='' ? Yii::$app->getRequest()->getUrl() : $url;
 	}
 	protected static function inputField($type,$name,$value,$htmlOptions)
 	{
@@ -5945,12 +5945,12 @@ EOD;
 			$id=$htmlOptions['id'];
 		else
 			$id=$htmlOptions['id']=isset($htmlOptions['name'])?$htmlOptions['name']:self::ID_PREFIX.self::$count++;
-		$cs=Yii::app()->getClientScript();
+		$cs=Yii::$app->getClientScript();
 		$cs->registerCoreScript('jquery');
 		if(isset($htmlOptions['submit']))
 		{
 			$cs->registerCoreScript('yii');
-			$request=Yii::app()->getRequest();
+			$request=Yii::$app->getRequest();
 			if($request->enableCsrfValidation && isset($htmlOptions['csrf']) && $htmlOptions['csrf'])
 				$htmlOptions['params'][$request->csrfTokenName]=$request->getCsrfToken();
 			if(isset($htmlOptions['params']))
@@ -6116,7 +6116,7 @@ class CWidgetFactory extends CApplicationComponent implements IWidgetFactory
 	{
 		parent::init();
 		if($this->enableSkin && $this->skinPath===null)
-			$this->skinPath=Yii::app()->getViewPath().DIRECTORY_SEPARATOR.'skins';
+			$this->skinPath=Yii::$app->getViewPath().DIRECTORY_SEPARATOR.'skins';
 	}
 	public function createWidget($owner,$className,$properties=array())
 	{
@@ -6146,7 +6146,7 @@ class CWidgetFactory extends CApplicationComponent implements IWidgetFactory
 				$this->_skins[$className]=require($skinFile);
 			else
 				$this->_skins[$className]=array();
-			if(($theme=Yii::app()->getTheme())!==null)
+			if(($theme=Yii::$app->getTheme())!==null)
 			{
 				$skinFile=$theme->getSkinPath().DIRECTORY_SEPARATOR.$className.'.php';
 				if(is_file($skinFile))
@@ -6176,7 +6176,7 @@ class CWidget extends CBaseController
 	}
 	public function __construct($owner=null)
 	{
-		$this->_owner=$owner===null?Yii::app()->getController():$owner;
+		$this->_owner=$owner===null?Yii::$app->getController():$owner;
 	}
 	public function getOwner()
 	{
@@ -6198,7 +6198,7 @@ class CWidget extends CBaseController
 		if($this->_owner instanceof CController)
 			return $this->_owner;
 		else
-			return Yii::app()->getController();
+			return Yii::$app->getController();
 	}
 	public function init()
 	{
@@ -6214,7 +6214,7 @@ class CWidget extends CBaseController
 			return self::$_viewPaths[$className][$scope];
 		else
 		{
-			if($checkTheme && ($theme=Yii::app()->getTheme())!==null)
+			if($checkTheme && ($theme=Yii::$app->getTheme())!==null)
 			{
 				$path=$theme->getViewPath().DIRECTORY_SEPARATOR;
 				if(strpos($className,'\\')!==false) // namespaced class
@@ -6230,7 +6230,7 @@ class CWidget extends CBaseController
 	}
 	public function getViewFile($viewName)
 	{
-		if(($renderer=Yii::app()->getViewRenderer())!==null)
+		if(($renderer=Yii::$app->getViewRenderer())!==null)
 			$extension=$renderer->fileExtension;
 		else
 			$extension='.php';
@@ -6240,15 +6240,15 @@ class CWidget extends CBaseController
 		{
 			$viewFile=$this->getViewPath(true).DIRECTORY_SEPARATOR.$viewName;
 			if(is_file($viewFile.$extension))
-				return Yii::app()->findLocalizedFile($viewFile.$extension);
+				return Yii::$app->findLocalizedFile($viewFile.$extension);
 			elseif($extension!=='.php' && is_file($viewFile.'.php'))
-				return Yii::app()->findLocalizedFile($viewFile.'.php');
+				return Yii::$app->findLocalizedFile($viewFile.'.php');
 			$viewFile=$this->getViewPath(false).DIRECTORY_SEPARATOR.$viewName;
 		}
 		if(is_file($viewFile.$extension))
-			return Yii::app()->findLocalizedFile($viewFile.$extension);
+			return Yii::$app->findLocalizedFile($viewFile.$extension);
 		elseif($extension!=='.php' && is_file($viewFile.'.php'))
-			return Yii::app()->findLocalizedFile($viewFile.'.php');
+			return Yii::$app->findLocalizedFile($viewFile.'.php');
 		else
 			return false;
 	}
@@ -6550,7 +6550,7 @@ class CClientScript extends CApplicationComponent
 		if($this->_baseUrl!==null)
 			return $this->_baseUrl;
 		else
-			return $this->_baseUrl=Yii::app()->getAssetManager()->publish(YII_PATH.'/web/js/source');
+			return $this->_baseUrl=Yii::$app->getAssetManager()->publish(YII_PATH.'/web/js/source');
 	}
 	public function setCoreScriptUrl($value)
 	{
@@ -6565,11 +6565,11 @@ class CClientScript extends CApplicationComponent
 		{
 			$baseUrl=$package['baseUrl'];
 			if($baseUrl==='' || $baseUrl[0]!=='/' && strpos($baseUrl,'://')===false)
-				$baseUrl=Yii::app()->getRequest()->getBaseUrl().'/'.$baseUrl;
+				$baseUrl=Yii::$app->getRequest()->getBaseUrl().'/'.$baseUrl;
 			$baseUrl=rtrim($baseUrl,'/');
 		}
 		elseif(isset($package['basePath']))
-			$baseUrl=Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias($package['basePath']));
+			$baseUrl=Yii::$app->getAssetManager()->publish(Yii::getPathOfAlias($package['basePath']));
 		else
 			$baseUrl=$this->getCoreScriptUrl();
 		return $this->coreScripts[$name]['baseUrl']=$baseUrl;
@@ -6725,7 +6725,7 @@ class CClientScript extends CApplicationComponent
 	}
 	protected function recordCachingAction($context,$method,$params)
 	{
-		if(($controller=Yii::app()->getController())!==null)
+		if(($controller=Yii::$app->getController())!==null)
 			$controller->recordCachingAction($context,$method,$params);
 	}
 	public function addPackage($name,$definition)
@@ -7041,7 +7041,7 @@ class CAccessControlFilter extends CFilter
 	}
 	protected function preFilter($filterChain)
 	{
-		$app=Yii::app();
+		$app=Yii::$app;
 		$request=$app->getRequest();
 		$user=$app->getUser();
 		$verb=$request->getRequestType();
@@ -7677,7 +7677,7 @@ abstract class CActiveRecord extends CModel
 			return self::$db;
 		else
 		{
-			self::$db=Yii::app()->getDb();
+			self::$db=Yii::$app->getDb();
 			if(self::$db instanceof CDbConnection)
 				return self::$db;
 			else
@@ -8933,7 +8933,7 @@ abstract class CDbSchema extends CComponent
 				$qcDuration=$this->_connection->queryCachingDuration;
 				$this->_connection->queryCachingDuration=0;
 			}
-			if(!isset($this->_cacheExclude[$name]) && ($duration=$this->_connection->schemaCachingDuration)>0 && $this->_connection->schemaCacheID!==false && ($cache=Yii::app()->getComponent($this->_connection->schemaCacheID))!==null)
+			if(!isset($this->_cacheExclude[$name]) && ($duration=$this->_connection->schemaCachingDuration)>0 && $this->_connection->schemaCacheID!==false && ($cache=Yii::$app->getComponent($this->_connection->schemaCacheID))!==null)
 			{
 				$key='yii:dbschema'.$this->_connection->connectionString.':'.$this->_connection->username.':'.$name;
 				$table=$cache->get($key);
@@ -8977,7 +8977,7 @@ abstract class CDbSchema extends CComponent
 	}
 	public function refresh()
 	{
-		if(($duration=$this->_connection->schemaCachingDuration)>0 && $this->_connection->schemaCacheID!==false && ($cache=Yii::app()->getComponent($this->_connection->schemaCacheID))!==null)
+		if(($duration=$this->_connection->schemaCachingDuration)>0 && $this->_connection->schemaCacheID!==false && ($cache=Yii::$app->getComponent($this->_connection->schemaCacheID))!==null)
 		{
 			foreach(array_keys($this->_tables) as $name)
 			{
@@ -9548,7 +9548,7 @@ class CDbCommand extends CComponent
 		if($this->_connection->queryCachingCount>0 && $method!==''
 				&& $this->_connection->queryCachingDuration>0
 				&& $this->_connection->queryCacheID!==false
-				&& ($cache=Yii::app()->getComponent($this->_connection->queryCacheID))!==null)
+				&& ($cache=Yii::$app->getComponent($this->_connection->queryCacheID))!==null)
 		{
 			$this->_connection->queryCachingCount--;
 			$cacheKey='yii:dbquery'.':'.$method.':'.$this->_connection->connectionString.':'.$this->_connection->username;
@@ -10287,7 +10287,7 @@ class CStringValidator extends CValidator
 			return;
 		}
 		if(function_exists('mb_strlen') && $this->encoding!==false)
-			$length=mb_strlen($value, $this->encoding ? $this->encoding : Yii::app()->charset);
+			$length=mb_strlen($value, $this->encoding ? $this->encoding : Yii::$app->charset);
 		else
 			$length=strlen($value);
 		if($this->min!==null && $length<$this->min)

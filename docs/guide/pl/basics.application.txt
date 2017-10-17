@@ -9,7 +9,7 @@ Służy on również jako główne miejsce przechowujące ustawienia konfiguracj
 Z tego powodu, obiekt aplikacji jest również nazywany `front-controller'em`.
 
 Obiekt aplikacji jest tworzony jako singleton przez [skrypt wejściowy](/doc/guide/basics.entry).
-Jest on dostępny w każdym miejscu poprzez wywołanie [Yii::app()|YiiBase::app].
+Jest on dostępny w każdym miejscu poprzez wywołanie [Yii::$app|YiiBase::app].
 
 
 Konfiguracja aplikacji
@@ -111,8 +111,8 @@ W powyższym przykładzie, dodaliśmy element `cache` do tablicy komponentów `c
 Element `cache` mówi, iż klasą komponentu jest `CMemCache` a jej właściwość `servers` 
 powinna być w taki i taki sposób zainicjalizowana.
 
-Aby dostać się do komponentu aplikacji używamy `Yii::app()->ComponentID`, gdzie
-`ComponentID` odnosi się do ID komponentu (np. `Yii::app()->cache`).
+Aby dostać się do komponentu aplikacji używamy `Yii::$app->ComponentID`, gdzie
+`ComponentID` odnosi się do ID komponentu (np. `Yii::$app->cache`).
 
 Komponent aplikacji może zostać dezaktywowany poprzez ustawienie `enabled` na false 
 w jego konfiguracji. Wartość null jest zwracana, jeśli chcemy uzyskać dostęp do 

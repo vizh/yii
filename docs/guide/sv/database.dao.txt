@@ -76,7 +76,7 @@ array(
 )
 ~~~
 
-Därefter kan databasanslutningen tillgås via `Yii::app()->db` som redan är 
+Därefter kan databasanslutningen tillgås via `Yii::$app->db` som redan är
 automatiskt aktiverad, utom i det fall [CDbConnection::autoConnect] uttryckligen 
 konfigurerats till false. Med användande av detta tillvägagångssätt kan en enda 
 DB-anslutning delas av kod på flera ställen.
@@ -90,7 +90,7 @@ av [CDbCommand]. Man skapar en instans av [CDbCommand] genom anrop till
 
 ~~~
 [php]
-$connection=Yii::app()->db;   // assuming you have configured a "db" connection
+$connection=Yii::$app->db;   // assuming you have configured a "db" connection
 // If not, you may explicitly create a connection:
 // $connection=new CDbConnection($dsn,$username,$password);
 $command=$connection->createCommand($sql);

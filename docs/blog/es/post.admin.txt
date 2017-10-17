@@ -74,7 +74,7 @@ En la grilla de datos `admin`, hay un botón de borrar en cada fila. Haciendo cl
 [php]
 public function actionDelete()
 {
-	if(Yii::app()->request->isPostRequest)
+	if(Yii::$app->request->isPostRequest)
 	{
 		// we only allow deletion via POST request
 		$this->loadModel()->delete();

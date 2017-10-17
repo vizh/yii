@@ -27,7 +27,7 @@ array(
 );
 ~~~
 
-När applikationen är igång kan cachekomponenten nås via `Yii::app()->cache`.
+När applikationen är igång kan cachekomponenten nås via `Yii::$app->cache`.
 
 Yii erbjuder olika cachekomponenter som kan lagra cachedata på olika 
 media. Till exempel, [CMemCache]-komponenten kapslar in PHP:s memcache-tillägg 
@@ -57,8 +57,8 @@ Här följer en sammanfattning av de tillgängliga cachekomponenterna:
 med denna komponent är att förenkla kod som behöver undersöka cache-tillgänglighet.
 Till exempel, under utveckling eller om servern saknar stöd för aktuell cachning, kan
 denna cachningskomponent användas. När aktuellt cachningsstöd blir aktivt, kan detta
-i stället användas. I bägge fallen kan samma kod, `Yii::app()->cache->get($key)` användas 
-till att hämta ett stycke data utan risk att `Yii::app()->cache` skulle kunna vara `null`. 
+i stället användas. I bägge fallen kan samma kod, `Yii::$app->cache->get($key)` användas
+till att hämta ett stycke data utan risk att `Yii::$app->cache` skulle kunna vara `null`.
 
 > Tip|Tips: Eftersom alla dessa cachekomponenter utvidgar samma basklass [CCache], 
 kan man byta till en annan typ av cache utan att modifiera kod som använder sig 

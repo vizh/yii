@@ -76,7 +76,7 @@ class CFileCache extends CCache
 	{
 		parent::init();
 		if($this->cachePath===null)
-			$this->cachePath=Yii::app()->getRuntimePath().DIRECTORY_SEPARATOR.'cache';
+			$this->cachePath=Yii::$app->getRuntimePath().DIRECTORY_SEPARATOR.'cache';
 		if(!is_dir($this->cachePath))
 		{
 			mkdir($this->cachePath,$this->cachePathMode,true);

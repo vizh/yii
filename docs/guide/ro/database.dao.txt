@@ -72,7 +72,7 @@ array(
 )
 ~~~
 
-Putem dupa aceea sa accesam conexiunea DB prin `Yii::app()->db`, care este
+Putem dupa aceea sa accesam conexiunea DB prin `Yii::$app->db`, care este
 activata automat (putem interzice acest comportament prin setarea cu false a
 proprietatii [CDbConnection::autoConnect]. Folosind aceasta metoda
 conexiunea DB poate fi utilizata oriunde in cod.

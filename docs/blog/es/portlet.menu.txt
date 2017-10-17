@@ -23,7 +23,7 @@ class UserMenu extends CPortlet
 {
 	public function init()
 	{
-		$this->title=CHtml::encode(Yii::app()->user->name);
+		$this->title=CHtml::encode(Yii::$app->user->name);
 		parent::init();
 	}
 
@@ -65,7 +65,7 @@ Es hora de hacer uso de nuestro recién creado portlet `UserMenu`. Modificamos e
 [php]
 ......
 <div id="sidebar">
-	<?php if(!Yii::app()->user->isGuest) $this->widget('UserMenu'); ?>
+	<?php if(!Yii::$app->user->isGuest) $this->widget('UserMenu'); ?>
 </div>
 ......
 ~~~

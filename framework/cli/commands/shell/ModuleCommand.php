@@ -57,7 +57,7 @@ EOD;
 
 		$moduleID=$args[0];
 		$moduleClass=ucfirst($moduleID).'Module';
-		$modulePath=Yii::app()->getModulePath().DIRECTORY_SEPARATOR.$moduleID;
+		$modulePath=Yii::$app->getModulePath().DIRECTORY_SEPARATOR.$moduleID;
 
 		$sourceDir=$this->templatePath===null?YII_PATH.'/cli/views/shell/module':$this->templatePath;
 		$list=$this->buildFileList($sourceDir,$modulePath);

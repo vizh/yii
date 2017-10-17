@@ -182,7 +182,7 @@ class CWebModule extends CModule
 	public function beforeControllerAction($controller,$action)
 	{
 		if(($parent=$this->getParentModule())===null)
-			$parent=Yii::app();
+			$parent=Yii::$app;
 		return $parent->beforeControllerAction($controller,$action);
 	}
 
@@ -196,7 +196,7 @@ class CWebModule extends CModule
 	public function afterControllerAction($controller,$action)
 	{
 		if(($parent=$this->getParentModule())===null)
-			$parent=Yii::app();
+			$parent=Yii::$app;
 		$parent->afterControllerAction($controller,$action);
 	}
 }

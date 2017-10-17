@@ -64,7 +64,7 @@ class CFileLogRoute extends CLogRoute
 	{
 		parent::init();
 		if($this->getLogPath()===null)
-			$this->setLogPath(Yii::app()->getRuntimePath());
+			$this->setLogPath(Yii::$app->getRuntimePath());
 	}
 
 	/**

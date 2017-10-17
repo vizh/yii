@@ -5,7 +5,7 @@
 它同时作为服务中心，维护应用级别的配置。鉴于此，应用也叫做`前端控制器`。
 
 应用由 [入口脚本](/doc/guide/basics.entry) 创建为一个单例对象。这个应用单例对象可以在任何地方通过
- [Yii::app()|YiiBase::app] 访问。
+ [Yii::$app|YiiBase::app] 访问。
 
 
 应用配置
@@ -91,7 +91,7 @@ array(
 如上所示，我们在 `components` 数组中添加了 `cache` 元素。`cache` 元素表明此组件的类是 `CMemCache`,
 他的 `servers` 属性应依此初始化。
 
-要访问一个应用组件，使用 `Yii::app()->ComponentID` ，其中的 `ComponentID` 是指组件的ID（例如 `Yii::app()->cache`）。
+要访问一个应用组件，使用 `Yii::$app->ComponentID` ，其中的 `ComponentID` 是指组件的ID（例如 `Yii::$app->cache`）。
 
 应用的组件可以通过在其配置中设置 `enabled` 为 false 禁用。当我们访问被禁用的组件时将返回 Null。
 

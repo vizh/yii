@@ -127,7 +127,7 @@ class CAccessControlFilter extends CFilter
 	 */
 	protected function preFilter($filterChain)
 	{
-		$app=Yii::app();
+		$app=Yii::$app;
 		$request=$app->getRequest();
 		$user=$app->getUser();
 		$verb=$request->getRequestType();
@@ -231,7 +231,7 @@ class CAccessRule extends CComponent
 	public $verbs;
 	/**
 	 * @var string a PHP expression whose value indicates whether this rule should be applied.
-	 * In this expression, you can use <code>$user</code> which refers to <code>Yii::app()->user</code>.
+	 * In this expression, you can use <code>$user</code> which refers to <code>Yii::$app->user</code>.
 	 * The expression can also be a valid PHP callback,
 	 * including class method name (array(ClassName/Object, MethodName)),
 	 * or anonymous function (PHP 5.3.0+). The function/method signature should be as follows:

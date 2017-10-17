@@ -73,7 +73,7 @@ array(
 )
 ~~~
 
-Podemos então acessar a conexão com o banco via `Yii::app()->db`, que é 
+Podemos então acessar a conexão com o banco via `Yii::$app->db`, que é
 ativada automaticamente, a não ser que se configure a propriedade 
 [CDbConnection::autoConnect] para false. Dessa maneira, uma única conexão com o 
 banco de dados pode ser compartilhada entre diversas partes de seu código.
@@ -88,7 +88,7 @@ com a instrução SQL desejada:
 
 ~~~
 [php]
-$connection=Yii::app()->db;   // Aqui, estamos assumind que você configurou um conexão com o banco de dados
+$connection=Yii::$app->db;   // Aqui, estamos assumind que você configurou um conexão com o banco de dados
 // Caso contrario, você deverá cria-la explicitamente:
 // $connection=new CDbConnection($dsn,$username,$password);
 $command=$connection->createCommand($sql);

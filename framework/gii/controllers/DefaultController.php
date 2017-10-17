@@ -19,9 +19,9 @@ class DefaultController extends CController
 
 	public function actionError()
 	{
-	    if($error=Yii::app()->errorHandler->error)
+	    if($error=Yii::$app->errorHandler->error)
 	    {
-	    	if(Yii::app()->request->isAjaxRequest)
+	    	if(Yii::$app->request->isAjaxRequest)
 	    		echo $error['message'];
 	    	else
 	        	$this->render('error', $error);
@@ -52,7 +52,7 @@ class DefaultController extends CController
 	 */
 	public function actionLogout()
 	{
-		Yii::app()->user->logout(false);
+		Yii::$app->user->logout(false);
 		$this->redirect(array('index'));
 	}
 }

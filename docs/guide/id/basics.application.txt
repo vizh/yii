@@ -8,7 +8,7 @@ juga sebagai tempat utama menyimpan konfigurasi level aplikasi. Oleh karena
 itulah, objek aplikasi disebut juga sebagai `front-controller(controller depan)`.
 
 Aplikasi dibuat sebagai singleton(tunggal) oleh [entry script](/doc/guide/basics.entry).
-Singleton aplikasi dapat diakses di mana saja melalui [Yii::app()|YiiBase::app].
+Singleton aplikasi dapat diakses di mana saja melalui [Yii::$app|YiiBase::app].
 
 
 Konfigurasi Aplikasi
@@ -111,8 +111,8 @@ Dalam contoh di atas, kita menambahkan elemen `cache` pada array `components`. E
 `cache` menyatakan bahwa kelas komponennya adalah
 `CMemCache` dan properti `servers` juga harus diinisialisasi.
 
-Untuk mengakses komponen aplikasi, gunakan `Yii::app()->ComponentID`, dengan
-`ComponentID` merujuk pada ID komponen (contoh `Yii::app()->cache`).
+Untuk mengakses komponen aplikasi, gunakan `Yii::$app->ComponentID`, dengan
+`ComponentID` merujuk pada ID komponen (contoh `Yii::$app->cache`).
 
 Komponen aplikasi dapat dinonaktifkan dengan menyetel `enabled` menjadi false
 dalam konfigurasinya. Null dikembalikan saat kita mengakses komponen yang telah dinonaktifkan.

@@ -47,7 +47,7 @@ array(
 
 请注意，我们不需要指定的[urlManager|CWebApplication::urlManager]元件的类，因为它在[CWebApplication]预声明为[CUrlManager]。
 
-> 提示：此网址通过[createUrl|CController::createUrl]方法所产生的是一个相对地址。为了得到一个绝对的URL ，我们可以用前缀`Yii::app()->hostInfo` ，或调用[createAbsoluteUrl|CController::createAbsoluteUrl] 。
+> 提示：此网址通过[createUrl|CController::createUrl]方法所产生的是一个相对地址。为了得到一个绝对的URL ，我们可以用前缀`Yii::$app->hostInfo` ，或调用[createAbsoluteUrl|CController::createAbsoluteUrl] 。
 
 User-friendly URLs（用户友好的URL）
 ------------------

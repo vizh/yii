@@ -109,7 +109,7 @@ class CCaptcha extends CWidget
 	 */
 	public function registerClientScript()
 	{
-		$cs=Yii::app()->clientScript;
+		$cs=Yii::$app->clientScript;
 		$id=$this->imageOptions['id'];
 		$url=$this->getController()->createUrl($this->captchaAction,array(CCaptchaAction::REFRESH_GET_VAR=>true));
 

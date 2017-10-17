@@ -21,7 +21,7 @@ $this->menu=array(
 	array('label'=>'Create <?php echo $modelClass; ?>', 'url'=>array('create')),
 );
 
-Yii::app()->clientScript->registerScript('search', "
+Yii::$app->clientScript->registerScript('search', "
 $('.search-button').click(function(){
 	$('.search-form').toggle();
 	return false;

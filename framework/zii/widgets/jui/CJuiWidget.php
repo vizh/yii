@@ -93,7 +93,7 @@ abstract class CJuiWidget extends CWidget
 	{
 		if($this->scriptUrl===null || $this->themeUrl===null)
 		{
-			$cs=Yii::app()->getClientScript();
+			$cs=Yii::$app->getClientScript();
 			if($this->scriptUrl===null)
 				$this->scriptUrl=$cs->getCoreScriptUrl().'/jui/js';
 			if($this->themeUrl===null)
@@ -107,7 +107,7 @@ abstract class CJuiWidget extends CWidget
 	 */
 	protected function registerCoreScripts()
 	{
-		$cs=Yii::app()->getClientScript();
+		$cs=Yii::$app->getClientScript();
 		if(is_string($this->cssFile))
 			$cs->registerCssFile($this->themeUrl.'/'.$this->theme.'/'.$this->cssFile);
 		elseif(is_array($this->cssFile))
@@ -139,6 +139,6 @@ abstract class CJuiWidget extends CWidget
 	 */
 	protected function registerScriptFile($fileName,$position=CClientScript::POS_END)
 	{
-		Yii::app()->getClientScript()->registerScriptFile($this->scriptUrl.'/'.$fileName,$position);
+		Yii::$app->getClientScript()->registerScriptFile($this->scriptUrl.'/'.$fileName,$position);
 	}
 }

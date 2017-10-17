@@ -74,9 +74,9 @@ public function run($args) { ... }
 
 where `$args` refers to the extra parameters given in the command line.
 
-Within a console command, we can use `Yii::app()` to access the console application
+Within a console command, we can use `Yii::$app` to access the console application
 instance, through which we can also access resources such as database connections
-(e.g. `Yii::app()->db`). As we can tell, the usage is very similar to what we can
+(e.g. `Yii::$app->db`). As we can tell, the usage is very similar to what we can
 do in a Web application.
 
 > Info: Starting from version 1.1.1, we can also create global commands that

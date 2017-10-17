@@ -75,9 +75,9 @@ public function run($args) { ... }
 
 onde `$args` refere-se aos parâmetros extras informados na linha de comando.
 
-Dentro de um comando de console, utilizamos `Yii::app()` para acessar a instância
+Dentro de um comando de console, utilizamos `Yii::$app` para acessar a instância
 da aplicação de console, através da qual podemos acessar recursos, tal como a conexão ao banco de dados
-(ex: `Yii::app()->db`). Como é possível perceber, a utilização é similar ao modo como é
+(ex: `Yii::$app->db`). Como é possível perceber, a utilização é similar ao modo como é
 feita em aplicações Web.
 
 > Info|Informação: A partir da versão 1.1.1, também podemos criar comandos globais que são

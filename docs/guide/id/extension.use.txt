@@ -62,7 +62,7 @@ return array(
 );
 ~~~
 
-Selanjutnya, kita dapat mengakses komponen di mana saja mengunakan `Yii::app()->xyz`. Komponen
+Selanjutnya, kita dapat mengakses komponen di mana saja mengunakan `Yii::$app->xyz`. Komponen
 ini akan dibuat secara lazy (yakni, dibuat saat diakses untuk pertama kali)
 kecuali kita mendaftar properti `preload`.
 

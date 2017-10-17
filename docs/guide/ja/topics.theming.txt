@@ -20,7 +20,7 @@ Yii での各テーマは、ビューファイル、レイアウトファイル�
 これは [アプリケーション初期構成](/doc/guide/basics.application#sec-2) の中か、コントローラアクションの処理の中のどちらでも行うことが可能です。
 
 > Note|注意: テーマの名前は大文字小文字を区別します。
-もしアクティブにしようとしたテーマが存在していない場合、`Yii::app()->theme` は `null` を返します。
+もしアクティブにしようとしたテーマが存在していない場合、`Yii::$app->theme` は `null` を返します。
 
 
 テーマを作成する
@@ -46,7 +46,7 @@ Yii での各テーマは、ビューファイル、レイアウトファイル�
 >
 >~~~
 >[php]
->Yii::app()->theme->baseUrl . '/images/FileName.gif'
+>Yii::$app->theme->baseUrl . '/images/FileName.gif'
 >~~~
 
 以下は、`basic` と `fancy` という二つのテーマを持ったアプリケーションのディレクトリ構成例です。

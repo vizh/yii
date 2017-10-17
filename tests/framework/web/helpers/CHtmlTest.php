@@ -5,19 +5,19 @@ class CHtmlTest extends CTestCase
 	public function setUp()
 	{
 		// clean up any possible garbage in global clientScript app component
-		Yii::app()->clientScript->reset();
+		Yii::$app->clientScript->reset();
 
 		// reset CHtml ID counter
 		CHtml::$count=0;
 
-		Yii::app()->request->baseUrl=null; // reset so that it can be determined based on scriptUrl
-		Yii::app()->request->scriptUrl='/bootstrap.php';
+		Yii::$app->request->baseUrl=null; // reset so that it can be determined based on scriptUrl
+		Yii::$app->request->scriptUrl='/bootstrap.php';
 	}
 
 	public function tearDown()
 	{
 		// do not keep any garbage in global clientScript app component
-		Yii::app()->clientScript->reset();
+		Yii::$app->clientScript->reset();
 	}
 
 	/* HTML characters encode/decode tests */
@@ -688,7 +688,7 @@ class CHtmlTest extends CTestCase
 
 		// now render html head with registered meta tags
 		$output='';
-		Yii::app()->clientScript->renderHead($output);
+		Yii::$app->clientScript->renderHead($output);
 
 		// and test it now
 		$this->assertEquals($assertion, $output);
@@ -1040,7 +1040,7 @@ class CHtmlTest extends CTestCase
 		$this->assertEquals($assertion, CHtml::linkButton($label, $htmlOptions));
 
 		$output='';
-		Yii::app()->getClientScript()->renderBodyEnd($output);
+		Yii::$app->getClientScript()->renderBodyEnd($output);
 		$this->assertContains($clientScriptOutput, $output);
 	}
 
@@ -1049,17 +1049,17 @@ class CHtmlTest extends CTestCase
 		$out=CHtml::ajax(array(
 			'success'=>'js:function() { /* callback */ }',
 		));
-		$this->assertTrue(mb_strpos($out,"'success':function() { /* callback */ }", null, Yii::app()->charset)!==false, "Unexpected JavaScript: ".$out);
+		$this->assertTrue(mb_strpos($out,"'success':function() { /* callback */ }", null, Yii::$app->charset)!==false, "Unexpected JavaScript: ".$out);
 
 		$out=CHtml::ajax(array(
 			'success'=>'function() { /* callback */ }',
 		));
-		$this->assertTrue(mb_strpos($out,"'success':function() { /* callback */ }", null, Yii::app()->charset)!==false, "Unexpected JavaScript: ".$out);
+		$this->assertTrue(mb_strpos($out,"'success':function() { /* callback */ }", null, Yii::$app->charset)!==false, "Unexpected JavaScript: ".$out);
 
 		$out=CHtml::ajax(array(
 			'success'=>new CJavaScriptExpression('function() { /* callback */ }'),
 		));
-		$this->assertTrue(mb_strpos($out,"'success':function() { /* callback */ }", null, Yii::app()->charset)!==false, "Unexpected JavaScript: ".$out);
+		$this->assertTrue(mb_strpos($out,"'success':function() { /* callback */ }", null, Yii::$app->charset)!==false, "Unexpected JavaScript: ".$out);
 	}
 }
 

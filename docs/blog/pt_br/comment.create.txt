@@ -63,7 +63,7 @@ protected function newComment($post)
 		if($post->addComment($comment))
 		{
 			if($comment->status==Comment::STATUS_PENDING)
-				Yii::app()->user->setFlash('comentarioEnviado','Obrigado...');
+				Yii::$app->user->setFlash('comentarioEnviado','Obrigado...');
 			$this->refresh();
 		}
 	}
@@ -82,9 +82,9 @@ Nós também precisamos modificar `/wwwroot/blog/protected/views/post/view.php`,
 	......
 	<h3>Deixe um Comentário</h3>
 
-	<?php if(Yii::app()->user->hasFlash('comentarioEnviado')): ?>
+	<?php if(Yii::$app->user->hasFlash('comentarioEnviado')): ?>
 		<div class="flash-success">
-			<?php echo Yii::app()->user->getFlash('comentarioEnviado'); ?>
+			<?php echo Yii::$app->user->getFlash('comentarioEnviado'); ?>
 		</div>
 	<?php else: ?>
 		<?php $this->renderPartial('/comment/_form',array(
@@ -130,7 +130,7 @@ protected function newComment($post)
 	if(isset($_POST['ajax']) && $_POST['ajax']==='comment-form')
 	{
 		echo CActiveForm::validate($comment);
-		Yii::app()->end();
+		Yii::$app->end();
 	}
 
 	if(isset($_POST['Comment']))
@@ -139,7 +139,7 @@ protected function newComment($post)
 		if($post->addComment($comment))
 		{
 			if($comment->status==Comment::STATUS_PENDING)
-				Yii::app()->user->setFlash('comentarioEnviado','Obrigado...');
+				Yii::$app->user->setFlash('comentarioEnviado','Obrigado...');
 			$this->refresh();
 		}
 	}

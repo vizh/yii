@@ -63,7 +63,7 @@ class User extends CActiveRecord
 }
 ~~~
 
-在 `UserIdentity` 类中，我们还覆盖（Override，又称为重写）了 `getId()` 方法，它会返回在 `User` 表中找到的用户的 `id`。父类 ([CUserIdentity]) 则会返回用户名。`username` 和 `id` 属性都将存储在用户 SESSION 中，可在代码的任何部分通过 `Yii::app()->user` 访问。
+在 `UserIdentity` 类中，我们还覆盖（Override，又称为重写）了 `getId()` 方法，它会返回在 `User` 表中找到的用户的 `id`。父类 ([CUserIdentity]) 则会返回用户名。`username` 和 `id` 属性都将存储在用户 SESSION 中，可在代码的任何部分通过 `Yii::$app->user` 访问。
 
 > Tip|提示: 在 `UserIdentity` 类中，我们没有显式包含(include)相应的类文件就访问了 [CUserIdentity] 类，这是因为 [CUserIdentity] 是一个由Yii框架提供的核心类。Yii 将会在任何核心类被首次使用时自动包含类文件。
 >
@@ -92,7 +92,7 @@ $identity->authenticate();
 switch($identity->errorCode)
 {
 	case UserIdentity::ERROR_NONE:
-		Yii::app()->user->login($identity);
+		Yii::$app->user->login($identity);
 		break;
 	......
 }

@@ -88,7 +88,7 @@ verwendet. Allerdings mit dem Unterschied, dass hier nicht die Methode
 `run()` auf dem erstellten Anwendungsobjekt aufgerufen wird.
 
 Ab nun kann man die meisten Yii-Features auch im Fremdsystem verwenden. Über
-`Yii::app()` lässt sich zum Beispiel auf die Anwendungsinstanz zugreifen. Auch
+`Yii::$app` lässt sich zum Beispiel auf die Anwendungsinstanz zugreifen. Auch
 Datenbankfeatures wie DAO und ActiveRecord stehen zur Verfügung. Ebenso Models
 und deren Validierungsfeature und vieles mehr.
 

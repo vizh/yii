@@ -123,7 +123,7 @@ class CSecurityManager extends CApplicationComponent
 			return $this->_validationKey;
 		else
 		{
-			if(($key=Yii::app()->getGlobalState(self::STATE_VALIDATION_KEY))!==null)
+			if(($key=Yii::$app->getGlobalState(self::STATE_VALIDATION_KEY))!==null)
 				$this->setValidationKey($key);
 			else
 			{
@@ -132,7 +132,7 @@ class CSecurityManager extends CApplicationComponent
 						throw new CException(Yii::t('yii',
 							'CSecurityManager::generateRandomString() cannot generate random string in the current environment.'));
 				$this->setValidationKey($key);
-				Yii::app()->setGlobalState(self::STATE_VALIDATION_KEY,$key);
+				Yii::$app->setGlobalState(self::STATE_VALIDATION_KEY,$key);
 			}
 			return $this->_validationKey;
 		}
@@ -161,7 +161,7 @@ class CSecurityManager extends CApplicationComponent
 			return $this->_encryptionKey;
 		else
 		{
-			if(($key=Yii::app()->getGlobalState(self::STATE_ENCRYPTION_KEY))!==null)
+			if(($key=Yii::$app->getGlobalState(self::STATE_ENCRYPTION_KEY))!==null)
 				$this->setEncryptionKey($key);
 			else
 			{
@@ -170,7 +170,7 @@ class CSecurityManager extends CApplicationComponent
 						throw new CException(Yii::t('yii',
 							'CSecurityManager::generateRandomString() cannot generate random string in the current environment.'));
 				$this->setEncryptionKey($key);
-				Yii::app()->setGlobalState(self::STATE_ENCRYPTION_KEY,$key);
+				Yii::$app->setGlobalState(self::STATE_ENCRYPTION_KEY,$key);
 			}
 			return $this->_encryptionKey;
 		}
@@ -567,7 +567,7 @@ class CSecurityManager extends CApplicationComponent
 	{
 		if (!$key)
 		{
-			$key=Yii::app()->getGlobalState(self::STATE_ENCRYPTION_KEY);
+			$key=Yii::$app->getGlobalState(self::STATE_ENCRYPTION_KEY);
 			if(!$key)
 				throw new CException(Yii::t('yii','No encryption key specified.'));
 			$key = md5($key);

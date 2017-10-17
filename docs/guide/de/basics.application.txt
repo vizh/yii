@@ -9,7 +9,7 @@ Objekt als zentraler Speicherort für Konfigurationsdaten der gesamten Anwendung
 Man nennt dieses Objekt auch `Front-Controller`.
 
 Das Applikationsobjekt wird vom [Startscript](/doc/guide/basics.entry) als
-Singleton erzeugt und kann daher an jeder Stelle über [Yii::app()|YiiBase::app]
+Singleton erzeugt und kann daher an jeder Stelle über [Yii::$app|YiiBase::app]
 abgerufen werden.
 
 Konfiguration
@@ -119,8 +119,8 @@ Objekts mit den angegebenen Parametern initialisiert.
 
 
 Um auf eine dieser Anwendungskomponenten zuzugreifen, benutzen Sie
-`Yii::app()->KomponentenID`, wobei `KomponentenID` sich auf die ID
-der Komponente bezieht (z.B. `Yii::app()->cache`).
+`Yii::$app->KomponentenID`, wobei `KomponentenID` sich auf die ID
+der Komponente bezieht (z.B. `Yii::$app->cache`).
 
 Eine Komponente kann auch deaktiviert werden, indem man bei ihr den
 Schlüssel `enabled` als `false` konfiguriert. In diesem Fall wird `null`

@@ -5,7 +5,7 @@ The Yii Query Builder provides an object-oriented way of writing SQL statements.
 
 ~~~
 [php]
-$user = Yii::app()->db->createCommand()
+$user = Yii::$app->db->createCommand()
 	->select('id, username, profile')
 	->from('tbl_user u')
 	->join('tbl_profile p', 'u.id=p.user_id')
@@ -32,7 +32,7 @@ It is not mandatory to use the Query Builder. In fact, if your queries are simpl
 >
 > ~~~
 > [php]
-> $command = Yii::app()->db->createCommand('SELECT * FROM tbl_user');
+> $command = Yii::$app->db->createCommand('SELECT * FROM tbl_user');
 > // the following line will NOT append WHERE clause to the above SQL
 > $command->where('id=:id', array(':id'=>$id));
 > ~~~
@@ -49,10 +49,10 @@ To start using the Query Builder, we create a new instance of [CDbCommand] as fo
 
 ~~~
 [php]
-$command = Yii::app()->db->createCommand();
+$command = Yii::$app->db->createCommand();
 ~~~
 
-That is, we use `Yii::app()->db` to get the DB connection, and then call [CDbConnection::createCommand()] to create the needed command instance.
+That is, we use `Yii::$app->db` to get the DB connection, and then call [CDbConnection::createCommand()] to create the needed command instance.
 
 Note that instead of passing a whole SQL statement to the `createCommand()` call as we do in [Data Access Objects](/doc/guide/database.dao), we leave it empty. This is because we will build individual parts of the SQL statement using the Query Builder methods explained in the following.
 
@@ -376,7 +376,7 @@ Example:
 
 ~~~
 [php]
-$users = Yii::app()->db->createCommand()
+$users = Yii::$app->db->createCommand()
 	->select('*')
 	->from('tbl_user')
 	->queryAll();
@@ -389,7 +389,7 @@ Besides executing a query built by the Query Builder, we can also retrieve the c
 
 ~~~
 [php]
-$sql = Yii::app()->db->createCommand()
+$sql = Yii::$app->db->createCommand()
 	->select('*')
 	->from('tbl_user')
 	->text;
@@ -412,7 +412,7 @@ Furthermore, the [CDbConnection::createCommand()] method can take an array as th
 
 ~~~
 [php]
-$row = Yii::app()->db->createCommand(array(
+$row = Yii::$app->db->createCommand(array(
 	'select' => array('id', 'username'),
 	'from' => 'tbl_user',
 	'where' => 'id=:id',
@@ -427,7 +427,7 @@ A [CDbCommand] instance can be reused multiple times to build several queries. B
 
 ~~~
 [php]
-$command = Yii::app()->db->createCommand();
+$command = Yii::$app->db->createCommand();
 $users = $command->select('*')->from('tbl_users')->queryAll();
 $command->reset();  // clean up the previous query
 $posts = $command->select('*')->from('tbl_posts')->queryAll();

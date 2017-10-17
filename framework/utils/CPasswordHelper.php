@@ -187,8 +187,8 @@ class CPasswordHelper
 		if($cost<4 || $cost>31)
 			throw new CException(Yii::t('yii','{class}::$cost must be between 4 and 31.',array('{class}'=>__CLASS__)));
 
-		if(($random=Yii::app()->getSecurityManager()->generateRandomString(22,true))===false)
-			if(($random=Yii::app()->getSecurityManager()->generateRandomString(22,false))===false)
+		if(($random=Yii::$app->getSecurityManager()->generateRandomString(22,true))===false)
+			if(($random=Yii::$app->getSecurityManager()->generateRandomString(22,false))===false)
 				throw new CException(Yii::t('yii','Unable to generate random string.'));
 		return sprintf('$2y$%02d$',$cost).strtr($random,array('_'=>'.','~'=>'/'));
 	}

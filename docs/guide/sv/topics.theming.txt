@@ -28,7 +28,7 @@ Detta kan antingen göras i
 eller vid körning, i en kontrolleråtgärd.
 
 > Note|Märk: Temanamn är skiftlägeskänsliga (case-sensitive). Om man försöker 
-att aktivera ett tema som inte kan hittas returnerar `Yii::app()->theme` `null`.
+att aktivera ett tema som inte kan hittas returnerar `Yii::$app->theme` `null`.
 
 
 Creating a Theme
@@ -67,7 +67,7 @@ temaresursfiler. Till exempel, kan vi vilja visa en bildfil under temats katalog
 
 > ~~~ 
 > [php] 
-> Yii::app()->theme->baseUrl . '/images/FileName.gif' 
+> Yii::$app->theme->baseUrl . '/images/FileName.gif'
 > ~~~ 
 
 Nedan följer ett exempel på katalogstruktur för en applikation med två teman, `basic` och `fancy`.

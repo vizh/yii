@@ -125,12 +125,12 @@ melalui `$_COOKIES` secara langsung:
 ~~~
 [php]
 // ambil cookie dengan nama yang ditetapkan
-$cookie=Yii::app()->request->cookies[$name];
+$cookie=Yii::$app->request->cookies[$name];
 $value=$cookie->value;
 ......
 // kirim cookie
 $cookie=new CHttpCookie($name,$value);
-Yii::app()->request->cookies[$name]=$cookie;
+Yii::$app->request->cookies[$name]=$cookie;
 ~~~
 
 

@@ -28,7 +28,7 @@ aplikasi](/doc/guide/basics.application#application-configuration) maupun selama
 dalam aksi kontoler.
 
 > Note|Catatan: Nama tema bersifat case-sensitive. Jika Anda mencoba
-mengaktifkan tema yang tidak ada, `Yii::app()->theme` akan mengembalikan `null`.
+mengaktifkan tema yang tidak ada, `Yii::$app->theme` akan mengembalikan `null`.
 
 
 Pembuatan Tema
@@ -66,7 +66,7 @@ Sebaliknya, jika gagal akan kembali ke lokasi seperti yang ditetapkan oleh
 >
 > ~~~
 > [php]
-> Yii::app()->theme->baseUrl . '/images/FileName.gif'
+> Yii::$app->theme->baseUrl . '/images/FileName.gif'
 > ~~~
 >
 

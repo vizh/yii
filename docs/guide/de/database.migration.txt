@@ -129,7 +129,7 @@ Daten und DB-Schemas bereit. Mit [CDbMigration::createTable] kann man zum
 Beispiel eine Tabelle erzeugen, während [CDbMigration::insert] Zeilen in eine
 Tabelle einfügt. Alle Methoden verwenden die Datenbankverbindung, die von 
 [CDbMigration::getDbConnection()] zurückgeliefert wird. Standardmäßig ist das
-`Yii::app()->db`.
+`Yii::$app->db`.
 
 > Info|Info: Sie werden feststellen, dass die DB-Methoden von [CDbMigration]
 > denen von [CDbCommand] sehr ähneln. Sie sind tatsächlich auch fast

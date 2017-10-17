@@ -74,7 +74,7 @@ array(
 )
 ~~~
 
-Dostęp do połączenia DB, można uzyskać poprzez `Yii::app()->db`. Jest ono automatycznie 
+Dostęp do połączenia DB, można uzyskać poprzez `Yii::$app->db`. Jest ono automatycznie
 aktywowane, chyba że wyraźnie skonfigurujemy [CDbConnection::autoConnect] jako false. 
 Używając tego podejścia, jedno połączenie DB może być dzielone w wielu miejscach w naszym kodzie.
 
@@ -87,7 +87,7 @@ metody [CDbConnection::createCommand()] z określoną instrukcją SQL:
 
 ~~~
 [php]
-$connection=Yii::app()->db;   // zakładamy, że masz skonfigurowane połączenie "db"
+$connection=Yii::$app->db;   // zakładamy, że masz skonfigurowane połączenie "db"
 // Jeśli nie, możesz bezpośrednio utworzyć połączenie z bazą danych:
 // $connection=new CDbConnection($dsn,$username,$password);
 $command=$connection->createCommand($sql);

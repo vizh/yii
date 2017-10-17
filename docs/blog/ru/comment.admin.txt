@@ -22,7 +22,7 @@
 [php]
 public function actionApprove()
 {
-	if(Yii::app()->request->isPostRequest)
+	if(Yii::$app->request->isPostRequest)
 	{
 		$comment=$this->loadModel();
 		$comment->approve();

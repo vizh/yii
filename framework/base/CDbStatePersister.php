@@ -66,7 +66,7 @@ class CDbStatePersister extends CApplicationComponent implements IStatePersister
 		parent::init();
 		if($this->stateTableName===null)
 			throw new CException(Yii::t('yii', 'stateTableName param cannot be null.'));
-		$this->db=Yii::app()->getComponent($this->dbComponent);
+		$this->db=Yii::$app->getComponent($this->dbComponent);
 		if($this->db===null)
 			throw new CException(Yii::t('yii', '\'{db}\' component doesn\'t exist.',array(
 				'{db}'=>$this->dbComponent
@@ -88,7 +88,7 @@ class CDbStatePersister extends CApplicationComponent implements IStatePersister
 		$command=$this->db->createCommand();
 		$command=$command->select($this->valueField)->from($this->stateTableName);
 		$command=$command->where($this->db->quoteColumnName($this->keyField).'=:key',array(
-			':key'=>Yii::app()->name
+			':key'=>Yii::$app->name
 		));
 		$state=$command->queryScalar();
 		if(false!==$state)
@@ -107,13 +107,13 @@ class CDbStatePersister extends CApplicationComponent implements IStatePersister
 		$command=$this->db->createCommand();
 		if(false===$this->exists())
 			return $command->insert($this->stateTableName,array(
-				$this->keyField=>Yii::app()->name,
+				$this->keyField=>Yii::$app->name,
 				$this->valueField=>serialize($state)
 			));
 		else
 			return $command->update($this->stateTableName,array($this->valueField=>serialize($state)),
 				$this->db->quoteColumnName($this->keyField).'=:key',
-				array(':key'=>Yii::app()->name)
+				array(':key'=>Yii::$app->name)
 		);
 	}
 
@@ -125,7 +125,7 @@ class CDbStatePersister extends CApplicationComponent implements IStatePersister
 		$command=$this->db->createCommand();
 		$command=$command->select($this->keyField)->from($this->stateTableName);
 		$command=$command->where($this->db->quoteColumnName($this->keyField).'=:key',array(
-			':key'=>Yii::app()->name
+			':key'=>Yii::$app->name
 		));
 		return $command->queryScalar();
 	}

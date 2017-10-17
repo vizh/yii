@@ -9,7 +9,7 @@ Theming是一个在Web应用程序里定制网页外观的系统方式。通过�
 
 要激活一个主题，设置Web应用程序的属性[theme|CWebApplication::theme]为你所要的名字。可以在[application configuration](/doc/guide/basics.application#application-configuration)中配置或者在执行过程中在控制器的动作里面修改。
 
-> 注：主题名称是区分大小写的。如果您尝试启动一个不存在的主题， `Yii::app()->theme`将返回`null` 。
+> 注：主题名称是区分大小写的。如果您尝试启动一个不存在的主题， `Yii::$app->theme`将返回`null` 。
 
 主题目录里面内容的组织方式和[application base path](/doc/guide/basics.application#application-base-directory)目录下的组织方式一样。例如，所有的view文件必须位于`views`下 ，布局view文件在`views/layouts`下 ，和系统view文件在`views/system`下。例如，如果我们要替换`PostController`的`create` view文件为`classic`主题下，我们将保存新的view文件为`WebRoot/themes/classic/views/post/create.php`。
 
@@ -23,7 +23,7 @@ Theming是一个在Web应用程序里定制网页外观的系统方式。通过�
 
 > ~~~
 > [php]
-> Yii::app()->theme->baseUrl . '/images/FileName.gif'
+> Yii::$app->theme->baseUrl . '/images/FileName.gif'
 > ~~~
 >
 

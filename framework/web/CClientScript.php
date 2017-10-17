@@ -508,7 +508,7 @@ class CClientScript extends CApplicationComponent
 		if($this->_baseUrl!==null)
 			return $this->_baseUrl;
 		else
-			return $this->_baseUrl=Yii::app()->getAssetManager()->publish(YII_PATH.'/web/js/source');
+			return $this->_baseUrl=Yii::$app->getAssetManager()->publish(YII_PATH.'/web/js/source');
 	}
 
 	/**
@@ -539,11 +539,11 @@ class CClientScript extends CApplicationComponent
 		{
 			$baseUrl=$package['baseUrl'];
 			if($baseUrl==='' || $baseUrl[0]!=='/' && strpos($baseUrl,'://')===false)
-				$baseUrl=Yii::app()->getRequest()->getBaseUrl().'/'.$baseUrl;
+				$baseUrl=Yii::$app->getRequest()->getBaseUrl().'/'.$baseUrl;
 			$baseUrl=rtrim($baseUrl,'/');
 		}
 		elseif(isset($package['basePath']))
-			$baseUrl=Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias($package['basePath']));
+			$baseUrl=Yii::$app->getAssetManager()->publish(Yii::getPathOfAlias($package['basePath']));
 		else
 			$baseUrl=$this->getCoreScriptUrl();
 
@@ -844,7 +844,7 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Records a method call when an output cache is in effect.
-	 * This is a shortcut to Yii::app()->controller->recordCachingAction.
+	 * This is a shortcut to Yii::$app->controller->recordCachingAction.
 	 * In case when controller is absent, nothing is recorded.
 	 * @param string $context a property name of the controller. It refers to an object
 	 * whose method is being called. If empty it means the controller itself.
@@ -854,7 +854,7 @@ class CClientScript extends CApplicationComponent
 	 */
 	protected function recordCachingAction($context,$method,$params)
 	{
-		if(($controller=Yii::app()->getController())!==null)
+		if(($controller=Yii::$app->getController())!==null)
 			$controller->recordCachingAction($context,$method,$params);
 	}
 

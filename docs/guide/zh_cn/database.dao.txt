@@ -66,7 +66,7 @@ array(
 )
 ~~~
 
-然后我们就可以通过 `Yii::app()->db` 访问数据库连接了。它已经被自动激活了，除非我们特意配置了 
+然后我们就可以通过 `Yii::$app->db` 访问数据库连接了。它已经被自动激活了，除非我们特意配置了
 [CDbConnection::autoConnect] 为 false。通过这种方式，这个单独的DB连接就可以在我们代码中的很多地方共享。
 
 执行 SQL 语句
@@ -77,7 +77,7 @@ array(
 
 ~~~
 [php]
-$connection=Yii::app()->db;   // 假设你已经建立了一个 "db" 连接
+$connection=Yii::$app->db;   // 假设你已经建立了一个 "db" 连接
 // 如果没有，你可能需要显式建立一个连接：
 // $connection=new CDbConnection($dsn,$username,$password);
 $command=$connection->createCommand($sql);

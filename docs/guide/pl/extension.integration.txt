@@ -80,7 +80,7 @@ Powyższy kod jest bardzo podobny do kodu rozruchowego używanego przez typową 
 z jednym wyjątkiem: nie wywołuje on metody `run()` po utworzeniu instancji aplikacji.
 
 Od teraz możemy używać większości funkcjonalności oferowanych przez Yii podczas pracy nad rozszerzaniem
-zewnętrznych aplikacji. Na przykład, możemy użyć `Yii::app()` w celu uzyskania dostępu do instancji aplikacji;
+zewnętrznych aplikacji. Na przykład, możemy użyć `Yii::$app` w celu uzyskania dostępu do instancji aplikacji;
 możemy używać funkcjonalności związanych z bazą danych takich jak DAO czy też rekord aktywny; możemy
 używać modeli oraz funckjonalności sprawdzania ich poprawności; i tak dalej.
 

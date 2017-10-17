@@ -636,7 +636,7 @@ abstract class CActiveRecord extends CModel
 			return self::$db;
 		else
 		{
-			self::$db=Yii::app()->getDb();
+			self::$db=Yii::$app->getDb();
 			if(self::$db instanceof CDbConnection)
 				return self::$db;
 			else

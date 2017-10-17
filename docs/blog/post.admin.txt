@@ -75,7 +75,7 @@ In the `admin` data grid, there is a delete button in each row. Clicking on the 
 [php]
 public function actionDelete()
 {
-	if(Yii::app()->request->isPostRequest)
+	if(Yii::$app->request->isPostRequest)
 	{
 		// we only allow deletion via POST request
 		$this->loadModel()->delete();

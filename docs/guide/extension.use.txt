@@ -62,7 +62,7 @@ return array(
 );
 ~~~
 
-Then, we can access the component at any place using `Yii::app()->xyz`. The component
+Then, we can access the component at any place using `Yii::$app->xyz`. The component
 will be lazily created (that is, created when it is accessed for the first time)
 unless we list it the `preload` property.
 

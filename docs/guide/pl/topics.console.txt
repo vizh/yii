@@ -72,9 +72,9 @@ public function run($args) { ... }
 
 gdzie `$args` wskazuje na dodatkowe parametry podane w linii poleceń.
 
-W konsoli poleceń możemy używać `Yii::app()` w celu dostępu do instancji
+W konsoli poleceń możemy używać `Yii::$app` w celu dostępu do instancji
 aplikacji konsolowej za pomocą której możemy również uzyskać dostęp do połączeń 
-bazodanowych (np. `Yii::app()->db`). Można powiedzieć, że użyteczność jest bardzo
+bazodanowych (np. `Yii::$app->db`). Można powiedzieć, że użyteczność jest bardzo
 podobna do tego, co możemy zrobić w aplikacji sieciowej.
 
 > Info|Info: Poczynając od wersji 1.1.1, możemy również tworzyć globalne polecenia, 

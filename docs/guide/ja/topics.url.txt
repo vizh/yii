@@ -61,7 +61,7 @@ array(
 [CWebApplication] の中で [CUrlManager] であることがすでに宣言済みです。
 
 > Tip|ヒント: [createUrl|CController::createUrl] で生成される URL は相対 URL です。
-絶対 URL が必要な時は、`Yii::app()->request->hostInfo` を前置するか、[createAbsoluteUrl|CController::createAbsoluteUrl] をコールします。
+絶対 URL が必要な時は、`Yii::$app->request->hostInfo` を前置するか、[createAbsoluteUrl|CController::createAbsoluteUrl] をコールします。
 
 ユーザフレンドリーな URL
 ------------------

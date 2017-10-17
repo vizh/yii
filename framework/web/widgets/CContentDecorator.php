@@ -66,7 +66,7 @@ class CContentDecorator extends COutputProcessor
 	{
 		$owner=$this->getOwner();
 		if($this->view===null)
-			$viewFile=Yii::app()->getController()->getLayoutFile(null);
+			$viewFile=Yii::$app->getController()->getLayoutFile(null);
 		else
 			$viewFile=$owner->getViewFile($this->view);
 		if($viewFile!==false)

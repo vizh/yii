@@ -62,7 +62,7 @@ return array(
 );
 ~~~
 
-Następnie możemy uzyskać dostęp do komponentu w każdym miejscu używając `Yii::app()->xyz`.
+Następnie możemy uzyskać dostęp do komponentu w każdym miejscu używając `Yii::$app->xyz`.
 Komponent zostanie leniwie stworzony (to znaczy, będzie utworzony wtedy gdy zażądamy
 dostępu do niego po raz pierwszy) chyba, że wpiszemy go do właściwości `preload`.
 

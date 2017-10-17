@@ -347,13 +347,13 @@ class CGridView extends CBaseListView
 			$this->htmlOptions['class']='grid-view';
 
 		if($this->baseScriptUrl===null)
-			$this->baseScriptUrl=Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('zii.widgets.assets')).'/gridview';
+			$this->baseScriptUrl=Yii::$app->getAssetManager()->publish(Yii::getPathOfAlias('zii.widgets.assets')).'/gridview';
 
 		if($this->cssFile!==false)
 		{
 			if($this->cssFile===null)
 				$this->cssFile=$this->baseScriptUrl.'/styles.css';
-			Yii::app()->getClientScript()->registerCssFile($this->cssFile);
+			Yii::$app->getClientScript()->registerCssFile($this->cssFile);
 		}
 
 		$this->initColumns();
@@ -447,7 +447,7 @@ class CGridView extends CBaseListView
 			$options['url']=CHtml::normalizeUrl($this->ajaxUrl);
 		if($this->ajaxType!==null) {
 			$options['ajaxType']=strtoupper($this->ajaxType);
-			$request=Yii::app()->getRequest();
+			$request=Yii::$app->getRequest();
 			if ($options['ajaxType']=='POST' && $request->enableCsrfValidation) {
 				$options['csrfTokenName']=$request->csrfTokenName;
 				$options['csrfToken']=$request->getCsrfToken();
@@ -467,7 +467,7 @@ class CGridView extends CBaseListView
 		}
 
 		$options=CJavaScript::encode($options);
-		$cs=Yii::app()->getClientScript();
+		$cs=Yii::$app->getClientScript();
 		$cs->registerCoreScript('jquery');
 		$cs->registerCoreScript('bbq');
 		if($this->enableHistory)
@@ -657,7 +657,7 @@ class CGridView extends CBaseListView
 	public function getFormatter()
 	{
 		if($this->_formatter===null)
-			$this->_formatter=Yii::app()->format;
+			$this->_formatter=Yii::$app->format;
 		return $this->_formatter;
 	}
 

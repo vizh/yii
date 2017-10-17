@@ -65,7 +65,7 @@ class CLocalizedFormatter extends CFormatter
 	public function getLocale()
 	{
 		if($this->_locale === null) {
-			$this->setLocale(Yii::app()->locale);
+			$this->setLocale(Yii::$app->locale);
 		}
 		return $this->_locale;
 	}

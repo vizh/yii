@@ -214,13 +214,13 @@ class CListView extends CBaseListView
 			$this->htmlOptions['class']='list-view';
 
 		if($this->baseScriptUrl===null)
-			$this->baseScriptUrl=Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('zii.widgets.assets')).'/listview';
+			$this->baseScriptUrl=Yii::$app->getAssetManager()->publish(Yii::getPathOfAlias('zii.widgets.assets')).'/listview';
 
 		if($this->cssFile!==false)
 		{
 			if($this->cssFile===null)
 				$this->cssFile=$this->baseScriptUrl.'/styles.css';
-			Yii::app()->getClientScript()->registerCssFile($this->cssFile);
+			Yii::$app->getClientScript()->registerCssFile($this->cssFile);
 		}
 	}
 
@@ -261,7 +261,7 @@ class CListView extends CBaseListView
 		}
 
 		$options=CJavaScript::encode($options);
-		$cs=Yii::app()->getClientScript();
+		$cs=Yii::$app->getClientScript();
 		$cs->registerCoreScript('jquery');
 		$cs->registerCoreScript('bbq');
 		if($this->enableHistory)

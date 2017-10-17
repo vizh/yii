@@ -64,7 +64,7 @@ class CCodeFile extends CComponent
 	 */
 	public function save()
 	{
-		$module=Yii::app()->controller->module;
+		$module=Yii::$app->controller->module;
 		if($this->content===null)  // a directory
 		{
 			if(!is_dir($this->path))
@@ -115,8 +115,8 @@ class CCodeFile extends CComponent
 	 */
 	public function getRelativePath()
 	{
-		if(strpos($this->path,Yii::app()->basePath)===0)
-			return substr($this->path,strlen(Yii::app()->basePath)+1);
+		if(strpos($this->path,Yii::$app->basePath)===0)
+			return substr($this->path,strlen(Yii::$app->basePath)+1);
 		else
 			return $this->path;
 	}

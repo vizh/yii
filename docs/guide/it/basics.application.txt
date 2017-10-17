@@ -8,7 +8,7 @@ relative alla richiesta, ed indirizzarle ad un appropriato controller per essere
 Per questa ragione l'applicazione è chiamata anche `front-controller`.
 
 L'applicazione è istanziata come singleton attraverso l'[entry script](/doc/guide/basics.entry).
-Si può accedere al singleton d'ovunque tramite [Yii::app()|YiiBase::app].
+Si può accedere al singleton d'ovunque tramite [Yii::$app|YiiBase::app].
 
 
 Configurazione dell'applicazione
@@ -109,8 +109,8 @@ Qui sopra abbiamo aggiunto l'elemento `cache` all'array `components`.
 L'elemento `cache` determina che la classe del componente sia `CMemCache`
 e che la proprietà dei suoi server debba essere inizializzata in questo modo.
 
-Per accedere ad un componente, usa `Yii::app()->ComponentID`, dove
-`ComponentID` si riferisce all'ID del componente (es. `Yii::app()->cache`).
+Per accedere ad un componente, usa `Yii::$app->ComponentID`, dove
+`ComponentID` si riferisce all'ID del componente (es. `Yii::$app->cache`).
 
 Un componente può essere disabilitato impostando nella configurazione il
 parametro `enabled` come `false`. Quando si accede ad un componente disabilitato

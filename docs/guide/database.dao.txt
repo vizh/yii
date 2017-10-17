@@ -76,7 +76,7 @@ array(
 )
 ~~~
 
-We can then access the DB connection via `Yii::app()->db` which is already
+We can then access the DB connection via `Yii::$app->db` which is already
 activated automatically, unless we explictly configure
 [CDbConnection::autoConnect] to be false. Using this approach, the single
 DB connection can be shared in multiple places in our code.
@@ -122,7 +122,7 @@ using [CDbCommand]. One creates a [CDbCommand] instance by calling
 
 ~~~
 [php]
-$connection=Yii::app()->db;   // assuming you have configured a "db" connection
+$connection=Yii::$app->db;   // assuming you have configured a "db" connection
 // If not, you may explicitly create a connection:
 // $connection=new CDbConnection($dsn,$username,$password);
 $command=$connection->createCommand($sql);

@@ -63,7 +63,7 @@ class CHttpCacheFilter extends CFilter
 	public function preFilter($filterChain)
 	{
 		// Only cache GET and HEAD requests
-		if(!in_array(Yii::app()->getRequest()->getRequestType(), array('GET', 'HEAD')))
+		if(!in_array(Yii::$app->getRequest()->getRequestType(), array('GET', 'HEAD')))
 			return true;
 
 		$lastModified=$this->getLastModifiedValue();
@@ -180,7 +180,7 @@ class CHttpCacheFilter extends CFilter
 	 */
 	protected function send304Header()
 	{
-		$httpVersion=Yii::app()->request->getHttpVersion();
+		$httpVersion=Yii::$app->request->getHttpVersion();
 		header("HTTP/$httpVersion 304 Not Modified");
 	}
 
@@ -191,7 +191,7 @@ class CHttpCacheFilter extends CFilter
 	 */
 	protected function sendCacheControlHeader()
 	{
-		if(Yii::app()->session->isStarted)
+		if(Yii::$app->session->isStarted)
 		{
 			session_cache_limiter('public');
 			header('Pragma:',true);

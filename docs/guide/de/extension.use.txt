@@ -63,7 +63,7 @@ return array(
 );
 ~~~
 
-Nun kann in der gesamten Anwendung mit `Yii::app()->xyz` auf die
+Nun kann in der gesamten Anwendung mit `Yii::$app->xyz` auf die
 Komponente zugegriffen werden. Sie wird `lazy` ("faul", also beim ersten
 Zugriff darauf) erzeugt, es sei denn, sie wird in der Eigenschaft
 `preload` aufgeführt.

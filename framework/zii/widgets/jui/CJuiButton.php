@@ -101,7 +101,7 @@ class CJuiButton extends CJuiInputWidget
 	 */
 	public function run()
 	{
-		$cs=Yii::app()->getClientScript();
+		$cs=Yii::$app->getClientScript();
 		list($name,$id)=$this->resolveNameID();
 
 		if(isset($this->htmlOptions['id']))

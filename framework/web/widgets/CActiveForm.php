@@ -132,7 +132,7 @@
  *     if(isset($_POST['ajax']) && $_POST['ajax']==='user-form')
  *     {
  *         echo CActiveForm::validate($model);
- *         Yii::app()->end();
+ *         Yii::$app->end();
  *     }
  * }
  * </pre>
@@ -260,7 +260,7 @@ class CActiveForm extends CWidget
 	 *     if(isset($_POST['ajax']) && $_POST['ajax']==='user-form')
 	 *     {
 	 *         echo CActiveForm::validate($model);
-	 *         Yii::app()->end();
+	 *         Yii::$app->end();
 	 *     }
 	 *     ......
 	 * }
@@ -346,7 +346,7 @@ class CActiveForm extends CWidget
 			$this->focus="#".CHtml::activeId($this->focus[0],$this->focus[1]);
 
 		echo CHtml::endForm();
-		$cs=Yii::app()->clientScript;
+		$cs=Yii::$app->clientScript;
 		if(!$this->enableAjaxValidation && !$this->enableClientValidation || empty($this->attributes))
 		{
 			if($this->focus!==null)

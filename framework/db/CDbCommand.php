@@ -31,7 +31,7 @@
  * Starting from version 1.1.6, CDbCommand can also be used as a query builder
  * that builds a SQL statement from code fragments. For example,
  * <pre>
- * $user = Yii::app()->db->createCommand()
+ * $user = Yii::$app->db->createCommand()
  *     ->select('username, password')
  *     ->from('tbl_user')
  *     ->where('id=:id', array(':id'=>1))
@@ -486,7 +486,7 @@ class CDbCommand extends CComponent
 		if($this->_connection->queryCachingCount>0 && $method!==''
 				&& $this->_connection->queryCachingDuration>0
 				&& $this->_connection->queryCacheID!==false
-				&& ($cache=Yii::app()->getComponent($this->_connection->queryCacheID))!==null)
+				&& ($cache=Yii::$app->getComponent($this->_connection->queryCacheID))!==null)
 		{
 			$this->_connection->queryCachingCount--;
 			$cacheKey='yii:dbquery'.':'.$method.':'.$this->_connection->connectionString.':'.$this->_connection->username;

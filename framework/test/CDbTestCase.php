@@ -83,7 +83,7 @@ abstract class CDbTestCase extends CTestCase
 	 */
 	public function getFixtureManager()
 	{
-		return Yii::app()->getComponent('fixture');
+		return Yii::$app->getComponent('fixture');
 	}
 
 	/**

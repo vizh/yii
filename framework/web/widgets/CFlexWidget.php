@@ -97,7 +97,7 @@ class CFlexWidget extends CWidget
 	 */
 	public function registerClientScript()
 	{
-		$cs=Yii::app()->getClientScript();
+		$cs=Yii::$app->getClientScript();
 		$cs->registerScriptFile($this->baseUrl.'/AC_OETags.js');
 
 		if($this->enableHistory)

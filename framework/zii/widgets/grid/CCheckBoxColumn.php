@@ -182,7 +182,7 @@ jQuery(document).on('click', "input[name='$name']", function() {
 	$cbcode
 });
 EOD;
-			Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$this->id,$js);
+			Yii::$app->getClientScript()->registerScript(__CLASS__.'#'.$this->id,$js);
 		}
 	}
 

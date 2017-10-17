@@ -98,7 +98,7 @@ class m101129_185401_create_news_table extends CDbMigration
 }
 ~~~
 
-Kelas dasar [CDbMigration] menyediakan sekumpulan method untuk manipulasi data dan skema database. Misalnya, [CDbMigration::createTable] akan membuat table database, sedangkan [CDbMigration::insert] akan menyisipkan sebuah baris data. Method-method ini semuanya menggunakan koneksi database yang dikembalikan oleh [CDbMigration::getDbConnection()], yang secara default akan mengembalikan `Yii::app()->db`.
+Kelas dasar [CDbMigration] menyediakan sekumpulan method untuk manipulasi data dan skema database. Misalnya, [CDbMigration::createTable] akan membuat table database, sedangkan [CDbMigration::insert] akan menyisipkan sebuah baris data. Method-method ini semuanya menggunakan koneksi database yang dikembalikan oleh [CDbMigration::getDbConnection()], yang secara default akan mengembalikan `Yii::$app->db`.
 
 > Info|Catatan: Kamu mungkin menyadari bahwa method-method database yang disediakan oleh [CDbMigration] sangat mirip dengan method-method di [CDbCommand]. Memang mereka hampir sama kecuali method [CDbMigration] akan mengukur waktu yang digunakan oleh methodnya dan mencetak beberapa pesan tentang parameter method.
 

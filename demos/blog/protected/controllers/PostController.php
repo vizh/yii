@@ -98,7 +98,7 @@ class PostController extends Controller
 	 */
 	public function actionDelete()
 	{
-		if(Yii::app()->request->isPostRequest)
+		if(Yii::$app->request->isPostRequest)
 		{
 			// we only allow deletion via POST request
 			$this->loadModel()->delete();
@@ -126,7 +126,7 @@ class PostController extends Controller
 
 		$dataProvider=new CActiveDataProvider('Post', array(
 			'pagination'=>array(
-				'pageSize'=>Yii::app()->params['postsPerPage'],
+				'pageSize'=>Yii::$app->params['postsPerPage'],
 			),
 			'criteria'=>$criteria,
 		));
@@ -173,7 +173,7 @@ class PostController extends Controller
 		{
 			if(isset($_GET['id']))
 			{
-				if(Yii::app()->user->isGuest)
+				if(Yii::$app->user->isGuest)
 					$condition='status='.Post::STATUS_PUBLISHED.' OR status='.Post::STATUS_ARCHIVED;
 				else
 					$condition='';
@@ -199,7 +199,7 @@ class PostController extends Controller
 		if(isset($_POST['ajax']) && $_POST['ajax']==='comment-form')
 		{
 			echo CActiveForm::validate($comment);
-			Yii::app()->end();
+			Yii::$app->end();
 		}
 		if(isset($_POST['Comment']))
 		{
@@ -207,7 +207,7 @@ class PostController extends Controller
 			if($post->addComment($comment))
 			{
 				if($comment->status==Comment::STATUS_PENDING)
-					Yii::app()->user->setFlash('commentSubmitted','Thank you for your comment. Your comment will be posted once it is approved.');
+					Yii::$app->user->setFlash('commentSubmitted','Thank you for your comment. Your comment will be posted once it is approved.');
 				$this->refresh();
 			}
 		}

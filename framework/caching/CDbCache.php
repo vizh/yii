@@ -149,7 +149,7 @@ EOD;
 			return $this->_db;
 		elseif(($id=$this->connectionID)!==null)
 		{
-			if(($this->_db=Yii::app()->getComponent($id)) instanceof CDbConnection)
+			if(($this->_db=Yii::$app->getComponent($id)) instanceof CDbConnection)
 				return $this->_db;
 			else
 				throw new CException(Yii::t('yii','CDbCache.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.',
@@ -157,7 +157,7 @@ EOD;
 		}
 		else
 		{
-			$dbFile=Yii::app()->getRuntimePath().DIRECTORY_SEPARATOR.'cache-'.Yii::getVersion().'.db';
+			$dbFile=Yii::$app->getRuntimePath().DIRECTORY_SEPARATOR.'cache-'.Yii::getVersion().'.db';
 			return $this->_db=new CDbConnection('sqlite:'.$dbFile);
 		}
 	}

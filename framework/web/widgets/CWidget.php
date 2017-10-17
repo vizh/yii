@@ -91,7 +91,7 @@ class CWidget extends CBaseController
 	 */
 	public function __construct($owner=null)
 	{
-		$this->_owner=$owner===null?Yii::app()->getController():$owner;
+		$this->_owner=$owner===null?Yii::$app->getController():$owner;
 	}
 
 	/**
@@ -134,7 +134,7 @@ class CWidget extends CBaseController
 		if($this->_owner instanceof CController)
 			return $this->_owner;
 		else
-			return Yii::app()->getController();
+			return Yii::$app->getController();
 	}
 
 	/**
@@ -170,7 +170,7 @@ class CWidget extends CBaseController
 			return self::$_viewPaths[$className][$scope];
 		else
 		{
-			if($checkTheme && ($theme=Yii::app()->getTheme())!==null)
+			if($checkTheme && ($theme=Yii::$app->getTheme())!==null)
 			{
 				$path=$theme->getViewPath().DIRECTORY_SEPARATOR;
 				if(strpos($className,'\\')!==false) // namespaced class
@@ -199,7 +199,7 @@ class CWidget extends CBaseController
 	 */
 	public function getViewFile($viewName)
 	{
-		if(($renderer=Yii::app()->getViewRenderer())!==null)
+		if(($renderer=Yii::$app->getViewRenderer())!==null)
 			$extension=$renderer->fileExtension;
 		else
 			$extension='.php';
@@ -209,16 +209,16 @@ class CWidget extends CBaseController
 		{
 			$viewFile=$this->getViewPath(true).DIRECTORY_SEPARATOR.$viewName;
 			if(is_file($viewFile.$extension))
-				return Yii::app()->findLocalizedFile($viewFile.$extension);
+				return Yii::$app->findLocalizedFile($viewFile.$extension);
 			elseif($extension!=='.php' && is_file($viewFile.'.php'))
-				return Yii::app()->findLocalizedFile($viewFile.'.php');
+				return Yii::$app->findLocalizedFile($viewFile.'.php');
 			$viewFile=$this->getViewPath(false).DIRECTORY_SEPARATOR.$viewName;
 		}
 
 		if(is_file($viewFile.$extension))
-			return Yii::app()->findLocalizedFile($viewFile.$extension);
+			return Yii::$app->findLocalizedFile($viewFile.$extension);
 		elseif($extension!=='.php' && is_file($viewFile.'.php'))
-			return Yii::app()->findLocalizedFile($viewFile.'.php');
+			return Yii::$app->findLocalizedFile($viewFile.'.php');
 		else
 			return false;
 	}

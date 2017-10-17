@@ -17,7 +17,7 @@ Bagian utama dari kerangka kerja auth Yii adalah pra-deklarasi *komponen
 aplikasi user*, berupa obyek yang mengimplementasikan antar muka [IWebUser].
 Komponen user mewakili informasi identitas bagi pengguna saat ini. Kita dapat
 mengaksesnya di mana saja menggunakan
-`Yii::app()->user`.
+`Yii::$app->user`.
 
 Memanfaatkan komponen user, kita dapat memeriksa apakah pengguna sudah masuk atau tidak via
 [CWebUser::isGuest]; kita bisa [memasukan|CWebUser::login] dan
@@ -76,7 +76,7 @@ class UserIdentity extends CUserIdentity
 ~~~
 
 Ketika kita memahami login dan logout di bagian berikutnya, kita akan melihat bahwa kita pass kelas identity ini ke metode login untuk seorang user. Informasi yang disimpan dalam sebuah state(dengan memanggil [CBaseUserIdentity::setState]) akan di-pass ke [CWebUser] yang menyimpannya dalam bentuk penyimpanan permanen (persistent), seperti misalnya sesi.
-Informasi ini dapat diakses seperti properti [CWebUser]. Sebagai contoh, kita menyimpan informasi title user via `$this->setState('title', $record->title);`. Begitu kita sudah menyelesaikan proses login kita, maka kita dapat mengambil informasi `title` dari user sekarang dengan menggunakan `Yii::app()->user->title`.
+Informasi ini dapat diakses seperti properti [CWebUser]. Sebagai contoh, kita menyimpan informasi title user via `$this->setState('title', $record->title);`. Begitu kita sudah menyelesaikan proses login kita, maka kita dapat mengambil informasi `title` dari user sekarang dengan menggunakan `Yii::$app->user->title`.
 
 > Info: Secara default, [CWebUser] menggunakan sesi sebagai penyimpanan permanen atas informasi
 identitas pengguna. Jika login berbasis-cookie dihidupkan (dengan menyetel
@@ -94,17 +94,17 @@ Sekarang kita telah melihat contoh dari pembuatan sebuah identitas user, kita me
 // Masukkan pengguna dengan username dan password yang disediakan.
 $identity=new UserIdentity($username,$password);
 if($identity->authenticate())
-	Yii::app()->user->login($identity);
+	Yii::$app->user->login($identity);
 else
 	echo $identity->errorMessage;
 ......
 // Logout-kan pengguna saat ini
-Yii::app()->user->logout();
+Yii::$app->user->logout();
 ~~~
 
 Di sini kita akan membuat sebuah kelas UserIdentity yang baru dan pass ke dalam data rahasia (seperti nilai `$username` dan `$password` yang di-submit oleh user) ke constructor. Kita cukup memanggil fungsi metode authenticate(). Jika sukses, kita akan pass informasi identitas ke metode [CWebUser::login], yang akan menyimpan informasi identitas ke tempat penyimpanan tetap (persistent) (secara default adalah sesi PHP) untuk mengambil pada saat request berikutnya. JIka otentikasi gagal, kita akan menanyakan properti `errorMessage` untuk informasi lebih lajut mengapa bisa gagal.
 
-Apakah seorang user sudah terotentikasi atau belum dapat diperiksa dengan mudah melalui penggunaan `Yii::app()->user->isGuest`. Jika menggunakan penyimpanan tetap (persistent) seperti sesi dan/atau cookie (akan dibahas di bawah) untuk menyimpan informasi identitas, seorang user dapat tetap dalam keadaan login pada request berikutnya. Pada kasus ini, kita tidak perlu kelas UserIdentity dan seluruh proses login pada request selanjutnya. Namun CWebUser yang akan secara otomatis mengurus pengisian informasi identitas dari tempat penyimpanan tetap dan menggunakannya untuk menentukan apakah `Yii::app()->user->isGuest` akan mengembalikan true atau false.
+Apakah seorang user sudah terotentikasi atau belum dapat diperiksa dengan mudah melalui penggunaan `Yii::$app->user->isGuest`. Jika menggunakan penyimpanan tetap (persistent) seperti sesi dan/atau cookie (akan dibahas di bawah) untuk menyimpan informasi identitas, seorang user dapat tetap dalam keadaan login pada request berikutnya. Pada kasus ini, kita tidak perlu kelas UserIdentity dan seluruh proses login pada request selanjutnya. Namun CWebUser yang akan secara otomatis mengurus pengisian informasi identitas dari tempat penyimpanan tetap dan menggunakannya untuk menentukan apakah `Yii::$app->user->isGuest` akan mengembalikan true atau false.
 
 Cookie-based Login
 ----------------------------------
@@ -121,13 +121,13 @@ fitur ini mengharuskan browser pengguna untuk menerima cookie.
 [php]
 // Biarkan pengguna tetap masuk selama 7 hari.
 // Pastikan allowAutoLogin disetel true pada komponen user.
-Yii::app()->user->login($identity,3600*24*7);
+Yii::$app->user->login($identity,3600*24*7);
 ~~~
 
 Seperti yang kami singgung di atas, ketika kita mengaktifkan login berbasis cookie, 
 state-state yang disimpan melalui [CBaseUserIdentity::setState] akan disimpan juga ke dalam cookie.
 Ketika lain kali user tersebut login kembali, state-state ini akan dibaca dari
-cookie dan menjadi dapat diakses melalui `Yii::app()->user`.
+cookie dan menjadi dapat diakses melalui `Yii::$app->user`.
 
 Walaupun Yii telah mempersiapkan beberapa pencegahan kemungkinan nilai state cookie dimanipulasi
 pada bagian client, kami sangat menyarankan informasi yang sensitif tidak disimpan
@@ -286,7 +286,7 @@ ini.
 
    - [ekspresi|CAccessRule::expression]: menetapkan ekspresi PHP yang nilainya menunjukan
 apakah aturan ini sesuai atau tidak. Dalam ekspresi, Anda dapat menggunakan variabel `$user`
-yang merujuk ke `Yii::app()->user`.
+yang merujuk ke `Yii::$app->user`.
 
 
 Menangani Hasil Otorisasi
@@ -331,7 +331,7 @@ berikut:
 
 ~~~
 [php]
-Yii::app()->request->redirect(Yii::app()->user->returnUrl);
+Yii::$app->request->redirect(Yii::$app->user->returnUrl);
 ~~~
 
 Kontrol Akses Berbasis-Role
@@ -397,7 +397,7 @@ penempatan, ini bisa dikerjakan dengan mudah seperti berikut:
 
 ~~~
 [php]
-if(Yii::app()->user->checkAccess('deletePost'))
+if(Yii::$app->user->checkAccess('deletePost'))
 {
 	// hapus tulisan
 }
@@ -433,7 +433,7 @@ return array(
 ~~~
 
 Selanjutnya kita dapat mengakses komponen aplikasi [authManager|CWebApplication::authManager]
-menggunakan `Yii::app()->authManager`.
+menggunakan `Yii::$app->authManager`.
 
 Mendefinisikan Hirarki Otorisasi
 ------------------------------------------------------
@@ -470,14 +470,14 @@ API yang sudah disediakan:
 
 ~~~
 [php]
-$auth=Yii::app()->authManager;
+$auth=Yii::$app->authManager;
 
 $auth->createOperation('createPost','create a post');
 $auth->createOperation('readPost','read a post');
 $auth->createOperation('updatePost','update a post');
 $auth->createOperation('deletePost','delete a post');
 
-$bizRule='return Yii::app()->user->id==$params["post"]->authID;';
+$bizRule='return Yii::$app->user->id==$params["post"]->authID;';
 $task=$auth->createTask('updateOwnPost','update a post by author himself',$bizRule);
 $task->addChild('updatePost');
 
@@ -530,7 +530,7 @@ pemeriksaan akses:
 
 ~~~
 [php]
-if(Yii::app()->user->checkAccess('createPost'))
+if(Yii::$app->user->checkAccess('createPost'))
 {
 	// buat post
 }
@@ -543,7 +543,7 @@ memeriksa apakah pengguna dapat memutakhirkan sebuah tulisan, kita akan melakuka
 ~~~
 [php]
 $params=array('post'=>$post);
-if(Yii::app()->user->checkAccess('updateOwnPost',$params))
+if(Yii::$app->user->checkAccess('updateOwnPost',$params))
 {
 	// mengupdate tulisan
 }
@@ -586,10 +586,10 @@ para pengguna terotentikasi dan pengunjung.
 
 ~~~
 [php]
-$bizRule='return !Yii::app()->user->isGuest;';
+$bizRule='return !Yii::$app->user->isGuest;';
 $auth->createRole('authenticated', 'authenticated user', $bizRule);
 
-$bizRule='return Yii::app()->user->isGuest;';
+$bizRule='return Yii::$app->user->isGuest;';
 $auth->createRole('guest', 'guest user', $bizRule);
 ~~~
 

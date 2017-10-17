@@ -92,14 +92,14 @@ EOD;
 			echo $this->getHelp();
 			return 1;
 		}
-		$module=Yii::app();
+		$module=Yii::$app;
 		$modelClass=$args[0];
 		if(($pos=strpos($modelClass,'.'))===false)
 			$modelClass='application.models.'.$modelClass;
 		else
 		{
 			$id=substr($modelClass,0,$pos);
-			if(($m=Yii::app()->getModule($id))!==null)
+			if(($m=Yii::$app->getModule($id))!==null)
 				$module=$m;
 		}
 		$modelClass=Yii::import($modelClass);
@@ -124,7 +124,7 @@ EOD;
 				$controllerClass=ucfirst($last).'Controller';
 				$controllerFile=($middle===''?'':$middle.'/').$controllerClass.'.php';
 				$controllerID=$middle===''?$last:$middle.'/'.$last;
-				if(($m=Yii::app()->getModule($first))!==null)
+				if(($m=Yii::$app->getModule($first))!==null)
 					$module=$m;
 				else
 				{

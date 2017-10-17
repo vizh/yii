@@ -56,7 +56,7 @@ array(
 
 זכור שאנו לא צריכים לציין את שם המחלקה של הרכיב [urlManager|CWebApplication::urlManager] מאחר והוא כבר מוגדר מראש כ-[CUrlManager] ב [CWebApplication].
 
-» Tip|טיפ: הקישורים הנוצרים על ידי המתודה [createUrl|CController::createUrl] הם קישורים יחסיים (רלטיביים ללא ה //:http ). כדי לקבל את הקישור המלא (הכולל את //:http) אנו יכולים להשתמש ב `Yii::app()-»hostInfo` לפני שאנו קוראים למתודה [createUrl|CController::createUrl], או לקרוא למתודה [createAbsoluteUrl|CController::createAbsoluteUrl].
+» Tip|טיפ: הקישורים הנוצרים על ידי המתודה [createUrl|CController::createUrl] הם קישורים יחסיים (רלטיביים ללא ה //:http ). כדי לקבל את הקישור המלא (הכולל את //:http) אנו יכולים להשתמש ב `Yii::$app-»hostInfo` לפני שאנו קוראים למתודה [createUrl|CController::createUrl], או לקרוא למתודה [createAbsoluteUrl|CController::createAbsoluteUrl].
 
 קישורים ידידותיים
 ------------------

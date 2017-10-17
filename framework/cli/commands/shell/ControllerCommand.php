@@ -86,7 +86,7 @@ EOD;
 			return 1;
 		}
 
-		$module=Yii::app();
+		$module=Yii::$app;
 		$controllerID=$args[0];
 		if(($pos=strrpos($controllerID,'/'))===false)
 		{
@@ -105,7 +105,7 @@ EOD;
 			$controllerClass=ucfirst($last).'Controller';
 			$controllerFile=($middle===''?'':$middle.'/').$controllerClass.'.php';
 			$controllerID=$middle===''?$last:$middle.'/'.$last;
-			if(($m=Yii::app()->getModule($first))!==null)
+			if(($m=Yii::$app->getModule($first))!==null)
 				$module=$m;
 			else
 			{

@@ -9,7 +9,7 @@
 
 要啟動一個主題，設置 Web 應用程式的屬性 [theme|CWebApplication::theme] 為你所要的名字。可以在 [application configuration](/doc/guide/basics.application#application-configuration)中配置或者在執行過程中在控制器的動作裡面修改。
 
-> 註：主題名稱是區分大小寫的。如果您嘗試啟動一個不存在的主題，`Yii::app()->theme` 將返回 `null`。
+> 註：主題名稱是區分大小寫的。如果您嘗試啟動一個不存在的主題，`Yii::$app->theme` 將返回 `null`。
 
 主題目錄裡面內容的組織方式和 [application base path](/doc/guide/basics.application#application-base-directory)目錄下的組織方式一樣。例如，所有的視圖檔案必須位於 `views` 下 ，佈局視圖檔案在 `views/layouts` 下 ，系統視圖檔案在 `views/system` 下。例如，如果我們要替換 `PostController` 的 `create` 視圖檔案為 `classic` 主題，我們將儲存新的視圖檔案為 `WebRoot/themes/classic/views/post/create.php`。
 
@@ -23,7 +23,7 @@
 
 > ~~~
 > [php]
-> Yii::app()->theme->baseUrl . '/images/FileName.gif'
+> Yii::$app->theme->baseUrl . '/images/FileName.gif'
 > ~~~
 >
 

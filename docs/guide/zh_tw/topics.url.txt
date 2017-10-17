@@ -57,7 +57,7 @@ array(
 
 請注意，我們不需要指定的 [urlManager|CWebApplication::urlManager] 元件的類別，因為它在 [CWebApplication] 事先宣告為[CUrlManager]。
 
-> 提示：此網址通過 [createUrl|CController::createUrl] 方法所產生的是一個相對地址。為了得到一個絕對的 URL ，我們可以用前綴 `Yii::app()->hostInfo`，或調用 [createAbsoluteUrl|CController::createAbsoluteUrl]。
+> 提示：此網址通過 [createUrl|CController::createUrl] 方法所產生的是一個相對地址。為了得到一個絕對的 URL ，我們可以用前綴 `Yii::$app->hostInfo`，或調用 [createAbsoluteUrl|CController::createAbsoluteUrl]。
 
 
 使用者友善的 URL

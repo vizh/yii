@@ -62,7 +62,7 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 	{
 		parent::init();
 		if($this->stateFile===null)
-			$this->stateFile=Yii::app()->getRuntimePath().DIRECTORY_SEPARATOR.'state.bin';
+			$this->stateFile=Yii::$app->getRuntimePath().DIRECTORY_SEPARATOR.'state.bin';
 		$dir=dirname($this->stateFile);
 		if(!is_dir($dir) || !is_writable($dir))
 			throw new CException(Yii::t('yii','Unable to create application state file "{file}". Make sure the directory containing the file exists and is writable by the Web server process.',
@@ -76,7 +76,7 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 	public function load()
 	{
 		$stateFile=$this->stateFile;
-		if($this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
+		if($this->cacheID!==false && ($cache=Yii::$app->getComponent($this->cacheID))!==null)
 		{
 			$cacheKey='Yii.CStatePersister.'.$stateFile;
 			if(($value=$cache->get($cacheKey))!==false)

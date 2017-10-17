@@ -67,7 +67,7 @@ array(
 )
 ~~~
 
-然後我們就可以通過 `Yii::app()->db` 存取資料庫連接了。它已經被自動啟動了，除非我們特意配置了 
+然後我們就可以通過 `Yii::$app->db` 存取資料庫連接了。它已經被自動啟動了，除非我們特意配置了
 [CDbConnection::autoConnect] 為 false。通過這種方式，這個單獨的資料庫連接就可以在我們程式碼中的很多地方共享。
 
 
@@ -79,7 +79,7 @@ array(
 
 ~~~
 [php]
-$connection=Yii::app()->db;   // 假設你已經建立了一個 "db" 連接
+$connection=Yii::$app->db;   // 假設你已經建立了一個 "db" 連接
 // 如果沒有，你可能需要建立一個連接：
 // $connection=new CDbConnection($dsn,$username,$password);
 $command=$connection->createCommand($sql);

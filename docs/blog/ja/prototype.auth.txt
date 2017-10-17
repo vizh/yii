@@ -73,7 +73,7 @@ class User extends CActiveRecord
 }
 ~~~
 
-`UserIdentity` クラスでは、`getId()` メソッドをオーバーライドして、`tbl_user` テーブルから見つかったユーザの `id` を返すようにしています。元の実装では、代わりにユーザ名を返すようになっていました。`username` と `id` プロパティはともにユーザセッションに保存され、コードのどこからでも `Yii::app()->user` でアクセスすることが可能です。
+`UserIdentity` クラスでは、`getId()` メソッドをオーバーライドして、`tbl_user` テーブルから見つかったユーザの `id` を返すようにしています。元の実装では、代わりにユーザ名を返すようになっていました。`username` と `id` プロパティはともにユーザセッションに保存され、コードのどこからでも `Yii::$app->user` でアクセスすることが可能です。
 
 > Tip|ヒント: `UserIdentity` クラスにおいては、対応するクラスファイルを明示的に読み込むことなく [CUserIdentity] を参照しています。 これは [CUserIdentity] が Yii framework のコアクラスであるためです。Yii は任意のコアクラスが最初に参照されたときに、自動的にそのクラスファイルを読み込みます。
 >
@@ -102,7 +102,7 @@ $identity->authenticate();
 switch($identity->errorCode)
 {
 	case UserIdentity::ERROR_NONE:
-		Yii::app()->user->login($identity);
+		Yii::$app->user->login($identity);
 		break;
 	......
 }

@@ -70,7 +70,7 @@ class CJuiDialog extends CJuiWidget
 			$this->htmlOptions['id']=$id;
 
 		$options=CJavaScript::encode($this->options);
-		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').dialog($options);");
+		Yii::$app->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').dialog($options);");
 
 		echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
 	}
