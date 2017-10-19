@@ -26,26 +26,6 @@ performa karena beberapa komponen menimbulkan beban ekstra dalam debug mode.
 Sebagai contoh, pencatat pesan bisa merekam informasi debug tambahan untuk
 setiap pesan yang sedang dicatat.
 
-Menggunakan `yiilite.php`
--------------------------
-
-Saat [extension PHP APC](http://www.php.net/manual/en/book.apc.php) dihidupkan,
-kita dapat mengganti `yii.php` dengan file bootstrap Yii yang berbeda bernama
-`yiilite.php` untuk lebih meningkatkan performa aplikasi berbasis-Yii.
-
-File `yiilite.php` ada di setiap rilis Yii. Ini adalah hasil penggabungan
-beberapa file kelas Yii yang umumnya dipakai. Baik komentar maupun pernyataan
-trace dibuang dari file gabungan. Oleh karena itu, menggunakan
-`yiilite.php` akan mengurangi jumlah file yang disertakan dan menghindari
-eksekusi statement trace.
-
-Harap dicatat, pemakaian `yiilite.php` tanpa APC sebenarnya dapat mengurangi performa,
-karena `yiilite.php` berisi beberapa kelas yang tidak dipakai
-dalam setiap permintaan dan akan memerlukan waktu penguraian tambahan. Juga sudah diobservasi bahwa
-pemakaian `yiilite.php` lebih lambat pada beberapa konfigurasi server, bahkan saat
-APC dihidupkan. Cara terbaik untuk menilai apakah menggunakan `yiilite.php` atau tidak
-adalah dengan menjalankan benchmark menggunakan demo `hello world` yang disertakan.
-
 Menggunakan Teknik Cache
 ------------------------
 

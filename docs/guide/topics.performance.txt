@@ -26,26 +26,6 @@ performance because some components cause extra burden in debug mode. For
 example, the message logger may record additional debug information for
 every message being logged.
 
-Using `yiilite.php`
--------------------
-
-When the [PHP APC extension](http://www.php.net/manual/en/book.apc.php) is
-enabled, we can replace `yii.php` with a different Yii bootstrap file named
-`yiilite.php` to further boost the performance of a Yii-powered application.
-
-The file `yiilite.php` comes with every Yii release. It is the result of
-merging some commonly used Yii class files. Both comments and trace
-statements are stripped from the merged file. Therefore, using
-`yiilite.php` would reduce the number of files being included and avoid
-execution of trace statements.
-
-Note, using `yiilite.php` without APC may actually reduce performance,
-because `yiilite.php` contains some classes that are not necessarily used
-in every request and would take extra parsing time. It is also observed that
-using `yiilite.php` is slower with some server configurations, even when
-APC is turned on. The best way to judge whether to use `yiilite.php` or not
-is to run a benchmark using the included `hello world` demo.
-
 Using Caching Techniques
 ------------------------
 
