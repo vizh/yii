@@ -31,30 +31,6 @@ einige Komponenten in diesem Modus zusätzlichen Aufwand verursachen. So loggt
 zum Beispiel der Logger zusätzliche Debug-Informationen mit jeder
 geloggten Meldung.
 
-Verwenden von `yiilite.php`
----------------------------
-
-Falls die [APC-Erweiterung](http://www.php.net/manual/en/book.apc.php) von PHP
-aktiviert wurde, können wir `yii.php` durch eine andere Startdatei namens
-`yiilite.php` ersetzen, um die Leistungsfähigkeit einer Yii-Anwendung weiter
-zu erhöhen.
-
-Die Datei `yiilite.php` ist in jeder Yii-Version enthalten. In ihr sind einige 
-häufig verwendete Klassendateien von Yii zusammengefasst. Sowohl Kommentare
-als auch trace-Anweisungen wurden entfernt. Der Einsatz von `yiilite.php`
-minimiert also die Anzahl einzubindender Dateien und verhindert die Ausführung
-der trace-Anweisungen.
-
-Beachten Sie, dass der Einsatz von `yiilite.php` ohne APC die
-Performance sogar verringern kann, da `yiilite.php` einige Klassen
-enthält, die nicht notwendigerweise bei jedem Request verwendet werden und
-somit zusätzliche Zeit für deren Auswertung benötigt wird. In einigen
-Serverkonfiguration wurde außerdem beobachtet, dass `yiilite.php` selbst mit
-aktiviertem APC langsamer ist. Um zu entscheiden, ob
-`yiilite.php` eingesetzt wird oder nicht, führt man am besten einen Benchmark
-mit dem enthaltenen `hello world`-Demo durch.
-
-
 Einsatz von Cache-Techniken
 ---------------------------
 
