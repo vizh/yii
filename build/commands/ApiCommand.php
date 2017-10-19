@@ -68,7 +68,6 @@ EOD;
 			'fileTypes'=>array('php'),
 			'exclude'=>array(
 				'.gitignore',
-				'/yiilite.php',
 				'/yiit.php',
 				'/cli',
 				'/i18n/data',
