@@ -26,6 +26,27 @@ eftersom vissa komponenter orsakar extra arbete i debugläge. Till exempel
 meddelandeloggaren kan behöva registrera tillkommande debuginformation för varje 
 meddelande som loggas.
 
+Använd `yiilite.php`
+--------------------
+
+När [PHP:s APC-tillägg](http://www.php.net/manual/en/book.apc.php) är påslaget, 
+kan vi ersätta `yii.php` med en annan bootstrapfil för Yii, `yiilite.php`, för 
+att ytterligare förbättra prestanda i en Yii-driven applikation.
+
+Filen `yiilite.php` kommer med i varje Yii-release. Den är resultatet av en 
+sammanslagning av några vanligen använda Yii-klassfiler. Både kommentarer och 
+trace-satser tas bort ur den sammanslagna filen. Därför reducerar man genom att 
+använda `yiilite.php` antalet filer som behöver inkluderas, samt undviker 
+exekvering av trace-satser.
+
+Lägg märke till att användning av `yiilite.php` utan APC faktiskt kan försämra 
+prestanda, eftersom `yiilite.php` innehåller klasser som inte nödvändigtvis 
+används i varje request men som tar upp extra parsningstid. Det har också observerats 
+att användning av `yiilite.php` är långsammare i vissa serverkonfigurationer, 
+även när APC är påslagen. Bästa sättet att avgöra huruvida `yiilite.php` skall 
+användas eller inte, är att köra en benchmark med den medföljande `hello world`-
+demoapplikationen.
+
 Använda cachningsmetoder
 ------------------------
 

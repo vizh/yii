@@ -12,6 +12,7 @@ return array(
 	'exclude'=>array(
 		'.svn',
 		'.gitignore',
+		'yiilite.php',
 		'yiit.php',
 		'/i18n/data',
 		'/messages',
