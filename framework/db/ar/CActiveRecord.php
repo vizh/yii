@@ -62,6 +62,10 @@ abstract class CActiveRecord extends CModel
 	private $_pk;								// old primary key value
 	private $_alias='t';						// the table alias being used for query
 
+    /**
+     * @var string[][]|null
+     */
+    private $_ctx;
 
 	/**
 	 * Constructor.
@@ -1446,6 +1450,28 @@ abstract class CActiveRecord extends CModel
 		$this->_alias=$alias;
 	}
 
+    /**
+     * @param string $name
+     *
+     * @return \CActiveRecord
+     * @since 1.1.20
+     */
+    public function addSerializationContext(string... $names): self
+    {
+        $attributes = $this->getMetaData()->columns;
+
+        foreach ($names as $name) {
+            if (isset($attributes[$name]))
+                $this->_ctx['attributes'][] = $name;
+            elseif (isset($this->_related[$name]))
+                $this->_ctx['relations'][] = $name;
+            elseif (parent::__isset($name))
+                $this->_ctx['methods'][] = $name;
+        }
+
+        return $this;
+    }
+
 	/**
 	 * Finds a single active record with the specified condition.
 	 * @param mixed $condition query condition or criteria.
@@ -1869,6 +1895,7 @@ abstract class CActiveRecord extends CModel
 					$record->_attributes[$name]=$value;
 			}
 			$record->_pk=$record->getPrimaryKey();
+			$record->_ctx = $this->_ctx;
 			$record->attachBehaviors($record->behaviors());
 			if($callAfterFind)
 				$record->afterFind();
@@ -1929,6 +1956,33 @@ abstract class CActiveRecord extends CModel
 	public function offsetExists($offset)
 	{
 		return $this->__isset($offset);
+	}
+
+    /**
+     * Specify data which should be serialized to JSON
+     *
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    public function jsonSerialize()
+    {
+        $result = [];
+
+        if (isset($this->_ctx['attributes']))
+            foreach ($this->_ctx['attributes'] as $name)
+                $result[$name] = $this->_attributes[$name];
+
+        if (isset($this->_ctx['methods']))
+            foreach ($this->_ctx['methods'] as $name)
+                $result[$name] = parent::__get($name);
+
+        if (isset($this->_ctx['relations']))
+            foreach ($this->_ctx['relations'] as $name)
+                $result[$name] = $this->_related[$name];
+
+        return $result;
 	}
 }
 
