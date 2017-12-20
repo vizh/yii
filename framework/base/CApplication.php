@@ -975,8 +975,6 @@ abstract class CApplication extends CModule
 				// Ну и для пущей уверенности
 				$_ENV[$param] = $value;
 			}
-		} else {
-			die('Опаньки! Отсутствует файл .env-файл. Подробности в README.md');
 		}
 	}
 
