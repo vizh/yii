@@ -102,6 +102,10 @@ abstract class CApplication extends CModule
 	 * @var string the class used to get locale data. Defaults to 'CLocale'.
 	 */
 	public $localeClass='CLocale';
+	/**
+	 * @var string
+	 */
+	public $secret='';
 
 	private $_id;
 	private $_basePath;
@@ -160,6 +164,7 @@ abstract class CApplication extends CModule
 
 		$this->preinit();
 
+		$this->initEnvironment();
 		$this->initSystemHandlers();
 		$this->registerCoreComponents();
 
@@ -234,7 +239,7 @@ abstract class CApplication extends CModule
 		if($this->_id!==null)
 			return $this->_id;
 		else
-			return $this->_id=sprintf('%x',crc32($this->getBasePath().$this->name));
+			return $this->_id=sprintf('%x',crc32($this->getBasePath().$this->name.$this->secret));
 	}
 
 	/**
@@ -951,6 +956,27 @@ abstract class CApplication extends CModule
 		{
 			echo '<h1>'.get_class($exception)."</h1>\n";
 			echo '<p>'.$exception->getMessage().'</p>';
+		}
+	}
+
+	protected function initEnvironment()
+	{
+		// Загрузка переменных окружения
+		if (false !== $environment = @parse_ini_file($this->getBasePath().DIRECTORY_SEPARATOR.'.env', INI_SCANNER_RAW)) {
+			foreach ($environment as $param => $value) {
+				// Если проект запущен под apache используя mod_php и переопределяет наше значение
+				if (true === function_exists('apache_setenv') && false !== apache_getenv($param)) {
+					apache_setenv($param, $param);
+				}
+				// Для FastCGI используется другой способ
+				if (true === function_exists('putenv')) {
+					putenv("{$param}={$value}");
+				}
+				// Ну и для пущей уверенности
+				$_ENV[$param] = $value;
+			}
+		} else {
+			die('Опаньки! Отсутствует файл .env-файл. Подробности в README.md');
 		}
 	}
 
