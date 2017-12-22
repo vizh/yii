@@ -214,6 +214,36 @@ abstract class CDbMigration extends CComponent
 	}
 
 	/**
+	 * Creates and executes an SELECT SQL statement.
+	 * The method will properly escape the column names and bind the values to be selected.
+	 *
+	 * @param string $table the table to select from.
+	 * @param array $columns the columns to be selected.
+	 * @param mixed $conditions the conditions that will be put in the WHERE part. Please
+	 * refer to {@link CDbCommand::where} on how to specify conditions.
+	 * @param array $params the parameters to be bound to the query.
+	 *
+	 * @return array[] array of result rows
+	 * @throws \CException
+	 */
+	public function select(string $table, array $columns, string $conditions = '', array $params = []): array
+	{
+		echo "    > select from $table ...";
+		$time=microtime(true);
+
+		$result = $this
+			->getDbConnection()
+			->createCommand()
+			->select($columns)
+			->from($table)
+			->where($conditions, $params)
+			->queryAll(true);
+
+		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+		return $result;
+	}
+
+	/**
 	 * Creates and executes a DELETE SQL statement.
 	 * @param string $table the table where the data will be deleted from.
 	 * @param mixed $conditions the conditions that will be put in the WHERE part. Please
