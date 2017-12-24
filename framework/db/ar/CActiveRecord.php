@@ -1451,24 +1451,27 @@ abstract class CActiveRecord extends CModel
 	}
 
     /**
-     * @param string $name
+     * @param string|string[] $name
      *
      * @return \CActiveRecord
      * @since 1.1.20
      */
-    public function addSerializationContext(string... $names): self
+    public function addSerializationContext(... $names): self
     {
         $attributes = $this->getMetaData()->columns;
 
         foreach ($names as $name) {
-            if (isset($attributes[$name]))
-                $this->_ctx['attributes'][] = $name;
-            elseif (isset($this->_related[$name]))
-                $this->_ctx['relations'][] = $name;
-            elseif (parent::__isset($name))
-                $this->_ctx['methods'][] = $name;
+            if (is_array($name)) {
+                foreach ($name as $relationName => $relationNames) {
+                    $this->_ctx['relations'][$relationName] = $relationNames;
+                }
+            } else {
+                if (isset($attributes[$name]))
+                    $this->_ctx['attributes'][] = $name;
+                elseif (parent::__isset($name))
+                    $this->_ctx['methods'][] = $name;
+            }
         }
-
         return $this;
     }
 
@@ -1984,8 +1987,13 @@ abstract class CActiveRecord extends CModel
                 $result[$name] = parent::__get($name);
 
         if (isset($this->_ctx['relations']))
-            foreach ($this->_ctx['relations'] as $name)
-                $result[$name] = $this->_related[$name];
+            foreach ($this->_ctx['relations'] as $name => $context) {
+                /** @var CActiveRecord $related */
+                $related = $this->$name;
+                if ($related->_ctx === null)
+                    $related->addSerializationContext(...$context);
+                $result[$name] = $related;
+            }
 
         return $result;
 	}
