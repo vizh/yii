@@ -1472,6 +1472,11 @@ abstract class CActiveRecord extends CModel
         return $this;
     }
 
+    public function hasSerializationContext(): bool
+    {
+        return $this->_ctx === null;
+    }
+
 	/**
 	 * Finds a single active record with the specified condition.
 	 * @param mixed $condition query condition or criteria.
