@@ -205,7 +205,7 @@ class CFileHelper
 	protected static function findFilesRecursive($dir,$base,$fileTypes,$exclude,$level,$absolutePaths)
 	{
 		$list=array();
-		$handle=opendir($dir.$base);
+		$handle=@opendir($dir.$base);
 		if($handle===false)
 			throw new Exception('Unable to open directory: ' . $dir);
 		while(($file=readdir($handle))!==false)
