@@ -81,7 +81,9 @@ class MigrateCommand extends CConsoleCommand
 
 	public function actionUp($args)
 	{
-		if(($migrations=$this->getNewMigrations())===array())
+		$migrations=$this->getMigrations();
+
+		if(empty($migrations))
 		{
 			echo "No new migration found. Your system is up-to-date.\n";
 			return 0;
@@ -98,11 +100,18 @@ class MigrateCommand extends CConsoleCommand
 		else
 			echo "Total $n out of $total new ".($total===1 ? 'migration':'migrations')." to be applied:\n";
 
+		$modulePath=Yii::$app->getModulePath();
 		foreach($migrations as $migration)
-			echo "    $migration\n";
+		{
+			echo '    ';
+			if(strpos($migration,$modulePath)===0)
+				echo '[',basename(dirname($migration,2)),'] ';
+			echo basename($migration),"\n";
+		}
+
 		echo "\n";
 
-		if($this->confirm('Apply the above '.($n===1 ? 'migration':'migrations')."?"))
+		if($this->confirm('Apply the above '.($n===1 ? 'migration':'migrations').'?'))
 		{
 			foreach($migrations as $migration)
 			{
@@ -186,7 +195,7 @@ class MigrateCommand extends CConsoleCommand
 			}
 			foreach(array_reverse($migrations) as $migration)
 			{
-				if($this->migrateUp($migration)===false)
+				if($this->migrateUp($this->getMigrationFile($migration))===false)
 				{
 					echo "\nMigration failed. All later migrations are canceled.\n";
 					return 2;
@@ -243,7 +252,7 @@ class MigrateCommand extends CConsoleCommand
 		}
 
 		// try migrate up
-		$migrations=$this->getNewMigrations();
+		$migrations=$this->getMigrations();
 		foreach($migrations as $i=>$migration)
 		{
 			if(strpos($migration,$version.'_')===0)
@@ -287,7 +296,7 @@ class MigrateCommand extends CConsoleCommand
 		$db=$this->getDbConnection();
 
 		// try mark up
-		$migrations=$this->getNewMigrations();
+		$migrations=$this->getMigrations();
 		foreach($migrations as $i=>$migration)
 		{
 			if(strpos($migration,$version.'_')===0)
@@ -355,7 +364,7 @@ class MigrateCommand extends CConsoleCommand
 	public function actionNew($args)
 	{
 		$limit=isset($args[0]) ? (int)$args[0] : -1;
-		$migrations=$this->getNewMigrations();
+		$migrations=$this->getMigrations();
 		if($migrations===array())
 			echo "No new migrations found. Your system is up-to-date.\n";
 		else
@@ -404,14 +413,16 @@ class MigrateCommand extends CConsoleCommand
 		return parent::confirm($message,$default);
 	}
 
-	protected function migrateUp($class)
+	protected function migrateUp($file)
 	{
+		$class=substr(basename($file),0,-4);
+
 		if($class===self::BASE_MIGRATION)
 			return;
 
 		echo "*** applying $class\n";
 		$start=microtime(true);
-		$migration=$this->instantiateMigration($class);
+		$migration=$this->instantiateMigration($file);
 		if($migration->up()!==false)
 		{
 			$this->getDbConnection()->createCommand()->insert($this->migrationTable, array(
@@ -436,7 +447,7 @@ class MigrateCommand extends CConsoleCommand
 
 		echo "*** reverting $class\n";
 		$start=microtime(true);
-		$migration=$this->instantiateMigration($class);
+		$migration=$this->instantiateMigration($this->getMigrationFile($class));
 		if($migration->down()!==false)
 		{
 			$db=$this->getDbConnection();
@@ -452,10 +463,12 @@ class MigrateCommand extends CConsoleCommand
 		}
 	}
 
-	protected function instantiateMigration($class)
+	protected function instantiateMigration($file)
 	{
-		$file=$this->migrationPath.DIRECTORY_SEPARATOR.$class.'.php';
-		require_once($file);
+		/** @noinspection PhpIncludeInspection */
+		require_once $file;
+		$class=substr(basename($file),0,-4);
+		/** @var \CDbMigration $migration */
 		$migration=new $class;
 		$migration->setDbConnection($this->getDbConnection());
 		return $migration;
@@ -506,23 +519,53 @@ class MigrateCommand extends CConsoleCommand
 		echo "done.\n";
 	}
 
-	protected function getNewMigrations()
+	protected function getMigrationFile(string $class): string
 	{
-		$applied=array();
-		foreach($this->getMigrationHistory(-1) as $version=>$time)
-			$applied[substr($version,1,13)]=true;
+		if(is_file($file="{$this->migrationPath}/{$class}.php"))
+			return $file;
 
-		$migrations=array();
-		$handle=opendir($this->migrationPath);
-		while(($file=readdir($handle))!==false)
+		foreach($this->getMigrations(false) as $file)
+			if(strpos(basename($file),$class)===0)
+				return $file;
+
+		throw new FileNotFoundException();
+	}
+
+	protected function getMigrations(bool $newOnly=true): array
+	{
+		if($newOnly)
 		{
-			if($file==='.' || $file==='..')
-				continue;
-			$path=$this->migrationPath.DIRECTORY_SEPARATOR.$file;
-			if(preg_match('/^(m(\d{6}_\d{6})_.*?)\.php$/',$file,$matches) && is_file($path) && !isset($applied[$matches[2]]))
-				$migrations[]=$matches[1];
+			$applied=[];
+			foreach($this->getMigrationHistory(-1) as $version=>$time)
+				$applied[substr($version,1,13)]=true;
 		}
-		closedir($handle);
+
+		$files=CFileHelper::findFiles($this->migrationPath,[
+			'fileTypes'=>['php'],
+			'level'=>0,
+		]);
+
+		$modulesPath=Yii::$app->getModulePath();
+		foreach(Yii::$app->getModules() as $module=>$params)
+			if(is_dir($path="$modulesPath/$module/migrations"))
+			{
+				$migrationFiles = CFileHelper::findFiles($path,[
+					'fileTypes'=>['php'],
+					'level'=>0,
+				]);
+
+				if (false === empty($migrationFiles))
+					array_push($files,...CFileHelper::findFiles($path,[
+						'fileTypes'=>['php'],
+						'level'=>0,
+					]));
+			}
+
+		$migrations=[];
+		foreach($files as $file)
+			if(preg_match('/^m(\d{6}_\d{6})_.*?\.php$/',basename($file),$matches) && (!$newOnly || !isset($applied[$matches[1]])))
+				$migrations[]=$file;
+
 		sort($migrations);
 		return $migrations;
 	}
