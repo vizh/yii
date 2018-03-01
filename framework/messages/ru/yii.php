@@ -281,4 +281,12 @@ return array (
   '{n} megabyte|{n} megabytes' => '{n} мегабайт|{n} мегабайта|{n} мегабайтов|{n} мегабайта',
   '{n} terabyte|{n} terabytes' => '{n} терабайт|{n} терабайта|{n} терабайтов|{n} терабайта',
   '{widget} cannot find the view "{view}".' => 'Виджет {widget} не может найти представление "{view}".',
+  '{attribute} must be a valid IP address.' => 'Значение «{attribute}» должно быть правильным IP адресом.',
+  '{attribute} must not be an IPv4 address.' => 'Значение «{attribute}» не должно быть IPv4 адресом.',
+  '{attribute} must not be an IPv6 address.' => 'Значение «{attribute}» не должно быть IPv6 адресом.',
+  '{attribute} contains wrong subnet mask.' => 'Значение «{attribute}» содержит неверную маску подсети.',
+  '{attribute} must be an IP address with specified subnet.' => 'Значение «{attribute}» должно быть IP адресом с подсетью.',
+  '{attribute} must not be a subnet.' => 'Значение «{attribute}» не должно быть подсетью.',
+  '{attribute} is not in the allowed range.' => 'Значение «{attribute}» не входит в список разрешенных диапазонов адресов.',
+
 );
