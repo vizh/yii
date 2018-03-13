@@ -67,8 +67,11 @@ class YiiBase
 	 */
 	public static $enableIncludePath=true;
 
-	/**
-	 * @var \CApplication the application instance
+    /** @noinspection PhpUndefinedNamespaceInspection */
+    /** @noinspection PhpUndefinedClassInspection */
+
+    /**
+	 * @var \CApplication|\application\components\WebApplication the application instance
 	 * @since 1.2.0
 	 */
 	public static $app;
@@ -77,8 +80,6 @@ class YiiBase
 	private static $_imports=array();					// alias => class name or directory
 	private static $_includePaths;						// list of include paths
 	private static $_logger;
-
-
 
 	/**
 	 * @return string the version of Yii framework
