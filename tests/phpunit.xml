@@ -4,4 +4,9 @@
 		convertNoticesToExceptions="true"
 		convertWarningsToExceptions="true"
 		stopOnFailure="false">
+	<testsuites>
+		<testsuite name="core-base">
+			<directory>framework</directory>
+		</testsuite>
+	</testsuites>
 </phpunit>
