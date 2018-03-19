@@ -554,7 +554,6 @@ class YiiBase
 		'CJSON' => '/web/helpers/CJSON.php',
 		'CJavaScript' => '/web/helpers/CJavaScript.php',
 		'CJavaScriptExpression' => '/web/helpers/CJavaScriptExpression.php',
-		'CPradoViewRenderer' => '/web/renderers/CPradoViewRenderer.php',
 		'CViewRenderer' => '/web/renderers/CViewRenderer.php',
 		'CWebService' => '/web/services/CWebService.php',
 		'CWebServiceAction' => '/web/services/CWebServiceAction.php',
