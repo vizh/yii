@@ -17,9 +17,4 @@ class Contact extends CActiveRecord
 	 * @soap
 	 */
 	public $phone;
-
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
 }

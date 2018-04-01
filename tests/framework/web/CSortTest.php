@@ -78,10 +78,6 @@ class CSortTest extends CTestCase {
 
 
 class TestPost extends CActiveRecord {
-	public static function model($className=__CLASS__) {
-        return parent::model($className);
-    }
-
 	public function tableName() {
         return 'post';
     }
@@ -94,10 +90,6 @@ class TestPost extends CActiveRecord {
 }
 
 class TestComment extends CActiveRecord {
-	public static function model($className=__CLASS__) {
-        return parent::model($className);
-    }
-
 	public function tableName() {
         return 'comment';
     }

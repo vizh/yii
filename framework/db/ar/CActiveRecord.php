@@ -52,6 +52,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public static $db;
 
+	/** @var static[] */
 	private static $_models=array();			// class name => model
 	private static $_md=array();				// class name => meta data
 
@@ -380,29 +381,18 @@ abstract class CActiveRecord extends CModel
 	 * Returns the static model of the specified AR class.
 	 * The model returned is a static instance of the AR class.
 	 * It is provided for invoking class-level methods (something similar to static class methods.)
-	 *
-	 * EVERY derived AR class must override this method as follows,
-	 * <pre>
-	 * public static function model($className=__CLASS__)
-	 * {
-	 *     return parent::model($className);
-	 * }
-	 * </pre>
-	 *
-	 * @param string $className active record class name.
-	 * @return static active record model instance.
 	 */
-	public static function model($className=__CLASS__)
-	{
-		if(isset(self::$_models[$className]))
-			return self::$_models[$className];
-		else
-		{
-			$model=self::$_models[$className]=new $className(null);
-			$model->attachBehaviors($model->behaviors());
-			return $model;
-		}
-	}
+    public static function model(): parent
+    {
+        if (isset(self::$_models[static::class])) {
+            return self::$_models[static::class];
+        }
+
+        $model = self::$_models[static::class] = new static(null);
+        $model->attachBehaviors($model->behaviors());
+
+        return $model;
+    }
 
 	/**
 	 * Returns the meta-data for this AR
@@ -617,7 +607,7 @@ abstract class CActiveRecord extends CModel
 			{
 				$relations=$model->getMetaData()->relations;
 				if(isset($relations[$seg]))
-					$model=CActiveRecord::model($relations[$seg]->className);
+					$model=$relations[$seg]->className::model();
 				else
 					break;
 			}

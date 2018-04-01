@@ -180,12 +180,4 @@ class YiiTTest extends CTestCase
 		$this->assertEquals('one book', Yii::t('test', 'n==1#one book|n>1#many books', 1));
 		$this->assertEquals('many books', Yii::t('test', 'n==1#one book|n>1#many books', 10));
 	}
-
-	function testChoicePlaceholders(){
-		$this->assertEquals('51 apples', Yii::t('app', '1#1apple|n>1|{n} apples', array(51, 'n'=>51)));
-	}
-
-	function testChoicePlaceholdersSameLanguage(){
-
-	}
 }

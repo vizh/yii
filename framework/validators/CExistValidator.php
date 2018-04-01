@@ -114,6 +114,7 @@ class CExistValidator extends CValidator
 	 */
 	protected function getModel($className)
 	{
-		return CActiveRecord::model($className);
+	    /** @var \CActiveRecord $className */
+		return $className::model();
 	}
 }

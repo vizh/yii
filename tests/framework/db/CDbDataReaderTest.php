@@ -103,11 +103,6 @@ class CDbDataReaderTest extends CTestCase
 		$this->assertTrue($reader->isClosed);
 	}
 
-	public function testRowCount()
-	{
-		// unable to test because SQLite doesn't support row count
-	}
-
 	public function testColumnCount()
 	{
 		$reader=$this->_connection->createCommand('SELECT * FROM posts')->query();

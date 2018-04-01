@@ -63,7 +63,8 @@ class CrudCode extends CCodeModel
 			$this->addError('model', "'{$this->model}' must extend from CActiveRecord.");
 		else
 		{
-			$table=CActiveRecord::model($class)->tableSchema;
+            /** @var \CActiveRecord $class */
+			$table=$class::model()->tableSchema;
 			if($table->primaryKey===null)
 				$this->addError('model',"Table '{$table->name}' does not have a primary key.");
 			elseif(is_array($table->primaryKey))

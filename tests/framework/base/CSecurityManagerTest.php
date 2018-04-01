@@ -40,7 +40,10 @@ class CSecurityManagerTest extends CTestCase
 		$sm=new CSecurityManager;
 		$sm->cryptAlgorithm='des';
 		$sm->setEncryptionKey('1');
-	}
+
+        // assertExceptionNotThrown()
+        $this->assertTrue(true);
+    }
 
 	/**
 	 * @expectedException CException
@@ -50,7 +53,10 @@ class CSecurityManagerTest extends CTestCase
 		$sm=new CSecurityManager;
 		$sm->cryptAlgorithm='des';
 		$sm->encrypt('some data', '1');
-	}
+
+        // assertExceptionNotThrown()
+        $this->assertTrue(true);
+    }
 
 	/**
 	 * @expectedException CException
@@ -60,7 +66,10 @@ class CSecurityManagerTest extends CTestCase
 		$sm=new CSecurityManager;
 		$sm->cryptAlgorithm='des';
 		$sm->setEncryptionKey('123456789');
-	}
+
+        // assertExceptionNotThrown()
+        $this->assertTrue(true);
+    }
 
 	/**
 	 * @expectedException CException
@@ -70,7 +79,10 @@ class CSecurityManagerTest extends CTestCase
 		$sm=new CSecurityManager;
 		$sm->cryptAlgorithm='des';
 		$sm->encrypt('some data', '123456789');
-	}
+
+        // assertExceptionNotThrown()
+        $this->assertTrue(true);
+    }
 
 	public function testValidation()
 	{

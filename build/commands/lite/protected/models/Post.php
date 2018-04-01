@@ -3,16 +3,6 @@
 class Post extends CActiveRecord
 {
 	/**
-	 * Returns the static model of the specified AR class.
-	 * This method is required by all child classes of CActiveRecord.
-	 * @return CActiveRecord the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
-
-	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()

@@ -10,11 +10,6 @@ class User extends CActiveRecord
 {
 	public $username2;
 
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function rules()
 	{
 		return array(
@@ -74,11 +69,6 @@ class User extends CActiveRecord
  */
 class Mentorship extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function tableName()
 	{
 		return 'mentorships';
@@ -91,11 +81,6 @@ class Mentorship extends CActiveRecord
  */
 class Group extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function relations()
 	{
 		return array(
@@ -121,11 +106,6 @@ class Group extends CActiveRecord
  */
 class GroupDescription extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function tableName()
 	{
 		return 'groups_descriptions';
@@ -139,11 +119,6 @@ class GroupDescription extends CActiveRecord
  */
 class Role extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function tableName()
 	{
 		return 'roles';
@@ -159,11 +134,6 @@ class Role extends CActiveRecord
  */
 class Profile extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function tableName()
 	{
 		return 'profiles';
@@ -179,11 +149,6 @@ class Profile extends CActiveRecord
  */
 class Post extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function relations()
 	{
 		return array(
@@ -292,11 +257,6 @@ class PostScopesBehavior extends CActiveRecordBehavior
  */
 class PostSpecial extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function tableName()
 	{
 		return 'posts';
@@ -327,11 +287,6 @@ class PostSpecial extends CActiveRecord
  */
 class UserSpecial extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function relations()
 	{
 		return array(
@@ -357,11 +312,6 @@ class PostExt extends CActiveRecord
 	public $title='default title';
 	public $id;
 
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function tableName()
 	{
 		return 'posts';
@@ -383,11 +333,6 @@ class PostExt extends CActiveRecord
  */
 class Comment extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function relations()
 	{
 		return array(
@@ -411,11 +356,6 @@ class Comment extends CActiveRecord
  */
 class Category extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function tableName()
 	{
 		return 'categories';
@@ -443,11 +383,6 @@ class Category extends CActiveRecord
  */
 class Order extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function relations()
 	{
 		return array(
@@ -470,11 +405,6 @@ class Order extends CActiveRecord
  */
 class Item extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function relations()
 	{
 		return array(
@@ -507,11 +437,6 @@ class Item extends CActiveRecord
  */
 class ComplexType extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function tableName()
 	{
 		return 'types';
@@ -527,11 +452,6 @@ class ComplexType extends CActiveRecord
  */
 class Content extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function tableName()
 	{
 		return 'Content';
@@ -554,11 +474,6 @@ class Content extends CActiveRecord
  */
 class Article extends Content
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function tableName()
 	{
 		return 'Article';
@@ -580,11 +495,6 @@ class Article extends Content
  */
 class ArticleComment extends Content
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function tableName()
 	{
 		return 'Comment';
@@ -607,11 +517,6 @@ class ArticleComment extends Content
  */
 class UserNoFk extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function relations()
 	{
 		return array(
@@ -634,11 +539,6 @@ class UserNoFk extends CActiveRecord
  */
 class PostNoFk extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function relations()
 	{
 		return array(
@@ -660,11 +560,6 @@ class PostNoFk extends CActiveRecord
  */
 class UserNoTogether extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function relations()
 	{
 		return array(
@@ -687,11 +582,6 @@ class UserNoTogether extends CActiveRecord
  */
 class PostNoTogether extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function relations()
 	{
 		return array(
@@ -716,11 +606,6 @@ class UserWithWrappers extends CActiveRecord
 	private static $_counters=array();
 
 	private static $_beforeFindCriteria;
-
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
 
 	public function relations()
 	{
@@ -798,11 +683,6 @@ class PostWithWrappers extends CActiveRecord
 	private static $_counters=array();
 
 	private static $_beforeFindCriteria;
-
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
 
 	public function relations()
 	{
@@ -896,11 +776,6 @@ class CommentWithWrappers extends CActiveRecord
 {
 	private static $_counters=array();
 
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function relations()
 	{
 		return array(
@@ -961,11 +836,6 @@ class CommentWithWrappers extends CActiveRecord
  */
 class UserWithDefaultScope extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function tableName()
 	{
 		return 'UserWithDefaultScope';
@@ -991,11 +861,6 @@ class UserWithDefaultScope extends CActiveRecord
 
 class UserWithDefaultScopeAlias extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function tableName()
 	{
 		return 'users';
@@ -1018,11 +883,6 @@ class UserWithDefaultScopeAlias extends CActiveRecord
  */
 class UserWithDefaultScopeLink extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function tableName()
 	{
 		return 'UserWithDefaultScopeLink';

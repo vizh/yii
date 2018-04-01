@@ -8,11 +8,6 @@
  */
 class User2 extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function rules()
 	{
 		return array(
@@ -52,11 +47,6 @@ class User2 extends CActiveRecord
  */
 class Post2 extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function relations()
 	{
 		return array(
@@ -89,11 +79,6 @@ class Post2 extends CActiveRecord
  */
 class NullablePost2 extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function tableName()
 	{
 		return 'test.nullable_posts';
@@ -111,11 +96,6 @@ class PostExt2 extends CActiveRecord
 {
 	public $title='default title';
 	public $id;
-
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
 
 	public function tableName()
 	{
@@ -138,11 +118,6 @@ class PostExt2 extends CActiveRecord
  */
 class Comment2 extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function relations()
 	{
 		return array(
@@ -164,11 +139,6 @@ class Comment2 extends CActiveRecord
  */
 class Category2 extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function tableName()
 	{
 		return 'test.categories';
@@ -192,11 +162,6 @@ class Category2 extends CActiveRecord
  */
 class Order2 extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function relations()
 	{
 		return array(
@@ -218,11 +183,6 @@ class Order2 extends CActiveRecord
  */
 class Item2 extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function relations()
 	{
 		return array(
@@ -251,11 +211,6 @@ class Item2 extends CActiveRecord
  */
 class ComplexType2 extends CActiveRecord
 {
-	public static function model($class=__CLASS__)
-	{
-		return parent::model($class);
-	}
-
 	public function tableName()
 	{
 		return 'yii_types';

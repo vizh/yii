@@ -422,7 +422,10 @@ class CActiveRecordTest extends CTestCase
 
 	public function testEagerRelation2()
 	{
-		$post=Post::model()->with('author','firstComment','comments','categories')->findByPk(2);
+		Post::model()->with('author','firstComment','comments','categories')->findByPk(2);
+
+        // assertExceptionNotThrown()
+        $this->assertTrue(true);
 	}
 
 	private function checkEagerLoadedModel($post)
@@ -1388,7 +1391,11 @@ class CActiveRecordTest extends CTestCase
         		),
     		)
 		));
-	}
+
+        // assertExceptionNotThrown()
+        $this->assertTrue(true);
+
+    }
 
 	/**
 	 * @see github issue 206
@@ -1565,7 +1572,11 @@ class CActiveRecordTest extends CTestCase
 			$this->markTestSkipped('PHP 5.3.0 or higher required for namespaces.');
 		require_once(dirname(__FILE__).'/../data/models-namespaced.php');
 		$this->assertEquals("posts",Post::model()->tableName());
-		$this->assertEquals("Example",CActiveRecord::model("yiiArExample\\testspace\\Example")->tableName());
+
+		/** @var \CActiveRecord $className */
+        /** @noinspection ClassConstantCanBeUsedInspection */
+        $className = "yiiArExample\\testspace\\Example";
+		$this->assertEquals("Example",$className::model()->tableName());
 	}
 
 	/**

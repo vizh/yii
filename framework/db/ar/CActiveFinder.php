@@ -179,7 +179,8 @@ class CActiveFinder extends CComponent
 	 */
 	public function getModel($className)
 	{
-		return CActiveRecord::model($className);
+        /** @var \CActiveRecord $className */
+		return $className::model();
 	}
 
 	private function destroyJoinTree()

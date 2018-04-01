@@ -191,8 +191,9 @@ EOD;
 
 	public function generateController($source,$params)
 	{
+	    /** @var \CActiveRecord $modelClass */
 		list($controllerClass,$modelClass)=$params;
-		$model=CActiveRecord::model($modelClass);
+		$model=$modelClass::model();
 		$id=$model->tableSchema->primaryKey;
 		if($id===null)
 			throw new ShellException(Yii::t('yii','Error: Table "{table}" does not have a primary key.',array('{table}'=>$model->tableName())));
@@ -211,7 +212,8 @@ EOD;
 
 	public function generateView($source,$modelClass)
 	{
-		$model=CActiveRecord::model($modelClass);
+        /** @var \CActiveRecord $modelClass */
+		$model=$modelClass::model();
 		$table=$model->getTableSchema();
 		$columns=$table->columns;
 		if(!is_file($source))  // fall back to default ones

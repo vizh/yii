@@ -259,6 +259,9 @@ class CSqliteTest extends CTestCase
 	{
 		$this->db->schema->checkIntegrity(false);
 		$this->db->schema->checkIntegrity(true);
+
+		// assertExceptionNotThrown()
+		$this->assertTrue(true);
 	}
 
 	public function testCheckIntegrity2()

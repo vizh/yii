@@ -11,7 +11,10 @@ class CTypedMapTest extends CTestCase
 	{
 		$typedMap = new CTypedMap('CTypedMapTestFoo');
 		$typedMap->add(0, new CTypedMapTestFoo());
-	}
+
+        // assertExceptionNotThrown()
+        $this->assertTrue(true);
+    }
 
 	public function testAddWrongType()
 	{

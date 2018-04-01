@@ -299,7 +299,8 @@ class CDbFixtureManager extends CApplicationComponent
 			else
 			{
 				$modelClass=Yii::import($tableName,true);
-				$tableName=CActiveRecord::model($modelClass)->tableName();
+				/** @var \CActiveRecord $modelClass */
+				$tableName=$modelClass::model()->tableName();
 			}
 			if(($prefix=$this->getDbConnection()->tablePrefix)!==null)
 				$tableName=preg_replace('/{{(.*?)}}/',$prefix.'\1',$tableName);
@@ -346,7 +347,9 @@ class CDbFixtureManager extends CApplicationComponent
 			if(is_string($this->_records[$name][$alias]))
 			{
 				$row=$this->_rows[$name][$alias];
-				$model=CActiveRecord::model($this->_records[$name][$alias]);
+				/** @var \CActiveRecord $model */
+                /** @noinspection PhpUndefinedMethodInspection */
+                $model=$this->_records[$name][$alias]::model();
 				$key=$model->getTableSchema()->primaryKey;
 				if(is_string($key))
 					$pk=$row[$key];

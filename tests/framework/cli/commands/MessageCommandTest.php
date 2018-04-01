@@ -146,13 +146,13 @@ class MessageCommandTest extends CTestCase
 
 	public function testEmptyArgs()
 	{
-		$this->expectException('CException','usageError');
+		$this->expectException('CException');
 		$this->runMessageCommand(array());
 	}
 
 	public function testConfigFileNotExist()
 	{
-		$this->expectException('CException','usageError');
+		$this->expectException('CException');
 		$this->runMessageCommand(array('not_existing_file.php'));
 	}
 
@@ -172,11 +172,11 @@ class MessageCommandTest extends CTestCase
 		));
 		$this->runMessageCommand(array($this->configFileName));
 
-		$this->assertTrue(file_exists($this->messagePath.DIRECTORY_SEPARATOR.$language),'No language dir created!');
+		$this->assertFileExists($this->messagePath.DIRECTORY_SEPARATOR.$language, 'No language dir created!');
 		$messageFileName=$this->messagePath.DIRECTORY_SEPARATOR.$language.DIRECTORY_SEPARATOR.$category.'.php';
-		$this->assertTrue(file_exists($messageFileName),'No message file created!');
+		$this->assertFileExists($messageFileName, 'No message file created!');
 		$messages=require($messageFileName);
-		$this->assertTrue(is_array($messages),'Unable to compose messages!');
+		$this->assertInternalType('array', $messages, 'Unable to compose messages!');
 		$this->assertTrue(array_key_exists($message,$messages),'Source message is missing!');
 	}
 
