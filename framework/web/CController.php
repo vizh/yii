@@ -73,7 +73,7 @@
  * @package system.web
  * @since 1.0
  */
-class CController extends CBaseController
+abstract class CController extends CBaseController
 {
 	/**
 	 * Name of the hidden field storing persistent page states.

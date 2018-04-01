@@ -15,7 +15,7 @@ class CDbCommandBuilderTest extends CTestCase
 		if(!extension_loaded('pdo') || !extension_loaded('pdo_mysql'))
 			$this->markTestSkipped('PDO and MySQL extensions are required.');
 
-		$this->db=new CDbConnection('mysql:host=127.0.0.1;dbname=yii','test','test');
+		$this->db=new CDbConnection('pgsql:host=127.0.0.1;dbname=yii','test','test');
 		$this->db->charset='UTF8';
 		$this->db->enableParamLogging=true;
 		try
@@ -106,7 +106,7 @@ class CDbCommandBuilderTest extends CTestCase
 		$criteria->params[':parameter4']='email%';
 		$criteria->addInCondition('t.id',array(1,2,3));
 
-		$this->setExpectedException('CDbException');
+		$this->expectException('CDbException');
 		$builder->createCountCommand($tableSchema,$criteria)->queryScalar();
 	}
 
@@ -125,7 +125,7 @@ class CDbCommandBuilderTest extends CTestCase
 		$criteria->params[':parameter4']='email%';
 		$criteria->addInCondition('t.id',array(1,2,3));
 
-		$this->setExpectedException('CDbException');
+		$this->expectException('CDbException');
 		$builder->createCountCommand($tableSchema,$criteria)->queryScalar();
 	}
 
@@ -144,7 +144,7 @@ class CDbCommandBuilderTest extends CTestCase
 		$criteria->params[':parameter4']='email%';
 		$criteria->addInCondition('t.id',array(1,2,3));
 
-		$this->setExpectedException('CDbException');
+		$this->expectException('CDbException');
 		$builder->createCountCommand($tableSchema,$criteria)->queryScalar();
 	}
 
@@ -164,7 +164,7 @@ class CDbCommandBuilderTest extends CTestCase
 		$criteria->params[':parameter4']='email%';
 		$criteria->addInCondition('t.id',array(1,2,3));
 
-		$this->setExpectedException('CDbException');
+		$this->expectException('CDbException');
 		$builder->createCountCommand($tableSchema,$criteria)->queryScalar();
 	}
 

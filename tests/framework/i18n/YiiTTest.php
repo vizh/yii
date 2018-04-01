@@ -182,7 +182,7 @@ class YiiTTest extends CTestCase
 	}
 
 	function testChoicePlaceholders(){
-		//$this->assertEquals('51 apples', Yii::t('app', '1#1apple|n>1|{n} apples', array(51, 'n'=>51)));
+		$this->assertEquals('51 apples', Yii::t('app', '1#1apple|n>1|{n} apples', array(51, 'n'=>51)));
 	}
 
 	function testChoicePlaceholdersSameLanguage(){

@@ -1,7 +1,8 @@
 <?php
+
 class NewComponent extends CComponent
 {
-	private $_object = null;
+	private $_object;
 	private $_text = 'default';
 	public $eventHandled = false;
 	public $behaviorCalled = false;
